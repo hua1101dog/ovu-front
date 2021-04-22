@@ -1,0 +1,119 @@
+<style>
+    tr.info th {
+        text-align: center;
+    }
+</style>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close" ng-click="cancel()">
+        <span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">绩效分析</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+
+    <table class="table table-striped table-hover" style="margin-top: 10px;">
+        <thead class="title">
+        <tr class="info">
+            <!-- <td>项目名称：{{person.park || ''}}</td> -->
+        </tr>
+        <tr class="info">
+            <td>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：{{person.name || ''}}</td>
+        </tr>
+        <tr class="info">
+            <td>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：{{person.sex || ''}}</td>
+        </tr>
+        <tr class="info">
+            <td>工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：{{person.jobcode || ''}}</td>
+        </tr>
+        <tr class="info">
+            <td>岗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位：{{person.posts || ''}}</td>
+        </tr>
+        </thead>
+    </table>
+
+    <table class="table table-bordered table-striped table-hover" style="text-align: center;margin-top: 20px">
+        <tr class="info">
+            <th>工单类型</th>
+            <th>评分</th>
+            <th>条数</th>
+            <th>得分</th>
+            <th>小计</th>
+        </tr>
+
+        <tr>
+            <td rowspan="5">计划工单</td>
+            <td>5分</td>
+            <td>{{countDatas.type15.count}}</td>
+            <td>{{Math.round(analysisdatas.type15.allScore/10000)}}</td>
+            <td rowspan="5">
+                {{Math.round(analysisdatas.type11.allScore/10000)+Math.round(analysisdatas.type12.allScore/10000)+Math.round(analysisdatas.type13.allScore/10000)+Math.round(analysisdatas.type14.allScore/10000)+Math.round(analysisdatas.type15.allScore/10000)}}
+            </td>
+        </tr>
+        <tr>
+            <td>4分</td>
+            <td>{{countDatas.type14.count}}</td>
+            <td>{{Math.round(analysisdatas.type14.allScore/10000)}}</td>
+        </tr>
+        <tr>
+            <td>3分</td>
+            <td>{{countDatas.type13.count}}</td>
+            <td>{{Math.round(analysisdatas.type13.allScore/10000)}}</td>
+        </tr>
+        <tr>
+            <td>2分</td>
+            <td>{{countDatas.type12.count}}</td>
+            <td>{{Math.round(analysisdatas.type12.allScore/10000)}}</td>
+        </tr>
+        <tr>
+            <td>1分</td>
+            <td>{{countDatas.type11.count}}</td>
+            <td>{{Math.round(analysisdatas.type11.allScore/10000)}}</td>
+        </tr>
+
+        <tr>
+            <td rowspan="5">应急工单</td>
+            <td>5分</td>
+            <td>{{countDatas.type25.count}}</td>
+            <td>{{Math.round(analysisdatas.type25.allScore/10000)}}</td>
+            <td rowspan="5">
+                {{Math.round(analysisdatas.type21.allScore/10000)+Math.round(analysisdatas.type22.allScore/10000)+Math.round(analysisdatas.type23.allScore/10000)+Math.round(analysisdatas.type24.allScore/10000)+Math.round(analysisdatas.type25.allScore/10000)}}
+            </td>
+        </tr>
+        <tr>
+            <td>4分</td>
+            <td>{{countDatas.type24.count}}</td>
+            <td>{{Math.round(analysisdatas.type24.allScore/10000)}}</td>
+        </tr>
+        <tr>
+            <td>3分</td>
+            <td>{{countDatas.type23.count}}</td>
+            <td>{{Math.round(analysisdatas.type23.allScore/10000)}}</td>
+        </tr>
+        <tr>
+            <td>2分</td>
+            <td>{{countDatas.type22.count}}</td>
+            <td>{{Math.round(analysisdatas.type22.allScore/10000)}}</td>
+        </tr>
+        <tr>
+            <td>1分</td>
+            <td>{{countDatas.type21.count}}</td>
+            <td>{{Math.round(analysisdatas.type21.allScore/10000)}}</td>
+        </tr>
+
+        <tr>
+            <td>自发工单</td>
+            <td>5分</td>
+            <td>{{countDatas.type3.count}}</td>
+            <td>{{Math.round(analysisdatas.type3.allScore/10000)}}</td>
+            <td>{{Math.round(analysisdatas.type3.allScore/10000)}}</td>
+        </tr>
+
+        <tr>
+            <td colspan="4" style="text-align: right">汇总：</td>
+            <td class="danger">
+                {{Math.round(analysisdatas.type21.allScore/10000)+Math.round(analysisdatas.type22.allScore/10000)+Math.round(analysisdatas.type23.allScore/10000)+Math.round(analysisdatas.type24.allScore/10000)+Math.round(analysisdatas.type25.allScore/10000)
+                +Math.round(analysisdatas.type11.allScore/10000)+Math.round(analysisdatas.type12.allScore/10000)+Math.round(analysisdatas.type13.allScore/10000)+Math.round(analysisdatas.type14.allScore/10000)+Math.round(analysisdatas.type15.allScore/10000)
+                +Math.round(analysisdatas.type3.allScore/10000)}}
+            </td>
+        </tr>
+    </table>
+</div>

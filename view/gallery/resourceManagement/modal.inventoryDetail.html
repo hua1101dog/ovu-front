@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <table class="table table-striped table-hover" style="margin-bottom: 0px; ">
+            <thead>
+                <tr>
+                    <th>NO</th>
+                    <th>资产标签</th>
+                    <th>资产名称</th>
+                    <th>资产类别</th>
+                    <th>作品归属</th>
+                    <th>盘点状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel.data">
+                    <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td>{{item.assetNo}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.assetCategoryName}}</td>
+                    <td>{{item.ascription}}</td>
+                    <td>{{item.isRead=='1'?'已读' : '未读'}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+
+
+
+    </form>
+</div>
+<div class="page-footer clearfix">
+    <ng-include src="'/common/pager.html'"></ng-include>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

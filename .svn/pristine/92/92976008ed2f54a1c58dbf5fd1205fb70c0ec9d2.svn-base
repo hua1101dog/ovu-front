@@ -1,0 +1,45 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">异动日志</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<table class="table table-striped table-hover">
+				<thead>
+				<tr>
+					<th class="text-center">NO</th>
+					<th nowrap="nowrap">姓名</th>
+					<th nowrap="nowrap">项目</th>
+					<th nowrap="nowrap">部门</th>
+					<th nowrap="nowrap">岗位</th>
+					<th nowrap="nowrap">描述</th>
+					<th nowrap="nowrap">异动操作</th>
+					<th nowrap="nowrap">异动时间</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无异动记录</td></tr>
+				<tr ng-repeat="item in pageModel.list" >
+					<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+					<td>{{item.name}}</td>
+					<td>{{item.parkNames}}</td>
+					<td>{{item.deptNames}}</td>
+					<td>{{item.postNames}}</td>
+					<td>{{item.changeContent}}</td>
+					<td>{{item.changeType|keyToValue:personChangeDict}}</td>
+					<td>{{item.changeTime}}</td>
+				</tr>
+				</tbody>
+			</table>
+			<div class="page-footer clearfix">
+				<ng-include src="'/common/pager.html'"></ng-include>
+			</div>
+		</div>
+		<style>
+			
+			table tr th,
+			table tr td {
+				text-align: left;
+			}
+		</style>
+
+

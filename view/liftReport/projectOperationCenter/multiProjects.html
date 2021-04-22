@@ -1,0 +1,330 @@
+<!--多项目电梯概览-->
+<div id="angularId" ng-controller="multiProjectsOverviewController">
+
+    <!--title BEGIN-->
+    <div class="page-title x_panel">
+        <div class="title_left">
+            <h4>电梯概览</h4>
+        </div>
+    </div>
+    <!--title END-->
+
+    <!--上半部分 BEGIN-->
+    <div class="row up">
+        <div class="item-select col-md-2 col-sm-2 col-xs-12">
+            <div class="card-border">
+                <div class="x_title">
+                    <h5>选择项目</h5>
+                </div>
+                <div class="x_content">
+                    <div class="list-group">
+                    	<input class="form-control" placeholder="请输入项目名搜索" ng-model="q"/>
+                        <a  ng-click="enterSingelProject(item.id)" href="javascript:;;" type="button" class="list-group-item" ng-repeat="item in projectsList | filter:{name:q} as results">{{item.name}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-12">
+
+            <div class="panel panel-default">
+                <div class="panel-body" style="padding:5px">
+					 <div ui-map="map" style="height:400px; "
+							ui-options="mapOptions" ui-map-cache="mayap">
+				 	 </div>
+				     <div ng-repeat="marker in markers"
+				    	ui-map-marker="markers[$index]"
+				    	ui-event="{'map-mouseover':'mouseoverMaker($event,$params,marker)',
+	  							'map-mouseout':'myInfoWindow.close()'}">
+				      </div>
+				      <div ui-map-info-window="myInfoWindow" style="width:190px">
+				      	<div class="x_title" style="margin-bottom: 0;font-weight:700">{{markerData.NAME}}</div>
+				      	<div class="x_content" style="z-index: 1;padding-bottom: 0;">
+			           		<div class="row">
+			           			<label class="col-xs-4 control-label ">运行:</label>
+			           			<label class="col-xs-6 control-label ">{{markerData.liftNormalTotal}}</label>
+			           		</div>
+			           		<div class="row">
+			           			<label class="col-xs-4 control-label ">停用:</label>
+			           			<label class="col-xs-6 control-label ">{{markerData.liftDisabledTotal}}</label>
+			           		</div>
+			           		<div class="row">
+			           			<label class="col-xs-4 control-label ">故障:</label>
+			           			<label class="col-xs-6 control-label ">{{markerData.liftFaultTotal}}</label>
+			           		</div>
+			           		<div class="row">
+			           			<label class="col-xs-4 control-label ">报废:</label>
+			           			<label class="col-xs-6 control-label ">{{markerData.liftGoneTotal}}</label>
+			           		</div>
+						</div>
+			           </div>
+                    <div class="lift card-border mapfix">
+                        <div class="x_title">
+                            <h5>电梯保养概况</h5>
+                        </div>
+                        <div class="x-content">
+                            <div class="wrapper">
+                                <uib-tabset type="pills" justified="true">
+                                    <uib-tab index="0" heading="今日计划保养">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr ng-if="!planingList || planingList.length === 0">
+                                                    <td colspan="2">暂无数据</td>
+                                                </tr>
+                                                <tr ng-repeat="item in planingList">
+                                                    <td width="50%" align="center">{{item.name}}</td>
+                                                    <td width="50%" align="center">{{item.total}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </uib-tab>
+                                    <uib-tab index="1" heading="保养中">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr ng-if="!keepingList || keepingList.length === 0">
+                                                    <td colspan="2">暂无数据</td>
+                                                </tr>
+                                                <tr ng-repeat="item in keepingList">
+                                                    <td width="50%" align="center">{{item.name}}</td>
+                                                    <td width="50%" align="center">{{item.total}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </uib-tab>
+                                </uib-tabset>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row top10" style="margin-top: 15px;">
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="card-border clearfix">
+                        <div class="x_title">
+                            <h5>
+                                电梯故障数TOP10
+                            </h5>
+                        </div>
+                        <div class="x_content">
+                            <table class="table table-hover table-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>电梯名称</th>
+                                        <th>所属项目</th>
+                                        <!--<th>年平均故障数</th>-->
+                                        <th>总故障数</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="!faultTopList ||faultTopList.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="item in faultTopList">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.projectName}}</td>
+                                        <!--后台临时没有这个字段-->
+                                        <!--<td>{{item.avgFailure}}</td>-->
+                                        <td>{{item.total}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="card-border clearfix">
+                        <div class="x_title">
+                            <h5>
+                                维保工月均完成工单数TOP10
+                            </h5>
+                        </div>
+                        <div class="x_content">
+                            <table class="table table-hover table-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th style="min-width:60px;">姓名</th>
+                                        <th style="min-width:85px;">维保电梯数</th>
+                                        <th style="min-width:110px;">月均处理工单数</th>
+                                        <th>处理工单数</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in workUnitTop">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.liftTotal}}</td>
+                                        <td>{{item.averageTotal}}</td>
+                                        <td>{{item.total}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="card-border clearfix">
+                        <div class="x_title">
+                            <h5>维保工程师出勤率TOP10</h5>
+                        </div>
+                        <div class="x_content">
+                            <table class="table  table-hover table-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th style="min-width:60px;">姓名</th>
+                                        <th style="min-width:120px;">部门/岗位</th>
+                                        <th>出勤率</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in attendanceRateTop">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.job}}</td>
+                                        <td>{{item.attendanceRate}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!--上半部分 END-->
+
+    <!--下半部分 BEGIN-->
+    <div class="row down" ng-controller="mchartsController">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <uib-tabset active="3" justified="false">
+                        <uib-tab index="0" heading="本日" select="selectTab('day')">
+                        </uib-tab>
+                        <uib-tab index="1" heading="本周" select="selectTab('week')">
+                        </uib-tab>
+                        </uib-tab>
+                        <uib-tab index="2" heading="本月" select="selectTab('month')">
+                        </uib-tab>
+                        </uib-tab>
+                        <uib-tab index="3" heading="本年" select="selectTab('year')">
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6 col-sm-12 right-border">
+                        <!--<div stack-bar ui-option="stackBarOption"></div>-->
+                        <div style="height:500px;width:100%;" ui-echarts="stackBarOption"></div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <!--<div progress-bar ui-option="progressBarOption"></div>-->
+                        <div style="height:500px;width:100%;" ui-echarts="progressBarOption"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--下半部分 END-->
+
+</div>
+
+<style>
+    /*item-select begin*/
+
+    .item-select .x_title {
+        margin-bottom: 0;
+    }
+
+    .item-select .card-border {
+        height: 890px;
+        overflow: auto;
+    }
+    /*item-select end*/
+    /*地图容器*/
+
+    #map-container {
+        height: 400px;
+        background: blue;
+    }
+    /*右边加border*/
+
+    .right-border {
+        border-right: 2px solid #E6E9ED;
+    }
+    /*echarts 宽高*/
+    /*选择项目*/
+
+    .up .item-select .list-group-item {
+        margin: 10px 0;
+        text-align: center;
+    }
+    /*公用的card 样式*/
+
+    .card-border {
+        border: 1px solid #ddd;
+        background: #fff;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .card-border h5 {
+        margin: 5px;
+        text-align: center;
+    }
+    /*地图上面的panel 样式*/
+
+    .mapfix {
+        width: 260px;
+        max-height: 360px;
+        position: absolute;
+        overflow-y: auto;
+        top: 10px;
+        left: 20px;
+    }
+
+    .card-border .nav-pills>li>a {
+        border-radius: 0;
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    .card-border .wrapper {
+        margin: 20px;
+    }
+    /*三个top10*/
+
+    .top10 .x_title {
+        margin-bottom: 0;
+    }
+
+    .top10 .x_content {
+        overflow: auto;
+        height: 400px;
+    }
+
+    .top10 .table {
+        /* min-width: 350px; */
+        margin-bottom: 0;
+    }
+    /*map-marker*/
+
+    .map-marker {
+        border: 1px solod red;
+        background-color: skyblue;
+        width: 120px;
+        height: 120px;
+        padding: 20px;
+        border-radius: 50%;
+        text-align: center;
+    }
+    .amap-touch-toolbar .amap-zoomcontrol {
+		bottom: 10px;
+	}
+</style>

@@ -1,0 +1,36 @@
+.label_search {
+    color: #333;
+    padding: 0 5px 0 8px;
+}
+.btn_search {
+    width: 80px;
+    color: #fff;
+    background-color: #5891eb;
+}
+.pr5{
+	padding-right: 5px;
+}
+.modal-body {
+    position: relative;
+    padding: 25px 56px;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+.content-div{
+	margin-top: 35px;
+}
+.title-color{
+	color:#999;
+}
+.demandTitle-color{
+	color:#1872F5;
+}
+.content-color{
+	color:#070707;
+}
+.modal-header {
+    padding: 9px 15px;
+}
+.modal-title{
+	font-size:16px;
+}

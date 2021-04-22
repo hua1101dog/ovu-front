@@ -1,0 +1,145 @@
+<div class="" ng-controller="guardMainCtl as vm" style="height:100%;">
+    <div ng-if="vm.fmapId == 'csrjy'" style="height: 100%;position:relative;">
+        <h1 class="text-center" style="position:absolute;top:50%;left:50%;transform: translate(-50%, -50%)">开发中...</h1>
+    </div>
+    <big-screen ng-if="vm.fmapId != 'csrjy'" gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="right-panel">
+            <!--园区门禁情况-->
+            <div ng-show="vm.showPark">
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">园区门禁概况</h4>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightData.total}}</h3>
+                        <div>门禁总数</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightData.regular_num}}</h3>
+                        <div>正常</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                        <h3>{{-(-vm.rightData.broken_num - vm.rightData.fail_num) }}</h3>
+                        <div class="red">异常</div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 fixed-height">
+                    <h4 class="font-bold">园区门禁异常报警列表</h4>
+                    <div class="content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <!-- <th>名称</th> -->
+                                    <!-- <th>位置</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="!vm.listData.length">
+                                    <td>该园区暂无异常门禁</td>
+                                </tr>
+                                <tr ng-repeat="item in vm.listData | filter:vm.failGuard">
+                                    <!-- <tr ng-repeat="item in vm.listData"> -->
+                                    <!-- <td ng-if="item.equip_status!=1">{{item.name}}</td> -->
+                                    <td>{{item.name}}</td>
+                                    <!-- <td>{{item.position}}</td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--展示单个楼栋的门禁情况-->
+            <div ng-show="vm.showFloor">
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">{{vm.title}}门禁概况</h4>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightFloorData.total}}</h3>
+                        <div>门禁总数</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightFloorData.regular_num}}</h3>
+                        <div>正常</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                        <h3>{{-(-vm.rightFloorData.broken_num - vm.rightFloorData.fail_num)}}</h3>
+                        <div class="red">异常</div>
+                    </div>
+                </div>
+                <div class="lift-panel col-lg-12 col-sm-12">
+                    <h4 class="font-bold">{{vm.title}}门禁列表</h4>
+                    <div class="content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <!-- <th>名称</th> -->
+                                    <!-- <th>位置</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="!vm.rightFloorEquipList.length">
+                                    <td>该楼栋暂无门禁</td>
+                                </tr>
+                                <tr ng-repeat="item in vm.rightFloorEquipList">
+                                    <td>{{item.name}}</td>
+                                    <!-- <td>A1栋-F1-102室</td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <!--展示单层楼的门禁  -->
+            <div ng-show="vm.showGround">
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">{{vm.title}}门禁概况</h4>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightGroundData.total}}</h3>
+                        <div>门禁总数</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightGroundData.regular_num}}</h3>
+                        <div>正常</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                        <h3>{{-(-vm.rightGroundData.fail_num - vm.rightGroundData.broken_num)}}</h3>
+                        <div class="red">异常</div>
+                    </div>
+                </div>
+                <div class="lift-panel col-lg-12 col-sm-12">
+                    <h4 class="font-bold">{{vm.title}}门禁列表</h4>
+                    <div class="content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <!-- <th>名称</th> -->
+                                    <!-- <th>位置</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="!vm.rightGroundEquipList.length">
+                                    <td>该楼层暂无门禁</td>
+                                </tr>
+                                <tr ng-repeat="item in vm.rightGroundEquipList">
+                                    <td>{{item.name}}</td>
+                                    <!-- <td>A1栋-F1-102室</td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>
+<style>
+    .right-panel {
+        height: 100%;
+        overflow: auto;
+    }
+    
+    .right-panel .fixed-height {
+        height: 500px;
+        overflow: auto;
+    }
+</style>

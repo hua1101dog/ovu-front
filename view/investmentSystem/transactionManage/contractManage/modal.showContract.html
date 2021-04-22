@@ -1,0 +1,405 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{isEdit?'查看合同':'新增合同'}}</h4>
+</div>
+<div class="btngroup">
+    <button class="btn btn-primary" ng-click="save(form,true)"><span class="btnImage save"></span>保存</button>
+    <button class="btn btn-primary" ng-click="dataExamine()"
+        ng-if="isEdit&&(contactInfo.contractType==2 || contactInfo.contractType==5)&&contactInfo.haveMaterialVerify==0&&isShowVerify"><span
+            class="btnImage examine"></span>合同审批</button>  <!--资料审核-->
+    <button class="btn btn-primary" ng-click="receiveMoney(contactInfo.houseId,contactInfo.customName)"
+        ng-if="isEdit&&contactInfo.contractType==3" ng-disabled="!contactInfo.isReceive"><span
+            class="btnImage re_money"></span>收款</button>
+    <button class="btn btn-primary" ng-click="resetSubscri()" ng-if="isEdit&&contactInfo.contractType!==4"><span
+            class="btnImage re_money"></span>重置认购</button>
+    <button class="btn btn-primary" ng-click="cancel()"><span class="btnImage close"></span>关闭</button>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">客户名称:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.customName" name="customName" readonly>
+            </div>
+            <label class="col-xs-2 control-label ">联系电话:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.customPhone" name="customPhone" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">房间:</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" ng-model="contactInfo.house_name" name="house_name" readonly
+                    required>
+            </div>
+            <!-- <label class="col-xs-2 control-label ">是否首次购房:</label>
+            <div class="col-xs-4">
+                <label class="radio-inline">
+                    <input type="radio" ng-model="templateRoom" value="1" name="templateRoom"> 是
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="templateRoom" value="2" name="templateRoom"> 否
+                </label>
+            </div> -->
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">房间结构:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.house_structure" name="house_structure"
+                    readonly>
+            </div>
+
+            <label class="col-xs-2 control-label ">面积状态:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.area_statusStr" name="" readonly>
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label class="col-xs-2 control-label ">建筑面积(m<sup>2</sup>):</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.area" name="area" readonly>
+            </div>
+            <label class="col-xs-2 control-label ">套内面积(m<sup>2</sup>):</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.area_su" name="area_su" readonly>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">建筑单价(元):</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.buildingUnit" name="buildingUnit"
+                    readonly>
+            </div>
+            <label class="col-xs-2 control-label ">套内单价(元):</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.insetUnit" name="insetUnit" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">计价方式:</label>
+            <div class="col-xs-4">
+                <label class="radio-inline">
+                    <input type="radio" ng-model="contactInfo.priceType" value="0" name=""> 按建筑面积
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="contactInfo.priceType" value="1" name=""> 按套内面积
+                </label>
+            </div>
+            <label class="col-xs-2 control-label ">标准总价(元):</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.standardPrice" name="" required readonly>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">付款方式:</label>
+            <div class="col-xs-4">
+                <select class="form-control" ng-model="contactInfo.paymentType"
+                    ng-options="o.id as o.name for o in houseInfo.salePaymentMethodList" ng-change="resetDiscount()">
+                </select>
+            </div>
+            <label class="col-xs-2 control-label required-title">折扣(%):</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                    ng-model="contactInfo.discount" ng-change="" required ng-readonly="contactInfo.paymentType!=0">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">建筑成交单价(元):</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.buildingDealUnit" name="buildingDealUnit"
+                    readonly required placeholder="建筑成交单价自动计算">
+            </div>
+            <label class="col-xs-2 control-label required-title">套内成交单价(元):</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.insetDealUnit" name="insetDealUnit"
+                    readonly required placeholder="套内成交单价自动计算">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">折扣说明:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.discountNotes" name="">
+            </div>
+            <label class="col-xs-2 control-label required-title">房间总价(元):</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.housePrice" name="" required
+                    ng-change="calculateMoney()">
+            </div>
+        </div>
+        <div class="title_t">装修选择</div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">装修标准:</label>
+            <div class="col-xs-4">
+                <select class="form-control" ng-model="contactInfo.decorationStandard"
+                    ng-options="o['dicVal'] as o['dicItem'] for o  in decorationList">
+                    <option value="">-请选择-</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label ">装修单价(元):</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999.99"
+                    ng-model="contactInfo.decorateUnitPrice" ng-change="calDecoratePrice()">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">是否并入合同:</label>
+            <div class="col-xs-4">
+                <label class="radio-inline">
+                    <input type="radio" ng-model="contactInfo.haveMergeContract" value="0" name=""> 是
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="contactInfo.haveMergeContract" value="1" name=""> 否
+                </label>
+            </div>
+            <label class="col-xs-2 control-label ">装修总价(元):</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.decorateTotalPrice" ng-change="" readonly
+                    placeholder="装修总价自动计算">
+            </div>
+        </div>
+        <div class="title_t">摘要</div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label  required-title">合同编号:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.signContractNo" name="signContractNo"
+                    required>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label  required-title">应收定金(元):</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                    ng-model="contactInfo.receivableMoney" ng-change="" required>
+            </div>
+            <label class="col-xs-2 control-label required-title">合同总价(元):</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                    ng-model="contactInfo.contractPriceTax" ng-change="calTaxRate()" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">不含税合同总价(元):</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                    ng-model="contactInfo.contractPrice" ng-change="" required readonly placeholder="合同总价(不含税)自动计算">
+            </div>
+            <label class="col-xs-2 control-label required-title">税额(元):</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                    ng-model="contactInfo.amountTax" ng-change="" required readonly placeholder="税额自动计算">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">税率(%):</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                    ng-model="contactInfo.taxRate" ng-change="" readonly>
+            </div>
+            <label class="col-xs-2 control-label required-title">合同签订日期:</label>
+            <div class="col-xs-4">
+                <input type="datetime" class="form-control Wdate" ng-model="contactInfo.contractSignDate" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">业务归属日期:</label>
+            <div class="col-xs-4">
+                <input type="datetime" class="form-control Wdate" ng-model="contactInfo.bussinessBelongDate" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" required>
+            </div>
+            <label class="col-xs-2 control-label required-title">交房日期:</label>
+            <div class="col-xs-4">
+                <input type="datetime" class="form-control Wdate" ng-model="contactInfo.handHouseDate" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">合同备案号:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.contractFilingNo" name="" readonly>
+            </div>
+            <label class="col-xs-2 control-label">备案日期:</label>
+            <div class="col-xs-4">
+                <input type="datetime" class="form-control Wdate" ng-model="contactInfo.contractFilingDate" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">推荐人:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.referencesPerson" name="">
+            </div>
+            <label class="col-xs-2 control-label required-title">业务员:</label>
+            <div class="col-xs-4">
+                <input type="text" style='background-color: white;' readonly="readonly" ref='managerInput' ng-click='businessManagerFocus()'  class="form-control" ng-model="contactInfo.businessManager" name="" required>
+            </div>
+        </div>
+        <div class="title_t" ng-if="dloanInfo.isMortgageBank==1">贷款信息</div>
+        <div class="form-group" ng-if="dloanInfo.isMortgageBank==1">
+            <label class="col-xs-2 control-label required-title">按揭银行:</label>
+            <div class="col-xs-4">
+                <select class="form-control" ng-model="contactInfo.mortgageBank" required
+                    ng-options="o['dicVal'] as o['dicItem'] for o  in mortgageList">
+                    <option value="">-请选择-</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label required-title">按揭贷款(元):</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                    ng-model="contactInfo.mortgageMoney" ng-change="" required>
+            </div>
+        </div>
+        <div class="form-group" ng-if="dloanInfo.isMortgageBank==1">
+            <label class="col-xs-2 control-label required-title">按揭年限:</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                    ng-model="contactInfo.mortgageYear" ng-change="" required>
+            </div>
+        </div>
+        <div class="form-group" ng-if="dloanInfo.isProvidentFund==1">
+            <label class="col-xs-2 control-label required-title">公积金银行:</label>
+            <div class="col-xs-4">
+                <select class="form-control" ng-model="contactInfo.fundBank" required
+                    ng-options="o['dicVal'] as o['dicItem'] for o  in fundBankList">
+                    <option value="">-请选择-</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label required-title">公积金贷款:</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                    ng-model="contactInfo.fundMoney" ng-change="" required>
+            </div>
+        </div>
+        <div class="form-group" ng-if="dloanInfo.isProvidentFund==1">
+            <label class="col-xs-2 control-label required-title">公积金年限:</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                    ng-model="contactInfo.fundYear" ng-change="" required>
+            </div>
+        </div>
+        <div class="title_t">补差信息</div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">补差方案:</label>
+            <div class="col-xs-4">
+                <select class="form-control" ng-model="contactInfo.balancePaymentPlan"
+                    ng-options="o['dicVal'] as o['dicItem'] for o  in banlanceplanList">
+                    <option value="">-请选择-</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label ">实际补差款(人民币):</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                    ng-model="contactInfo.balancePaymentMoney" ng-change="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">补差经办人:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="contactInfo.balancePaymentPerson"
+                    name="balancePaymentPerson">
+            </div>
+            <label class="col-xs-2 control-label">补差经办时间:</label>
+            <div class="col-xs-4">
+                <input type="datetime" class="form-control Wdate" ng-model="contactInfo.balancePaymentDate" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+            </div>
+        </div>
+    </form>
+</div>
+<style>
+    .modal-header {
+        background-color: #337ab7;
+        padding: 10px 15px;
+        color: #ffffff
+    }
+
+    .btngroup {
+        margin-top: 1px;
+        padding: 2px;
+        background-color: #337ab7
+    }
+
+    .btngroup>.btn {
+        background-color: #e2f1084f;
+        height: 34px;
+        line-height: 22px;
+        padding: 6px 12px;
+        margin-right: 0px
+    }
+
+    span.btnImage {
+        display: block;
+        float: left;
+        margin-top: 3px;
+        height: 16px;
+        width: 20px;
+        margin-right: 2px;
+        padding-left: 0px;
+        background-repeat: no-repeat;
+        font-size: 14px;
+
+    }
+
+    .modal-body {
+        padding-right: 30px;
+        padding-bottom: 30px;
+    }
+
+
+    span.save {
+        background-image: url("../../../image/icon_save.png");
+    }
+
+    span.saveAndClose {
+        background-image: url("../../../image/icon_closeSave.png");
+    }
+
+    span.examine {
+        background-image: url("../../../image/dataExamine.png");
+    }
+
+    span.re_money {
+        background-image: url("../../../image/reMoney.png");
+    }
+
+    span.to_sign {
+        background-image: url("../../../image/toSign.png");
+    }
+
+
+    span.close {
+        background-image: url("../../../image/icon_close.png");
+    }
+
+    .required-title {
+        color: rgb(199, 45, 45)
+    }
+
+    .title_t {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        color: blue;
+        font-size: 14px;
+        border-bottom: 1px solid #ddd;
+        font-weight: 700;
+        margin-left: 28px
+    }
+
+</style>

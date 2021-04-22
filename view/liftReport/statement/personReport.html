@@ -1,0 +1,157 @@
+<!--人员综合报表-->
+<div ng-controller="PersonContrl as vm">
+
+    <div class="row">
+        <!--左侧部分-->
+        <div class="col-lg-8 col-sm-8 col-xs-12 left-side">
+            <div class="x_panel content">
+                <div class="page-title x_panel">
+                    <div class="title_left">
+                        <h4>人员综合报表</h4>
+                    </div>
+                </div>
+                <div class="form-inline x_title">
+                    <div class="form-group">
+                         <label>人员姓名</label>
+                         <div class="input-group" style="width: 140px;">
+                             <input type="text" class="form-control" ng-model="search.name" />
+                         </div>
+                     </div>
+                      <button class="btn btn-default" ng-click="find(1)">查询</button>
+                </div>
+                <div class="x_content">
+                    <table class="table table-hover table-bordered" style="background-color:#fff;margin-bottom: 10px; ">
+                        <thead class="title">
+                            <tr>
+                                <th rowspan="2">姓名</th>
+                                <th rowspan="2">所属公司</th>
+                                <th rowspan="2">入职时间</th>
+                                <th rowspan="2">项目数</th>
+                                <th rowspan="2">维保电梯数</th>
+                                <th colspan="3">月均处理工单数</th>
+                                <th colspan="3">处理工单总数</th>
+                            </tr>
+                            <tr>
+                                <th>维保</th>
+                                <th>应急</th>
+                                <th>总数</th>
+                                <th>维保</th>
+                                <th>应急</th>
+                                <th>总数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0">
+		                        <td colspan="100" class="text-center">暂无记录</td>
+		                    </tr>
+                            <tr ng-repeat="item in pageModel.list">
+                                <td>{{item.name}}</td>
+                                <td>{{item.company}}</td>
+                                <td>{{item.entryTime}}</td>
+                                <td>{{item.projectTotal}}</td>
+                                <td>{{item.liftTotal}}</td>
+                                <td>{{item.averagePlanWorkunitTotal}}</td>
+                                <td>{{item.averageEmrgWorkunitTotal}}</td>
+                                <td>{{item.averageWorkunitTotal}}</td>
+                                <td>{{item.planWorkunitTotal}}</td>
+                                <td>{{item.emrgWorkunitTotal}}</td>
+                                <td>{{item.workunitTotal}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                   		<ng-include src="'/common/pager.html'"></ng-include>
+                	</div>
+                </div>
+            </div>
+        </div>
+        <!--右侧部分-->
+        <div class="col-lg-4 col-sm-4 col-xs-12 right-side">
+            <div class="x_panel">
+                <div class="page-title x_panel">
+                    <div class="title_left">
+                        <h4>人员综合报表</h4>
+                    </div>
+                    <div class="pull-right" style="line-height: 40px;" ng-init="selected=4">
+                       <a href="javascript:;" ng-class="{active:selected==1}" ng-click="vm.selectTime('day');selected=1">本日</a>|
+                        <a href="javascript:;" ng-class="{active:selected==2}" ng-click="vm.selectTime('week');selected=2">本周</a> |
+                        <a href="javascript:;" ng-class="{active:selected==3}" ng-click="vm.selectTime('month');selected=3">本月</a>|
+                        <a href="javascript:;" ng-class="{active:selected==4}" ng-click="vm.selectTime('year');selected=4">本年</a>
+                    </div>
+                </div>
+                <div class="charts">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div id="signIn-chart"
+								style="height:100%;width:100%;" 
+								ui-echarts="vm.signInOption" >
+						</div>
+                    </div>
+                    <!-- <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div id="work-chart" class="b-b"
+								style="height:100%;width:100%;" 
+								ui-echarts="vm.workOption" >
+						</div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-4 col-xs-12 right-side">
+            <div class="x_panel">
+                <div class="charts">
+                   <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div id="work-chart" 
+								style="height:100%;width:100%;" 
+								ui-echarts="vm.workOption" >
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    /* left-side start*/
+    
+    .left-side .x_content {
+        /* overflow: auto; */
+    }
+    
+    .left-side .content.x_panel {
+        min-height: 900px;
+    }
+    
+    .left-side .table {
+        /* min-width: 800px; */
+    }
+    
+    .left-side .table th {
+        text-align: center;
+    }
+    
+    .left-side .table td {
+        text-align: center;
+    }
+    
+    .left-side>.x_panel {
+        position: relative;
+    }
+    
+    .left-side .tailbar {
+        position: absolute;
+        bottom: 0;
+    }
+    /* left-side end*/
+    /*right-side begin*/
+    
+    .right-side .bottom-border {
+        border-bottom: 2px solid #E6E9ED;
+    }
+    
+    .right-side .charts>div {
+        height: 400px;
+    }
+    a.active {
+	    color: blue;
+	}
+    /*right-side end*/
+</style>

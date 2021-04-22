@@ -1,0 +1,187 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.pointId?"编辑":"新增"}}计量点</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">计量点编码：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" ng-model="item.pointCode" readonly="readonly"
+                    placeholder="系统自动生成" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">计量点名称：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.pointName" />
+            </div>
+        </div>
+        <!-- <div class="form-group">
+            <label class="col-xs-2 control-label required">计量单位选择：</label>
+            <div class="col-xs-8">
+                <select class="form-control" ng-model="item.pointUnit" required ng-options="o[0] as o[1] for o in measureUnit">
+                    <option value="">&#45;&#45;请选择&#45;&#45;</option>
+                </select>
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">计量分类：</label>
+            <div class="col-xs-8">
+                <select class="form-control" required ng-model="item.classifyId"
+                    ng-change="changeCategory(item.classifyId)"
+                    ng-options="o.classifyId as o.name for o in measureCategory">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">计量分项：</label>
+            <div class="col-xs-8">
+                <select class="form-control" required ng-model="item.itemId"
+                    ng-options="o.itemId as o.name for o in fenXiangList">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">关联空间：</label>
+            <div class="input-group col-xs-8" style="padding:0 15px">
+                <input type="text" class="form-control" readonly="readonly" ng-model="item.spaceName" placeholder="关联空间"
+                    required />
+                <span class="input-group-btn">
+                    <button class="btn btn-default" ng-click="contactSpace(item)">
+                        <i class='glyphicon glyphicon-search'></i>
+                    </button>
+                </span>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">抄表方式：</label>
+            <div class="col-xs-4">
+                <label role="button" style="line-height:32px;margin-right: 15px">
+                    <input type="radio" style="margin:0 5px" ng-change="equChange()" ng-model="item.readWay" value=1
+                        name="readWay">手动</label>
+                <label role="button" style="line-height:32px;">
+                    <input type="radio" style="margin:0 5px" ng-model="item.readWay" ng-change="equChange()" value=2
+                        name="readWay">自动</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">关联仪表设备：</label>
+            <div class="input-group col-xs-8" style="padding:0 15px">
+                <input type="text" class="form-control" readonly="readonly" ng-model="item.equipmentName"
+                    placeholder="选择设备" required />
+                <span class="input-group-btn">
+                    <button class="btn btn-default" ng-click="chooseEquipment(item)">
+                        <i class='glyphicon glyphicon-search'></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">设备编码：</label>
+            <div class="input-group col-xs-8" style="padding:0 15px">
+                <input type="text" class="form-control" readonly="readonly" ng-model="item.equipmentCode"
+                    placeholder="选择设备" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">仪表通信地址：</label>
+            <div class="input-group col-xs-8" style="padding:0 15px">
+                <input type="text" class="form-control" ng-model="item.meterAddr" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">倍率:</label>
+            <div class="input-group col-xs-8" style="padding:0 15px">
+                <input type="number" class="form-control" ng-model="item.ratio" min='0' required
+                    ng-pattern="/^\+?[1-9][0-9]*$/" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">固定损耗率:</label>
+            <div class="input-group col-xs-8" style="padding:0 15px">
+                <input type="number" class="form-control" ng-model='item.lossRate' min='0' style="clear:both" /><em
+                    style="float:right;margin:8px -15px">%</em>
+            </div>
+
+        </div>
+        <div class="form-group" ng-if="item.meterProtocolType">
+            <label class="col-xs-2 control-label required">仪表通信协议：</label>
+            <div class="input-group col-xs-8" style="padding:0 15px">
+                <div ng-if="item.meterProtocolType==1">
+                    <label role="button" style="line-height:32px;margin-right: 15px">
+                        <input type="radio" style="margin:0 5px" ng-model="item.meterProtocol" value=1
+                            name="meterProtocol">1997协议</label>
+                    <label role="button" style="line-height:32px;">
+                        <input type="radio" style="margin:0 5px" ng-model="item.meterProtocol" value=2
+                            name="meterProtocol">2007协议</label>
+                    <label role="button" style="line-height:32px;">
+                        <input type="radio" style="margin:0 5px" ng-model="item.meterProtocol" value=3
+                            name="meterProtocol">中原modbus协议</label>
+                </div>
+                <div ng-if="item.meterProtocolType==2">
+                    <label role="button" style="line-height:32px;margin-right: 15px">
+                        <input type="radio" style="margin:0 5px" ng-model="item.meterProtocol" value=1
+                            name="meterProtocol">深圳北电</label>
+
+                </div>
+                <div ng-if="item.meterProtocolType==3">
+                    <!-- <label role="button" style="line-height:32px;margin-right: 15px">
+                                <input type="radio" style="margin:0 5px" ng-model="meterProtocol" value="1" name="meterProtocol" ng-checked="true">1997协议</label>
+                            <label role="button" style="line-height:32px;">
+                                <input type="radio" style="margin:0 5px" ng-model="meterProtocol" value="2" name="meterProtocol">2007协议</label>
+                            <label role="button" style="line-height:32px;">
+                                <input type="radio" style="margin:0 5px" ng-model="meterProtocol" value="2" name="meterProtocol">中原modbus协议</label> -->
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">仪表类型：</label>
+            <div class="input-group col-xs-8" style="padding:0 15px">
+                <label role="button" style="line-height:32px;margin-right: 15px">
+                    <input type="radio" style="margin:0 5px" ng-model="item.type" value=1
+                        name="type">预付费</label>
+                <label role="button" style="line-height:32px;">
+                    <input type="radio" style="margin:0 5px" ng-model="item.type" value=2
+                        name="type">后付费</label>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">单价:</label>
+            <div class="input-group col-xs-8" style="padding:0 15px">
+                <input type="number" required class="form-control" ng-model="item.unitPrice"
+                    ng-pattern="/^[0-9]+\.{0,1}[0-9]{0,3}$/" />
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">起码:</label>
+            <div class="input-group col-xs-8" style="padding:0 15px">
+                <input type="number" class="form-control" ng-model="item.initValue"
+                    ng-pattern="/^-|[0-9]+\.{0,1}[0-9]{0,4}$/" />
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">可以远程控制：</label>
+            <div class="input-group col-xs-8" style="padding:0 15px">
+                <label role="button" style="line-height:32px;">
+                    <input type="radio" style="margin:0 5px" ng-model="item.control" value=1
+                           name="control">可以</label>
+                <label role="button" style="line-height:32px;margin-right: 15px">
+                    <input type="radio" style="margin:0 5px" ng-model="item.control" value=0
+                           name="control">不可以</label>
+
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

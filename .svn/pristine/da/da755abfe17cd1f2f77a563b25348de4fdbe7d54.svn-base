@@ -1,0 +1,99 @@
+<div ng-controller="passengerFlowReportCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>客流报表</h3>
+        </div>
+    </div>
+    <div class="x_panel" style="padding: 50px 30px">
+       <div class="klbb-top">
+          <div>
+              <img src="/image/qqq2.png" style="width: 60px;height: 60px;margin-right: 20px" alt="">
+              <div style="display: flex;flex-direction: column;margin-right: 40px;margin-top: 8px">
+                  <span style="color:silver">当前在馆人数</span>
+                  <span style="font-size: 30px">{{info.savePeople}}</span>
+              </div>
+          </div>
+
+           <div>
+               <img src="/image/qqq2.png" style="width: 60px;height: 60px;margin-right: 20px" alt="">
+               <div style="display: flex;flex-direction: column;margin-right: 40px;margin-top: 8px">
+                   <span style="color:silver">今日入馆人数</span>
+                   <span style="font-size: 30px">{{info.todayPeople}}</span>
+               </div>
+           </div>
+
+
+           <div>
+               <img src="/image/qqq2.png" style="width: 60px;height: 60px;margin-right: 20px" alt="">
+               <div style="display: flex;flex-direction: column;margin-right: 40px;margin-top: 8px">
+                   <span style="color:silver">累计入馆人数</span>
+                   <span style="font-size: 30px">{{info.totalPeople}}</span>
+               </div>
+           </div>
+       </div>
+    </div>
+    <div class="x_panel" style="padding: 0">
+        <div class="kltj-top" ng-init="akey=0">
+            <span style="font-size: 20px;margin-left: 20px">客流统计</span>
+            <span style="margin-left: 80px">维度</span>
+            <span class="s-btn-0" ng-class="{'curr-s-b':akey==0}" ng-click="akey=0;chooseOne(1)" style="margin-left: 15px">小时</span>
+            <span class="s-btn-0" ng-class="{'curr-s-b':akey==1}" ng-click="akey=1;chooseOne(2)" style="margin-left: 15px">天</span>
+            <span class="s-btn-0" ng-class="{'curr-s-b':akey==2}" ng-click="akey=2;chooseOne(3)" style="margin-left: 15px">月</span>
+            <span style="margin-left: 15px">时间</span>
+                <input  style="width: 150px;margin-left: 15px" type="datetime" class="form-control Wdate" ng-model="Time"  onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:mytoday})">
+            <button style="margin-left: 15px" class="btn btn-default pull-right" ng-click="find()" >查询</button>
+        </div>
+        <div class="kltj-bt">
+            <div style="width: 150px;border-right: 1px solid silver;display: flex;flex-direction: column;">
+                <span style="font-size: 16px;margin-top: 30px;margin-left: 20px">累计入馆</span>
+                <span style="font-size: 25px;margin-left: 20px">{{totalP}}人</span>
+            </div>
+            <div style="flex: 1;">
+                <div style="width: 100%;height: 350px" ui-echarts="option"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.klbb-top,.klbb-top>div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+    .klbb-top>div{
+        padding: 25px 20px;
+        border: 1px solid silver;
+        border-radius: 5px;
+    }
+    .kltj-top{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 60px;
+        font-size: 16px;
+        border-bottom: 1px solid silver;
+    }
+    .s-btn-0{
+        display: inline-block;
+        cursor: pointer;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 15px;
+        border: 1px solid silver;
+        border-radius: 5px;
+    }
+    .curr-s-b{
+        color: #fff;
+        background: #229fff;
+    }
+    .kltj-bt{
+
+        display: flex;
+        flex-direction: row;
+    }
+    .kltj-bt>div{
+        height: 350px;
+    }
+</style>

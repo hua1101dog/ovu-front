@@ -1,0 +1,78 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancelUnit()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}单元</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="col-xs-11">
+            <div class="form-group">
+                <label class="col-xs-2 control-label">所属楼栋：</label>
+                <div class="col-xs-10">
+                    <div style="margin-top: 8px">{{item.text}}（编码:{{item.buildNo}}）</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">单元编号：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="saveUnit.unitNo" name="UNIT_NO"
+                    	ng-change="unitNoChange()" required maxlength="2" oninput="if(value.length>2)value=value.slice(0,2)"
+                    	ng-pattern="/^[0-9a-zA-Z]{2}$/" placeholder="两位编码"/>
+                </div>
+                <label class="col-xs-2 control-label required">单元编码：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" disabled ng-model="saveUnit.unitCode" name="UNIT_CODE" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">单元名称：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="saveUnit.unitName" name="UNIT_NAME" required maxlength="18"
+                           oninput="if(value.length>18)value=value.slice(0,18)"/>
+                </div>
+                <label class="col-xs-2 control-label required">总层数：</label>
+                <div class="col-xs-4">
+                    <input type="number" class="form-control" ng-model="saveUnit.floorNum" name="FLOOR_NUM" required/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,saveUnit)">确定</button>
+    <button class="btn btn-warning" ng-click="cancelUnit()">取消</button>
+</div>
+
+<style>
+    /*wjlong BEGIN 地图上面添加搜索框  */
+    .AMap-wrapper {
+        position: relative;
+    }
+    #tip {
+        position: absolute;
+        top: 2%;
+        right: 2%;
+        background-color: #ddf;
+        color: #333;
+        border: 1px solid silver;
+        box-shadow: 3px 4px 3px 0px silver;
+        border-radius: 5px;
+        overflow: hidden;
+        line-height: 20px;
+        padding: 0 10px;
+    }
+    #tip input[type="text"] {
+        height: 25px;
+        border: 0;
+        padding-left: 5px;
+        width: 200px;
+        border-radius: 3px;
+        outline: none;
+    }
+    .amap-sug-result{
+        z-index: 10000;
+    }
+    .form-control[disabled] {
+        background-color: #c7c5c552;
+        cursor: auto;
+    }
+</style>

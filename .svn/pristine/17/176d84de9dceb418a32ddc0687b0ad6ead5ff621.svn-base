@@ -1,0 +1,14 @@
+<div ng-controller="contractApprovalProcessCtrl" ng-cloak>
+    <div class="page-title">
+        <div class="title_left">
+            <h3 ng-if="search.isShow">待审批的合同</h3>
+            <h3 ng-if="!search.isShow">{{search.currentProcess.taskName}}</h3>
+        </div>
+        <div class="title_right" ng-if="!search.isShow">
+            <button class="btn btn-primary pull-right" style="margin-left: 10px" ng-click="search.isShow = true">返回</button>
+            <a class="btn btn-primary pull-right" href="javascript:;" ng-click="showFlowChart(search.currentProcess.processInstanceId)">流程图</a>
+        </div>
+    </div>
+    <ng-include src="'/view/workflowManage/common/approval.listInfo.html'"></ng-include>
+</div>
+    

@@ -1,0 +1,46 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="vm.cancel()">×</button>
+	<h4 class="modal-title">关联产品</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal"> 
+	<div class="x_content" style="max-height: 500px; overflow: auto;">
+		<form name="form" novalidate>
+			<div class="form-group">
+				<label class="col-md-4 control-label">企业名称：</label>
+				<div class="col-md-5">
+					<span class="text-readOnly"> {{vm.enterprise.companyName}}</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label">所属园区：</label>
+				<div class="col-md-5">
+					<span class="text-readOnly"> {{vm.enterprise.parkName}}</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label">所属行业：</label>
+				<div class="col-md-5">
+				<span class="text-readOnly"> {{vm.enterprise.industryName}}</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label">关联产品：</label>
+				<div class = "col-md-5">
+					<input type="text" class="form-control p-r-xl bg-readOnly" 
+						tooltip-placement="auto top"
+						uib-tooltip="{{vm.enterprise.domainProductNameStr}}"
+						readOnly
+						ng-model="vm.enterprise.domainProductNameStr" /> 
+					<i class="icon glyphicon glyphicon-search search-icon" ng-click="vm.selectProduct()"></i>
+				</div>
+				<div ng-if="vm.enterprise.domainProductNameList.length > 0 ">
+					<i class="glyphicon glyphicon-remove" style="line-height:34px;" ng-click="vm.deleteAll()"></i>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="vm.save(form,vm.enterprise)">确定</button>
+	<button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+</div>

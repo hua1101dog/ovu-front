@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <style>
+        .main-content {
+            padding: 10px;
+
+        }
+
+        .main-title {
+            font-size: 20px;
+            color: #333
+        }
+
+        .main-author {
+            font-size: 12px;
+            color: #999
+        }
+
+        .content {
+            font-size: 14px;
+            color: #666;
+            line-height: 22px;
+        }
+    </style>
+    <title>产品介绍</title>
+</head>
+<body>
+<div class="main-content">
+    <h1 class="main-title" id="id1" >文章标题</h1>
+    <h5 class="main-author" id="id2" >作者：周亮</h5>
+    <div class="content" id="id3" >
+
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/res/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+<script>
+    $(function () {
+
+        var src = location.href;
+        var param = src.substr(src.indexOf("id=") + 3);
+
+        console.log('param....' + param); // 获取子字符串。
+
+        $.ajax({
+            type: "post",//type可以为post也可以为get
+            url: "/ovu-park/backStage/propagandaGraphicInfo/queryPropagandaGraphicInfo",
+            data: {"id": param},//这行不能省略，如果没有数据向后台提交也要写成data:{}的形式
+            dataType: "json",//这里要注意如果后台返回的数据不是json格式，那么就会进入到error:function(data){}中
+            success: function (data) {
+//                $("#username-info").val(data.info);
+                $('#id1').html(data.data.title);
+                $('#id2').html('智慧园区事业部');
+                $('#id3').html(data.data.content);
+            },
+            error: function (data) {
+                alert("用户名提交出现了错误！");
+            }
+        });
+
+    });
+
+</script>
+</html>

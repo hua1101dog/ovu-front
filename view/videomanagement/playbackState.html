@@ -1,0 +1,222 @@
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+
+
+    .card-border {
+        border: 1px solid #ddd;
+        background: #fff;
+    }
+
+    .title {
+        width: 100%;
+        font-weight: 700;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .fw {
+        font-weight: 700;
+        font-size: 8px;
+        display: inline-block;
+        width: 50%;
+        text-align: center;
+
+    }
+
+    .router {
+        line-height: 80px;
+        font-weight: 700;
+        font-size: 16px;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+    .active {
+        color: blue;
+    }
+
+    .red {
+        color: red;
+
+    }
+    .green {
+        color: green;
+    }
+    .crName {
+        max-width: 50%;
+        display: inline-block;
+        float: right;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        line-height: 20px;
+        padding-right: 8px;
+    }
+    .badge {
+        display: inline-block;
+        min-width: 10px;
+        padding: 4px 7px;
+        font-size: 8px;
+        font-weight: 700;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: bottom;
+        background-color: #777;
+        border-radius: 10px;
+    }
+    .normal-icon {
+        background: #3AD35E;
+    }
+    .unnormal-icon {
+        background: #f77462;
+    }
+    .arrow {
+        line-height: 100px;
+        font-weight: 700;
+        font-size: 40px;
+    }
+    .width_20{
+        width:19%;
+        float: left;
+    }
+    .width_6{
+        width:7%;
+        float: left;
+    }
+</style>
+<div ng-controller="playbackStateCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>视频播放状态详情</h3>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div>
+                <div>
+                    <div class="width" style="text-align:center">
+                        <span class="router">{{routeList.routeName}}</span>
+                    </div>
+                    <div class="width_20">
+                        <div class="card-border" style=" padding-left: 6px;">
+                            <div>
+                                <h5 class="pull-left title">摄像头</h5>
+                            </div>
+                            <div>
+                                <div style="border-bottom:0px;">
+                                    <span class="fw">摄像头名称：</span>
+                                    <a href="javascript:void(0)" class="active" ng-click="showCameraModal(routeList.cameraId)">
+                                        <span class="crName" uib-tooltip={{routeList.cameraName}}>{{routeList.cameraName}}</span>
+                                    </a>
+                                </div>
+                                <div style="border-bottom:  0px;padding-bottom: 8px;clear:both">
+                                    <span class="fw">摄像头状态：</span>
+                                    <span class="badge normal-icon" ng-if="routeList.imosStatus ==0">{{routeList.imosStatus=="0" ? "正常":routeList.imosStatus=="4735" ? "不在线" : "其它异常"}}</span>
+                                    <span class="badge unnormal-icon" ng-if="routeList.imosStatus !==0">{{routeList.imosStatus=="0" ? "正常":routeList.imosStatus=="4735" ? "不在线": "其它异常"}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="width_6" style="text-align:center">
+                        <a href="javascript:void(0)" ng-click="showCTM(pid)">
+                            <span class="fa  fa-long-arrow-right arrow" ng-class="{'green':routeList.imosStatus ==0,'red':routeList.imosStatus !==0}"></span>
+                        </a>
+                    </div>
+                    <div class="width_20">
+                        <div class="card-border" style=" padding-left: 6px;">
+                            <div>
+                                <h5 class="pull-left title">视频监控服务</h5>
+                            </div>
+                            <div>
+                                <div style="border-bottom:0px;">
+                                    <span class="fw">视频监控服务名称：</span>
+                                    <a href="javascript:void(0)" ng-click="showImosModal(routeList.imosId)" class="active">
+                                        <span class="crName" uib-tooltip={{routeList.imosName}}>{{routeList.imosName}}</span>
+                                    </a>
+                                </div>
+                                <div style="border-bottom:  0px;padding-bottom: 8px;clear:both">
+                                    <span class="fw">视频监控服务状态：</span>
+                                    <span class="badge normal-icon" ng-if="routeList.imosStatus ==0">{{routeList.imosStatus=="0" ? "正常":routeList.imosStatus=="4735" ? "不在线" : "其它异常"}}</span>
+                                    <span class="badge unnormal-icon" ng-if="routeList.imosStatus !==0">{{routeList.imosStatus=="0" ? "正常":routeList.imosStatus=="4735" ? "不在线": "其它异常"}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="width_6" style="text-align:center">
+                        <a href="javascript:void(0)" ng-click="showMTO(pid,routeList.imosStatus)">
+                            <span class="fa  fa-long-arrow-right arrow" ng-class="{'green':routeList.routeImosStatus ==0,'red':routeList.routeImosStatus !==0}"></span>
+                        </a>
+                    </div>
+                    <div class="width_20">
+                        <div class="card-border" style=" padding-left: 6px;">
+                            <div>
+                                <h5 class="pull-left title">OVU服务</h5>
+                            </div>
+                            <div>
+                                <div style="border-bottom:0px;">
+                                    <span class="fw">转流服务名称：</span>
+                                    <a href="javascript:void(0)" ng-click="showTransformModal(routeList.transformId,routeList.mediaStatus)" class="active">
+                                        <span class="crName" uib-tooltip={{routeList.transformName}}>{{routeList.cameraName}}</span>
+                                    </a>
+                                </div>
+                                <div style="border-bottom:  0px;padding-bottom: 8px;clear:both">
+                                    <span class="fw">转流服务状态：</span>
+                                    <span class="badge normal-icon" ng-if="routeList.transformStatusIstrue ==0">{{routeList.transformStatusIstrue == "0" ? "正常" :"异常"}}</span>
+                                    <span class="badge unnormal-icon" ng-if="routeList.transformStatusIstrue !==0">{{routeList.transformStatusIstrue == "0" ? "正常" :"异常"}}</span>
+                                </div>
+                                <div style="border-bottom:  0px;padding-bottom: 8px;clear:both">
+                                    <span class="fw">转流服务负载状态：</span>
+                                    <span class="badge normal-icon" ng-if="routeList.transformStatus ==0">{{routeList.transformStatus | keyToValue: transformStatusDict}}</span>
+                                    <span class="badge unnormal-icon" ng-if="routeList.transformStatus !==0">{{routeList.transformStatus | keyToValue: transformStatusDict}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12" style="text-align:center">
+                        <a href="javascript:void(0)" ng-click="showOTE(pid)">
+                            <span class="fa  fa-long-arrow-right arrow" ng-class="{'green':routeList.mediaStatus ==0,'red':routeList.mediaStatus !==0}"></span>
+                        </a>
+                    </div>
+                    <div class="width_20">
+                        <div class="card-border" style=" padding-left: 6px;">
+                            <div>
+                                <h5 class="pull-left title">EMS服务</h5>
+                            </div>
+                            <div>
+                                <div style="border-bottom:0px;">
+                                    <span class="fw">播放源名称：</span>
+                                  
+                                        <span class="crName" uib-tooltip={{routeList.name}}>{{routeList.name}}</span>
+                                   
+                                </div>
+                                <div style="border-bottom:  0px;padding-bottom: 8px;clear:both">
+                                    <span class="fw">视频展示状态：</span>
+                                    <span class="badge normal-icon" ng-if="routeList.status ==2">{{routeList.status | keyToValue: playTypeDict }}</span>
+                                    <span class="badge unnormal-icon" ng-if="routeList.status !==2">{{routeList.status | keyToValue: playTypeDict }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</div>
+
+
+
+</div>

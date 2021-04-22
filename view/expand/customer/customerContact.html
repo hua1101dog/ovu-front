@@ -1,0 +1,69 @@
+<div ng-controller="customerContactCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>联系人管理</h3>
+		</div>
+	</div>
+	<div class="alert alert-warning" role="alert">
+		客户名称：{{customer.name}}
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		主联系人：{{customer.contactName}}
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		联系方式：{{customer.contactMobile}}
+	</div>
+	<div class="x_panel" >
+		<div class="form-inline">
+			<div class="form-group">
+				<label>联系人姓名:</label>
+				<input type="text" class="form-control" name="name" ng-model="search.name" />
+				<input type="hidden" name="customerId" ng-model="search.customerId" />
+			</div>
+			<button class="btn btn-default" ng-click="find()" >查询</button>
+
+			<button class="btn btn-success pull-right" ng-click="goback()">返回</button>
+		</div>
+	</div>
+	<div class="panel panel-default" style="margin-bottom: 0px;">
+		<div class="panel-heading">联系人信息列表
+			<button class="btn btn-primary pull-right" ng-click="showEditModal()" >添加</button>
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped table-hover" style="margin-top: 10px;">
+				<thead class="title">
+				<tr>
+					<th >姓名</th>
+					<th >性别</th>
+					<th >出生日期</th>
+					<th >联系方式</th>
+					<th >职位</th>
+					<th >QQ/微信</th>
+					<th >重要程度</th>
+					<th >是否主联系人</th>
+					<th >操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+				<tr ng-repeat="item in pageModel.data">
+					<td>{{item.name}}</td>
+					<td>{{item.gender == 2 ? '女' : '男'}}</td>
+					<!--  <td>{{item.birth}}</td>-->
+					<td>{{item.birth | date:'yyyy/MM/dd'}}</td>
+					<td>{{item.mobile}}</td>
+					<td>{{item.position}}</td>
+					<td>{{item.qq}}</td>
+					<td>{{item.importance}}</td>
+					<td>{{item.keyContact == 0 ? '否' : '是'}}</td>
+					<td>
+						<a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+						<a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			<div class="page-footer clearfix">
+				<ng-include src="'/common/pager.html'"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>

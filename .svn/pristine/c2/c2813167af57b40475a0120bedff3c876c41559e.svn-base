@@ -1,0 +1,105 @@
+<!--运营指标体系》产业指标-->
+<div>
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="col-lg-12 col-sm-12  b-2x">
+            <h4 class="font-bold">产业指标概况</h4>
+            <div class="col-lg-4 col-sm-4 text-center">
+                <h3>{{opeIndustry.tradeGeneral.company_totle}}<span class="text-xs">个</span>
+                </h3>
+                <span class="spantext">企业总数</span>
+            </div>
+            <div class="col-lg-4 col-sm-4 text-center">
+                <h3>{{opeIndustry.tradeGeneral.double_company}}<span class="text-xs">个</span>
+                </h3>
+                <span class="spantext">双创企业数</span>
+            </div>
+            <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                <h3>{{opeIndustry.tradeGeneral.quoted_company}}<span class="text-xs">个</span>
+                </h3>
+                <span class="spantext">上市企业数</span>
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 b-b b-2x p-05">
+            <div class="col-lg-4 col-sm-4 text-center">
+                <h3>{{opeIndustry.tradeGeneral.office_company}}<span class="text-xs">个</span>
+                </h3>
+                <span class="spantext">办公企业数</span>
+            </div>
+            <div class="col-lg-4 col-sm-4 text-center">
+                <h3>{{opeIndustry.tradeGeneral.assort_company}}<span class="text-xs">个</span>
+                </h3>
+                <span class="spantext">配套商家数</span>
+            </div>
+            <div class="col-lg-4 col-sm-4 text-center ">
+                <h3>{{opeIndustry.tradeGeneral.finance_company}}<span class="text-xs">个</span>
+                </h3>
+                <span class="spantext">金融类企业数</span>
+            </div>
+            <div class="col-lg-4 col-sm-4 text-center" style="margin-top:15px;margin-bottom:15px">
+                <h3>{{opeIndustry.tradeGeneral.amount_invested}}<span class="text-xs">亿元</span>
+                </h3>
+                <span class="spantext">总投资额</span>
+            </div>
+            <div class="col-lg-4 col-sm-4 text-center" style="margin-top:15px;margin-bottom:15px">
+                <h3>{{opeIndustry.tradeGeneral.annual_revenue}}<span class="text-xs">亿元</span>
+                </h3>
+                <span class="spantext">年度产值</span>
+            </div>
+            <div class="col-lg-4 col-sm-4 text-center m-b-md" style="margin-top:15px;margin-bottom:15px">
+                <h3>{{opeIndustry.tradeGeneral.annual_tax}}<span class="text-xs">亿元</span>
+                </h3>
+                <span class="spantext">年度税收</span>
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 b-b b-2x">
+            <div class="clearfix">
+                <h4 class="font-bold fl">产业聚集度变化</h4>
+                <div class="marginTB10 fr">
+                    <span class="text-xs">本期</span>
+                    <span class="font24">{{opeIndustry.tradeFocus.annual_focus}}</span>
+                    <span class="text-xs">%</span>
+                    <span class="text-lg red marginL20">
+                          <i class="fa fa-arrow-up " aria-hidden="true"></i>
+                          {{opeIndustry.tradeFocus.annual_rise}}
+                    </span>
+                    <span class="text-xs red">%</span>
+                </div>
+            </div>
+            <div style="height:200px;" ui-echarts="vm.focusData"></div>
+            <div class="clearfix">
+                <h4 class="font-bold fl">就业人数变化</h4>
+                <div class="marginTB10 fr">
+                    <span class="text-xs">本期</span>
+                    <span class="font24">{{opeIndustry.tradeObtain.obtain_people}}</span>
+                    <span class="text-xs">人</span>
+                    <span class="text-lg red marginL20">
+                        <i class="fa fa-arrow-up " aria-hidden="true"></i>
+                        {{opeIndustry.tradeObtain.obtain_rise}}
+                    </span>
+                    <span class="text-xs red">人</span>
+                </div>
+            </div>
+            <div class="m-b-md" style="height:200px;" ui-echarts="vm.employmentData"></div>
+        </div>
+        <div class="col-lg-12 col-sm-12">
+            <h4 class="font-bold">行业分类企业数占比</h4>
+            <div style="height:300px;" ui-echarts="vm.option1">
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12">
+            <h4 class="font-bold">行业分类面积占比</h4>
+            <div style="height:300px;" ui-echarts="vm.option2">
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 b-b b-2x">
+            <h4 class="font-bold">上市企业概况</h4>
+            <div style="height:300px;" ui-echarts="vm.companyData">
+            </div>
+        </div>
+    </big-screen>
+</div>
+<style>
+    .p-05 div{
+        padding: 0 5px;
+    }
+</style>

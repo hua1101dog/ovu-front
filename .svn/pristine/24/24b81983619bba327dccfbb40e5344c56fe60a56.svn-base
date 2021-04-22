@@ -1,0 +1,189 @@
+<!-- title BEGIN -->
+<div class="report-request-title page-title">
+    <div class="title_left">
+        <h3 style="margin-top: 3px;">报装申请</h3>
+    </div>
+</div>
+<!-- title END -->
+<!-- content BEGIN -->
+<div class="report-request-content">
+    <div class="x_panel">
+        <div class="form-inline" style="margin-bottom: 8px;">
+            <div class="form-group">
+                <label>报&nbsp;装&nbsp;房&nbsp;号</label>
+                <input type="text" class="form-control" ng-model="vm.search.roomName">
+            </div>
+            <div class="form-group">
+                <label>业主姓名</label>
+                <input type="text" class="form-control"  ng-model="vm.search.ownerName">
+            </div>
+            <div class="form-group">
+                <label>业主电话</label>
+                <input type="text" class="form-control"  ng-model="vm.search.ownerTel">
+            </div>
+            <div class="form-group">
+                <label>施工方姓名</label>
+                <input type="text" class="form-control"  ng-model="vm.search.workerName">
+            </div>
+        </div>
+        <div class="form-inline pull-left">
+            <div class="form-group">
+                <label>施工方电话</label>
+                <input type="text" class="form-control"  ng-model="vm.search.workerTel">
+            </div>
+            <div class="form-group">
+                <label>审核状态</label>
+                <select id="auditState" class="form-control" style="width:180px;" ng-model="vm.search.auditState" ng-options="x[0] as x[1] for x in [[1,'已通过'], [-1,'未通过']]">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div>
+        <div class="btn btn-default" style="margin-left:8px;" ng-click="vm.find()">查询</div>
+    </div>
+    <div class="panel panel-default" style="display: grid;">
+        <div class="panel-heading">
+            申请列表
+            <div class="pull-right">
+                <button class="btn btn-primary" ng-disabled="!vm.parkId" ng-click="vm.toAdd()">+代业主申请报装</button>
+                <button class="btn btn-danger" ng-disabled="!vm.hasChecked(vm.pageModel)" ng-click="vm.toDelAll()">批量删除</button>
+            </div>
+        </div>
+        <div class="panel-body" style="overflow: scroll;">
+            <table  class="table table-striped table-hover" style="margin-top: 10px">
+                    <thead>
+                        <tr class="info0">
+                            <th class="text-center">序号</th>
+                            <th class="text-center" style="width:20px">
+                                <span role="button" ng-click="vm.checkAll(vm.pageModel)">
+                                    <i class="glyphicon" ng-class="{'glyphicon-check':vm.pageModel.checked,'glyphicon-unchecked':!vm.pageModel.checked}"></i>
+                                </span>
+                            </th>
+                            <th nowrap="nowrap">报装房号</th>
+                            <th nowrap="nowrap">业主姓名</th>
+                            <th nowrap="nowrap">业主电话</th>
+                            <th nowrap="nowrap">装修公司名称</th>
+                            <th nowrap="nowrap">施工方负责人姓名</th>
+                            <th nowrap="nowrap">施工方负责人电话</th>
+                            <th style="min-width:190px;" nowrap="nowrap">报装项目</th>
+                            <th style="min-width:90px; " nowrap="nowrap">报装证件</th>
+                            <th nowrap="nowrap">审核状态</th>
+                            <th class="tbl-todo" nowrap="nowrap">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!vm.pageModel.data || vm.pageModel.data.length == 0">
+                            <td></td>
+                            <td></td>
+                            <td colspan="100" class="text-center">暂无报装申请</td>
+                            <td></td>
+                        </tr>
+                        <!-- <tr ng-repeat="item in vm.pageModel.data" on-repeat-render-finished> -->
+                        <tr ng-repeat="item in vm.pageModel.data">
+                            <td class="text-center">
+                                {{$index + 1 + vm.pageModel.numPerPage * (vm.pageModel.currentPage - 1)}}
+                            </td>
+                            <td>
+                                <i role="button" ng-click="vm.checkOne(item, vm.pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked,'icon-check-disabled':item.auditState == '1'}" class="glyphicon"></i>
+                            </td>
+                            <td>{{item.roomName}}</td>
+                            <td><span style="display: block" ng-repeat="v in item.ownerName">{{v}}</span></td>
+                            <td><span style="display: block" ng-repeat="v in item.ownerTel">{{v}}</span></td>
+                            <td>{{item.decoCompony}}</td>
+                            <td>{{item.construcDirector}}</td>
+                            <td><span style="display: block" ng-repeat="v in item.construcTel">{{v}}</span></td>
+                            <td>{{item.reportProjectNames.split(',').join(', ')||'暂无数据'}}</td>
+                            <!-- <td>
+                                        <a href="javascript:void(0)" ng-click="vm.showProject(item)">
+                                            <span>查看详情</span>
+                                        </a>
+                                    </td> -->
+                            <td>
+                                <a href="javascript:void(0)" ng-click="vm.showReportCertif(item)">
+                                    <span>查看详情</span>
+                                </a>
+                            </td>
+                            <!-- <td uib-tooltip="{{item.approve_desc ? item.approve_desc : '待审核'}}" tooltip-placement="bottom" tooltip-enable="(item.auditState!='1')" tooltip-append-to-body="true">{{item.auditState=='1'?'已通过':'未通过'}}</td> -->
+                            <!-- 后台代码规范 -->
+                            <td uib-tooltip="{{item.approveDesc ? item.approveDesc : '待审核'}}" tooltip-placement="bottom" tooltip-enable="(item.auditState!='1')" tooltip-append-to-body="true">{{item.auditState=='1'?'已通过':'未通过'}}</td>
+                            <td class="clearfix">
+                                <a href="javascript:void(0)" ng-if="item.auditState != '1'" ng-click="vm.toApprove(item)">
+                                    <i class="icon glyphicon glyphicon-edit"></i>
+                                    <span>审核</span>
+                                </a>
+                                <span ng-if="item.auditState != '1'" class="pipe"></span>
+                                <a href="javascript:void(0)" ng-click="vm.toEdit(item)" ng-if="item.auditState != '1'">
+                                    <i class="icon glyphicon glyphicon-edit"></i>
+                                    <span>编辑</span>
+                                </a>
+                                <span class="pipe" ng-if="item.auditState != '1'"></span>
+                                <a href="javascript:void(0)" ng-if="item.auditState != '1'" ng-click="vm.toDelete(item)">
+                                    <i class="icon glyphicon glyphicon-trash"></i>
+                                    <span>删除</span>
+                                </a>
+                                <!-- <span class="pipe" ng-if="item.auditState != '1'"></span> -->
+                                <!-- <a href="javascript:void(0)" ng-if="item.auditState == '1'" ng-click="vm.toWorkUnit(item)">
+                                    <span>查看工单</span>
+                                </a>
+                                <a href="javascript:void(0)" ng-if="item.auditState == '1'" ng-click="vm.toWorkUnit(item, true)">
+                                    <span>生成工单</span>
+                                </a> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+           
+        </div>
+        <div class="panel-footer clearfix">
+            <decoration-pagination total-count="vm.pageModel.totalCount" current-page="vm.pageModel.currentPage" num-per-page="vm.pageModel.numPerPage" on-select-change="vm.numSelect($event)" on-page-changed="vm.pageChanged($event)"></decoration-pagination>
+            <!-- 图片显示 -->
+            <div class="photoDiv" ng-if="vm.curPic.on">
+                <img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute" ng-click="vm.curPic.on = false"></img>
+                <img class="photo" ng-src="{{vm.curPic.url}}" image-load="vm.wheel()"></img>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content END -->
+<style>
+    .report-request-content .panel-heading button {
+        margin-top: -8px;
+    }
+    
+    .report-request-content .panel-body {
+        /* height: 530px; */
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    
+    .report-request-content .panel-body table {
+        min-width: 950px;
+    }
+    
+    .report-request-content table tr th,
+    .report-request-content table tr td {
+        text-align: center;
+        vertical-align: middle;
+    }
+    
+    .report-request-content table td a {
+        padding: 0 10px 0 12px;
+    }
+    
+    .report-request-content .pipe {
+        border-right: 2px solid #5A738E;
+    }
+    
+    .tbl-todo {
+        min-width: 300px;
+    }
+    
+    .multikeys {
+        min-width: 425px;
+    }
+    
+    .icon-check-disabled {
+        color: gray;
+        cursor: auto;
+        display: none;
+    }
+</style>

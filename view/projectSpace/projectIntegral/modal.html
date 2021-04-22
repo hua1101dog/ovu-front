@@ -1,0 +1,48 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">兑换信息</h4>
+
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate style="padding-left: 15px;">
+        <div class="form-group">
+            <label class="col-xs-3 control-label">订单编号：</label>
+            <div class="col-xs-4" style="padding-top: 7px">
+                <span type="text" ng-model="item.expenditureCode">{{item.billNo}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">订单日期：</label>
+            <div class="col-xs-4" style="padding-top: 7px">
+                <span type="text" ng-model="item.expenditureCode">{{item.billDate|date:'yyyy-MM-dd'}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">兑换类型：</label>
+            <div class="col-xs-4" style="padding-top: 7px">
+                <span type="text" ng-model="item.expenditureCode">{{item.expenditureTypeName}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label" style="padding-right: 0">兑换金额(元):</label>
+            <div class="col-xs-4" style="padding-top: 7px">
+                <span type="text" ng-model="item.expenditureCode">{{item.amount}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">凭证信息:</label>
+            <div class="col-xs-4" style="padding-top: 7px">
+                <div class="photoWraper" ng-repeat="p in item.urlList track by $index"
+                     style="height: 200px;width:345px">
+                    <img ng-src="{{processImgUrl(p)}}" ng-click="showPhotoEditModal(item.urlList)" style="width:100%;height:100%;border:1px solid #ddd"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" ng-if="item.status==0">
+    <button class="btn btn-primary" ng-click="doAction(item,'pass')">通过</button>
+    <button class="btn btn-warning" ng-click="doAction(item,'refuse')">拒绝</button>
+</div>
+
+

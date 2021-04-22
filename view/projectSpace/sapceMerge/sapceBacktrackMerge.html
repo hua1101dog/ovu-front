@@ -1,0 +1,125 @@
+<link rel="stylesheet" href="projectSpace/sapceMerge/sapceBacktrackMerge.css">
+<div id="angularId" ng-controller="spaceBacktrackMerge" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>
+                <a href="javascript:;">空间回溯</a>><a href="javascript:;" class="lastTittle">空间逆向合并</a>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel form-horizontal">
+                <div class="x_title"><h4>原房间信息</h4></div>
+                    
+                    <div class="houseInfo"  ng-repeat="item in mergeData">
+                        <div><h4>{{item.houseCode}}</h4></div>              
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">房屋编码：</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control"  ng-attr-title="{{item.groundNo}}" ng-model="item.groundNo"  readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">房屋类型：</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" ng-model="item.rmCat" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">建筑面积（平米）：</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control"  ng-model="item.area"  readonly="readonly"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">使用面积（平米）：</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" ng-model="item.areaProperty" readonly="readonly"/>
+                            </div>
+                        </div>
+                    </div>                                  
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-8 col-xs-12" style="padding:0">
+            <form name="form" novalidate>
+                <div class="x_panel form-horizontal" >
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label required">房屋名称：</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control " required ng-model="saveItemData.houseName">
+                        </div>
+                        <label class="col-xs-1 control-label required">房屋简称：</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control " required ng-model="saveItemData.rmShortName">
+                        </div>
+                        <label class="col-xs-1 control-label required">房号：</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control " required  ng-model ="saveItemData.houseCode">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label required">单元号：</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control " placeholder="2位编码，如00" maxlength="2" required  ng-model ="saveItemData.unitNo">
+                        </div>
+                        <label class="col-xs-1 control-label required">楼层号：</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control " placeholder="3位编码，如001" maxlength="3" required  ng-model ="saveItemData.groundNo">
+                        </div>
+                        <label class="col-xs-1 control-label required">备案号：</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control " required  ng-model ="saveItemData.recordNumber">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label required">建筑面积（平米）：</label>
+                        <div class="col-xs-3">
+                            <input type="number" class="form-control " required ng-model="saveItemData.area"  name="area" ng-pattern="/^([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9])$/">
+                        </div>
+                        <label class="col-xs-1 control-label required">实测建筑面积（平米）：</label>
+                        <div class="col-xs-3">
+                            <input type="number" class="form-control "  required ng-model="saveItemData.areaActual" ng-pattern="/^([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9])$/">
+                        </div>
+                        <label class="col-xs-1 control-label required">物业面积（平米）：</label>
+                        <div class="col-xs-3">
+                            <input type="number" class="form-control" required ng-model="saveItemData.areaProperty" ng-pattern="/^([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9])$/">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label required">房屋类别：</label>
+                        <div class="col-xs-3">
+                            <select class="form-control" required  name="rm_cat" ng-model="saveItemData.rmCat"  ng-options="o.dicCode as o.dicItem for o in houseTypeTree" ng-change="selectHouseType(saveItemData)">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                        <label class="col-xs-1 control-label required">房屋类型：</label>
+                        <div class="col-xs-3">
+                            <select class="form-control" required name="rm_type" ng-model="saveItemData.rmType" ng-options="o.id as o.dicItem for o in treeTypeList" >
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                        <label class="col-xs-1 control-label required">面积性质：</label>
+                        <div class="col-xs-3">
+                            <select class="form-control" required name="area_nature" ng-model="saveItemData.areaNature" ng-options="o.value as o.text for o in areaNatureList" >
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label required">是否投资性物业：</label>
+                        <div class="col-xs-3">
+                           <select class="form-control" required name="investment_property" ng-model="saveItemData.investmentProperty" ng-options="o.value as o.text for o in investmentPropertyList" >
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-center" style="border-top: 1px solid #ddd;padding-top: 20px;">
+                        <button class="btn btn-primary" ng-click="saveInfo(form)">保存</button>
+                        <button class="btn btn-warning" ng-click="cancle()">关闭</button>
+                    </div>
+                </div>
+            </form>         
+        </div>
+    </div>
+</div>

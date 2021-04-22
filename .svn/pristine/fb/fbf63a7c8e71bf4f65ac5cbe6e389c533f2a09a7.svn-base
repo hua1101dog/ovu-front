@@ -1,0 +1,35 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">查看通知</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<div class="row">
+		<div style="text-align: center;font-size: x-large">{{item.TITLE}}</div>
+	</div>
+	<div class="row" style="margin-left: 10px;margin-right: 10px">
+		<textarea style="cursor: inherit" class="form-control" rows="20" disabled>{{item.CONTENT}}</textarea>
+	</div>
+	<div class="row" style="margin-right: 50px">
+		<div class="pull-right">{{item.USER_ID}}</div>
+	</div>
+	<div class="row" style="margin-right: 50px">
+		<div class="pull-right"><font color="gray">{{item.CREATE_TIME}}</font></div>
+	</div>
+    <div style="border-bottom: 1px solid #eee;"></div>
+    <div class="row" style="margin-left: 10px;margin-right: 10px">
+        <div class="photoWraper" ng-repeat="p in item.pics track by $index">
+            <img onerror="javascript:this.src='/res/img/detail.png';"
+                 ng-click="showPhoto()"
+                 ng-src="{{processImgUrl(p)}}" />
+        </div>
+    </div>
+<style>
+	pre{
+		word-break:break-all;
+		word-wrap:break-word;
+		background-color: transparent;
+		border: none;
+		font-size: larger;
+	}
+</style>
+</div>

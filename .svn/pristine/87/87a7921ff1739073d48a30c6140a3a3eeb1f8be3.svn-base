@@ -1,0 +1,41 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+    </div>
+    <div class="modal-body">
+        <div ng-if="item.isEnd==1">
+            <div ng-if="itemOpinion.mReplyStatus==1">
+                <h4>处理答复：</h4>
+                <p>{{itemOpinion.mReplyContent}}</p>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <p>处理人：{{itemOpinion.mName}}</p>
+                        <p>处理时间：{{itemOpinion.mReplyTime}}</p>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="itemOpinion.gmReplyStatus==1">
+                <h4>最终答复：</h4>
+                <p>{{itemOpinion.gmReplyContent}}</p>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <p>处理人：{{itemOpinion.gmName}}</p>
+                        <p>处理时间：{{itemOpinion.gmReplyTime}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="item.isEnd==0">
+            暂未处理，请尽快处理！
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div>
+            <!--<button class="btn btn-primary" ng-click="save()">确定</button>-->
+            <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        </div>
+        <!--<button class="btn btn-primary" ng-click="cancel()">知道了</button>-->
+    </div>
+</div>

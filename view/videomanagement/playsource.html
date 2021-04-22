@@ -1,0 +1,87 @@
+<!-- 播放源管理 -->
+<div ng-controller="playsourceCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>播放源管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="col-xs-12" ng-if="search.isGroup">
+                <label class="control-label">
+                    <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+                    <a role="button" ng-click="findPark(search,loadHouseTree)">{{search.parkName?search.parkName:'请选择项目'}} </a>
+                </label>
+            </div>
+            <div class="x_panel">
+                <div class="x_title">楼栋列表</div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="oriList.length==0">无楼栋信息</div>
+                    <div id="house_tree">
+                        <tree-view node-list="treeData"></tree-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>播放源编号</label>
+                        <input type="text" ng-model="search.code" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>播放源名称</label>
+                        <input type="text" ng-model="search.name" class="form-control" />
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    播放源列表
+                    <button class="btn btn-primary pull-right" ng-click="showEditModal()" ng-disabled="!search.parkId">添加播放源</button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th>播放源编号</th>
+                                <th>播放源名称</th>
+                                <th>视频线路名称</th>
+                                <th>摄像机名称</th>
+                                <th>播放源更新时间</th>
+                                <th>播放源状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data">
+                                <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td>{{item.code}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.routeName}}</td>
+                                <td>{{item.cameraName}}</td>
+                                <td>{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td>{{item.status | keyToValue:playsourceTypeDict}}</td>
+                                <td ng-if="item.status!==2">
+                                    <a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'>
+                                        <span class='fa fa-edit'></span>编辑</a>
+                                    <a href='javascript:void(0)' ng-click='del(item.id)' class='btn btn-xs'>
+                                        <span class='fa fa-trash'></span>删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

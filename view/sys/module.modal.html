@@ -1,0 +1,62 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">{{item.id?'编辑':'添加'}}子系统</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="form-group" >
+			<label class="col-xs-2 control-label required">子系统：</label>
+			<div class="col-xs-10 ">
+				<input type="text" class="form-control" ng-model="item.name" name="name" required/>
+			</div>
+		</div>
+		<div class="form-group" >
+			<label class="col-xs-2 control-label ">登录页面：</label>
+			<div class="col-xs-10 ">
+				<input type="text" class="form-control" ng-model="item.loginUrl" placeholder="个性化子系统登录页面：view/**/login.html"/>
+			</div>
+		</div>
+		<div class="form-group" >
+			<label class="col-xs-2 control-label ">主页面：</label>
+			<div class="col-xs-10 ">
+				<input type="text" class="form-control" ng-model="item.mainUrl" placeholder="个性化子系统主页：view/**/main.html"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">上传logo：</label>
+			<div class="col-xs-6">
+				<div class="thumbnail text-center"  >
+					<img  alt=""  onerror="javascript:this.src='/res/img/detail.png';"
+						  ng-click="showPhoto()"
+						  ng-src="{{processImgUrl(item.logoUrl)}}" />
+					<div class="caption">
+						<p>
+							<button class="btn btn-warning height34" ng-click="clearPhoto(item,'logoUrl')"><i class="glyphicon glyphicon-remove"></i></button>
+							<button class="btn btn-default height34" ng-click="addPhoto(item,'logoUrl')"><i class="glyphicon glyphicon-picture "></i></button>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">app资源：</label>
+			<div class="col-xs-10 mt7">
+					<span ng-repeat="res in item.appRes" class="mr15" ng-class="{'text-success':res.checked,'text-muted':!res.checked}" role="button"
+						  ng-click="res.checked = !res.checked" >
+					<i class="glyphicon" ng-class="{'glyphicon-check':res.checked,'glyphicon-unchecked':!res.checked}" ></i>{{res.name}}</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-xs-2 control-label">备注：</label>
+			<div class="col-xs-10">
+				<textarea type="text" style="height:150px;resize:vertical" class="form-control" ng-model="item.comment"   />
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

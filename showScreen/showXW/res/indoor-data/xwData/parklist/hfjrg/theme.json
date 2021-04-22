@@ -1,0 +1,30 @@
+{
+  "VERSION": "1.0",
+  "bgColor": {
+    "color": "#efefef"
+  },
+  "point": [{
+    "sType": "1"
+  },
+  {
+    "sType": "1000",
+    "height": "10",
+    "color":"#efefef"
+  },
+    {
+      "sType": "0",
+      "color": "#cccccc",
+      "alpha": "1",
+      "strokecolor": "#efefef",
+      "fontSize": "24"
+
+
+    },
+  {
+    "sType": "1001",
+    "color": "#567890",
+    "alpha": "1",
+    "strokecolor": "#efefef",
+    "fontSize": "24"
+  }]
+}

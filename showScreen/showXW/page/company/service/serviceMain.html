@@ -1,0 +1,40 @@
+<!--运营指标体系》招商指标-->
+<div ng-controller="serviceMainCtrl as vm" style="height:100%;">
+    <div ng-if="vm.fmapId == 'csrjy'" style="height: 100%;position:relative;">
+        <h1 class="text-center" style="position:absolute;top:50%;left:50%;transform: translate(-50%, -50%)">开发中...</h1>
+    </div>
+    <big-screen ng-if="vm.fmapId != 'csrjy'" gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="">
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">园区服务概况</h4>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3>{{comService.service_general.operate_num}}</h3>
+                    <span class="spantext">运营人员</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3>{{comService.service_general.property_num}}</h3>
+                    <span class="spantext">物业人员</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                    <h3>{{comService.service_general.order_num}}</h3>
+                    <span class="spantext">工单总数</span>
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12">
+                <h4 class="font-bold">运营人员分类</h4>
+                <div style="height:300px;" ui-echarts="vm.managerData">
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12">
+                <h4 class="font-bold">物业人员分类</h4>
+                <div style="height:300px;" ui-echarts="vm.propertyData">
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12">
+                <h4 class="font-bold">工单分类</h4>
+                <div style="height:300px;" ui-echarts="vm.orderData">
+                </div>
+            </div>
+        </div>
+    </big-screen>
+</div>

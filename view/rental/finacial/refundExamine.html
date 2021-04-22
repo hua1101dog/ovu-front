@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>账务管理</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="refundExamineCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3 ng-show="pageStatus == 1">复核查看</h3>
+                <h3 ng-show="pageStatus == 2">退款审批</h3>
+                <h3 ng-show="pageStatus == 3">审批查看</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default" ng-show="(pageStatus == 2)||(pageStatus == 3)">
+                <div class="panel-heading" style="color:#999999;">收款信息</div>
+                <div class="panel-body">
+                    <table style="color:#999999;border: 1px solid #ddd;width: 100%;">
+                        <tbody>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">租户名称：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.secondPartyName}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款日期：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.receiveDate}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款方式：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.paymentMethod| payment}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">应缴总额：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.payableAmount| number:2}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款金额：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.receiveAmount| number:2}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款账户：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.receiveAccount}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款银行：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.receiveBank}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款人：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.receiveUserName}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">是否开发票：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.isInvoice|invoice1}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">发票号：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.invoiceNo}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">付款账号：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.payAccount}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">付款人：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.payUser}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--<ul class="basaMsg_ul">
+                    <li>
+                        <label>租户名称：</label>
+                        <span>{{receivable.secondPartyName}}</span>
+                    </li>
+                    <li>
+                        <label>收款日期：</label>
+                        <span>{{receivable.receiveDate}}</span>
+                    </li>
+                    <li>
+                        <label>收款方式：</label>
+                        <span>{{receivable.paymentMethod| payment}}</span>
+                    </li>
+                    <li>
+                        <label>应缴总额：</label>
+                        <span>{{receivable.payableAmount| number:2}}</span>
+                    </li>
+                    <li>
+                        <label>收款金额：</label>
+                        <span>{{receivable.receiveAmount| number:2}}</span>
+                    </li>
+                    <li>
+                        <label>收款账户：</label>
+                        <span>{{receivable.receiveAccount}}</span>
+                    </li>
+                    <li>
+                        <label>收款银行：</label>
+                        <span>{{receivable.receiveBank}}</span>
+                    </li>
+                    <li>
+                        <label>收款人：</label>
+                        <span>{{receivable.receiveUserName}}</span>
+                    </li>
+                    <li>
+                        <label>是否开发票：</label>
+                        <span>{{receivable.isInvoice| invoice}}</span>
+                    </li>
+                    <li>
+                        <label>发票号：</label>
+                        <span>{{receivable.invoiceNo}}</span>
+                    </li>
+                    <li>
+                        <label>付款账号：</label>
+                        <span>{{receivable.payAccount}}</span>
+                    </li>
+                    <li>
+                        <label>付款人：</label>
+                        <span>{{receivable.payUser}}</span>
+                    </li>
+                </ul>-->
+                </div>
+            </div>
+            <div class="panel panel-default" ng-show="(pageStatus == 2)||(pageStatus == 3)">
+                <div class="panel-heading" style="color:#999999;">退款信息</div>
+                <div class="panel-body">
+                    <table style="color:#999999;border: 1px solid #ddd;width: 100%;">
+                        <tbody>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">退款人：</td>
+                                <td style="border: 1px solid #ddd;">{{return.returnUserName}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">退款日期：</td>
+                                <td style="border: 1px solid #ddd;">{{return.returnDate}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">可退金额：</td>
+                                <td style="border: 1px solid #ddd;">{{return.refundableAmount| number:2}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">退款总额：</td>
+                                <td style="border: 1px solid #ddd;">{{return.returnTotalAmount| number:2}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">退款原因：</td>
+                                <td style="border: 1px solid #ddd;" colspan="5">{{return.returnReason}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--<ul class="basaMsg_ul">
+                    <li>
+                        <label>退款人：</label>
+                        <span>{{return.returnUserName}}</span>
+                    </li>
+                    <li>
+                        <label>退款日期：</label>
+                        <span>{{return.returnDate}}</span>
+                    </li>
+                    <li>
+                        <label>可退金额：</label>
+                        <span>{{return.refundableAmount}}</span>
+                    </li>
+                    <li>
+                        <label>退款总额：</label>
+                        <span>{{return.returnTotalAmount}}</span>
+                    </li>
+                    <li>
+                        <label>退款原因：</label>
+                        <span>{{return.returnReason}}</span>
+                    </li>
+                </ul>-->
+                </div>
+            </div>
+            <div class="panel panel-default" ng-show="pageStatus == 1">
+                <div class="panel-heading" style="color:#999999;">退款信息</div>
+                <div class="panel-body">
+                    <table style="color:#999999;border: 1px solid #ddd;width: 100%;">
+                        <tbody>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">租户名称：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.secondPartyName}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款日期：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.receiveDate}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款方式：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.paymentMethod| payment}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款总额：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.receiveAmount| number:2}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款人：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.receiveUserName}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">退款人：</td>
+                                <td style="border: 1px solid #ddd;">{{return.returnUserName}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">退款日期：</td>
+                                <td style="border: 1px solid #ddd;">{{return.returnDate}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">退款总额：</td>
+                                <td style="border: 1px solid #ddd;">{{return.returnTotalAmount}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">可退金额：</td>
+                                <td style="border: 1px solid #ddd;">{{return.refundableAmount}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">退款原因：</td>
+                                <td style="border: 1px solid #ddd;" colspan="5">{{return.returnReason}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--<ul class="basaMsg_ul">
+                    <li>
+                        <label>租户名称：</label>
+                        <span>{{receivable.secondPartyName}}</span>
+                    </li>
+                    <li>
+                        <label>收款日期：</label>
+                        <span>{{receivable.receiveDate}}</span>
+                    </li>
+                    <li>
+                        <label>收款方式：</label>
+                        <span>{{receivable.paymentMethod| payment}}</span>
+                    </li>
+                    <li>
+                        <label>收款总额：</label>
+                        <span>{{receivable.receiveAmount| number:2}}</span>
+                    </li>
+                    <li>
+                        <label>收款人：</label>
+                        <span>{{receivable.receiveUserName}}</span>
+                    </li>
+                    <li>
+                        <label>退款人：</label>
+                        <span>{{return.returnUserName}}</span>
+                    </li>
+                    <li>
+                        <label>退款日期：</label>
+                        <span>{{return.returnDate}}</span>
+                    </li>
+                    <li>
+                        <label>退款总额：</label>
+                        <span>{{return.returnTotalAmount}}</span>
+                    </li>
+                    <li>
+                        <label>可退金额：</label>
+                        <span>{{return.refundableAmount}}</span>
+                    </li>
+                    <li>
+                        <label>退款原因：</label>
+                        <span>{{return.returnReason}}</span>
+                    </li>
+                </ul>-->
+                </div>
+            </div>
+            <div class="panel panel-default" ng-show="pageStatus == 1">
+                <div class="panel-heading" style="color:#999999;">复核信息</div>
+                <div class="panel-body">
+                    <table style="color:#999999;border: 1px solid #ddd;width: 100%;">
+                        <tbody>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">复核人：</td>
+                                <td style="border: 1px solid #ddd;">{{return.checkUserName}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">复核日期：</td>
+                                <td style="border: 1px solid #ddd;">{{return.checkTime}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">付款账户：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.payAccount}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">付款人：</td>
+                                <td style="border: 1px solid #ddd;">{{receivable.payUser}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">付款备注：</td>
+                                <td style="border: 1px solid #ddd;" colspan="7">{{receivable.receiveRemark}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--<ul class="basaMsg_ul">
+                    <li>
+                        <label>复核人：</label>
+                        <span>{{return.checkUserName}}</span>
+                    </li>
+                    <li>
+                        <label>复核日期：</label>
+                        <span>{{return.checkTime}}</span>
+                    </li>
+                    <li>
+                        <label>付款账户：</label>
+                        <span>{{receivable.payAccount}}</span>
+                    </li>
+                    <li>
+                        <label>付款人：</label>
+                        <span>{{receivable.payUser}}</span>
+                    </li>
+                    <li>
+                        <label>付款备注：</label>
+                        <span>{{receivable.receiveRemark}}</span>
+                    </li>
+                </ul>-->
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color:#999999;">退款明细</div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                        <thead class="title">
+                            <tr>
+                                <th>费项名称</th>
+                                <th>应收日期</th>
+                                <th>租赁资源</th>
+                                <th>应收总额</th>
+                                <th>可退总额</th>
+                                <th>退款金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="returnItemList.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                            <tr style="color:#333333;" ng-repeat="x in returnItemList">
+                                <td>{{x.expenditureName||'租金'}}</td>
+                                <td>{{x.dateReceivable}}</td>
+                                <td>{{x.houseName}}</td>
+                                <td>{{x.billPrice| number:2}}</td>
+                                <td>{{x.refundableAmount| number:2}}</td>
+                                <td>{{x.returnAmount| number:2}}</td>
+                            </tr>
+                            <tr style="color:#333333;" ng-if="returnItemList.length != 0">
+                                <td>合计</td>
+                                <td></td>
+                                <td></td>
+                                <td>{{billPriceTotal| number:2}}</td>
+                                <td>{{refundableAmountTotal| number:2}}</td>
+                                <td>{{returnAmountTotal| number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-default" ng-show="(pageStatus == 3)&&(return.status == 2)">
+                <div class="panel-heading" style="color:#999999;">驳回原因</div>
+                <div class="panel-body">{{return.auditRemark}}</div>
+            </div>
+        </div>
+        <div class="modal-footer" ng-show="(pageStatus == 1)||(pageStatus == 3)">
+            <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+        </div>
+        <ul class="ul_list" ng-show="pageStatus == 2">
+            <li class="inline_li">
+                <label for="">审批人：</label>
+                <p>{{user.nickname}}</p>
+            </li>
+            <li class="inline_li">
+                <label for="">审批意见：</label>
+                <textarea ng-model="remark" cols="30" rows="5" class="ng-pristine ng-untouched ng-valid ng-empty" aria-multiline="true" aria-invalid="false"></textarea>
+            </li>
+        </ul>
+        <div class="submitBtn_m" ng-show="pageStatus == 2">
+            <a ng-click="viod(1)" class="btn btn-primary">通过</a>
+            <a ng-click="viod(0)" class="btn btn-default">驳回</a>
+            <a class="btn btn-primary" ng-click="back()">返回</a>
+        </div>
+    </div>
+</body>
+
+</html>

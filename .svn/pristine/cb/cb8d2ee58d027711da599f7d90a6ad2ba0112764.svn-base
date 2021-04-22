@@ -1,0 +1,126 @@
+<!-- 多部门人员选择器 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">选择人员</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">部门列表</div>
+                <div class="x_content">
+                    <!-- <tree-filter node-list="deptTree"></tree-filter>
+                    <tree-view node-list="deptTree" check-callback="setDept" select-node="setDept"
+                    config="{'edit':false,'showCheckbox':false}"></tree-view> -->
+                    <tree-view-pro node-list="deptTree" host="search" host-text="'deptName'" host-key="'deptId'" callback="setDept" config="{'edit':false}"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-8 col-xs-12">
+            <form class="form-horizontal form-label-left" id="searchName">
+                <div class="input-group col-md-12" style="margin-top:0px positon:relative">
+                    <input type="text" class="form-control" placeholder="请输入姓名" ng-model="search.name"/>
+                    <span class="input-group-btn">
+									               <a href='javascript:' class='btn btn-primary btn-sm'
+                                                      style='padding:7px 10px;'
+                                                      ng-click="find()"><span class='glyphicon glyphicon-search'></span>查询</a>
+									            </span>
+                </div>
+            </form>
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center">NO</th>
+                    <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+                        <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                    <th style="text-align:center">姓名</th>
+                  
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel.data" role="button">
+                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td>
+                        <i role="button" ng-click="selectPersonItem(item,pageModel)"
+                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                            class="glyphicon"></i>
+                    </td>
+                    <td style="text-align:center">{{item.name}}</td>
+                    
+                </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+
+            <form class="form-label-left" id="selectForm">
+                <div class="form-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            已选人员:
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <!--TODO 显示已选的部门-->
+                                <!--<label class="control-label col-md-2 col-sm-2 col-xs-12">
+                                    <span class="label label-primary">部门：</span>
+                                </label>-->
+                                <!--<div class="col-md-10 col-sm-10 col-xs-12">
+
+                                </div>-->
+
+                                <div class="input-group">
+                                    <ul id="person" class="ul-persons">
+                                        <li class="item" ng-repeat="p in personsSelected">
+                                            {{p.name || ''}}
+                                            <a ng-click="delSelectedPersonItem(p)"><i
+                                                    class='fa fa-remove'></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="float: right">
+                    <button type="button" class="btn btn-primary edit" ng-click="save()">确定</button>
+                  <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    .ul-persons {
+        list-style: none;
+        float: left;
+        padding: 0px;
+    }
+
+    .ul-persons li {
+        margin: 5px;
+        padding: 5px;
+        float: left;
+    }
+
+    .ul-persons li.item {
+        background-color: #F9F9F9;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    table tr th,
+			table tr td {
+				text-align: left;
+			}
+</style>

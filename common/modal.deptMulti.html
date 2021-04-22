@@ -1,0 +1,25 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">组织架构选择器</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<div class="col-sm-6">
+				<label>待选区</label>
+				<div class="well" style="padding-left: 0px">
+					<tree-view node-list="treeData" config="config"></tree-view>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<label>已选区</label>
+				<div class="well" >
+					<ol style="padding-left: 15px">
+						<li ng-repeat="item in rightList"  ng-click="moveLeft(item)">{{item.text}}</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save()">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+

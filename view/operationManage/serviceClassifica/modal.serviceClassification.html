@@ -1,0 +1,74 @@
+<div class="modal-header">
+   <button type="button" class="close" ng-click="cancel()">×</button>
+   <h4 class="modal-title">分类选择</h4>
+ </div>
+ <div class="modal-body">
+   <div id="modalDeptTree"></div>
+ </div>
+<script>
+/*
+var modalDept = {};
+modalDept.open = function(optional){
+	if(optional.callback){
+		modalDept.callback = optional.callback;
+	}
+	$("#modalDept").modal({});
+
+    var node =  modalDept.treeView.getSelected();
+    node &&  modalDept.treeView.unselectNode(node);
+    if(optional.selectedId){
+        var node = modalDept.oriList.find(function(n){return n.did == optional.selectedId });
+        if(!node ){
+            return;
+        }
+        $.extend(node.state,{selected:true});
+        var pid = node.pdid;
+        while(pid){
+            var pnode = modalDept.oriList.find(function(n){return n.did == pid });
+            if(pnode){
+                modalDept.treeView.expandNode(pnode)
+                pid = pnode.pdid;
+            }else{
+                break;
+            }
+        }
+    }
+    if(optional.forbitList){
+        modalDept.oriList.forEach(function(n){
+            if(optional.forbitList.indexOf(n.did)>0 && n.did != optional.selectedId){
+                n.text = n.text+"(已关联)";
+                n.selectable = false;
+            }
+        })
+    }
+
+
+}
+modalDept.close = function(optional){
+	$("#modalDept").modal("hide");
+}
+modalDept.callback = function(node){
+	console.log(node);
+}
+modalDept.setData = function(data){
+//	$('#modalDeptTree').treeview('remove');
+	if(data && data.length>0){
+		data.unshift({did:'0',deptNo:'',pdid:'',text:'无'});
+	}
+	$('#modalDeptTree').treeview({
+		data : data
+	});
+	$('#modalDeptTree').on('nodeSelected', function(event, node) {
+		modalDept.callback(node);
+	});
+}
+
+$.post("/ovu-pcos/system/dept/tree.do", {
+}, function(data) {
+    modalDept.setData(data);
+    modalDept.treeView = $("#modalDeptTree").data('treeview');
+    modalDept.oriList = modalDept.treeView.getUnchecked();
+}, 'json');
+
+*/
+</script>

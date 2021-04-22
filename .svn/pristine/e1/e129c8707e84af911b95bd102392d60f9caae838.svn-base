@@ -1,0 +1,74 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">{{item.id?'编辑':'新增'}}变量</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="item form-group">
+			<label class="control-label col-md-2 col-sm-2 col-xs-12 required">名称:
+			</label>
+			<div class="col-md-7 col-sm-6 col-xs-12">
+				<input type="text" name="name" ng-model="item.name" required
+					maxLength="20" class="form-control col-md-7 col-xs-12" >
+			</div>
+		</div>
+		<div class="item form-group">
+			<label class="control-label col-md-2 col-sm-2 col-xs-12 required">单位:
+			</label>
+			<div class="col-md-7 col-sm-6 col-xs-12">
+				<input type="text" name="unit" ng-model="item.unit" required
+					   maxLength="20" class="form-control col-md-7 col-xs-12" >
+			</div>
+		</div>
+		<div class="item form-group">
+			<label class="control-label col-md-2 col-sm-2 col-xs-12">默认值:
+			</label>
+			<div class="col-md-7 col-sm-6 col-xs-12">
+				<input type="number" name="value" ng-model="item.value" ng-readonly="item.val_type==2"
+					class="form-control col-md-7 col-xs-12" >
+			</div>
+			<div class="col-md-1 col-sm-1 col-xs-12">
+				<button class="btn btn-success" ng-click="changeValType()">{{item.val_type==1?'使用计算公式':'使用默认值'}}</button>
+			</div>
+		</div>
+		<div class="item form-group" ng-if="item.val_type==2">
+			<label class="control-label col-md-2 col-sm-2 col-xs-12">计算公式:
+			</label>
+			<div class="col-md-7 col-sm-6 col-xs-12">
+				<input type="text" name="name" ng-model="item.formula_text" readonly required
+					   class="form-control" />
+			</div>
+			<div class="col-md-1 col-sm-1 col-xs-12" >
+				<button class="btn" ng-click="clear()">清空</button>
+			</div>
+		</div>
+		<div class="panel panel-default" ng-if="item.val_type==2" style="margin: 0 70px;">
+			<div class="panel-heading">公式配置
+			</div>
+			<div class="panel-body">
+				<div class="col-md-6 col-sm-6 col-xs-12" style="margin-left: -25px">
+					<tree-view node-list="treeData" config="config"></tree-view>
+				</div>
+				<div class="col-md-4 col-sm-4 col-xs-12" style="text-align: center">
+					<div ng-repeat="ac in variables" style="padding:20px">
+						<button class="btn btn-sm mr15 btn-success" ng-class="{'text-success':ac.checked,'text-muted':!ac.checked}" role="button"
+								ng-click="checkVariable(ac)" ng-disabled="ac.checked">
+							<i class="glyphicon" ng-class="{'glyphicon-check':ac.checked,'glyphicon-unchecked':!ac.checked}" ></i>{{ac.name}}</button>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-2 col-xs-12">
+					<div>
+						<div style="text-align: center;padding: 10px 10px"><button style="width: 50px" class="btn btn-primary btn-large" ng-click="clickOper(1)">+</button></div>
+						<div style="text-align: center;padding: 10px 10px"><button style="width: 50px" class="btn btn-primary btn-large" ng-click="clickOper(2)">-</button></div>
+						<div style="text-align: center;padding: 10px 10px"><button style="width: 50px" class="btn btn-primary btn-large" ng-click="clickOper(3)">×</button></div>
+						<div style="text-align: center;padding: 10px 10px"><button style="width: 50px" class="btn btn-primary btn-large" ng-click="clickOper(4)">÷</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+	</form>
+</div>

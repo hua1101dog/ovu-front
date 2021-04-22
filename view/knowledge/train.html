@@ -1,0 +1,276 @@
+<!-- 分组管理 -->
+<div ng-controller="trainCtl">
+    <div class="page-title" style="height: 45px;">
+        <div class="title_left">
+            <h3>分组管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-sm-4 col-xs-12" style="padding: 5px;">
+            <div class="x_panel" style="height:600px;overflow: auto;">
+                <div class="x_title">
+                    分组
+                    <span
+                        ng-click="addTopNode()"
+                        class="btn-success btn-xs pull-right"
+                        ><span class="fa fa-plus"></span> 新增</span
+                    >
+                </div>
+                <div
+                    class="x_content"
+                    style="z-index: 1;max-height: 700px; overflow: auto"
+                >
+                    <div
+                        class="alert"
+                        role="alert"
+                        ng-if="treeData_train && treeData_train.length==0"
+                    >
+                        无分组信息
+                    </div>
+                    <tree-view-pro
+                        node-list="treeData_train"
+                        host="search"
+                        host-text="'text'"
+                        host-key="'id'"
+                        callback="selectNode"
+                        config="spaceConfig"
+                        max-height="20"
+                    ></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-8 col-xs-12" style="padding: 5px;">
+            <div class="x_panel" style="height:600px;overflow: auto;">
+                <div class="x_title">部门:</div>
+                <div
+                    class="x_content"
+                    style="z-index: 1;max-height: 700px; overflow: auto"
+                >
+                    <div
+                        class="alert"
+                        role="alert"
+                        ng-if="deptTree_train && deptTree_train.length==0"
+                    >
+                        无部门信息
+                    </div>
+                    <tree-view-pro
+                        node-list="deptTree_train"
+                        check-callback="setDept"
+                        config="{'edit':false,'showCheckbox':true}"
+                    ></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-8 col-xs-12" style="padding: 5px;">
+            <div class="x_panel" style="height:600px;overflow: auto;">
+                <div class="x_title">岗位:</div>
+                <div
+                    class="x_content"
+                    ng-show="postTree_train.length"
+                    style="margin-left: -25px;"
+                >
+                    <div style="margin-left: 40px;">
+                        <span
+                            role="button"
+                            ng-click="checkPostAll(postTree_train)"
+                        >
+                            <i
+                                class="glyphicon"
+                                ng-class="{'glyphicon-check':postTree_train.checked,'glyphicon-unchecked':!postTree_train.checked}"
+                            ></i> </span
+                        >全选
+                    </div>
+                    <tree-view
+                        node-list="postTree_train"
+                        check-callback="setPost"
+                        config="{'edit':false,'showCheckbox':true}"
+                    ></tree-view>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 col-sm-8 col-xs-12" style="padding: 5px;">
+            <div class="x_panel" style="height:600px;">
+                <div class="x_title">人员:</div>
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input
+                            type="text"
+                            ng-model="search.params"
+                            class="form-control"
+                            placeholder="输入员工姓名，工号"
+                        />
+                    </div>
+                    <button
+                        class="btn btn-default"
+                        ng-click="find(1)"
+                        ng-disabled="hasDep"
+                    >
+                        搜索
+                    </button>
+                </div>
+                <div class="row" style="margin-top:20px">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div
+                                    class="x_panel"
+                                    style="overflow: auto;max-height:300px"
+                                >
+                                    <div
+                                        ng-if="!pageModel.data  || pageModel.data.length == 0"
+                                    >
+                                        <span class="text-center"
+                                            >暂无记录</span
+                                        >
+                                    </div>
+                                    <div
+                                        ng-show="pageModel.data.length"
+                                        style="margin-left:15px;"
+                                    >
+                                        <span
+                                            role="button"
+                                            ng-click="checkPersonAll(pageModel)"
+                                        >
+                                            <i
+                                                class="glyphicon"
+                                                ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"
+                                            ></i> </span
+                                        >全选
+                                    </div>
+                                    <ul class="col-xs-12">
+                                        <li
+                                            class="col-xs-6"
+                                            ng-repeat="item in pageModel.data"
+                                            style="padding: 5px 0;"
+                                        >
+                                            <div style="width: 100%;">
+                                                <span>
+                                                    <i
+                                                        role="button"
+                                                        ng-click="checkPerson(item,pageModel)"
+                                                        ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                                        class="glyphicon"
+                                                    ></i>
+                                                </span>
+                                                <span
+                                                    style="width: calc(100% - 20px);"
+                                                    class="touch"
+                                                    data-toggle="tooltip"
+                                                    data-placement="left"
+                                                    title="{{item.name}}({{item.jobCode || '-'}})"
+                                                    >{{item.name}}({{item.jobCode
+                                                    || '-'}})</span
+                                                >
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div
+                                        class="page-footer clearfix"
+                                        ng-if="pageModel.data.length"
+                                    >
+                                        <ng-include
+                                            src="'/common/pager.html'"
+                                        ></ng-include>
+                                    </div>
+                                </div>
+                                <label>已选区</label>
+                                <div
+                                    class="well"
+                                    style="max-height: 100px;overflow: auto;padding: 15px;"
+                                >
+                                    <div
+                                        ng-if="ismore"
+                                        style="display: inline-block;"
+                                        ng-repeat="item in persons track by $index"
+                                    >
+                                        <div class="item">
+                                            {{item.name}}({{item.jobCode ||
+                                            '-'}})
+                                            <a
+                                                ng-click="delP(persons,item,pageModel,node)"
+                                            >
+                                                <i class="fa fa-remove"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div
+                                        ng-if="!ismore"
+                                        style="display: inline-block; "
+                                        ng-repeat="item in persons track by $index"
+                                    >
+                                        <div class="item" ng-if="$index<5">
+                                            {{item.name}}({{item.jobCode ||
+                                            '-'}})
+                                            <a
+                                                ng-click="delP(persons,item,pageModel)"
+                                            >
+                                                <i class="fa fa-remove"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <a
+                                        style="color: #2A60FF;cursor: pointer;display: inline-block;"
+                                        ng-click="getmores()"
+                                        ng-if="persons.length && persons.length>5"
+                                        >{{ismore?'收起':'更多'}}
+                                        <i
+                                            class="fa"
+                                            ng-class="{'fa-angle-double-right':!ismore,'fa-angle-double-left':ismore}"
+                                        ></i
+                                    ></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="modal-footer"
+        v-show="$scope.search.id"
+        style="text-align: center;"
+    >
+        <button
+            class="btn btn-primary"
+            ng-click="saveCouple()"
+            style="margin-right:30px;"
+        >
+            保存
+        </button>
+        <button
+            class="btn btn-warning"
+            ng-click="cancel()"
+            style="margin-left:30px;"
+        >
+            取消
+        </button>
+    </div>
+</div>
+
+<style>
+    .item {
+        background-color: #f9f9f9;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        display: inline-block;
+        padding: 5px;
+        /* margin-right: 5px; */
+        margin: 5px;
+    }
+
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    .touch {
+        cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        vertical-align: bottom;
+    }
+</style>

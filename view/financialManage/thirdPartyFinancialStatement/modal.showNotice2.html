@@ -1,0 +1,33 @@
+<style>
+        pre{
+            word-break:break-all;
+            word-wrap:break-word;
+            background-color: transparent;
+            border: none;
+            font-size: larger;
+        }
+        .showMessage{
+            overflow: auto;
+        }
+        .showMessage img{
+            height:auto;width:auto;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">查看通知</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal ng-scope">
+        <div class="row">
+            <div style="text-align: center;font-size: x-large" class="ng-binding">{{item.TITLE}}</div>
+        </div>
+        <div class="row showMessage" style="margin-left: 10px;margin-right: 10px;height:400px;overflow-y:scroll">
+        {{item.CONTENT}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!-- <button class="btn btn-primary" ng-click="saveAdvertisment(form,item)" >确定</button> -->
+        <button class="btn btn-warning" ng-click="cancel()">关 闭</button>
+    </div>

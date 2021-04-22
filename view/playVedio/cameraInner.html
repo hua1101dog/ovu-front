@@ -1,0 +1,156 @@
+<div class="" style="position: relative;">
+    <div class="row" style="margin:0px" >
+       <div class="list col-lg-12 col-sm-12 col-xl-12">
+
+            <span class="list-title">{{name}}</span>
+            <div class="listCom">
+                <span>线路：</span>
+                <button class="btn-sm btn-custerm" ng-click="clickVideo(play,$index)" ng-class="{myactive:videoIndex == $index }"
+                    ng-repeat="play in list track by $index">
+                    {{play.routeName}}
+                </button>
+            </div>
+            <div  class="rigthCom">
+                <a href={{hre}} target="_blank" ng-click="getPlay()"><span>视频播放状态详情</span></a> 
+            </div>
+
+        </div>
+    </div>
+    <div class="row" style="margin:0px">
+        <video id="{{id}}" ng-style="{height:width/1.9}" style="background-color:black" tabindex="-1" controls
+            autoplay  muted="muted" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ></video>
+    </div>
+    <i class="fa fa-gear" ng-show="width>200"  ng-click="isOpen = !isOpen;toggleRight()"
+       style="color: #eee;font-size: 30px;position: absolute; top: 0;right: 0;z-index: 100;"></i>
+    <!-- <div class="horizontal-collapse" style="position: absolute;top: 0px;z-index: 1000" ng-style="{left:width}"
+         uib-collapse="!isOpen"  horizontal>
+        <div class="right-pa" ng-style="{height:width/1.83}">
+            <uib-tabset class="nav-tabs-alt tabbable-line">
+                <uib-tab index="0" heading="线路" class="m-b">
+                    <div class="list-group" style="padding: 20px;" ng-init="lineIndex=1">
+                        <button class="list-group-item btn-sm btn-custerm"
+                                ng-click="clickVideo(play,$index)"
+                                ng-class="{myactive:videoIndex == $index }" style=" color: white;"
+                                ng-repeat="play in list track by $index">
+                            {{play.routeName}}
+                        </button>
+                
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div> -->
+    <!-- <div class="right-pa">
+         <p style="color: white;margin: 20px 0 0 20px;font-size: 18px;">信号源</p>
+         <div class="list-group" style="padding: 20px;"  ng-init="index = 1">
+             <button class="list-group-item  btn-sm btn-custerm" ng-click="url = data.interM3u8;index=1" ng-class="{myactive:index == 1}" style=" color: white;">地址一</button>
+             <button class="list-group-item  btn-sm btn-custerm"  ng-click="url = data.lanM3u8;index=2" ng-class="{myactive:index == 2}" style=" color: white;">地址二</button>
+         </div>
+     </div>-->
+     <!-- <div class="cName">{{cameraName}}</div> -->
+</div>
+
+<style>
+     .btn-custerm{
+        background-color: transparent;
+        border: 1px solid #838688;
+        margin-right: 20px;
+        padding: 5px 15px
+       
+    }
+    .cName{
+   right: 65px;
+    color: #DDE1E3;
+    position: absolute;
+    bottom: 70px;
+    font-size: 28px;
+    }
+   
+    .list {
+        background-color: #161A23;
+        color: white;
+    }
+
+    .list-title {
+        font-size: 18px;
+        padding: 12px 20px;
+        display: inline-block;
+        color: #DDE1E3
+    }
+    .listCom{
+        display:inline-block;
+        margin-left: 30px;
+        color: #a9aaad;
+    }
+     .rigthCom{
+        display:inline-block;
+        color: #a9aaad; 
+        float: right;
+        line-height: 35px;
+        margin-right:30px
+     }
+    .btn-default:active:focus,
+    .btn-default:active:hover {
+        background-color: transparent;
+        border-color: #0b70ed;
+    }
+
+
+
+    button.myactive {
+        background-color: transparent;
+        border:1px solid #0b70ed;
+        color: #0b70ed;
+    }
+
+    .hand {
+        padding: 10px;
+        float: right;
+        cursor: pointer;
+    }
+
+    .chimee-container {
+        position: relative;
+    }
+
+    .nav-tabs-alt .nav-tabs.nav-justified>li {
+        display: table-cell;
+        width: 1%;
+    }
+
+    .nav-tabs-alt .nav-tabs>li>a {
+        border-radius: 0;
+        border-color: transparent !important;
+        background: transparent !important;
+    }
+
+    .nav-tabs-alt .nav-tabs>li.active>a {
+        border-bottom-color: #23b7e5 !important;
+    }
+
+    .tabbable-line .nav-tabs>li.active>a {
+        border-bottom-width: 3px;
+    }
+
+    .nav-tabs-alt ul.nav.nav-tabs {
+        background: #302929;
+    }
+
+    .nav-tabs-alt .nav-tabs>li.active>a,
+    .nav-tabs-alt .nav-tabs>li.active>a:focus,
+    .nav-tabs-alt .nav-tabs>li.active>a:hover {
+        color: #5959ff;
+    }
+
+    .nav-tabs-alt a {
+        color: #fff;
+    }
+
+    .nav-tabs-alt .nav>li>a {
+        padding: 15px;
+    }
+
+    .nav-tabs-alt .nav-tabs {
+        border-bottom: 2px solid #403b3b;
+    }
+</style>

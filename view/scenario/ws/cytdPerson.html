@@ -1,0 +1,76 @@
+<div ng-controller="cytdPersonctrl">
+    <div class="title_top">
+        <div class="title-text">员工脱岗(未开定位的)>></div>
+    </div>
+
+    <div class="main-content">
+        <div class="x_panel" style="padding: 20px;padding-bottom: 0px;">
+            <table class="table table-striped table-hover" style="margin-top: 10px;margin-bottom: 0px;">
+                <thead>
+                    <tr class="text-left">
+                        <th style="width:30%;">人员岗位</th>
+                        <th style="width:30%;">脱岗时间</th>
+                        <th style="width:40%;" ng-if="hasPower('联系本人') || hasPower('通知上级')">处理</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.totalCount">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data" style="color:#333333;" class="text-left">
+                        <td >
+                            {{item.personName||"--"}}/{{item.domainName||"--"}}/{{item.postName||"--"}}</td>
+                        <td class="">{{item.positionTime||"--"}}</td>
+                        <td class=""><button class="btn btn-default "
+                                ng-click="noticePerson(item)" ng-if="hasPower('联系本人')">联系本人</button>
+                            <button class="btn btn-default " style="margin-left: 5px" ng-if='item.extra && hasPower("通知上级")'
+                                ng-click="noticeLeader(item)">通知上级</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .title-text {
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        padding-left: 20px;
+        background: rgba(226, 240, 255, 1);
+        border-radius: 6px 6px 0px 0px;
+        font-size: 18px;
+        font-family: MicrosoftYaHei-Bold;
+        font-weight: bold;
+        color: rgba(0, 120, 255, 1)
+    }
+
+    .title {
+        background: #DEE8F8;
+        color: #0078FF;
+        text-align: center
+    }
+
+    .main-content {
+        width: 100%;
+        /* padding: 20px;   */
+        background: #FFFFFF;
+        /* box-shadow:0 0 10px rgba(0,0,0,.3); */
+        text-align: center
+    }
+    .btn-default{
+        background-color:#0078FF;
+        margin-top: 3px;
+        color:#FEFEFE
+    }
+    table tr th,
+        table tr td {
+            text-align: left;
+        }
+</style>

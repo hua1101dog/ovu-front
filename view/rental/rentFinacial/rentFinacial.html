@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>账务管理</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="rentFinacialCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>账务管理</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>租户名称：</label>
+                        <input type="text" class="form-control" placeholder="租户名称" ng-model="search.secondPartyName" />
+                    </div>
+                    <div class="form-group">
+                        <label>合同编号：</label>
+                        <input type="text" class="form-control" placeholder="合同编号" ng-model="search.contractCode" />
+                    </div>
+                    <div class="form-group">
+                        <label>状态：</label>
+                        <select ng-model="search.status" class="form-control">
+                            <option value="">全部</option>
+                            <option value="{{x.value}}" ng-repeat="x in status">{{x.text}}</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="find(1)">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color:#999999;">
+                    账务列表
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                        <thead class="title">
+                            <tr>
+                                <th>No.</th>
+                                <th>租户</th>
+                                <th>合同编号</th>
+                                <th>费项</th>
+                                <th>账单周期</th>
+                                <th>租金单价（元/月/m
+                                        <sup>2</sup>）</th>
+                                <th>租赁面积（m
+                                        <sup>2</sup>）</th>
+                                <th>固定租金（元/月）</th>
+                                <th>固定租金（元/月）（不含税）</th>
+                                <th>税额</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                            <tr style="color:#333333;" ng-repeat="x in pageModel.data">
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td>{{x.secondPartyName}}</td>
+                                <td>{{x.contractCode}}</td>
+                                <td>{{x.expenditureList[0].name}}</td>
+                                <td>{{x.billDateStart}} 至 {{x.billDateEnd}}</td>
+                                <td>{{x.averageUnitPrice|number:2}}</td>
+                                <td>{{x.contractArea}}</td>
+                                <td>{{getMonthRent(x.averageUnitPrice, x.contractArea)|number:2}}</td>
+                                <td>{{getMonthRent(x.averageUnitPrice, x.contractArea)|number:2}}</td>
+                                <td>0.00</td>
+                                <td>{{x.status|finacialStatus}}</td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click="updateStatus(x.id,x.billDateStart,x.billDateEnd,1)" 
+                                    class='btn btn-xs' ng-class="(x.status==0)||(x.status==2)?btn:btn_disable" 
+                                    ng-show="(x.status==0)||(x.status==2)">
+                                        <span></span>缴费</a>
+
+                                    <a href='javascript:void(0)' ng-click="updateStatus(x.id,x.billDateStart,x.billDateEnd,2)" 
+                                    class='btn btn-xs' ng-class="(x.status==0)||(x.status==1)?btn:btn_disable"
+                                    ng-show="(x.status==0)||(x.status==1)">
+                                        <span></span>欠缴</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'" class="ng-scope" ng-if="pageModel.data.length != 0">
+                            <style type="text/css" class="ng-scope">
+                                .pagination>li>span:hover {
+                                    background-color: #fff;
+                                    cursor: text
+                                }
+                            </style>
+                        </ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

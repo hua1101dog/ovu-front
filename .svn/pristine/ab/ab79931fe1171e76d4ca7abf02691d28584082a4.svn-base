@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<video class="vjs-tech" width="99%"
+       controls="controls" autoplay="autoplay"
+       x-webkit-airplay="true" x5-video-player-fullscreen="true"
+       preload="auto" playsinline="true" webkit-playsinline
+       x5-video-player-typ="h5">
+    <source id="id1" type="application/x-mpegURL" src="http://localhost:8080/video/">
+</video>
+</body>
+<script type="text/javascript" src="/res/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+<script>
+    $(function () {
+
+        var src = location.href;
+
+        var param = src.substr(src.indexOf("path=") + 5);
+
+        console.log('param....' + param); // 获取子字符串。
+
+        $('#id1').attr("src","http://172.16.16.200:8008/"+param);
+
+    });
+
+</script>
+</html>

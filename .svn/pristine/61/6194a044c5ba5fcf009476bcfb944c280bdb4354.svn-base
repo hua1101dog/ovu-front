@@ -1,0 +1,183 @@
+<!--车辆进出记录表-->
+<style>
+    .form-inline .form-group {
+        margin-bottom: 15px;
+    }
+
+    .checkbox label {
+        font-weight: 700;
+        margin-right: 15px;
+    }
+
+    .carImg {
+        width: 30px;
+        height: 30px;
+    }
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>
+<div id="angularId" ng-controller="inoutCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>车辆进出记录表</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+
+            <div class="form-group">
+                <label>城市位置：</label>
+                <select class="form-control" ng-model="search.city"
+                        ng-options="o[0] as o[1] for o in cities">
+                    <option value="" selected>选择城市</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>选择车场：</label>
+                <select class="form-control" ng-model="search.parklotId"
+                        ng-options="o[0] as o[1] for o in parklots">
+                    <option value="" selected>选择车场</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>车主姓名：</label>
+                <input type="text" ng-model="search.name" class="form-control" placeholder="输入车主姓名"/>
+            </div>
+
+            <div class="form-group">
+                <label>车牌号：</label>
+                <input type="text" ng-model="search.carno" class="form-control" placeholder="输入车牌号"/>
+            </div>
+
+            <br/>
+
+            <div class="form-group">
+                <label>进车时间：</label>
+                <input type="datetime" id="inStartTime"
+                       class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched"
+                       placeholder="进车开始时间"
+                       ng-model="search.inStartTime" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:&quot;#F{$('#inEndTime').val()||'%y-%M-%d %H:%i:%s'}&quot;})"
+                       aria-invalid="false">
+            </div>
+            <div class="form-group">
+                <span> - </span>
+            </div>
+            <div class="form-group">
+                <input type="datetime" id="inEndTime"
+                       class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched"
+                       placeholder="进车结束时间"
+                       ng-model="search.inEndTime" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('inStartTime').val()}&quot;})"
+                       aria-invalid="false">
+            </div>
+
+            <div class="form-group">
+                <label>出车时间：</label>
+                <input type="datetime" id="outStartTime"
+                       class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched"
+                       placeholder="出车开始时间"
+                       ng-model="search.outStartTime" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:&quot;#F{$('#outEndTime').val()||'%y-%M-%d %H:%i:%s'}&quot;})"
+                       aria-invalid="false">
+            </div>
+            <div class="form-group">
+                <span> - </span>
+            </div>
+            <div class="form-group">
+                <input type="datetime" id="outEndTime"
+                       class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched"
+                       placeholder="出车结束时间"
+                       ng-model="search.outEndTime" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('outStartTime').val()}&quot;})"
+                       aria-invalid="false">
+            </div>
+
+            <br/>
+
+            <div class="form-group" style="margin-bottom: 0">
+                <div class="checkbox" ng-repeat="type in typeList">
+                    <label>
+                        <input ng-model="type.chosen" type="checkbox" ng-true-value=true ng-false-value=false>&nbsp;{{type.text}}&nbsp;
+                    </label>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="form-group" style="margin-bottom: 0">
+                <div class="checkbox" ng-repeat="type in carTypeList">
+                    <label>
+                        <input ng-model="type.chosen" type="checkbox" ng-true-value=true ng-false-value=false>&nbsp;{{type.text}}&nbsp;
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn btn-danger pull-right" ng-click="export()">批量导出</button>
+            <button class="btn btn-primary pull-right" ng-click="find()">查询</button>
+        </div>
+    </div>
+
+    <!--车场名称、识别车牌号码、车主姓名、车主联系电话、车辆状态、进车时间、出车时间、进出地点、车辆类型、车牌类型、放行方式、备注、车辆进出图片、操作-->
+    <div class="panel panel-default" style="display: grid;">
+        <div class="panel-body" style="overflow: scroll;">
+            <table class="table table-striped table-hover" style="margin-top: 10px">
+                <thead>
+                <tr>
+                    <th class="text-center">NO</th>
+                    <th nowrap="nowrap">停车场名称</th>
+                    <th nowrap="nowrap">识别车牌号码</th>
+                    <th class="danger" nowrap="nowrap">车主姓名</th>
+                    <th class="danger" nowrap="nowrap">车主联系电话</th>
+                    <th class="danger" nowrap="nowrap">车辆状态</th>
+                    <th nowrap="nowrap">进车时间</th>
+                    <th class="danger" nowrap="nowrap">出车时间</th>
+                    <th class="danger" nowrap="nowrap">进出地点</th>
+                    <th class="danger" nowrap="nowrap">车辆类型</th>
+                    <th class="danger" nowrap="nowrap">车牌类型</th>
+                    <th class="danger" nowrap="nowrap">放行方式</th>
+                    <th class="danger" nowrap="nowrap">备注</th>
+                    <th nowrap="nowrap">车辆进出图片</th>
+                    <th nowrap="nowrap">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="pageModel.list.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel.list">
+                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td>{{item.parklotName}}</td>
+                    <td>{{item.carNo}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.phone}}</td>
+                    <td>{{item.carStatus||""}}</td>
+                    <td>{{item.inTime}}</td>
+                    <td>{{item.outTime}}</td>
+                    <td>{{item.inPlace}}</td>
+                    <td>{{item.carType|keyToValue:parklotCarTypeDict}}</td>
+                    <td>{{item.carCardType|keyToValue:parklotCarCardTypeDict}}</td>
+                    <td>{{item.passWay|keyToValue:parklotPasswayDict}}</td>
+                    <td>{{item.remark}}</td>
+                    <td>
+                        <img class="carImg"
+                             onerror="javascript:this.src='/res/img/detail.png';"
+                             ng-click="$parent.showPhoto()"
+                             ng-src="{{item.img||'/res/img/detail.png'}}">
+                    </td>
+                    <td><a class="btn btn-xs" ng-click="detail(item)"><span class="fa fa-eye"></span> 详情</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+</div>
+

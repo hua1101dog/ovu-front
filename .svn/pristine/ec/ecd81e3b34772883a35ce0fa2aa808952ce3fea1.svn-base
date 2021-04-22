@@ -1,0 +1,64 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()">×</button>
+    <h4>新增{{item.kind==1?'失物招领':'寻物启事'}}</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" style="padding: 0 20px" novalidate>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">标题</label>
+            <div class="col-xs-8">
+                
+                <input type="text" class="form-control" ng-model="item.title" maxlength="50" required placeholder="最多可输入50个字符" />
+
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">发布人姓名</label>
+            <div class="col-xs-8">
+                
+                <input type="text" class="form-control" ng-model="item.personName"  maxlength="5" required/>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">联系方式</label>
+            <div class="col-xs-8">
+                
+                <input type="text" class="form-control" ng-model="item.phone"   ng-pattern="/^[1][2,3,4,5,6,7,8,9][0-9]{9}$/" required/>
+
+            </div>
+        </div>
+        <div class="form-group" >
+            <label class="col-xs-3 control-label required">文字描述</label>
+            <div class="col-xs-8" >
+                <textarea type="text" style="resize:none" required class="form-control"
+                    ng-model="item.description" maxlength="200" placeholder="最多可输入200个字符" value="4  / 200"> </textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">上传照片</label>
+            <div class="col-xs-8" >
+                <input 
+                type="file"
+                name="showPics" 
+                id="showPics" 
+                style="opacity:0;height:0;"
+                accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp"
+            />
+            <div class="photoWraper" ng-repeat="p in pics track by $index">
+                <img onerror="javascript:this.src='/res/img/detail.png';"
+                     ng-click="showPhoto()"
+                     ng-src="{{processImgUrl(p)}}" />
+                <a  ng-click="delPhotoQNYs('showPics',pics, p)"><i class="glyphicon glyphicon-remove"></i></a>
+            </div>
+            <img height="80px" width="80px" style="outline: none;" src="/res/img/mbs/add.jpg"  ng-click="uploadToQNYs('showPics',pics,3)" title="上传图片">
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" style="margin: 0 10px" ng-click="save(form)" >确定</button>
+    <button class="btn btn-warning" style="margin: 0 10px" ng-click="cancel()">取消</button>
+</div>

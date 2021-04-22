@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html style="height:100%">
+
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <link href="/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html,body,#app{
+            width: 100%;
+            height: 100%;
+        }
+        .mainBg{
+            background: url("img/rewarkBg.jpg");
+            background-repeat: no-repeat;
+            background-position: center 0;
+            -webkit-background-size: cover;
+            background-size: 100% 100%;;
+            min-height: 330px;
+            
+
+      }
+      .headerBg{
+        background: url("img/rectangular.png");
+            background-repeat: no-repeat;
+            background-position: center 0;
+            -webkit-background-size: cover;
+            background-size: 100% 100%;;
+            min-height: 60px;
+      }
+      .element{
+        width: 100%;
+    height: 100%;
+    font-size: 1.3em;
+    cursor: default;
+    font-weight: 700;
+      }
+
+ .text-center{
+     text-align: center
+ }
+.form-horizontal .form-group {
+    margin: 0;
+
+}
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    z-index: 999;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+#modelDiv {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top:0;
+        left:0;
+        background: silver;
+        opacity:0.8;
+        z-index: 99;
+    }
+    #model {
+        width: 200px;
+    height: 100px;
+    background: #fff;
+    border-radius: 10px;
+
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    z-index: 99;
+    transform: translate(-48%,-50%);
+    bottom: 2em
+    }
+    label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    color: #060606;
+    font-weight: normal;
+    color: white;
+}
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #dcd7d7;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: 25px;
+    padding: 3px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.title{
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #1E59A7
+}
+.content{
+    color: #BFC1C1;
+    font-size:0.7em
+}
+.width20{
+    width: 20%;
+    float: left;
+}
+.width68{
+    width: 75%;
+    float: left;
+    margin-bottom: 15px;
+}
+.button{
+    margin-top: 1em;
+    width: 96%;
+    height: 30px;
+    background-color: #ebc388;
+    border: none;
+}
+
+    </style>
+</head> 
+
+<body class="mainBg" >
+    <div id="app" class="container-fluid">
+            <!-- 这个是用来遮罩的 -->
+        <div id="modelDiv" v-show="isCompelate">
+        </div>
+        <!-- 这个是用来展示弹框内容的 -->
+        <div id="model" v-show="isCompelate">
+           <div style="font-size: 1.3em;font-weight: 700;text-align: center;padding: 15px;">{{msg}} </div>
+           <div style="background: rgb(132, 184, 230);text-align: center; height: 45px;    line-height: 45px;border-radius: 0px 0px 10px 10px" @click="isCompelate=false">关闭</div>
+          
+        </div>
+        <head>
+            <div style="height: 45%;"></div>
+        </head>
+        <section id="wrapper">
+            <div style="width: 100%; height: 100%">
+                <div class="element">
+                    
+                </div>
+
+                <!--<HR align=left width=80% color=#dcd7d7 SIZE=1 style="margin:0px">-->
+                <div class="element">
+                    <form class="form-horizontal" style="padding: 10px 0px 0px 10px" name="form" novalidate>
+                        <div class="form-group" style=" margin-bottom: 0.1em">
+                            <label class="col-xs-4 width20 control-label" style="padding:0px;font-size: 0.8em;line-height: 28px;">公司名称</label>
+                            <div class="col-xs-6 width68
+                            " style="padding-left:0">
+                                <input type="text" class="form-control" placeholder="公司名称" @blur.prevent="blurElem" required v-model="item.company">
+
+                            </div>
+                        </div>
+                        <div class="form-group" style=" margin-bottom: 0.1em">
+                            <label class="col-xs-4 width20 control-label" style="padding:0px;font-size: 0.8em;line-height: 28px;">联系人</label>
+                            <div class="col-xs-6 width68" style="padding-left:0">
+                                <input type="text" class="form-control" placeholder="姓名" @blur.prevent="blurElem" required v-model="item.name">
+
+                            </div>
+                        </div>
+                        <div class="form-group" style=" margin-bottom: 0.1em">
+                            <label class="col-xs-4 width20 control-label" style="padding:0px;font-size: 0.8em;line-height: 28px;">联系电话</label>
+                            <div class="col-xs-6 width68" style="padding-left:0">
+                                <input id="id"  type="tel"  maxlength="11"  pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11);value=value.replace(/[^\d]/g,'')"  class="form-control" placeholder="手机号码" @blur.prevent="blurElem" required v-model="item.tel"/>
+                            </div>
+                        </div>
+                        <div class="form-group" style=" margin-bottom: 0.1em">
+                            <label class="col-xs-4 width20 control-label" style="padding:0px;font-size: 0.8em;line-height: 28px;">地址</label>
+                            <div class="col-xs-6 width68" style="padding-left:0">
+                                <input type="text" class="form-control" placeholder="地址" @blur.prevent="blurElem" required v-model="item.address">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top:5px">
+                            <label class="col-xs-4 width20 control-label" style="padding:0px;font-size: 0.8em;line-height: 28px;">奖品</label>
+                            <div class="col-xs-6 width68" style="padding-left:0">
+                                <select class="form-control" style="height: 35px;" v-model="item.prize" required @change="blurElem">
+                                    
+                                    <option v-for="(i,index) in prizes"  :value="i.value">{{ i.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button  type="button" class="btn btn-primary button" @click="save(form)">确定领取</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+
+<!-- 引入 Vue -->
+<script src="lib/vue.min.js"></script>
+<!-- 引入 Vueresource.http -->
+<script src="lib/vue-resource.min.js"></script>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+             CENTER:[30.474809,114.317756],
+             DISTENCE:1000,  //1000米
+             EARTH_RADIUS : 6378137.0, //单位m
+             msg:'',
+             isCompelate:false,
+             item:{prize:''},
+             prizes:[
+                 {
+                    value:'',
+                    name:'请选择奖品'
+                 }
+                , 
+             {
+                 value:'1',
+                 name:'自主可控硬件'
+             },
+             {
+                 value:'2',
+                 name:'软件应用'
+             },
+             {
+                 value:'3',
+                 name:'网络安全'
+             },
+             {
+                 value:'4',
+                 name:'电子信息'
+             },
+             {
+                 value:'5',
+                 name:'集成电路'
+             },
+             {
+                 value:'6',
+                 name:'其他'
+             },
+            
+             ],
+        },
+        methods: {
+            getPosition(){
+                var _this = this;
+                function onSuccess(position){
+                    alert("lat:" + position.coords.latitude + " \r\n lng:" + position.coords.longitude);
+                    _this.item.lat = position.coords.latitude;
+                    _this.item.lng = position.coords.longitude;
+                    _this.doSave();
+                };
+                function onError(error) {
+                    switch(error.code)
+                    {
+                        case error.PERMISSION_DENIED:
+                        alert("您拒绝对获取地理位置的请求");
+                        break;
+                        case error.POSITION_UNAVAILABLE:
+                        alert("位置信息是不可用的");
+                        break;
+                        case error.TIMEOUT:
+                        alert("请求您的地理位置超时");
+                        break;
+                        case error.UNKNOWN_ERROR:
+                        alert("未知错误");
+                        break;
+                    }
+                    return;
+                };
+                
+                if(navigator.geolocation){
+                  navigator.geolocation.getCurrentPosition(onSuccess , onError);
+                }else{
+                  alert("您的浏览器不支持使用HTML 5来获取地理位置服务");
+                }
+            },
+            blurElem:function(e){
+                if(e.target.type=="tel"){
+                      if(e.target.value.length<11){
+                        this.isCompelate=true ;
+                    this.msg="电话长度需为11位"  
+                      }
+                }else{
+                    setTimeout(function(){
+                    window.scrollTo(0, 0)
+                },100)
+                }
+              
+            },
+            save: function () {
+                this.getPosition();
+            },
+            doSave(){
+                if(!this.item.lat || !this.item.lng){
+                    alert("未获取到定位信息");
+                    return;
+                }
+                //判断是否在指定方位
+                if(!this.inDistance(this.item.lat,this.item.lng)){
+                    alert("已超出范围，不可申请");
+                    return;
+                }
+                
+                if(!this.item.company){
+                    this.isCompelate=true ;
+                    this.msg="请填写公司名称"
+                    return
+                
+                }
+               
+                if(!this.item.name){
+                   
+                    this.isCompelate=true ;
+                    this.msg="请填写姓名"
+                    return
+                }
+               
+                if(!this.item.tel){
+                    this.isCompelate=true ;
+                    this.msg="请填写电话"
+                    return
+                
+                }
+                if(this.item.tel && this.item.tel.length<11){
+                    this.isCompelate=true ;
+                    this.msg="电话长度需为11位"
+                    return
+                
+                }
+                if(!this.item.address){
+                    this.isCompelate=true ;
+                    this.msg="请填写地址"
+                    return
+                
+                }
+                if(!this.item.prize){
+                    this.isCompelate=true ;
+                    this.msg="请选择奖品"
+                    return
+                
+                }
+               
+                this.$http.post('/ovu-gallery/api/publish/apply/prize/save.do',this.item).then(function (response) {
+                if (response.body.code=='0') {
+                    this.isCompelate=true 
+                    this.msg="感谢您的参与";
+                    this.item={prize:''}
+                }else{
+                    this.isCompelate=true ;
+                    this.msg=response.body.msg
+                }
+            })
+            },
+            inDistance(lat,lng){
+                var radLat1 = this.getRad(this.CENTER[0]);
+                var radLat2 = this.getRad(lat);
+                
+                var a = radLat1 - radLat2;
+                
+                var radLng1 = this.getRad(this.CENTER[1]);
+                var radLng2 = this.getRad(lng);
+                
+                var b = radLng1 - radLng2;
+                
+                var s = 2*Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+                s = s*this.EARTH_RADIUS;
+                s = Math.round(s*10000)/10000.0;
+                
+                return s<=this.DISTENCE;
+            },
+            getRad(d){
+                return d*Math.PI/180.0;
+            }
+        },
+    })
+</script>
+
+</html>

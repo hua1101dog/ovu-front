@@ -1,0 +1,383 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}事项</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate >
+        <div class="form-group">
+            <label class="col-xs-2 control-label required"
+                >工作事项名称：</label
+            >
+            <div class="col-xs-4">
+                <input
+                    type="text"
+                    class="form-control"
+                    ng-model="item.workTaskName"
+					required
+					ng-readonly="item.id  && item.isRequired==1"
+                />
+            </div>
+            <label class="col-xs-2 control-label">工作事项编码：</label>
+            <div class="col-xs-4">
+                <input
+                    type="text"
+                    class="form-control"
+                    ng-model="item.workTaskNo"
+					readonly
+                    placeholder="系统自动生成"
+                />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">工作分类：</label>
+            <div class="col-xs-4" ng-if="!item.id || item.isRequired==0">
+                <layer-selector
+                    style="width: 100%"
+                    host="item"
+                    host-key="'workTypeId'"
+                    host-text="'wrokTypeName'"
+                    node-list="planWorkTypeTree"
+                    leaf-only="true"
+                ></layer-selector>
+			</div>
+			<div class="col-xs-4" ng-if="item.id  && item.isRequired==1">
+				<div  class="col-xs-4 mt7">{{item.wrokTypeName}}</div>
+            </div>
+
+            <label class="col-xs-2 control-label "
+                >任务派发时间：</label
+            >
+            <div class="col-xs-4 mt7" style="color: #199ed8">
+                <!-- 每月15日，08:00:00派发 -->
+                {{item.execCycle ? (item.execCycle | keyToValue:frequencyDict) :''}}
+                {{item.execDate ? (item.execDate + (item.execCycle | keyToValue:frequencyDictDetail)) :''}}
+                {{item.sendTime ?','+item.sendTime+'执行':''}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label">标准工时：</label>
+            <div class="col-xs-4">
+                <input
+                    type="number"
+                    class="form-control"
+                    ng-model="item.workHours"
+					
+					ng-readonly="item.id  && item.isRequired==1"
+                />
+            </div>
+            <label class="col-xs-2 control-label">技能要求：</label>
+            <div class="col-xs-4">
+                <input
+                    type="text"
+                    class="form-control"
+                    ng-model="item.skillRequired"
+				
+					ng-readonly="item.id  && item.isRequired==1"
+                />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label">备件要求：</label>
+            <div class="col-xs-4">
+                <input
+                    type="text"
+                    class="form-control"
+                    ng-model="item.sparepartRequired"
+				
+					ng-readonly="item.id && item.isRequired==1"
+                />
+            </div>
+            <label class="col-xs-2 control-label">备件数量：</label>
+            <div class="col-xs-4">
+                <input
+                    type="number"
+                    class="form-control"
+                    ng-model="item.sparepartNum"
+					ng-readonly="item.id  && item.isRequired==1"
+                />
+            </div>
+        </div>
+        <div ng-if="item.equip_only">
+            <div class="form-group">
+                <label class="col-xs-2 control-label">设备：</label>
+                <div class="col-xs-10 mt7">{{$parent.equipment.name}}</div>
+            </div>
+        </div>
+        <div ng-if="!item.equip_only">
+            <div class="form-group">
+                <label class="col-xs-2 control-label required"
+                    >是否设备任务：</label
+                >
+                <div class="col-xs-4">
+                    <label
+                        role="button"
+                        style="line-height: 32px; margin-right: 15px"
+                        ><input
+                            type="radio"
+                            style="margin: 0 5px"
+                            ng-model="item.is_equip"
+                            value="1"
+                            name="is_equip"
+                        />是</label
+                    >
+                    <label role="button" style="line-height: 32px"
+                        ><input
+                            type="radio"
+                            style="margin: 0 5px"
+                            ng-model="item.is_equip"
+                            value="2"
+                            name="is_equip"
+                        />否</label
+                    >
+                </div>
+            </div>
+            <div ng-if="item.is_equip!=1">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required"
+                        >选择空间：</label
+                    >
+                    <house-selector ng-if="item.parkId"
+                        class="col-xs-10"
+                        need-park="true"
+                        form-bean="item"
+                        readonly-park="true"
+                    ></house-selector>
+                    <house-selector ng-if="!item.parkId"
+                    class="col-xs-10"
+                    need-park="true"
+                    form-bean="item"
+                ></house-selector>
+                </div>
+                <div class="form-group" ng-if="!item.id || item.isRequired==0">
+                    <label class="col-xs-2 control-label">空间：</label>
+                    <div class="col-xs-2">
+                        <div style="margin-top: 8px">{{item.parkName}}</div>
+                    </div>
+                 
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">详细位置：</label>
+                    <div class="col-xs-10">
+                        <input
+                            type="text"
+                            class="form-control"
+                            ng-model="item.address"
+                        />
+                    </div>
+                </div>
+            </div>
+         
+           
+            <div class="form-group" ng-if="item.is_equip==1" >
+                <label class="col-xs-2 control-label">设备：</label>
+                <div class="col-xs-4">
+                    <input
+                    type="text"
+                    class="form-control"
+                    ng-model="item.parkName"
+                    readonly
+                    ng-if="item.parkId"
+                />
+                    <tree-selector
+                        node-list="$root.parkTree"
+                        host="item"
+                        need="true"
+                        host-key="'parkId'"
+                        host-text="'parkName'"
+                        leaf-only="true"
+                        tip-text="'请选择项目'"
+                        ng-if="!item.parkId"
+                    ></tree-selector>
+                </div>
+                <div class="col-xs-4">
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            readonly="readonly"
+                            placeholder="请选择设备"
+                            required
+                            ng-model="item.equipment_names"
+                          
+                        />
+                        <span class="input-group-btn">
+                            <button
+                                class="btn btn-default"
+                                ng-click="chooseEquipment(item)"
+                                ng-disabled="!item.parkId"
+                            >
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+               
+                
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <label class="col-xs-2 control-label">执行人：</label>
+            <div class="col-xs-2">
+                <div style="margin-top: 8px">{{item.execPersonNames.join(',')}}</div>
+            </div>
+            <label class="col-xs-2 control-label">管理人：</label>
+            <div class="col-xs-2">
+                <div style="margin-top: 8px">{{item.managerName}}</div>
+            </div>
+            <label class="col-xs-2 control-label">协助人：</label>
+            <div class="col-xs-2">
+                <div style="margin-top: 8px">{{item.assisPersonNames.join(',')}}</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">工作事项描述：</label>
+            <div class="col-xs-10">
+                <textarea
+                    type="text"
+                    style="height: 60px; resize: vertical"
+                    class="form-control"
+                    ng-model="item.description"
+                />
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                步骤列表
+                <button
+                    class="btn btn-primary pull-right"
+                    ng-click="item.stepList.push({});" ng-if="!item.id || item.isRequired==0"
+                >
+                    新增步骤
+                </button>
+            </div>
+            <div class="panel-body">
+                <table
+                    class="table table-striped table-hover"
+                    style="margin-bottom: 0px"
+                >
+                    <thead >
+                        <tr>
+                            <th class="text-center" style="width: 80px">
+                                排序
+                            </th>
+                            <th style="width: 150px" ng-if="!item.id || item.isRequired==0">步骤编码</th>
+                            <th style="width: 150px">步骤名称</th>
+                            <th style="width: 300px">步骤描述</th>
+                            <th style="width: 120px" ng-if="!item.id || item.isRequired==0">操作类型</th>
+                            <th ng-if="!item.id || item.isRequired==0"> 选项</th>
+                            <th style="width: 40px" ng-if="!item.id || item.isRequired==0">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody  ng-if="!item.id || item.isRequired==0">
+                        <tr ng-if="!item.stepList||item.stepList.length == 0">
+                            <td colspan="100" class="text-center">暂无步骤</td>
+                        </tr>
+                        <tr ng-repeat="step in item.stepList">
+                            <td class="text-center">
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    required
+                                    name="SORT{{$index}}"
+									ng-model="step.SORT"
+                                    ng-if="!item.id || item.isRequired==0"
+                                    min="1"
+								/>
+									
+								
+                            </td>
+                            <td style="padding: 1px">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="WORKSTEP_NO{{$index}}"
+                                    ng-model="step.WORKSTEP_NO"
+                                    readonly
+                                    placeholder="系统自动生成"
+                                />
+                            </td>
+                            <td style="padding: 1px">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    required
+                                    name="WORKSTEP_NAME{{$index}}"
+                                    ng-model="step.WORKSTEP_NAME"
+                                />
+                            </td>
+                            <td style="padding: 1px">
+                                <textarea
+                                    style="resize: vertical"
+                                    class="form-control"
+                                    required
+                                    name="DESCRIPTION{{$index}}"
+                                    ng-model="step.DESCRIPTION"
+                                />
+                            </td>
+                            <td style="padding: 1px">
+                                <select
+                                    class="form-control"
+                                    required
+                                    name="OPERATION_TYPE{{$index}}"
+                                    ng-model="step.OPERATION_TYPE"
+                                    ng-options="o[0] as o[1] for o in operTypeDict"
+                                >
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </td>
+                            <td style="padding: 1px">
+                                <input
+                                    style="min-width: 100px"
+                                    type="text"
+                                    ng-if="step.OPERATION_TYPE == 3"
+                                    placeholder="请用','隔开"
+                                    class="form-control"
+                                    required
+                                    name="OPTIONS_LIST{{$index}}"
+                                    ng-model="step.OPTIONS_LIST"
+                                />
+                            </td>
+                            <td>
+                                <a
+                                    href="javascript:void(0)"
+                                    ng-click="delStep(item.stepList,step)"
+                                    class="btn btn-xs"
+                                    ><span class="fa fa-trash"></span>删除</a
+                                >
+                            </td>
+                        </tr>
+					</tbody>
+					<tbody  ng-if="item.id  && item.isRequired==1">
+                        <tr ng-if="!item.stepList||item.stepList.length == 0">
+                            <td colspan="100" class="text-center">暂无步骤</td>
+                        </tr>
+                        <tr ng-repeat="step in item.stepList">
+                            <td class="text-center">
+                              {{step.sORT}}
+									
+								
+                            </td>
+                           
+                            <td style="padding: 1px">
+                               {{step.wORKSTEP_NAME}}
+                            </td>
+                            <td style="padding: 1px">
+                             {{step.dESCRIPTION}}
+                            </td>
+                          
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

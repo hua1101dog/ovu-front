@@ -1,0 +1,31 @@
+<span class="form-inline" style="white-space: normal">
+    <div style="width: 200px;display: inline-block" ng-hide={{hasPark}}>
+        <tree-selector node-list="$root.parkTree" host="formBean" ng-hide={{readonlyPark}} host-key="parkIdKey" host-text="'parkName'"
+            need="needPark" leaf-only=true tip-text="'请选择项目'"></tree-selector>
+            <input type="text" placeholder="请选择项目" class="form-control" ng-show={{readonlyPark}} style="float:none;width: 200px;" 
+             readonly ng-model="formBean.parkName"/>
+    </div>
+    <select class="form-control" ng-model="host.stage" ng-change="saveToForm()"
+        ng-options="o as o.text for o in stageList" ng-disabled={{isDisabled}} ng-required={{isRequired}}>
+        <option value="">--期--</option>
+    </select>
+    <select class="form-control" ng-model="host.build" ng-change="geneUnit(host.build)"
+        ng-options="o as o.text for o in host.stage.nodes" 
+        ng-disabled={{isDisabled}} 
+        ng-required={{!isBuildUnrequired}} >
+        <option value="">--栋--</option>
+    </select>
+    <select class="form-control" ng-model="host.unitNo" ng-change="geneGround(host.build)"
+        ng-options="o as o+'单元' for o in host.build.unitList" ng-disabled={{isDisabled}} ng-required={{!isUnitUnrequired}}>
+        <option value="">--单元--</option>
+    </select>
+    <select class="form-control" ng-model="host.groundNo" ng-change="getHouseList(host.build)"
+        ng-options="o as o+'层' for o in host.build.groundList" ng-disabled={{isDisabled}} ng-required={{!isFloorUnrequired}}>
+        <option value="">--楼--</option>
+    </select>
+    <select class="form-control" ng-model="host.houseId" ng-change="saveToForm()"
+        ng-options="o.id as o.houseName for o in host.build.houseList" ng-disabled={{isDisabled}}
+        ng-required={{!isHouseUnrequired}}>
+        <option value="">--房号--</option>
+    </select>
+</span>

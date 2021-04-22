@@ -1,0 +1,115 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">审核企业信息</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" style="margin-left: 10px;margin-right: 10px;height:600px;overflow:scroll">
+	<form name="form" novalidate>
+		<div class="form-group">
+			<div class="col-md-4" align="right"><span>企业名称：</span></div>
+			<div class="col-md-7"><span>{{item.NAME}}</span></div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-4" align="right"><span>法人代表：</span></div>
+			<div class="col-md-7"><span>{{item.CORPORATE_REPRESENTATIVE}}</span></div>
+		</div>
+		<div class="form-group">
+            <div class="col-md-4" align="right"><span>组织机构代码：</span></div>
+            <div class="col-md-7"><span>{{item.ORG_CODE}}</span></div>
+        </div>
+		<div class="form-group">
+            <div class="col-md-4" align="right"><span>注册地址：</span></div>
+            <div class="col-md-7"><span>{{item.CORPORATE_REG_ADDR}}</span></div>
+        </div>
+		<div class="form-group">
+            <div class="col-md-4" align="right"><span>办公地址：</span></div>
+            <div class="col-md-7"><span>{{item.RUN_ADDR}}</span></div>
+        </div>
+		<div class="form-group">
+			<div class="col-md-4" align="right"><span>注册资本：</span></div>
+			<div class="col-md-7"><span>{{item.REG_CAPITAL}}</span>
+			     <span ng-if="item.MONEY_TYPE == 1">万元</span>
+                 <span ng-if="item.MONEY_TYPE == 2">美元</span>
+			</div>
+		</div>
+		<div class="form-group">
+            <div class="col-md-4" align="right"><span>注册时间：</span></div>
+            <div class="col-md-7"><span>{{item.CORPORATE_REG_TIME}}</span></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4" align="right"><span>企业规模：</span></div>
+            <div class="col-md-7">
+                <span ng-if = "item.SIZE == 1">50人以内</span>
+                <span ng-if = "item.SIZE == 2">50~100人</span>
+                <span ng-if = "item.SIZE == 3">100-300人</span>
+                <span ng-if = "item.SIZE == 4">300-500人</span>
+                <span ng-if = "item.SIZE == 5">500-1000人</span>
+                <span ng-if = "item.SIZE == 6">1000-5000人</span>
+                <span ng-if = "item.SIZE == 7">5000-10000人</span>
+                <span ng-if = "item.SIZE == 8">10000人及以上</span>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-md-4" align="right"><span>企业类型：</span></div>
+            <div class="col-md-7">
+                <span ng-if = "item.ENTERPRISE_NATURE_ID == 1">合资</span>
+                <span ng-if = "item.ENTERPRISE_NATURE_ID == 2">国企</span>
+                <span ng-if = "item.ENTERPRISE_NATURE_ID == 3">民营</span>
+                <span ng-if = "item.ENTERPRISE_NATURE_ID == 4">外企代表处</span>
+                <span ng-if = "item.ENTERPRISE_NATURE_ID == 5">政府机关</span>
+                <span ng-if = "item.ENTERPRISE_NATURE_ID == 6">事业单位</span>
+                <span ng-if = "item.ENTERPRISE_NATURE_ID == 7">上市公司</span>
+                <span ng-if = "item.ENTERPRISE_NATURE_ID == 8">创业公司</span>
+                <span ng-if = "item.ENTERPRISE_NATURE_ID == 9">外资(欧美)</span>
+                <span ng-if = "item.ENTERPRISE_NATURE_ID == 10">外资(非欧美)</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4" align="right"><span>联系人：</span></div>
+            <div class="col-md-7"><span>{{item.LINKMAN}}</span></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4" align="right"><span>联系电话：</span></div>
+            <div class="col-md-7"><span>{{item.MOBILE}}</span></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4" align="right"><span>营业执照(副本)：</span></div>
+            <div class="col-md-7">
+                <div class="photoWraper" ng-repeat="p in businessLicenseImg track by $index">
+                    <img onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(p)}}" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4" align="right"><span>税务登记证(副本)：</span></div>
+            <div class="col-md-7">
+                <div class="photoWraper" ng-repeat="p in taxRegCertificateImg track by $index">
+                    <img onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(p)}}" />
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <label class="col-md-4 control-label">审核：</label>
+            <div class="col-md-7">
+                <label class="radio-inline">
+                    <input type="radio" name="confirm-status" ng-value="1" ng-model="item.CONFIRM_STATUS"> 通过
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="confirm-status" ng-value="2" ng-model="item.CONFIRM_STATUS"> 不通过
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">拒绝理由：</label>
+            <div class="col-md-7"><textarea rows="4" cols="50" ng-model="item.CONFIRM_REFUSE"></textarea></div>
+        </div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="confirmCompany(item)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

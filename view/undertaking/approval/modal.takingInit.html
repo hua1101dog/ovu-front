@@ -1,0 +1,61 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">编辑清单</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="form-group" >
+			<label class="col-md-3 col-sm-3 col-xs-12 control-label">移交位置：</label>
+			<div class="col-md-8 col-sm-8 col-xs-12">
+				<label class="control-label">{{item.area}}</label>
+			</div>
+		</div>
+		<div class="form-group" >
+			<label class="col-md-3 col-sm-3 col-xs-12 control-label">查验项：</label>
+			<div class="col-md-8 col-sm-8 col-xs-12">
+				<label class="control-label">{{item.item_name}}</label>
+			</div>
+		</div>
+		<div class="form-group" >
+			<label class="col-md-3 col-sm-3 col-xs-12 control-label">查验内容：</label>
+			<div class="col-md-8 col-sm-8 col-xs-12">
+				<label class="control-label">{{item.content}}</label>
+			</div>
+		</div>
+		<div ng-if="item.way==1">
+			<div class="form-group" >
+				<label class="col-md-3 col-sm-3 col-xs-12 control-label required">品牌：</label>
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<input type="text" class="form-control" name="brand" ng-model="item.brand" maxlength="20" required/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 col-sm-3 col-xs-12 control-label required">数量：</label>
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<input type="number" class="form-control" name="num" ng-model="item.num" maxlength="10" required/>
+				</div>
+			</div>
+		</div>
+		<div ng-if="item.way==3">
+			<div class="form-group" >
+				<label class="col-md-3 col-sm-3 col-xs-12 control-label">检测标准：</label>
+				<div class="col-md-9 col-sm-9 col-xs-12">
+					<ul>
+						<li ng-repeat="s in item.standards">{{$index+1}}:{{s.name}} {{s.param_key}}:{{s.param_val}}</li>
+					</ul>
+				</div>
+			</div>
+			<div class="form-group" >
+				<label class="col-md-3 col-sm-3 col-xs-12 control-label required">检测值：</label>
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<input type="text" class="form-control" name="check_val" ng-model="item.check_val" maxlength="20" required/>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

@@ -1,0 +1,40 @@
+.btn-search {
+    width: 80px;
+    color: #fff;
+    background-color: #5891eb;
+}
+.mt {
+    margin-top: -20px;
+}
+.title-h4 {
+    font-weight: bold;
+    padding:20px 0;
+}
+.title-lable {
+	width: 120px;
+    line-height: 34px;
+    text-align: right;
+    font-size: 14px;
+    font-weight: normal;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.w177 {
+	width:177px;
+}
+.w175 {
+    width: 175px;
+}
+.w155 {
+    width: 155px;
+    padding-left:0px;
+    padding-right:0px;
+}
+.input-text {
+	width: 120px;  
+	display: inline-block; 
+	margin-right: 5px;
+}
+.pl15 {
+	padding-left:15px;
+}

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="productDatabase/style/css/custom.css">
+    <link rel="stylesheet" href="propertyCharges/propertyCharge.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="unpaidExpensesManageCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>应缴费用管理</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        楼栋列表
+                        <!-- <a href="javaScript:void(0)" ng-click='addTopNode()' class='btn btn-xs pull-right'>
+                            <span class='fa fa-plus'></span>分期
+                        </a> -->
+                        <!-- <a href="javaScript:void(0)"></a> -->
+                    </div>
+                    <div class="x_content" style="z-index: 1">
+                        <div class="alert" role="alert" ng-show="oriList.length==0">无楼栋信息</div>
+                        <div id="house_tree">
+                            <tree-view node-list="treeData" config="config"></tree-view>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+                <div class="unpaidExpensesManage">
+                    <div class="x_panel">
+                        <div class="form-inline">
+                            <!-- <div class="form-group">
+                                <label class="m-r-xs">收费类别: </label>
+                                <select style="width:180px;" class="form-control" ng-model="search.feeCategory">
+                                    <option value="">--请选择--</option>
+                                    <option ng-repeat="item in feeCategoryList track by $index" value={{item.value}}>{{item.name}}</option>
+                                </select>
+                            </div> -->
+                            <div class="form-group">
+                                <label class="m-r-xs">收费项目: </label>
+                                <select style="width:180px;" class="form-control" ng-model="search.expenseChildId">
+                                    <option value="">--请选择--</option>
+                                    <option ng-repeat="item in expenseList track by $index" value={{item.id}}>{{item.chargeName}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="m-r-xs">房屋名称: </label>
+                                <input type="text" ng-model="search.houseName" class="form-control ng-valid ng-empty">
+                            </div>
+                            <div class="form-group">
+                                <label class="m-r-xs">业主姓名: </label>
+                                <input type="text" ng-model="search.ownerName" class="form-control ng-valid ng-empty">
+                            </div>
+                        </div>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label class="m-r-xs">应缴开始时间: </label>
+                                <input type="datetime" id="lease001" class="form-control Wdate" ng-model="search.startDate"
+                                    onchange="" onclick="javascript:WdatePicker({maxDate:'#F{$dp.$D(\'lease002\')}'})">
+                            </div>
+                            <div class="form-group">
+                                <label class="m-r-xs">应缴结束时间: </label>
+                                <input type="datetime" id="lease002" class="form-control Wdate" ng-model="search.endDate"
+                                    onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'lease001\')}'})">
+                            </div>
+                            <button class="btn btn-default" ng-click="find()">查询</button>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="color: #999999;">
+                            应缴费用列表
+                            <button class="btn btn-primary pull-right" ng-click="batchImport()">批量导入</button>
+                            <button class="btn btn-primary pull-right" ng-click="templateDownload()">模板下载</button>
+                            <button class="btn btn-primary pull-right" ng-click="editUnpaid(2)">批量新增</button>
+                            <button class="btn btn-primary pull-right" ng-click="editUnpaid(1)">新增</button>
+                        </div>
+                        <div class="panel-body p-b-none p-t-none">
+                            <table class="table table-striped table-hover m-b-none pull-left table-num" style="width: 5%;">
+                                <thead class="title">
+                                    <tr>
+                                        <th>No.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                                        <td></td>
+                                    </tr>
+                                    <tr ng-repeat="item in pageModel.data track by $index" ng-class="{true: 'showRed', false: 'showBlack'}[item.status === 0]">
+                                        <td>
+                                            <span style="display: block; padding-top: 6px; padding-bottom: 5px;">
+                                                {{$index + 1+pageModel.pageSize*pageModel.pageIndex}}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="pull-left" style="width:93%; overflow-x: scroll;">
+                                <table class="table table-striped table-hover m-b-none table-title">
+                                    <thead class="title">
+                                        <tr>
+                                            <th>房屋名称</th>
+                                            <th>业主姓名</th>
+                                            <th>收费项目</th>
+                                            <th>应缴开始时间</th>
+                                            <th>应缴结束时间</th>
+                                            <th>价格</th>
+                                            <th>起码</th>
+                                            <th>止码</th>
+                                            <!-- <th>数量</th> -->
+                                            <th>单位</th>
+                                            <th>应缴金额不含税(元)</th>
+                                            <th>税率</th>
+                                            <th>税额(元)</th>
+                                            <th>应缴金额含税(元)</th>
+                                            <th>交费状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                                            <td colspan="100" class="text-center">暂无记录</td>
+                                        </tr>
+                                        <tr ng-repeat="item in pageModel.data track by $index" ng-class="{true: 'showRed', false: 'showBlack'}[item.status === 0]">
+                                            <td>{{item.houseName || '--'}}</td>
+                                            <td>{{item.ownerName || '--'}}</td>
+                                            <td>{{item.expenseChildType.chargeName || '--'}}</td>
+                                            <td>{{(item.startTime | date: 'yyyy-MM-dd') || '--'}}</td>
+                                            <td>{{(item.endTime | date: 'yyyy-MM-dd') || '--'}}</td>
+                                            <td>{{item.importPrice || item.expenseChildType.price || '--'}}</td>
+                                            <td>{{item.preFlow || '--'}}</td>
+                                            <td>{{item.nowFlow || '--'}}</td>
+                                            <!-- <td>{{item.expenseChildType.price || '--'}}</td> -->
+                                            <td>{{item.importUnit || (item.expenseChildType.chargeUnit | billUnit) || '--'}}</td>
+                                            <td>{{item.noTaxPayable || '--'}}</td>
+                                            <td>{{item.taxRate || '--'}}</td>
+                                            <td>{{item.taxPrice || '--'}}</td>
+                                            <td>{{item.payable || '--'}}</td>
+                                            <td>{{item.status === 0 ? "未缴" : "已缴"}}</td>
+                                            <td>
+                                                <a href="javascript:void(0)" ng-click="getPaid(item)" class="btn btn-xs"
+                                                    style="border: 1px solid #5692ea; color: #5692ea;" ng-disabled="item.status === 1">已缴费</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="page-footer clearfix">
+                                <ng-include src="'/common/pager.html'" class="ng-scope">
+                                    <style type="text/css" class="ng-scope">
+                                        .pagination>li>span:hover {
+                                            background-color: #fff;
+                                            cursor: text
+                                        }
+                                    </style>
+                                </ng-include>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

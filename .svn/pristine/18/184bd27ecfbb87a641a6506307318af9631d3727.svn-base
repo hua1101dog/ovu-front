@@ -1,0 +1,143 @@
+<div class="modal-header">
+        <h4 class="modal-title">{{item.id?'编辑':'创建'}}展览信息</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">展览名称</label>
+                <div class="col-xs-8">
+                    <input type="text" class="col-xs-10 my-form-control" required ng-model="$ctrl.item.name" name="name" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">海报小图</label>
+                <div class="col-xs-8">
+	                <img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+	                     ng-click="$ctrl.showPhoto()"
+	                     ng-src="{{$ctrl.processImgUrl($ctrl.item.imgUrl,'50')}}" class="max-height:50px" style="width: 200px;
+    						height: 160px;"/>
+	                <div class="caption">
+	                    <p>
+	                        <span class="btn btn-warning height34" ng-click="$ctrl.clearPhoto($ctrl.item,'imgUrl')"><i
+	                            class="glyphicon glyphicon-remove"></i></span>
+	                        <span class="btn btn-default height34" ng-click="$ctrl.addPhoto($ctrl.item,'imgUrl')"><i
+	                            class="glyphicon glyphicon-picture "></i></span>
+	                        <!--<button class="btn btn-info" ng-click="selectFromDb(1)" >从资料库选择</button>-->
+	                    </p>
+	                </div>
+            	</div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label">出品人</label>
+                <div class="col-xs-8">
+                    <input type="text" class="col-xs-10 my-form-control" ng-model="$ctrl.item.publisher" name="publisher" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label">学术主持人</label>
+                <div class="col-xs-8">
+                    <input type="text" class="col-xs-10 my-form-control" ng-model="$ctrl.item.host" name="host" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label">策展人</label>
+                <div class="col-xs-8">
+                    <input type="text" class="col-xs-10 my-form-control" ng-model="$ctrl.item.planner" name="planner" />
+                </div>
+            </div>
+            <!--<div class="form-group">
+                <label class="col-xs-2 control-label required">艺术家照片</label>
+                <div class="col-xs-8">
+	                <img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+	                     ng-click="$ctrl.showPhoto()"
+	                     ng-src="{{$ctrl.processImgUrl($ctrl.item.photoUrl,'50')}}" class="max-height:50px" style="width: 200px;
+    						height: 160px;"/>
+	                <div class="caption">
+	                    <p>
+	                        <span class="btn btn-warning height34" ng-click="$ctrl.clearPhoto($ctrl.item,'photoUrl')"><i
+	                            class="glyphicon glyphicon-remove"></i></span>
+	                        <span class="btn btn-default height34" ng-click="$ctrl.addPhoto($ctrl.item,'photoUrl')"><i
+	                            class="glyphicon glyphicon-picture "></i></span>
+	                        <!--<button class="btn btn-info" ng-click="selectFromDb(1)" >从资料库选择</button>-->
+	                    <!--</p>
+	                </div>
+            	</div>
+            </div>-->
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">展览日期</label>
+                <div class="col-xs-3">
+                    <input type="datetime" class="form-control Wdate col-xs-4" ng-model="$ctrl.item.startTime" required  onchange=""
+                   		onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                </div>
+                <label class="col-xs-1 control-label text-center">至</label>
+                <div class="col-xs-3">
+                    <input type="datetime" class="form-control Wdate" ng-model="$ctrl.item.endTime" required  onchange=""
+                   		onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.Wdate').first().val()}&quot;})">
+                </div>
+            </div>
+            <!--<div class="form-group">
+                <label class="col-xs-2 control-label required">展览楼层</label>
+                <div class="col-xs-8">
+                	<select class="col-xs-10 my-form-control ui-select2 multiSelect1"  multiple="multiple" required >
+                    </select>
+                </div>
+                
+            </div>-->
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">展览位置</label>
+                <div class="col-xs-8">
+                	<select class="col-xs-10 my-form-control ui-select2"  multiple="multiple" required >
+                    </select>
+                </div>
+                
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">展览介绍</label>
+                <div class="col-xs-8">
+	                <!-- 富文本编辑器 -->
+	                <div class="UM-Editor">
+	                    <textarea type="text/plain" required  id="myEditor" style="height:200px;">
+	                    </textarea>
+	                </div>
+                </div>
+            </div>
+            <div ng-repeat="product in $ctrl.products track by $index">
+				<div class="form-group" >
+	                <label class="col-xs-2 control-label">作品图片</label>
+	                <div class="col-xs-8">
+		                <input type="text" class="col-xs-6 my-form-control" disabled="true" ng-model="product.productName" name="productName" />
+		                <button class="btn btn-info" ng-click="$ctrl.uploadFile(product)" style="margin-left: 5px;">选择文件</button>
+		                <a class="btn btn-primary pull-right" href="javascript:void(0)" ng-click="$ctrl.delFile(product)" aria-label="Delete">
+		                    <i class="glyphicon glyphicon-minus" aria-hidden="true"></i>
+		                </a>
+	            	</div>
+	    		</div>
+	    	</div>
+	    	<button class="btn btn-default" style="margin-left: 5%;" ng-click="$ctrl.moreFile()">新增介绍图片</button>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="$ctrl.save(form)">确定</button>
+        <button class="btn btn-warning" ng-click="$ctrl.cancel()">取消</button>
+    </div>
+    <style>
+    	.my-form-control {
+		    display: block;
+		    /*width: 100%;*/
+		    height: 34px;
+		    padding: 6px 12px;
+		    font-size: 14px;
+		    line-height: 1.42857143;
+		    color: #555;
+		    background-color: #fff;
+		    background-image: none;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+		    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+		    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+		    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		}
+    </style>

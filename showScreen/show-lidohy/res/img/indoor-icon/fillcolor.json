@@ -1,0 +1,49 @@
+{
+  "VERSION": "1.0",
+  "bgColor": {
+    "color": "#efefef"
+  },
+  "floorStyle": {
+    "color": "1"
+  },
+  "point": [
+    {
+      "sType": "1000",
+      "height": "5"
+    },
+    {
+      "sType": "1001",
+      "alpha": "1",
+      "strokecolor": "#757475",
+      "fontSize": "14"
+    },
+    {
+      "sType": "1002",
+      "alpha": "1",
+      "height": "10",
+      "strokecolor": "#faf8dc",
+      "fontSize": "14"
+    },
+    {
+      "sType": "2001",
+      "alpha": "1",
+      "height": "2",
+      "strokecolor": "#ffffff",
+      "fontSize": "1"
+    },
+    {
+      "sType": "2002",
+      "alpha": "1",
+      "height": "2",
+      "strokecolor": "#808080",
+      "fontSize": "14"
+    },
+    {
+      "sType": "2003",
+      "alpha": "1",
+      "height": "2",
+      "strokecolor": "#DBEFB7",
+      "fontSize": "14"
+    }
+  ]
+}

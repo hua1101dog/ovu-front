@@ -1,0 +1,130 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title" ng-show="!item.isView">首页维护</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <form name="form" novalidate class="ng-pristine ng-invalid ng-invalid-required">
+        <div class="form-group" style="border:solid 1px #ccc">
+            <div class="form-group">
+                <label class="col-xs-3 control-label ">轮播图维护</label>
+                <label class="col-xs-9 control-label "></label>
+            </div>
+            <div class="form-group" style="border-color: #ccc;">
+                <label class="col-xs-3 control-label ">轮播图首图：</label>
+                <div class="col-xs-9">
+                    <div class="photoWraper" ng-repeat="p in item.slideshow track by $index"
+                        style="height: 160px;width:350px">
+                        <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()"
+                            ng-src="{{processImgUrl(p)}}" style="height:100%;width:100%;border:1px solid #ddd" />
+                        <a role="button" ng-click="delPhoto(item.slideshow, p)"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                    <img ng-show="item.slideshow.length < 1" height="80px" width="80px" src="/res/img/mbs/add.jpg"
+                        role="button" ng-click="addPhotos(item.slideshow)" title="上传图片">
+                    <div><label class="col-xs-9 control-label"
+                            style="color:red;text-align: left;padding-left: 0;">尺寸要求:700*320,用于维护产业智库首页,顶部轮播图的第一张</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="border:solid 1px #ccc">
+            <div class="form-group">
+                <label class="col-xs-3 control-label ">产业洞察维护</label>
+                <label class="col-xs-9 control-label "></label>
+            </div>
+            <div class="form-group" style="border-color: #ccc;">
+                <label class="col-xs-3 control-label ">产业周刊首图：</label>
+                <div class="col-xs-9">
+                    <div class="photoWraper" ng-repeat="p in item.magazine track by $index"
+                        style="height: 130px;width:350px">
+                        <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()"
+                            ng-src="{{processImgUrl(p)}}" style="height:100%;width:100%;border:1px solid #ddd" />
+                        <a role="button" ng-click="delPhoto(item.magazine, p)"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                    <img ng-show="item.magazine.length < 1" height="80px" width="80px" src="/res/img/mbs/add.jpg"
+                        role="button" ng-click="addPhotos(item.magazine)" title="上传图片">
+                    <div><label class="col-xs-9 control-label"
+                            style="color:red;text-align: left;padding-left: 0;">尺寸要求:700*260,用于维护产业智库首页,产业洞察的图片</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-left">产业周刊标题：</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="item.magazineTitle" name="magazineTitle"
+                        style="cursor: default;" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="border:solid 1px #ccc">
+            <div class="form-group">
+                <label class="col-xs-3 control-label ">行业研究维护</label>
+                <label class="col-xs-7 control-label "></label>
+            </div>
+            <div class="form-group" style="border-color: #ccc;">
+                <label class="col-xs-3 control-label ">专项产业研究首图：</label>
+                <div class="col-xs-9">
+                    <div class="photoWraper" ng-repeat="p in item.industryResearch track by $index"
+                        style="height: 102.5px;width:160px">
+                        <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()"
+                            ng-src="{{processImgUrl(p)}}" style="height:100%;width:100%;border:1px solid #ddd" />
+                        <a role="button" ng-click="delPhoto(item.industryResearch, p)"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                    <img ng-show="item.industryResearch.length < 1" height="80px" width="80px" src="/res/img/mbs/add.jpg"
+                        role="button" ng-click="addPhotos(item.industryResearch)" title="上传图片">
+                    <div><label class="col-xs-9 control-label"
+                            style="color:red;text-align: left;padding-left: 0;">尺寸要求:320*205,用于维护产业智库首页,专项产业研究的图片</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-left">专项产业研究标题：</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" ng-model="item.industryStudyTitle" name="industryStudyTitle"
+                        style="cursor: default;" />
+                </div>
+            </div>
+            <div class="form-group" style="border-color: #ccc;">
+                <label class="col-xs-3 control-label ">产业布局研究首图：</label>
+                <div class="col-xs-9">
+                    <div class="photoWraper" ng-repeat="p in item.layoutResearch track by $index"
+                        style="height: 102.5px;width:160px">
+                        <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()"
+                            ng-src="{{processImgUrl(p)}}" style="height:100%;width:100%;border:1px solid #ddd" />
+                        <a role="button" ng-click="delPhoto(item.layoutResearch, p)"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                    <img ng-show="item.layoutResearch.length < 1" height="80px" width="80px" src="/res/img/mbs/add.jpg"
+                        role="button" ng-click="addPhotos(item.layoutResearch)" title="上传图片">
+                    <div><label class="col-xs-9 control-label"
+                            style="color:red;text-align: left;padding-left: 0;">尺寸要求:320*205,用于维护产业智库首页,产业布局研究的图片</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label text-left">产业布局研究标题：</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" ng-model="item.layoutStudyTitle" name="layoutStudyTitle"
+                        style="cursor: default;" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" ng-show="!item.isView">
+    <button class="btn btn-primary" ng-click="saveNews(item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .modal-dialog {
+        width: 1000px;
+    }
+
+    .form-horizontal .form-group {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+</style>

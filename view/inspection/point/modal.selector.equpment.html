@@ -1,0 +1,150 @@
+<!--选择设备弹出框  -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">选择视频设备</h4>
+</div>
+<div class="modal-body container-fluid">
+    <div class="panel panel-default" style="height: 700px;overflow-y: auto;position: relative;">
+        <div class="panel-body">
+            <uib-tabset type="pills" active="active">
+                <uib-tab heading="选择范围">
+                    <div ng-show="type==1">
+                        <table class="table table-striped table-hover" style="margin-top: 10px;">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">NO</th>
+                                    <th>设备名称</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in eqList track by $index">
+                                    <td class="text-center">{{$index + 1}}</td>
+                                    <td>{{item.equipName}}</td>
+                                    <td>
+                                        <a href='javascript:void(0)' ng-click='choose(item)' class='btn btn-xs'>
+                                            <span class='fa fa-edit'></span>选择</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-body" style="padding:5px;" ng-show="type==2">
+                        <div id="map-container" ui-map="$parent.$parent.myMap" style="height: 550px; " ui-options="mapOptions"
+                            ui-map-cache="mapCache">
+                        </div>
+                        <div ng-repeat="marker in markers" ui-map-marker="markers[$index]" ui-event="{'map-click':'clickMarker($event,$params,marker)'}">
+                        </div>
+                        <div ui-map-info-window="$parent.$parent.myInfoWindow" style="width:400px">
+                            <div>
+                                {{markerData.equipSimpleName}}
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group" style="margin-top:25px">
+                        选中设备：
+                        <strong style="margin-right: 15px" class="text-info">{{curEquip.name}}</strong><br />
+                    </div>
+                </uib-tab>
+                <uib-tab heading="查看全部">
+                    <div class="panel panel-default" style="margin-top: 20px;">
+                        <div class="panel-body">
+
+                            <div class="col-xs-3">
+                                <build-selector host="search" callback="find"></build-selector>
+                            </div>
+                            <div class="col-xs-9">
+                                <div class="x_panel">
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <label>设备编码:</label>
+                                            <input type="text" ng-model="search.EQUIP_CODE" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>设备名称:</label>
+                                            <input type="text" ng-model="search.NAME" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>设备惯用名:</label>
+                                            <input type="text" ng-model="search.equipSimpleName" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>设备分类:</label>
+                                            <div style="display:inline-block;width: 200px">
+                                                <layer-selector host="search" host-key="'equipTypeId'" host-text="'nodeText'"
+                                                    node-list="equipTypeTree"></layer-selector>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-default" ng-click="find(1)">查询</button>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">设备列表</div>
+                                    <div class="panel-body">
+                                        <table class="table table-hover" style="table-layout: fixed">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:30px" class="text-center">NO</th>
+                                                    <th style="width:150px">设备编码</th>
+                                                    <th style="width:150px">设备名称</th>
+                                                    <th style="width:100px">设备惯用名</th>
+                                                    <th style="width:100px">分类</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-if="pageModel.data.length == 0">
+                                                    <td colspan="100" class="text-center">暂无记录</td>
+                                                </tr>
+                                                <tr ng-repeat="item in pageModel.data" ng-class="{'bg-success':item.id == $parent.curEquip.id}"
+                                                    role="button" ng-click="checkItem(item)">
+                                                    <td class="text-center">{{$index +
+                                                        1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                                    <td style="word-wrap: break-word">{{item.equip_code}}</td>
+                                                    <td>{{item.name}}</td>
+                                                    <td>{{item.equip_simple_name}}</td>
+                                                    <td>{{item.type_name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="page-footer clearfix">
+                                            <ng-include src="'/common/pager.html'"></ng-include>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    选中设备：
+                                    <strong style="margin-right: 15px" class="text-info">{{curEquip.name}}</strong><br />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(curEquip)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .b-none {
+        border-right: 0;
+        border-left: 0;
+    }
+
+    .b {
+        border: 1px solid #dee5e7;
+    }
+
+    .list-group-item:first-child {
+        border-top: 0;
+    }
+    table tr th,
+        table tr td {
+            text-align: center;
+        }
+</style>

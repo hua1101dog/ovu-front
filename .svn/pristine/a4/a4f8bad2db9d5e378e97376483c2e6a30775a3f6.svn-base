@@ -1,0 +1,501 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title" ng-show="!item.isView">查看客户</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="row" id="customerManageBox">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <ul class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#customer1_1" id="tab1" role="tab" data-toggle="tab" aria-expanded="false">客户信息</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#follow " id="tab2" role="tab" data-toggle="tab" aria-expanded="false">跟进记录</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#purchase" id="tab3" role="tab" data-toggle="tab" aria-expanded="false">购房意向</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#allot" id="tab4" role="tab" data-toggle="tab" aria-expanded="false">分配日志</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#recycling" id="tab5" role="tab" data-toggle="tab" aria-expanded="false">回收日志</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#change" id="tab6" role="tab" data-toggle="tab" aria-expanded="false">变更记录</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <!-- 客户信息 star -->
+                    <div role="tabpanel" class="tab-pane fade active in" id="customer1_1" >
+                        <div class="row" id="basicBox">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="form-group">
+                                        <label class="control-label label-W" style="padding-right:0;">基本信息</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">企业类型:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.type==1?'个人':'企业'}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">企业名称:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.name}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">所属行业:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.industry}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">联系人:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.contactMan}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">联系人电话:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.phone}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">联系人职务:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.contactJob}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">备注:</label>
+                                        <div class="col-xs-9" style="padding: 0;">
+                                            {{search.remark}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12" style="border:1px dashed #000">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label label-W" style="padding-right:0;">业务信息</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">意向级别:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.intentionLevel|keyToValue:intentionLevelList:'dicSort':'dicItem'}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">客户来源:</label>
+                                        <div class="col-xs-2" style="padding: 0;" ng-click="show()">
+                                            {{search.customerSource}}
+                                        </div>
+                                        <div class="col-xs-1" style="padding: 0;margin-bottom: 20px;" ng-click="show(1)"
+                                            ng-if="item.show==true">
+                                            ﹀
+                                        </div>
+                                        <div class="col-xs-1" style="padding: 0;margin-bottom: 20px;" ng-click="show(0)"
+                                            ng-if="item.show==false">
+                                            ︿
+                                        </div>
+                                        <div class="col-xs-3" style="padding: 0;margin-bottom: 40px;">
+                                        </div>
+                                        <div class="form-group" ng-if="item.show==false">
+                                            <label class="col-xs-2 control-label label-W"
+                                                style="margin-bottom:20px;text-align: center;padding: 0;">{{search.customerSource}}渠道:</label>
+                                            <div class="col-xs-2" style="padding: 0;"
+                                                ng-if='search.customerSource=="推荐"||search.customerSource=="协同"'>
+                                                招商通
+                                            </div>
+                                            <div class="col-xs-2" style="padding: 0;"
+                                                ng-if='search.customerSource=="新增"||search.customerSource=="分配"'>
+                                                CRM
+                                            </div>
+                                            <label class="col-xs-2 control-label label-W"
+                                                style="margin-bottom:20px;text-align: center;padding: 0;"
+                                                ng-if="search.customerSource!='新增'">{{search.customerSource}}方:</label>
+                                            <label class="col-xs-2 control-label label-W"
+                                                style="margin-bottom:20px;text-align: center;padding: 0;"
+                                                ng-if="search.customerSource=='新增'">业务员:</label>
+                                            <div class="col-xs-2" style="padding: 0;">
+                                                {{search.allocation}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-if="item.show==false">
+                                            <label class="col-xs-2 control-label label-W"
+                                                style="margin-bottom:20px;text-align: center;padding: 0;">联系电话:</label>
+                                            <div class="col-xs-2" style="padding: 0;">
+                                                {{search.phone}}
+                                            </div>
+                                            <label class="col-xs-2 control-label label-W"
+                                                style="margin-bottom:20px;text-align: center;padding: 0;">{{search.customerSource=='分配'?'分配':'推荐'?'推荐':'协同'?'介入':'新增'?'创建':''}}时间:</label>
+                                            <div class="col-xs-2" style="padding: 0;">
+                                                {{search.allocationTime}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">购买用途:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.buyPurposeName}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">需求面积:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.needArea||"--"}}m²
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">最近一次跟进时间:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.latelyFollowTime}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">跟进方式:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.followWay|keyToValue:followList:'dicSort':'dicItem'}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">下一次跟进时间:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.nextTime}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">业务员:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search.operator}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 客户信息 end -->
+
+                    <!-- 跟进记录 star -->
+                    <div role="tabpanel" class="tab-pane fade" id="follow">
+                        <div class="row" id="basicBox">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="form-group">
+                                        <label class="control-label label-W" style="padding-right:0;">客户跟进记录</label>
+                                    </div>
+                                    <table class="table table-striped table-hover">
+                                        <thead class="title">
+                                            <tr>
+                                                <th class="text-center">序号</th>
+                                                <th class="text-center">跟进人</th>
+                                                <th class="text-center">跟进时间</th>
+                                                <th class="text-center">跟进方式</th>
+                                                <th class="text-center">跟进内容</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="!pageModel1.data||pageModel1.data.length == 0">
+                                                <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr>
+                                            <tr ng-repeat="item in pageModel1.data">
+                                                <td>{{$index + 1 + pageModel1.pageSize*pageModel1.pageIndex}}</td>
+                                                <td>{{item.creator}}</td>
+                                                <td>{{item.createTime}}</td>
+                                                <td>{{item.followWayName}}</td>
+                                                <td>{{item.followContent}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="page-footer clearfix">
+                                        <page page-model="pageModel1"></page>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 跟进记录 end -->
+
+                    <!-- 购房意向 star -->
+                    <div role="tabpanel" class="tab-pane fade" id="purchase">
+                        <div class="row" id="basicBox">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <!-- <div class="form-group">
+                                        <label class="control-label label-W" style="padding-right:0;">未成交意向</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">武汉创意天地一期</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12" style="border:1px solid #000">
+                                        </div>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label class="control-label label-W" style="padding-right:0;">已成交意向</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">{{search5.stageName||'--'}}</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">房号:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search5.spaceName||'--'}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">房间面积:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search5.contractInfo.area_status||'--'}}㎡
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">户型:</label>
+                                        <div class="col-xs-2" style="padding: 0;margin-bottom:20px">
+                                            {{search5.contractInfo.house_structure||'--'}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12" style="border:1px dashed #ccc">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">客户名称:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search5.customName||'--'}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">联系人:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search5.businessManager||'--'}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">成交金额:</label>
+                                        <div class="col-xs-2" style="padding: 0;margin-bottom:20px">
+                                            {{search5.contractInfo.standardPrice||'--'}}元
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">成交单价:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search5.contractInfo.buildingDealUnit||'--'}}元/㎡
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">成交时间:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search5.contractSignDate||'--'}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">交易状态:</label>
+                                        <div class="col-xs-2" style="padding: 0;margin-bottom:40px">
+                                            {{search5.saleStatus||'--'}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">折扣%:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search5.contractInfo.discount||'--'}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">付款方式:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            {{search5.contractInfo.paymentName||'--'}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">业务员:</label>
+                                        <div class="col-xs-2" style="padding: 0;margin-bottom:20px">
+                                            {{search5.businessManager||'--'}}
+                                        </div>
+                                        <label class="col-xs-2 control-label label-W"
+                                            style="margin-bottom:20px;text-align: center;padding: 0;">所属团队:</label>
+                                        <div class="col-xs-2" style="padding: 0;">
+                                            武汉招商部
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label label-W"
+                                            style="padding-right:0;color:#0099FF">付款信息</label>
+                                    </div>
+                                    <table class="table table-striped table-hover">
+                                        <thead class="title">
+                                            <tr>
+                                                <th class="text-center">款项名称</th>
+                                                <th class="text-center">金额（元）</th>
+                                                <th class="text-center">付款期限</th>
+                                                <th class="text-center">欠款（元）</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="!pageModel5.data||pageModel5.data.length == 0">
+                                                <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr>
+                                            <tr ng-repeat="item in pageModel5.data">
+                                                <td>{{item.amountType==1?'非贷款类房款':'贷款类房款'}}</td>
+                                                <td>{{item.amount}}</td>
+                                                <td>{{item.paymentPeriod}}</td>
+                                                <td ng-if="item.status==3">0</td>
+                                                <td ng-if="item.status!=3">{{item.amount}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="page-footer clearfix">
+                                        <page page-model="pageModel5"></page>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label label-W" style="padding-right:0;">武汉创意天地三期</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 购房意向 end -->
+
+                    <!-- 分配日志 star -->
+                    <div role="tabpanel" class="tab-pane fade" id="allot" >
+                        <div class="row" id="basicBox">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="form-group">
+                                        <label class="control-label label-W" style="padding-right:0;">客户分配记录</label>
+                                    </div>
+                                    <table class="table table-striped table-hover">
+                                        <thead class="title">
+                                            <tr>                                              
+                                                <th class="text-center">序号</th>
+                                                <th class="text-center">操作时间</th>
+                                                <th class="text-center">操作人</th>
+                                                <th class="text-center">内容</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="!pageModel3.data||pageModel3.data.length == 0">
+                                                <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr>
+                                            <tr ng-repeat="item in pageModel3.data">                                               
+                                                <td>{{$index + 1 + pageModel3.pageSize*pageModel3.pageIndex}}</td>
+                                                <td>{{item.createTime}}</td>
+                                                <td>{{item.creator}}</td>
+                                                <td>{{item.content}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="page-footer clearfix">
+                                        <page page-model="pageModel3"></page>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 分配日志 end -->
+
+                    <!-- 回收日志 star -->
+                    <div role="tabpanel" class="tab-pane fade" id="recycling">
+                        <div class="row" id="basicBox">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="form-group">
+                                        <label class="control-label label-W" style="padding-right:0;">客户回收记录</label>
+                                    </div>
+                                    <table class="table table-striped table-hover">
+                                        <thead class="title">
+                                            <tr>                                               
+                                                <th class="text-center">序号</th>
+                                                <th class="text-center">操作时间</th>
+                                                <th class="text-center">操作人</th>
+                                                <th class="text-center">原业务员</th>
+                                                <th class="text-center">回收原因</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="!pageModel4.data||pageModel4.data.length == 0">
+                                                <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr>
+                                            <tr ng-repeat="item in pageModel4.data">                                               
+                                                <td>{{$index + 1 + pageModel4.pageSize*pageModel4.pageIndex}}</td>
+                                                <td>{{item.createTime}}</td>
+                                                <td>{{item.creator}}</td>
+                                                <td>{{item.oldOperator}}</td>
+                                                <td>{{item.content}}</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="page-footer clearfix">
+                                        <page page-model="pageModel4"></page>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 回收日志 end -->
+
+                    <!-- 变更记录 star -->
+                    <div role="tabpanel" class="tab-pane fade" id="change">
+                        <div class="row" id="basicBox">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="form-group">
+                                        <label class="control-label label-W" style="padding-right:0;">客户信息变更记录</label>
+                                    </div>
+                                    <table class="table table-striped table-hover">
+                                        <thead class="title">
+                                            <tr>
+                                                <th class="text-center" style="width:20px">
+                                                    <span role="button" ng-click="checkAll(pageModel2)">
+                                                        <i class="glyphicon glyphicon-unchecked"
+                                                            ng-class="{'glyphicon-check':pageModel2.checked,'glyphicon-unchecked':!pageModel2.checked}"></i>
+                                                    </span>
+                                                </th>
+                                                <th class="text-center">序号</th>
+                                                <th class="text-center">操作时间</th>
+                                                <th class="text-center">操作类型</th>
+                                                <th class="text-center">变更内容</th>
+                                                <th class="text-center">详情</th>
+                                                <th class="text-center">操作人</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="!pageModel2.data||pageModel2.data.length == 0">
+                                                <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr>
+                                            <tr ng-repeat="item in pageModel2.data">
+                                                <td><i role="button" ng-click="checkOne(item, pageModel2)"
+                                                        ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                                        class="glyphicon glyphicon-unchecked"></i>
+                                                </td>
+                                                <td>{{$index + 1 + pageModel2.pageSize*pageModel2.pageIndex}}</td>
+                                                <td>{{item.createTime}}</td>
+                                                <td>{{item.actionTypeName}}</td>
+                                                <td>{{item.content}}</td>
+                                                <td>{{item.detail}}</td>
+                                                <td>{{item.creator}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="page-footer clearfix">
+                                        <page page-model="pageModel2"></page>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 变更记录 end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .modal-dialog {
+        width: 1000px;
+    }
+
+    .form-horizontal .form-group {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+
+</style>

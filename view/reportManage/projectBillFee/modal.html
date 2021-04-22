@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">费项{{item.id?'编辑':'新增'}}</h4>
+
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate style="padding-left: 15px;">
+        <div class="form-group">
+            <label class="col-xs-2 control-label">费项代码：</label>
+            <div class="col-xs-4">
+                <span type="text" ng-model="item.expenditureCode" style="line-height: 27px">100103</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">费项类别：</label>
+            <div class="col-xs-10">
+                <div class="btn-group">
+                    <select class="form-control" ng-model="item.expenditureType">
+                        <option value="1">物业</option>
+                        <option value="2">生活</option>
+                        <option value="3">空间</option>
+                        <option value="4">商品</option>
+                        <option value="5">众包</option>
+                        <option value="6">住宿</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">费项名称：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.expenditureName" required
+                       style="cursor: default;"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">税率：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.taxRate" required
+                       style="cursor: default;"/>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="saveItem(form,item)">保存</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

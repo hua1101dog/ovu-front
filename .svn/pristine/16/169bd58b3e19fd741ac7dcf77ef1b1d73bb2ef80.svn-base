@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>访客管理</title>
+</head>
+
+<body>
+    <div id="angularId">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>访客管理</h3>
+            </div>
+        </div>
+        <div class="row" id="epidemicManageBox">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <ul class="nav nav-tabs bar_tabs" role="tablist" ng-if="false">
+                        <li role="presentation" class="active">
+                            <a href="#visitorManage" id="tab1" role="tab" data-toggle="tab"
+                                aria-expanded="true">疫情报告</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="epidemicManage">
+                        <!-- 访客管理 star -->
+                        <div role="tabpanel" class="tab-pane fade active in" id="visitorManage"
+                            ng-controller="visitorManageCtrl">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label class="label-search">分期/分区</label>
+                                    <select class="form-control" ng-model="STAGE" ng-change="changeStage(STAGE)"
+                                        ng-options="o.text for o in stageList" style="width: 180px;">
+                                        <option value="">-请选择-</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="label-search">楼栋</label>
+                                    <select class="form-control" ng-model="BUILD" ng-change="changeBuild(BUILD)"
+                                        ng-options="o.buildName for o in buildList" style="width: 180px;">
+                                        <option value="">-请选择-</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="label-search">访客姓名</label>
+                                    <input placeholder="请输入"
+                                        class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                                        ng-model="search.visitorName" aria-invalid="false" style="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="label-search">访客联系电话</label>
+                                    <input placeholder="请输入"
+                                        class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                                        ng-model="search.contactPhone" aria-invalid="false" style="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="label-search">访客居住地址</label>
+                                    <input placeholder="请输入"
+                                        class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                                        ng-model="search.address" aria-invalid="false" style="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="label-search">访客体温</label>
+                                    <select class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                                        ng-model="search.tempStatus" style="width: 180px;">
+                                        <option value="">--请选择--</option>
+                                        <option value="1">正常</option>
+                                        <option value="2">大于37.2</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="label-search">被拜访人</label>
+                                    <input placeholder="请输入"
+                                        class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                                        ng-model="search.interviewee" aria-invalid="false" style="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="label-search">被拜访企业</label>
+                                    <input placeholder="请输入"
+                                        class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                                        ng-model="search.visitEnterprises" aria-invalid="false" style="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="label-search">被拜访楼层/房间</label>
+                                    <input placeholder="请输入"
+                                        class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                                        ng-model="search.intervieweeHouse" aria-invalid="false" style="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="label-search">出入类型</label>
+                                    <select class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                                        ng-model="search.inoutStatus" style="width: 180px;">
+                                        <option value="">--请选择--</option>
+                                        <option value="1">入</option>
+                                        <option value="2">出</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="label-search">时间范围</label>
+                                    <input type="datetime" class="form-control Wdate" ng-model="search.startTime"
+                                        placeholder="开始日期" onchange=""
+                                        onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()||'%y-%M-%d'}&quot;})">
+                                    <label style="width: 10px;">-</label>
+                                    <input type="datetime" class="form-control Wdate" ng-model="search.endTime"
+                                        placeholder="结束日期" onchange=""
+                                        onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;,maxDate:'%y-%M-%d'})">
+                                </div>
+                                <button class="btn btn-default" ng-click="find()">查询</button>
+                            </div>
+                            <table class="table text-center">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>出入类型</th>
+                                        <th>访客姓名</th>
+                                        <th>访客联系电话</th>
+                                        <th>访客居住地址</th>
+                                        <th>访客体温</th>
+                                        <th>被拜访人</th>
+                                        <th>被拜访企业</th>
+                                        <th>楼栋</th>
+                                        <th>被拜访楼层/房间</th>
+                                        <!-- <th>进入时间</th>
+                                        <th>离开时间</th> -->
+                                        <th>登记时间</th>
+                                    </tr>
+                                    <tr class="hide">
+                                        <th colspan="7">
+                                            <div class="alert" role="alert">加载中...</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="x in pageModel.data">
+                                        <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                        <td>{{x.inoutStatus == 1 ? '入':'出'}}</td>
+                                        <td>{{x.visitorName ||'--'}}</td>
+                                        <td>{{x.contactPhone ||'--'}}</td>
+                                        <td>{{x.address||"--"}}</td>
+                                        <td>{{x.temperature? x.temperature + '℃' : "--"}}</td>
+                                        <td>{{x.interviewee || '--'}}</td>
+                                        <td>{{x.visitEnterprises || '--'}}</td>
+                                        <td>{{x.buildName || '--'}}</td>
+                                        <td>{{x.intervieweeHouse || '--'}}</td>
+                                        <!-- <td>{{x.startTime || '--'}}</td>
+                                        <td>{{x.endTime || '--'}}</td> -->
+                                        <td>{{x.regTime || '--'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ng-include src="'/common/pager.html'"></ng-include>
+                        </div>
+                        <!-- 访客管理 end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

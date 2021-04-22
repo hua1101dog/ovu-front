@@ -1,0 +1,63 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}设备</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label text-nowrap required">项目名称:</label>
+            <div class="col-xs-10">
+                <input type="text"  required class="form-control" ng-model="item.areaName" />
+            </div>
+        </div>
+		<div class="form-group">
+            <label class="col-xs-2 control-label text-nowrap required">设备类别:</label>
+            <div class="col-xs-10">
+                <input type="text"  required class="form-control" ng-model="item.areaType" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label text-nowrap required">设备型号:</label>
+            <div class="col-xs-10">
+                <input type="text"  required class="form-control" ng-model="item.device" />
+            </div>
+        </div>
+		<div class="form-group">
+                    <label class="col-xs-2 control-label text-nowrap required">设备类型:</label>
+                    <div class="col-xs-10">
+                        <input type="text"  required class="form-control" ng-model="item.type" />
+                    </div>
+                </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label text-nowrap required">布设楼层:</label>
+            <div class="col-xs-10">
+                <input type="text"  required class="form-control" ng-model="item.floor" />
+            </div>
+        </div>
+         <div class="form-group">
+            <label class="col-xs-2 control-label text-nowrap required">楼层布设区域:</label>
+            <div class="col-xs-10">
+                <input type="text"  required class="form-control" ng-model="item.floorArea" />
+            </div>
+        </div>
+         <div class="form-group">
+            <label class="col-xs-2 control-label text-nowrap required">类型布设区域:</label>
+            <div class="col-xs-10">
+                <input type="text"  required class="form-control" ng-model="item.floorAreaType" />
+            </div>
+        </div>
+        <div  class="form-group">
+            <label class="col-xs-2 required control-label text-nowrap">隶属的采集点：</label>
+            <div class="col-xs-10">
+                <select class="form-control" ng-model="item.dpId" ng-options="o.comment for o in dpIds">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div>
+       
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="vm.save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+</div>

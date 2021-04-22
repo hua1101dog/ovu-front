@@ -1,0 +1,257 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="$dismiss()">×</button>
+			<h4 class="modal-title">{{item.ID?'编辑':'添加'}}应急工单</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="form-group" ng-if="(!hasOnlyPark) && (item.EVENT_TYPE==0)">
+					<label class="col-xs-2 control-label required" >是否多项目：</label>
+					<div class="col-xs-10">
+						<label  role="button" style="line-height:32px;margin-right: 15px"><input type="radio" required style="margin:0 5px" ng-change="clearManage()" ng-model="item.IS_MULTIPARK" value="1"  name="IS_MULTIPARK" >是</label>
+						<label  role="button" style="line-height:32px;"><input type="radio" style="margin:0 5px"  ng-change="clearManage()" required ng-model="item.IS_MULTIPARK" value="2"  name="IS_MULTIPARK" >否</label>
+						
+					</div>
+					
+				</div>
+				<div class="form-group" ng-if="item.IS_MULTIPARK==1 && item.EVENT_TYPE==0">
+					<label class="col-xs-2 control-label required">项目：</label>
+					<div class="col-xs-10">
+						<button class="btn  btn-primary" ng-click="choosePark(selectParks)" ng-if="item.IS_MULTIPARK==1" style="margin:0 15px;vertical-align: top;
+						margin-top: 3px;">选择项目</button>
+						
+						<div class="input-group" style="display: inline-block;">
+							<ul id="person" class="ul-persons">
+								
+								<li class="item" ng-repeat="p in selectParks | limitTo:1" ng-if="selectParks.length">{{p.fullPath}}<a href='javascript:void(0)' ng-click="selectParks.splice(selectParks.indexOf(p), 1)"><i class="fa fa-remove"></i></a></li>
+							</ul>
+						</div>
+						<a href='javascript:void(0)' class="btn-link"  ng-if="selectParks.length" ng-click='choosePark(selectParks)' style="display: inline-block;margin-top: 13px;vertical-align: top;">点击查看项目详情</a>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">报事类型：</label>
+					<div class="col-xs-10">
+						<label  role="button" style="line-height:32px;margin-right: 15px"><input type="radio" required style="margin:0 5px" ng-model="item.EVENT_TYPE" value="0"  name="EVENT_TYPE" >公共报事</label>
+						<label  role="button" style="line-height:32px;"><input type="radio" required style="margin:0 5px"  ng-model="item.EVENT_TYPE" value="1"  name="EVENT_TYPE" >代业主报事</label>
+						<label  role="button" style="line-height:32px;"><input type="radio" required style="margin:0 5px"  ng-model="item.EVENT_TYPE" value="3"  name="EVENT_TYPE" >设备设施报修</label>
+
+					</div>
+				</div>
+				<div class="form-group">
+					
+				</div>
+				<div ng-if="item.EVENT_TYPE ==1 ">
+					<div class="form-group">
+						<label class="col-xs-2 control-label required">业主信息：</label>
+						<div class="col-xs-10">
+                            <div class="form-group">
+                                <div class="col-xs-7" style="padding-right: 0px">
+                                    <tree-selector node-list="$root.parkTree" host="item" need=true
+                                                   host-key="'PARK_ID'" host-text="'PARK_NAME'" leaf-only=true
+                                                   tip-text="'请选择位置'" callback="onOwnerCallback"></tree-selector>
+                                </div>
+                               
+                            </div>
+						</div>
+						
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label required">业主姓名：</label>
+						<div class="col-xs-5" >
+							<div class="input-group">
+								<input type="text" class="form-control" required readonly ng-model="item.CUSTOMER_NAME" />
+								<span class="input-group-btn">
+							<button  class="btn btn-default" ng-click="selectOwner()"><i class='fa fa-search'></i></button>
+						 </span>
+							</div>
+						</div>
+					</div>
+					
+					
+						<div class="form-group" ng-if="item.CUSTOMER_NAME">
+						<label class="col-xs-2 control-label">业主电话：</label>
+						<div class="col-xs-3">
+							<input type="text" class="form-control" readonly ng-model="item.CUSTOMER_PHONE" />
+						</div>
+					
+					</div>
+					<div class="form-group" ng-if="item.CUSTOMER_NAME">
+						<label class="col-xs-2 control-label">业主地址：</label>
+						<div class="col-xs-10">
+							<input type="text" class="form-control" readonly ng-model="item.CUSTOMER_ADDR" />
+						</div>
+					</div>
+				</div>
+				<div ng-if="item.EVENT_TYPE ==3 " class="form-group">
+                    <label class="col-xs-2 control-label required" >报修设备：</label>
+                    <div class="col-xs-4">
+                        <tree-selector node-list="$root.parkTree" host="item" need=true
+                                       host-key="'PARK_ID'" host-text="'PARK_NAME'" leaf-only=true
+                                       tip-text="'请选择项目'"></tree-selector>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" readonly="readonly" placeholder="请选择设备" required
+                                   ng-model="item.equipment_name" name="equipment_name"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" ng-click="chooseEquipment(item)" ng-disabled="!item.PARK_ID"><i
+                                    class='fa fa-search'></i></button>
+                            </span>
+                        </div>
+                    </div>
+				</div>
+				
+				<div ng-if="hasOnlyPark || (item.IS_MULTIPARK==2)">
+					<div class="form-group">
+						<label class="col-xs-2 control-label " ng-class="{'required':item.EVENT_TYPE !=3}">报事位置：</label>
+						
+						
+                        <div class="col-xs-10">
+							<div ng-repeat="location in locations" style="margin-bottom: 10px">
+								<button class="btn btn-sm btn-default" ng-click="selectHouse($index,location)" style="margin-bottom: 10px; color: #ccc; height: 34px;" ><i class="glyphicon glyphicon-search"></i>请根据房屋名称、简称、业主姓名、业主电话进行搜索</button><br>
+                                <house-selector  id="workUS" style="display: inline-block;" form-bean="location" node-list="$root.parkTree" host="item" need=true host-key="'PARK_ID'" host-text="'PARK_NAME'" leaf-only=true
+								tip-text="'请选择位置'"></house-selector>
+								
+
+                            </div>
+                            
+                        </div>
+                    </div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">详细位置：</label>
+						<div class="col-xs-10">
+							<input type="text" class="form-control" ng-model="item.EVENT_ADDR" >
+						</div>
+					</div>
+				</div>
+               
+				<!-- <div class="form-group" ng-if="item.is_equip==1 " >
+						<label class="col-xs-2 control-label required">任务描述：</label>
+						<div class="col-xs-10">
+							<textarea type="text" style="height:150px;resize:vertical" required  placeholder="请填写任务描述" class="form-control" ng-model="item.DESCRIPTION"   />
+						</div>
+					</div> -->
+					<div class="form-group">
+						<label class="col-xs-2 control-label required">工单名称：</label>
+						<div class="col-xs-10">
+							<textarea type="text" class="form-control"  style="resize:none" required ng-model="item.WORKUNIT_NAME" name="WORKUNIT_NAME" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label required">工作分类：</label>
+						<div class="col-xs-10">
+							<layer-selector host="item" need=true host-key="'WORKTYPE_ID'" host-text="'WORKTYPE_NAME'" node-list="emerWorkTypeTree"></layer-selector>
+						</div>
+					 
+					</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">上传照片：</label>
+					<div class="col-xs-10">
+						<div class="photoWraper" ng-repeat="p in item.pics track by $index">
+							<img onerror="javascript:this.src='/res/img/detail.png';"
+								 ng-click="showPhoto()"
+								 ng-src="{{processImgUrl(p)}}" />
+							<a role="button" ng-click="delPhoto(item.pics,p)"><i class="glyphicon glyphicon-remove"></i></a>
+						</div>
+						<img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(item.pics,3)" title="上传图片">
+					</div>
+				</div>
+				<div ng-if="item.IS_MULTIPARK==1 && item.EVENT_TYPE==0">
+					<div class="form-group">
+						<label class="col-xs-2 control-label">执行人：</label>
+						<div class="col-xs-10">
+                            <div class="form-group">
+                                <div class="col-xs-6" style="padding-right: 0px">
+                                    <tree-selector node-list="filteredDeptTree" host="exec" 
+                                                   host-key="'deptId'" host-text="'deptName'" 
+                                                   tip-text="'请选择组织架构'" callback="execCallback"></tree-selector>
+                                </div>
+                                <div class="col-xs-6" style="padding-left: 5px">
+									<select class="form-control" ng-model="item.execGroupId"    ng-options="o.id as o.text for o in groudList_e" placeholder="选择分组">
+										<option value="">&#45;&#45;请选择&#45;&#45;</option>
+									</select>
+                                </div>
+                            </div>
+						</div>
+					
+					</div>
+					
+				</div>
+				<div ng-if="item.IS_MULTIPARK==1 && item.EVENT_TYPE==0">
+					<div class="form-group">
+						<label class="col-xs-2 control-label ">管理人：</label>
+						<div class="col-xs-5">
+							<label  role="button" style="line-height:32px;"><input type="radio" style="margin:0 5px"   ng-model="item.isGroup" value="1"  name="isGroup" >选择分组</label>
+						<label  role="button" style="line-height:32px;"><input type="radio" style="margin:0 5px"   ng-model="item.isGroup" value="0"  name="isGroup" >选择管理人</label>
+                            
+						</div>
+					
+					</div>
+					
+				</div>
+				<div class="form-group" ng-if="item.isGroup=='1' && item.EVENT_TYPE ==0">
+					<label class="col-xs-2 control-label"></label>
+					<div class="col-xs-10" >
+						<div class="form-group">
+						<div class="col-xs-6" style="padding-right: 0px">
+							<tree-selector node-list="filteredDeptTree" host="manage" 
+							host-key="'deptId'" host-text="'deptName'" 
+							tip-text="'请选择组织架构'" callback="manageCallback"></tree-selector>
+							
+						</div>
+						<div class="col-xs-6" style="padding-left: 5px">
+							<select class="form-control" ng-model="item.manageGroupId"    ng-options="o.id as o.text for o in groudList_m" placeholder="选择分组">
+								<option value="">&#45;&#45;请选择分组&#45;&#45;</option>
+							</select>
+						</div>
+					</div>
+					</div>
+					
+				</div>
+				<div class="form-group" ng-if="item.isGroup=='0' && item.EVENT_TYPE ==0 && item.IS_MULTIPARK==1">
+					<label class="col-xs-2 control-label"></label>
+					<div class="col-xs-5" style="padding-right: 0px">
+						<div class="input-group">
+                            <input type="text" class="form-control" readonly="readonly" placeholder="请选择管理人" 
+                                   ng-model="item.MANAGE_PERSON_NAME" name="MANAGE_PERSON_NAME"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" ng-click="chooseManagePerson(item)"><i
+                                    class='fa fa-search'></i></button>
+                            </span>
+                        </div>
+					</div>
+				</div>
+			
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+		</div>
+
+		<style>
+		.modal-max{
+			width: 1024px !important;
+		}
+		#workUS select{
+			 width: 87px;
+		}
+		.layui-layer-page .layui-layer-content {
+    position: relative;
+    overflow: auto;
+    padding: 5px;
+}
+.layerContent{
+	
+	word-break: break-all;
+    margin-bottom: 5px;
+    /* display: inline-block; */
+    max-height: 600px;
+	overflow: auto;
+	letter-spacing: 1px;
+	top: 84px !important;
+}
+		
+		</style>
+
+

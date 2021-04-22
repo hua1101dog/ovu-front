@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>财务统计</title>
+    <!-- <link rel="stylesheet" href="financialManage/financialStatistics/messageIndex.css"> -->
+</head>
+
+<body>
+    <div id="angularId" ng-controller="financialStatisticsCtrl">
+        <div class="page-title">
+            <div class="title_left" style="margin-top: 10px; border-left: #138CDD 5px solid;padding-left: 10px;">
+                <h3>财务统计</h3>
+            </div>
+        </div>
+        <ul class="tab_index">
+            <li ng-class="{'act':current==1}" ng-click="current=1;">订单金额</li>
+            <li ng-class="{'act':current==2}" ng-click="current=2;">商品类别</li>
+        </ul>
+        <!-- 订单金额 -->
+        <div ng-show="current==1">
+            <div class="panel panel-default" style="margin-bottom: 20px;">
+                <!-- <div class="panel-heading"> -->
+                <div style="height: 45px;line-height: 35px;" class="panel-heading-top">
+                    <span style="margin-left: 10px;font-weight: 900;">自营统计</span>
+                    <button class="btn btn-default pull-right" style="margin-left: 5px;" ng-click="findMonth('self')">查询</button>
+                    <input type="datetime" placeholder="按月选择" class="form-control Wdate pull-right" id="monthElecReport" 
+                        style="display: inline-block; background-color: rgb(255, 255, 255);width:150px;padding-left: 10px;margin-left: 15px;font-size: 12px;height: 30px;"
+                        onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M)'})" readonly="" >
+                    <button class="btn pull-right" ng-class=" {'act': currentType1 == 'month'}" ng-click="setDateCycleSelf('month')">本月</button>
+                    <button class="btn pull-right" ng-class=" {'act': currentType1 == 'week'}" ng-click="setDateCycleSelf('week')">本周</button>
+                    <button class="btn pull-right" ng-class=" {'act': currentType1 == 'day'}" ng-click="setDateCycleSelf('day')">今日</button>
+                </div>
+                <div class="page_body">
+                    <div class="page_body_left">
+                        <div class="page_body_left_up">
+                            <div style="height: 50px;line-height: 50px;">
+                               <span style="margin-left: 20px;"><span>{{currentType1 == 'day' ? '本日' : currentType1 == 'week' ? '本周' : '本月'}}</span>订单总数</span>
+                            </div>
+                            <div style="height: 100px; line-height: 100px;text-align: center;">
+                                <span style="font-size: 50px;color:#5891eb;">{{pageModel.ownBillNum}}</span>&ensp;个
+                            </div>
+                            <div style="height: 50px;line-height: 50px;text-align: right;">
+                                <span>{{pageModel.ownBillNumRate||'--'}}</span>
+                                <span style="margin-right: 20px;">同比<span>{{currentType1 == 'day' ? '昨日' : currentType1 == 'week' ? '上周' : '上月'}}</span></span>
+                            </div>
+                        </div>
+                        <div class="page_body_left_down">
+                            <div style="height: 50px;line-height: 50px;">
+                                <span style="margin-left: 20px;"><span>{{currentType1 == 'day' ? '本日' : currentType1 == 'week' ? '本周' : '本月'}}</span>订单金额</span>
+                            </div>
+                            <div style="height: 100px; line-height: 100px;text-align: center;">
+                                <span style="font-size: 40px;color:#f00;">{{pageModel.ownTotalAmount}}</span>&ensp;元
+                            </div>
+                            <div style="height: 50px;line-height: 50px;text-align: right;">
+                                <span>{{pageModel.ownTotalAmountRate||'--'}}</span>
+                                <span style="margin-right: 20px;">同比<span>{{currentType1 == 'day' ? '昨日' : currentType1 == 'week' ? '上周' : '上月'}}</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page_body_right">
+                        <div style="height:400px;width: 1200px;" id="main1" ui-echarts="option">
+                        </div>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+
+            <div class="panel panel-default" style="margin-bottom: 0;">
+                <div style="height: 45px;line-height: 35px;" class="panel-heading-top">
+                    <span style="margin-left: 10px;font-weight: 900;">第三方统计</span>
+                    <button class="btn btn-default pull-right" style="margin-left: 5px;"  ng-click="findMonth('third')">查询</button>
+                    <input type="datetime" placeholder="按月选择" class="form-control Wdate pull-right" id="monthElecReport2"
+                        style="display: inline-block; background-color: rgb(255, 255, 255);width:150px;padding-left: 10px;margin-left: 15px;font-size: 12px;height: 30px;"
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" readonly="">
+                    <button class="btn pull-right" ng-class=" {'act': currentType2 == 'month'}" ng-click="setDateCycleThird('month')">本月</button>
+                    <button class="btn pull-right" ng-class=" {'act': currentType2 == 'week'}" ng-click="setDateCycleThird('week')">本周</button>
+                    <button class="btn pull-right" ng-class=" {'act': currentType2 == 'day'}" ng-click="setDateCycleThird('day')">今日</button>
+                </div>
+                <div class="page_body">
+                    <div class="page_body_left">
+                        <div class="page_body_left_up">
+                            <div style="height: 50px;line-height: 50px;">
+                                <span style="margin-left: 20px;"><span>{{currentType2 == 'day' ? '本日' : currentType2 == 'week' ? '本周' : '本月'}}</span>订单总数</span>
+                            </div>
+                            <div style="height: 100px; line-height: 100px;text-align: center;">
+                                <span style="font-size: 50px;color:#5891eb;">{{pageModel2.thirdPartyBillNum}}</span>&ensp;个
+                            </div>
+                            <div style="height: 50px;line-height: 50px;text-align: right;">
+                                <span>{{pageModel2.thirdPartyBillNumRate||'--'}}</span>
+                                <span style="margin-right: 20px;">同比<span>{{currentType2 == 'day' ? '昨日' : currentType2 == 'week' ? '上周' : '上月'}}</span></span>
+                            </div>
+                        </div>
+                        <div class="page_body_left_down">
+                            <div style="height: 50px;line-height: 50px;">
+                                <span style="margin-left: 20px;"><span>{{currentType2 == 'day' ? '本日' : currentType2 == 'week' ? '本周' : '本月'}}</span>订单金额</span>
+                            </div>
+                            <div style="height: 100px; line-height: 100px;text-align: center;">
+                                <span style="font-size: 40px;color:#f00;">{{pageModel2.thirdPartyTotalAmount}}</span>&ensp;元
+                            </div>
+                            <div style="height: 50px;line-height: 50px;text-align: right;">
+                                <span>{{pageModel2.thirdPartyTotalAmountRate||'--'}}</span>
+                                <span style="margin-right: 20px;">同比<span>{{currentType2 == 'day' ? '昨日' : currentType2 == 'week' ? '上周' : '上月'}}</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page_body_right">
+                        <div style="height:400px;width: 1200px;" ui-echarts="option2">
+                        </div>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+        </div>
+        <!-- 商品类别 -->
+        <div ng-show="current==2">
+            <div>正在开发中......</div>
+        </div>
+    </div>
+</body>
+<style>
+    .tab_index {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 0;
+    }
+
+    .tab_index li {
+        width: 86px;
+        color: #989898;
+        background-color: #fff;
+        border: 1px solid #e6e6ed;
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 0;
+        margin-right: 15px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    .tab_index li.act {
+        color: #fff;
+        background-color: #5891eb;
+    }
+
+    .panel-heading-top{
+        padding: 5px;
+        background-color: #eee;
+    }
+
+    .panel-heading-top button {
+        background-color: #fff;
+    }
+    .panel-heading-top button.act {
+        background-color: #5891eb;
+        color:#fff;
+    }
+
+    .page_body {
+        width: 100%;
+        overflow: hidden;
+        background-color: #fff;
+    }
+
+    .page_body_left {
+        width: 20%;
+        height: 400px;
+        float: left;
+        border: 1px solid #e6e6e6;
+        border-right: 0;
+    }
+
+    .page_body_left_up {
+        height: 200px;
+        border-bottom: 1px solid #e6e6e6;
+    }
+
+    .page_body_left_down {
+        height: 200px;
+    }
+
+    .page_body_right {
+        height: 400px;
+        width: 80%;
+        float: right;
+        overflow: hidden;
+        border: 1px solid #e6e6e6;
+    }
+
+</style>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>出售管理</title>
+</head>
+<body>
+    <div id="angularId" ng-controller="saleManageCtl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>出售管理</h3>
+            </div>
+        </div>
+        
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label class="label-search">分期</label>
+                    <select class="form-control" ng-model="STAGE" ng-change="changeStage(STAGE)" ng-options="o.stageName for o in stageList" style="width: 140px;margin-right: 40px;">
+                        <option value="">-请选择-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="label-search">楼栋</label>
+                    <select class="form-control" ng-model="FLOOR" ng-change="changeFloor(FLOOR)" ng-options="o.buildName for o in floorList" style="width: 140px;margin-right: 40px;">
+                        <option value="">-请选择-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="label-search">单元</label>
+                    <select class="form-control" ng-model="UNIT" ng-change="changeUnit(FLOOR,UNIT)" ng-options="o for o in unitList" style="width: 140px;margin-right: 40px;">
+                        <option value="">-请选择-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="label-search">楼层</label>
+                    <select class="form-control" ng-model="GROUND" ng-change="changeGround(GROUND)" ng-options="o+'楼' for o in groundList" style="width: 140px;margin-right: 40px;">
+                        <option value="">-请选择-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="label-search">出售状态</label>
+                    <select class="form-control" ng-model="STATUS" ng-change="getStatus(STATUS)" style="width: 140px;">
+                        <option value="">-请选择-</option>
+                        <option value="1">待出售</option>
+                        <option value="2">待审核</option>
+                        <option value="3">已出售</option>
+                        <option value="4">已驳回</option>
+                    </select>
+                </div>
+                <button class="btn btn-default pull-right btn-search" ng-click="find()" style="width: 80px;color: #fff; background-color: #5891eb;">查询</button>
+            </div>
+        </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                            <tr>
+                                <!--<th class="text-center">NO</th>-->
+                                <th style="text-align:center">分期</th>
+                                <th style="text-align:center">楼栋</th>
+                                <th style="text-align:center">单元</th>
+                                <th style="text-align:center">楼层</th>
+                                <th style="text-align:center">房间</th>
+                                <th style="text-align:center">房间类型</th>
+                                <th style="text-align:center">面积(m<sup>2</sup>)</th>
+                                <th style="text-align:center">单价(元/m<sup>2</sup>)</th>
+                                <th style="text-align:center">出售状态</th>
+                                <th style="text-align:center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                            <tr ng-repeat="item in pageModel.data" ng-if="!item.edit">
+                              
+                                <td class="text-center">{{item.stageName}}</td>
+                                <td class="text-center">{{item.buildName}}</td>
+                                <td class="text-center">{{item.unitNum}}</td>
+                                <td class="text-center">{{item.groundNum}}</td>
+                                <td class="text-center">{{item.houseName}}</td>
+                                <td class="text-center">{{item.houseTypeName}}</td>
+                                <td class="text-center">{{item.area}}</td>
+                                <td class="text-center">{{item.salePrice}}<span ng-if="item.salePrice">{{ item.sellStatus==1?'元/天/平米':'元/平米'}}</span></td>
+                                <td class="text-center">{{item.saleStatus !=1?item.saleStatus !=2?item.saleStatus !=3?'已驳回':'已出售':'待审核':'待出售'}}</td>
+                                <td class="text-center">
+                                    <a href='javascript:void(0)' ng-click='sell(item.id)' class='btn btn-xs' ng-show="item.saleStatus == 1||item.saleStatus == 4"><span class='fa fa-circle-o'></span>售</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+</body>
+</html>

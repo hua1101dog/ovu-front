@@ -1,0 +1,78 @@
+<div ng-controller="equipmentInformationCtrl" style="position: relative;">
+    <div class="synButton">
+        <div class="formInput">
+            <!-- <div class="form-group">
+                <input type="text" class="form-control ng-valid ng-empty ng-pristine ng-touched" placeholder="请输入id查询"
+                    ng-model="rule.equipSimpleName">
+            </div> -->
+        </div>
+        <button type="button" class="btn btn-primary" ng-click="goSyn()" style="height: 34px;">同步</button>
+    </div>
+    <table class="table table-striped table-hover" style="margin-top: 10px;">
+        <thead class="title">
+            <tr>
+                <th class="text-center">NO.</th>
+                <th>园区名称</th>
+                <th>设备名称</th>
+                <th>设备编码</th>
+                <th>经度</th>
+                <th>维度</th>
+                <th>位置</th>
+                <th>设备编号</th>
+                <th>设备状态</th>
+            </tr>
+        </thead>
+        <tbody class="table_tbody_box">
+            <tr ng-if="equipment.length == 0">
+                <td colspan="100" class="text-center">暂无数据</td>
+            </tr>
+            <tr ng-repeat="item in equipment" class="ng-scope">
+                <td class="text-center">{{$index + 1}}</td>
+                <td class="">{{item.parkName}}</td>
+                <td class=""width="150">{{item.devName}}</td>
+                <td class="">{{item.screenToken}}</td>
+                <td class="">{{item.longitude=="null"?'':item.longitude}}</td>
+                <td class="">{{item.latitude=="null"?'':item.latitude}}</td>
+                <td class="">{{item.seat}}</td>
+                <td class="">{{item.videoId}}</td>
+                <td class="">{{item.statue}}</td>
+                <!-- <td class="clearfix" width="150">
+                    <a href="javascript:void(0)" ng-click="toRefresh(item.id)">
+                        <span class='fa fa-undo'></span>刷新
+                    </a>
+                    <a href="javascript:void(0)" ng-click="toEdit(item)">
+                        <span class='fa fa-edit'></span>编辑
+                    </a>
+                    <span class="pipe"></span>
+                    <a href="javascript:void(0)" ng-click="toDel(item.id)">
+
+                        <span class='fa fa-trash'></span>刪除
+                    </a>
+                </td> -->
+            </tr>
+        </tbody>
+    </table>
+    <ng-include src="'/common/pager.html'" class="ng-scope">
+        <style type="text/css" class="ng-scope">
+            .pagination>li>span:hover {
+                background-color: #fff;
+                cursor: text
+            }
+        </style>
+    </ng-include>
+</div>
+<style>
+    .synButton {
+        display: flex;
+        justify-content: space-between;
+        height: 64px;
+        line-height: 64px;
+    }
+
+    .synButton button {
+        margin: 15px 0px;
+    }
+    .formInput{
+        margin-top:15px;
+    }
+</style>

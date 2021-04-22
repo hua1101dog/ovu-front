@@ -1,0 +1,17 @@
+<div class="modal-header">
+        <h4 class="modal-title">{{item.id?'编辑':'新增'}}文件夹</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">文件夹名</label>
+                <div class="col-xs-8">
+                    <input type="text" class="col-xs-10 form-control" required ng-model="item.folderName" name="folderName" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>

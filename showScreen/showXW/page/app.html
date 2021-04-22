@@ -1,0 +1,96 @@
+<div ng-cloak>
+    <paly-modal device-id="video.id"  ng-if="video.on" width="700" height="400"></paly-modal>
+    <!--<div class="videoDiv" ng-if="video.on">
+        <img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute" ng-click="video.on = false"></img>
+        <play-video id="video" device-id="video.id"></play-video>
+        <div class="" style="position: absolute;top: 0;">
+            <button class="btn btn-primary btn-sm">放大</button>
+            <button class="btn btn-primary btn-sm">缩小</button>
+        </div>
+    </div>-->
+    <!--头部begin-->
+    <div class="header box-shadow clearfix">
+        <div class="navbar-header">
+            <!-- brand -->
+            <a ui-sref="home" class="navbar-brand" style="padding:0">
+                <img style="padding: 10px 10px;height: 60px" ng-src="{{'/showXW/res/img/home/'+logo}}">
+            </a>
+
+        </div>
+        <div class="">
+            <ul class="nav navbar-nav nav-font ">
+                <li>
+                    <a ui-sref="app.operation.business" ng-if="!judge.operate" ng-class="{active:$state.includes('app.operation')}">
+                        <i class="icon iconfont icon-yunyingzhibiaotixi"></i>
+                        <span>运营指标体系</span>
+                    </a>
+
+                    <a class="dis" href="javascript:void(0)" ng-if="judge.operate" ng-class="{active:$state.includes('app.operation')}">
+                        <i class="icon iconfont icon-yunyingzhibiaotixi"></i>
+                        <span>运营指标体系</span>
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="app.facility.lift" ng-if="!judge.facility" ng-style="{'pointer-events':(parkLevel=='2')?'none':'auto'}" ng-class="{active:$state.includes('app.facility')}">
+                        <i class="icon iconfont icon-sheshiyunweizhongxin"></i>
+                        <span>设施运维中心</span>
+                    </a>
+                    <a class="dis" href="javascript:void(0)" ng-if="judge.facility" ng-class="{active:$state.includes('app.facility')}">
+                        <i class="icon iconfont icon-sheshiyunweizhongxin"></i>
+                         <span>设施运维中心</span>
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="app.company.space" ng-if="!judge.company" ng-style="{'pointer-events':(parkLevel=='2')?'none':'auto'}" ng-class="{active:$state.includes('app.company')}">
+                        <i class="icon iconfont icon-qiyefuwuzhongxin"></i>
+                        <span>企业服务中心</span>
+                    </a>
+                    <a class="dis" href="javascript:void(0)" ng-if="judge.company" ng-class="{active:$state.includes('app.company')}">
+                        <i class="icon iconfont icon-qiyefuwuzhongxin"></i>
+                        <span>企业服务中心</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a ui-sref="app.safe.alarm" ng-if="!judge.safe" ng-style="{'pointer-events':(parkLevel=='2')?'none':'auto'}" ng-class="{active:$state.includes('app.safe')}">
+                        <i class="icon iconfont icon-yuanquanquanzhongxin"></i>
+                        <span>园区安全中心</span>
+                    </a>
+                    <a class="dis" href="javascript:void(0)" ng-if="judge.safe" ng-class="{active:$state.includes('app.safe')}">
+                        <i class="icon iconfont icon-yuanquanquanzhongxin"></i>
+                        <span>园区安全中心</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+<!--头部end-->
+<div class="leftDiv bg-black" id="menuDiv">
+    <ul class="topMenu " style="">
+        <li ng-repeat="menu in menuList">
+            <a ui-sref="{{menu.url}}" ng-class="{active:$state.includes('{{menu.remark || menu.url}}')}">
+                <i class="{{menu.icon}}"></i>
+                <div>{{menu.name}}</div>
+            </a>
+        </li>
+    </ul>
+</div>
+<div ui-view class="view_body" id="routeBody"></div>
+<style>
+.header li .dis:hover{
+    color: #eee !important;
+    background: #383C47;
+    opacity: 0.5;
+    cursor:not-allowed;
+}
+.header li .dis:active{
+    background: #383C47;
+    color: #eee !important;
+}
+.header li .dis:focus{
+    background: #383C47;
+    color: #eee !important;
+}
+</style>

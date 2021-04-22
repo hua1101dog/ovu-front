@@ -1,0 +1,10 @@
+<ul ng-if="nodeList.length">
+    <li ng-repeat="node in nodeList" class="clearfix" >
+        <div class="form-inline " role="button" ng-click="$parent.selectNode(node,host)" ng-class="{'bg-success':node.state.selected}" >
+            <span class="mr15"><i class="fa fa-cubes" ng-if="node.is_model==1" ></i>{{node.text}}</span>
+            <i class="icon glyphicon glyphicon-menu-right "
+               ng-style="{visibility:node.nodes.length?'visible':'hidden'}" ></i>
+        </div>
+        <layer-select node-list="node.nodes" host="host" class="layerSelect" ></layer-select>
+    </li>
+</ul>

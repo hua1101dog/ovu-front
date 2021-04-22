@@ -1,0 +1,97 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="$dismiss()">×</button>
+			<h4 class="modal-title">{{item.ID?'工单评价':'评价详情'}}</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="form-group" ng-if="!item.ID">
+					<label class="col-xs-2 control-label">工单名称：</label>
+					<div class="col-xs-4">
+						<div style="margin-top: 8px">{{item.WORKUNIT_NAME}}</div>
+					</div>
+					<label class="col-xs-2 control-label">执行时间：</label>
+					<div class="col-xs-4">
+						<div style="margin-top: 8px">{{item.EXEC_DATE}}</div>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-xs-2 control-label required">评分：</label>
+					<div  class="col-xs-10">
+						<span uib-rating ng-model="item.temp_score" max="5" read-only=true on-hover="hoveringOver(value)" ng-click="item.EVALUATE_SCORE = item.temp_score"
+							  state-on="'star-on'" state-off="'star-off'"  on-leave="item.temp_score =item.EVALUATE_SCORE "></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">现场图片：</label>
+					<div class="col-xs-10">
+						<div class="photoWraper" ng-repeat="p in item.photos">
+							<img onerror="javascript:this.src='/res/img/detail.png';"
+								 ng-click="showPhoto()"
+								 ng-src="{{processImgUrl(p)}}">
+							<a role="button" ng-if="!item.ID" ng-click="delPhoto(item.photos,p)" ><i class="glyphicon glyphicon-remove"></i></a>
+						</div>
+						<img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-if="!item.ID" ng-click="addPhotos(item.photos,3)" title="上传图片">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">评价内容：</label>
+					<div class="col-xs-10">
+						<textarea type="text" style="height:150px;resize:vertical" class="form-control" ng-disabled="item.ID" ng-model="item.EVALUATE_TEXT"   />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">
+						<a href='javascript:void(0)'
+							ng-click='phase.expanded =!phase.expanded' class='btn-link'>
+							<span class='fa' ng-class="{'fa-angle-double-down':!phase.expanded,'fa-angle-double-up':phase.expanded}"></span>
+							查看详情
+						</a>
+					</label>
+				</div>
+				<div  ng-show="phase.expanded">
+					<div class="x_panel" ng-if="detail.WORKUNIT_TYPE==1">
+						<div class="x_title">任务名称：{{task.WORKTASK_NAME}}</div>
+						<div class="x_content">
+							<p><label>任务描述：</label>{{task.TASK_DESCRIPTION}}</p>
+							<div class="alert" role="alert" ng-show="!task.stepChild||task.stepChild.length==0">无步骤信息</div>
+							<ol >
+								<li ng-repeat="step in task.stepChild">{{step.DESCRIPTION}}
+									<div ng-if="step.OPERATION_TYPE ==1" class="clearfix">
+										<!--照片-->
+										<div class="photoWraper" ng-repeat="p in step.oper.photos">
+											<img onerror="javascript:this.src='/res/img/detail.png';"  ng-click="showPhoto()"
+												 ng-src="{{processImgUrl(p)}}">
+										</div>
+									</div>
+									<div ng-if="step.OPERATION_TYPE !=1" class="form-inline">
+										{{step.oper.value||'（空）'}}
+									</div>
+								</li>
+							</ol>
+						</div>
+					</div>
+					<div ng-if="detail.WORKUNIT_TYPE==2">
+						<div class="form-group">
+							<label class="col-xs-2 control-label">现场图片：</label>
+							<div class="col-xs-10">
+								<div class="photoWraper" ng-repeat="p in detail.photos">
+									<img onerror="javascript:this.src='/res/img/detail.png';"
+										 ng-click="showPhoto()"
+										 ng-src="{{processImgUrl(p)}}">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-2 control-label">备注：</label>
+							<div class="col-xs-10">{{detail.SUCCESS_TEXT}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-if="!item.ID" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+		</div>
+

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <!-- 添加移动端viewport 设置 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>OVU-智慧运营平台</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="bookmark" href="/favicon.ico" />
+    <!-- 引入样式 -->
+    <!--<link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">-->
+    <link href="/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .main-header{
+            background: url("img/main.png");
+            background-repeat: no-repeat;
+            background-position: center 0;
+            -webkit-background-size: cover;
+            background-size: 100% 100%;;
+            min-height: 330px;
+        }
+        .right-one{
+            width: 80px;
+            position: absolute;
+            right: 0;
+        }
+        .right-two{
+            width: 80px;
+            position: absolute;
+            right: 0;
+            top:200px;
+        }
+        .left-one{
+            width: 80px;
+            position: absolute;
+            left: 30px;
+            top: 150px;
+        }
+        .left-two{
+            width: 80px;
+            position: absolute;
+            left: 0;
+            top:450px;
+        }
+        .m-t{
+            margin-top: 20px;
+        }
+        .m-b{
+            margin-bottom: 10px;
+        }
+        .p-top{
+            color: #333333;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .p-bottom{
+            color: #666666;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <header class="main-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <img src="img/logo.png" style="margin-top: 10px;width: 100px">
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="container-fluid" style="min-height: 400px;">
+        <div class="row" >
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <img src="img/rightOne.png" class="right-one">
+                <img src="img/rightTwo.png" class="right-two">
+                <img src="img/leftOne.png" class="left-one">
+                <img src="img/leftTwo.png" class="left-two">
+            </div>
+        </div>
+        <div class="row m-t">
+            <div class="col-sm-3 col-xs-3 text-right">
+                <img src="img/1.png" style="width: 55px;">
+            </div>
+            <div class="col-sm-8 col-xs-8">
+                <p class="p-top">APP设备编码</p>
+                <p class="p-bottom">{{sensor.app_code || '无'}}</p>
+            </div>
+        </div>
+        <div class="row m-t">
+            <div class="col-sm-3 col-xs-3 text-right">
+                <img src="img/2.png" style="width: 55px;">
+            </div>
+            <div class="col-sm-8 col-xs-8">
+                <p class="p-top">APP设备名称</p>
+                <p class="p-bottom">{{sensor.app_name || '无'}}</p>
+            </div>
+        </div>
+        <div class="row m-t">
+            <div class="col-sm-3 col-xs-3 text-right">
+                <img src="img/3.png" style="width: 55px;">
+            </div>
+            <div class="col-sm-8 col-xs-8">
+                <p class="p-top">位置惯用名</p>
+                <p class="p-bottom">{{sensor.loc_simple_name || '无'}}</p>
+            </div>
+        </div>
+        <div class="row m-t">
+            <div class="col-sm-3 col-xs-3 text-right">
+                <img src="img/4.png" style="width: 55px;">
+            </div>
+            <div class="col-sm-8 col-xs-8">
+                <p class="p-top">设备惯用名</p>
+                <p class="p-bottom">{{sensor.equip_simple_name || '无'}}</p>
+            </div>
+        </div>
+        <div class="row m-t">
+            <div class="col-sm-3 col-xs-3 text-right">
+                <img src="img/5.png" style="width: 55px;">
+            </div>
+            <div class="col-sm-8 col-xs-8">
+                <p class="p-top">品牌</p>
+                <p class="p-bottom">{{sensor.brand_name || '无'}}</p>
+            </div>
+        </div>
+        <div class="row m-t">
+            <div class="col-sm-3 col-xs-3 text-right">
+                <img src="img/6.png" style="width: 55px;">
+            </div>
+            <div class="col-sm-8 col-xs-8">
+                <p class="p-top">规格型号</p>
+                <p class="p-bottom">{{sensor.mode_name || '无'}}</p>
+            </div>
+        </div>
+    </section>
+    <footer class="container-fluid" style="background: #09c489;margin-top: 30px;min-height: 300px">
+        <div class="row m-t" v-for="item in workunit">
+            <div class="col-sm-12 col-xs-12 m-b">
+                <p class="p-top text-center" style="color: #ffffff">{{item.WORKUNIT_NAME}}</p>
+                <p style="color: #ffffff">
+                    <span class="col-xs-6 text-left">{{item.EXEC_PERSON_NAME || '无'}}</span>
+                    <span class="col-xs-6 text-right">{{item.EXEC_DATE}}</span>
+                </p>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+                <img src="img/line.png" style="width: 100%;">
+            </div>
+        </div>
+    </footer>
+
+</div>
+</body>
+<!-- 先引入 Vue -->
+<script src="lib/vue.min.js"></script>
+<script src="lib/vue-resource.min.js"></script>
+<!-- 引入组件库 -->
+<!--<script src="https://unpkg.com/mint-ui/lib/index.js"></script>-->
+<script>
+    new Vue({
+        el: '#app',
+        data : {
+            sensor :{},
+            workunit:[]
+        },
+        mounted: function () {
+            var that = this;
+            var search = location.search;
+            this.$http.get('/ovu-pcos/mobile/equipmentDetail.do'+ search).then(function (response) {
+                var res = response.data;
+                if (res.success) {
+                    that.sensor = res.data;
+                }
+            })
+            this.$http.get('/ovu-pcos/mobile/getEquipmentWorkunit.do'+ search).then(function (response) {
+                var res = response.data;
+                if (res.success) {
+                    that.workunit = res.data.data;
+                }
+            })
+        }
+    })
+</script>
+</html>

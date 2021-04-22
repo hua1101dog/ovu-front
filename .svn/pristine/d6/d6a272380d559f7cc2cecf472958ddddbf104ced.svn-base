@@ -1,0 +1,84 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">编辑清单</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="form-group" >
+			<label class="col-xs-2 control-label">移交位置：</label>
+			<div class="col-xs-4">
+				<label class="control-label">{{item.area}}</label>
+			</div>
+			<label class="col-xs-2 control-label">查验项：</label>
+			<div class="col-xs-4">
+				<label class="control-label">{{item.item_name}}</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">查验内容：</label>
+			<div class="col-xs-4">
+				<label class="control-label">{{item.content}}</label>
+			</div>
+		</div>
+		<div ng-if="item.way==1">
+			<div class="form-group" >
+				<label class="col-xs-2 control-label">品牌：</label>
+				<div class="col-xs-4">
+					<label class="control-label">{{item.brand}}</label>
+				</div>
+				<label class="col-xs-2 control-label">数量：</label>
+				<div class="col-xs-4">
+					<label class="control-label">{{item.num}}</label>
+				</div>
+			</div>
+			<div class="form-group" >
+				<label class="col-xs-2 control-label">上次描述：</label>
+				<div class="col-xs-10">
+					<label class="control-label">{{item.remark}}</label>
+				</div>
+			</div>
+			<div class="form-group" >
+				<label class="col-xs-2 control-label">实际数量：</label>
+				<div class="col-xs-4">
+					<input type="number" class="form-control" name="num2" ng-model="item.num2" required/>
+				</div>
+				<label class="col-xs-2 control-label required">是否相符：</label>
+				<div class="col-xs-4">
+					<select class="form-control" name="has_problem2" ng-model="item.has_problem2" required
+							ng-options="o[0] as o[1] for o in yesNoDict">
+						<option value="">请选择</option>
+					</select>
+				</div>
+			</div>
+
+		</div>
+		<div ng-if="item.way==2 || item.way==3">
+			<div ng-if="item.way==3">
+				<label class="col-xs-2 control-label">实际检测值：</label>
+				<div class="col-xs-4">
+					<input type="text" class="form-control" name="check_val2" ng-model="item.check_val2" maxlength="20"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label required">是否存在问题：</label>
+				<div class="col-xs-4">
+					<select class="form-control" name="has_problem2" ng-model="item.has_problem2" required
+							ng-options="o[0] as o[1] for o in yesNoDict">
+						<option value="">请选择</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">备注：</label>
+			<div class="col-xs-10">
+				<textarea type="text" rows="5" class="form-control" ng-model="item.comment" maxlength="60"   />
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

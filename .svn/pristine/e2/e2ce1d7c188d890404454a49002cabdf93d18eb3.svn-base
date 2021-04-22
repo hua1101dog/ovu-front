@@ -1,0 +1,446 @@
+<div class="modal-body container-fluid form-horizontal" >
+    <form name="form" novalidate id="form">
+        <uib-tabset>
+            <uib-tab  heading="基本信息" >
+                <div class="form-group" style="padding-top:12px;">
+                    <div ng-if="item.isGroup">
+                        <label class="col-xs-2 control-label required">项目：</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" ng-focus="item.parkFocus=true" ng-blur="item.parkFocus=false" ng-model="item.park_name" name="park_name" readonly required/>
+                            <layer-select node-list="parkTree" select-method="selectPark" ng-show="item.parkFocus||item.parkHover" ng-mouseover="item.parkHover=true" ng-mouseleave="item.parkHover=false" class="layerSelect" style="left: 15px;top:inherit;"></layer-select>
+                        </div>
+                    </div>
+                    <span >
+                        <label class="col-xs-2 control-label required">分类：</label>
+                        <div class="col-xs-4" uib-popover="请配置电梯维保必填信息!" popover-enable="keyNode.equipType == 'elevator'">
+                             <layer-selector host="item" host-key="'model_id'" need="true" leaf-only="true" callback="selectType" host-text="'type_name'" node-list="equipTypeTree"></layer-selector>
+                         </div>
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">设备名称：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" ng-model="item.name" name="name" placeholder="系统自动生成" ng-readonly="true" />
+                    </div>
+                    <label class="col-xs-2 control-label required">设备编码：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" ng-model="item.equip_code" name="equip_code" placeholder="系统自动生成" ng-readonly="true" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">APP设备名称：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" ng-model="item.app_name" name="app_name" placeholder="系统自动生成" ng-readonly="true" />
+                    </div>
+                    <label class="col-xs-2 control-label required">APP设备编码：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" ng-model="item.app_code" name="app_code" placeholder="系统自动生成" ng-readonly="true" />
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label required">位置惯用名：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" ng-model="item.loc_simple_name" name="loc_simple_name" required/>
+                    </div>
+                    <label class="col-xs-2 control-label required">设备惯用名：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" ng-model="item.equip_simple_name" name="equip_simple_name" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">使用单位：</label>
+                    <div class="col-xs-2">
+                        <tree-selector node-list="filteredDeptTree" required host="item" host-key="'use_company'" host-text="'useDeptName'" tip-text="'请选择部门'" need="true"></tree-selector>
+                    </div>
+                    <label class="col-xs-2 control-label required">品牌：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.brand_name" name="brand_name" required/>
+                    </div>
+                    <label class="col-xs-2 control-label "  ng-class="{'required':keyNode.equipType=='elevator'}">安装日期：</label>
+                    <div class="col-xs-2">
+                        <input type="datetime" ng-required="keyNode.equipType=='elevator'"
+                               class="form-control Wdate" name="install_date" ng-model="item.install_date" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    </div>
+                </div>
+                <div class="form-group" ng-if="domain.orgType=='propertyManagement'">
+                    <label class="col-xs-2 control-label"  ng-class="{'required':keyNode.equipType=='elevator'}">维保单位：</label>
+                    <div class="col-xs-4">
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <select class="form-control" ng-model="item.maintainOrgId" ng-required="keyNode.equipType=='elevator'"
+                                        ng-options="o.id as o.domainName for o in auths" ng-change="changeOperatorCompany(item.maintainOrgId)">
+                                    <option value="">--请选择维保公司--</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-7">
+                                <layer-selector node-list="orgTree" host="item" need="keyNode.equipType=='elevator'"
+                                     host-key="'maintainDeptId'" host-text="'maintainDeptName'" tip-text="'请选择部门'"></layer-selector>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">使用位置：</label>
+                    <!-- <house-selector class="col-xs-10"
+                     form-bean="item" 
+                     park-id-key="'park_id'"
+                      is-required=true 
+                   
+                      is-unit-unrequired=true
+                      is-floor-unrequired=true
+                      is-house-unrequired=true
+                      ></house-selector> -->
+                      <house-selector class="col-xs-10"
+                      form-bean="item" 
+                      park-id-key="'park_id'"
+                       is-required=true 
+                    
+                       ></house-selector>
+                </div>
+                <div class="form-group">
+
+                    <label class="col-xs-2 control-label required">设备状态：</label>
+                    <div class="col-xs-2">
+                        <select class="form-control" required ng-model="item.equip_status" ng-options="o[0] as o[1] for o in equipStatusDict">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                    <label class="col-xs-2 control-label "  ng-class="{'required':keyNode.equipType=='elevator'||keyNode.equipType=='camera'}">注册代码：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.regi_code" name="regi_code"
+                               ng-required="keyNode.equipType=='elevator'||keyNode.equipType=='camera'"/>
+                    </div>
+                    <span >
+                         <label class="col-xs-2 control-label">设备类型（大屏专用）：</label>
+                        <div class="col-xs-2">
+                            <select class="form-control" ng-model="item.equip_type" ng-options="o[0] as o[1] for o in dapingTypeDict">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                    </span>
+                </div>
+
+                <!--<div class="form-group">
+
+                  <label class="col-xs-2 control-label">设备监控类型：</label>
+                   <div class="col-xs-2">
+                       <input type="text" class="form-control" ng-focus="item.eqMonitTypeFocus=true" ng-blur="item.eqMonitTypeFocus=false" ng-model="item.equipment_name" name="equipment_name" readonly />
+                       <layer-select node-list="eqMonitTypeTree" select-method="selectMonitType" ng-show="item.eqMonitTypeFocus || item.eqMonitTypeHover" ng-mouseover="item.eqMonitTypeHover=true" ng-mouseleave="item.eqMonitTypeHover=false" class="layerSelect" style="left: 15px;top:inherit;"></layer-select>
+                   </div>
+
+                </div>-->
+                <!-- wjlong BEGIN 添加设备监控类型 经度 维度 三个字段 -->
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">新网经度：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.map_lng" name="map_lng" />
+                    </div>
+                    <label class="col-xs-2 control-label">新网纬度：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.map_lat" name="map_lat" />
+                    </div>
+                    <label class="col-xs-2 control-label ">建模设备bim号：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.bim_id" name="bim_id" />
+                    </div>
+                </div>
+                <!-- wjlong END -->
+                <div class="form-group">
+                        <label class="col-xs-2 control-label ">高德经度：</label>
+                        <div class="col-xs-2">
+                            <input type="text" class="form-control" ng-model="item.longitude_" name="longitude_" />
+                    </div>
+                        <label class="col-xs-2 control-label ">高德纬度：</label>
+                        <div class="col-xs-2">
+                            <input type="text" class="form-control" ng-model="item.latitude_" name="latitude_" />
+                    </div>
+                    <label class="col-xs-2 control-label ">建模设备No：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.revit_no" name="revit_no" />
+                    </div>
+                </div>
+                  <!-- Cx 添加摄像机传输信号分类 摄像机外观分类 两个字段 -->
+                <div class="form-group" ng-if="item.equip_type=='camera' || keyNode.equipType=='camera'">
+                    <label class="col-xs-2 control-label required">摄像机传输信号分类：</label>
+                    <div class="col-xs-2">
+                        <select class="form-control" required ng-model="item.signalType" ng-options="o[0] as o[1] for o in signalTypeDict">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                         <label class="col-xs-2 control-label required">摄像机外观分类：</label>
+                        <div class="col-xs-2">
+                            <select class="form-control" required ng-model="item.profileType" ng-options="o[0] as o[1] for o in profileTypeDict">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                
+                </div>
+                  <!-- Cx END -->
+                <!--<div class="form-group">
+                    <div class="col-xs-6">
+                        <label class="col-xs-4 control-label">高德地址搜索：</label>
+                        <div class="col-xs-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="输入要搜索的地址，获取经纬度"
+                                       ng-model="item.searchLocation">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" ng-click="searchPoint()"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div id="map-container" ui-map="$parent.$parent.myMap" style="height: 450px; "
+                             ui-options="mapOptions" ui-map-cache="noCache"
+                             ui-event="{'map-click':'clickMap($event, $params)'}">
+                        </div>
+                        <div ng-repeat="marker in markers" ui-map-marker="markers[$index]">
+                        </div>
+                    </div>
+                </div>-->
+                <!-- 添加地图搜索 -->
+                <!-- <div class="AMap-wrapper">
+                     <div id="container" style="height:450px;"></div>
+                    <div id="tip">
+                        <input type="text" id="map-keyword" name="keyword" value="请输入关键字：(选定后搜索)" onfocus='this.value=""' />
+                    </div>
+                </div>  -->
+
+            </uib-tab>
+            <uib-tab  heading="设备属性">
+
+                <div class="form-group" style="padding-top:12px;">
+                    <label class="col-xs-2 control-label ">规格型号：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.mode_name" name="mode_name" />
+                    </div>
+                    <label class="col-xs-2 control-label">图纸位置编号：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.dwg_loc" name="dwg_loc"/>
+                    </div>
+                    <label class="col-xs-2 control-label ">安装单位：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.install_company" name="install_company" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">出厂编号：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.produce_serial" name="produce_serial" />
+                    </div>
+                    <label class="col-xs-2 control-label">供应商编号：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.supplier_id" name="supplier_id" />
+                    </div>
+                    <label class="col-xs-2 control-label">制造日期：</label>
+                    <div class="col-xs-2">
+                        <input type="datetime" class="form-control Wdate" name="made_date" ng-model="item.made_date" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">购买日期：</label>
+                    <div class="col-xs-2">
+                        <input type="datetime" class="form-control Wdate" name="buy_date" ng-model="item.buy_date" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    </div>
+                    <label class="col-xs-2 control-label">验收日期：</label>
+                    <div class="col-xs-2">
+                        <input type="datetime" class="form-control Wdate" name="accept_date" ng-model="item.accept_date" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    </div>
+                    <label class="col-xs-2 control-label ">接管日期：</label>
+                    <div class="col-xs-2">
+                        <input type="datetime" class="form-control Wdate" name="takeover_date" ng-model="item.takeover_date" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">进场日期：</label>
+                    <div class="col-xs-2">
+                        <input type="datetime" class="form-control Wdate" name="entrance_date" ng-model="item.entrance_date" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    </div>
+                    <label class="col-xs-2 control-label">启用日期：</label>
+                    <div class="col-xs-2">
+                        <input type="datetime" class="form-control Wdate" name="service_date" ng-model="item.service_date" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    </div>
+                    <label class="col-xs-2 control-label">移交状态：</label>
+                    <div class="col-xs-2">
+                        <select class="form-control" ng-model="item.transfer_status" ng-options="o[0] as o[1] for o in yesNoDict">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label ">产地：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" ng-model="item.origin" name="origin" />
+                    </div>
+                    <label class="col-xs-2 control-label ">生产厂家：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" ng-model="item.made_company" name="made_company" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label ">折旧类型：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.depre_type" name="depre_type" />
+                    </div>
+                    <label class="col-xs-2 control-label ">折旧年数：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.depre_year" name="depre_year" />
+                    </div>
+                    <label class="col-xs-2 control-label ">预计寿命：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.expct_life" name="expct_life" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label ">折旧值：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.depre_money" name="depre_money" />
+                    </div>
+                    <label class="col-xs-2 control-label ">操作人：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.op_people" name="op_people" />
+                    </div>
+                    <label class="col-xs-2 control-label">采购成本(元)：</label>
+                    <div class="col-xs-2">
+                        <input type="number" class="form-control" ng-model="item.cost_purchase" name="cost_purchase" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label ">出厂日期：</label>
+                    <div class="col-xs-2">
+                        <input type="datetime" class="form-control Wdate" name="produce_date" ng-model="item.produce_date" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                    </div>
+                    <label class="col-xs-2 control-label ">改造单位：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.reform_company" name="reform_company" />
+                    </div>
+                    <label class="col-xs-2 control-label ">年度维保日期：</label>
+                    <div class="col-xs-2">
+                        <input type="datetime" class="form-control Wdate" name="year_maintain_date" ng-model="item.year_maintain_date" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label ">参数1：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.param1" name="param1" />
+                    </div>
+                    <label class="col-xs-2 control-label ">参数2：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.param2" name="param2" />
+                    </div>
+                    <label class="col-xs-2 control-label ">设备所在位置：</label>
+                    <div class="col-xs-2">
+                        <select class="form-control" ng-model="item.in_out_door" ng-options="o[0] as o[1] for o in pointTypeDict">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label ">维保负责人：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="item.maintain_person" name="maintain_person" />
+                    </div>
+                    <label class="col-xs-2 control-label ">首保日期：</label>
+                    <div class="col-xs-2">
+                        <input type="datetime" class="form-control Wdate" name="frist_maintain_date" ng-model="item.frist_maintain_date" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    </div>
+                    <label class="col-xs-2 control-label ">下次维保日期：</label>
+                    <div class="col-xs-2">
+                        <input type="datetime" class="form-control Wdate" name="next_maintain_date" ng-model="item.next_maintain_date" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">分类中定义的参数（{{item.model_id?item.defs.length:'请先选择品牌型号！'}}）</div>
+                    <div class="panel-body">
+                        <div class="row" ng-repeat="def in item.defs" style="    margin-bottom: 10px;">
+                            <label class="col-xs-6 control-label" style="white-space: nowrap">{{def.name}}<span ng-if="def.val_type==2">（{{def.unit}}）</span>：</label>
+                            <div class="col-xs-6">
+                                <input type="text" ng-if="def.val_type==1" class="form-control" ng-model="def.val" name="val{{$index}}" />
+                                <input type="number" ng-if="def.val_type==2" class="form-control" ng-model="def.val" name="val{{$index}}" />
+                                <select class="form-control" ng-if="def.val_type==3" ng-options="o as o for o in def.options" ng-model="def.val" name="val{{$index}}">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">备注：</label>
+                    <div class="col-xs-10">
+                        <textarea style="height:50px;resize:vertical" class="form-control" name="comment" ng-model="item.comment" />
+                    </div>
+                </div>
+            </uib-tab>
+            <!--<uib-tab  heading="摄像头信息" select="clickCameraTab()" ng-if="keyNode.equipType=='camera'" >
+                <ng-include src="'equipment/divTmpl/equipment.cameraInfo.htm'"></ng-include>
+            </uib-tab>-->
+            <uib-tab  heading="检测参数" ng-if="curEquipType.sensorTypeId">
+                <ng-include src="'equipment/divTmpl/equipment.sensorInfo.htm'"></ng-include>
+            </uib-tab>
+            <uib-tab  heading="关联传感器" ng-if="!curEquipType.sensorTypeId">
+                <ng-include src="'equipment/divTmpl/equipment.bindSensor.htm'"></ng-include>
+            </uib-tab>
+            <uib-tab  heading="关联摄像机" ng-if="keyNode.equipType!='camera'">
+                <ng-include src="'equipment/divTmpl/equipment.bindCamera.htm'"></ng-include>
+            </uib-tab>
+         </uib-tabset>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+
+
+    <!-- 添加地图搜索样式 -->
+<style>
+    .AMap-wrapper{
+        position: relative;
+        margin-top:2%;
+        margin-right:2%;
+    }
+
+    .popover.in{
+        overflow: visible;
+    }
+        /* 显示提示 */
+
+    .amap-sug-result {
+
+        z-index: 1050;
+    }
+    /* wjlong END */
+
+
+    .ul-persons {
+        list-style: none;
+        float: left;
+        padding: 0px;
+    }
+
+    .ul-persons li {
+        margin: 5px;
+        padding: 5px;
+        float: left;
+    }
+
+    .ul-persons li.item {
+        background-color: #F9F9F9;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    /* cx END*/
+</style>
+
+

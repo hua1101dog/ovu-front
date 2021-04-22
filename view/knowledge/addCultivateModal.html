@@ -1,0 +1,153 @@
+<!-- 新增课件 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title" ng-show="!show">{{item.id?'编辑':'新增'}}课件</h4>
+    <h4 class="modal-title" ng-show="show">课件详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">课件名称：</label>
+            <div class="col-xs-4" ng-show="!show">
+                <input type="text" class="form-control" required ng-model="item.text"  maxlength="50" ng-disabled="show"/>
+            </div>
+            <label class="col-xs-9 control-label" style="text-align: left;" ng-show="show">{{item.text}}</label>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">课件类型：</label>
+            <div class="col-xs-4" ng-show="!show">
+                <div class="input-group ">
+                    <layer-selector node-list="item.treeClass" host="item"  host-key="'hierarchyClassificationId'" host-text="hierarchyClassificationName"
+                       tip-text="'请选择分类'" callback="setHierarchyClassification" ng-model="item.text"></layer-selector>
+                  </div>  
+            </div>
+            <label class="col-xs-9 control-label" style="text-align: left;" ng-show="show">{{item.hierarchyClassificationName}}</label>
+        </div>
+        <div class="form-group" style="clear:both;">
+            <label class="col-xs-2 control-label required">课件内容：</label>
+            <div class="col-xs-2">
+                <div class="input-group" ng-show="!show">
+                    <!-- <input type="text" class="form-control" required ng-model="vm.item.name"> -->
+                    <span class="input-group-btn;">
+                        <button class="btn btn-default" type="button"
+                            ng-click="addLimitFiles3('url','name',accepts,fileList,'type')" ng-disabled="show">选择上传文件</button>
+                    </span>
+                </div>
+                
+                <div class="mt7" ng-repeat="item in fileList track by $index" ng-if="!item.id">
+                    <div style="text-align: left;margin:15px 0;width: 200px;">
+                        <span class="fileName" >{{item.name}}
+                            <a ng-click="delFile(fileList,item)" class="f-r" style="margin-left: 5px;">
+                                <i class='fa fa-remove'></i>
+                            </a>
+                        </span>
+                    </div>
+                   <uib-progressbar value="val" type="success">100%</uib-progressbar>
+                </div>
+            </div>
+            <div class="col-xs-6" ng-show="!show">
+                <div class="mt7 fileName">
+                    只能上传 " .doc,.docx,.pdf,.xls,.xlsx,.jpg,.png,.txt,.ppt,.pptx " 类型文件。
+                </div>
+            </div>
+            <div class="btn-group col-xs-2" ng-show="!show">
+                <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)"
+                    style="margin-right:5px;" >
+                    添加链接
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" style="min-width: 66px;font-size: 10px;position: absolute;left: 14px;padding:0px;">
+                    <li>
+                        <a class="btn" style="width: 93px;border-bottom:1px solid #ccc;height: 33px;"
+                            ng-click="audioModal(item,true)" ng-disabled="show">音频</a>
+                    </li>
+                    <li>
+                        <a class="btn" style="width: 93px;height: 33px;" ng-click="videoModal(item,true)" ng-disabled="show">视频</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div ng-show="show1" class="panel panel-default" style="width: 800px;
+        margin-left: 40px;">
+            <div class="form-group" style="margin:10px 0 0;height: 50px;">
+                <input type="text" class="form-control col-xs-2" placeholder="输入音频名称"  ng-model="item.contentName1"
+                    maxlength="100" style="width: 20%; margin:0 20px;" />
+                <input type="text" class="form-control col-xs-2" placeholder="输入音频地址"  ng-model="item.contentPath1"
+                    maxlength="100" style="width: 20%;" />
+                <div style="color: blue;float: left;margin: 10px 10px 0;">
+                    <a href="javascript:void(0)" ng-click="save1('name','url','type',item,true)">保存</a>|<a href="javascript:void(0)" ng-click="cancel1(true)">取消</a>
+                </div>
+            </div>
+        </div>
+        <div ng-show="show2" class="panel panel-default" style="width: 800px;
+        margin-left: 40px;">
+            <div class="form-group" style="margin:10px 0 0;height: 50px;">
+                <input type="text" class="form-control col-xs-2" placeholder="输入视频名称" ng-model="item.contentName2"
+                    maxlength="100" style="width: 20%; margin:0 20px;" />
+                <input type="text" class="form-control col-xs-2" placeholder="输入视频地址" ng-model="item.contentPath2"
+                    maxlength="100" style="width: 20%;" />
+                    <div style="color: blue;float: left;margin: 10px 10px 0;">
+                            <a href="javascript:void(0)" ng-click="save2('name','url','type',item,true)">保存</a>|<a href="javascript:void(0)" ng-click="cancel2(true)">取消</a>
+                        </div>
+            </div>
+        </div>
+        <div ng-if="item.id" ng-repeat="item in pageModel.coursewareDetail">            
+            <div class="form-group" ng-if="item.type==0">
+                    <label class=" col-xs-2 control-label" style="text-align: right;">文件：</label>
+                <input type="text" class="form-control col-xs-2" ng-model="item.name" ng-show="!show"
+                    maxlength="100" style="width: 20%; margin:0 20px;" />
+                <input type="text" class="form-control col-xs-2" ng-model="item.url" ng-show="!show"
+                    maxlength="100" style="width: 20%;" />
+                    <div style="color: blue;float: left;margin: 10px 10px 0;">
+                            <a href="javascript:void(0)" ng-click="del(item)" ng-show="!show" style="color: blue;">删除</a>
+                        </div>
+                    
+                       
+                                <label class="col-xs-4" style="margin-top: 7px; width: 300px;" ng-show="show">{{item.name}}</label> 
+                       
+                            <input type="text" class="col-xs-5" style="margin-top: 7px;border: 0;background-color: #fff;" ng-model="item.url" ng-show="show" ng-disabled="show">             
+                       
+            </div>
+            <div class="form-group" ng-if="item.type==1">
+                    <label class="col-xs-2 control-label" style="text-align: right;">视频：</label>
+                    <input type="text" class="form-control col-xs-2" ng-model="item.name" ng-show="!show"
+                        maxlength="100" style="width: 20%; margin:0 20px;" />
+                    <input type="text" class="form-control col-xs-2" ng-model="item.url" ng-show="!show"
+                        maxlength="100" style="width: 20%;" />
+                        <div style="color: blue;float: left;margin: 10px 10px 0;">
+                                <a href="javascript:void(0)" ng-click="del(item)" ng-show="!show" style="color: blue;">删除</a>
+                            </div>
+                        <label class="col-xs-4" style="margin-top: 7px;" ng-show="show">{{item.name}}</label>
+                        <input type="text" class="col-xs-5" style="margin-top: 7px;border: 0;background-color: #fff;" ng-model="item.url" ng-show="show" ng-disabled="show"> 
+                </div>
+                <div class="form-group" ng-if="item.type==2">
+                        <label class="col-xs-2 control-label" style="text-align: right;">音频：</label>
+                        <input type="text" class="form-control col-xs-2" ng-model="item.name" ng-show="!show"
+                            maxlength="100" style="width: 20%; margin:0 20px;" />
+                        <input type="text" class="form-control col-xs-2" ng-model="item.url" ng-show="!show"
+                            maxlength="100" style="width: 20%;" />    
+                            <div style="color: blue;float: left;margin: 10px 10px 0;">
+                                    <a href="javascript:void(0)" ng-click="del(item)" ng-show="!show" style="color: blue;">删除</a>
+                                </div>
+                            <label class="col-xs-4" style="margin-top: 7px;" ng-show="show">{{item.name}}</label>
+                            <input type="text" class="col-xs-5" style="margin-top: 7px;border: 0;background-color: #fff;" ng-model="item.url" ng-show="show" ng-disabled="show">                    
+                    </div>
+        </div>
+        <div class="modal-footer" style="text-align: center;margin: 0 10px;" ng-if="!show">
+            <button class="btn btn-primary" ng-click="save(form,item)" style="margin-right: 20px;">保存</button>
+            <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        </div>
+    </form>
+</div>
+
+<style>
+ .fileName {
+        font-family: '微软雅黑';
+        font-weight: 400;
+        font-style: normal;
+        color: #999999;
+        text-align: left;
+    }
+
+</style>

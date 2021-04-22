@@ -1,0 +1,111 @@
+<!-- title BEGIN -->
+<div class="inspection-check-title page-title">
+    <div class="title_left">
+        <h3>巡检验收标准设置</h3>
+    </div>
+</div>
+<!-- title END -->
+<!-- content BEGIN -->
+<div class="inspection-check-content">
+    <div class="x_panel">
+        <div class="form-inline pull-left">
+            <input type="text" id="matterName" class="form-control" placeholder="标准名称" ng-model="vm.searchMatterName">
+            <button class="btn btn-primary" ng-click="vm.find(vm.searchMatterName)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            验收标准列表
+            <div class="pull-right">
+                <button class="btn btn-primary" ng-disabled="!vm.parkId"  ng-click="vm.toAdd()">+标准</button>
+                <button class="btn btn-danger" ng-disabled="!vm.hasChecked(vm.pageModel)" ng-click="vm.toDelAll()">批量删除</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th class="text-center" style="width:20px">
+                            <span role="button" ng-click="vm.checkAll(vm.pageModel)">
+                                        <i class="glyphicon" ng-class="{'glyphicon-check':vm.pageModel.checked,'glyphicon-unchecked':!vm.pageModel.checked}"></i>
+                                    </span>
+                        </th>
+                        <th>标准名称</th>
+                        <th>标准内容</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="vm.pageModel.data.length === 0">
+                        <td></td>
+                        <td></td>
+                        <td colspan="100" class="text-center">暂无标准</td>
+                        <td></td>
+                    </tr>
+                    <tr ng-repeat="item in vm.pageModel.data">
+                        <td class="text-center">
+                            {{$index + 1 + vm.pageModel.numPerPage * (vm.pageModel.currentPage - 1)}}
+                        </td>
+                        <td>
+                            <i role="button" ng-click="vm.checkOne(item, vm.pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i>
+                        </td>
+                        <td>{{item.matterName}}</td>
+                        <!-- <td>{{item.matterCotent}}</td> -->
+                        <td ng-bind-html="item.matterCotentBr"></td>
+                        <td class="clearfix">
+                            <a href="javascript:void(0)" ng-click="vm.toEdit(item)">
+                                <i class="icon glyphicon glyphicon-edit"></i>
+                                <span>编辑</span>
+                            </a>
+                            <span class="pipe"></span>
+                            <a href="javascript:void(0)" ng-click="vm.toDelete(item)">
+                                <i class="icon glyphicon glyphicon-trash"></i>
+                                <span>删除</span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer clearfix">
+            <decoration-pagination total-count="vm.pageModel.totalCount" current-page="vm.pageModel.currentPage" num-per-page="vm.pageModel.numPerPage" on-select-change="vm.numSelect($event)" on-page-changed="vm.pageChanged($event)"></decoration-pagination>
+        </div>
+    </div>
+</div>
+<!-- content END -->
+
+<style>
+    .inspection-check-content .panel-heading button {
+        margin-top: -8px;
+    }
+    
+    .inspection-check-content .panel-body {
+        /* height: 530px; */
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    
+    .inspection-check-content .panel-body table {
+        min-width: 650px;
+    }
+    
+    .inspection-check-content table tr th,
+    .inspection-check-content table tr td {
+        text-align: left;
+        vertical-align: middle;
+    }
+    
+    .inspection-check-content table tr th:nth-child(4),
+    .inspection-check-content table tr td:nth-child(4) {
+        text-align: left;
+    }
+    
+    .inspection-check-content table td a {
+        padding: 0 10px 0 12px;
+    }
+    
+    .inspection-check-content .pipe {
+        border-right: 2px solid #5A738E;
+    }
+</style>

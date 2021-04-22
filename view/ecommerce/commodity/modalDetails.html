@@ -1,0 +1,29 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">商品发布管理</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope" style="max-height: 600px">
+	<img src="/view/crowdSource/img/guide.png">
+	<div class="content-div">
+		<p><span class="title-color">商品名称：</span><span class="demandTitle-color">{{item.prodName}}</span></p>
+		<p><span class="title-color">商铺名称：</span><span class="content-color">{{item.shopName}}</span></p>
+		<p><span class="title-color">商品分类：</span><span class="content-color">{{item.cateName}}</span></p>
+		<p><span class="title-color">商品品牌：</span><span class="content-color">{{item.brandName}}</span></p>
+		<p><span class="title-color">商品数量：</span><span class="content-color">{{item.goodsnum}}</span></p>
+		<p><span class="title-color">商品价格：</span><span class="content-color">{{item.price}}</span></p>
+		<p><span class="title-color" style="float: left;">商品介绍：</span>
+			<span class="content-color" style="float: left; width: 380px;">
+				<img ng-click="pimg($event)" ng-repeat="pic in item.contentList track by $index" ng-src="{{pic}}" width="110px" height="110px" style="margin: 6px 6px;"/>
+			</span>
+		</p>
+		<p style="clear:both"><span class="title-color">商品规格：</span><span class="content-color">{{item.prodSpec}}</span></p>
+		<p><span class="title-color" style="float: left;">图片：</span>
+			<span class="content-color" style="float: left; width: 380px;">
+				<img ng-click="pimg($event)" ng-repeat="pic in item.picList track by $index" ng-src="{{pic}}" width="110px" height="110px" style="margin: 6px 6px;"/>
+			</span>
+		</p>
+	</div>
+</div>
+
+<!--  查看大图-->
+<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" style="border:5px solid #fff;" src="" /></div></div>

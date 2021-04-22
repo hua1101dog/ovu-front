@@ -1,0 +1,10 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">企业组织架构详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope" ng-show="company.corporateStructure">
+    <img style="width:880px;" src="{{company.corporateStructure}}">
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope" ng-show="!company.corporateStructure">
+    <label style="text-align:center">暂无数据</label>
+</div>

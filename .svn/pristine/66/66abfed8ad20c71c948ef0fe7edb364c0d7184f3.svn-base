@@ -1,0 +1,153 @@
+<style>
+    .div-group {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .div-panel {
+        width: 86px;
+        color: #989898;
+        background-color: #fff;
+        border: 1px solid #E6E9ED;
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 0;
+        margin-right: 15px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    .div-active {
+        color: #fff;
+        background-color: #5891eb;
+    }
+
+    .a_house {
+        color: #009DDC;
+        font-size: 13px;
+        font-weight: 400;
+        padding: 0;
+    }
+
+    .btn_search {
+        width: 80px;
+        color: #fff;
+        background-color: #5891eb;
+    }
+
+    .label_search {
+        color: #989898;
+        padding: 0 5px 0 8px;
+    }
+
+    .status_hasFix {
+        color: #ff747d;
+    }
+
+    .btn-oper {
+        background-color: #fff;
+        border: 1px solid #78c4ec;
+        color: #78c4ec;
+        padding: 3px 10px;
+    }
+
+    .table>tbody>tr>td,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>td,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>thead>tr>th {
+        /* height: 45px; */
+    }
+
+    .checkbox-inline {
+        margin-left: 10px;
+        font-size: 14px
+    }
+
+    .checkbox-inline input[type="checkbox"] {
+        visibility: visible;
+    }
+
+</style>
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id ? '编辑':'添加'}}角色</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="x_content" style="max-height:650px;overflow: auto;overflow-x: hidden">
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">角色名称：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" placeholder="后台角色" readonly type="text">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">官网用户:</label>
+                <div class="col-xs-9">
+                    <div class="input-group">
+                        <input class="form-control" readonly="readonly" placeholder="选择用户" name="sendCustomers"
+                            ng-model="selectedReceiver111" type="text">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="chooseCompany111(item)"><i
+                                    class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">运营用户:</label>
+                <div class="col-xs-9">
+                    <div class="input-group">
+                        <input class="form-control" readonly="readonly" placeholder="选择用户" name="sendCustomers"
+                            ng-model="selectedReceiver222" type="text">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="chooseCompany222(item)"><i
+                                    class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">物业用户</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input class="form-control" readonly="readonly" placeholder="选择用户" name="sendCustomers"
+                            ng-model="selectedReceiver444" type="text">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="chooseCompany444(item)"><i
+                                    class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary save" ng-click="save()">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+
+<style>
+    .clearSel {
+        position: absolute;
+        top: 37px;
+        right: 49px;
+        color: #666;
+        cursor: pointer;
+    }
+
+</style>

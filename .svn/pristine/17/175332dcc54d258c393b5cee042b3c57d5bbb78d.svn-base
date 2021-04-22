@@ -1,0 +1,128 @@
+<div class="modal-body container-fluid form-horizontal">
+    <div>
+        <div class="content" ng-mouseleave="cancel()">
+            <div class="topDiv">
+                <div class="left1">
+                    <span class="con"> {{item.text}}</span>
+                </div>
+                <div class="right" style="margin-left:10px">
+                    <div class="w50">
+                        <p class="num">{{item.meterValue}}</p>
+                        <p class="con">表数</p>
+                    </div>
+                    <div class="w50">
+                        <p class="num">{{item.energyValue}} </p>
+                        <p class="con">总数据</p>
+                    </div>
+                </div>
+            </div>
+            <div class="arr">
+                <div class="dis-in">
+                    <span class="fa  fa-long-arrow-down arrow blue"></span>
+                </div>
+
+                <div class="dis-in" style="margin-left: 14px">
+                    <span>
+                        <p class="fw">{{item.lossValue}}</p>
+                        <p>损耗数据</p>
+                    </span>
+                </div>
+            </div>
+            <div class="bootmDiv" ng-if="item.nodes && item.nodes.length!==0" ng-repeat="i in item.nodes track by $index">
+                <div class="bt">
+                    <div class="left1">
+                        <span class="con"> {{i.text}}</span>
+                    </div>
+                    <div class="right">
+                        <div class="w50">
+                            <p class="num">{{i.meterValue}} </p>
+                            <p class="con">表数</p>
+                        </div>
+                        <div class="w50">
+                            <p class="num">{{i.energyValue}} </p>
+                            <p class="con">总数据</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="arr" style="margin-left:19%" ng-if="i.lossValue">
+                    <div class="dis-in">
+                        <span class="fa  fa-long-arrow-down arrow blue"></span>
+                    </div>
+
+                    <div class="dis-in" style="margin-left: 14px">
+                        <span>
+                            <p class="fw">{{i.lossValue}}</p>
+                            <p>损耗数据</p>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<style>
+    .content {
+        border: 1px solid #ccc;
+        padding: 24px
+    }
+
+    .bootmDiv {
+        text-align: center
+    }
+
+    .left1 {
+        border-right: 1px solid #ccc;
+        display: inline-block;
+        text-align: center;
+        float: left;
+        padding: 28px 6px
+    }
+
+    .topDiv {
+        border: 1px solid #ccc;
+
+        max-width: 47%;
+        margin-left: 33%;
+
+    }
+
+    .right {
+        display: inline-block;
+        height: 70px;
+
+    }
+
+    .w50 {
+
+        display: inline-block;
+        float: left;
+        padding: 8px 5px
+    }
+
+    .arr {
+        margin-left: 50%;
+        margin-top: 10px;
+    }
+
+    .blue {
+        color: #3cb3dc;
+        font-size: 67px;
+    }
+
+    .dis-in {
+        display: inline-block
+    }
+
+    .fw {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .bt {
+        border: 1px solid #ccc;
+        display: inline-block;
+        margin: 5px 8px
+    }
+
+</style>

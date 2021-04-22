@@ -1,0 +1,64 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{saveItem.id?'编辑':'添加'}}字典</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="col-xs-11">
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">字典类型：</label>
+                <div class="col-xs-4" ng-if="saveItem.id">
+                    <tree-selector node-list="dicTypeTree" host="saveItem"
+                       host-key="'dicType'" host-text="'text'" leaf-only=false tip-text="'字典类型'"></tree-selector>
+                </div>
+                <div class="col-xs-4" ng-if="!saveItem.id">
+                    <input type="text" class="form-control" required disabled ng-model="saveItem.dicType" name="dicType"/>
+                </div>
+                <label class="col-xs-2 control-label required">字典名称：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" required ng-model="saveItem.dicItem" name="dicItem"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label">字典编码：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="saveItem.dicCode" name="dicCode"/>
+                </div>
+                <label class="col-xs-2 control-label required">字典值：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" required ng-model="saveItem.dicVal" name="dicVal"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label">字典排序：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="saveItem.dicSort" name="dicSort"/>
+                </div>
+                <label class="col-xs-2 control-label required">应用名：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" required ng-model="saveItem.appName" name="appName"/>
+                </div>
+            </div>
+            <!-- 暂时不维护该字段 -->
+            <!--<div class="form-group">
+                <label class="col-xs-2 control-label ">园区：</label>
+                <div class="col-xs-4">
+                    <tree-selector node-list="parkTree" host="saveItem" need=false
+                                   host-key="'parkId'" host-text="'parkName'" leaf-only=true
+                                   tip-text="'请选择项目'"></tree-selector>
+                </div>
+            </div>-->
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,saveItem)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+
+<style>
+    .form-control[disabled] {
+        background-color: #c7c5c552;
+        cursor: auto;
+    }
+</style>

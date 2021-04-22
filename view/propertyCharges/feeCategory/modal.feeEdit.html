@@ -1,0 +1,108 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h3 class="modal-title">{{title ? '新增':'编辑'}}</h3>
+</div>
+<div class="modal-body form-horizontal">
+    <form name="editForm" novalidate>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">收费类别名称:</label>
+            <div class="col-xs-7">
+                <select style="min-width:160px;" class="form-control" ng-model="curItem.parentId">
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="item in categoryNameList track by $index" value={{item.id}}>{{item.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">收费项目名称:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-empty" required ng-model="curItem.chargeName">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">是否启用:</label>
+            <div class="col-xs-7">
+                <select style="min-width:160px;" class="form-control" ng-model="curItem.isUsing">
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="item in enableList track by $index" value={{item.value}}>{{item.name}}</option>
+                </select>
+            </div>
+        </div>
+        <!-- <div class="form-group">
+            <label class="control-label required col-xs-3">是否线上缴费:</label>
+            <div class="col-xs-7">
+                <select style="min-width:160px;" class="form-control" ng-model="curItem.onlinePay">
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="item in payList track by $index" value={{item.value}}>{{item.name}}</option>
+                </select>
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label class="control-label required col-xs-3">计费方式:</label>
+            <div class="col-xs-7">
+                <select style="min-width:160px;" class="form-control" ng-model="curItem.chargeWay">
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="item in billModeList track by $index" value={{item.value}}>{{item.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">税率:</label>
+            <div class="col-xs-7">
+                <select style="min-width:160px;" class="form-control" ng-model="curItem.taxRate" ng-change="priceChange()">
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="item in taxRateList track by $index" value={{item.taxRate}}>{{item.taxRate}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">收费方式:</label>
+            <div class="col-xs-7">
+                <select style="min-width:160px;" class="form-control" ng-model="curItem.payType">
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="item in chargeMethodList track by $index" value={{item.value}}>{{item.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" ng-if="curItem.payType === '1'">
+            <label class="control-label required col-xs-3">收费周期:</label>
+            <div class="col-xs-7">
+                <input type="number" class="form-control ng-pristine ng-untouched ng-valid ng-empty" required ng-model="curItem.payCycle">
+            </div>
+        </div>
+        <div class="form-group" ng-if="curItem.payType === '1'">
+            <label class="control-label required col-xs-3">周期类型:</label>
+            <div class="col-xs-7">
+                <select style="min-width:160px;" class="form-control" ng-model="curItem.cycleType">
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="item in cycleTypeList track by $index" value={{item.value}}>{{item.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">收费项目价格:</label>
+            <div class="col-xs-7">
+                <input type="number" class="form-control ng-pristine ng-untouched ng-valid ng-empty" oninput="this.value=this.value.replace(/^[0]+[0-9]*$/gi,'')" required ng-model="curItem.price" ng-change="priceChange()">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">不含税价格:</label>
+            <div class="col-xs-7">
+                <input type="number" class="form-control ng-pristine ng-untouched ng-valid ng-empty" required ng-model="curItem.noTaxPrice" readonly="readonly">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">计费单位:</label>
+            <div class="col-xs-7">
+                <select style="min-width:160px;" class="form-control" ng-model="curItem.chargeUnit">
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="item in billUnitList track by $index" value={{item.value}}>{{item.name}}</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-success btn-lg" ng-click="save(editForm)">确认</button>
+    <button class="btn btn-danger btn-lg" ng-click="cancel()">取消</button>
+</div>

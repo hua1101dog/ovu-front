@@ -1,0 +1,72 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">人员详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+        <div class="row">
+            <div class="col-xs-9">
+                <div class="form-group" >
+                    <label class="col-xs-3 control-label">姓名：</label>
+                    <div class="col-xs-3 mt7">
+                        {{item.name}}
+                    </div>
+                    <label class="col-xs-3 control-label">性别：</label>
+                    <div class="col-xs-3 mt7">
+                        {{item.sex}}
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-3 control-label">工号：</label>
+                    <div  class="col-xs-3 mt7" style="word-break: break-all;">
+                        {{item.jobCode}}
+                    </div>
+                    <label class="col-xs-3 control-label">手机号码：</label>
+                    <div  class="col-xs-3 mt7">
+                        {{item.phone}}
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-3 control-label">入职日期：</label>
+                    <div  class="col-xs-3 mt7">
+                        {{item.partinDay}}
+                    </div>
+                    <label class="col-xs-3 control-label">学历：</label>
+                    <div  class="col-xs-3 mt7">
+                        {{item.educat}}
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-3 control-label">生日：</label>
+                    <div  class="col-xs-3 mt7">
+                        {{item.birthday}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="form-group">
+                    <img onerror="javascript:this.src='/res/img/userIcon.png';" class="img-circle userIcon"
+                         ng-src="{{processImgUrl(item.picture)}}" ng-click="showPhoto()">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">岗位：</label>
+                <div class="col-sm-10 mt7">
+                    <div ng-repeat="post in item.posts" >
+                        <b class="mr5">{{post.deptFullName}}</b>
+                        &nbsp;-&nbsp;
+                        <b >{{post.postName}}</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</form>
+</div>
+<style>
+    .userIcon{
+        width: 100px;
+        height: 100px;
+    }
+</style>

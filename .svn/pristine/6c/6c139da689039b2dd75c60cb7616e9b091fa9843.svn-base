@@ -1,0 +1,64 @@
+<div id="angularId" ng-controller="noticeCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>通知管理</h3>
+		</div>
+	</div>
+	<div class="x_panel" >
+		<div class="form-inline">
+			<div class="form-group">
+				<label>标题</label>
+				<input type="text" ng-model="search.title"   class="form-control" />
+			</div>
+			<button class="btn btn-default" ng-click="find()" >查询</button>
+		</div>
+	</div>
+	<div class="panel panel-default" style="margin-bottom: 0px;">
+		<div class="panel-heading">通知列表
+			<button class="btn btn-danger pull-right"  ng-disabled="!hasChecked(pageModel)" ng-click="delAll()" >批量删除</button>
+			<button class="btn btn-primary pull-right"  ng-disabled="!hasChecked(pageModel)" ng-click="sendAll()" >批量发送</button>
+			<button class="btn btn-primary pull-right" ng-click="showEditModal()" >新建通知</button>
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped table-hover" style="margin-top: 10px;">
+				<thead class="title">
+				<tr>
+					<th class="text-center">NO</th>
+					<th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+					<th >标题</th>
+					<th >类型</th>
+					<th >发送人群</th>
+					<th >创建人</th>
+					<th >创建时间</th>
+					<th >发送状态</th>
+					<th >操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+				<tr ng-repeat="item in pageModel.data">
+					<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+					<td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+					<td><a href='javascript:void(0)' class="btn-link" ng-click='showEditModal(item,true)'>{{item.TITLE}}</a></td>
+					<td>{{item.MESSAGE_ID|keyToValue:messageTypeDict}}</td>
+					<td title='{{item.DEPT_NAMES+" "+item.PERSON_NAMES}}'>{{(item.DEPT_NAMES+" "+item.PERSON_NAMES)|limitTo:50}}</td>
+					<td>{{item.USER_ID}}</td>
+					<td>{{item.CREATE_TIME}}</td>
+					<td ng-class="{'text-danger':item.DATA_STATE==0}">{{item.DATA_STATE|keyToValue:messageStateDict}}</td>
+					<td>
+						<div ng-show="{{item.self}}">
+							<a href='javascript:void(0)' ng-click='send(item)' class='btn btn-xs'><span class='fa fa-send-o'></span>发送</a>
+							<a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-edit'></span>修改</a>
+						</div>
+                        <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			<div class="page-footer clearfix">
+				<ng-include src="'/common/pager.html'"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>

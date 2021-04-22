@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()">×</button>
+    <h4 class="modal-title">异常工单列表</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" style="max-height: 700px;overflow-y: auto">
+    <table class="table table-hover text-left" id="checkTable">
+        <thead>
+        <tr>
+            <th class="text-center">NO</th>
+            <th >工单id</th>
+            <th >异常描述</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-if="workunitStatics.abnormalWorkunits.length == 0">
+            <td colspan="100" >暂无记录</td>
+        </tr>
+        <tr ng-repeat="item in workunitStatics.abnormalWorkunits">
+            <td >{{$index +1}} </td>
+            <td><span class="btn-link"  ng-click='showWorkUnitDetail(item.workunitId)' >{{item.workunitId}}</span></td>
+            <td>
+                <ul>
+                    <li ng-repeat="reason in item.reasons">
+                        {{reason}}
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+

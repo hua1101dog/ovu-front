@@ -1,0 +1,368 @@
+<div ng-controller="holidaySettingCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>节假日设置</h3>
+
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="dynamic-wrap">
+            <div class="year">
+                <span class="items" ng-repeat="item in yearList track by $index" ng-class="{'active': curYear==item}"
+                    ng-click="select(item)">{{yearList[$index]}}年</div>
+
+        </div>
+        <!-- <weekday-filter></weekday-filter> -->
+        <div class="weekday-filter">
+            <div class="select-time">
+                <div class="left clearfix">
+                    <span class="title">休息日选择：</span>
+                    <ul class="week-list left" ng-class="{'disable': !canEdit}">
+                        <li>
+                            <input id="monday" type="checkbox" value="1" ng-click="toggle(1)" ng-disabled="!canEdit"
+                                ng-checked="monthOffdays.indexOf(1)>-1" />
+                            <label for="monday" class="select-week">周一</label>
+                        </li>
+                        <li>
+                            <input id="tuesday" type="checkbox" value="2" ng-click="toggle(2)" ng-disabled="!canEdit"
+                                ng-checked="monthOffdays.indexOf(2)>-1" />
+                            <label for="tuesday" class="select-week">周二</label>
+                        </li>
+                        <li>
+                            <input id="wednesday" type="checkbox" value="3" ng-click="toggle(3)" ng-disabled="!canEdit"
+                                ng-checked="monthOffdays.indexOf(3)>-1" />
+                            <label for="wednesday" class="select-week">周三</label>
+                        </li>
+                        <li>
+                            <input id="thursday" type="checkbox" value="4" ng-click="toggle(4)" ng-disabled="!canEdit"
+                                ng-checked="monthOffdays.indexOf(4)>-1" />
+                            <label for="thursday" class="select-week">周四</label>
+                        </li>
+                        <li>
+                            <input id="friday" type="checkbox" value="5" ng-click="toggle(5)" ng-disabled="!canEdit"
+                                ng-checked="monthOffdays.indexOf(5)>-1" />
+                            <label for="friday" class="select-week">周五</label>
+                        </li>
+                        <li>
+                            <input id="saturday" type="checkbox" value="6" ng-click="toggle(6)" ng-disabled="!canEdit"
+                                ng-checked="monthOffdays.indexOf(6)>-1" />
+                            <label for="saturday" class="select-week">周六</label>
+                        </li>
+                        <li>
+                            <input id="sunday" type="checkbox" value="0" ng-click="toggle(0)" ng-disabled="!canEdit"
+                                ng-checked="monthOffdays.indexOf(0)>-1" />
+                            <label for="sunday" class="select-week">周日</label>
+                        </li>
+                    </ul>
+                    <button class="btn btn-primary pull-right" ng-if="!canEdit && (curYear-0>=thisYear-0)"
+                        ng-click="edit(true)">编辑</button>
+                    <button class="btn btn-primary pull-right" ng-if="canEdit" ng-click="save()">保存</button>
+                    <button class="btn pull-right" ng-if="canEdit" ng-click="edit()">取消</button>
+
+                </div>
+
+                <div class="otherInfo" ng-if="canEdit">点击下方日历，修改工作日/休息日</div>
+            </div>
+
+        </div>
+        <div class="calendar" :class="{edit: canEdit}">
+            <!-- <month-calendar
+                    :monthOffdays="allOffDays[item]"
+                    :officialday="officialDays[item]"
+                    :month="item" ng-repeat="item in 12">
+                 </month-calendar> -->
+            <div class="month-items" ng-repeat="item in monthList">
+                <header class="text-center">{{item.monthName}}月</header>
+                <ul class="week">
+                    <li>日</li>
+                    <li>一</li>
+                    <li>二</li>
+                    <li>三</li>
+                    <li>四</li>
+                    <li>五</li>
+                    <li>六</li>
+                </ul>
+                <ul class="day">
+                    <li ng-repeat="i in item.emptyList track by $index" class="disable"><span></span></li>
+                    <li ng-repeat="d in item.dateList track by $index" ng-click="toggle(false,d)"
+                        ng-class="{disable: d.isPassDay && !d.isSelect}"><span
+                            ng-class="{'vacation': (d.isSelect && d.isPassDay),
+                                isConEdit_canSelect:(canEdit && !d.isPassDay),isConEdit_selected:((canEdit) && (!d.isPassDay) && (d.isSelect)),unEdit_isConEdit_selected:(!canEdit && !d.isPassDay && d.isSelect)}">{{$index+1}}</span>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<style>
+    *:focus {
+        outline: none;
+    }
+
+
+    .dynamic-wrap .text-center,
+    .att-dialog .text-center {
+        text-align: center;
+    }
+
+    .dynamic-wrap {
+        color: #3f3f3f;
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .calendar {
+        font-size: 0;
+        border-top: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        cursor: default;
+    }
+
+    /* year  start */
+    .year {
+        font-size: 0;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .year .items {
+        cursor: pointer;
+        padding: 5px 15px;
+        font-size: 16px;
+        border-bottom: 2px solid #dce1e8;
+    }
+
+    .year .items.active {
+        color: #3cbaff;
+        border-color: #3cbaff;
+    }
+
+    /* year  end */
+
+    /*休息日选择 start*/
+    .title {
+        padding: 5px 20px
+    }
+
+    .select-time .btn {
+        margin-right: 20px;
+    }
+
+    .select-time {
+        font-weight: 400;
+        padding: 35px 0;
+        position: relative;
+        overflow: hidden;
+        line-height: 30px;
+        font-size: 14px;
+    }
+
+    .select-time .otherInfo {
+        position: absolute;
+        font-size: 12px;
+        right: 0;
+        bottom: 2px;
+        color: #3cbaff;
+    }
+
+    .week-list {
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: top
+    }
+
+    .week-list li {
+        float: left;
+        margin-right: 12px;
+    }
+
+    .week-list li input {
+        display: none;
+    }
+
+    .week-list li label {
+        padding-left: 22px;
+        position: relative;
+        font-size: 14px;
+    }
+
+    .week-list li label:before {
+        content: '';
+        position: absolute;
+        display: block;
+        left: 0;
+        top: 50%;
+        margin-top: -7px;
+        width: 14px;
+        height: 14px;
+        border: 1px solid #3f3f3f;
+        border-radius: 50%;
+        box-sizing: border-box;
+    }
+
+    .week-list li label:after {
+        content: "";
+        display: none;
+        position: absolute;
+        box-sizing: content-box;
+        border-bottom: 2px solid #fff;
+        border-right: 2px solid #fff;
+        width: 2px;
+        height: 5px;
+        top: 50%;
+        left: 5px;
+        margin-top: -4px;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+    }
+
+    .week-list li input:checked+label:before,
+    .week-list li label.isclick:before {
+        background-color: #3cbaff;
+        border-color: #3cbaff;
+    }
+
+    .week-list li input:checked+label:after,
+    .week-list li label.isclick:after {
+        display: block;
+    }
+
+    .week-list.disable li label {
+        color: #d3d3d3;
+        cursor: default;
+    }
+
+    .week-list.disable li label:before {
+        border-color: #d3d3d3;
+    }
+
+    .week-list.disable li input:checked+label:before {
+        background-color: #B1E3FF;
+        border-color: #B1E3FF;
+    }
+
+
+
+    /*休息日选择 end*/
+    .month-items {
+        font-size: 14px;
+        box-sizing: border-box;
+        width: 33.3333%;
+        display: inline-block;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .month-items.disable header,
+    .month-items.disable .week {
+        color: #b0afaf;
+    }
+
+    .month-items header {
+        /*月份标题*/
+        padding: 15px 0 24px 0;
+    }
+
+    .month-items .week {
+        /*星期*/
+        margin-bottom: 12px;
+        padding-left: 0.2%;
+    }
+
+    .month-items .day {
+        min-height: 200px;
+    }
+
+    .month-items .week,
+    .month-items .day {
+        padding-left: 2%;
+    }
+
+    .month-items .week:after,
+    .month-items .day:after
+    /*清除浮动*/
+
+        {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    .month-items .week li,
+    .month-items .day li {
+        width: 14%;
+        text-align: center;
+        float: left;
+        margin-bottom: 8px;
+        position: relative;
+    }
+
+    .month-items .day li span
+    /*正常时间*/
+
+        {
+        display: block;
+        width: 24px;
+        height: 24px;
+        margin: 0 auto;
+        text-align: center;
+        line-height: 24px;
+        border-radius: 50%;
+        position: relative;
+
+    }
+
+    .month-items .day li.disable span
+    /*过期时间*/
+
+        {
+        color: #b0afaf;
+        cursor: default !important;
+    }
+
+    /* 编辑状态下 没有过期的日期 可选择 */
+    .isConEdit_canSelect {
+        display: block;
+        width: 24px;
+        height: 24px;
+        margin: 0 auto;
+        text-align: center;
+        line-height: 24px;
+        border-radius: 50%;
+        position: relative;
+        border: 1px solid #ccc
+    }
+
+    /* 编辑状态下 没有过期的日期 已选择 */
+    .isConEdit_selected {
+        border-color: #3cbaff;
+        background-color: #3cbaff
+    }
+
+    /* 过期已选的日期 */
+    .vacation {
+        color: #c1e5ff;
+        cursor: default
+    }
+
+    .calendar.edit .day li span {
+        /*编辑状态的时间*/
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    /* 正常状态下 已选中的没过期的样式 */
+    .unEdit_isConEdit_selected {
+        color: #3cbaff;
+        border: 0;
+
+    }
+
+</style>

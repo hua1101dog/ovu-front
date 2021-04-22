@@ -1,0 +1,59 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()">×</button>
+    <h4 class="modal-title">{{curEquip.name}}</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-6">
+            <img style="max-height: 100%;max-width: 100%" alt="" ng-click="showPhoto()" ng-src="{{processImgUrl(curEquip.logo_url)}}" onerror="javascript:this.src='/res/img/detail.png';" />
+        </div>
+        <div class="col-sm-6" style="position: relative;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 style="margin:0;">历史记录</h5>
+                </div>
+                <div class="panel-body">
+                    <ol class="param_ul">
+                        <li ng-if="!curEquip.params.length">
+                            暂无历史记录
+                        </li>
+                        <li ng-repeat="param in curEquip.params">
+                            <label>{{param.param_name}}：</label>
+                            <b ng-class="{'text-danger':param.is_regular==2}">
+                            {{param.val}}{{(param.val_type==1 && param.val!=undefined)?param.unit:''}}
+                            </b>
+                            <br/>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label>监测时间：</label> {{param.last_time}}
+                            <br/>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span ng-show="param.val_type==2">
+						                  <label>正常状态：</label>{{param.regular_list}}
+					                  </span>
+                            <span ng-show="param.val_type==1">
+						                  <label>阈值范围：</label>
+						                  {{param.min_val+param.unit||'未定义'}}~{{param.max_val+param.unit||'未定义'}}
+					                  </span>
+                        </li>
+                    </ol>
+                </div>
+                <div class="panel-footer">
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-10">
+        <div class="col-sm-12 top-border">{{curEquip.park_name}} {{curEquip.stage_name}} {{curEquip.floor_name}} {{curEquip.house_name}}</div>
+    </div>
+</div>
+<style>
+    ol.param_ul li+li {
+        padding-top: 7px;
+        border-top: 1px solid #ddd;
+    }
+    
+    .panel-footer ul.pagination {
+        margin: 0;
+    }
+</style>

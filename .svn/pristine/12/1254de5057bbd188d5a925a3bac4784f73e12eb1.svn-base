@@ -1,0 +1,60 @@
+<div class="row">
+	<div class="col-xs-12">
+		<!-- PAGE CONTENT BEGINS -->
+		<div class="col-md-12">
+          <div class="col-middle">
+            <div class="text-center">
+              <h1 class="error-number">500</h1>
+              <h2>Internal Server Error</h2>
+              <p>We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing. <a href="#">Report this?</a>
+              </p>
+              <div class="mid_center">
+                <h3>Search</h3>
+                <form>
+                  <div class="col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+                      <input type="text" class="form-control" placeholder="Search for...">
+                      <span class="input-group-btn">
+                              <button class="btn btn-default" type="button">Go!</button>
+                          </span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+		<!-- PAGE CONTENT ENDS -->
+	</div><!-- /.col -->
+</div><!-- /.row -->
+<style>
+.col-middle {
+    margin-top: 5%;
+}
+.error-number {
+    font-size: 90px;
+    line-height: 90px;
+    margin: 20px 0;
+}
+.mid_center {
+    width: 370px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px 20px;
+}
+.top_search .form-control {
+    border-right: 0;
+    box-shadow: inset 0 1px 0px rgba(0,0,0,0.075);
+    border-radius: 25px 0px 0px 25px;
+    padding-left: 20px;
+    border: 1px solid rgba(221,226,232,0.49);
+}
+.top_search .input-group-btn button {
+    border-radius: 0px 25px 25px 0px;
+    border: 1px solid rgba(221,226,232,0.49);
+    border-left: 0;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    color: #93A2B2;
+    margin-bottom: 0 !important;
+}
+</style>

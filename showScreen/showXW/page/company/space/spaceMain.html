@@ -1,0 +1,256 @@
+<div class="" ng-controller="spaceMainCtrl as vm">
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="col-lg-12 col-sm-12 b-b b-2x text-center"  ng-hide="vm.show == 1">
+            <button class="btn btn-title font-bold">{{vm.title}}</button>
+        </div>
+        <!--空间 园区-->
+        <div ng-show="vm.show == 1">
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">园区面积概况</h4>
+                <div class="col-lg-4 col-sm-4 text-center m-b" style="padding: 0 5px;">
+                    <h3 class="">{{comSpace.business.bs_totle_area | toInteger}}<span class="text-xs">{{comSpace.business.bs_totle_area | toIntegerWan}}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">建筑总面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b">
+                    <h3 class="">{{comSpace.business.bs_building}}<span class="text-xs">栋</span>
+                    </h3>
+                    <span class="spantext">楼栋数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b">
+                    <h3 class="">{{comSpace.business.bs_percentage}}<span class="text-xs">%</span>
+                    </h3>
+                    <span class="spantext">总入驻率</span>
+                </div>
+                <!--<div class="col-lg-4 col-sm-4 text-center">
+                    <h3>{{vm.space.totalParkArea| number:0}}<span class="text-xs">m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">空间总面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3 class="red">{{vm.space.saleArea| number:0}}<span class="text-xs">m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">已售面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center ">
+                    <h3 class="yellow">{{vm.space.vacantArea| number:0}}<span class="text-xs">m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">已租面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b-md m-t">
+                    <h3 class="green">{{vm.space.leaseArea| number:0}}<span class="text-xs">m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">空置面积</span>
+                </div>-->
+                <!-- <div class="col-lg-4 col-sm-4 text-center m-t">
+                    <h3 class="blue">0<span class="text-xs">万m<sup>2</sup></span></h3>
+                    <span class="spantext">共享办公面积</span>
+                </div>-->
+            </div>
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+               <!-- <h4 class="font-bold">园区空间占比</h4>
+                <div style="height:200px;" ui-echarts="vm.option">
+                </div>-->
+                <h4 class="font-bold">办公空间</h4>
+                <div class="col-lg-4 col-sm-4 text-center m-b" style="padding: 0 5px;">
+                    <h3 class="">{{comSpace.office.office_area | toInteger}}<span class="text-xs">{{comSpace.office.office_area | toIntegerWan}}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">办公面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center p-05 m-b">
+                    <h3 class="">{{comSpace.office.of_self_area | toInteger}}<span class="text-xs">{{comSpace.office.of_self_area | toIntegerWan}}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">自持办公面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b p-05">
+                    <h3 class="">{{comSpace.office.of_sale_area | toInteger }}<span class="text-xs">{{comSpace.office.of_sale_area | toIntegerWan }}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">可销售办公面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b p-05">
+                    <h3 class="">{{comSpace.office.of_sign_area | toInteger }}<span class="text-xs">{{comSpace.office.of_sign_area | toIntegerWan }}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">已签约办公面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b p-05">
+                    <h3 class="">{{comSpace.office.of_rental_area  | toInteger }}<span class="text-xs">{{comSpace.office.of_rental_area  | toIntegerWan }}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">已租赁面积</span>
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12">
+               <!-- <h4 class="font-bold">空间统计</h4>
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <h3 class="green">{{vm.space.totalFloor|| 0}}<span class="text-xs">栋</span></h3>
+                    <span class="spantext">总楼栋数</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <h3 class="blue">{{vm.space.totalHouse|| 0}}<span class="text-xs">间</span></h3>
+                    <span class="spantext">总房间数</span>
+                </div>-->
+                <h4 class="font-bold">配套空间</h4>
+                <div class="col-lg-4 col-sm-4 text-center m-b p-05">
+                    <h3 class="">{{comSpace.supporting.sup_area | toInteger  }}<span class="text-xs">{{comSpace.supporting.sup_area | toIntegerWan  }}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">配套面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b p-05">
+                    <h3 class="">{{comSpace.supporting.sup_self_area | toInteger}}<span class="text-xs">{{comSpace.supporting.sup_self_area | toIntegerWan}}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">自持<span ng-if="!vm.changsha">商业</span>面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b p-05">
+                    <h3 class="">{{comSpace.supporting.sup_sale_area | toInteger}}<span class="text-xs">{{comSpace.supporting.sup_sale_area | toIntegerWan}}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">可销售<span ng-if="!vm.changsha">商业</span>面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b p-05">
+                    <h3 class="">{{comSpace.supporting.sup_sign_area | toInteger}}<span class="text-xs">{{comSpace.supporting.sup_sign_area | toIntegerWan}}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">已签约<span ng-if="!vm.changsha">商业</span>面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b p-05">
+                    <h3 class="">{{comSpace.supporting.sup_rental_area | toInteger}}<span class="text-xs">{{comSpace.supporting.sup_rental_area | toIntegerWan}}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">已租赁<span ng-if="!vm.changsha">商业</span>面积</span>
+                </div>
+            </div>
+        </div>
+        <!--空间 楼栋-->
+        <div ng-show="vm.show == 2">
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">基本信息</h4>
+                <div class="col-lg-12 col-sm-12 text-center">
+                    <h3 class="text-ellipsis" uib-tooltip="{{vm.space.floorNo}}">{{vm.space.floorNo}}</h3>
+                    <span class="spantext">编号</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <h3>{{vm.space.floorArea}}<span class="text-xs">m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">面积</span>
+                </div>
+                <!--<div class="col-lg-4 col-sm-4 text-center ">
+                    <h3>无</h3>
+                    <span class="spantext">产权方</span>
+                </div>-->
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <h3>{{vm.space.groundNum}}<span class="text-xs">层</span></h3>
+                    <span class="spantext">层数</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <h3>{{vm.space.houseNum}}<span class="text-xs">间</span></h3>
+                    <span class="spantext">房间数</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center m-b-lg">
+                    <h3>{{vm.space.companyNum}}<span class="text-xs">家</span></h3>
+                    <span class="spantext">企业数</span>
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12">
+                <h4 class="font-bold">能耗统计</h4>
+                <div class="col-lg-4 col-sm-4 text-center" style="padding: 0 5px;">
+                    <h3 class="blue">{{vm.space.totalEnergy }}<span class="text-xs">流量</span></h3>
+                    <span class="spantext">累计能耗</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3 class="green">{{vm.space.totalElectric}}<span class="text-xs">kwh</span></h3>
+                    <span class="spantext">累计用电</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3 class="red">{{vm.space.totalWater}}<span class="text-xs">m<sup>3</sup></span></h3>
+                    <span class="spantext">累计用水</span>
+                </div>
+            </div>
+        </div>
+        <!--空间 层数-->
+        <div ng-show="vm.show == 3">
+            <div class="col-lg-12 col-sm-12">
+                <h4 class="font-bold">基本信息</h4>
+                <div class="col-lg-12 col-sm-12 text-center">
+                    <h3 class="text-ellipsis" uib-tooltip="{{vm.space.floorNo}}">{{vm.space.floorNo}}</h3>
+                    <span class="spantext">编号</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3>{{vm.space.floorArea}}<span class="text-xs">m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">面积</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center ">
+                    <h3>{{vm.space.houseNum }}<span class="text-xs">间</span></h3>
+                    <span class="spantext">房间数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center ">
+                    <h3>{{vm.space.companyNum}}<span class="text-xs">家</span></h3>
+                    <span class="spantext">企业数</span>
+                </div>
+            </div>
+        </div>
+        <!--空间 房间901-->
+        <div ng-show="vm.show == 4">
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">基本信息</h4>
+                <div class="col-lg-12 col-sm-12 text-center">
+                    <h3 class="text-ellipsis" uib-tooltip="{{vm.space.houseNo}}">{{vm.space.houseNo}}</h3>
+                    <span class="spantext">编号</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <h3>{{vm.space.houseStatus}}</span>
+                    </h3>
+                    <span class="spantext">房间状态</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center ">
+                    <h3 class="text-ellipsis" uib-tooltip="{{vm.space.propertyRight}}">{{vm.space.propertyRight}}</h3>
+                    <span class="spantext">产权方</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <h3 class="text-ellipsis" uib-tooltip="{{vm.space.tenantry}}">{{vm.space.tenantry}}</h3>
+                    <span class="spantext">承租方</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center m-b-lg">
+                    <h3>{{vm.space.houseArea}}<span class="text-xs">m<sup>2</sup></span></h3>
+                    <span class="spantext">面积</span>
+                </div>
+            </div>
+           <!-- <div class="col-lg-12 col-sm-12  b-b b-2x">
+                <h4 class="font-bold">数据统计</h4>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3 class="blue">{{vm.space.totalEnergy || 0}}<span class="text-xs">流量</span></h3>
+                    <span class="spantext">累计能耗</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3 class="green">{{vm.space.totalElectric || 0}}<span class="text-xs">kwh</span></h3>
+                    <span class="spantext">累计用电</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b-lg">
+                    <h3 class="red">{{vm.space.totalWater || 0}}<span class="text-xs">万m<sup>3</sup></span></h3>
+                    <span class="spantext">累计用水</span>
+                </div>
+            </div>-->
+            <div class="col-lg-12 col-sm-12">
+                <h4 class="font-bold">价格租金</h4>
+                <div class="col-lg-4 col-sm-4 text-center p-05">
+                    <h3 class="blue">{{(vm.space.totalRent).toFixed(0)}}<span class="text-xs">元</span></h3>
+                    <span class="spantext">累计租金</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center p-05">
+                    <h3 class="green">{{vm.space.housePrice}}<span class="text-xs">元</span></h3>
+                    <span class="spantext">房间价格</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center p-05">
+                    <h3 class="red">{{vm.space.curRent}}<span class="text-xs">元</span></h3>
+                    <span class="spantext">当前租金</span>
+                </div>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>
+
+<style>
+    .p-05{
+        padding: 0 5px;
+    }
+    .tooltip-inner {
+        max-width: 500px;   
+    }
+</style>

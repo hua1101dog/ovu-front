@@ -1,0 +1,29 @@
+	<!---维保工单详情弹出框   -->
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancel()">×</button>
+		<h4 class="modal-title">签到日志</h4>
+    </div>
+    <div class="modal-body container-fluid">
+	    <table class="table">
+	    	<thead>
+	    		 <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>签到时间</th>
+                    <th>签到地址</th>
+                 </tr>
+	    	</thead>
+	        <tbody>
+	            <tr ng-repeat="item in signinList track by $index">
+	                <td>{{$index+1}}</td>
+	                <td>{{item.name}}</td>
+	                <td>{{item.signInTime}}</td>
+	                <td>{{item.signAddr}}</td>
+	            </tr>
+	        </tbody>
+        </table>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>
+

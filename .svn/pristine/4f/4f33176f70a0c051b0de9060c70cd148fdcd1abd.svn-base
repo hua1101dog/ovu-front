@@ -1,0 +1,92 @@
+<div ng-controller="energyLossCtrl">
+    <!-- <h3>能源损耗分析</h3> -->
+    <div class="page-title">
+        <div class="title_left">
+            <h3>能源损耗分析</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12"  ng-if="search.isshow">
+           
+            <div class="energy_panel" style="clear:both">
+                <ul ng-init="search.meterType=1"  class="picTypes">
+                    <li ng-repeat="item in classifyList" ng-class='{actives: search.pointType==item.type}' ng-click="checkTypes(item)">{{item.name}}</li>
+                </ul>
+            </div>
+            <div class="x_panel" style="clear:both">
+
+                <div class="x_title">{{search.classifyType=='1' ? '能耗分组' : (search.classifyType=='2' ? '能耗层级分类' : '计算类型')}}
+                </div>
+                <div class="x_content" style="overflow: auto">
+                    <div class="alert" role="alert" ng-show="treeData.length==0">{{search.classifyType=='1' ? '无分组信息' : (search.classifyType=='2' ? '无分类信息' : '无类型信息')}}</div>
+                    <!-- <tree-view node-list="treeData"  config="config"></tree-view> -->
+                    
+                        <tree-view-pro node-list="treeData"  callback="selectNode" config="{'edit':false}"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12">
+            <uib-tabset>
+                    <uib-tab index="0" heading="分组配置" select="changeIndex(0)">
+                            <ng-include src="'./energy/energyCountAnalysis/energyCouple.html'"></ng-include>
+                    </uib-tab>
+                    <uib-tab index="1" heading="层级配置" select="changeIndex(1)">
+                        <ng-include src="'./energy/energyCountAnalysis/layeredEnergy.html'"></ng-include>
+                    </uib-tab>
+                    <uib-tab index="2" heading="异常情况表配置" select="changeIndex(2)">
+                        <ng-include src="'./energy/energyCountAnalysis/abnormalEnergy.html'"></ng-include>
+                    </uib-tab>
+                </uib-tabset>
+        </div>
+    </div>
+
+</div>
+<style>
+  .actives {
+    background-color: #62c3ff;
+}
+
+
+.picTypes {
+    float: right;
+    margin: 0px;
+}
+
+.picTypes li {
+    display: inline-block;
+    cursor: pointer;
+}
+.energy_panel{
+    position: relative;
+width: 100%;
+margin-bottom: 10px;
+padding: -10px 10px;
+display: inline-block;
+background: #fff;
+border: 1px solid #E6E9ED;
+-webkit-column-break-inside: avoid;
+-moz-column-break-inside: avoid;
+column-break-inside: avoid;
+opacity: 1;
+transition: all .2s ease; 
+}
+.energy_panel ul{
+    width:100%;
+}
+.energy_panel ul li{
+    width: 31%;
+    text-align: center;
+    padding: 10px;
+}
+.bor-l{
+        border-left: 1px solid #ccc
+    }
+    .bor-r{
+        border-right: 1px solid #ccc
+    }
+    .contents ul li {
+        display: inline-block;
+        cursor: pointer;
+        border: 1px solid #ccc
+    }
+</style>

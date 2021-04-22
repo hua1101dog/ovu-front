@@ -1,0 +1,229 @@
+<!---维保记录详情弹出框   -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">查看保养报告</h4>
+</div>
+<div class="modal-body container-fluid" id="myPrint" pdf-save-content="idOne">
+    <div class="row text-center"><h4 style="margin-top: 0;">{{report.equipmentName}}保养报告</h4></div>
+    <div class="row">
+        <!--<div class="col-md-4 col-sm-4 col-xs-4">
+            <span class="key">项目名称：</span>
+            <span class="value">{{report.parkName}}</span>
+        </div>-->
+       <!-- <div class="col-md-4 col-sm-4 col-xs-4">
+            <span class="key">使用位置：</span>
+            <span class="value">{{report.location}}</span>
+        </div>-->
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <span class="key">注册代码：</span>
+            <span class="value">{{report.registerCode}}</span>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <span class="key">电梯编号：</span>
+            <span class="value">{{report.liftCode}}</span>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <span class="key">维保类型：</span>
+            <span class="value">{{report.maintainType}}</span>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <span class="key">维保时间：</span>
+            <span class="value">{{report.execTime}}</span>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <span class="key">维保员：</span>
+            <span class="value">{{report.personName}}</span>
+        </div>
+    </div>
+    <div class="row">
+    	<div class="col-md-12 col-sm-12 col-xs-12">
+    		 <table class="table table-condensed table-bordered">
+		        <thead>
+		            <tr>
+		                <th>序号</th>
+		                <th>维保项目</th>
+		                <th>维保基本要求</th>
+		                <th>结果</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <tr ng-repeat="item in report.stepList track by $index">
+		                <td>{{$index+1}}</td>
+		                <td>{{item.name}}</td>
+		                <td>{{item.description}}</td>
+		                <td>{{item.result}}</td>
+		            </tr>
+		             <tr>
+		                <td colspan="4">
+		                	<div class="row text-left">
+		                		<div class="col-sm-12 col-xs-12">
+		                			<span>注:1、本维护报告是依照电梯保养规范实施定期作为</span>
+		                		</div>
+		                	</div>
+		                	<div class="row  text-left">
+		                		<div class="col-sm-12 col-xs-12">
+		                			<span>&nbsp;&nbsp;&nbsp; 2、√正常Δ有问题已修复或已进行部品交货 ×尚未修复需另行处理</span>
+		                		</div>
+		                	</div>
+		                	<div class="row  text-left">
+		                		<div class="col-sm-12 col-xs-12">
+		                			<span>&nbsp;&nbsp;&nbsp; 3、除正常项目外,其他情况均需填入报告栏,向用户及部门主管报告</span>
+		                		</div>
+		                	</div>
+		                	<div class="row text-left">
+		                		<div class="col-sm-12 col-xs-12">
+		                			<div class="col-sm-2 col-xs-2 p-l-n">
+		                			<span> 异常报告：</span>
+		                			</div>
+		                			<div class="col-sm-10 col-xs-10">
+		                				<input type="text" class="form-control inlie input-sm">
+		                			</div>
+		                		</div>
+		                	</div>
+		                	<div class="row text-left">
+		                		<div class="col-sm-12 col-xs-12">
+		                			<div class="col-sm-1 col-xs-1 p-l-n">
+		                			<span>审核:</span>
+		                			</div>
+		                			<div class="col-sm-3 col-xs-3 ">
+		                				<input type="text" class="form-control inlie input-sm">
+		                			</div>
+		                			<div class="col-sm-1 col-xs-1">
+		                			<span>复核:</span>
+		                			</div>
+		                			<div class="col-sm-3 col-xs-3">
+		                				<input type="text" class="form-control inlie input-sm">
+		                			</div>
+		                			<div class="col-sm-1 col-xs-1">
+		                			<span>维保员:</span>
+		                			</div>
+		                			<div class="col-sm-3 col-xs-3">
+		                				<input type="text" class="form-control inlie input-sm">
+		                			</div>
+		                		</div>
+		                	</div>
+		                </td>
+		             </tr>
+		             <tr style="min-height:180px;">
+		                <td colspan="4">
+		               		<div class="row text-left">
+		                		<div class="col-sm-12 col-xs-12">
+		                			<div class="col-sm-3 col-xs-3 p-l-n">
+		                				<span>设备使用单位意见：</span>
+		                			</div>
+		                			<!-- <div class="col-sm-2" style="padding-top: 5px;">
+			                			<i role="button" ng-click="checkOne(item)"
+			                			ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+			                			class="glyphicon"></i>
+			                			非常满意
+		                			</div>
+		                			<div class="col-sm-2" style="padding-top: 5px;">
+		                				<i role="button" ng-click="checkOne(item)"
+			                			ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+			                			class="glyphicon"></i>
+			                			满意
+		                			</div>
+		                			<div class="col-sm-2" style="padding-top: 5px;">
+		                				<i role="button" ng-click="checkOne(item)"
+			                			ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+			                			class="glyphicon"></i>
+			                			一般
+		                			</div>
+		                			<div class="col-sm-2" style="padding-top: 5px;">
+		                				<i role="button" ng-click="checkOne(item)"
+			                			ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+			                			class="glyphicon"></i>
+			                			不满意
+		                			</div> -->
+		                			<div class="col-sm-9 col-xs-9">
+		                				<label class="checkbox-inline">
+										 <input type="checkbox" id="inlineCheckbox2" value="option2">
+										 <span>非常满意</span>
+										</label>
+										<label class="checkbox-inline">
+										  <input type="checkbox" id="inlineCheckbox2" value="option2">
+										   <span>满意</span>
+										</label>
+										<label class="checkbox-inline">
+										  <input type="checkbox" id="inlineCheckbox3" value="option3">
+										  <span>一般</span>
+										</label>
+										<label class="checkbox-inline">
+										  <input type="checkbox" id="inlineCheckbox3" value="option3">
+										  <span>不满意</span>
+										</label>
+		                			</div>
+		                		</div>
+		                	</div>
+		                	<div class="row text-left">
+			                		<div class="col-sm-12 col-xs-12 font-normal">
+			                			<span>如对我们的服务有任何意见和建议<!--，请随时拨打迅弛机电24小时服务热线400-860-5186--></span>
+			                		</div>
+	                		</div>
+	                		<div class="row text-left">
+		                		<div class="col-sm-12 col-xs-12">
+		                			<div class="col-sm-2 col-xs-2 p-l-n">
+		                			<span> 请留言：</span>
+		                			</div>
+		                			<div class="col-sm-10 col-xs-10">
+		                				<input type="text" class="form-control inlie input-sm">
+		                			</div>
+		                		</div>
+		                	</div>
+		                	<div class="row text-left">
+		                		<div class="col-sm-12 col-xs-12">
+		                			<div class="col-sm-5 col-xs-5 p-l-n">
+		                			<span>使用单位电梯安全管理人员签字:</span>
+		                			</div>
+		                			<div class="col-sm-3 col-xs-3">
+		                				<input type="text" class="form-control inlie input-sm">
+		                			</div>
+		                			<div class="col-sm-1 col-xs-1">
+		                			<span>日期：</span>
+		                			</div>
+		                			<div class="col-sm-3 col-xs-3">
+		                				<input type="text" class="form-control inlie input-sm">
+		                			</div>
+		                		</div>
+		                	</div>
+		                	<div class="row text-left">
+			                		<div class="col-sm-12 col-xs-12 font-normal">
+			                			<span>备注：使用单位电梯安全管理人员签字签字确认本次<!--迅弛机电的-->服务已经按照国家相关技术规范、标准、<!--迅弛机电标准-->工艺执行完毕。</span>
+			                		</div>
+	                		</div>
+		                </td>
+		             </tr>
+		        </tbody>
+		    </table>
+    	</div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-info" pdf-save-button="idOne" pdf-name="{{report.equipmentName}}保养报告.pdf">下载</button>
+    <button class="btn btn-info" ng-click="print()">打印</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+.inlie{
+    display: inline-block;
+    border: none !important;
+    border-bottom: 1px solid #ccc !important;
+    margin-top: -3px !important;
+    height: 28px !important;
+    webkit-box-shadow: none;
+    box-shadow: none;
+}
+.font-normal{
+	white-space: normal;;
+}
+.p-l-n{
+	padding-left: 0;
+}
+.print input{
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+input[type=checkbox], input[type=radio] {
+    margin: 8px 0 0;
+}
+</style>

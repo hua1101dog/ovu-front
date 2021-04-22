@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="receptionIndexCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>接待管理</h3>
+            </div>
+        </div>
+        <div class="">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group m-r-sm">
+                        <label>接待时间</label>
+                        <input type="datetime" class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" ng-model="search.deadline" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})">
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color: #999999;">
+                    接待列表
+                    <button class="btn btn-primary pull-right" ng-click="addEditModal()">新增接待</button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px; color: #999999;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th style="min-width: 100px;">来访日期</th>
+                                <th>来访时间</th>
+                                <th>来访单位</th>
+                                <th>来访主要领导职务及姓名</th>
+                                <th>人数</th>
+                                <th>接待来源</th>
+                                <th>陪同领导</th>
+                                <th>接待等级</th>
+                                <th>接待人</th>
+                                <th>讲解人</th>
+                                <th>主要接待情况</th>
+                                <th>是否投屏</th>
+                                <th>备注</th>
+                                <th style="min-width: 140px;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+
+                            <tr ng-repeat="item in pageModel.data track by $index" style="color: #333333;">
+                                <td class="text-center">{{$index +
+									1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td style="width: 150px;">
+                                    {{item.admitDate||'--'}}
+                                </td>
+                                <td>{{item.time||'--'}}</td>
+                                <td>{{item.unit||'--'}}</td>
+                                <td>{{item.visitor||'--'}}</td>
+                                <td>{{item.num||'--'}}</td>
+                                <td>{{item.source||'--'}}</td>
+                                <td>{{item.accompany||'--'}}</td>
+                                <td>{{item.grade||'--'}}</td>
+                                <td>{{item.receiver||'--'}}</td>
+                                <td>{{item.explainer||'--'}}</td>
+                                <td>{{item.situation||'--'}}</td>
+                                <td>{{item.operateTime?'是':'否'}}</td>
+                                <td>{{item.remark||'--'}}</td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='addEditModal(item)' class='btn btn-xs'
+                                        style=" color: #5692ea;">编辑</a>
+                                    <a href='javascript:void(0)' ng-click='throwingScreen(item)' class='btn btn-xs'
+                                        style=" color: #5692ea;">投屏</a>
+                                    <a href='javascript:void(0)' ng-click='delectRec(item)' class='btn btn-xs'
+                                        style=" color:#ff0000;" >删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'" class="ng-scope"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

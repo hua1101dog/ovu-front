@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布管理</title>
+    <link rel="stylesheet" href="crowdSource/demand/demandPublishIndex.css">
+</head>
+<body>
+<div id="angularId" ng-controller="demandPublishCtl" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>发布管理</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>需求标题</label>
+                <input type="text" ng-model="search.title" class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+            </div>
+            <div class="form-group">
+                <label style="margin-left: 6px;">发布日期</label>
+                <input type="datetime" style="background-color: #fff;" class="form-control Wdate" ng-model="search.fromCreateTime" onchange=""  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+				<span class="label_search" style="margin: 0 4px;">至</span>
+				<input type="datetime" style="background-color: #fff;" class="form-control Wdate" ng-model="search.toCreateTime" onchange=""  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+            </div>
+            <button class="btn btn-default" ng-click="find()">查询</button>
+        </div>
+        <div class="form-inline" style="margin: 10px auto;">
+            <div class="form-group div-group">
+                <label style="width: 51px;">状态</label>
+                <div class="div-panel" ng-class=" {'div-active': currentNum==3}" ng-click="setCurrentNum(3)">全部</div>
+                <div class="div-panel" ng-class=" {'div-active': currentNum==0}" ng-click="setCurrentNum(0)">待审核</div>
+                <div class="div-panel" ng-class=" {'div-active': currentNum==1}" ng-click="setCurrentNum(1)">已通过</div>
+                <div class="div-panel" ng-class=" {'div-active': currentNum==2}" ng-click="setCurrentNum(2)">已拒绝</div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" style="margin-bottom: 0px;">
+        <div class="panel-heading">发布列表</div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead class="title">
+                <tr>
+                    <th class="text-center">NO.</th>
+                    <th>需求标题</th>
+                    <th>需求行业</th>
+                    <th>投入预算</th>
+                    <th>发布时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+                <tr ng-repeat="item in pageModel.data" class="ng-scope">
+                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td class=""><a href="javascript:void(0)" class="btn-link ng-binding" ng-click="showApproveModal(item)" title="{{item.title}}">{{convertTitle(item.title)}}</a></td>
+                    <td class="">{{item.industryName||'--'}}</td>
+                    <td class="">{{budgetList[item.budget]}}</td>
+                    <td class="">{{item.createTime||'--'}}</td>
+                    <td class="">{{convertStatusType(item.auditingStatus)}}</td>
+                    <td class="">
+                        <div>
+                            <a href="javascript:void(0)" ng-show="{{item.demandStatus == 2}}" ng-click="showApproveModal(item)" class="btn btn-xs"><span class="fa fa-edit pr5"></span>审核</a>
+                            <a href="javascript:void(0)" ng-show="{{item.demandStatus != 2}}" ng-click="showApproveModal(item)" class="btn btn-xs"><span class="fa fa-edit pr5"></span>查看</a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'" class="ng-scope"><style type="text/css" class="ng-scope">
+                    .pagination>li>span:hover{background-color: #fff;cursor:text}
+                </style>
+                </ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

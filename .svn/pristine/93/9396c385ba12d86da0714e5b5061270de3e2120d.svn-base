@@ -1,0 +1,64 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title" ng-show="!item.isView">{{item.price?'编辑':'新增'}}定价</h4>
+			<h4 class="modal-title" ng-show="item.isView">查看定价</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">分期/分区：</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.stageName" name="STAGE_NAME" disabled style="cursor: default;"/>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-xs-3 control-label">楼栋：</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.buildName" name="FLOOR_NAME" disabled style="cursor: default;"/>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-xs-3 control-label">楼层：</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.groundNo" name="GROUND_NUM" disabled style="cursor: default;"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">房间：</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.houseName" name="HOUSE_NAME" disabled style="cursor: default;"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">面积：</label>
+					<div class="col-xs-4">
+						<input type="number" class="form-control" ng-model="item.area" name="area" disabled style="cursor: default;"/>
+					</div>
+				</div>
+				<!--<div class="form-group">
+					<label class="col-xs-3 control-label" required>租售方式：</label>
+					<div class="col-xs-4">
+						<select class="form-control" required ng-disabled="item.isView" ng-model="item.sellStatus" ng-options="o.value as o.name for o in sellOptions" name="sellStatus">
+						    <option value="">--请选择--</option>
+						</select>
+					</div>
+				</div>-->
+				<div class="form-group">
+					<label class="col-xs-3 control-label" required>单价：</label>
+					<div class="col-xs-4">
+						<input type="number" class="form-control" ng-model="item.price" name="price"/>
+					</div>
+					<div class="col-xs-4">
+						<div style="padding:8px 10px 0 10px; ">元/平米</div>
+					</div>
+					<!-- <div class="col-xs-4" ng-if="item.sellStatus==1">
+						<div style="padding:8px 10px 0 10px; ">元/天/平米</div>
+					</div> -->
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer" ng-show="!item.isView">
+			<button class="btn btn-primary" ng-click="savePrice(item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+

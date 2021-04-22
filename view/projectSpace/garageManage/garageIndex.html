@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>地下车库管理</title>
+</head>
+<body>
+<div id="angularId" ng-controller="parkManagerCtl" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>地下车库管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0">
+            <div class="x_panel" >
+                <!-- tab开始 -->
+                <ul class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#listPark" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">车库列表</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#parkMap" id="tab2" role="tab"  data-toggle="tab" aria-expanded="false">车库地图</a>
+                    </li>
+                </ul>
+                <!-- tab结束 -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade active in" id="listPark" >
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>分区 : </label>
+                                <select class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-change="changeStage()" ng-model="search.stageId" ng-options="stage.ID as stage.STAGE_NAME for stage in StageList">
+                                    <option value="" selected="selected">--全部--</option>
+                                </select>
+                                <label>楼栋: </label>
+                                <select class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="search.floor" ng-options="floor.iD as floor.fLOOR_NAME for floor in BuildList">
+                                    <option value="" selected="selected">--全部--</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>资产状态 : </label>
+                                <select class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="search.spaceStatus">
+                                    <option value="" selected="selected">--全部--</option>
+                                    <option value="1">自持</option>
+                                    <option value="2">已租</option>
+                                    <option value="3">已售</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-default pull-right" ng-click="find(1)" >查询</button>
+                        </div>
+                        <table class="table table-striped table-hover" style="margin-top: 10px;">
+                            <thead class="title">
+                            <tr>
+                                <th class="text-center">序号</th>
+                                <th >分区</th>
+                                <th >楼栋</th>
+                                <th >空间名称</th>
+                                <th >车位</th>
+                                <th >产权方</th>
+                                <th >入驻企业</th>
+                                <th >空间状态</th>
+                                <th >业务状态</th>
+                                <th >操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                            <tr ng-repeat="item in pageModel.data" ng-if="!item.edit">
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td>{{item.STAGE_NAME}}</td>
+                                <td>{{item.FLOOR_NAME}}</td>
+                                <td>{{item.HOUSE_NAME}}</td>
+                                <td>{{item.NAME}}</td>
+                                <td>{{item.owner}}</td>
+                                <td>{{item.enterName}}</td>
+                                <td>{{item.spaceStatus | spaceStatus}}</td>
+                                <td>{{item.businessStatus | businessStatus}}</td>
+                                <td>
+                                	<span ng-if = "item.spaceStatus == 1">
+	                                    <a href='javascript:void(0)' ng-click='rent(item.id,1,item.type)' class='btn btn-xs'><span class='fa fa-circle'></span>租</a>
+	                                    <a href='javascript:void(0)' ng-click='sell(item.id,2,item.type)' class='btn btn-xs'><span class='fa fa-circle-o'></span>售</a>
+                                	</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'"></ng-include>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane fade" id="parkMap" >
+                    	<div style="padding: 12px;">开发中,敬请期待...</div>
+                        <!--<div class="form-inline">
+                            <div class="form-group">
+                                <label>分区 : </label>
+                                <input type="text" ng-model="search.NAME" class="form-control" placeholder="姓名"/>
+                            </div>
+                            <div class="form-group">
+                                <label>资产状态 : </label>
+                                <select class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="search.typeId" ng-options="o.value as o.text for o in houseType">
+                                    <option value="" class="" selected="selected">--全部--</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-default pull-right" ng-click="find(1)" >查询</button>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/res/js/ajaxfileupload.js"></script>
+</body>
+</html>

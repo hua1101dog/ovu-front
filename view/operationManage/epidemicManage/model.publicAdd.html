@@ -1,0 +1,106 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item ? "编辑" : "新增"}}园区抗疫快报</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">发布者：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.publishPersonName" name="creatorName"  style="cursor: default;" readonly/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">类型：</label>
+            <div class="col-xs-10">
+                <select type="text" class="form-control ng-pristine ng-valid ng-not-empty ng-valid-required ng-touched" required="" ng-model="item.type" name="type" style="cursor: default;" aria-required="false" aria-invalid="false">
+                    <option value="">--请选择--</option>
+                    <option value="疫情公开">疫情公开</option>
+                    <option value="管理策略">管理策略</option>
+                    <option value="优惠策略">优惠策略</option>
+                </select>
+            </div>
+            <!-- <select class="col-xs-4" ng-model="item.type"
+                ng-change=""
+                >
+                <option value="">--请选择--</option>
+                <option value="疫情公开">疫情公开</option>
+                <option value="管理策略">管理策略</option>
+                <option value="优惠策略">优惠策略</option>
+            </select> -->
+        </div>
+
+        <div class="form-group" >
+            <label class="col-xs-2 control-label required">标题：</label>
+            <div class="col-xs-10">
+                <input type="text" placeholder="请输入" class="form-control" required ng-model="item.title" name="title"  style="cursor: default;"/>
+            </div>
+        </div>
+
+        <div class="form-group" >
+            <label class="col-xs-2 control-label">简介：</label>
+            <div class="col-xs-10">
+                <textarea placeholder="请输入" class="form-control" cols="30" ng-model="item.introduction" rows="10" style="cursor: default;"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">内容：</label>
+            <div class="col-xs-10">
+             <!-- <textarea type="text" style="height:150px;resize:vertical;cursor: default;" 
+                class="form-control" ng-model="item.content"   name="content" ></textarea> -->
+                <div style="position: relative;margin: 5px">
+                    <div type="text/html" style="margin:auto;height:300px;width:455px;"
+                         ng-model="item.content"
+                         meta-umeditor
+                         meta-umeditor-config='config'
+                         meta-umeditor-placeholder="">
+                    </div>
+                    <!-- <div class="ueditor" config="config" style="height: 300px;width: 715px;" ng-model="item.content" ready="ready"></div> -->
+                </div>
+            </div>
+        </div>	
+        <div class="form-group">
+                <label class="col-xs-2 control-label" style="white-space: nowrap;">上传照片：</label>
+                <label class="col-xs-10 control-label" style="color: red;font-weight: normal;text-align: left;">
+                                                             注：最多只能上传一张图片！
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label"><!-- 上传照片： --></label>
+                <div class="col-xs-10">
+                    <div class="photoWraper" ng-repeat="p in search.pics track by $index">
+                        <img onerror="javascript:this.src='/res/img/detail.png';"
+                             ng-click="showPhoto()"
+                             ng-src="{{processImgUrl(p)}}" />
+                        <a role="button" ng-click="delPhoto(search.pics, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                    <img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(search.pics,1)" title="上传图片">
+                </div>
+            </div>		
+    </form>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-warning" style="float: right;" ng-click="cancel()">关闭</button>
+    <button class="btn btn-primary"  style="float: right;" ng-click="saveNews(form,item)">保存</button>  
+</div>
+<style>
+    .bookingDetail {
+        margin: 0 30px;
+        margin-right: 0px
+    }
+
+    .bookingDetail b {
+        display: block;
+        widows: 100%;
+        border-bottom: 1px dashed #ccc;
+        margin-bottom: 4px;
+    }
+
+    .bookingDetail .form-group span.s_content {
+        font-size: 14px;
+        padding-left: 0px;
+        padding-top: 7px;
+    }
+
+</style>

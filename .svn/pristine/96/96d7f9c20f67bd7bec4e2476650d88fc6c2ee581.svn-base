@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传</title>
+    <link rel="stylesheet" href="operationManage/homeInspection/homeInspection.css" />
+</head>
+
+<body>
+    <div id="angularId">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancel()">×</button>
+            <h4 class="modal-title">验收概况</h4>
+        </div>
+        <div class="row" id="homeUpload">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <!-- 会议室 start -->
+                    <div class="form-inline">
+                        <div class="form-group" style="width: 25%;">
+                            <label>空间：</label>
+                            <span>{{pageModel.houseName}}</span>
+                        </div>
+                        <div class="form-group" style="width: 20%;">
+                            <label>业主：</label>
+                            <span>{{pageModel.creatorName}}</span>
+                        </div>
+                        <div class="form-group" style="width: 20%;">
+                            <label>整改状态：</label>
+                            <span>{{pageModel.checkStatus == 1 ? '整改中' : pageModel.checkStatus == 2 ? '验收完成' : '--'}}</span>
+                        </div>
+                        <div class="form-group" style="width: 25%;">
+                            <label>验房时间：</label>
+                            <span ng-if="pageModel.checkStartTime">{{pageModel.checkStartTime|date:yy-MM-dd}} ~
+                                {{(pageModel.checkEndTime|date:yy-MM-dd)||'进行中'}}</span>
+                            <span ng-if="!pageModel.checkStartTime">--</span>
+                        </div>
+                    </div>
+                    <div class="modal-header">
+                        <!-- <button type="button" class="close" ng-click="cancel()">×</button> -->
+                        <h4 class="modal-title">问题列表</h4>
+                    </div>
+                    <table class="table text-center" style="border-top:1px solid #eee">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th style="width: 100px;">问题分类</th>
+                                <th>问题点照片</th>
+                                <th style="width: 300px;">问题描述</th>
+                                <th style="width: 50px;">整改状态</th>
+                                <th>整改后照片</th>
+                                <th>整改情况描述</th>
+                                <th style="width: 150px;">整改时间</th>
+                                <th>关联工单</th>
+                            </tr>
+                            <tr class="hide">
+                                <th colspan="7">
+                                    <div class="alert" role="alert">加载中...</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.checkHouseIssues||pageModel.checkHouseIssues.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="x in pageModel.checkHouseIssues">
+                                <td>{{$index + 1}}</td>
+                                <td>{{x.issueType}}</td>
+                                <td class="photoWraper" style="width: 130px;">
+                                    <img style="width: 30px;height: 30px;margin: 0 2px;"
+                                        ng-repeat="item in x.issueImg.split(',') track by $index" ng-src='{{item}}'
+                                        ng-click="showPhoto()" alt="">
+                                </td>
+                                <td>{{x.issueDesc}}</td>
+                                <td>{{x.checkStatus == 1 ? '整改中' : x.checkStatus == 2 ? '整改完成' : '暂存'}}</td>
+                                <td class="photoWraper" style="width: 130px;">
+                                    <img style="width: 30px;height: 30px;margin: 0 2px;"
+                                        ng-repeat="item in x.handledImg.split(',') track by $index" ng-src='{{item}}'
+                                        ng-click="showPhoto()" alt="">
+                                </td>
+                                <td>{{x.handledDesc||'--'}}</td>
+                                <td ng-if="x.createTime">{{x.createTime|date:yy/MM/dd}} ~
+                                    {{x.checkStatus == 2 ? (x.updateTime|date:yy/MM/dd) : '进行中' }}
+                                </td>
+                                <td ng-if="!x.createTime">--</td>
+                                <td>
+                                    <a href="javascript:void(0)" ng-click="toWorkOrder(x)" class="btn btn-xs">工单详情</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                    <!-- 会议室 end -->
+                </div>
+            </div>
+        </div>
+        <div class="modal-header">
+            <!-- <button type="button" class="close" ng-click="cancel()">×</button> -->
+            <h4 class="modal-title">验收文件</h4>
+        </div>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="required" style="w100px;padding:10px;">上传照片：</label>
+                <label style="color: red;font-weight: normal;text-align: left;width: 200px;">
+                    注：最多只能上传三张图片！
+                </label>
+            </div>
+            <div class="form-group">
+                <label></label>
+                <div style="padding: 0 0 20px 30px;">
+                    <!-- <div class="photoWraper" ng-repeat="pic in item.brandPics track by $index"> -->
+
+                    <div class="photoWraper" ng-repeat="i in item.pics track by $index">
+                        <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()"
+                            ng-src="{{processImgUrl(i)}}" role="button" tabindex="0"
+                            src="http://imagetest.ovuems.com/business_inspection/brandimg/4fd8aae26e864e1cb92d601afc3a9510_1_4.png">
+                        <a role="button" ng-click="delPhoto(item.pics, i)"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+
+                    <!-- <div  class="photoWraper" ng-repeat="i in item.pics track by $index">
+                        <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()"
+                            ng-src="{{processImgUrl(i)}}" role="button" tabindex="0"
+                            src="http://imagetest.ovuems.com/business_inspection/brandimg/4fd8aae26e864e1cb92d601afc3a9510_1_4.png">
+                        <a role="button" ng-click="delPhoto(item.pics, i)"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div> -->
+
+                    <img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button"
+                        ng-click="addPhotos(item.pics,3)" title="上传图片" tabindex="0">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button class="btn btn-primary" ng-click="saveUpload(form,item)" ng-disabled="count==2">保存</button>
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>
+    <!-- 模态框组件 start -->
+    <div id="modalLoading" class="modal fade bs-example-modal-sm" style="margin-top: 200px;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <label>
+                        <i class="fa fa-spinner"></i>数据加载中，请稍候。。。</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

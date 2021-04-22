@@ -1,0 +1,258 @@
+<div ng-controller="equipment" ng-init="pageIndex = 0">
+    <div class="title_top">
+        <div class="title-text">
+            <span class="title-text-span" ng-class="{'gray-text':pageIndex == 1}" ng-click="pageIndex = 0">未处理工单</span>
+            <span class=" gray-text">|</span>
+            <span class=" title-text-span" ng-class="{'gray-text':pageIndex == 0}" ng-click="pageIndex = 1">未处理消息</span>
+        </div>
+    </div>
+    <div class="main-content" ng-if="pageIndex==0">
+        <div class="x_panel" style="padding: 20px;padding-bottom: 0px;">
+            <div class="form-inline">
+                    <div class="p-header">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control"  ng-model="search.name"  placeholder="按工单名称搜索"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="find(1)"><i
+                                    class='fa fa-search'></i></button>
+                        </span>
+                    </div>
+                    <!--<div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">-->
+                            <!--<input type="checkbox" class="checkbox-00" value="1" ng-model="checkList.yingji">-->
+                            <!--<span class="checkbox-00-lab">应急</span>-->
+                        <!--</div>-->
+
+                        <!--<div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">-->
+                            <!--<input type="checkbox" class="checkbox-00" value="2" ng-model="checkList.jihua">-->
+                            <!--<span class="checkbox-00-lab">计划</span>-->
+                        <!--</div>-->
+
+                        <!--<div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">-->
+                            <!--<input type="checkbox" class="checkbox-00" value="3" ng-model="checkList.shebei">-->
+                            <!--<span class="checkbox-00-lab">设备</span>-->
+                        <!--</div>-->
+
+                        <!--<div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">-->
+                            <!--<input type="checkbox" class="checkbox-00" value="4" ng-model="checkList.siningning">-->
+                            <!--<span class="checkbox-00-lab">400报事</span>-->
+                        <!--</div>-->
+
+                </div>
+            </div>
+            <table class="table table-striped table-hover" style="margin-top: 10px;margin-left: 20px;">
+                <thead>
+                    <tr  class="text-left">
+                        <th style="width:20%;">工单名称</th>
+                        <th style="width:10%;">工单状态</th>
+                        <th style="width:20%;">当前节点</th>
+                        <th style="width:5%;">被催次数</th>
+                        <th style="width:15%;">创建时间</th>
+                        <th style="width:20%;" ng-if="hasPower('通知上级') || hasPower('派发')">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.totalCount ">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data" style="color:#333333;" class="text-left">
+                        <td ><a  href='javascript:void(0)' class="btn-link" ng-click='showWorkUnitDetail(item.id)'>{{item.name||"--"}}</a></td>
+                        <td >{{item.status|keyToValue:workStatusArr}}</td>
+                        <td >{{item.personName||"--"}}</td>
+                        <td >1</td>
+                        <td>{{item.time||"--"}}</td>
+                        <td>
+                             <button class="btn btn-default " ng-if="hasPower('派发') && (item.status==0||item.status==4)" ng-click='distributeModal(item.id,item.deptId,item.parkId)'>派发</button>
+
+                            <button class="btn btn-default " style="margin-left: 5px"
+                                    ng-click="noticeLeader(item)" ng-if="hasPower('通知上级')">通知上级</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="main-content" ng-if="pageIndex==1">
+        <div class="x_panel" style="padding: 20px;padding-bottom: 0px;">
+            <div class="form-inline">
+                <div class="p-header">
+
+                    <!--<div class="input-group">-->
+                        <!--<input type="text" class="form-control"  ng-model="search.name"  placeholder="输入标题"/>-->
+                        <!--<span class="input-group-btn">-->
+                            <!--<button class="btn btn-default" ng-click="find(1)"><i-->
+                                <!--class='fa fa-search'></i></button>-->
+                        <!--</span>-->
+                    <!--</div>-->
+                    <!--<div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">-->
+                        <!--<input type="checkbox" class="checkbox-00" value="1" ng-model="checkList.yingji">-->
+                        <!--<span class="checkbox-00-lab">应急</span>-->
+                    <!--</div>-->
+
+                    <!--<div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">-->
+                        <!--<input type="checkbox" class="checkbox-00" value="2" ng-model="checkList.jihua">-->
+                        <!--<span class="checkbox-00-lab">计划</span>-->
+                    <!--</div>-->
+
+                    <!--<div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">-->
+                        <!--<input type="checkbox" class="checkbox-00" value="3" ng-model="checkList.shebei">-->
+                        <!--<span class="checkbox-00-lab">设备</span>-->
+                    <!--</div>-->
+
+                    <!--<div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">-->
+                        <!--<input type="checkbox" class="checkbox-00" value="4" ng-model="checkList.siningning">-->
+                        <!--<span class="checkbox-00-lab">400报事</span>-->
+                    <!--</div>-->
+
+                </div>
+            </div>
+            <table class="table table-striped table-hover" style="margin-top: 10px;margin-left: 20px;">
+                <thead class="title">
+                <tr  class="text-left">
+                    <th style="width:55%;">消息标题</th>
+                    <th style="width:20%;">创建时间</th>
+                    <th style="width:25%;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="!pageModel2.data">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel2.data" style="color:#333333;" class="text-left">
+                    <td>{{item.msg||"--"}}</td>
+
+                    <td>{{item.time||"--"}}</td>
+                    <td>
+                        <a href='javascript:void(0)' class='btn btn-xs btn-link' ng-click="showDetail(item)">查看详情</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager2.html'"></ng-include>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .title-text {
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        padding-left: 20px;
+        background: rgba(226, 240, 255, 1);
+        border-radius: 6px 6px 0px 0px;
+        font-size: 18px;
+        font-family: MicrosoftYaHei-Bold;
+        font-weight: bold;
+        color: rgba(0, 120, 255, 1)
+    }
+    .title-text-span{
+        cursor: pointer;
+    }
+    .title-text-span:hover{
+        color: rgba(0, 120, 255, 1);
+    }
+    .title-zhankai{
+        font-size: 18px;
+        font-family: MicrosoftYaHei-Bold;
+        font-weight: bold;
+        color: rgba(0, 120, 255, 1);
+        position: absolute;
+        right:15px;
+        top:15px;
+    }
+
+    .title {
+        background: #DEE8F8;
+        color: #0078FF;
+        text-align: center
+    }
+
+    .main-content {
+        width: 100%;
+        background: #FFFFFF;
+
+    }
+
+    .btn-default {
+        background-color: #0078FF;
+        color: #FEFEFE
+    }
+
+    .content-left {
+        height: 400px
+    }
+    /* div.content-right{
+        padding-left: 40px
+    } */
+
+    .gray-text{
+        color: #888;
+    }
+
+    div.content-right>div.title-table {
+        margin-top: 10px;
+        font-size: 16px;
+        font-family: MicrosoftYaHei;
+        font-weight: 400;
+        color: rgba(51, 51, 51, 1);
+        line-height: 34px;
+    }
+
+    .form-group {
+        margin-bottom: 15px
+    }
+
+    .btn-warning {
+        margin-left: 30px
+    }
+
+    .p-header{
+        background: #fff;
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 25px;
+        margin-left: 20px;
+    }
+    .p-ipt{
+        width:200px;
+        height:30px;
+        background:rgba(246,246,246,1);
+        border:1px solid rgba(231,231,231,1);
+        box-shadow:0px 1px 1px 0px rgba(0, 0, 0, 0.08);
+        font-size: 15px;
+    }
+    .search-00{
+        display: inline-block;
+        width:40px;
+        height:30px;
+        background:rgba(0,120,255,1);
+    }
+    .checkbox-00{
+        width: 20px;
+        height: 20px;
+    }
+    .checkbox-00-lab{
+        font-size:14px;
+        font-family:MicrosoftYaHei;
+        font-weight:400;
+        color:rgba(102,102,102,1);
+    }
+    /* .col-sm-2{
+        padding: 0px;
+        width:80px;
+    } */
+    table tr th,
+        table tr td {
+            text-align: left;
+        }
+
+</style>

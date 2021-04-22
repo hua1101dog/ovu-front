@@ -1,0 +1,328 @@
+<div ng-controller="stopinformationCtrl" id="SiCtrlTag">
+    <div class="modal fade" id="exampleModalScrollablePeo" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header" id="modalHeader">
+                    <h4 class="modal-title" id="exampleModalCenterTitle">截图及人数设置</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label">报警人数：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" placeholder="请输入开启人数" ng-model="rule.peopleNum" />
+                        </div>
+                    </div>
+                    <div>
+                        <img ng-src="{{rule.cutImages}}" alt="">
+                        <div style="margin-bottom: 10px;margin-top: 10px;text-align: end;">
+                            <button type="button" class="btn btn-primary" ng-click="savePeople()"
+                                data-dismiss="modal">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="{{showCameraList == 0?'pedestrianMap':'pedestrianList'}}">
+        <div class="form-inline" style="margin-top:20px" ng-if="showCameraList == 1">
+            <div class="form-group">
+                <select style="min-width: 179px;max-width: 180px;" class="form-control" ng-model="rule.brand">
+                    <option value="">--请选择设备品牌--</option>
+                    <option ng-repeat="item in typeList" value="{{item.name}}">{{item.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control ng-valid ng-empty ng-pristine ng-touched" placeholder="请输入巡查点位"
+                    ng-model="rule.equipSimpleName">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control ng-valid ng-empty ng-pristine ng-touched" placeholder="请输入摄像机名称"
+                    ng-model="rule.ruleName">
+            </div>
+            <button type="button" class="btn btn-primary form-group" ng-click="goSearch()">查询</button>
+        </div>
+                <div class="form-inline rulesWord" ng-if="showCameraList == 2" style="margin-top:20px">
+                    <div class="form-group">
+                        <input type="text" class="form-control ng-valid ng-empty ng-pristine ng-touched" placeholder="请输入巡查点位"
+                            ng-model="search.name">
+                    </div>
+                    <button type="button" class="btn btn-primary form-group" ng-click="goSearchImgList()">查询</button>
+                </div>
+        <div style="margin-top:20px">
+            <button type="button" class="btn btn-primary" ng-click="showCameraList=0"
+                ng-disabled="showCameraList == 0">地图</button>
+            <button type="button" class="btn btn-primary" ng-click="equipmentList()"
+                ng-disabled="showCameraList == 1">设备列表</button>
+            <button type="button" class="btn btn-primary" ng-click="showCameraList=2"
+                ng-disabled="showCameraList == 2">规则设置列表</button>
+        </div>
+    </div>
+    <table class="table table-striped table-hover" style="margin-top: 10px;" ng-if="showCameraList == 1"
+    ng-init="getEquipmentList()">
+    <thead class="title">
+        <tr>
+            <th class="text-center">NO.</th>
+            <th>设备品牌</th>
+            <th>巡查点位</th>
+            <th>摄像机名称</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody class="table_tbody_box">
+        <tr ng-if="rulesList.length == 0">
+            <td colspan="100" class="text-center">暂无数据</td>
+        </tr>
+        <tr ng-repeat="item in rulesList" class="ng-scope">
+            <td class="text-center">{{$index + 1}}</td>
+            <td class="">{{item.brand_name}}</td>
+            <td class="">{{item.equip_simple_name}}</td>
+            <td class="">{{item.name}}</td>
+            <td class="">
+                <div class="switchImg">
+                    <div>
+                        <button type="button" class="btn btn-link ruleOperate"
+                            ng-class="{{item.operation?'disabledBut':''}}" ng-click="drawMonitoring(item)"
+                            ng-disabled="item.operation">{{item.operation?item.operation:"规则设置"}}</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div ng-if="showCameraList == 2">
+    <table class="table table-striped table-hover" style="margin-top: 10px;">
+        <thead class="title">
+            <tr>
+                <th class="text-center">NO.</th>
+                <th>巡查点位</th>
+                <th>监控区域</th>
+                <th>人数设置</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody class="table_tbody_box">
+            <tr ng-if="imgList.length == 0">
+                <td colspan="100" class="text-center">暂无数据</td>
+            </tr>
+            <tr ng-repeat="item in imgList" class="ng-scope">
+                <td class="text-center">{{$index + 1}}</td>
+                <td class="">{{item.name}}</td>
+                <td class=""> <img ng-src="{{item.imgUrl}}" class="ruleImg" alt=""></td>
+                <td class="">{{item.num}}</td>
+                <td class="">{{item.update_time}}</td>
+                <td class="">
+                    <div class="switchImg">
+                        <div>
+                            <p type="button" class="btn btn-link ruleOperate" ng-click="editPeoImg($index,item)">编辑</p>
+                        </div>
+                        <div>
+                            <p type="button" class="btn btn-link ruleOperateDele"
+                                ng-click="deleteImg($index,item.id)">
+                                删除</p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-include src="'/common/pager.html'" class="ng-scope">
+        <style type="text/css" class="ng-scope">
+            .pagination>li>span:hover {
+                background-color: #fff;
+                cursor: text
+            }
+        </style>
+    </ng-include>
+</div>
+    <div class="stop-information" ng-if="showCameraList == 0">
+      <div class="left-content x_panel">
+        <div class="remarkPeoCard">
+            <span>巡查摄像头:</span>
+            <img src="/res/img/selSingleCamer.png" alt="">
+            <span>聚众位置:</span>
+            <span><img src="/common/mapComponent/img/people.png" alt=""></span>
+        </div>
+        <pedestrian-component is-pedestrian=true map_data="mapData"></pedestrian-component>
+      </div>
+      <div class="right-content x_panel">
+        <div class="right-content_header">
+          列表
+        </div>
+        <div class="list">
+          <div ng-repeat="list in lists" class="list-item" ng-click="goMessage(list)">
+            <div class="list-item_left">
+              <div>
+                <strong>名称</strong>
+                <div>{{ list.name }}</div>
+              </div>
+              <div>
+                <strong>摄像头ID</strong>
+                <div>{{ list.id }}</div>
+              </div>
+            </div>
+            <div class="list-item_right">
+              <img ng-click="showPhoto()" ng-repeat="src in [list.picA]" ng-src="{{ src }}" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    #SiCtrlTag .list {
+      overflow: auto;
+    }
+    #SiCtrlTag .ruleImg {
+        height: 70px;
+        width: 100px;
+    }
+    #SiCtrlTag .switchImg {
+        display: flex;
+        justify-content: center;
+    }
+    .disabledBut {
+        color: #cccccc;
+    }
+    #SiCtrlTag .ruleOperate {
+        text-decoration: underline;
+        color: orange;
+    }
+    #SiCtrlTag .ruleOperateDele {
+        text-decoration: underline;
+        color: red;
+    }
+    #SiCtrlTag .remarkCard {
+      position: absolute;
+      height: 30px;
+      width: 230px;
+      z-index: 500;
+      right: 20px;
+      top:20px;
+      padding:5px 10px;
+      border:1px solid #cccccc;
+      background: #fff;
+    }
+    #SiCtrlTag .remarkPeoCard {
+        position: absolute;
+        height: 30px;
+        width: 230px;
+        z-index: 500;
+        right: 20px;
+        top: 20px;
+        padding: 5px 10px;
+        border: 1px solid #cccccc;
+        background: #fff;
+    }
+    #SiCtrlTag .remarkPeoCard img {
+        height: 20px;
+        width: 20px;
+        vertical-align: top;
+    }
+    #SiCtrlTag .pedestrianList {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #SiCtrlTag .pedestrianMap {
+        display: flex;
+        justify-content: flex-end;
+    }
+    #SiCtrlTag .remarkCard img {
+      height: 20px;
+      width: 20px;
+      vertical-align:top;
+    }
+  
+    #SiCtrlTag .right-content_header {
+      background: #f5f5f5;
+      height: 40px;
+      line-height: 40px;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 0 15px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  
+    #SiCtrlTag .stop-information {
+      display: flex;
+      justify-content: stretch;
+      margin-top: 15px;
+    }
+  
+    #SiCtrlTag .list-item {
+      display: flex;
+      align-items: center;
+      text-align: left;
+      padding: 5px;
+      border-bottom: 1px solid #cccccc;
+    }
+  
+    #SiCtrlTag .list-item_left {
+      flex: 0 0 50%;
+      padding-right: 10px;
+    }
+  
+    #SiCtrlTag .list-item_left strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+  
+    #SiCtrlTag .list-item_left>div:first-child {
+      margin-bottom: 10px;
+    }
+  
+    #SiCtrlTag .list-item_right {
+      flex: 0 0 50%;
+    }
+  
+    #SiCtrlTag .list-item_right {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    #SiCtrlTag .list-item_right img {
+      width: 150px;
+      height: 80px;
+    }
+  
+    #SiCtrlTag .left-content {
+      flex: 1 1 auto;
+      overflow: auto;
+      position: relative;
+      margin-right: 10px;
+      padding: 0px;
+    }
+  
+    #SiCtrlTag .right-content {
+      padding:0px;
+      position: relative;
+      padding-top: 50px;
+      flex: 0 0 372px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #ccc;
+      height: 750px;
+    }
+    #SiCtrlTag .modal-dialog {
+        width: 80%;
+    }
+    #SiCtrlTag .modal-body{
+        display: flex;
+        justify-content: space-around;
+    }
+    #SiCtrlTag .modal-body img {
+        height: 500px;
+        width:700px;
+    }
+  </style>

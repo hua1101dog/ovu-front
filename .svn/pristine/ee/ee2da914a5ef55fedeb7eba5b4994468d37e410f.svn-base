@@ -1,0 +1,450 @@
+<div class="modal-header" ng-show="showCustomerModal">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">新增认购</h4>
+</div>
+<div class="btngroup" ng-if="curTabIndex==3">
+        <button class="btn btn-primary" ng-click="save(form,true)" ><span class="btnImage save"></span>保存</button>
+        <button class="btn btn-primary" ng-click="cancel()"><span class="btnImage close"></span>关闭</button>
+</div>
+<div class="modal-body" ng-show="showCustomerModal">
+    <div class="firstContent" ng-if="curTabIndex==1">
+        <div class="col-sm-4">
+            <select class="form-control" ng-model="selHouse.parkId" ng-options="o.id as o.parkName for o in parkList" ng-change="serachBuild(selHouse.parkId)">
+            </select>
+            <div class="well" style="padding-right: 15px; max-height: 600px; ">
+                <tree-view node-list="stageTree" config="config"></tree-view>
+            </div>
+        </div>
+        <div class="col-sm-1 text-center">
+            <label class="labelSty">单元</label>
+            <div class="well">
+                <ul>
+                    <li ng-class={selColor:unit.checked} ng-click="findListByBuild('楼层',unit)" ng-repeat="unit in unitList">{{unit.name}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-1 text-center">
+            <label class="labelSty">楼层</label>
+            <div class="well">
+                <ul>
+                    <li ng-class={selColor:floor.checked} ng-click="findListByBuild('房间',floor)" ng-repeat="floor in floorList">{{floor.name}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-6">
+
+            <label class="labWidth  labelSty" style="width:58%" >房号</label>
+            <label class="labWidth  labelSty" style="width:40%" >状态</label>
+            <div class="well">
+                <ul ng-repeat="house in houseList">
+                    <li class="col-sm-7 text-left">{{house.name}}</li>
+                    <li class="col-sm-5 text-left">
+                        {{house.status|toSaleStatus}} <i role="button" ng-click="checkOne(houseList,house)"
+                            ng-class="{'glyphicon-check':house.checked,'glyphicon-unchecked':!house.checked}"
+                            class="glyphicon"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div ng-if="curTabIndex==2">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-xs-1 control-label ">联系电话:</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" ng-model="search.phone" name="phone">
+                </div>
+                <label class="col-xs-1 control-label ">客户姓名:</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" ng-model="search.name" name="name">
+                </div>
+                <button class="btn btn-default" ng-click="find(1)">查询</button>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-xs-1" style="text-align: right">提示:</label>
+                <div class="col-xs-9">
+                    为了提高查找效率，查询时，请尽量使用联系电话和客户姓名一起查找；<br>
+                    查询时，联系电话是精确查找，客户姓名是模糊查找，两者是并且的关系；<br>
+                    在查询后，如果没有对应的机会，请点击新增客户，如果有对应的机会，则选择机会点击下一步
+                </div>
+            </div>
+        </div>
+        <div class="table-title">机会列表</div>
+        <table class="table table-striped ">
+            <thead class="title">
+                <tr>
+                    <th style="width:30px;text-align:center">序号</th>
+                    <th style="text-align:center">客户名称</th>
+                    <th style="text-align:center">联系电话</th>
+                    <th style="text-align:center">客户类型</th>
+                    <th style="text-align:center">首次创建时间</th>
+                    <th style="text-align:center">客户状态</th>
+                    <th style="text-align:center">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel.data" ng-class="{'checkCustom':item.checked}"
+                    ng-click="checkOne(pageModel.data,item)">
+                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td class="text-center">{{item.name}}</td>
+                    <td class="text-center">{{item.phone}}</td>
+                    <td class="text-center">{{item.type==1?'个人':'企业'}}</td>
+                    <td class="text-center">{{item.createTime||'--'}}</td>
+                    <td class="text-center">{{item.assignationStatus==1?'公共客户':item.assignationStatus==2?'已分配':
+                        item.assignationStatus==3?'无效客户':item.assignationStatus==4?'垃圾箱客户':item.assignationStatus==5?'丢弃客户':
+                        item.assignationStatus==6?'成交客户':'--'}}</td>
+                    <td class="text-center">
+                        <a href='javascript:void(0)' ng-click='showCustomer(item)'
+                            class='btn btn-xs btn-color1'>查看 </a>
+                        <!-- <a href='javascript:void(0)' ng-click='delete(item)' class='btn btn-xs btn-color2'>删除
+                        </a> -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-footer clearfix">
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+    <div ng-show="curTabIndex==3" class="form-horizontal">
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required-title">客户名称:</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="selCustomer.name" name="name" readonly>
+                </div>
+                <label class="col-xs-2 control-label ">联系电话:</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="selCustomer.phone" name="phone" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required-title">房间:</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" ng-model="houseInfo.houseName" name="houseName" readonly
+                        required>
+                </div>
+                <!-- <label class="col-xs-2 control-label ">是否首次购房:</label>
+                        <div class="col-xs-4">
+                            <label class="radio-inline">
+                                <input type="radio" ng-model="templateRoom" value="1" name="templateRoom"> 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" ng-model="templateRoom" value="2" name="templateRoom"> 否
+                            </label>
+                        </div> -->
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label ">房间结构:</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="houseInfo.house_structure" name="house_structure"
+                        readonly>
+                </div>
+
+                <label class="col-xs-2 control-label ">面积状态:</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="houseInfo.areaStatusName" name="areaStatusName"
+                        readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label class="col-xs-2 control-label ">建筑面积(m<sup>2</sup>):</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="houseInfo.area" name="area" readonly>
+                </div>
+                <label class="col-xs-2 control-label ">套内面积(m<sup>2</sup>):</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="houseInfo.area_su" name="area_su" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-2 control-label ">建筑单价(元):</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="houseInfo.standardAreaUnitPriceNew" name="standardAreaUnitPriceNew"
+                        readonly>
+                </div>
+                <label class="col-xs-2 control-label ">套内单价(元):</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="houseInfo.standardAreaSuUnitPriceNew" name="standardAreaSuUnitPriceNew" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required-title">计价方式:</label>
+                <div class="col-xs-4">
+                    <label class="radio-inline">
+                        <input type="radio" ng-model="signInfo.priceType" value="0" name="priceType" required> 按建筑面积
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" ng-model="signInfo.priceType" value="1" name="priceType" required> 按套内面积
+                    </label>
+                </div>
+                <label class="col-xs-2 control-label ">标准总价(元):</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="signInfo.standardPrice" name="standardPrice"
+                        required readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-2 control-label ">付款方式:</label>
+                <div class="col-xs-4">
+                    <select class="form-control" ng-model="signInfo.paymentType" ng-options="o.id as o.name for o in houseInfo.salePaymentMethodList" ng-change="resetDiscount()">
+                    </select>
+                </div>
+                <label class="col-xs-2 control-label required-title">折扣(%):</label>
+                <div class="col-xs-4">
+                    <input type="number" class="form-control"
+                        ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                        ng-model="signInfo.discount" ng-change="" required
+                        ng-readonly="signInfo.paymentType==1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required-title">建筑成交单价(元):</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="signInfo.buildingDealUnit" name="buildingDealUnit"
+                        readonly required placeholder="建筑成交单价自动计算">
+                </div>
+                <label class="col-xs-2 control-label required-title">套内成交单价(元):</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="signInfo.insetDealUnit" name="insetDealUnit"
+                        readonly required placeholder="套内成交单价自动计算">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label ">折扣说明:</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="signInfo.discountNotes" name="discountNotes">
+                </div>
+                <label class="col-xs-2 control-label required-title">房间总价(元):</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="signInfo.housePrice" name="housePrice"
+                        ng-change="calculateMoney()" required>
+                </div>
+            </div>
+            <div class="title_t">装修选择</div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label ">装修标准:</label>
+                <div class="col-xs-4">
+                    <select class="form-control" ng-model="signInfo.decorationStandard"  ng-options="o['dicVal'] as o['dicItem'] for o  in decorationList">
+                        <option value="">-请选择-</option>
+                    </select>
+                </div>
+                <label class="col-xs-2 control-label ">装修单价(元):</label>
+                <div class="col-xs-4">
+                    <input type="number" class="form-control"
+                        ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                        ng-model="signInfo.decorateUnitPrice" ng-change="calDecoratePrice()">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label ">是否并入合同:</label>
+                <div class="col-xs-4">
+                    <label class="radio-inline">
+                        <input type="radio" ng-model="signInfo.haveMergeContract" value="1" name="haveMergeContract"> 是
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" ng-model="signInfo.haveMergeContract" value="0" name="haveMergeContract"> 否
+                    </label>
+                </div>
+                <label class="col-xs-2 control-label ">装修总价(元):</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control"
+                        ng-model="signInfo.decorateTotalPrice" ng-change="" placeholder="装修总价自动计算" readonly>
+                </div>
+            </div>
+            <div class="title_t">摘要</div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required-title">协议编号:</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="signInfo.subAgreementNo" name="subAgreementNo" required>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required-title">应收定金(元):</label>
+                <div class="col-xs-4">
+                    <input type="number" class="form-control"
+                        ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                        ng-model="signInfo.receivableMoney" ng-change="" required>
+                </div>
+                <label class="col-xs-2 control-label required-title">协议总价(元):</label>
+                <div class="col-xs-4">
+                    <input type="number" class="form-control"
+                        ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                        ng-model="signInfo.agreementPriceTax" ng-change="calTaxRate()" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required-title">不含税协议总价(元):</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control"
+                        ng-model="signInfo.agreementPrice" ng-change="" required placeholder="协议总价(不含税)自动计算" readonly>
+                </div>
+                <label class="col-xs-2 control-label required-title">税额(元):</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="signInfo.amountTax" ng-change="" required placeholder="税额自动计算" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label ">税率(%):</label>
+                <div class="col-xs-4">
+                    <input type="number" class="form-control"
+                        ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                        ng-model="signInfo.taxRate" ng-change="" readonly>
+                </div>
+                <label class="col-xs-2 control-label required-title">认购日期:</label>
+                <div class="col-xs-4">
+                    <input type="datetime" class="form-control Wdate" ng-model="signInfo.subscriptionDate" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required-title">业务归属日期:</label>
+                <div class="col-xs-4">
+                    <input type="datetime" class="form-control Wdate" ng-model="signInfo.bussinessBelongDate"
+                        onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                        required>
+                </div>
+                <label class="col-xs-2 control-label required-title">预计签约日期:</label>
+                <div class="col-xs-4">
+                    <input type="datetime" class="form-control Wdate" ng-model="signInfo.expectSignDate" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" required >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label ">推荐人:</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="signInfo.referencesPerson"
+                        name="referencesPerson">
+                </div>
+                <label class="col-xs-2 control-label required-title">业务员:</label>
+                <div class="col-xs-4">
+                    <input type="text" style='background-color: white;' readonly="readonly" class="form-control" ng-click='businessManagerFocus()' ng-model="signInfo.businessManager"  name="businessManager" required>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<div class="modal-footer" style="clear: both" ng-show="showCustomerModal&&curTabIndex!=3">
+    <button class="btn btn-primary" ng-if="curTabIndex==2" ng-click="addCustomer()">新增客户</button>
+    <button class="btn btn-primary" ng-click="nextStep()">下一步</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .modal-header {
+        background-color: #337ab7;
+        padding: 10px 15px;
+        color: #ffffff
+    }
+
+    .firstContent .well {
+        clear: both;
+        min-height: 250px;
+        margin-top: 15px;
+        padding-left: 0px;
+        padding-right: 0px;
+        overflow: auto;
+    }
+
+    .labelSty {
+        font-size: 14px;
+        margin-top: 15px;
+        margin-bottom: 0px;
+    }
+
+    label.labWidth {
+        text-align: left;
+        padding-left: 20px
+    }
+
+    div.table-title {
+        padding: 5px 15px;
+        font-size: 15px;
+        color: #fff;
+        background-color: #337ab7;
+        font-weight: 700;
+        margin-top: 20px
+    }
+
+    label.col-xs-1 {
+        padding-right: 0px;
+        padding-left: 0px
+    }
+
+    .table>tbody>tr.checkCustom {
+        background-color: #DFF0D8
+    }
+
+    
+    .btngroup {
+        margin-top: 1px;
+        padding: 2px;
+        background-color: #337ab7
+    }
+
+    .btngroup>.btn {
+        background-color: #e2f1084f;
+        height: 34px;
+        line-height: 22px;
+        padding: 6px 12px;
+        margin-right: 0px
+    }
+
+    span.btnImage {
+        display: block;
+        float: left;
+        margin-top: 3px;
+        height: 16px;
+        width: 20px;
+        margin-right: 2px;
+        padding-left: 0px;
+        background-repeat: no-repeat;
+        font-size: 14px;
+
+    }
+    /* .modal-body{
+        padding-right: 30px;
+        padding-bottom: 30px;
+    }
+     */
+
+    span.save {
+        background-image: url("../../../image/icon_save.png");
+    }
+
+    span.saveAndClose {
+        background-image: url("../../../image/icon_closeSave.png");
+    }
+
+    span.close {
+        background-image: url("../../../image/icon_close.png");
+    }
+
+    .required-title {
+        color: rgb(199, 45, 45)
+    }
+
+    .title_t {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        color: blue;
+        font-size: 14px;
+        border-bottom: 1px solid #ddd;
+        font-weight:700;
+        margin-left: 28px
+    }
+    .selColor{
+        background-color: #DFF0D8;
+    }
+
+</style>

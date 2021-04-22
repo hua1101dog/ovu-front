@@ -1,0 +1,178 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}考试</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <label>发放设置：</label>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">考试名称：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" required ng-model="item.text"
+                            maxlength="200" />
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">考试时间：</label>
+                    <div class="col-xs-8">
+                    <input type="text" style="display:inline-block;width:180px" readonly class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" id="startTime_batch" placeholder="开始考试时间"
+                    ng-model="item.startTime" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'endTime_batch\')}'})"
+                    onchange=""
+                    >
+                    <label>-</label>
+                    <input type="text" style="display:inline-block;width:180px" readonly class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" id="endTime_batch" placeholder="结束考试时间"
+                    ng-model="item.endTime" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'startTime_batch\')}'})"
+                    onchange="" >
+                    </div>
+                </div>
+                <!--考试人群 -->
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">考试人群：</label>
+                    <div class="col-xs-4" style="margin-top:8px;">
+                        <a href="javascript:;" style="color:blue;" ng-click="selectGroud()">选择分组</a>
+                        <a href="javascript:;" ng-click="uploadText()" style="color:blue;">导入人群</a>
+                        <a href="javascript:;" style="margin:10px 10px;color:blue" ng-click="downloadFile()">(下载模板)</a>
+                    </div>
+                    <br>
+                    <br>
+                    <div  class="col-xs-12" style="width: 850px;margin: 7px auto;">
+                            <form name="form" novalidate ng-if="!item.id">
+                            <div style="margin: 7px 38px;">
+                                <div ng-if="groudList.length == 0">
+                                    <span class="text-center">暂无记录</span>
+                                </div>
+                                <div style="display: inline-block;    margin: 5px 15px;" ng-repeat="item in groudList">
+                                    <i role="button" ng-click="checkOne(item)"
+                                    ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                    class="glyphicon"></i>
+                                    <span>{{item.text}}</span>
+                                </div>
+
+
+                            </div>
+                        </form>
+                        </div>
+                        <!-- <div style="margin:0 auto;margin-top:25px;width:760px;">
+                                <div>分组:</div>
+                                <ul class="col-xs-12" style="border: 1px solid #cccccc;">
+                                   <li class="col-xs-3" ng-repeat="item in personList" style="padding: 5px 0;">
+                                       <div style="width: 100%;">
+                                           <span style="width: calc(100% - 20px);" class="touch" data-toggle="tooltip"
+                                               data-placement="left"
+                                               title="{{item.name}}({{item.jobCode || '-'}})">{{item.name}}({{item.jobCode || '-'}})</span>
+                                               <a ng-click="delP(personList,item)">
+                                                       <i class='fa fa-remove'></i>
+                                                   </a>
+                                       </div>
+                                   </li>
+                                </ul>
+                            </div> -->
+                            <div style="margin:0 auto;margin-top:20px;width:760px;">
+                                    <div>导入人群:</div>
+                                    <ul class="col-xs-12" style="border: 1px solid #cccccc;">
+                                         <li class="col-xs-3" ng-repeat="item in takeInPersonList" style="padding: 5px 0;">
+                                             <div style="width: 100%;">
+                                                 <span style="width: calc(100% - 20px);"  data-toggle="tooltip"
+                                                     data-placement="left"
+                                                     title="{{item.name}}({{item.jobCode || '-'}})">{{item.name}}({{item.jobCode || '-'}})</span>
+                                                     <a ng-click="delTP(takeInPersonList,item)">
+                                                             <i class='fa fa-remove'></i>
+                                                         </a>
+                                             </div>
+                                         </li>
+                                     </ul>
+                            </div>
+                </div>
+                <!-- 考试限制 -->
+                <div class="col-md-5">
+                    <div class="panel-body">
+                        <label>考试限制：</label>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">次数限制：</label>
+                            <div class="col-xs-7">
+                                <input type="radio" style="margin:5px 5px" ng-model="item.isRestrict" value="0"
+                                   >不限制考试次数</label>
+                                <br>
+                                <input type="radio" style="margin:5px 5px;float: left;" ng-model="item.isRestrict" value="1"
+                                   >
+                                <div style="float: left;">每个学员可考</div></label>
+                                <input type="text" ng-model="item.count"
+                                    style="width: 25px;height:20px;float: left;"/><span
+                                    style="float: left;">次</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                <!-- 跳转设置 -->
+                <div class="panel-body">
+                    <label>跳转设置：</label>
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label">正确答案：</label>
+                        <div class="col-xs-8">
+                            <input type="radio" style="margin:5px 5px" ng-model="item.isPublic" value="1"
+                                >交卷后立即显示</label>
+                            <br>
+                            <input type="radio" style="margin:10px 5px;display:inline-block;" ng-model="item.isPublic" value="0">
+                            <input type="text" style="width: 180px;height: 30px;margin:2px 0;display:inline-block;"readonly  class="form-control Wdate" placeholder=""
+                    ng-model="item.publicTime" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'endTime_batch\')}'})"
+                    onchange="" >
+                            <div style="margin:10px 0;display:inline-block;">显示</div></label>
+                        </div>
+                        <!-- <label class="col-xs-2 control-label required">考试时间：</label>
+                            <div class="col-xs-3 input-group">
+                                <input type="text" class="form-control" required ng-model="item.time" name="time" placeholder="1-120的整数" ng-pattern="/^[1-9]\d*$/" min="1" max="120" required/>
+                                <label class="input-group-addon">分钟</label>
+
+                            </div> -->
+                    </div>
+                </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </form>
+</div>
+<div class="modal-footer" ng-show="!show" style="text-align: center;margin: 0 10px;">
+    <button class="btn btn-primary" ng-click="save(item)">保存</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .tihao {
+        background: lightgray;
+        padding: 3px;
+        border-radius: 5px;
+    }
+
+    .leibie {
+        background: lightskyblue;
+        padding: 1px;
+        border-radius: 10px;
+    }
+
+    .row.detail {
+        margin-left: 3px;
+        margin-right: 3px;
+        margin-bottom: 3px;
+        border: 1px solid transparent;
+        border-color: #ddd;
+        border-radius: 3px;
+    }
+
+    .pt7 {
+        padding-top: 7px;
+    }
+
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+
+</style>

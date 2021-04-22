@@ -1,0 +1,76 @@
+<div ng-controller="monitoringReportCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>视频稳定性监测报表</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <form class="form" novalidate>
+            <div class="form-inline">
+                <div class="form-group">
+                    <input style="width: 140px;" type="datetime" id="d4331" class="form-control Wdate moniSt" ng-model="search.startTime" placeholder="开始日期"
+                        onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" required>
+                    <label>-</label>
+
+                    <input style="width: 140px;" type="datetime" class="form-control Wdate" ng-model="search.endTime" placeholder="结束日期" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.moniSt').first().val()}&quot;,maxDate:&quot;#F{$dp.$D(\'d4331\',{d:31}) ||'%y-%M-%d'}&quot;})"
+                        required>
+                </div>
+        </form>
+        <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">视频稳定性监测报表
+           
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover table-bordered" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th rowspan="2" align="center" class="text-center" style="vertical-align: middle">NO</th>
+                        <th rowspan="2" style="text-align: center;vertical-align: middle">摄像头名称</th>
+                        <th rowspan="2" align="center" style="vertical-align: middle">摄像头品牌</th>
+                        <th rowspan="2" align="center" style="vertical-align: middle">摄像头与视频监控服务联网</th>
+                        <th rowspan="2" style="text-align: center;vertical-align: middle">视频监控服务</th>
+                        <th rowspan="2" align="center" style="vertical-align: middle">视频监控与OVU服务联网</th>
+                        <th rowspan="2" align="center" style="vertical-align: middle">OVU服务</th>
+                        <th rowspan="2" style="text-align: center;vertical-align: middle">OVU服务与EMS服务联网</th>
+                        <th rowspan="2" align="center" style="vertical-align: middle">EMS服务</th>
+                        <th colspan="2" style="text-align: center;">摄像头打开情况</th>
+                        <th colspan="2" style="text-align: center;">摄像头在线情况</th>
+                        <th colspan="3" style="text-align: center;">OVU服务与EMS服务联网推流情况</th>
+                    </tr>
+                    <tr>
+                        <th>成功打开次数</th>
+                        <th>失败打开次数</th>
+                        <th>在线累计时长</th>
+                        <th>掉线累计时长</th>
+                        <th>推流成功次数</th>
+                        <th>推流失败次数</th>
+                        <th>累计推流时长</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.houseName}}</td>
+                        <td>{{item.houseCode}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.address}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</div>

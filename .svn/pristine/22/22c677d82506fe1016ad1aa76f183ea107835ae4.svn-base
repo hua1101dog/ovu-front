@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>办公巡检</title>
+    <link rel="stylesheet" href="operationManage/activityManage/activityIndex.css">
+</head>
+
+<body>
+<div id="angularId" ng-controller="inspectionOfficeRoomCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>办公巡检</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-sm-8 col-xs-12" style="width: 95%;">
+            <div class="div-group"></div>
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label class="label-search">分期/分区:</label>
+                        <select class="form-control" ng-model="STAGE" ng-change="changeStage(STAGE)"
+                                ng-options="o.text for o in stageList" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-search">楼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;栋:</label>
+                        <select class="form-control" ng-model="BUILD" ng-change="changeBuild(BUILD)"
+                                ng-options="o.buildName for o in buildList" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-search">单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;元:</label>
+                        <select class="form-control" ng-model="UNIT" ng-change="changeUnit(BUILD,UNIT)"
+                                ng-options=" o for o in unitList" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-search">楼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;层:</label>
+                        <select class="form-control" ng-model="GROUND" ng-change="changeGround(GROUND)"
+                                ng-options="o as o+'楼' for o in groundList" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label class="label-search">空间编码:&nbsp;&nbsp;</label>
+                        <input type="text" ng-model="search.houseCode" 
+                               class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label-search">空间名称:</label>
+                        <input type="text" ng-model="search.houseName" 
+                               class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                    </div>
+
+                    <div class="form-group">
+                        <label>入驻方名称:</label>
+                        <input type="text" ng-model="search.enterName" 
+                               class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                    </div>
+                    <div class="form-group">
+                        <label>联系方式:</label>
+                        <input type="text" ng-model="search.phone" 
+                               class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                    </div>
+                </div>
+
+                
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>巡检时间:&nbsp;&nbsp;</label>
+                        <input style="width: 180px;" type="datetime" class="form-control Wdate"
+                               ng-model="search.inspectionTimeStart" placeholder="开始日期" onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+                        <label>-</label>
+                        <input style="width: 180px;" type="datetime" class="form-control Wdate"
+                               ng-model="search.inspectionTimeEnd" placeholder="结束日期" onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.Wdate').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+                    </div>
+                    <button class="btn btn-default" ng-click="query()">查询</button>
+                </div>
+              
+
+
+
+                
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color:#999999;">办公巡检列表
+                    <button class="btn btn-primary pull-right" ng-click='showNews(item)'>新增</button>
+                </div>
+                <div class="panel-body">
+                        <table class="table table-striped table-hover" style="margin-top: 10px;">
+                                <thead class="title">
+                                <tr>
+                                    <th class="text-center" style="width:5%;">序号</th>
+                                    <th class="text-center" style="width:5%;">分期</th>
+                                    <th class="text-center" style="width:10%;">楼栋</th>
+                                    <th class="text-center" style="width:10%;">单元</th>
+                                    <th class="text-center" style="width:10%;">楼层</th>
+                                    <th class="text-center" style="width:10%;">空间名称</th>
+                                    <th class="text-center" style="width:6%;">业态类型</th>
+                                    <th class="text-center" style="width:8%;">入驻方</th>
+                                    <th class="text-center" style="width:8%;">联系方式</th>
+                                    <th class="text-center" style="width:8%;">品牌名称</th>
+                                    <th class="text-center" style="width:8%;">巡检时间</th>
+                                    <th class="text-center" style="width:20%;">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr ng-repeat="item in pageModel.data track by $index">
+                                    <td>{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <td class="text-center">{{item.stageName}}</td>
+                                    <td class="text-center">{{item.buildName}}</td>
+                                    <td class="text-center">{{item.unitNo}}</td>
+                                    <td class="text-center">{{item.groundNo}}</td>
+                                    <td class="text-center">{{item.houseName}}</td>
+                                    <td class="text-center">{{item.businessType | businessTypeList}}</td>
+                                    <td class="text-center">{{item.enterName}}</td>
+                                    <td class="text-center">{{item.phone}}</td>
+                                    <td class="text-center">{{item.brand}}</td>
+                                    <td class="text-center">{{item.inspectionTime | date : 'yyyy-MM-dd'}}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-oper" ng-if="hasPower('编辑')" ng-click='showNews(item)'>编辑</button>
+                                        <button class="btn btn-oper" ng-if="hasPower('删除')" ng-click='del(item)'>删除</button>
+                                        <button class="btn btn-oper" ng-click='showDetail(item)'>查看</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="page-footer clearfix">
+                                <ng-include src="'/common/pager.html'" class="ng-scope">
+                                    <style type="text/css" class="ng-scope">
+                                        .pagination > li > span:hover {
+                                            background-color: #fff;
+                                            cursor: text
+                                        }
+                                    </style>
+                                </ng-include>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

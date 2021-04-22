@@ -1,0 +1,69 @@
+<div ng-controller="operationLogCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>系统操作日志</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+                <div class="input-group ">
+                    <tree-selector node-list="dicTree" host="search"
+                       host-key="'subSystem'" host-text="'text'" leaf-only=false tip-text="'请选择子系统'"></tree-selector>
+                </div>
+                <div class="form-group">
+                    <label>操作人</label>
+                    <input type="text" ng-model="search.userName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>访问状态</label>
+                    <select ng-model="search.logType" class="form-control">
+                        <option value="">全部</option>         
+                        <option value="INFO">info</option>
+                        <option value="EXCEPTION">exception</option>
+                    </select>
+                </div>
+            <div class="form-group">
+                <label>操作时间</label>
+                <input style="width: 170px;" type="datetime" class="form-control Wdate" ng-model="search.startTime" placeholder="开始日期" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+                <label>-</label>
+                <input style="width: 170px;" type="datetime" class="form-control Wdate" ng-model="search.endTime" placeholder="结束日期" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('.Wdate').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+                <button class="btn btn-default" ng-click="find(1)">查询</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">操作日志列表</div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover">
+                <thead class="title">
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th style="text-align: center;">操作人</th>
+                        <th style="text-align: center;">操作名称</th>
+                        <th style="text-align: center;">操作时间</th>
+                        <th style="text-align: center;">接口返回时间</th>
+                        <th style="text-align: center;">访问状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td class="text-center">{{item.username}}</td>
+                        <td class="text-center">{{item.description}}</td>
+                        <td class="text-center">{{item.createDate}}</td>
+                        <td class="text-center">{{item.time}}</td>
+                        <td class="text-center">{{item.logType}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>

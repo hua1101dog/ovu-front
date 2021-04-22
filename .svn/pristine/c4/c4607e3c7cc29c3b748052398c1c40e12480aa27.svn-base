@@ -1,0 +1,124 @@
+<!-- map 2D 3D -->
+<div class="map3D-container">
+    <div id="fengMap"></div>
+    <!-- 顶部工具条 -->
+    <div class="topbar">
+        <div class="type pull-left">
+            <!-- 
+            <span class="type-1">已租赁</span>
+            <span class="type-2">未租赁</span>
+            <span class="type-3">已定</span>
+             -->
+        </div>
+        <style>
+
+        </style>
+    </div>
+    <!-- 视角按钮组  -->
+    <div class="viewmode-group btn-group-vertical" data-toggle="buttons">
+        <button class="btn btn-default" id="2dbuuton">2D</button>
+        <button class="btn btn-default btn-primary" id="3dbuuton">3D</button>
+    </div>
+    <!-- 缺省显示高德地图 -->
+    <div id="gao-map" ng-if="showGaomap">
+
+    </div>
+</div>
+<!-- map3D 依赖的css -->
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+    /* 异常警报显示 */
+    
+    .box {
+        animation: change 1s ease-in infinite;
+        font-size: 6px;
+        color: #f00;
+        font-weight: bold
+    }
+    
+    @keyframes change {
+        0% {
+            text-shadow: 0 0 4px #f00
+        }
+        50% {
+            text-shadow: 0 0 40px #f00
+        }
+        100% {
+            text-shadow: 0 0 4px #f00
+        }
+    }
+</style>
+
+<style>
+    .topbar {
+        position: absolute;
+        top: 2%;
+        left: 2%;
+    }
+    
+    .topbar button {
+        margin-left: 5px;
+    }
+    
+    #table-container {
+        height: 300px;
+        overflow: auto;
+    }
+    
+    #table-container table {
+        min-width: 300px;
+    }
+    
+    #table-container table th,
+    #table-container table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+    
+    .viewmode-group.btn-group-vertical {
+        position: absolute;
+        left: 2%;
+        bottom: 20%;
+    }
+    
+    .map3D-container {
+        min-height: 700px;
+    }
+    
+    .map3D-container .panel-body {
+        height: 320px;
+    }
+    /* 顶部工具条 BEGIN */
+    
+    .topbar .type {
+        margin-left: 20px;
+        margin-top: 7px;
+    }
+    
+    .topbar .type>span {
+        margin: 10px 10px;
+    }
+    
+    .topbar .type>span::before {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+    
+    .topbar .type>span.type-1::before {
+        background-color: red;
+    }
+    
+    .topbar .type>span.type-2::before {
+        background-color: yellow;
+    }
+    
+    .topbar .type>span.type-3::before {
+        background-color: white;
+    }
+    /* 顶部工具条 END */
+</style>

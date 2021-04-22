@@ -1,0 +1,215 @@
+<!-- 考试结果 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">考试结果</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <uib-tabset active="active">
+            <uib-tab index="0" heading="考生成绩" ng-click="changeIndex(0,1)">
+                <div class="panel-body" style="background-color: #cccccc;margin-top: 5px;">
+                    <div style="float: left;margin:10px 20px 0;">通过率:<span>{{data.passRate || '-'}}</span></div>
+                    <div style="float: left;margin:10px 20px 0;">通过人数：<span>{{data.passCount}}</span>人</div>
+                    <div style="float: left;margin:10px 20px 0;">
+                        应考人数/实考人数：<span>{{data.expectCount || '-'}}</span>/<span>{{data.attendCount}}</span>人
+                    </div>
+                    <div style="float: left;margin:10px 20px 0;">平均分:<span>{{data.avgScore || '-'}}</span></div>
+                    <div style="float: left;margin:0px 20px;vertical-align: middle;">
+                        <div>最高分：<span>{{data.maxScore}}</span></div>
+                        <div>最低分：<span>{{data.minScore}}</span></div>
+                    </div>
+                </div>
+                <div class="form-group col-xs-3" style="padding:5px;">
+                    <input type="text" ng-model="search.params" style="margin-left: 10px;" class="form-control"
+                        placeholder="姓名、工号" />
+                </div>
+                <div class="col-xs-2">
+                    <select class="form-control" style="width: 115px;margin:5px 10px;" ng-model="item.isSubmit">
+                        <option value="">全部</option>
+                        <option value="1">已交卷</option>
+                        <option value="0">未交卷</option>
+                        <option value="-1">未参与</option>
+                    </select>
+                </div>
+                <button class="btn btn-default" ng-click="find(1,item.isSaveMaxScore,true)"
+                    style="margin-top: 5px;">查询</button>
+                <!-- <div class="panel panel-default"> -->
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th class="text-center">NO</th>
+
+
+                                <th>姓名</th>
+                                <th>工号</th>
+                                <th>状态</th>
+                                <th>分数</th>
+                                <th>排名</th>
+                                <th>用时</th>
+                                <th>交卷时间</th>
+                                <th>详情</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data">
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+
+                                <td>{{item.personName}}</td>
+                                <td>{{item.jobCode}}</td>
+                                <td>
+                                    <div ng-show="item.isSubmit==0">未交卷</div>
+                                    <div ng-show="item.isSubmit==1">已交卷</div>
+                                    <div ng-show="item.isSubmit==-1">未参与</div>
+                                </td>
+                                <td>
+                                    <div ng-show='item.isSubmit==1'>
+                                        <div>客观题：<span>{{item.objectiveScore}}</span></div>
+                                        <div ng-hide="item.subjectDetail.length==0 || !item.subjectDetail">主观题：<span
+                                                style="color: blue;" ng-click="gradeModal(item)"
+                                                ng-if="item.isMark==0">评分</span>
+                                            <span ng-show="item.isMark==-1">0</span>
+                                            <span ng-show="item.isMark==-2">0</span>
+                                            <span ng-if="item.isMark==1">{{item.totalScore-item.objectiveScore}}</span>
+                                        </div>
+                                        <div>总分：<span>{{item.totalScore}}</span></div>
+                                    </div>
+                                </td>
+                                <td>{{item.range}}</td>
+                                <td>
+                                    <span ng-show='item.isSubmit==1'>
+                                        {{item.time}}分钟
+                                    </span>
+                                </td>
+                                <td>{{item.submitTime}}</td>
+                                <td><a href='javascript:void(0)' ng-click="showEditModal(item,true)"
+                                        ng-disabled="item.isSubmit!=1" class='btn btn-xs'><span
+                                            class='fa fa-eye'></span>查看详情</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab index="1" heading="答题分析" select="changeIndex(1)">
+                <div style="text-align: center;margin-top: 20px;"
+                    ng-show="!pageModel1 || pageModel1.subjectDetail.length==0">暂无记录</div>
+                <div class="panel-body" ng-repeat="item in pageModel1.subjectDetail" ng-if="item.type!==5">
+                    <label
+                        style="margin-bottom: 0;"><span>{{$index+1}}.</span><span style="white-space:normal; word-break:break-all;">{{item.question}}</span><span>[{{item.typeName}}]</span><span
+                            style="color: #cccccc;">({{item.paperScore}}分)</span></label>
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+
+                            <tr>
+
+                                <th colspan="4" style="float: left;" style="border:0">选项</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th ng-if="item.type!=5">小计</th>
+                                <th colspan="3" style="float: left;" style="border:0" ng-if="item.type!=5">比例</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="o in item.optionDetail" ng-hide="item.type==5">
+
+                                <td colspan="4" style="float: left;text-align: left;"
+                                    ng-if="o.blankContent=='' || o.blankContent==undefined "
+                                    ng-class="item.answer.indexOf(o.option)!='-1'?'red':''">{{o.option}}
+                                    <span style="white-space:normal; word-break:break-all;">{{o.optionContent}}</span>
+
+                                </td>
+                                <td colspan="4" style="float: left;line-height: 57px;text-align: left;"
+                                    ng-show="o.blankContent!=''"
+                                    ng-class="o.blankContent==(item.answer=='A'?'正确':'错误')?'red':''">
+                                    {{o.blankContent}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{{o.count}}</td>
+                                <td colspan="3" style="float: left;">
+                                    <!-- {{o.countRate}} -->
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{o.countRate}}"
+                                            aria-valuemin="0" aria-valuemax="100" style="width:{{o.countRate}}">
+                                            {{o.countRate}}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="100" style="text-align: left;font-size: 16px;">
+                                    正确率:&nbsp;{{item.correctRate}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- </div> -->
+                </div>
+            </uib-tab>
+            <button class="btn pull-right" ng-click="downloadFile()" style="margin-top: 5px; float: right;">导出</button>
+            <div class="col-xs-4" style="padding: 0;margin-top:12px;float: right;" ng-show="!hide">
+                <div class="col-xs-4" style="width: 142px;">是否保留最高分：</div>
+                <div class="col-xs-4" style="padding: 0;">
+                    <input type="radio" style="margin:5px 5px" ng-model="item.isSaveMaxScore" value="1"
+                        name="isSaveMaxScore" ng-click="setIsSaveMaxScore(1,1,true)">是</label>
+                    <input type="radio" style="margin:5px 5px;" ng-model="item.isSaveMaxScore" value="0"
+                        name="isSaveMaxScore" ng-click="setIsSaveMaxScore(0,1,true)">否</label>
+                </div>
+            </div>
+        </uib-tabset>
+    </form>
+</div>
+<style>
+    .table>tbody+tbody {
+        border-top: 2px solid rgb(250, 250, 250);
+    }
+
+    .table>thead>tr>th {
+        vertical-align: bottom;
+        border-bottom: 2px solid rgb(250, 250, 250);
+    }
+
+    .table>tbody>tr>td,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>td,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>thead>tr>th {
+        padding: 8px;
+        line-height: 1.42857143;
+        vertical-align: top;
+        border-top: 1px solid rgb(250, 250, 250);
+    }
+
+    .progress {
+        width: 100px;
+    }
+
+    .progress-bar {
+        float: left;
+        width: 0;
+        height: 100%;
+        font-size: 12px;
+        line-height: 20px;
+        color: #3a3838;
+        text-align: center;
+        background-color: #337ab7;
+        -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+        -webkit-transition: width .6s ease;
+        -o-transition: width .6s ease;
+        transition: width .6s ease;
+    }
+
+</style>

@@ -1,0 +1,84 @@
+<div ng-controller="inventoryCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>盘点管理</h3>
+
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>资产分类</label>
+                <select class="form-control" ng-model="parentId" ng-options="o.id as o.assetName for o in parentList"
+                    ng-change="getclass(parentId)">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>资产类别</label>
+                <select class="form-control" ng-model="search.assetCategoryId" ng-options="o.id as o.assetName for o in secondList">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>盘点位置</label>
+                <input type="text" class="form-control" ng-model="search.pointName" />
+            </div>
+            <div class="form-group">
+                <label>盘点日期</label>
+                <input  type="datetime" class="form-control Wdate" ng-model="item.startTime"  onchange=""
+                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+            </div>
+            <button class="btn btn-default pull-right" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <span style="display:inline-block;margin-top:8px;">信息列表</span>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead>
+                    <tr>
+                        <th class="text-center" style="width:30px">NO</th>
+                        <th class="text-center">盘点日期</th>
+                        <th>资产类别</th>
+                        <!-- <th>盘点地点</th> -->
+                        <th>盘点位置</th>
+                        <th>资产数量</th>
+                        <th>标签数量</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.checkTime}}</td>
+                        <td>{{item.assetCategoryName}}</td>
+                        <td>{{item.place}}</td>
+                        <!-- <td>{{item.parkName}}</td> -->
+                        <td>{{item.assetNumber}}</td>
+                        <td>{{item.rfidNumber}}</td>
+                        <td>
+                            <a href='javascript:void(0)' ng-click='detailShow(item)' class='btn btn-xs'>
+                                <span class='fa fa-search'></span>详情</a>
+                     
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

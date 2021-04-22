@@ -1,0 +1,152 @@
+<div class="videoDiv" ng-style="{width:vm.width,height:vm.width/1.78+55}">
+    <div class="head" ng-init="size = 1">
+        <button class="  btn btn-custerm" ng-click="vm.small();size=1" ng-class="{myactive:size == 1}">小尺寸</button>
+        <button class="  btn btn-custerm" ng-click="vm.middle();size=2" ng-class="{myactive:size == 2}">中尺寸</button>
+        <button class="  btn btn-custerm" ng-click="vm.large();size=3" ng-class="{myactive:size == 3}">大尺寸</button>
+        <!--<button class="btn btn-default btn-sm" style="float: right;margin-top: 10px; "
+                ng-click="isOpen = !isOpen" >
+            <i class="fa fa-spin fa-gear"></i>
+        </button>-->
+        <i class="fa fa-gear"  ng-click="isOpen = !isOpen"
+           style="color:#eee;font-size: 29px;float: right;margin-top: 9px;margin-right: 10px;"></i>
+        <img src="/res/img/refuse.png" class="hand" ng-click="vm.close()">
+    </div>
+
+    <div class="chimee-container">
+        <video id="{{vm.id}}" muted="muted" ng-style="{width:vm.width,height:vm.width/1.78}"  tabindex="-1" controls autoplay ></video>
+    </div>
+
+    <div class="horizontal-collapse" style="position: absolute;top: 0px;left: 576px;"
+         ng-style="{left:vm.width}"
+         uib-collapse="isOpen"  horizontal>
+        <div class="right-pa" ng-style="{height:vm.width/1.78+55}">
+            <uib-tabset class="nav-tabs-alt tabbable-line">
+                <uib-tab index="0" heading="线路" class="m-b">
+                    <div class="list-group" style="padding: 20px;">
+                        <button class="list-group-item btn-sm btn-custerm"
+                                ng-repeat="line in vm.lineList track by $index"
+                                ng-click="vm.changeLine(line.sourceId,$index)"
+                                ng-class="{myactive:vm.lineIndex == $index }"
+                                ng-bind="line.sourceName"
+                                style=" color: white;">
+                        </button>
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="摄像头" class="m-b">
+                    <div class="list-group" style="padding: 20px;" >
+                        <button class="list-group-item  btn-sm btn-custerm"
+                                ng-click="vm.clickVideo(video,$index)"
+                                ng-class="{myactive:vm.videoIndex == $index }" style=" color: white;"
+                                ng-repeat="video in vm.videoList track by $index"
+                                ng-bind="video.name"></button>
+                    </div>
+                </uib-tab>
+                <uib-tab index="2" heading="历史" class="m-b" ng-if="vm.history">
+                    <div class="list-group" style="padding: 20px;"  ng-init="index = 1">
+                        <input class="form-control" placeholder="请输入时间搜索" ng-model="q"/>
+                        <button class="list-group-item  btn-sm btn-custerm"
+                                ng-click="vm.url = vm.data.interM3u8;index=1"
+                                ng-class="{myactive:index == 1}" style=" color: white;">地址一</button>
+                        <button class="list-group-item  btn-sm btn-custerm"
+                                ng-click="vm.url = vm.data.lanM3u8;index=2"
+                                ng-class="{myactive:index == 2}" style=" color: white;">地址二</button>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+    <!-- <div class="right-pa">
+         <p style="color: white;margin: 20px 0 0 20px;font-size: 18px;">信号源</p>
+         <div class="list-group" style="padding: 20px;"  ng-init="index = 1">
+             <button class="list-group-item  btn-sm btn-custerm" ng-click="vm.url = vm.data.interM3u8;index=1" ng-class="{myactive:index == 1}" style=" color: white;">地址一</button>
+             <button class="list-group-item  btn-sm btn-custerm"  ng-click="vm.url = vm.data.lanM3u8;index=2" ng-class="{myactive:index == 2}" style=" color: white;">地址二</button>
+         </div>
+     </div>-->
+</div>
+
+<style>
+    .videoDiv {
+        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        z-index: 2;
+        background-color: #ccc;
+        margin: auto;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: 10000;
+    }
+    .head{
+        background-color: #302929;
+        width: 100%;
+    }
+    .right-pa{
+        width: 200px;
+        float: right;
+        background-color: #302929;
+        height: 500px;
+        color: #fff0f0;
+    }
+    .btn-custerm{
+        background-color: transparent;
+        margin: 10px 0;
+        color: white !important;
+    }
+    .btn-default:active:focus, .btn-default:active:hover{
+        background-color: transparent;
+        border-color: #0b70ed;
+    }
+    button.list-group-item:focus,button.list-group-item:hover{
+        background-color: transparent;
+    }
+    button.myactive{
+        border-color:#5959ff;
+        color: #5959ff !important;
+    }
+    .hand{
+        padding: 10px;
+        float: right;
+        cursor: pointer;
+    }
+    .chimee-container{
+        position: relative;
+    }
+
+    .nav-tabs-alt .nav-tabs.nav-justified > li {
+        display: table-cell;
+        width: 1%;
+    }
+    .nav-tabs-alt .nav-tabs > li > a {
+        border-radius: 0;
+        border-color: transparent !important;
+        background: transparent !important;
+    }
+    .nav-tabs-alt .nav-tabs > li.active > a {
+        border-bottom-color: #23b7e5 !important;
+    }
+    .tabbable-line .nav-tabs > li.active > a {
+        border-bottom-width: 3px;
+    }
+
+    .nav-tabs-alt ul.nav.nav-tabs {
+        background: #302929;
+    }
+
+    .nav-tabs-alt .nav-tabs>li.active>a,
+    .nav-tabs-alt .nav-tabs>li.active>a:focus,
+    .nav-tabs-alt .nav-tabs>li.active>a:hover{
+        color: #5959ff;
+    }
+
+    .nav-tabs-alt a{
+        color: #fff;
+    }
+
+    .nav-tabs-alt .nav>li>a {
+        padding: 15px;
+    }
+    .nav-tabs-alt .nav-tabs {
+        border-bottom: 2px solid #403b3b;
+    }
+
+</style>

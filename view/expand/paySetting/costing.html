@@ -1,0 +1,228 @@
+<style>
+    .table-striped>tbody>tr:nth-of-type(odd) {
+        background-color: transparent;
+    }
+    .table>tbody>tr>td{
+        border: 1px solid #ddd;
+    }
+</style>
+<div ng-controller="costingCtl" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>成本计算</h3>
+        </div>
+    </div>
+    <div class="row">
+        <form name="form" novalidate>
+        <div class="form-group pull-right">
+            <button class="btn btn-primary" ng-if="isJump" ng-click="save(form)">保存</button>
+            <button class="btn btn-default" ng-if="isJump" ng-click="goback()">返回</button>
+            <button class="btn btn-primary" ng-if="!isJump" ng-click="build(form)" ng-disabled="!(list && list.length>0)">生成报价表</button>
+        </div>
+        <uib-tabset>
+            <uib-tab heading="支出测算">
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <table id="mytable" class="table table-striped table-hover" style="margin-top: 10px;">
+                                <thead>
+                                <tr>
+                                    <th>计算类型</th>
+                                    <th>计算项</th>
+                                    <th>计算子项</th>
+                                    <th>计算公式</th>
+                                    <th>金额</th>
+                                    <th>小计</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-if="list.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                <tr ng-repeat="item in list" >
+                                    <td>{{item.fname}}</td>
+                                    <td>{{item.sname}}</td>
+                                    <td>{{item.tname}}</td>
+                                    <td>
+                                <span ng-repeat="pay in item.pays">
+                                    <span ng-if="pay.val_type==2">
+                                        （<span style="font-size: 14px" class="control-label" ng-model="pay.formula">{{pay.value}}</span>）
+                                    </span>
+                                    <span ng-if="pay.val_type!=2">
+                                        <input style="display: inline;width: 100px" class="form-control" type="text" name="payValue" ng-model="pay.value" ng-change="changeCost(item,pay)"/>
+                                    </span>
+                                    {{pay.unit}}
+                                    <span> {{item.opers[$index]}} </span>
+                                </span>
+                                    </td>
+                                    <td>{{item.result_value}}{{item.result_value?'元':''}}</td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab heading="收入测算">
+                 <div style="padding: 15px;">
+                    <table class="table" style="background-color: yellow">
+                        <tr>
+                            <td align="right" style="font-size: 15px">成本总额：{{costModel.total_pay}}元</td>
+                            <td style="font-size: 15px">预估总收入：{{costModel.total_earning}}元</td>
+                        </tr>
+                    </table>
+                    <span>物业管理费收入</span>
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                        <tr>
+                            <th>项目</th>
+                            <th>含税单价（元/平米.月）</th>
+                            <th>不含税单价</th>
+                            <th>收费面积（平米）</th>
+                            <th>收费率</th>
+                            <th>收入</th>
+                            <th>增值税金</th>
+                            <th>含税价（元/月）</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>高层</td>
+                            <td><input class="form-control" type="number" ng-model="earning.price_h" ng-change="setEarning()"/></td>
+                            <td>{{earning.price_h_x}}</td>
+                            <td><input class="form-control" type="number" ng-model="earning.count_h" ng-change="setEarning()"/></td>
+                            <td>
+                                <div class="col-xs-10 scale_class">
+                                    <input class="form-control" type="number" min="0" max="100" ng-model="earning.scale_h" ng-change="setEarning()" placeholder="0~100"/>
+                                </div>
+                                <label class="control-label" style="padding: 6px 0px">%</label>
+                            </td>
+                            <td>{{earning.price_h_x2}}</td>
+                            <td>{{earning.price_h_x3}}</td>
+                            <td>{{earning.price_h_x4}}</td>
+                        </tr>
+                        <tr>
+                            <td>超高层</td>
+                            <td><input class="form-control" type="number" ng-model="earning.price_s" ng-change="setEarning()"/></td>
+                            <td>{{earning.price_s_x}}</td>
+                            <td><input class="form-control" type="number" ng-model="earning.count_s" ng-change="setEarning()"/></td>
+                            <td>
+                                <div class="col-xs-10 scale_class">
+                                    <input class="form-control" type="number" min="0" max="100" ng-model="earning.scale_s" ng-change="setEarning()" placeholder="0~100"/>
+                                </div>
+                                <label class="control-label" style="padding: 6px 0px">%</label>
+                            </td>
+                            <td>{{earning.price_s_x2}}</td>
+                            <td>{{earning.price_s_x3}}</td>
+                            <td>{{earning.price_s_x4}}</td>
+                        </tr><tr>
+                            <td>幼儿园</td>
+                            <td><input class="form-control" type="number" ng-model="earning.price_k" ng-change="setEarning()"/></td>
+                            <td>{{earning.price_k_x}}</td>
+                            <td><input class="form-control" type="number" ng-model="earning.count_k" ng-change="setEarning()"/></td>
+                            <td>
+                                <div class="col-xs-10 scale_class">
+                                    <input class="form-control" type="number" min="0" max="100" ng-model="earning.scale_k" ng-change="setEarning()" placeholder="0~100"/>
+                                </div>
+                                <label class="control-label" style="padding: 6px 0px">%</label>
+                            </td>
+                            <td>{{earning.price_k_x2}}</td>
+                            <td>{{earning.price_k_x3}}</td>
+                            <td>{{earning.price_k_x4}}</td>
+                        </tr><tr>
+                            <td>商业</td>
+                            <td><input class="form-control" type="number" ng-model="earning.price_b" ng-change="setEarning()"/></td>
+                            <td>{{earning.price_b_x}}</td>
+                            <td><input class="form-control" type="number" ng-model="earning.count_b" ng-change="setEarning()"/></td>
+                            <td>
+                                <div class="col-xs-10 scale_class">
+                                    <input class="form-control" type="number" min="0" max="100" ng-model="earning.scale_b" ng-change="setEarning()" placeholder="0~100"/>
+                                </div>
+                                <label class="control-label" style="padding: 6px 0px">%</label>
+                            </td>
+                            <td>{{earning.price_b_x2}}</td>
+                            <td>{{earning.price_b_x3}}</td>
+                            <td>{{earning.price_b_x4}}</td>
+                        </tr><tr>
+                            <td>其他</td>
+                            <td><input class="form-control" type="number" ng-model="earning.price_o" ng-change="setEarning()"/></td>
+                            <td>{{earning.price_o_x}}</td>
+                            <td><input class="form-control" type="number" ng-model="earning.count_o" ng-change="setEarning()"/></td>
+                            <td>
+                                <div class="col-xs-10 scale_class">
+                                    <input class="form-control" type="number" min="0" max="100" ng-model="earning.scale_o" ng-change="setEarning()" placeholder="0~100"/>
+                                </div>
+                                <label class="control-label" style="padding: 6px 0px">%</label>
+                            </td>
+                            <td>{{earning.price_o_x2}}</td>
+                            <td>{{earning.price_o_x3}}</td>
+                            <td>{{earning.price_o_x4}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7"><span class="pull-right">合计：</span></td>
+                            <td>{{earning.price_total_one}}元</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <span>车辆停泊使用费收入</span>
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                        <tr>
+                            <th>项目</th>
+                            <th>单价（元/个.月）</th>
+                            <th>不含税单价</th>
+                            <th>数量</th>
+                            <th>收费率</th>
+                            <th>收入</th>
+                            <th>增值税金</th>
+                            <th>含税价（元/月）</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>地上</td>
+                            <td><input class="form-control" type="number" ng-model="earning.price_u" ng-change="setEarning()"/></td>
+                            <td>{{earning.price_u_x}}</td>
+                            <td><input class="form-control" type="number" ng-model="earning.count_u" ng-change="setEarning()"/></td>
+                            <td>
+                                <div class="col-xs-10 scale_class">
+                                    <input class="form-control" type="number" min="0" max="100" ng-model="earning.scale_u" ng-change="setEarning()" placeholder="0~100"/>
+                                </div>
+                                <label class="control-label" style="padding: 6px 0px">%</label>
+                            </td>
+                            <td>{{earning.price_u_x2}}</td>
+                            <td>{{earning.price_u_x3}}</td>
+                            <td>{{earning.price_u_x4}}</td>
+                        </tr>
+                        <tr>
+                            <td>地下</td>
+                            <td><input class="form-control" type="number" ng-model="earning.price_d" ng-change="setEarning()"/></td>
+                            <td>{{earning.price_d_x}}</td>
+                            <td><input class="form-control" type="number" ng-model="earning.count_d" ng-change="setEarning()"/></td>
+                            <td>
+                                <div class="col-xs-10 scale_class">
+                                    <input class="form-control" type="number" min="0" max="100" ng-model="earning.scale_d" ng-change="setEarning()" placeholder="0~100"/>
+                                </div>
+                                <label class="control-label" style="padding: 6px 0px">%</label>
+                            </td>
+                            <td>{{earning.price_d_x2}}</td>
+                            <td>{{earning.price_d_x3}}</td>
+                            <td>{{earning.price_d_x4}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7"><span class="pull-right">合计：</span></td>
+                            <td>{{earning.price_total_two}}元</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                 </div>
+            </uib-tab>
+        </uib-tabset>
+    </form>
+    </div>
+</div>
+<style>
+  .scale_class{
+    padding-left: 0px;
+    padding-right: 3px;
+  }
+</style>

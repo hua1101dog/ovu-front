@@ -1,0 +1,50 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">{{item.ID?'编辑':'添加'}}分期</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="form-group" >
+					<label class="col-xs-2 control-label">所属项目：</label>
+					<div class="col-xs-4">
+						<div style="margin-top: 8px">{{item.PARK_NAME}}</div>
+					</div>
+					<label class="col-xs-2 control-label">项目编码：</label>
+					<div class="col-xs-4">
+						<div style="margin-top: 8px">{{item.PARK_NO}}</div>
+					</div>
+				</div>
+				<div class="form-group" >
+					<!-- <label class="col-xs-2 control-label">分期数：</label>
+					<div  class="col-xs-4">
+						<input type="text" class="form-control" placeholder="例：01"   ng-pattern="/^(0[1-9]|[1-9][0-9])$/" ng-model="item.period" ng-readonly="item.ID?true:false" name="period" ng-change="change(item)"  required/>
+					</div> -->
+					<label class="col-xs-2 control-label">分期名称：</label>
+					<div  class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.STAGE_NAME" name="STAGE_NAME" required ng-maxlength="10" />
+					</div>	
+					<label class="col-xs-2 control-label">建成日期：</label>
+					<div  class="col-xs-4">
+						<input type="datetime" class="form-control Wdate" ng-model="item.FINISH_DATE"  onchange=""
+							   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+					</div>				
+				</div>
+				<div class="form-group">				
+					<label class="col-xs-2 control-label">分期编码：</label>
+					<div  class="col-xs-10">
+						<input type="text" class="form-control" ng-attr-title="{{item.STAGE_NO}}" ng-model="item.STAGE_NO" name="STAGE_NO" required readonly="readonly"/>
+					</div>
+				</div>
+				<div class="form-group">					
+					<label class="col-xs-2 control-label">备注：</label>
+					<div class="col-xs-10">
+						<textarea type="text" style="height:150px;resize:vertical" class="form-control" ng-model="item.CONTENT"   />
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+

@@ -1,0 +1,60 @@
+<div ng-controller="rfidCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Rfid</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            
+            <div class="form-group">
+                <label>Rfid code</label>
+                <input type="text" ng-model="search.name" class="form-control" />
+            </div>
+            
+            <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+           Rfid列表
+            <button class="btn btn-primary pull-right" ng-click="showEditModal()" >添加</button>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" >
+                <thead class="title">
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th>Rfid名字</th>
+                        <th>Rfid码</th>
+                        <th>设备Id</th>
+                        <th>录入时间</th>
+                       
+                        <th style="width: 120px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data" >
+                        <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td ng-class="{'bg-danger':item.type==2}">{{item.rfidName}}</td>
+                        <td>{{item.rfidCode}}</td>
+                        <td>{{item.equipId}}</td>
+                        <td>{{item.createTime}}</td>
+                   
+                        <td>
+                            <a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+                            <a href='javascript:void(0)' ng-click='del(item.id)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,158 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">查看详情</h4>
+</div>
+<div class="modal-body form-horizontal">
+    <form name="editForm" novalidate>
+        <uib-tabset style=" border:1px solid #eee;">
+            <uib-tab heading="标签编码维护">
+                <div class="form-group">
+                    <label class="control-label  col-xs-2 required">标题(图示部分1):</label>
+                    <div class="col-xs-9">
+                        <input type="text" ng-model="block.unit" disabled
+                            class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label  col-xs-2">单位(图示部分2):</label>
+                    <div class="col-xs-9">
+                        <input type="text" disabled class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                            ng-model="block.blockContent">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label  col-xs-2">说明(图示部分3):</label>
+                    <div class="col-xs-9">
+                        <input type="text" disabled class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                            ng-model="block.explains">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label  col-xs-2">标签编码位置图示:</label>
+                    <div class="col-xs-9" style="padding-left: 0px;">
+                        <img src="/image/tagCode.png" alt="">
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab heading="标签详情维护">
+                <!-- 板块1 开始-->
+                <div style="margin-bottom: 10px;" ng-repeat="item in contentList">
+                    <div class="form-group">
+                        <label class="control-label  col-xs-2 ">序号:</label>
+                        <div class="col-xs-9">
+                            <input type="text" ng-model="item.orderNo" disabled
+                                class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                        </div>
+                        <!-- <a style="line-height: 35px;" href="javascript:void(0)" ng-click="showModal2()">{{!showModal_2 ? '拆分板块' : '合并板块'}}</a> -->
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label  col-xs-2 required">标题:</label>
+                        <div class="col-xs-9">
+                            <input type="text" ng-model="item.title" disabled
+                                class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">是否支持点击：</label>
+                        <div class="col-xs-9">
+                            <label>
+                                <input type="radio" ng-value="0" disabled ng-model="item.supportCheck">
+                                <span>是</span>
+                            </label>
+                            &nbsp;&nbsp;
+                            <label>
+                                <input type="radio" ng-value="1" disabled ng-model="item.supportCheck">
+                                <span>否</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-if="item.supportCheck==0">
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">内容形式：</label>
+                            <div class="col-xs-9">
+                                <label>
+                                    <input type="radio" disabled ng-model="item.contentForm"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="0">
+                                    <span>图文</span>
+                                </label>
+                                &nbsp;&nbsp;
+                                <label>
+                                    <input type="radio" disabled ng-model="item.contentForm"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="1">
+                                    <span>启用导航</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-if="item.contentForm != 1">
+                            <div ng-repeat="itheme in item.textImgList track by $index">
+                                <div class="form-group">
+                                    <label class="control-label  col-xs-2 required">主题{{$index+1}}:</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" class="form-control" ng-model="itheme.themeTitle" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-2 control-label required"> 内容{{$index+1}}:</label>
+                                    <div class="col-xs-8">
+                                        <div type="text/html" style="height:300px;min-width:100%"
+                                            ng-model="itheme.themeContent" meta-umeditor
+                                            meta-umeditor-config='{required:true}' meta-umeditor-placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-if="item.contentForm == 1">
+                            <label class="col-xs-2 control-label ">选择地图</label>
+                            <div class="col-xs-9">
+                                <select class="form-control" ng-model="item.map"
+                                    ng-options="o.path as o.mapName for o in mapList">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="item.contentForm == 1">
+                            <label class="col-xs-2 control-label">导航内容：</label>
+                            <div class="col-xs-9">
+                                <label>
+                                    <input type="radio" ng-value="0" disabled ng-model="item.navigationContent">
+                                    <span>员工</span>
+                                </label>
+                                &nbsp;&nbsp;
+                                <label>
+                                    <input type="radio" ng-value="1" disabled ng-model="item.navigationContent">
+                                    <span>企业</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="item.contentForm == 1">
+                            <label class="control-label  col-xs-2">导航范围:</label>
+                            <div class="col-xs-9">
+                                <input type="text" ng-model="item.companyName" disabled class="form-control"
+                                    ng-if="item.navigationContent!= 1">
+                                <input type="text" disabled placeholder="默认全园区" class="form-control"
+                                    ng-if="item.navigationContent == 1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+        <!-- 板块1 结束-->
+
+
+    </form>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+</div>
+<style>
+    .tab-content {
+        padding: 15px 10px;
+    }
+
+    .edui-container {
+        width: 100% !important
+    }
+</style>

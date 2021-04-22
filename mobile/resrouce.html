@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>OVU-智慧运营平台</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="bookmark" href="/favicon.ico" />
+    <link href="/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #wrap {
+            z-index: -1;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0)
+        }
+
+        container,
+        video {
+            background: #fff;
+        }
+
+        video {
+            objcet-position: 0 0;
+        }
+
+        video::-webkit-media-controls-start-playback-button {
+            display: none;
+
+        }
+
+       /* 音频插件begin */
+       .icon_audiodefault{
+			display: block;
+		}
+		.icon_audiodefault img{
+			width: 34px;
+			height: 34px;}
+		.icon_audioplaying img{
+			width: 34px;
+			height: 34px;}
+		.icon_audioplaying{display: none;}
+		.db {
+			display: block;
+		}
+
+		.weixinAudio {
+			height: 62px;
+    line-height: 1.5;
+    margin: 10px auto
+		}
+
+		.audio_area {
+			display: inline-block;
+			width: 100%;
+			vertical-align: top;
+			margin: 0px 1px 0px 0;
+			font-size: 0;
+			position: relative;
+			font-weight: 400;
+			text-decoration: none;
+			-ms-text-size-adjust: none;
+			-webkit-text-size-adjust: none;
+			text-size-adjust: none;
+		}
+
+		.audio_wrp {
+			position: relative;
+			border: 1px solid #ebebeb;
+			background-color: #fcfcfc;
+			overflow: hidden;
+			padding: 12px 20px 12px 12px;
+		}
+
+		.audio_play_area {
+			float: left;
+			margin: 9px 22px 10px 5px;
+			font-size: 0;
+			width: 18px;
+			height: 25px;
+		}
+
+		.playing .audio_play_area .icon_audio_default {
+			display: block;
+		}
+
+		.audio_play_area .icon_audio_default {
+			background: transparent url(img/shengyin.gif) no-repeat 0 0;
+			width: 34px;
+			height: 34px;
+			vertical-align: middle;
+			display: inline-block;
+			-webkit-background-size: 54px 25px;
+			background-size: 54px 25px;
+			background-position: -36px center;
+		}
+
+		.audio_play_area .icon_audio_playing {
+			background: transparent url(img/shengyin.png) no-repeat 0 0;
+			width: 34px;
+			height: 34px;
+			vertical-align: middle;
+			display: inline-block;
+			-webkit-background-size: 54px 25px;
+			background-size: 54px 25px;
+			-webkit-animation: audio_playing 1s infinite;
+			background-position: 0px center;
+			display: none;
+		}
+
+		.audio_area .pic_audio_default {
+			display: none;
+			width: 18px;
+		}
+
+		.tips_global {
+			color: #8c8c8c;
+		}
+
+		.audio_area .audio_length {
+			float: right;
+			font-size: 14px;
+			position: absolute;
+			top: 42px;
+			right: 23px;
+		}
+		#curent_time{
+			float: right;
+			font-size: 14px;
+			position: absolute;
+			top: 42px;
+			left: 68px;
+		}
+		.audio_info_area {
+			overflow: hidden;
+		}
+
+		.audio_area .audio_title {
+			font-weight: 400;
+			font-size: 12px;
+			margin-top: 0px;
+			margin-bottom: -3px;
+			width: auto;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			word-wrap: normal;
+			color: #333333;
+			margin-left:11px;;
+		}
+
+		.audio_area .audio_source {
+			font-size: 14px;
+		}
+
+		.progress_bar_box{
+			display: block;
+			position: absolute;
+			left: 69px;
+			bottom: 30px;
+			background-color: #c3c3c3;
+			height: 2px;
+		}
+		.audio_area .progress_bar_box .progress_bar{
+			background-color: #0cbb08;
+			height: 2px;
+			display: block;
+		}
+		.playing .audio_play_area .icon_audio_default {
+			display: none;
+		}
+
+		.playing .audio_play_area .icon_audio_playing {
+			display: inline-block;
+		}
+
+		@-webkit-keyframes audio_playing {
+			30% {
+				background-position: 0px center;
+			}
+			31% {
+				background-position: -18px center;
+			}
+			61% {
+				background-position: -18px center;
+			}
+			61.5% {
+				background-position: -36px center;
+			}
+			100% {
+				background-position: -36px center;
+			}
+		}
+        /* 音频end */
+
+
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <header class="main-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <img src="img/index_logo@3x.png" style="margin-top: 10px;width: 100px">
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="container-fluid" style="margin-top: 20px;">
+            <div v-show="imagePath">
+                <div class="text-center" v-for="item in  imagePath">
+                    <img :src="item" class="img-thumbnail">
+                </div>
+            </div>
+            <h3 class="text-center">{{title}}</h3>
+            <!--<p style="text-indent:2em;">{{introduce}}</p>-->
+            <p style="text-indent:2em;" v-html="introduce"></p>
+
+            <div v-show="videoPath.length>0">
+                <div id="wrapper" class="chimee-container">
+                    <video tabindex="-1" autoplay muted></video>
+                </div>
+            </div>
+            <div v-show="musicPath.length>0">
+                <div class="Audio">
+                    <p class="weixinAudio">
+                        <audio src="" id="media" width="1" height="1" preload></audio>
+                        <span id="audio_area" class="db audio_area">
+                            <span class="audio_wrp db">
+                                <span class="audio_play_area" @click="playAudio()">
+                                    <i class="icon_audiodefault"><img src="img/shengyin.png" alt=""></i>
+                                    <i class="icon_audioplaying"><img src="img/shengyin.gif" alt=""></i>
+                                </span>
+                                <span id="audio_length" class="audio_length tips_global"></span>
+                                <span id="curent_time">0:00</span>
+                                <span class="db audio_info_area">
+                                    <strong class="db audio_title">{{musicName[0]}}</strong>
+                                </span>
+                                <span id="int_c"></span>
+                                <span class="progress_bar_box" style="width: 73%;">
+                                    <span id="audio_progress" class="progress_bar" style="width: 0%;"></span>
+                                </span>
+                            </span>
+                        </span>
+
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+</body>
+<script src="lib/jquery-1.8.0.min.js"></script>
+<script src="lib/weixinAudio.js" type="text/javascript" charset="utf-8"></script>
+<script src="lib/vue.min.js"></script>
+<!-- 引入 Vueresource.http -->
+<script src="lib/vue-resource.min.js"></script>
+<script src="lib/chimee-mobile-player.browser.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            videoPath: [], //作品视频频集合
+            title: '', //标题名称
+            imagePath: [], //作品图片集合
+            introduce: '', //作品介绍
+            musicPath: [], //作品音频集合
+            productName: '', //作品名称
+            musicName: [], //音频名字 
+            flag: false
+
+        },
+        methods: {
+            playAudio: function () {
+                this.flag = !this.flag;
+                if (this.flag) {
+                    $(".icon_audiodefault").css({
+                        "display": "none"
+                    });
+                    $(".icon_audioplaying").css({
+                        "display": "block"
+                    });
+
+                } else {
+                    $(".icon_audiodefault").css({
+                        "display": "block"
+                    });
+                    $(".icon_audioplaying").css({
+                        "display": "none"
+                    });
+                }
+
+            }
+        },
+        mounted: function () {
+            var that = this;
+            var search = location.search;
+            this.$http.get('/ovu-gallery/api/publish/getOne.do' + search).then(function (response) {
+                if (response.status == 200) {
+                    var response = response.body;
+                    if (response.data) {
+                        if (response.data.videoPath) {
+                            that.videoPath = response.data.videoPath.split(',')
+                        } else {
+                            that.videoPath = [];
+                        }
+                        if (response.data.musicPath) {
+                            that.musicPath = response.data.musicPath.split(',')
+                        } else {
+                            that.musicPath = []
+                        }
+
+                        that.title = response.data.title
+                        that.introduce = response.data.introduce
+                        that.productName = response.data.productName
+                        if (response.data.musicName) {
+                            that.musicName = response.data.musicName.split(',') || []
+                        } else {
+                            that.productName = ''
+                        }
+                        if (response.data.imagePath) {
+                            that.imagePath = response.data.imagePath.split(',') || []
+                        } else {
+                            that.imagePath = ''
+                        }
+
+                        if (that.videoPath) {
+
+                            rebuildPlayer(that.videoPath[0])
+                        }
+
+
+                        if (response.data.musicPath) {
+                            $('.weixinAudio').weixinAudio({
+                                autoplay: false,
+                                src: that.musicPath[0],
+                            });
+                            var media = document.getElementById("media");
+                            $(media).on('durationchange', function () {
+                                time = media.duration,
+                                    minutes = getAudioMinutes(time),
+                                    seconds = getAudioSeconds(time),
+                                    audioTime = minutes + ":" + seconds;
+                                $('#audio_length').text(audioTime);
+                            })
+
+
+
+                        }
+
+                        function addZero(word, howManyZero) {
+                            var word = String(word);
+                            while (word.length < howManyZero) word = "0" + word;
+                            return word;
+                        }
+
+                        function getAudioMinutes(string) {
+                            string = string / 60;
+                            string = addZero(Math.floor(string), 2);
+                            (string < 60) ? string = string: string = "00";
+                            return string;
+                        }
+
+                        function getAudioSeconds(string) {
+                            var self = this,
+                                string = string % 60;
+                            string = addZero(Math.floor(string), 2);
+                            (string < 60) ? string = string: string = "00";
+                            return string;
+                        }
+                    }
+
+
+                }
+            })
+
+
+
+
+
+        },
+        destroyed: function () { //不生效
+            player && !player.destroyed && player.destroy();
+        }
+
+    })
+
+
+
+
+    //播放视频方法
+    function rebuildPlayer(src) {
+        player = new ChimeeMobilePlayer({
+            box: "native",
+            // 播放地址
+            src: src,
+            // 直播:live 点播：vod
+            isLive: true,
+            // dom容器
+            wrapper: '#wrapper',
+            // video
+            autoplay: false,
+            controls: true,
+            playsInline: true,
+            preload: true,
+            x5VideoPlayerFullscreen: true,
+            x5VideoOrientation: true,
+            xWebkitAirplay: true,
+            muted: true
+        });
+
+        try {
+            WeixinJSBridge && WeixinJsBridge.invoke('getNetworkType', {}, function () {
+                player.load();
+            })
+        } catch (e) {
+            console.warn('不支持WeixinJSBridge')
+        }
+
+    }
+</script>
+
+</html>

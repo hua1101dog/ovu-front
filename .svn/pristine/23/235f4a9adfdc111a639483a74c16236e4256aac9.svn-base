@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>账务管理</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="advanceFlushCtrl">
+        <div class="page-title">
+            <div class="title_left" ng-show="chargeType == 1">
+                <h3>保证金冲抵</h3>
+            </div>
+            <div class="title_left" ng-show="chargeType == 2">
+                <h3>预收冲抵</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color:#999999;">收款信息</div>
+                <div class="panel-body">
+                    <table style="color:#999999;border: 1px solid #ddd;width: 100%;">
+                        <tbody>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">租户名称：</td>
+                                <td style="border: 1px solid #ddd;">{{list.secondPartyName}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款日期：</td>
+                                <td style="border: 1px solid #ddd;">{{list.receiveDate}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款方式：</td>
+                                <td style="border: 1px solid #ddd;">{{list.paymentMethod| pamodel}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款金额：</td>
+                                <td style="border: 1px solid #ddd;">{{list.receiveAmount| number:2}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">预收金额：</td>
+                                <td style="border: 1px solid #ddd;">{{list.advanceAmount| number:2}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款账户：</td>
+                                <td style="border: 1px solid #ddd;">{{list.receiveAccount}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款银行：</td>
+                                <td style="border: 1px solid #ddd;">{{list.receiveBank}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">付款账号：</td>
+                                <td style="border: 1px solid #ddd;">{{list.payAccount}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">付款人：</td>
+                                <td style="border: 1px solid #ddd;">{{list.payUser}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">是否开票：</td>
+                                <td style="border: 1px solid #ddd;">{{list.isInvoice| invoice}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">发票号：</td>
+                                <td style="border: 1px solid #ddd;">{{list.invoiceNo}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款人：</td>
+                                <td style="border: 1px solid #ddd;">{{list.receiveUserName}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;" ng-show="chargeType == 1">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">本次冲抵金额：</td>
+                                <td style="border: 1px solid #ddd;">{{chargeAmount| number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-default" ng-show="chargeType == 1">
+                <div class="panel-heading" style="color:#999999;">可冲抵保证金</div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                        <thead class="title">
+                            <tr>
+                                <th><input ng-model="allCheck" type="checkbox" ng-click="allCharge(allCheck)"/></th>
+                                <th>费项名称</th>
+                                <th>租赁资源</th>
+                                <th>收款金额</th>
+                                <th>可冲金额</th>
+                                <th>冲账金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="deposit.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                            <tr style="color:#333333;" ng-repeat="x in deposit">
+                                <td>
+                                    <input type="checkbox" ng-model="check[$index]"
+                                           ng-click="charge(check[$index],x.depositRemain,x.depositRemain,$index)"
+                                           />
+                                </td>
+                                <td>{{x.expenditureName||'租金'}}</td>
+                                <td>{{x.houseName}}</td>
+                                <td>{{x.receiveAmount| number:2}}</td>
+                                <td>{{x.depositRemain| number:2}}</td>
+                                <td>{{unintCharge[$index]| number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color:#999999;">应收明细</div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                        <thead class="title">
+                            <tr>
+                                <th>费项名称</th>
+                                <th>应收日期</th>
+                                <th>租赁资源</th>
+                                <th>账单周期</th>
+                                <th>应收金额</th>
+                                <th>已收金额</th>
+                                <th>减免金额</th>
+                                <th>未收金额</th>
+                                <th>本次收款金额</th>
+                                <th>欠费</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.length == 0"><td colspan="100" class="text-center">暂无可冲抵明细</td></tr>
+                            <tr style="color:#333333;" ng-repeat="x in pageModel">
+                                <td>{{x.expenditureName||'租金'}}</td>
+                                <td>{{x.dateReceivable}}</td>
+                                <td>{{x.houseName}}</td>
+                                <td>{{x.billDateStart}}<span ng-if="x.billDateEnd">至</span>{{x.billDateEnd}}</td>
+                                <td>{{x.billPrice| number:2}}</td>
+                                <td>{{x.receiveAmount| number:2}}</td>
+                                <td>{{x.reliefAmount| number:2}}</td>
+                                <td>{{x.unreceiveAmount| number:2}}</td>
+                                <td  ng-show="chargeType == 2">
+                                    <input type="number" step="0.01" ng-if="x.unreceiveAmount>0"
+                                           ng-model="thisPay[$index]"
+                                           min="0" max="{{x.unreceiveAmount}}"
+                                           ng-change="addpay(thisPay[$index])"
+                                           style="width:100px;"
+                                           ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" />
+                                </td>
+                                <td  ng-show="chargeType == 1">
+                                    <input type="number" step="0.01" ng-if="x.unreceiveAmount>0"
+                                           ng-disabled="!ifChecked"
+                                           ng-model="thisPay[$index]"
+                                           min="0" max="{{x.unreceiveAmount}}"
+                                           ng-change="addpay(thisPay[$index])"
+                                           style="width:100px;"
+                                           ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" />
+                                </td>
+                                <td>{{x.unreceiveAmount - thisPay[$index]| number:2}}</td>
+                            </tr>
+                            <tr style="color:#333333;" ng-if="pageModel.length != 0">
+                                <td>合计</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{{billPriceTotal| number:2}}</td>
+                                <td>{{receiveTotal| number:2}}</td>
+                                <td>{{reliefTotal| number:2}}</td>
+                                <td>{{unreceiveTotal| number:2}}</td>
+                                <td>{{thisPayTotal| number:2}}</td>
+                                <td>{{unreceiveTotal - thisPayTotal| number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary " ng-click="save()" ng-if="pageModel.length != 0">保存</button>
+            <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+        </div>
+    </div>
+</body>
+
+</html>

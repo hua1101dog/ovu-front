@@ -1,0 +1,125 @@
+<style>
+    * {
+		padding: 0;
+		margin: 0;
+	}
+
+	.card-border {
+		border: 1px solid #ddd;
+		background: #fff;
+
+	}
+
+	.title {
+		height: 40px;
+		margin: 10px;
+		border-bottom: 1px solid #ddd;
+	}
+
+	.top10 {
+		box-sizing: border-box;
+		padding: 0 10px;
+
+	}
+
+	.paddiing-b10 {
+		padding-bottom: 10px;
+	}
+
+</style>
+<div id="angularId" ng-controller="workunitKpiStatCtrl">
+    <div class="panel-body">
+        <div class="form-inline">
+            <div class="form-group">
+                <label style="padding-left:30px;">项目</label>
+                <div class="input-group">
+                    <tree-selector node-list="$root.parkTree" host="kpiSearch" need=false
+                                   host-key="'parkId'" host-text="'parkName'" leaf-only=true
+                                   tip-text="'请选择项目'"></tree-selector>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>月份</label>
+                <input type="datetime" class="form-control Wdate"  ng-model="kpiSearch.date" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})">
+            </div>
+            <button class="btn btn-default" ng-click="find()" >统计</button>
+        </div>
+    </div>
+    <uib-tabset active="active" >
+        <uib-tab index="0" heading="计划工单" select="setCurTab('jh')">
+            <div class="row margin-10 paddiing-b10">
+                <div class="col-xs-12">
+                    <div class="card-border" style="min-height:700px;overflow:auto">
+                        <div class="title">
+                            <h5 class="pull-left margin-0">计划工单关键指标分析(<span class="text-danger">{{cycleDate||'暂未统计'}}</span>)</h5>
+                            <button class="btn btn-primary pull-right" ng-click="export(1)"  ng-disabled="kpiPlanList.length == 0">导出</button>
+                        </div>
+                        <div class="top10">
+                            <table id="kpiPlanTable" class="table">
+                                <thead>
+                                <tr>
+                                    <th>项目名称</th>
+                                    <th>工作分类</th>
+                                    <th>已评价工单量</th>
+                                    <th>计划工单总量</th>
+                                    <th>计划工单完成率</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-if="kpiPlanList.length == 0">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr ng-repeat="plan in kpiPlanList">
+                                    <td>{{plan.parkName}}</td>
+                                    <td>{{plan.workTypeName}}</td>
+                                    <td>{{plan.archCount}}</td>
+                                    <td>{{plan.total}}</td>
+                                    <td>{{plan.rate}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+        <uib-tab index="1" heading="应急工单" select="setCurTab('yj')" >
+            <div class="row margin-10 paddiing-b10">
+                <div class="col-xs-12">
+                    <div class="card-border" style="min-height:700px;overflow:auto">
+                        <div class="title">
+                            <h5 class="pull-left margin-0">应急工单关键指标分析(<span class="text-danger">{{cycleDate||'暂未统计'}}</span>)</h5>
+                            <button class="btn btn-primary pull-right" ng-click="export(2)"  ng-disabled="kpiEmerList.length == 0">导出</button>
+                        </div>
+                        <div class="top10">
+                            <table  id="kpiEmerTable" class="table">
+                                <thead>
+                                <tr>
+                                    <th>项目名称</th>
+                                    <th>工作分类</th>
+                                    <th>异常工单量</th>
+                                    <th>应急工单总量</th>
+                                    <th>应急工单完成率</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-if="kpiEmerList.length == 0">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr ng-repeat="emer in kpiEmerList">
+                                    <td>{{emer.parkName}}</td>
+                                    <td>{{emer.workTypeName}}</td>
+                                    <td>{{emer.faultCount}}</td>
+                                    <td>{{emer.total}}</td>
+                                    <td>{{emer.rate}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>

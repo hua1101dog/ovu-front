@@ -1,0 +1,26 @@
+<div id="angularId" ng-controller="coverCtrl" class="aaaaaatest">
+    <div ng-switch="type">
+        <!--多项目-->
+        <div ng-switch-when="multiProjects">
+            <ng-include src="'/view/liftReport/projectOperationCenter/multiProjects.html'"></ng-include>
+        </div>
+        <!--单项目-->
+        <div ng-switch-when="singleProject">
+            <ng-include src="'/view/liftReport/projectOperationCenter/singleProject.html'"></ng-include>
+        </div>
+        <!--单电梯-->
+        <div ng-switch-when="singleElevator">
+            <ng-include src="'/view/liftReport/projectOperationCenter/singleElevator.html'"></ng-include>
+        </div>
+    </div>
+</div>
+
+<!--多项目-->
+<script src="/view/liftReport/projectOperationCenter/multiProjects.js"></script>
+<!--单项目-->
+<script src="/view/liftReport/projectOperationCenter/singleProject.js"></script>
+<!--单电梯-->
+<script src="/view/liftReport/projectOperationCenter/singleElevator.js"></script>
+
+<!--自定义指令集合引入-->、
+<script src="/view/liftReport/projectOperationCenter/directives/customCharts.js"></script>

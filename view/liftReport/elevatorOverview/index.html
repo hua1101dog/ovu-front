@@ -1,0 +1,40 @@
+<!--index.html-->
+<div id="angularId" ng-controller="coverCtrl">
+    <div ng-switch="type">
+        <!--电梯综合展示-->
+        <div ng-switch-when="overview">
+            <ng-include src="'/view/liftReport/elevatorOverview/overview.html'"></ng-include>
+        </div>
+
+        <!--单电梯-->
+        <div ng-switch-when="singleElevator">
+            <ng-include src="'/view/liftReport/projectOperationCenter/singleElevator.html'"></ng-include>
+        </div>
+    </div>
+
+</div>
+
+<!--电梯综合展示-->
+<script src="/view/liftReport/elevatorOverview/overview.js"></script>
+
+<!--单电梯-->
+<script src="/view/liftReport/projectOperationCenter/singleElevator.js"></script>
+
+<script>
+    (function(angular, doc) {
+        doc.title = "项目运营中心";
+        angular.module('angularApp')
+
+        .controller('coverCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+
+            $scope.type = "overview";
+
+            $scope.enterSingleElevator = function(liftId) {
+                $scope.type = "singleElevator";
+                $rootScope.liftId = liftId;
+            }
+        }]);
+
+        angular.bootstrap(doc.getElementById("angularId"), ['angularApp']);
+    })(angular, document);
+</script>

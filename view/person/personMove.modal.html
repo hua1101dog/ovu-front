@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()">×</button>
+    <h4 class="modal-title">人员迁移</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required" >组织：</label>
+            <div class="col-xs-5">
+                <input class="form-control" required type="text" ng-model="org" ng-class="{'waiting':loadingOutSourceOrg}"
+                       uib-typeahead="o as o.domainName for o in searchOrg($viewValue,'maintenanceUnit,greenUnit,securityUnit')"
+                       typeahead-on-select="selectOrg($item)"
+                       typeahead-focus-on-select = false
+                       typeahead-loading="loadingOutSourceOrg" typeahead-min-length=0 typeahead-wait-ms='300' typeahead-editable="false"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label required">岗位：</label>
+            <div class="col-sm-10">
+                <div ng-repeat="post in posts|orderBy:'readOnly'" class="form-inline" style="position: relative;margin-bottom: 5px;white-space: nowrap">
+                    <layer-selector style="width: 350px;display: inline-block" host="post" host-key="'deptId'" host-text="'deptFullName'" node-list="outSourceDeptTree" callback="getPostList" name="deptId{{$index}}" required></layer-selector>
+                    <select class="form-control" required ng-model="post.postId" ng-disabled="post.readOnly" ng-options="o.id as o.postName for o in post.postList">
+                        <option value="">&#45;&#45;请选择岗位&#45;&#45;</option>
+                    </select>
+                    <button class="btn btn-sm btn-default" ng-if="!post.readOnly" ng-click="posts.splice(posts.indexOf(post),1)"><i class="glyphicon glyphicon-minus"></i></button>
+                </div>
+                <button class="btn btn-sm btn-default" ng-click="posts.push({domainId:org.id})"><i class="glyphicon glyphicon-plus" ></i>添加岗位</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form)" >确定</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+</div>
+

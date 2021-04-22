@@ -1,0 +1,70 @@
+<div ng-controller="tenantCtrl">
+	<div class="x_panel">
+	    <div class="form-inline">
+	       
+	        <div class="form-group">
+	            <input type="text" ng-model="search.tenantName" class="form-control" placeholder="租户姓名" />
+	
+			</div>
+			<div class="form-group">
+	            <input type="text" ng-model="search.tenantTel" class="form-control" placeholder="租户手机号码" />
+	
+	        </div>
+	        <button class="btn btn-default" ng-click="find(1)">查询</button>
+	    </div>
+	</div>
+	<div class="panel panel-default" style="display: grid;">
+	    <div class="panel-heading">租户信息列表
+	      
+	    </div>
+	    <div class="panel-body" style="overflow: scroll;">
+	        <table class="table table-striped table-hover" style="margin-top: 10px;">
+	            <thead>
+	                <tr>
+	                    <th class="text-center">NO</th>
+	                   
+	                    <th nowrap="nowrap">房屋名称</th>
+	                    <th nowrap="nowrap">租户姓名</th>
+	                    <th nowrap="nowrap">租户电话</th>
+	                    <th nowrap="nowrap">租户身份证号</th>
+	                    <th nowrap="nowrap">是否有效</th>
+	                    <th nowrap="nowrap">业主姓名</th>
+	                    <th nowrap="nowrap">业主电话</th>
+	                    <th nowrap="nowrap">租房时间</th>
+	                    <th nowrap="nowrap">退房时间</th>
+	                    <!-- <th style="width:13%" class="text-center">操作</th> -->
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-if="!tenant_pageModel.data  || tenant_pageModel.data.length == 0">
+	                    <td colspan="100" class="text-center">暂无记录</td>
+	                </tr>
+	                <tr ng-repeat="item in tenant_pageModel.data">
+	                    <td class="text-center">{{$index + 1+tenant_pageModel.pageSize*tenant_pageModel.pageIndex}}</td>
+	                  
+	                    <td>{{item.houseName}}</td>
+	                    <td>{{item.tenantName}}</td>
+	                    <td>{{item.tenantTel}}</td>
+	                    <td>{{item.tenantIdcard}}</td>
+	                    <td>{{item.status =="0" ? "禁用" : "有效"}}</td>
+	                    <td>
+	                    	<span ng-repeat="v in item.ownerName track by $index" style="display:block">{{v}}</span>
+                    	</td>
+                    	<td>
+                        	<span ng-repeat="v in item.ownerTel track by $index" style="display:block">{{v}}</span>
+                    	</td>
+	                    <td>{{item.beginTime}}</td>
+	                    <td>{{item.endTime}}</td>
+	                  
+	                </tr>
+	
+	            </tbody>
+	        </table>
+	        <div class="page-footer clearfix">
+	            <page-pro page-model="tenant_pageModel"></page-pro>
+	        </div>
+	    </div>
+	</div>
+</div>
+<style>
+</style>

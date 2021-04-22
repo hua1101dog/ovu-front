@@ -1,0 +1,100 @@
+<div ng-controller="aPersonACtrl" class="aPersonA">
+    <div>
+        <div class="aPersonA-res">
+            检索结果：共{{pageModel.totalCount}}条实名档案
+        </div>
+        <div class="aPersonA-tabs">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn" ng-class="tabs == true?'btn-primary':'btn-light'"
+                    ng-click="tabs = true">实名档案</button>
+                <button type="button" class="btn" ng-class="tabs == false?'btn-primary':'btn-light'"
+                    ng-click="tabs = false">非实名档案</button>
+            </div>
+        </div>
+        <!-- 图片列表 -->
+        <div class="aPersonA-cards">
+            <div class="aPersonA-card"  ng-repeat="item in personList" ng-click="goDetails(item)">
+                <div class="aPersonA-flex">
+                    <div>
+                        <img ng-if="tabs" class="aPersonA-imgA" ng-src="{{item.avatarPhoto?item.avatarPhoto:'/image/no-img.png'}}" alt="">
+                        <img ng-if="!tabs" class="aPersonA-imgA" ng-src="{{item.url?item.url:'/image/no-img.png'}}" alt="">
+                    </div>
+                    <div class="aPersonA-right" ng-if="tabs">
+                        <p>
+                            <img src="/image/title_renyuan.png" alt=""> <span>{{item.name}}</span>
+                        </p>
+                        <p>
+                            <img src="/image/dep.png" alt=""> <span>{{item.title}}</span>
+                        </p>
+                        <p>
+                            <img src="/image/picture.png" alt=""> <span>{{item.photosLength}}张</span>
+                        </p>
+                    </div>
+                </div>
+                <img ng-if="tabs" class="aPersonA-imgB" src="/image/card.png" alt="">
+            </div>
+        </div>
+        <!-- <ng-include src="'/common/pager.html'" class="ng-scope">
+            <style type="text/css" class="ng-scope">
+                .pagination>li>span:hover {
+                    background-color: #fff;
+                    cursor: text
+                }
+            </style>
+        </ng-include> -->
+        <p style="margin-top:15px;margin-bottom:15px;text-align:center;"><button type="button"
+                class="btn btn-light" ng-click="loadMore()" ng-disabled="pageModel.disabled == '没有更多了!'">{{pageModel.disabled}}</button></p>
+    </div>
+    <!-- 详情 -->
+    
+</div>
+<style>
+    .aPersonA {
+        position: relative;
+    }
+
+    .aPersonA-res {
+        position: absolute;
+        height: 34px;
+        line-height: 34px;
+    }
+
+    .aPersonA-tabs {
+        text-align: center;
+        margin: 15px 0px;
+    }
+
+    .aPersonA-cards {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    .aPersonA-card {
+        padding: 10px;
+        margin: 5px;
+        background: #ffffff;
+    }
+    .aPersonA-card:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transform: translate(0, -2px);
+    }
+
+    .aPersonA-card .aPersonA-flex {
+        display: flex;
+        justify-content: space-between;
+    }
+    .aPersonA-card .aPersonA-imgA {
+        width: 140px;
+        height: 180px;
+    }
+    .aPersonA-right {
+        width: 140px;
+        height: 200px;
+        padding: 20px 10px;
+    }
+
+    .aPersonA-right img {
+        height: 15px;
+        width: 15px;
+    }
+</style>

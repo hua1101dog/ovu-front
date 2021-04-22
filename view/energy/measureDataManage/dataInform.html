@@ -1,0 +1,99 @@
+<div ng-controller="dataInformCtrl">
+    <div>
+        <!-- <button class="btn btn-primary" ng-click="back()" style="margin-bottom: 8px">返回</button> -->
+        <h3 style="display: inline-block">查看数据详情</h3>
+        <p style="margin: 10px 0px">计量点基础信息</p>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>计量点编码</th>
+                <th>计量点名称</th>
+                <th>计量单位</th>
+                <th>所属项目</th>
+                <th>计量分类</th>
+                <th>计量分项</th>
+                <th>关联空间</th>
+                <th>抄表方式</th>
+                <th>关联仪表设备</th>
+                <th>倍率</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{BaseData.pointCode}}</td>
+                <td>{{BaseData.pointName}}</td>
+                <td>{{BaseData.pointUnitName}}</td>
+                <td>{{BaseData.parkName}}</td>
+                <td>{{BaseData.classifyName}}</td>
+                <td>{{BaseData.itemName}}</td>
+                <td ng-bind-html="BaseData.spaceName"></td>
+                <td>{{BaseData.readWayName}}</td>
+                <td>{{BaseData.equipmentName}}</td>
+                <td>{{BaseData.ratio}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p>计量点数据信息</p>
+    <div>
+        <span>原始时间</span>
+        <input type="datetime" class="form-control Wdate"  style="display: inline-block;width: auto;margin-right: 10px" ng-model="dataInform.originalStartTime" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+        <span style="font-size: 20px">至</span>
+        <input type="datetime" class="form-control Wdate"  style="display: inline-block;width: auto;margin-right: 10px" ng-model="dataInform.originalEndTime" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+        <span>修改时间</span>
+        <input type="datetime" class="form-control Wdate"  style="display: inline-block;width: auto;margin-right: 10px" ng-model="dataInform.modifyStartTime" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+        <span style="font-size: 20px">至</span>
+        <input type="datetime" class="form-control Wdate"  style="display: inline-block;width: auto;margin-right: 10px" ng-model="dataInform.modifyEndTime" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+        <div style="display: inline-block;margin: 10px 0">
+            <button class="btn btn-primary" style="margin: 10px" ng-click="find()">查询</button>
+            <button class="btn btn-primary" ng-click="addData()">新增数据</button>
+            <button class="btn btn-primary" ng-click="export()">导出</button>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th style="width: 20px">
+                <span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+            </th>
+            <th>序号</th>
+            <th>数据来源</th>
+            <th>原始数据</th>
+            <th>原始数据读取时间</th>
+            <th>手动修改数据</th>
+            <th>手动修改时间</th>
+            <th>差值</th>
+            <th>总计数据</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="!pageModel.data ||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+            <tr ng-repeat="item in pageModel.data">
+                <td><i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+                <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                <td>{{item.dataSourceName}}</td>
+                <td>{{item.originalValue}}</td>
+                <td>{{item.originalTime}}</td>
+                <td>{{item.modifyValue}}</td>
+                <td>{{item.modifyTime}}</td>
+                <td>{{item.minusValue}}</td>
+                <td>{{item.totalValue}}</td>
+                <td>
+                    <a href='javascript:void(0)' ng-click='dataManage(item)' class='btn btn-xs'>分户数据管理</a>
+                    <a href='javascript:void(0)' ng-click='addData(item)' class='btn btn-xs'>编辑</a>
+                    <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'>删除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="page-footer clearfix">
+        <ng-include src="'/common/pager.html'"></ng-include>
+    </div>
+</div>
+<style>
+    table tr th,table tr td {
+        text-align: center;
+    }
+</style>

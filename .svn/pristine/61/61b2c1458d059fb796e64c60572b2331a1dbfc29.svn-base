@@ -1,0 +1,71 @@
+<!-- 添加人员 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+
+    <h4 class="modal-title">产权变更</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <uib-tabset active="active">
+
+            <uib-tab index="0" heading="产权" select="changeIndex(0)">
+                <div class="panel panel-default" style="clear:both;padding: 15px;
+                 margin-top: -1px;">
+
+                   
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label ">变更时间：</label>
+                       
+                       
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control"  ng-required="item.checked"  ng-model="houseChange.changeTime"  ng-lay-date-range  max-date="today_time"  date-obj="sj_rent_Obj" date-copy="sjc_rent_Obj"   />
+                
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label ">交易代理公司：</label>
+                        <div class="col-xs-9">
+                                <input type="text" class="form-control"   ng-model="houseChange.agency" />
+                        
+                            </div>
+                  
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label ">成交单价：</label>
+                <div class="col-xs-9">
+                        <input type="text" class="form-control"   ng-pattern="/^(([1-9]\d*))(\.\d{1,3})?$/" ng-model="houseChange.unitPrice" />
+                
+                    </div>
+                    <label class="col-xs-1 control-label "  style=" text-align: left;padding: 0;padding-top: 7px;">千元/㎡</label>
+                    
+               
+    </div>
+            
+                   
+
+            </div>
+            </uib-tab>
+            <uib-tab index="1" heading="新业主"  select="changeIndex(1)">
+                
+                <ng-include src="'./houseRecord/commom/addOwner.html'"></ng-include>
+            </uib-tab>
+            <uib-tab index="2" heading="亲属"  select="changeIndex(2)">
+                <ng-include src="'./houseRecord/commom/addRelative.html'"></ng-include>
+                <!-- 亲属信息遍历展示 结束-->
+            </uib-tab>
+          
+        </uib-tabset>
+      
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+	.form-control[disabled] {
+    	background-color: #dad9d9b8;
+	}
+</style>

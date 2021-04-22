@@ -1,0 +1,89 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">试卷名称：{{item.name}}</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<div class="row">
+		<div class="col-xs-12" style="padding:0">
+			<div class="x_panel">
+				<div class="form-inline">
+					<div class="form-group" style="margin-left: 0px;margin-right: 0px">
+                        <label>姓名</label>
+						<input type="text" ng-model="search.personName" class="form-control">
+					</div>
+                    <div ng-if="item.isGroup" class="form-group" style="margin-left: 0px;margin-right: 0px">
+                        <label>项目</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" readonly="readonly" style="min-width: 250px"  ng-model="search.parkName" />
+                            <span class="input-group-btn">
+                                <button  class="btn btn-default" ng-click="findPark()"><i class='fa fa-map-marker'></i></button>
+                             </span>
+                        </div>
+                    </div>
+					<button class="btn btn-default" ng-click="find(1)">查询</button>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">人员成绩列表
+                    <button class="btn btn-primary pull-right" ng-click="export()">导出EXCEL</button>
+				</div>
+				<div class="panel-body">
+                    <table class="table table-hover" style="margin-top: 10px;">
+                        <thead>
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th>姓名</th>
+                            <th>项目</th>
+                            <th>岗位</th>
+                            <th>总分</th>
+                            <th>单选题</th>
+                            <th>多选题</th>
+                            <th>判断题</th>
+                            <th>填空题</th>
+                            <th>问答题</th>
+                            <th>查看试卷</th>
+                            <th>交卷时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="pageModel.list.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                        <tr ng-repeat="item in pageModel.list" ng-class="{'bg-success':item.checked}">
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td>{{item.personName}}</td>
+                            <td>{{item.parkName}}</td>
+                            <td>{{item.postName}}</td>
+                            <td>{{item.totalGrade}}</td>
+                            <td>{{item.score1}}</td>
+                            <td>{{item.score2}}</td>
+                            <td>{{item.score3}}</td>
+                            <td>{{item.score4}}</td>
+                            <td>{{item.score5}}</td>
+                            <td>
+                                <span ng-if="item.isAttend==0" class="text-warning">
+                                    未考试
+                                </span>
+                                <span ng-if="item.isAttend==1 && !item.markingTime" style="color: darkgrey">
+                                    成绩单
+                                </span>
+                                <span ng-if="item.isAttend==1 && item.markingTime" style="margin-left: -15px">
+                                    <a href='javascript:void(0)' ng-click='showPersonScore(item)' class='btn btn-link'>成绩单</a>
+                                </span>
+                            </td>
+                            <td>{{item.submitTime}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+ table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

@@ -1,0 +1,39 @@
+<style>
+	.center-box{
+		text-align: center;
+	}
+	.x_title{
+		text-align: center;
+	}
+	h5{
+	text-indent: 2em;}
+	h5 span{
+	color:#122df3;}
+	.row{
+	max-height: 600px;
+	overflow: auto;
+	}
+</style>
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">查看问卷</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+	<h3 class="center-box">{{item.title}}</h3>
+	<div class="x_title">{{item.instruction}}</div>
+	<div class="row">
+		<div class="col-xs-12" ng-repeat="questionInfo in item.questionItems">
+			<div><h5><span>{{$index + 1}}、</span>{{questionInfo.title}}<span>[{{questionInfo.questionType == "checkbox" ? "多选题" : "单选题"}}]</span></h5></div>
+			<div class="col-xs-12" style="padding-left: 50px;">
+				<div class="input-group"  ng-repeat="option in questionInfo.optionItems">
+					<label class="{{questionInfo.questionType}}-inline">
+						<input type="{{questionInfo.questionType}}" value="{{option.position}}"  name="option_{{questionInfo.position}}"> {{option.content}}
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" ng-click="cancel()">关 闭</button>
+</div>

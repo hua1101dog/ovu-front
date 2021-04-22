@@ -1,0 +1,120 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'新增'}}客服</h4>
+
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate style="padding-left: 15px;">
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">客服名称：</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control" ng-model="item.name" name="name" required
+                       style="cursor: default;"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">服务类型：</label>
+            <div class="col-xs-5">
+                 <select required class="form-control" ng-model="item.serviceScope" ng-options="o.dicVal as o.dicItem for o in item.serviceScopeList">
+                            <option value="">请选择</option>
+                 </select>
+            </div>
+        </div> 
+        <div class="form-group">
+            <label class="col-xs-3  control-label required">电话类型：</label>
+            <div class="col-xs-5">
+                 <select required class="form-control" ng-model="item.phoneType" ng-options="o.id as o.name for o in item.phoneTypeList">
+                         <option value="">请选择</option>
+                 </select>
+            </div>
+        </div>
+        <div class="form-group" ng-if="item.phoneType==1">
+                <label class="col-xs-3 control-label required">联系电话：</label>
+                <div class="col-xs-5">
+                    <input type="input" class="form-control" ng-model="item.landlineTelephone" name="mobile"
+                           ng-pattern="/^0\d{2,3}-\d{7,8}(-\d{1,6})?$/" required
+                           style="cursor: default;"/>
+                           <span style="color:red" ng-show="form.mobile.$dirty &amp;&amp; form.mobile.$invalid" class="redTip ng-hide">
+                                <span ng-show="form.mobile.$error.pattern" class="ng-hide">请输入正确的固话号码（如:027-87746077）</span>
+                </div>
+            </div>
+            <div class="form-group" ng-if="item.phoneType==2">
+                    <label class="col-xs-3  control-label required">联系电话：</label>
+                    <div class="col-xs-5">
+                        <input type="input" class="form-control" ng-model="item.mobilePhone" name="tell"
+                               ng-pattern="/^1[3|4|5|7|8]\d{9}$/" required
+                               style="cursor: default;"/>
+                               <span style="color:red" ng-show="form.tell.$dirty &amp;&amp; form.tell.$invalid" class="redTip ng-hide">
+                                 <span ng-show="form.tell.$error.pattern" class="ng-hide">请输入正确的电话号码</span>
+                    </div>
+                </div>
+        <!-- <div class="form-group">
+            <label class="col-xs-2 control-label required">微信号：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.wechat" name="wechat" required
+                       style="cursor: default;"/>
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label class="col-xs-3  control-label required" style="padding-right: 0">微信二维码：</label>
+            <div required class="col-xs-5 thumbnail text-center" style=" margin-left: 12px;">
+                <img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+                     ng-click="showPhoto()"
+                     ng-src="{{processImgUrl(item.wechatUrl,'240')}}"
+                     style="max-height: 180px;"/>
+                <div class="caption">
+                    <p>
+                        <button class="btn btn-warning height34" ng-click="clearPhoto(item,'wechatUrl')">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                        <button class="btn btn-default height34" ng-click="addPhoto(item,'wechatUrl',true)">
+                            <i class="glyphicon glyphicon-picture "></i>
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="form-group">
+            <label class="col-xs-2 control-label required">QQ号：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.qq" name="qq" required
+                       style="cursor: default;"/>
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label class="col-xs-3  control-label required" style="padding-right: 0">QQ二维码：</label>
+            <div required class="col-xs-5 thumbnail text-center" style=" margin-left: 12px;">
+                <img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+                     ng-click="showPhoto()"
+                     ng-src="{{processImgUrl(item.qqUrl,'240')}}"
+                     style="max-height: 180px;"/>
+                <div class="caption">
+                    <p>
+                        <button class="btn btn-warning height34" ng-click="clearPhoto(item,'qqUrl')">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                        <button class="btn btn-default height34" ng-click="addPhoto(item,'qqUrl',true)">
+                            <i class="glyphicon glyphicon-picture "></i>
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" ng-show="!item.isView">
+    <button class="btn btn-primary" ng-click="saveNews(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+    input[type="number"]{
+        -moz-appearance: textfield;
+    }
+    .modal-body .col-xs-3{
+        padding-right: 0px;
+    }
+</style>

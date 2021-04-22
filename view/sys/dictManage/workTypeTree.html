@@ -1,0 +1,33 @@
+<div id="angularId"  >
+    <div class="row mt7">
+        <div class="col-md-3 col-sm-4 col-xs-12" ng-controller="workTypeTreeCtrl">
+            <div class="x_panel" ng-init="type = 1">
+                <div class="x_title" >
+                    <a ng-click='expandAll(worktypeTree)' role="button" class='btn-link' title="展开与收缩">
+                        <i class="glyphicon"
+                           ng-class="{'glyphicon-resize-small':worktypeTree.expanded,'glyphicon-resize-full':!worktypeTree.expanded}" ></i></a>
+                     计划工作分类 <a  ng-click='addTopNode()' role="button" class='btn-link pull-right'><i class='fa fa-plus' ></i>一级分类</a>
+                </div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="!worktypeTree">无工作分类</div>
+                    <tree-view-pro node-list="worktypeTree" config="{edit: true,moveOper:true}"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-12" ng-controller="workTypeTreeCtrl">
+            <div class="x_panel" ng-init="type = 2">
+                <div class="x_title" >
+                    <a ng-click='expandAll(worktypeTree)' role="button" class='btn-link' title="展开与收缩">
+                        <i class="glyphicon"
+                           ng-class="{'glyphicon-resize-small':worktypeTree.expanded,'glyphicon-resize-full':!worktypeTree.expanded}" ></i></a>
+                    应急工作分类 <a  ng-click='addTopNode()' role="button" class='btn-link pull-right'><i class='fa fa-plus' ></i>一级分类</a>
+                </div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="!worktypeTree">无工作分类</div>
+                    <tree-view-pro node-list="worktypeTree" config="{edit: true,moveOper:true}"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

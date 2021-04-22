@@ -1,0 +1,25 @@
+<!-- 监测管理 -->
+<div ng-controller="monitoringManageCtrl">
+    <div class="content" style="margin:20px 0">
+        <span class="h3">能耗监测管理</span>
+        <div ng-if="search.isGroup" style="margin:20px 0">
+                <label class="control-label"><i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i><a role="button" ng-click="findPark(search,fn)">{{search.parkName?search.parkName:'请选择项目'}} </a></label>
+            </div>
+    </div>
+    <uib-tabset active="active">
+        <uib-tab index="0" heading="仪表设备监测" select="changeIndex(0)">
+                <ng-include src="'./energy/monitoringManage/instrumentEquipment.html'"></ng-include>
+        </uib-tab>
+        <uib-tab index="1" heading="变配电参数监测" select="changeIndex(1)">
+            <ng-include src="'./energy/monitoringManage/distributionParameter.html'"></ng-include>
+        </uib-tab>
+       
+    </uib-tabset>
+</div>
+<style>
+ 
+    .h3 {
+        font-weight: 800;
+        font-size: 24px;
+    }
+</style>

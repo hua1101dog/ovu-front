@@ -1,0 +1,89 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{search.type === 1 ? '新增':'编辑'}}</h4>
+</div>
+<div class="modal-body form-horizontal">
+    <form name="addForm" novalidate>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">类型：</label>
+            <div class="col-xs-7">
+                <select style="width:180px;" class="form-control" ng-model="search.typeId">
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="item in typeList track by $index" value={{item.id}}>{{item.type}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">企业名称：</label>
+            <div class="col-xs-7">
+                <!-- <input type="text" class="form-control" required ng-model="search.companyName" /> -->
+                <i class="icon-search" style="width: 20px;height: 20px;position: absolute;top: 7px;left: 20px; z-index: 999; background: url(/res/img/search.png) no-repeat; background-size: 100% 100%; cursor: pointer;"
+                    ng-click="getFocus()"></i>
+                <input type="text" id="focusShow" class="form-control awesomplete" required ng-change="setName(search.companyName)"
+                    ng-model="search.companyName" list="mylist" placeholder="请输入企业名称" style="padding-left: 30px;" autocomplete="off"/>
+                <datalist id="mylist">
+                    <select>
+                        <option ng-repeat="item in staffList.data | limitTo : 10 track by $index" value="{{item.nickname}}">{{item.nickname}}</option>
+                    </select>
+                </datalist>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">
+                企业logo：</label>
+            <div class="col-xs-9">
+                <div class="photoWraper" ng-repeat="p in search.pics track by $index">
+                    <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}" />
+                    <a role="button" ng-click="delPhoto(search.pics, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                </div>
+                <img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(search.pics, 1)"
+                    title="上传图片">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">联系方式：</label>
+            <div class="col-xs-7">
+                <input type="tel" class="form-control" placeholder="请输入手机号码或座机号码"  ng-pattern="/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/" required ng-model="search.phone" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">联系人：</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" ng-model="search.contactMan" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3 required">企业简介：</label>
+            <div class="col-xs-7">
+                <!-- <input type="text" class="form-control" ng-model="curItem.remarks"> -->
+                <textarea type="text" style="height: 150px; resize: vertical; cursor: default;" class="form-control" required
+                    ng-model="search.introduction" name="content" aria-multiline="true" aria-invalid="false" maxlength="400" placeholder="最多可输入400字" ng-change="contentLength(search.introduction, 1)"></textarea><span style="color: #888;">剩余可输入字数: {{introductionLength}}/400</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">主要产品：</label>
+            <div class="col-xs-7">
+                <textarea type="text" style="height: 150px; resize: vertical; cursor: default;" class="form-control" required
+                    ng-model="search.mainProduct" name="content" aria-multiline="true" aria-invalid="false" maxlength="400" placeholder="最多可输入400字" ng-change="contentLength(search.mainProduct, 2)"></textarea><span style="color: #888;">剩余可输入字数: {{mainProductLength}}/400</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">精选供应商：</label>
+            <div class="col-xs-7" style="padding: 7px 15px 0px;">
+                <input type="radio" name="selectedSupplier" required ng-model="search.isSelect" value="1">是
+                <input type="radio" name="selectedSupplier" required ng-model="search.isSelect" value="0">否
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">客户可见：</label>
+            <div class="col-xs-7" style="padding: 7px 15px 0px;">
+                <input type="radio" name="userVisibility" required ng-model="search.isVisible" value="1">可见
+                <input type="radio" name="userVisibility" required ng-model="search.isVisible" value="0">不可见
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-success btn-lg" ng-click="save(addForm)">确认</button>
+    <button class="btn btn-danger btn-lg" ng-click="cancel()">取消</button>
+</div>

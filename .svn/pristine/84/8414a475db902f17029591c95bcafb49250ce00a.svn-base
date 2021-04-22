@@ -1,0 +1,31 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="$dismiss()">×</button>
+	<h4 class="modal-title">移动部门</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group" >
+            <label class="col-xs-4 control-label">提示：</label>
+            <div class="col-xs-8 mt7">
+                若父部门置空，则将当前部门置为一级！
+            </div>
+        </div>
+        <div class="form-group" >
+            <label class="col-xs-4 control-label">当前部门：</label>
+            <div class="col-xs-8 mt7">
+                {{item.text}}
+            </div>
+        </div>
+        <div class="form-group" >
+            <label class="col-xs-4 control-label">父部门：</label>
+            <div class="col-xs-8 ">
+                <tree-selector  node-list="deptTree" need=true host="item" host-key="'parentId'" host-text="'ptexts'" tip-text="'请选择部门'"></tree-selector>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form)">确定</button>
+	<button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+</div>
+

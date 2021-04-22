@@ -1,0 +1,74 @@
+
+<div class="panel panel-default">
+       
+    <div class="panel-heading">业主信息列表
+       
+    </div>
+    <div class="panel-body" style="overflow: scroll;">
+        <table class="table table-striped table-hover" style="margin-top: 10px;">
+            <thead>
+                <tr>
+                    <th class="text-center">NO</th>
+                    <th nowrap="nowrap">房号</th>
+                    <th nowrap="nowrap">房屋名称</th>
+                    <th nowrap="nowrap">业主姓名</th>
+                    <th nowrap="nowrap">业主电话</th>
+                    <th nowrap="nowrap" style="min-width: 220px;">业主地址</th>
+                    <th nowrap="nowrap">身份证号</th>
+                    <th nowrap="nowrap">业主单位</th>
+                    <th nowrap="nowrap">入住时间</th>
+                    <th nowrap="nowrap">操作</th>
+                  
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="!pageModel_own.data  || pageModel_own.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel_own.data">
+                    <td class="text-center">{{$index + 1+pageModel_own.pageSize*pageModel_own.pageIndex}}</td>
+                  
+                    <td>{{item.houseCode}}</td>
+                    <td ng-if="item.houseName.length>=12"  ng-class="{'border-t-0':$index==0}">
+                                 
+                        <on-detail titles="房屋名称" value="{{item.houseName}}">
+
+                        </on-detail>
+                     </td>
+                      <td ng-if="item.houseName.length<12">
+                         {{item.houseName}}</td>
+                   
+                    <td>
+                        <span ng-repeat="v in item.name track by $index" style="display:block">{{v}}</span>
+
+                    </td>
+                    <td>
+                        <span ng-repeat="v in item.phone track by $index" style="display:block">{{v}}</span>
+                    </td>
+                    <td>{{item.address}}</td>
+                    <td>
+                        <span ng-repeat="v in item.idCard track by $index" style="display:block">{{v}}</span>
+                    </td>
+                    <td>
+                        <span ng-repeat="v in item.ownerUnit track by $index" style="display:block">{{v}}</span>
+                    </td>
+                    <td>{{item.checkinDate}}</td>
+                    <td> 
+                     <a href='javascript:void(0)' ng-click='showRelative(item)' class='btn btn-xs'><span class='fa fa-user'></span>亲属</a> 
+                     <a href='javascript:void(0)' ng-click='showTanant(item)' class='btn btn-xs'><span class='fa fa-user'></span>租户</a> 
+                    </td> 
+                </tr>
+
+            </tbody>
+        </table>
+        <div class="page-footer clearfix">
+            <page-pro page-model="pageModel_own" find="findOwn"></page-pro>
+        </div>
+    </div>
+</div>
+<style>
+ .layui-layer-lan .layui-layer-btn a {
+    background: #2e8ded;
+    border: none;
+}
+</style>

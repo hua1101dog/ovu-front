@@ -1,0 +1,174 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.flag?'查看详情':'审批'}}</h4>
+</div>
+<div
+    class="modal-body container-fluid form-horizontal"
+    style="padding: 15px 15px 0 15px"
+>
+    <form name="form" style="padding: 0 20px" novalidate>
+        <div class="row">
+            <div class="col-md-2 col-sm-4 col-xs-12">
+                <div
+                    class="x_panel"
+                    style="
+                        max-height: 591px;
+                        overflow: auto;
+                        margin-bottom: 0;
+                        padding-bottom: 0;
+                    "
+                >
+                    <div class="x_title">
+                        <a
+                            ng-click="expandAll(planWorkTypeTree)"
+                            role="button"
+                            class="btn-link"
+                            title="展开与收缩"
+                        >
+                            <i
+                                class="glyphicon"
+                                ng-class="{'glyphicon-resize-small':planWorkTypeTree.expanded,'glyphicon-resize-full':!planWorkTypeTree.expanded}"
+                            ></i
+                        ></a>
+                        工作分类
+                    </div>
+                    <div class="x_content" style="z-index: 1">
+                        <div
+                            class="alert"
+                            role="alert"
+                            ng-show="!planWorkTypeTree"
+                        >
+                            无工作分类
+                        </div>
+                        <tree-view-pro
+                            node-list="planWorkTypeTree"
+                            host="search"
+                            host-text="'WORKTYPE_NAME'"
+                            host-key="'WORKTYPE_ID'"
+                            callback="selectNode"
+                            config="{edit: false}"
+                        ></tree-view-pro>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="col-md-10 col-sm-8 col-xs-12"
+                style="padding: 0; max-height: 606px; overflow: auto"
+            >
+            <div
+            class="x_panel"
+            style="padding-right: 0; padding-left: 0"
+        >
+            <div style="padding: 0 15px">
+                <label
+                    class="control-label"
+                    style="margin-right: 10px"
+                    >频次类型</label
+                >
+                <div
+                    class="inline_block"
+                    style="padding-left: 0px"
+                >
+                   
+                    <select class="form-control" ng-model="item.exeCycle"
+							ng-options=" o[0] as o[1]+'任务' for o  in frequencyDict" ng-change="changeFre(item.exeCycle)">
+							<option value="" ng-show="curTab=='list'">--请选择--</option>
+						</select>
+                </div>
+            </div>
+        </div>
+                <uib-tabset active="active">
+                    <uib-tab
+                        index="0"
+                        heading="列表模式"
+                        select="setCurTab('list')"
+                    >
+                        <div>
+                            <ng-include
+                                src="'./workunit/workPlanSet.table.html'"
+                            ></ng-include>
+                        </div>
+                    </uib-tab>
+                    <uib-tab
+                        index="1"
+                        heading="日历模式"
+                        select="setCurTab('calendar')"
+                    >
+                       
+
+                        <div>
+                            <ng-include
+                                src="'./workunit/workPlanSet.calendar.html'"
+                            ></ng-include>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px">
+            <label class="col-xs-2 control-label text-center">提交说明：</label>
+            <div class="col-xs-8 mt7">
+               {{item.comment}}
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px">
+            <label class="col-xs-2 control-label text-center">审批意见：</label>
+            <div class="col-xs-8" ng-if="item.curTab=='dsp'">
+                <textarea
+                    type="text"
+                    cols="6"
+                    style="resize: none"
+                    class="form-control"
+                    ng-model="item.remark"
+                ></textarea>
+            </div>
+            <div class="col-xs-8 mt7" ng-if="item.curTab!=='dsp'">
+              {{item.remark}}
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button
+        class="btn btn-primary"
+        style="margin: 0 10px"
+        ng-click="save('2')"
+        ng-if="item.curTab=='dsp' && pageModel.data && pageModel.data.length"
+    >
+        通过
+    </button>
+    <button
+        class="btn btn-warning"
+        style="margin: 0 10px"
+        ng-if="item.curTab=='dsp' && pageModel.data && pageModel.data.length"
+        ng-click="save('1')"
+    >
+        拒绝
+    </button>
+    <button class="btn btn-warning" style="margin: 0 10px" ng-click="cancel()">
+        取消
+    </button>
+</div>
+<style>
+      .planSquare {
+	    width: 40px;
+    height: 29px;
+    display: inline-block;
+    margin: 0 20px 0 20px;
+    vertical-align: bottom;
+    }
+    .planSquare_ytg {
+        background: rgba(102, 204, 0, 1);
+    }
+    .planSquare_spz{
+        background: rgba(255, 153, 0, 1)
+    }
+    .planSquare_wtj{
+        background:rgba(204, 204, 204, 1);
+    }
+    .planSquare_yjj{
+        background:rgb(241 15 65);
+    }
+</style>

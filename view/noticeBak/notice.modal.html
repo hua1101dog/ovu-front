@@ -1,0 +1,89 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">{{opr}}通知</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+					<div class="form-group">
+						<label class="col-xs-1 control-label required text-left">标题：</label>
+						<div class="col-xs-11">
+							<input type="text" class="form-control" required ng-model="item.TITLE" name="TITLE"/>
+						</div>
+					</div>
+                    <div class="form-group">
+                        <label class="col-xs-1 control-label">上传图片：</label>
+                        <div class="col-xs-11">
+                            <div class="photoWraper" ng-repeat="p in item.pics track by $index">
+                                <img onerror="javascript:this.src='/res/img/detail.png';"
+                                     ng-click="showPhoto()"
+                                     ng-src="{{processImgUrl(p)}}" />
+                                <a role="button" ng-click="delPhoto(item.pics,p)"><i class="glyphicon glyphicon-remove"></i></a>
+                            </div>
+                            <img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(item.pics,3)" title="上传图片">
+                        </div>
+                    </div>
+					<div class="form-group">
+						<label class="col-xs-1 control-label required">内容：</label>
+					</div>
+					<div>
+						<textarea class="form-control" rows="15" required ng-model="item.CONTENT" name="CONTENT"></textarea>
+					</div>
+					<div>
+						<h4>发送人群：</h4>
+						<div class="form-group">
+							<div class="col-xs-6">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="选择部门"  ng-model="item.DEPT_NAMES" name="DEPT_NAMES" />
+									<span class="input-group-btn">
+										<button  class="btn btn-default" ng-click="chooseDept(parks)"><i class='fa fa-search'></i></button>
+									</span>
+								</div>
+							</div>
+							<div class="col-xs-6">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="选择人员"  ng-model="item.PERSON_NAMES" name="PERSON_NAMES" />
+									<span class="input-group-btn">
+										<button  class="btn btn-default" ng-click="choosePerson(item)"><i class='fa fa-search'></i></button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<div class="center-block" style="height:30px;">
+			<button class="btn btn-primary" ng-click="save(form,item)">保存</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+			</div>
+
+		</div>
+
+		<style>
+	.ul-item{
+		list-style: none;
+		float: left;
+		padding: 0px;
+	}
+	.ul-item li{
+		margin-right: 5px;
+		padding: 5px;
+		float: left;
+	}
+	.ul-item li.item{
+		background-color: #F9F9F9;
+		border: 1px solid #CCCCCC;
+		border-radius: 4px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.ul-item li a{
+		margin-left: 5px;
+		cursor: pointer;
+	}
+	.edui-container{
+	margin:0 0 10px;
+	}
+	.control-label{
+	padding-left: 0!important;}
+</style>

@@ -1,0 +1,141 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">{{item.id?'编辑':'添加'}}会议室</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="form-group">
+					<label class="col-xs-3 control-label required">会议室名称：</label>
+					<div class="col-xs-7">
+						<input type="text" class="form-control" required ng-maxlength="20" ng-model="item.boardroomName" ng-blur="hkNameChange(item.BOARDROOM_NAME)" name="BOARDROOM_NAME" />
+					</div>
+				</div>
+				<div class="form-group" style="color:red" ng-show="form.boardroomName.$invalid && form.boardroomName.$dirty && form.boardroomName.$error.maxlength">
+					<span class="col-xs-3"></span><span class="col-xs-5" ng-show="form.boardroomName.$error.maxlength">名称长度限20个字符</span>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-3 control-label required">容纳人数： </label>
+					<div class="col-xs-7">
+						<input type="text" class="form-control" required ng-pattern="/^[1-9]\d*$/" ng-model="item.avaliablePersons"  name="avaliablePersons" />
+					</div>
+				</div>
+				<div class="form-group" style="color:red" ng-show="form.avaliablePersons.$invalid && form.avaliablePersons.$dirty && form.avaliablePersons.$error.pattern">
+					<span ng-show="form.avaliablePersons.$error.pattern" class="col-xs-3"></span><span class="col-xs-5" ng-show="form.avaliablePersons.$error.pattern">必须是大于零的整数</span>
+				</div>
+				<!-- 测试我的复选框 -->
+				 <div class="form-group">
+					<label class="col-xs-3 control-label">包含设备：</label>
+			         <div  class="col-xs-9" >
+			             <div data-ng-repeat="tag in tagcategories" class="pull-left">
+			                 <div>
+			                     <input type="checkbox" id={{tag.id}} name="{{tag.name}}" ng-checked="isSelected(tag.id)" ng-click="updateSelection($event,tag.id)">
+			                     {{ tag.name }}
+			                 </div>
+			             </div>
+			         </div>
+			     </div>
+				<div class="form-group">
+					<label class="col-md-3 control-label required">分期：</label>
+					<div class="col-md-5">
+						<select class="form-control col-md-2" required ng-model="item.stageId"  ng-change="selectStage()" >
+							<option value="">--请选择--</option>
+							<option ng-repeat="stage in stageList track by $index"  value="{{stage.id}}">{{stage.text}}</option>
+						</select>
+						
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label required">楼栋：</label>
+					<div class="col-md-5">				
+						<select class="form-control col-md-2" required ng-model="item.buildId" ng-change="selectBuild()"  >
+								<option value="">--请选择--</option>
+							<option ng-repeat="build in buildList track by $index" value="{{build.id}}">{{build.buildName}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label required">单元：</label>
+					<div class="col-md-5">				
+						<select class="form-control col-md-2" required ng-model="item.unitNo" ng-change="selectUnit()"  >
+								<option value="">--请选择--</option>
+							<option ng-repeat="unit in unitList track by $index" value="{{unit}}">{{unit}}单元</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label required">楼层：</label>
+					<div class="col-md-5">				
+						<select class="form-control col-md-2" required ng-model="item.groundNo" ng-change="selectGround()"  >
+							<option value="">--请选择--</option>
+							<option ng-repeat="floor in floorList track by $index" value="{{floor}}">{{floor}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label required">房屋：</label>
+					<div class="col-md-5">					
+						<select class="form-control col-md-2" required ng-model="item.houseId" ng-change="queryIsPublished(item.houseId)">
+							<option value="">--请选择--</option>
+							<option ng-repeat="house in houseList track by $index" value="{{house.id}}">{{house.houseName}}</option>
+						</select>
+					</div>
+					<label class="col-xs-3 control-label" style="text-align: left; padding-left: 0px;" ng-bind="pubulishedMsg"></label>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label required">面积：</label>
+					<div class="col-xs-5">
+						<input type="text" class="form-control"  required ng-pattern="/^[0-9]\d*\.?\d*$/" ng-model="item.area"  name="area" placeholder="仅可填数字" />
+					</div><label class="col-xs-3 control-label" style="color: red;font-weight: normal;text-align: left;">平米</label>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label required">单价：</label>
+					<div class="col-xs-5">
+						<input type="text" class="form-control" required ng-pattern="/^[0-9]\d*\.?\d*$/"  ng-model="item.singlePrice"  name="singlePrice" placeholder="仅可填数字" />
+					</div><label class="col-xs-3 control-label" style="color: red;font-weight: normal;text-align: left;">元/半小时</label>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label required"  >联系人</label>
+          <div class="col-xs-5">
+              <input type="text" class="form-control" required  aria-required="false" readonly="readonly" ng-model="item.creatorName" />
+              <i class=" glyphicon glyphicon-plus-sign" ng-click="phonePeople(item)"
+              style="position: absolute;left:98%;top:8px"></i>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-xs-3 control-label required">联系电话</label>
+          <div class="col-xs-5">
+              <input type="text" class="form-control" readonly="readonly" required ng-model="item.creatorPhone"  />
+      <p style="font-size: 14px;color: gray;white-space: nowrap;margin-top: 20px;line-height: 30px;">(例如:13507267845 或者 027-88888888)</p>
+          </div>
+      </div>
+				<div class="form-group" style="color:red" ng-show="form.singlePrice.$invalid && form.singlePrice.$dirty  && form.singlePrice.$error.pattern">
+					<span class="col-xs-3"></span><span class="col-xs-5" ng-show="form.singlePrice.$error.pattern">必须是大于零的数字</span>
+				</div>
+
+				<div class="form-group">
+                    <label class="col-xs-3 control-label required">上传照片：</label>
+                    <label class="col-xs-9 control-label" style="color: red;font-weight: normal;text-align: left;">
+                                                                 注：最多只能上传五张图片！
+                    </label>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-3 control-label"><!-- 上传照片： --></label>
+                    <div class="col-xs-9">
+                        <div class="photoWraper" ng-repeat="p in item.pics track by $index">
+                            <img onerror="javascript:this.src='/res/img/detail.png';"
+                                 ng-click="showPhoto()"
+                                 ng-src="{{processImgUrl(p)}}" />
+                            <a role="button" ng-click="delPhoto(item.pics, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                        </div>
+                        <img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(item.pics)" title="上传图片">
+                    </div>
+                </div>
+
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="saveMeetingRoom(form,item)" >发布</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+

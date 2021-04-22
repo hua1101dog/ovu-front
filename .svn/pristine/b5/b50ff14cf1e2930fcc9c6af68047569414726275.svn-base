@@ -1,0 +1,113 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title" ng-show="!item.isView">{{item.id?'编辑':'新增'}}能源电表</h4>
+    <h4 class="modal-title" ng-show="item.isView">查看定价</h4>
+   </div>
+   <div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">电表编码：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" required ng-model="item.code" ng-change="checkElecMeterCode()"/>
+            </div>
+            <label class="col-xs-2 control-label">电表名称：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.name" name="name" />
+            </div>
+        </div>  
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">电表状态：</label>
+            <div class="col-xs-4">
+                <select class="form-control"  name="status" ng-model="item.status">
+                    <option value="1">正常</option>
+                    <option value="2">维护</option>
+                    <option value="3">停用</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label required">倍率：</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control" required ng-model="item.times" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">电表类型：</label>
+            <div class="col-xs-4">
+                <select class="form-control"  name="electricityType" ng-model="item.electricityType" ng-change="changeType()">
+                    <option value="1">总表</option>
+                    <option value="2">分表</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label required">电单价：</label>
+            <div class="col-xs-2">
+                <input type="number" class="form-control" required ng-model="item.price" />
+            </div>
+            <label class="col-xs-2">元/度</label>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">厂商：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" ng-model="item.firmName" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">分期：</label>
+            <div class="col-xs-8">
+                <select class="form-control"  name="stageId" required  ng-model="item.stageId" ng-change="changeStage(item.stageId)" ng-options="o.ID as o.STAGE_NAME for o in StageList">
+                    <option value="">---分期/分区---</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">楼栋：</label>
+            <div class="col-xs-8">
+                <select class="form-control"  name="buildId" required  ng-model="item.floorId" ng-change="changeBuild(item.floorId)" ng-options="o.iD as o.fLOOR_NAME for o in BuildList" >
+                    <option value="">---楼栋---</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" ng-show="item.electricityType == '1'"><!--这里ng-show和下面ng-if的写法处理是特意的,要同时解决多选择框切换加载和form提交检测的问题  -->
+            <label class="col-xs-2 control-label required">楼层：</label>
+            <div class="col-xs-8">
+                <select id="multi_ground_num" class="form-control selectpicker show-tick" multiple data-live-search="false" onchange="resetGround()" required ng-model="item.groundNum" >
+                    <option value="">---楼层---</option>
+                    <option ng-repeat = "g in GroundList" value="{{g}}">{{g + "层"}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" ng-if="item.electricityType == '2'">
+            <label class="col-xs-2 control-label required">楼层：</label>
+            <div class="col-xs-8">
+                <select class="form-control"  name="groundNumber" required ng-model="item.groundNum"  ng-change="changeGround(item.groundNum)" ng-options="o as o+'层' for o in GroundList" >
+                    <option value="">---楼层---</option>
+                </select>
+            </div>
+        </div>  
+        <div class="form-group" ng-if="item.electricityType == '2'">
+            <label class="col-xs-2 control-label required">房间：</label>
+            <div class="col-xs-8">
+                <select class="form-control"  name="HOUSE_ID" required  ng-model="item.houseId" ng-options="o.ID as o.HOUSE_NAME for o in HouseList" >
+                    <option value="">---房间---</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)" ng-disabled = "isDisable">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<script type="text/javascript">
+    function resetGround(){
+        var arr = $("#multi_ground_num").val();
+        if(arr && arr.length > 0 && arr[0] == ""){
+            arr = arr.slice(1);
+        }
+        if(!arr || arr.length == 0){
+            arr = [""];
+        }
+        //var str='3,4,5,6';
+        //var arr=str.split(',');
+        $('#multi_ground_num').selectpicker('val', arr);
+    }
+</script>

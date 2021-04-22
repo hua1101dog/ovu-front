@@ -1,0 +1,182 @@
+<div class="map-container" map-full-page id="map-indoor">
+    <div class="switch">
+        <div ng-click="$ctrl.to2D()">2D</div>
+        <div ng-click="$ctrl.to3D()">3D</div>
+    </div>
+    <div class="camera" ng-if="$ctrl.cameraShow">
+      <div ng-if="!$ctrl.btnCamera" ng-click="$ctrl.showCamera()">显示摄像头</div>
+      <div ng-if="$ctrl.btnCamera" ng-click="$ctrl.hideCamera()">隐藏摄像头</div>
+    </div>
+</div>
+
+<div class="bar-container" ng-class="{'dispatch':$ctrl.isDispatch}" ng-if="$ctrl.showBottomBar">
+    <div class="panel panel-default map-bottom">
+        <div class="panel-body">
+            <div class="pull-left col-xs-2 bar-title">
+                <div ng-if="!$ctrl.isDispatch">
+                    <label class="checkbox-inline border-right">
+                        选择设备分类:
+                    </label>
+                </div>
+                <div ng-if="$ctrl.isDispatch">
+                    <label class="checkbox-inline border-right" style="top: 10px;">
+                        <span>在线人员:</span>
+                        <span class="green-color">{{$ctrl.totalNum || 0}}</span>
+                    </label>
+                </div>
+            </div>
+            <div class="pull-right col-xs-10    bar-title">
+                <div ng-if="!$ctrl.isDispatch">
+                    <label class="checkbox-inline border-right col-lg-2 col-md-3 col-sm-4   col-xs-6 filter-label" ng-repeat="item in $ctrl.equipCatoryList" style="margin:0px;padding:0 5px;line-height:33px;">
+                        <!-- <i role="button" ng-click="$ctrl.checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" -->
+                        <i role="button" ng-click="$ctrl.checkOne(item)" style="font-size:20px;margin-right:5px;" class="icon iconfont" ng-class="{'icon-icon-correct':item.checked,'icon-circle-o':!item.checked}"
+                            class="glyphicon"></i>
+                        <span class="green-color" style="margin-bottom:5px;">{{item.text}}</span>
+                    </label>
+                </div>
+                <div ng-if="$ctrl.isDispatch">
+                    <label class="checkbox-inline col-md-2 col-sm-6 filter-label" ng-repeat="item in $ctrl.equipCatoryList" style="margin:0px;padding:0 5px;line-height:33px;">
+                        <!-- <i role="button" ng-click="$ctrl.checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" -->
+                        <i role="button" ng-click="$ctrl.checkOne(item)" style="font-size:20px;margin-right:5px;" class="icon iconfont" ng-class="{'icon-icon-correct':item.checked,'icon-circle-o':!item.checked}"
+                            class="glyphicon"></i>
+                        <i class="icon iconfont {{item.icon}} {{item.color}}"></i>
+                        <span class="green-color" style="">{{item.text}}</span>
+                        <span class="span-color" ng-if="$ctrl.isDispatch">{{item.num}}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #map-indoor {
+        /* 全屏调整 */
+        /* min-height: 796px; */
+        min-height: 700px;
+        height: 100%;
+        position: relative;
+    }
+
+    .switch {
+        position: absolute;
+        width: 50px;
+        top: 20px;
+        left: 10px;
+    }
+    /*2/3D切换按钮  */
+
+    .switch>div {
+        width: 48px;
+        height: 48px;
+        line-height: 50px;
+        text-align: center;
+        cursor: pointer;
+        background: -moz-linear-gradient(top, #D6D6D6, #F5F5F5);
+        background: -webkit-gradient(linear, 0 0, 0 bottom, from(#D6D6D6), to(#F5F5F5));
+        background: -o-linear-gradient(top, #D6D6D6, #F5F5F5);
+    }
+
+    .camera {
+      position: absolute;
+      width: 100px;
+      height: 70px;
+      top: 20px;
+      right: 10px;
+    }
+    /*2/3D切换按钮  */
+
+    .camera>div {
+      width: 98px;
+      height: 34px;
+      line-height: 30px;
+      text-align: center;
+      cursor: pointer;
+      color: white;
+      background: #32a1ff;
+    }
+
+    infoWindowStyle2 {
+        background-color: #000000;
+        opacity: .5;
+        position: relative;
+        height: 90px;
+        width: 250px
+    }
+
+    .infoWindowStyle {
+        color: #ffffff;
+        padding: 20px;
+        width: 250px;
+        min-height: 1px;
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .infoWindowStyle>div {
+        float: left;
+        width: 50%;
+        line-height: 15px;
+        min-height: 1px;
+        padding: 5px;
+        word-wrap: break-word;
+    }
+
+    .mapClose {
+        width: 5px;
+        height: 5px;
+        text-align: center;
+        line-height: 5px;
+        cursor: pointer;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+
+    .map-bottom {
+        width: 100%;
+        position: absolute;
+        bottom: 0px;
+        margin-bottom: 0;
+        z-index: 1000;
+        background: #565A64;
+        color: #FFF;
+    }
+
+    .filter-label {
+        margin-left: 10px;
+    }
+
+    .green-color {
+        color: #18FF00;
+    }
+
+    .bar-container.dispatch {
+        width: 90%;
+        position: relative;
+        right: -10%;
+    }
+
+    .bar-title {
+        margin: -15px;
+        padding: 5px;
+    }
+
+    .icon-color-yellow {
+        color: #ecec00;
+    }
+
+    .icon-color-green {
+        color: #37CF82;
+    }
+
+    .icon-color-purple {
+        color: #9724cf;
+    }
+
+    .icon-color-blue {
+        color: #F66C21;
+    }
+
+    .icon-color-pink {
+        color: #12ADDA;
+    }
+</style>

@@ -1,0 +1,23 @@
+<div>
+    <div class="modal-body">
+        <div>
+            <div ng-if="itemOpinion.mReplyStatus==1">
+                <h4>处理答复：</h4>
+                <p>{{itemOpinion.mReplyContent}}</p>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <p>处理人：{{itemOpinion.mName}}</p>
+                        <p>处理时间：{{itemOpinion.mReplyTime}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <textarea class="form-control" ng-model="itemOpinion.replyContent"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="save()">确定</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">{{newFileData.id?'编辑':'添加'}}图纸</h4>
+</div>
+<form name="form" novalidate>
+	<div class="modal-body container-fluid form-horizontal">
+		<!-- <div class="form-group">
+			<label class="col-xs-4 control-label">区域类型：</label>
+			<div  class="col-xs-6">
+				<label class="col-xs-6" style="padding-top:8px;"><input name="areaType" type="radio" value="1"  ng-model="newFileData.fileAreaType"/>室外公共区域</label>
+				<label class="col-xs-6" style="padding-top:8px;"><input name="areaType" type="radio" value="2" ng-model="newFileData.fileAreaType" />室内区域</label>
+			</div>
+		</div> -->
+		<div class="form-group">
+			<label class="col-xs-4 control-label"><span style="color: red">*</span>空间类型：</label>
+			<div  class="col-xs-6">
+				<select class="form-control"  ng-model="newFileData.fileSpaceType" ng-change="changeSpaceType()">
+					<option value="">--选择--</option>
+					<!-- <option value="1">楼栋</option> --><!-- 目前楼栋空间无用,先暂时不用 -->
+					<option value="2">房间</option>
+					<option value="3">楼层</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+            <label class="col-xs-4 control-label" ><span style="color: red">*</span>空间选择：</label>
+            <div class="input-group col-xs-6" style="margin-left:215px;max-width:268px;">
+            <input type="text" class="form-control" readonly="readonly" placeholder="空间选择..."
+                   ng-model="newFileData.spaceResult" />
+             <span class="input-group-btn">
+                <button  class="btn btn-default" ng-click="chooseHouseType(newFileData.fileSpaceType)"><i class='fa fa-search'></i></button>
+                <button class="btn btn-default" ng-click="clear()"><i>清空</i></button>
+            </span>
+            </div>
+        </div>
+        <div class="form-group"  ng-if="showGround">
+            <label class="col-xs-4 control-label">楼层：</label>
+            <div  class="col-xs-6">
+                <select class="form-control"  ng-model="newFileData.groundNo" ng-options="o as o for o in groundList">
+                    <option value="">--请选楼层--</option>
+                </select>
+            </div>
+        </div>
+		<div class="form-group">
+            <label class="col-xs-4 control-label"><span style="color: red">*</span>文件类型：</label>
+            <div  class="col-xs-6">
+                <select class="form-control" ng-model="newFileData.fileType" ng-options="o.value as o.text for o in theFileTypes" ng-change="changeType(newFileData.fileType)">
+                    <option value="">--选择--</option>
+                </select>
+            </div>
+        </div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label" >文件名称：</label>
+			<div  class="col-xs-6">
+				<input type="text" class="form-control" ng-model="newFileData.fileName"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label">源文件：</label>
+			<div class="col-xs-6">
+				<div class="col-xs-3" style="padding:0;">
+					<button class="btn btn-success" ng-click="addFile('originalFile')">上传</button>
+				</div>
+			</div>
+			<div class="input-group col-xs-5" style="margin-left:215px; margin-top:50px;" ng-if="newFileData.originalFileName">
+				<input type="text" class="form-control" readonly="readonly" ng-attr-title="{{newFileData.originalFileName}}" ng-model="newFileData.originalFileName">
+				 <span class="input-group-btn">
+					<button class="btn btn-default" ng-click="delFile('originalFile')"><i class="glyphicon glyphicon-remove" style="color:red;"></i></button>
+				  </span>
+			</div>
+		</div>
+		<!--目前pdf文件没有实质作用,先隐藏起来,后面要用的话,再放开
+		<div class="form-group">
+			<label class="col-xs-4 control-label">文件（PDF）：</label>
+			<div class="col-xs-6">
+				<div class="col-xs-3" style="padding:0;">
+					<button class="btn btn-success" ng-click="addFile('pdfFile')">上传</button>
+				</div>
+			</div>
+			<div class="input-group col-xs-5" style="margin-left:200px; margin-top:50px;" ng-if="newFileData.pdfFileName">
+				<input type="text" class="form-control" readonly="readonly" ng-attr-title="{{newFileData.pdfFileName}}" ng-model="newFileData.pdfFileName">
+				 <span class="input-group-btn">
+					<button class="btn btn-default" ng-click="delFile('pdfFile')"><i class="glyphicon glyphicon-remove" style="color:red;"></i></button>
+				  </span>
+			</div>
+		</div> -->
+	</div>
+</form>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form,newFileData)" >确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">关 闭</button>
+</div>

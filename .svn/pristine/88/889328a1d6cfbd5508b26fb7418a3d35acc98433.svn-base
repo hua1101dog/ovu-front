@@ -1,0 +1,238 @@
+<style>
+	.m-t-sm {
+ 	 margin-top: 10px;
+	}
+	.m-t {
+	  margin-top: 15px;
+	}
+	.m-t-md {
+	  margin-top: 20px;
+	}
+	.m-t-lg {
+	  margin-top: 30px;
+	}
+	.m-n {
+	  margin: 0 !important;
+	}
+	.mb-10 {
+		  margin-bottom: -10px!important;
+	}
+	.mb10 {
+		  margin-bottom: 10px;
+	}
+	.b {
+		border: 1px solid #ddd;
+		background: #fff;
+	}
+	.b-n {
+		border: 1px solid #ddd;
+	}
+	.border-r10 {
+    	border-radius: 10px;
+	}
+	.b-r {
+		border-right: 1px solid #ddd;
+	}
+	.border-line{
+		margin: 25px 0;
+	    text-align: center;
+	    line-height: 32px;
+	}
+	.font-size-lg {
+	    font-size: 25px;
+	    font-weight: bold;
+	}
+	.title {
+		position:absolute;
+		top:-15px;
+		left:20px;
+	}
+	.f-w {
+		font-weight:700;
+	}
+	.card-border {
+	border: 1px solid #ddd;
+	background: #fff;
+	border-radius: 10px;
+    min-height:300px; 
+	}
+	.paddiing-b10 {
+		padding-bottom:10px;
+	}
+	.padding-10 {
+		padding:20px;
+	}
+	.fs14 {
+	font-size:14px;
+	}
+</style>
+<div id="angularId" ng-controller="indexCtrl">
+	<div class="x_panel m-t-sm">	
+		<h5>项目概览</h5>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-xs-12" style="position:relative;">
+			<div class="b border-r10" style="height: 120px">
+				<div class="col-xs-4 border-line b-r">
+					<div>
+						<span class="font-size-lg">{{projectDes.project.total  | number}}</span>
+						<span>个</span>
+					</div>
+					<div>项目总数</div>
+				</div>
+				<div class="col-xs-4 border-line b-r">
+					<div class='row'>
+						<div class='col-xs-8'>
+							<div>
+								<span class="font-size-lg">{{projectDes.lift.total  | number}}</span>
+								<span>台</span>
+							</div>
+							<div>电梯台数</div>
+						</div>
+						<div class='col-xs-4'>
+							<div>
+								<span>{{projectDes.lift.safeRunningDays}}</span>							
+							</div>
+							<div>安全运行(天)</div>
+						</div>
+					</div>									
+				</div>
+				<div class="col-xs-4 border-line">
+					<div class='row'>
+						<div class='col-xs-8'>
+							<div>
+								<span class="font-size-lg">{{projectDes.workunit.total | number}}</span>
+								<span>条</span>
+							</div>
+							<div>工单总数</div>
+						</div>
+						<div class='col-xs-4'>
+							<div>
+								<span>{{projectDes.workunit.finishedRate}}</span>							
+							</div>
+							<div>工单总完成率</div>
+						</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="x_panel m-t-sm">	
+		<h5>电梯概览</h5>
+	</div>
+	<div class="row">
+			<div class="col-sm-4 col-xs-12 ">
+				<div class="card-border">
+					<div  
+					style="height:300px;width:100%;" 
+					ui-echarts="statOption" >
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border">
+					<div  
+					style="height:300px;width:100%;" 
+					ui-echarts="classOption" >
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border">
+					<div  
+					style="height:300px;width:100%;" 
+					ui-echarts="areaOption" >
+					</div>
+				</div>
+			</div>
+	</div>
+	<div class="x_panel m-t-sm">	
+		<h5>电梯品牌概览</h5>
+	</div>
+	<div class="row">
+			<div class="col-sm-6 col-xs-12 ">
+				<div class="card-border">
+					<div  
+					style="height:300px;width:100%;" 
+					ui-echarts="brandOption" >
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-sm-6 col-xs-12">
+				<div class="card-border">
+					<div  
+					style="height:300px;width:100%;" 
+					ui-echarts="faultOption" >
+					</div>
+				</div>
+			</div>
+	</div>
+	<div class="x_panel m-t-sm">	
+		<h5>工单概览</h5>
+	</div>
+	<div class="row">
+			<div class="col-sm-4 col-xs-12 ">
+				<div class="card-border">					
+					<div  
+					style="height:300px;width:100%;" 
+					ui-echarts="projectListOption" >
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border">
+					<div  
+					style="height:300px;width:100%;" 
+					ui-echarts="proOrderOption" >
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border">
+						<div  
+						style="height:300px;width:100%;" 
+						ui-echarts="sourceOption" >
+						</div>
+				</div>
+			</div>
+	</div>
+	<div class="row m-t-sm paddiing-b10">
+			<div class="col-sm-6 col-xs-12 ">
+				<div class="card-border">
+					<div id = "progress" 
+					style="min-height:420px;width:100%;" 
+					ui-echarts="rateOption" >
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-xs-12">
+				<div class="card-border padding-10">
+					<div class="x_title fs14">维保月均完成工单TOP10</div>
+					<div>
+						<table class="table table-bordered table-hover table-condensed ">
+						<thead>
+							<tr>
+							    <th>NO</th>
+								<th>员工姓名</th>
+								<th>维保电梯数</th>
+								<th>月均处理工单数</th>
+								<th>处理工单总数</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat = "item in workOrder.topList">
+							    <td>{{$index + 1}}</td>
+								<td>{{item.name}}</td>
+								<td>{{item.liftTotal}}</td>								
+								<td>{{item.averageTotal}}</td>
+								<td>{{item.total}}</td>
+							</tr>
+							
+						</tbody>
+					</table>
+					</div>
+				</div>
+			</div>
+	</div>
+</div>

@@ -1,0 +1,56 @@
+<!--index.html-->
+<div id="angularId" ng-controller="coverCtrl" class="aaaaaatest">
+    <div ng-switch="type">
+        <!--多项目-->
+        <div ng-switch-when="multiProjects">
+            <ng-include src="'../view/liftReport/projectOperationCenter/multiProjects.html'"></ng-include>
+        </div>
+        <!--单项目-->
+        <div ng-switch-when="singleProject">
+            <ng-include src="'../view/liftReport/projectOperationCenter/singleProject.html'"></ng-include>
+        </div>
+        <!--单电梯-->
+        <div ng-switch-when="singleElevator">
+            <ng-include src="'../view/liftReport/projectOperationCenter/singleElevator.html'"></ng-include>
+        </div>
+    </div>
+
+</div>
+
+<!--多项目-->
+<script src="../view/liftReport/projectOperationCenter/multiProjects.js"></script>
+<!--单项目-->
+<script src="../view/liftReport/projectOperationCenter/singleProject.js"></script>
+<!--单电梯-->
+<script src="../view/liftReport/projectOperationCenter/singleElevator.js"></script>
+
+<!--自定义指令集合引入-->、
+<script src="../view/liftReport/projectOperationCenter/directives/customCharts.js"></script>
+
+<script>
+    (function(angular, doc) {
+        doc.title = "项目运营中心";
+
+        angular.module('angularApp')
+        
+        .controller('coverCtrl', ['$scope', '$location','$rootScope', function($scope, $location, $rootScope) {
+
+            $scope.type = "multiProjects";
+
+			//进入单项目页面
+            $scope.enterSingelProject = function(projectId){
+            	 $scope.type = "singleProject";
+            	 $rootScope.projectId=projectId;
+            }
+            //进入但电梯页面
+            $scope.enterSingleElevator = function(id){
+            	 $scope.type = "singleElevator";
+            	 $rootScope.liftId=id;
+            }
+
+        }])
+        
+
+        angular.bootstrap(doc.getElementById("angularId"), ['angularApp']);
+    })(angular, document);
+</script>

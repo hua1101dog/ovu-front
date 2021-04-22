@@ -1,0 +1,53 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="vm.cancel()">×</button>
+	<h4 class="modal-title">个人信息</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate="">
+		<div class="form-group">
+			<label class="col-xs-3 control-label"></label>
+			<div class="col-xs-6">
+                <div class="thumbnail text-center">
+                    <img  alt=""  onerror="javascript:this.src='/res/img/userIcon.png';"
+                          ng-click="vm.showPhoto()"
+                          ng-src="{{vm.processImgUrl(vm.item.userIcon)}}" />
+                    <div class="caption">
+                        <p>
+                            <button class="btn btn-warning height34" ng-click="vm.clearPhoto(vm.item,'userIcon')"><i class="glyphicon glyphicon-remove"></i></button>
+                            <button class="btn btn-default height34" ng-click="vm.addPhoto(vm.item,'userIcon')"><i class="glyphicon glyphicon-picture "></i></button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <label class="col-xs-3 control-label"></label>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label">登录名：</label>
+			<div class="col-xs-6">
+				<input type="text" class="form-control" ng-value="vm.item.loginName" name="loginName" ng-readonly="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label required">昵称：</label>
+			<div class="col-xs-6">
+				<input type="text" class="form-control" ng-model="vm.item.nickname" name="nickname" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label">电子邮箱：</label>
+			<div class="col-xs-6">
+				<input type="text" class="form-control" ng-model="vm.item.email" name="email">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label required">电话号码：</label>
+			<div class="col-xs-6">
+				<input type="text" class="form-control" ng-model="vm.item.phone" name="phone" required>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="vm.save(form)">确定</button>
+	<button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+</div>

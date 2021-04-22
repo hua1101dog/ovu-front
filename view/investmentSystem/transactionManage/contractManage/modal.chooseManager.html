@@ -1,0 +1,70 @@
+<div class="chooseManager_box">
+    <div class="modal-header">
+        
+        <button type="button" class="close" ng-click="cancel()">×</button>
+    </div>
+    <div class="content" style="position:relative;">
+        <div style="width: 250px;line-height: 60px;position:absolute;left:0;top:0;z-index:999999;padding-left: 20px;" ng-hide="projectTree.length==0">
+            <tree-sel-project ng-class="{'not-valid':!$root.project.id}" node-list="projectTree" host="$root.project"
+                host-key="'id'" host-text="'text'" callback="setProject" tip-text="'请选择项目'"></tree-sel-project>
+        </div>
+        <div class="form-group" style="padding-top: 70px;">
+            <label class="col-xs-1 control-label " style="text-align: right;line-height: 34px;">名称:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="search.name" name="phone">
+            </div>
+            <label class="col-xs-1 control-label " style="text-align: right; line-height: 34px;">电话:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="search.phone" name="name">
+            </div>
+            <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+        <div class="tableBox" style="padding:0 10px;">
+            <table class="table table-striped table-hover">
+                <thead class="title">
+                    <tr>
+                        <th style="width:30px;text-align:center">选择</th>
+                        <th style="text-align:center">名称</th>
+                        <th style="text-align:center">电话</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data" ng-class="{'checkCustom':item.checked}" ng-click="checkOne(item)">
+                        <td class="text-center">
+                            <i role="button" 
+                                ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                class="glyphicon"></i>
+                        </td>
+                        <td class="text-center">{{item.name}}</td>
+                        <td class="text-center">{{item.phone}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+        <div class="modal-footer" style="clear: both;position: absolute; left: 0;bottom: 40px;width: 100%;">
+            <button class="btn btn-primary" ng-click="chooseSure()">确定</button>
+            <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .chooseManager_box{
+        height: 600px;
+    }
+    .modal-header {
+        background-color: #337ab7;
+        padding: 10px 15px;
+        color: #ffffff
+    }
+
+    .content{
+        overflow: hidden; height: 600px;
+    }
+</style>

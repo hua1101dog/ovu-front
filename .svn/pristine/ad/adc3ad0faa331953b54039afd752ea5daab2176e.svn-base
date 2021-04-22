@@ -1,0 +1,69 @@
+<div ng-controller="completeProcessManageCtrl" ng-cloak>
+    <div class="page-title">
+        <div class="title_left">
+            <h3>已完成的流程</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label class="control-label">流程实例ID:</label> 
+                    <input class="form-control" type="text" ng-model="runProcessSearch.processInstanceId">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">流程定义KEY:</label>
+                    <input class="form-control" type="text" ng-model="runProcessSearch.processDefinitionKey">
+                </div>
+                <button class="btn btn-success" ng-click="find()">查询</button>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead class="title">
+                        <tr class="text-center">
+                            <th>流程名称</th>
+                            <th>流程实例ID</th>
+                            <th>流程定义ID</th>
+                            <th>流程标识</th>
+                            <th>流程定义名称</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!pageModel.list || pageModel.list.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr class="text-center" ng-repeat="item in pageModel.list track by $index">
+                            <td>{{item.vars.title}}</td>
+                            <td>{{item.processInstanceId}}</td>
+                            <td>{{item.processDefinitionId}}</td>
+                            <td>{{item.processDefinitionKey}}</td>
+                            <td>{{item.processDefinitionName}}</td>
+                            <td>{{item.taskStartDate | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>{{item.taskEndDate | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>
+                                <a class="btn btn-primary" href="javascript:;" ng-click="showFlowChart(item.processInstanceId)">流程图</a>
+                                <a class="btn btn-primary" href="javascript:;" ng-click="contractProcessRecord(item)">流程记录</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .panel-body tbody tr td:nth-of-type(-n+3) {
+        word-break:break-all;
+    }
+    .panel-body tbody tr td:last-of-type {
+        white-space: nowrap;
+    }
+</style>

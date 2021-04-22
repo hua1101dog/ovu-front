@@ -1,0 +1,392 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">新增科技人才</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" class="form-horizontal">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class='col-sm-6'>
+                        <label for="name" class="col-sm-3 control-label">
+                            <span style="color: crimson">*</span>科技人才姓名
+                        </label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="name" placeholder="请输入姓名">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+
+                        <label class="control-label col-sm-2  ">
+                            <span style="color: crimson">*</span>性别
+                        </label>
+                        <div class="col-sm-5">
+                            <label class="radio-inline" >
+                                <input type="radio" name="sex" id="man" value="man"> 男
+                            </label>
+                            <label class="radio-inline" >
+                                <input type="radio" name="sex" id="female" value="female"> 女
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class='col-sm-6'>
+                        <label for="age" class="control-label col-sm-3  ">
+                            <span style="color: crimson">*</span>年龄
+                        </label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="age" placeholder="请输入年龄">
+                        </div>
+                    </div>
+                    <div class='col-sm-6'>
+                        <label for="company" class="control-label col-sm-2  ">
+                            <span style="color: crimson">*</span>所属单位
+                        </label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="company" placeholder="请输入所属单位（50字）">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class='col-sm-6'>
+                        <label for="age" class="control-label col-sm-3  ">
+                            <span style="color: crimson">*</span>职务
+                        </label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="age" placeholder="请输入职务（50字）">
+                        </div>
+                    </div>
+                    <div class='col-sm-6'>
+                        <label for="company" class="control-label col-sm-2  ">
+                            <span style="color: crimson">*</span>职称
+                        </label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="company" placeholder="请输入职称">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class='col-sm-6'>
+                        <label for="age" class="control-label col-sm-3  ">
+                            <span style="color: crimson">*</span>专业
+                        </label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="age" placeholder="请输入专业">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class='col-sm-6'>
+                        <label for="age" class="control-label col-sm-3 ">
+                            <span style="color: crimson">*</span>知识产权
+                        </label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="age" placeholder="请输入知识产权的数量（单位：个）">
+                        </div>
+                    </div>
+                    <div class='col-sm-6'>
+                        <label for="company" class="control-label col-sm-2  ">
+                            <span style="color: crimson">*</span>其中发明专利
+                        </label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="company" placeholder="请输入专业">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <!-- <h5> -->
+                        <label for="age" class="control-label col-sm-3 ">
+                            <span style="color: crimson">*</span>发明专利
+                        </label>
+                        <div class="col-sm-5">
+                            <span ng-hide="vm.isEdit">
+                                <button class="btn btn-primary" ng-click="vm.addTodoItem(0)">添加专利</button>
+                                <a class="btn btn-primary" href="javascript:void(0)" ng-click="vm.batchDelTodoItem(0)"
+                                    aria-label="Delete">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                        </div>
+                        <!-- </h5> -->
+                    </div>
+                </div>
+
+                <table class="table table-condensed table-hover">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center" style="width:5%">
+                                <span role="button"
+                                    ng-click="vm.todoItemchecke=!vm.todoItemchecke;checkAllList(vm.todoItem,vm.todoItemchecke,0)">
+                                    <i class="glyphicon"
+                                        ng-class="{'glyphicon-check':vm.todoItemchecke,'glyphicon-unchecked':!vm.todoItemchecke}">
+                                    </i>
+                                </span>
+                            </th>
+                            <th class="text-center" style="width:30%">专利名称</th>
+                            <th style="width:30%">专利权人</th>
+                            <th style="width:30%">申请号</th>
+                            <th ng-hide="vm.isEdit" style="width:5%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.todoItem | filter:{'type':'0'}">
+                            <td>
+                                <i role="button" ng-click="checkOne(item)"
+                                    ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                    class="glyphicon"></i>
+                            </td>
+                            <td>
+                                <div>
+                                    <textarea class="form-control input-sm" ng-model="item.title" required
+                                        ng-hide="vm.isEdit">
+                                            </textarea>
+                                    <span ng-bind="item.title" ng-show="vm.isEdit"></span>
+                                </div>
+                            </td>
+                            <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>1111</td>
+                            <td ng-hide="vm.isEdit">
+                                <a href='javascript:void(0)' ng-click='vm.delTodoItem(item)' class='btn btn-xs'>
+                                    <span class='fa fa-trash'></span>删除
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <!-- <h5> -->
+                        <label for="age" class="control-label col-sm-3 ">
+                            <span style="color: crimson">*</span>科技成果得奖
+                        </label>
+                        <div class="col-sm-5">
+                            <span ng-hide="vm.isEdit">
+                                <button class="btn btn-primary" ng-click="vm.addTodoItem(0)">添加科技成果得奖</button>
+                                <a class="btn btn-primary" href="javascript:void(0)" ng-click="vm.batchDelTodoItem(0)"
+                                    aria-label="Delete">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                        </div>
+                        <!-- </h5> -->
+                    </div>
+                </div>
+
+                <table class="table table-condensed table-hover">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center" style="width:5%">
+                                <span role="button"
+                                    ng-click="vm.todoItemchecke=!vm.todoItemchecke;checkAllList(vm.todoItem,vm.todoItemchecke,0)">
+                                    <i class="glyphicon"
+                                        ng-class="{'glyphicon-check':vm.todoItemchecke,'glyphicon-unchecked':!vm.todoItemchecke}">
+                                    </i>
+                                </span>
+                            </th>
+                            <th class="text-center" style="width: 30%">科技成果名称</th>
+                            <th style="width: 30%">奖项级别</th>
+                            <th style="width: 30%">获奖年份</th>
+                            <th ng-hide="vm.isEdit" style="width:5%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.todoItem | filter:{'type':'0'}">
+                            <td>
+                                <i role="button" ng-click="checkOne(item)"
+                                    ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                    class="glyphicon"></i>
+                            </td>
+                            <td>
+                                <div>
+                                    <textarea class="form-control input-sm" ng-model="item.title" required
+                                        ng-hide="vm.isEdit">
+                                                </textarea>
+                                    <span ng-bind="item.title" ng-show="vm.isEdit"></span>
+                                </div>
+                            </td>
+                            <td>1111</td>
+                            <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td ng-hide="vm.isEdit">
+                                <a href='javascript:void(0)' ng-click='vm.delTodoItem(item)' class='btn btn-xs'>
+                                    <span class='fa fa-trash'></span>删除
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <!-- <h5> -->
+                        <label for="age" class="control-label col-sm-3 ">
+                            <span style="color: crimson">*</span>主持参与科技项目
+                        </label>
+                        <div class="col-sm-5">
+                            <span ng-hide="vm.isEdit">
+                                <button class="btn btn-primary" ng-click="vm.addTodoItem(0)">添加主持参与科技项目</button>
+                                <a class="btn btn-primary" href="javascript:void(0)" ng-click="vm.batchDelTodoItem(0)"
+                                    aria-label="Delete">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                        </div>
+                        <!-- </h5> -->
+                    </div>
+                </div>
+
+                <table class="table table-condensed table-hover">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center" style="width:5%">
+                                <span role="button"
+                                    ng-click="vm.todoItemchecke=!vm.todoItemchecke;checkAllList(vm.todoItem,vm.todoItemchecke,0)">
+                                    <i class="glyphicon"
+                                        ng-class="{'glyphicon-check':vm.todoItemchecke,'glyphicon-unchecked':!vm.todoItemchecke}">
+                                    </i>
+                                </span>
+                            </th>
+                            <th style="width:30%">主持参与科技项目名称</th>
+                            <th style="width:30%">项目级别</th>
+                            <th style="width:30%">起止年份</th>
+                            <th ng-hide="vm.isEdit" style="width:5%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.todoItem | filter:{'type':'0'}">
+                            <td>
+                                <i role="button" ng-click="checkOne(item)"
+                                    ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                    class="glyphicon"></i>
+                            </td>
+                            <td>
+                                <div>
+                                    <textarea class="form-control input-sm" ng-model="item.title" required
+                                        ng-hide="vm.isEdit">
+                                            </textarea>
+                                    <span ng-bind="item.title" ng-show="vm.isEdit"></span>
+                                </div>
+                            </td>
+                            <td>1111</td>
+                            <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td ng-hide="vm.isEdit">
+                                <a href='javascript:void(0)' ng-click='vm.delTodoItem(item)' class='btn btn-xs'>
+                                    <span class='fa fa-trash'></span>删除
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <!-- <h5> -->
+                        <label for="age" class="control-label col-sm-3 ">
+                            <span style="color: crimson">*</span>主持参与制定的标准情况
+                        </label>
+                        <div class="col-sm-5">
+                            <span ng-hide="vm.isEdit">
+                                <button class="btn btn-primary" ng-click="vm.addTodoItem(0)">添加主持参与制定的标准</button>
+                                <a class="btn btn-primary" href="javascript:void(0)" ng-click="vm.batchDelTodoItem(0)"
+                                    aria-label="Delete">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                        </div>
+                        <!-- </h5> -->
+                    </div>
+                </div>
+
+                <table class="table table-condensed table-hover">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center" style="width:5%">
+                                <span role="button"
+                                    ng-click="vm.todoItemchecke=!vm.todoItemchecke;checkAllList(vm.todoItem,vm.todoItemchecke,0)">
+                                    <i class="glyphicon"
+                                        ng-class="{'glyphicon-check':vm.todoItemchecke,'glyphicon-unchecked':!vm.todoItemchecke}">
+                                    </i>
+                                </span>
+                            </th>
+                            <th style="width:30%">主持参与制定的标准名称</th>
+                            <th style="width:30%">标准类型</th>
+                            <th style="width:30%">标准发布年份</th>
+                            <th ng-hide="vm.isEdit" style="width:5%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.todoItem | filter:{'type':'0'}">
+                            <td>
+                                <i role="button" ng-click="checkOne(item)"
+                                    ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                    class="glyphicon"></i>
+                            </td>
+                            <td>
+                                <div>
+                                    <textarea class="form-control input-sm" ng-model="item.title" required
+                                        ng-hide="vm.isEdit">
+                                                </textarea>
+                                    <span ng-bind="item.title" ng-show="vm.isEdit"></span>
+                                </div>
+                            </td>
+                            <td>1111</td>
+                            <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td ng-hide="vm.isEdit">
+                                <a href='javascript:void(0)' ng-click='vm.delTodoItem(item)' class='btn btn-xs'>
+                                    <span class='fa fa-trash'></span>删除
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class='col-sm-12'>
+                        <label for="age" class="control-label col-sm-1  ">
+                            <span style="color: crimson">*</span>工作单位<br>
+                            推荐意见
+                        </label>
+                        <div class="col-sm-11">
+                            <textarea class="form-control" rows="3" placeholder="请输入推荐意见（600字）"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class='col-sm-12'>
+                        <label for="age" class="control-label col-sm-1  ">
+                            说明事项
+                        </label>
+                        <div class="col-sm-11">
+                            <textarea class="form-control" rows="3" placeholder="其他说明事项（600字）"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="saveMeetingRoom(form,item)">发布</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

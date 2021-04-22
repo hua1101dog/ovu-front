@@ -1,0 +1,126 @@
+<!-- 试卷库管理 -->
+<div ng-controller="paperCtrl" >
+        <div class="page-title" style="height: 45px;">
+            <div class="title_left">
+                <h3>试卷库管理</h3>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-12">                                 
+            <div class="x_panel">
+                <div class="x_title">试卷类型
+                        <span ng-click='addTopNode()' class='btn-success btn-xs pull-right'><span class='fa fa-plus'></span>新增</span>
+                </div>
+                <div class="x_content" style="z-index: 1;max-height: 700px; overflow: auto">
+                    <div class="alert" role="alert" ng-if="treePaper && treePaper.length==0">无试卷类型</div>
+                        <tree-view-pro node-list="treePaper" callback="selectNode"  host="search" host-text="'paperName'" host-key="'id'" config="config"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12"> 
+            <div class="x_panel" >
+                  
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" ng-model="search.text" class="form-control" placeholder="试卷名称" />
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)" >查询</button>
+                   
+                   </div>
+                   
+                </div>
+                <div class="panel panel-default">
+                        <div class="panel-heading">
+                                试卷库列表
+                                <button class="btn btn-danger pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="delAll()">批量删除</button>
+                                <button class="btn btn-success pull-right" ng-click="batchAddModal()" ng-disabled="!hasChecked(pageModel)">批量新增考试</button>   
+                                <div class="btn-group pull-right">
+                                        <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:;" style="margin-right:5px;" ng-disabled="treePaper.length==0">
+                                          新增
+                                          <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu" style="min-width: 60px;;position: absolute;left: 0px;right: 4px;padding:0;">
+                                          <li>
+                                            <button class="btn" style="border-bottom:1px solid #ccc;height: 35px;width:66px;font-size: 10px;text-align: center;padding: 0;" ng-click="showEditModal()">新增试卷</button>
+                                          </li>
+                                          <li>
+                                            <button class="btn" style="height: 33px;width:66px;font-size: 10px;text-align: center;padding: 0;" ng-click="randomModal()">随机组卷</button>
+                                          </li>
+                                        </ul>
+                                    </div>
+                              
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                                <thead>
+                                <tr>
+                                    <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+                                    <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                                    <th>试卷类型</th>
+                                    <th>试卷名称</th>
+                                    <th>使用次数</th>
+                                    <th>创建人</th>
+                                    <!-- <th>考试人群</th>
+                                    <th>考试状态</th> -->
+                                    <th>创建时间</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                <tr ng-repeat="item in pageModel.data">                                       
+                                    <td>
+                                        <i role="button" ng-click="checkOne(item)"
+                                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                            class="glyphicon"></i>
+                                    </td>
+                                    <td>{{item.paperClassificationName}}</td>
+                                    <td>{{item.text}}</td>
+                                    <!-- <td>{{item.time}}分钟</td> -->
+                                    <td>{{item.usedNum}}</td>
+                                    <td>{{item.creatorName}}</td>
+                                    <!-- <td><a href='javascript:void(0)' ng-click='showPersons(item)' class='btn btn-link'>查看人群</a></td>
+                                    <td>
+                                        <span ng-if="item.status==0" class="text-warning">未开始</span>
+                                        <span ng-if="item.status==1 && item.isEnd==0" class="text-success">已开始</span>
+                                        <span ng-if="item.isEnd==1">已结束</span>
+                                    </td> -->
+                                    <td>{{item.createTime}}</td>
+                                    <td>
+                                        <!-- <a href='javascript:void(0)' ng-click="review(item)" class='btn btn-xs'><span class='fa fa-eye'></span>预览</a> -->
+                                        <a href='javascript:void(0)' ng-click='examRecordModal(item)'  class='btn btn-xs'><span class='fa fa-edit'></span>考试记录</a>
+                                        <a href='javascript:void(0)' ng-click='repeatedModal(item)'  class='btn btn-xs'><span class='fa fa-edit'></span>复用</a>
+                                        <!-- <a href='javascript:void(0)' ng-if="item.status==0" ng-click='startExam(item)'  class='btn btn-xs'><span class='fa fa-play-circle'></span>开启考试</a>
+                                        <a href='javascript:void(0)' ng-if="item.status==1 && item.isEnd==0" ng-click='endExam(item)'  class='btn btn-xs'><span class='fa fa-stop-circle'></span>结束考试</a> -->
+                                        <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                
+                            </table>
+                            <div class="page-footer clearfix">
+                                <ng-include src="'/common/pager.html'"></ng-include>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+
+<style>
+    .pt7{
+        padding-top: 7px;
+    }
+    .pt-7{
+        margin-top: -7px;
+    }
+    .person-num{
+        font-size: 30px;
+        font-weight: bold
+    }
+    table tr th,
+        table tr td {
+            text-align: center;
+        }
+</style>

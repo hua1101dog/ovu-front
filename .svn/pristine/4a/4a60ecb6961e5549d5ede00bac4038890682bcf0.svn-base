@@ -1,0 +1,67 @@
+<div ng-controller="arrangeRuleCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>排班规则</h3>
+
+        </div>
+    </div>
+ 
+    <div class="panel panel-default">
+        <div class="panel-heading">排班规则列表
+        <button class="btn btn-primary pull-right" ng-click="showModal()"  ng-disabled="!search.deptId">新增规则</button>
+    </div>
+        <div class="panel-body">
+                <table class="table table-bordered">
+                  <thead>
+                  <tr>
+                    <!-- <th class="text-center">NO</th> -->
+                    <th>部门</th>
+                    <th ng-repeat="item in classList.classes track by $index">
+                      {{item}}
+                    </th>
+                    <th>是否启用</th>
+                    <th>操作</th>
+                   
+                  </tr>
+                  </thead>
+                  <tbody ng-repeat="item in classList.list" ng-if="classList.list && classList.list.length>0">
+                  <!-- <tr ng-if="!classList.list  || classList.list.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                  </tr> -->
+                  <tr ng-repeat="s in item.schedules track by $index">
+                    <!-- <td class="text-center">{{$index + 1}}</td> -->
+                    <td  rowspan="{{item.schedules.length}}" style="vertical-align:middle" ng-if="$index==0">{{item.deptName}}</td>
+                    <td ng-repeat="c in classList.classes">
+                       {{s[c]}}
+                    </td>
+                   <td>
+                      <span ng-class="{'red':s.enable}" style="background: #fff">{{s.enable?'是':'否'}}</span>
+                   </td> 
+                    <td>
+                        <a href='javascript:void(0)' class='btn btn-xs' ng-click="enable(s,item)"><span class='fa' ng-class="{'fa-close':s.enable,'fa-check':!s.enable}">{{s.enable?'禁用':'启用'}}</span></a>
+                      <a href='javascript:void(0)' class='btn btn-xs' ng-click="showModal(s,item)"><span class='fa fa-edit'>编辑</span></a>
+                      <a href='javascript:void(0)' class='btn btn-xs' ng-click="del(s,item.deptId)"><span class='fa fa-trash'>删除</span></a>
+                    </td>
+                  </tr>
+                  </tbody>
+                  <tbody ng-if="!classList.list  || classList.list.length == 0">
+                     <tr>
+                       <td colspan="100" class="text-center">暂无记录</td>
+                     </tr>
+                  </tbody>
+                </table>
+               
+              </div>
+    </div>
+
+</div>
+
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+    .red{
+      color:red
+    }
+</style>

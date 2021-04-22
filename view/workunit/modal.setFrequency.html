@@ -1,0 +1,135 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{unFrequencyAuth?'查看':'设置'}}频次</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">频次类型</label>
+            <div class="col-xs-4">
+                <label role="button" style="line-height: 32px; margin-right: 15px"><input type="radio"
+                        style="margin: 0 5px" ng-model="item.exec_cycle" value="1"   ng-disabled="unFrequencyAuth"
+                        ng-change="changeFre(1)" />每周工作</label>
+                <label role="button" style="line-height: 32px"><input type="radio" style="margin: 0 5px" ng-disabled="unFrequencyAuth"
+                        ng-model="item.exec_cycle" value="2" ng-change="changeFre(2)" />每月工作</label>
+                <label role="button" style="line-height: 32px"><input type="radio" style="margin: 0 5px" ng-disabled="unFrequencyAuth"
+                        ng-model="item.exec_cycle" value="3" ng-change="changeFre(3)" />每年工作</label>
+                <label role="button" style="line-height: 32px">
+
+            </div>
+           
+
+        </div>
+        <div class="panel-body" style="overflow: auto" ng-if="!isHide">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th colspan="{{dayList.length +4}}" style="vertical-align: middle">
+                            {{item.exec_cycle==1?'每周工作':item.exec_cycle==2?'每月工作':'每年工作'}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>NO</th>
+                        <th>事项</th>
+                        <th>频次</th>
+                        <th>派发时间</th>
+                        <th  ng-repeat="d in dayList track by $index" style="padding: 8px 2px;"> 
+                            {{d.value}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td class="text-center">1</td>
+                        <td >{{item.WORKITEM_NAME}}</td>
+                        <td ng-if="item.exec_cycle==1 " style="width: 120px;">
+                            <div style="width: 114px" ng-if="!unFrequencyAuth">
+                                每周<input type="number" class="form-control dateInput" ng-model="item.exec_num" min="1"  ng-required="item.hasPage"
+                                    ng-pattern="/^[1-7]$/" />次
+                            </div>
+                            <span  ng-if="unFrequencyAuth"> {{item.exec_num}}次</span>
+                               
+                        </td>
+
+                        <td ng-if="item.exec_cycle==2" style="width: 120px;">
+                            <div style="width: 114px" ng-if="!unFrequencyAuth">
+                                每月
+                                <input type="number" ng-required="item.hasPage" class="form-control dateInput" ng-model="item.exec_num" min="1"
+                                    ng-pattern="/^([1-9]|1[0-9]|2[0-8])$/" />次
+                            </div>
+                            <span  ng-if="unFrequencyAuth"> {{item.exec_num}}次</span>
+                        </td>
+                        <td ng-if="item.exec_cycle==3" style="width: 120px;">
+                            <div style="width: 114px" ng-if="!unFrequencyAuth">
+                                每年
+                                <input type="number" class="form-control dateInput" ng-required="item.hasPage" ng-model="item.exec_num" min="1" 
+                                    ng-pattern="/^[1-9][0-2]*$/" />次
+                            </div>
+                            <span  ng-if="unFrequencyAuth"> {{item.exec_num}}次</span>
+                        </td>
+
+                        <td style="width: 120px;">
+                          
+                                <input class="form-control " style="width: 120px;text-align: center;" readOnly=true onchange="" 
+                                placeholder="派发时间"    ng-if="!unFrequencyAuth" ng-lay-date format="HH:mm:ss"
+                              ng-required="item.hasPage"
+                                ng-model="item.sendTime" />
+                            <span  ng-if="unFrequencyAuth"> {{item.sendTime}}</span>
+                               
+                        </td>
+                        
+                        <td  ng-repeat="d in dayList track by $index" ng-style="{cursor:unFrequencyAuth?'auto':'pointer'}"
+                            ng-click="selectOne(d)" ng-class="{'dSelected':d.isSelected}">
+                         
+                        </td>
+
+                    </tr>
+                    <tr ng-repeat="fre in frelist track by $index" ng-if="!item.hasPage">
+                        <td class="text-center">
+                            {{$index-0+2}}
+                        </td>
+                        <td style="min-width: 100px;">{{fre.workItemName}}</td>
+                        <td>{{fre.execCycle | keyToValue:frequencyDict}}{{fre.execNum?fre.execNum+'次':''}}</td>
+                        <td>{{fre.sendTime}}</td>
+                        <td  ng-repeat="d in dayList track by $index"
+                            ng-class="{'dSelected':fre.execDateList.indexOf($index -0 +1+'')!==-1}">
+                        </td>
+                    </tr>
+                    <tr ng-repeat="fre in pageModel.data track by $index" ng-if="item.hasPage && pageModel.data.length">
+                        <td class="text-center">
+                            {{$index-0+2}}
+                        </td>
+                        <td style="min-width: 100px;">{{fre.workTaskName}}</td>
+                        <td>{{fre.execCycle | keyToValue:frequencyDict}}{{fre.execNum?fre.execNum+'次':''}}</td>
+                        <td>{{fre.sendTime}}</td>
+                        <td  ng-repeat="d in dayList track by $index"
+                            ng-class="{'dSelected':fre.execDateList.indexOf($index -0 +1+'')!==-1}">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix" ng-if="item.hasPage && pageModel.data && pageModel.data.length">
+                <page-pro page-model="pageModel"></page-pro>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" ng-if="!unFrequencyAuth">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .dateInput {
+        width: 50px;
+        padding: 5px 10px;
+        display: inline-block;
+        margin: 0 10px;
+        line-height: 25px;
+        height: 25px;
+    }
+
+    .dSelected {
+        background: #66CC00;
+    }
+</style>

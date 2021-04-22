@@ -1,0 +1,123 @@
+<div ng-controller="stopInforCtl" id="SiCtrlTag">
+  <div class="stop-information">
+    <div class="left-content">
+      <map-park-stop-component is-add-way=false map_data="mapData"></map-park-stop-component>
+    </div>
+    <div class="right-content x_panel panel-1" ng-style="{ display: !showEditModal ? 'flex' : 'none' }">
+      <div class="right-content_header">
+        巡查路线
+        <button class="btn btn-primary" ng-click="addRoute()">添加路线</button>
+      </div>
+      <div class="list">
+        <div ng-repeat="route in routes" class="list-item">
+          <div class="list-item_left">{{ route.name }}</div>
+          <div class="list-item_right">
+            <button class="btn btn-link" ng-click="editRoute(route)">编辑</button>
+            <button class="btn btn-link" ng-click="deleteRoute(route)">删除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right-content x_panel panel-2" ng-style="{ display: showEditModal ? 'flex' : 'none' }">
+      <div class="right-content_header">
+        {{ uploadMethod === 1 ?  '编辑' : '添加' }}路线
+      </div>
+      <div class="route-list">
+        <ul class="layui-timeline">
+          <li class="layui-timeline-item" ng-repeat="(index, item) in selectedCameras">
+            <i class="layui-icon layui-timeline-axis"></i>
+            <div class="layui-timeline-content layui-text">
+              <div class="layui-timeline-title">
+                <span>{{ item.name }}</span>
+                <a class="close-btn" ng-click="deleteCamera($event, index)">删除</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="form-group">
+          <label class="control-label">路线名称</label>
+          <input type="text" class="form-control" ng-model="form.name">
+        </div>
+        <div class="form-group">
+          <label class="control-label">时间间隔(秒)</label>
+          <input type="number" class="form-control">
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary">保存</button>
+          <button class="btn" ng-click="close()">取消</button>
+        </div>
+      </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .route-list {
+    padding-top: 15px;
+    padding-left: 15px;
+  }
+  .layui-timeline-title {
+    display: flex;
+    align-items: center;
+  }
+  .layui-timeline-title .close-btn {
+    display: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 15px;
+  }
+  .layui-timeline-title:hover .close-btn {
+    display: block;
+  }
+
+  .list {
+    overflow: auto;
+  }
+  .right-content_header {
+    background: #f5f5f5;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0 15px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .stop-information {
+    display: flex;
+    justify-content: stretch;
+    margin-top: 15px;
+  }
+  .list-item {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding: 5px;
+    border-bottom: 1px solid #cccccc;
+    justify-content: space-between;
+  }
+
+  .left-content {
+    flex: 1 1 auto;
+    overflow: auto;
+    margin-right: 10px;
+  }
+  .right-content {
+    position: relative;
+    padding-top: 50px;
+    flex: 0 0 372px;
+    overflow: hidden;
+    /*display: flex;*/
+    flex-direction: column;
+    border: 1px solid #ccc;
+    height: 750px;
+  }
+</style>

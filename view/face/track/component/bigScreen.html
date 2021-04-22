@@ -1,0 +1,152 @@
+<div class="big-screen">
+    <!--左侧面板-->
+    <div class="left-panel" ng-show="$ctrl.showLeft">
+        <div ng-transclude="left">ss</div>
+    </div>
+    <!--中间部分的地图-->
+    <div class="left-map" ng-class="{'big-screen-p-r': $ctrl.showRight,'big-screen-p-l':$ctrl.showLeft}">
+        <div class="map-area">
+            <!-- 地图 -->
+            <div class="panel panel-default" style="margin-bottom:0;height: 100%; border: 0;">
+                <div class="panel-body" style="padding:0;height: 100%;">
+                    <div ng-hide="$ctrl.hideRightButton == true;">
+                        <div class="btn-group-02" role="group" ng-init="index=0" ng-show="index==1">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="index=0;$ctrl.backIndoor()">返回园区</button>
+                        </div>
+                    </div>
+                    <face-indoor-map map-data="$ctrl.mapData"></face-indoor-map>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧的收起按钮-->
+    <a href="javascript:;" class="collapse-btn btn btn-default" ng-hide="true"
+        ng-class="{'collapse-btn-p-r': $ctrl.showRight }" ng-click="$ctrl.showRight = !$ctrl.showRight;">
+        <div ng-show="$ctrl.showRight">
+            <div>收</div>
+            <div>起</div>
+            <div style="padding-left:5px">》</div>
+        </div>
+        <div ng-show="!$ctrl.showRight">
+            <div>展</div>
+            <div>开</div>
+            <div style="padding-right:5px">《</div>
+        </div>
+    </a>
+    <!--右侧的收起按钮-->
+    <div class="right-panel" ng-show="$ctrl.showRight">
+        <div ng-transclude="right">666</div>
+    </div>
+</div>
+
+<style>
+    .fix-win {
+        position: absolute;
+        right: 10px;
+        bottom: 5px;
+        width: 200px;
+        z-index: 100;
+        border: 1px #d4d4d4 solid;
+        border-radius: 5px;
+        padding: 5px;
+        background-color: white;
+    }
+    .fix-win>.div1 {
+        width: 48%;
+        height: 10px;
+        line-height: 20px;
+        display: inline-block;
+    }
+
+    .fix-win>.div2 {
+        width: 50%;
+        height: 10px;
+        line-height: 20px;
+        display: inline-block;
+    }
+    .big-screen {
+        height: 100%;
+        position: relative;
+        /* padding-right: 350px; */
+    }
+
+    .big-screen-p-r {
+        padding-right: 350px;
+    }
+
+    .big-screen-p-l {
+        padding-left: 300px;
+    }
+
+    .big-screen .left-map {
+        width: 100%;
+        /* 全屏调整 */
+        /* height: 800px; */
+        height: 100%;
+        /* border: 1px solid green; */
+    }
+
+    .big-screen .collapse-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0;
+        padding: 10px 5px;
+        color: #2A60FF;
+        border-radius: 0px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        border-right: none;
+    }
+
+    .big-screen .collapse-btn:hover,
+    .big-screen .collapse-btn:focus {
+        background-color: transparent;
+        color: #2A60FF;
+        border-right: none;
+    }
+
+    .big-screen .collapse-btn.collapse-btn-p-r {
+        right: 350px;
+    }
+
+    .big-screen .right-panel {
+        width: 350px;
+        /* border: 2px solid red; */
+        /* 全屏调整 */
+        /* height: 800px; */
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: #F7F7F7;
+    }
+
+    .big-screen .left-panel {
+        width: 300px;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: #F7F7F7;
+        z-index: 1000;
+    }
+    .big-screen .map-area{
+        position: relative;
+        height: 100%;
+    }
+
+    .big-screen .map-area .btn-group{
+        position: absolute;
+        right: 0;
+        z-index: 200;
+        top:5px;
+    }
+    .btn-group-02 {
+        position: absolute;
+        right: 195px;
+        z-index: 200;
+        top: 5px;;
+    }
+</style>

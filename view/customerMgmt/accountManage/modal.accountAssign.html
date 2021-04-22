@@ -1,0 +1,63 @@
+	<div class="modal-header">
+	    <button type="button" class="close" ng-click="cancel()">×</button>
+	    <h4 class="modal-title">账号分配</h4>
+	</div>
+	<div class="modal-body container-fluid form-horizontal">
+	    <form name="form" novalidate>
+	        <div class="form-group">
+	            <div class="col-md-3" align="right"><label>账号类型：</label></div>
+	            <div class="col-md-5"><span>{{ item.userType==1 ? '个人' :
+								(item.userType==2 ? '企业' : '员工')}}</span></div>
+	        </div>
+	        <div class="form-group">
+	            <div class="col-md-3" align="right">
+	                <label ng-if="item.userType==1">账号名称：</label>
+	                <label ng-if="item.userType==2">企业名称：</label>
+	            </div>
+	            <div class="col-md-5" ng-if="item.userType==1 ||item.userType==3"><span>{{item.name}}</span></div>
+	            <div class="col-md-5" ng-if="item.userType==2"><span>{{item.companyName}}</span></div>
+	        </div>
+	        <div class="form-group">
+	            <div class="col-md-3" align="right"><label class="control-label required">登录账号：</label></div>
+	            <div class="col-md-5">
+	                <input type="text" ng-if="item.userType==2" ng-model="item.newLoginName"
+	                    class="col-md-12 height34  p-l-xs pull-left input-r-b" placeholder='请输入常用邮箱或是电话号码' required />
+
+	                <input type="text" ng-if="item.userType==1" class="form-control" name="MOBILE"
+	                    ng-model="item.newLoginName" ng-pattern="/^(1[34578]\d{9})$/" placeholder="请输入常用手机号码" required />
+	                <span style="color:red" ng-show="form.MOBILE.$dirty && form.MOBILE.$invalid && item.userType==1">
+	                    <span class="col-xs-12 control-label" style="color:red;text-align:left"
+	                        ng-show="form.MOBILE.$dirty && form.MOBILE.$invalid && form.MOBILE.$error.pattern"
+	                        style>登录账号为常用手机号码，请正确输入！</span>
+	                </span>
+	            </div>
+	            <span class="col-md-4 spantip" ng-if="loginNameStatus && item.userType==2">登录账号为常用邮箱或是电话号码,请正确输入!</span>
+	        </div>
+	        <div class="form-group">
+	            <div class="col-md-3" align="right"><label>登录密码：</label></div>
+	            <div class="col-md-5"><span class="m-r-sm">默认密码(ovu888888)</span></div>
+	        </div>
+	        <div class="form-group" ng-if="item.userType==2">
+	            <label class="col-md-3 control-label">园区管家：</label>
+	            <div class="col-md-4">
+	                <select class="form-control" ng-model="item.psId">
+	                    <option value="">--请选择园区管家--</option>
+	                    <option ng-repeat="ps in parkStewardList" value="{{ps.id}}">{{ps.personName}}</option>
+	                </select>
+	            </div>
+	        </div>
+	    </form>
+	</div>
+	<div class="modal-footer">
+	    <button class="btn btn-primary" ng-click="save(form, item)">确定</button>
+	    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>
+	<style>
+	    .spantip {
+	        display: inline;
+	        color: red;
+	        margin-top: 8px;
+	        padding-left: 0px
+	    }
+
+	</style>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>财务平台</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="contractReductCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>合同减免</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color:#999999;">基本信息</div>
+                <div class="panel-body">
+                    <ul class="basaMsg_ul">
+                        <li class="form-group">
+                            <label>租户名称：</label>
+                            <span>{{secondPartyName}}</span>
+                        </li>
+                        <li class="form-group">
+                            <label class="required">减免日期：</label>
+                            <input type="datetime" class="form-control Wdate" style="width:auto" ng-model="form.reliefDate" onchange=""
+                                   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                        </li>
+                        <li class="form-group">
+                            <label class="required">减免金额：</label>
+                            <input ng-model="aform.reliefAmount" ng-model-options="{ getterSetter: true }"
+                                    class="form-control ng-pristine ng-untouched ng-valid ng-empty" 
+                                   step="0.01" type="number" style="width:auto" min="0" max="{{unreceiveAmountTotal}}"
+                                   ng-change="reductchange(aform.reliefAmount)"
+                                   ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                                   />
+                        </li>
+                        <li class="form-group">
+                            <label>减免原因：</label>
+                            <textarea class="form-control" style="width:auto" ng-model="form.reliefReason"></textarea>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color:#999999;">应收明细</div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                        <thead class="title">
+                            <tr>
+                                <th>费项名称</th>
+                                <th>应收日期</th>
+                                <th>租赁资源</th>
+                                <th>账单周期</th>
+                                <th>应收金额</th>
+                                <th>已收金额</th>
+                                <th>已减免</th>
+                                <th>可减免金额</th>
+                                <th>申请减免金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.length == 0"><td colspan="100" class="text-center">暂无可减免明细</td></tr>
+                            <tr style="color:#333333;" ng-repeat="x in pageModel">
+                                <td>{{x.expenditureName||'租金'}}</td>
+                                <td>{{x.dateReceivable}}</td>
+                                <td>{{x.houseName}}</td>
+                                <td>{{x.billDateStart}}<span ng-if="x.billDateEnd">至</span>{{x.billDateEnd}}</td>
+                                <td>{{x.billPrice| number:2}}</td>
+                                <td>{{x.receiveAmount| number:2}}</td>
+                                <td>{{x.reliefAmount| number:2}}</td>
+                                <td>{{x.unreceiveAmount| number:2}}</td>
+                                <td>
+                                    <input ng-model="relief[$index]" ng-if="x.unreceiveAmount>0"
+                                           step="0.01" type="number"
+                                           min="0" max="{{x.unreceiveAmount}}"
+                                           ng-change="unreductchange(relief[$index])"
+                                           style="width:100px;"
+                                           ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" />
+
+                                </td>
+                            </tr>
+                            <tr style="color:#333333;" ng-if="pageModel.length != 0">
+                                <td>合计</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{{billPriceTotal| number:2}}</td>
+                                <td>{{receiveAmountTotal| number:2}}</td>
+                                <td>{{reliefAmountTotal| number:2}}</td>
+                                <td>{{unreceiveAmountTotal| number:2}}</td>
+                                <td>{{reliefTotal| number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary saveParkSteward" ng-click="save(form)"  ng-if="pageModel.length != 0">保存并提交</button>
+            <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+        </div>
+    </div>
+</body>
+
+</html>

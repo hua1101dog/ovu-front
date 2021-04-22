@@ -1,0 +1,87 @@
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">充值记录</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">计量点编码：</label>
+            <div class="col-xs-8  mt7">
+                {{item.pointCode}}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">计量点名称：</label>
+            <div class="col-xs-8  mt7">
+                {{item.pointName}}
+            </div>
+        </div>
+        <div class="form-group" style="clear:both;">
+            <label class="col-xs-3 control-label">关联空间：</label>
+            <div class="col-xs-8 mt7">
+                <span ng-bind-html="item.spaceName" style="text-align: left"></span>
+            </div>
+            
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">单价：</label>
+            <div class="col-xs-8 mt7">
+                {{item.unitPrice}}
+            </div>
+        </div>
+        <div class="form-group" style="clear:both;">
+            <label class="col-xs-3 control-label ">充值时间：</label>
+            <div class="col-xs-8">
+                <input type="datetime" class="form-control Wdate"  style="display: inline-block;width: auto" ng-model="search.rechargeTime"
+                onchange=""  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                <button class="btn btn-default" ng-click="find(1)" style="margin-top:-5px">查询</button>
+            </div>
+           
+        </div>
+        
+    </form>
+ 
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <span style="display:inline-block;margin-top:8px;">充值记录列表</span>
+           
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th>充值时间</th>
+                        <th>充值金额/元</th>
+                        <th>充值电量/kW·h</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        
+                        <td>{{item.createTime}}</td>
+                        <td>{{item.rechargeMoney}}</td>
+                        <td>{{item.rechargeCapacity}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+   
+
+
+</div>
+
+<style>
+  
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

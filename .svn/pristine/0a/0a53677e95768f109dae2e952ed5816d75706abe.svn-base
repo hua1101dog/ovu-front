@@ -1,0 +1,137 @@
+<div ng-controller="powerSettingCtrl">
+        <div class="page-title">
+                <div class="title_left">
+                    <h3>权限设置</h3>
+                </div>
+            </div>
+    <ul class="nav nav-tabs" style="margin-bottom: 10px">
+        <li role="presentation" ng-class="{active:search.personRole==0}" ng-click="toggleManager()"><a href="javascript:void(0)">经理权限设置</a></li>
+        <li role="presentation" ng-class="{active:search.personRole==1}" ng-click="toggleMainManager()"><a href="javascript:void(0)">总经理权限设置</a></li>
+    </ul>
+    <div ng-if="search.personRole==0">
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>领导姓名：</label>
+                    <!-- <input type="text" class="form-control" placeholder="输入领导姓名" ng-model="search.mName" /> -->
+                    <input class="form-control" type="text" ng-model="search.user"
+                    ng-class="{'waiting':loadingPerson}"
+                    ng-change="changeExecPerson(search)"
+                    uib-typeahead="o as o.name+' ('+o.deptName+')' for o in searchPerson($viewValue,null,dept.id)"
+                    typeahead-on-select="selectPerson($item,search)"
+                    typeahead-loading="loadingPerson" typeahead-min-length=0 typeahead-wait-ms='300'
+                    typeahead-editable="false"/>
+                </div>
+                <button class="btn btn-default pull-right" ng-click="find()">查询</button>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <span style="display:inline-block;margin-top:8px;">经理权限列表</span>
+                <button class="btn btn-primary pull-right" style="margin-top: 0" ng-click="showManager()">新增</button>
+                <button class="btn btn-primary pull-right" style="margin-top: 0" ng-click="batchDel()">批量删除</button>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead>
+                    <tr>
+                        <th style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                        <th>NO</th>
+                        <th  nowrap="nowrap">经理</th>
+                        <th  nowrap="nowrap">下属员工</th>
+                        <th  nowrap="nowrap">生成时间</th>
+                        <th  nowrap="nowrap">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td><i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                               class="glyphicon"></i></td>
+                        <td>{{$index+1}}</td>
+                        <td>{{item.mName}}</td>
+                        <td>{{item.personName}}</td>
+                        <td>{{item.createTime}}</td>
+                        <td>
+                            <a href='javascript:void(0)' ng-click='showManager(item)' class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+                            <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="search.personRole==1">
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>领导姓名：</label>
+                    <!-- <input type="text" class="form-control" placeholder="输入领导姓名" ng-model="search.gmName" /> -->
+                    <input class="form-control" type="text" ng-model="search.user"
+                    ng-class="{'waiting':loadingPerson}"
+                    ng-change="changeExecPerson(search)"
+                    uib-typeahead="o as o.name+' ('+o.deptName+')' for o in searchPerson($viewValue,null,dept.id)"
+                    typeahead-on-select="selectPerson($item,search)"
+                    typeahead-loading="loadingPerson" typeahead-min-length=0 typeahead-wait-ms='300'
+                    typeahead-editable="false"/>
+                </div>
+                <button class="btn btn-default pull-right" ng-click="find()">查询</button>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <span style="display:inline-block;margin-top:8px;">总经理权限列表</span>
+                <button class="btn btn-primary pull-right" style="margin-top: 0" ng-click="showMainManager()">新增</button>
+                <button class="btn btn-primary pull-right" style="margin-top: 0" ng-click="batchDel()">批量删除</button>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead>
+                    <tr>
+                        <th style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                        <th>序号</th>
+                        <th>总经理</th>
+                        <th>经理</th>
+                        <th>生成时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td><i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                               class="glyphicon"></i></td>
+                        <td>{{$index+1}}</td>
+                        <td>{{item.gmName}}</td>
+                        <td>{{item.personName}}</td>
+                        <td>{{item.createTime}}</td>
+                        <td>
+                            <a href='javascript:void(0)' ng-click='showMainManager(item)' class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+                            <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

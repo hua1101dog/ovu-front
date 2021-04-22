@@ -1,0 +1,59 @@
+<div class="" ng-controller="cameraMainCtl as vm" style="height:100%;">
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="">
+            <!--项目摄像头情况-->
+            <div>
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">项目摄像头概况</h4>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightData.total}}</h3>
+                        <div>摄像头总数</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightData.regular_num}}</h3>
+                        <div>正常</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                        <h3>{{vm.rightData.total - vm.rightData.regular_num }}</h3>
+                        <div class="red">异常</div>
+                    </div>
+                </div>
+               <!-- <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">项目摄像头位置分布</h4>
+                    <div style="height:200px;" ui-echarts="vm.pieData">
+                    </div>
+                </div>-->
+                <!-- 临时添加台账 -->
+                <div class="lift-panel col-lg-12 col-sm-12">
+                    <h4 class="font-bold">{{vm.title}}摄像头列表</h4>
+                    <div class="content">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>名称</th>
+                                <th>位置</th>
+                                <th>状态</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in vm.rightEquipList">
+                                <td>{{item.name}}</td>
+                                 <td>A1栋-F1-102室</td>
+                                <td>{{item.equip_status == 1? '正常':'异常'}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>
+<style>
+    .right-panel .lift-panel .content {
+        height: 500px;
+        overflow: auto;
+    }
+</style>

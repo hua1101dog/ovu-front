@@ -1,0 +1,302 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">收款</h4>
+</div>
+<div class="btngroup">
+    <button class="btn btn-primary" ng-show="isEdit" ng-click="save(form,invoices)"><span class="btnImage save"></span>保存</button>
+    <!--<button class="btn btn-primary" ng-show="isEdit" ng-click="save(form,invoices)"><span class="btnImage saveAndClose"></span>保存&关闭</button>-->
+    <button class="btn btn-primary" ng-show="invoices.status =='1'" ng-click="examine(invoices.id, invoices.balanceId)"><span class="btnImage approve"></span>审核</button>
+    <button class="btn btn-primary" ng-click="cancel()"><span class="btnImage close"></span>关闭</button>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-1 control-label required-title">所属项目:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="invoices.projectName" name="projectName" readonly>
+            </div>
+            <label class="col-xs-1 control-label ">购买房间:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" ng-model="invoices.houseName" name="houseName" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-1 control-label required-title">交款人:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="invoices.payerId" name="payerName" required ng-readonly="!isEdit">
+            </div>
+            <label class="col-xs-1 control-label required-title">收款人:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="invoices.payeeId" name="payeeName" required ng-readonly="!isEdit">
+            </div>
+            <label class="col-xs-1 control-label required-title">收款日期:</label>
+            <div class="col-xs-3">
+                <input type="datetime" class="form-control Wdate" ng-model="invoices.rceiveDate" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" required ng-readonly="!isEdit">
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-1 control-label required-title">票据类型:</label>
+            <div class="col-xs-11">
+                <label class="radio-inline">
+                    <input type="radio" ng-model="invoices.invoiceType" value="0" name="" ng-readonly="!isEdit">增值税(普)
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="invoices.invoiceType" value="1" name="" ng-readonly="!isEdit">增值税(专)
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="invoices.invoiceType" value="2" name="" ng-readonly="!isEdit">发票
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="invoices.invoiceType" value="3" name="" ng-readonly="!isEdit">收据
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="invoices.invoiceType" value="4" name="" ng-readonly="!isEdit">无票据
+                </label>
+            </div>
+
+        </div>
+        <div class="form-group" ng-hide="invoices.invoiceType == 4">
+            <label class="col-xs-1 control-label ">开票日期:</label>
+            <div class="col-xs-3">
+                <input type="datetime" class="form-control Wdate" ng-model="invoices.invoiceDate" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" ng-readonly="!isEdit">
+            </div>
+            <label class="col-xs-1 control-label ">票据批次号:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="invoices.invoiceBatchNo" name="invoiceBatchNo" ng-readonly="!isEdit">
+            </div>
+            <label class="col-xs-1 control-label required-title">票据编号:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="invoices.invoiceNo" name="invoiceNo" ng-required="invoices.invoiceType != 4" ng-readonly="!isEdit">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-1 control-label ">审核日期:</label>
+            <div class="col-xs-3">
+                <input type="datetime" class="form-control Wdate" ng-model="invoices.approveDate" readonly>
+
+            </div>
+            <label class="col-xs-1 control-label ">审核人:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="invoices.approverId" name="approverId" ng-show="visible">
+                <input type="text" class="form-control" ng-model="invoices.approverName" name="approverName" readonly>
+            </div>
+            <label class="col-xs-1 control-label ">入账日期:</label>
+            <div class="col-xs-3">
+                <input type="datetime" class="form-control Wdate" ng-model="invoices.entryDate" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" ng-readonly="!isEdit">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-1 control-label ">备注:</label>
+            <div class="col-xs-11">
+                <textarea ng-model="invoices.remark" name="remark" class="form-control" rows="1" maxlength="200" ng-readonly="!isEdit"></textarea>
+            </div>
+        </div>
+    </form>
+    <div class="tablelist">
+        款项明细
+    </div>
+    <div class="tableContent">
+        <table class="table table-striped table-hover" style="margin-top: 10px;">
+            <thead class="title">
+                <tr>
+                    <th style="width:30px;text-align:center">序号</th>
+                    <th style="text-align:center" class="required-title">款项类型</th>
+                    <th style="text-align:center" class="required-title">款项名称</th>
+                    <th style="text-align:center" class="required-title">应收金额</th>
+                    <th style="text-align:center" class="required-title">实收金额</th>
+                    <th style="text-align:center">实收金额(不含税)</th>
+                    <th style="text-align:center">实收税额</th>
+                    <th style="text-align:center">税率</th>
+                    <th style="text-align:center">支付方式</th>
+                    <th style="text-align:center">摘要</th>
+                    <th style="text-align:center">入账银行</th>
+                    <th style="text-align:center">银付方式</th>
+                    <th style="text-align:center">刷卡终端</th>
+                    <th style="text-align:center">POS单号</th>
+                    <th style="text-align:center">银行卡</th>
+                    <th style="text-align:center">POS机手续费</th>
+                    <th style="text-align:center">结算方式</th>
+                    <th style="text-align:center">结算单号</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr> -->
+                <!-- <tr ng-repeat="item in pageModel.data" > -->
+                <tr  ng-repeat="detail in invoices.detailList">
+                    <!-- {{$index + 1+pageModel.pageSize*pageModel.pageIndex}} -->
+                    <td class="text-center">{{$index+1}}</td>
+                    <td class="text-center">{{detail.amountType|toDictionaryText:saleFinanceAmountTypeList}}</td>
+                    <td class="text-center">{{detail.amountName|toDictionaryText:saleFinanceAmountNameList}}</td>
+                    <td class="text-center">{{detail.amountRmb}}</td>
+                    <td class="text-center">
+                        <input type="number" class="form-control"
+                               ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                               name="amount" ng-model="detail.amount" ng-blur="receiveMoneyTotal(detail)" ng-readonly="!isEdit">
+                    </td>
+                    <td class="text-center">{{(detail.amount*(1-detail.rate/100)).toFixed(2)}}</td>
+                    <td class="text-center">{{(detail.amount*detail.rate/100).toFixed(2)}}</td>
+                    <td class="text-center"> <input type="text" class="form-control text-center" name="rate" ng-model="detail.rate" readonly/></td>
+                    <td class="text-center">
+                        <select class="form-control text-center" required name="payType" ng-model="detail.payType" ng-readonly="!isEdit"
+                                ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinancePayTypeList">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <input type="text" class="form-control text-center" name="abstractDesc" ng-model="detail.abstractDesc" ng-readonly="!isEdit"/>
+                    </td>
+                    <td class="text-center">
+                        <select class="form-control text-center"  name="entryBank" ng-model="detail.entryBank"
+                                ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceEntryBankList" ng-readonly="!isEdit">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <select class="form-control text-center"  name="bankPayTypeId" ng-model="detail.bankPayTypeId"
+                                ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceBankPayTypeList" ng-readonly="!isEdit">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <select class="form-control text-center"  name="swipedTerminalId" ng-model="detail.swipedTerminalId"
+                                ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceSwipedTerminaList" ng-readonly="!isEdit">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <input type="text" class="form-control text-center" name="posNo" ng-model="detail.posNo" ng-readonly="!isEdit"/>
+                    </td>
+                    <td class="text-center">
+                        <select class="form-control text-center"  name="bankcard" ng-model="detail.bankcard"
+                                ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceBankCardList"  ng-readonly="!isEdit">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </td>
+                    <td class="text-center">{{detail.posCharge||"-"}}</td>
+                    <td class="text-center">
+                        <select class="form-control text-center" name="clearingFormId" ng-model="detail.clearingFormId"
+                                ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceClearingFormList"  ng-readonly="!isEdit">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <input type="text" class="form-control text-center" name="clearingNo" ng-model="detail.clearingNo" ng-readonly="!isEdit"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="numCal">
+        <label class="col-xs-4 control-label ">合计&nbsp;&nbsp;&nbsp;{{receivedAmountRate}}</label>
+        <label class="col-xs-4  control-label">实收金额(不含税)合计&nbsp;&nbsp;&nbsp;{{receivedAmount}}</label>
+        <label class="col-xs-4 control-label ">实收税额合计&nbsp;&nbsp;&nbsp;{{(receivedAmountRate-receivedAmount).toFixed(2)}}</label>
+    </div>
+    <div class="page-footer clearfix">
+        <ng-include src="'/common/pager.html'"></ng-include>
+    </div>
+</div>
+<style>
+    .modal-header {
+        background-color: #337ab7;
+        padding: 10px 15px;
+        color: #ffffff
+    }
+
+    .btngroup {
+        margin-top: 1px;
+        padding: 2px;
+        background-color: #337ab7
+    }
+
+    .btngroup>.btn {
+        background-color: #e2f1084f;
+        height: 34px;
+        line-height: 22px;
+        padding: 6px 12px;
+    }
+
+    .required-title {
+        color: rgb(199, 45, 45)
+    }
+
+    span.btnImage {
+        display: block;
+        float: left;
+        margin-top: 3px;
+        height: 16px;
+        width: 20px;
+        margin-right: 2px;
+        padding-left: 0px;
+        background-repeat: no-repeat;
+        font-size: 14px;
+
+    }
+
+    span.save {
+        background-image: url("../../../image/icon_save.png");
+    }
+
+    span.saveAndClose {
+        background-image: url("../../../image/icon_closeSave.png");
+    }
+
+    span.approve {
+        background-image: url("../../../image/icon_start.png");
+    }
+
+    span.close {
+        background-image: url("../../../image/icon_close.png");
+    }
+
+    .col-xs-1 {
+        padding-right: 0px
+    }
+
+    .modal-lg {
+        width: 1200px;
+    }
+
+    .tablelist {
+        height: 35px;
+        line-height: 35px;
+        font-size: 14px;
+        margin-top: 0px 15px;
+        background-color: #337ab7;
+        padding-left: 10px;
+        color: white
+    }
+
+    .tablelist>.btn {
+        background-color: #e2f1084f;
+    }
+
+    .tableContent {
+        overflow-x: scroll;
+        width: 100%
+    }
+
+    .table {
+        table-layout: fixed;
+    }
+
+    .tableContent>.table>thead>tr>th {
+        width: 120px
+    }
+
+    div.numCal {
+        padding-left: 30px;
+        padding-right: 30px;
+        height: 35px;
+        margin-bottom: 20px
+    }
+
+    div.numCal>label.control-label {
+        text-align: left
+    }
+</style>

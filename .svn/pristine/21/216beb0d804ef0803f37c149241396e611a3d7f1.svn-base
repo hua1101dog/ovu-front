@@ -1,0 +1,118 @@
+<div ng-controller="energyFamilySplitFormCtrl">
+    <div class="title_left">
+        <h3>能源分户综合报表</h3>
+        
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+           
+            <!-- <div class="form-group" ng-if="search.isGroup">
+                    <label>项目</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" readonly="readonly" style="min-width: 250px"  ng-model="search.parkName" />
+                         <span class="input-group-btn">
+                            <button  class="btn btn-default" ng-click="findPark(search,loadHouseTree)"><i class='fa fa-map-marker'></i></button>
+                         </span>
+                    </div>
+                </div> -->
+          <div class="form-group">
+            <label>选择起始时间</label>
+            <input type="datetime" class="form-control Wdate" style="display: inline-block;width: auto" ng-model="search.startTime"
+                   onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+          </div>
+          <div class="form-group">
+            <label>选择截止时间</label>
+            <input type="datetime" class="form-control Wdate" style="display: inline-block;width: auto" ng-model="search.endTime"
+                   onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+          </div>
+            <div class="form-group">
+                <label>选择空间名称</label>
+                <select class="form-control" ng-model="search.spaceName" ng-change="changeSpaceName(search.spaceName)" ng-options="o for o in spaceNameArr">
+                    <option value="">选择空间名称</option>
+                </select>
+                <!--<select class="form-control" ng-model="search.spaceId">
+                    <option value="">输入空间名称</option>
+                </select>-->
+            </div>
+            <!--<div class="form-group">
+                <label>选择业主</label>
+                <select class="form-control" required ng-model="search.classifyId">
+                    <option value="">输入业主</option>
+                </select>
+            </div>-->
+            <div class="form-group">
+                <label>选择计量分类</label>
+                <select class="form-control" ng-model="search.classifyId" ng-change="changeCategory(search.classifyId)" ng-options="o.classifyId as o.name for o in measureCategory">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>选择计量分项</label>
+                <select class="form-control" ng-model="search.itemId"  ng-options="o.itemId as o.name for o in fenXiangList">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <!-- <div class="form-group text-nowrap">
+                    <label >空间：</label>
+                    <span class="text-nowrap">
+                        <house-selector class="searchBox" form-bean="search" has-park=true></house-selector>
+                    </span>
+                </div> -->
+            <button class="btn btn-default" ng-click="find()" ng-disabled="!search.parkId">查询</button>
+            <!--<button class="btn btn-default" ng-click="find()">导出报表</button>-->
+            <!-- <button class="btn btn-primary pull-right" ng-click="exportForm()">导出报表</button> -->
+            <button class="btn btn-primary" ng-click="seeTrend(search)">查询趋势</button>
+            
+        </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+          能源分户综合报表列表
+         
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped table-hover" style="margin-top: 10px;">
+          <thead>
+          <tr>
+            <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+            <th class="text-center">序号</th>
+            <th >空间名称</th>
+            <th >业主</th>
+            <th >所属计量点</th>
+            <th >计量点单位</th>
+            <th >计量分类</th>
+            <th >计量分项</th>
+            <th >所属项目</th>
+            <th >时间</th>
+            <th >分户数据</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-if="!pageModel.data ||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+          <tr ng-repeat="item in pageModel.data">
+            <td><i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+            <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+            <td ng-bind-html="item.spaceName"></td>
+            <td>{{item.ownerName}}</td>
+            <td>{{item.pointName}}</td>
+            <td>{{item.pointUnitName}}</td>
+            <td>{{item.classifyName}}</td>
+            <td>{{item.itemName}}</td>
+            <td>{{item.parkName}}</td>
+            <td>{{item.time}}</td>
+            <td>{{item.value}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="page-footer clearfix">
+          <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+      </div>
+    </div>
+</div>
+<style>
+    table tr th,table tr td {
+        text-align: center;
+    }
+</style>

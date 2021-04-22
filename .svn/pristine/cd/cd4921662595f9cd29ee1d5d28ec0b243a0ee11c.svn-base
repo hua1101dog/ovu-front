@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>消息通知</title>
+    <link rel="stylesheet" href="integratManage/messageManage/messageIndex.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="messageCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>消息通知</h3>
+            </div>
+        </div>
+        <ul class="tab_index">
+            <li ng-class="{'act':current==1}" ng-click="current=1;find()">外部消息</li>
+            <li ng-class="{'act':current==2}" ng-click="current=2;find2()">内部消息</li>
+        </ul>
+        <!-- 外部消息 -->
+        <div ng-show="current==1">
+            <div class="x-panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>标题</label>
+                        <input ng-model="search.title" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                            type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>创建时间</label>
+                        <input type="datetime" class="form-control Wdate" ng-model="search.startCreateTime" placeholder="开始日期"
+                            onchange="" onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()||'%y-%M-%d'}&quot;})">
+                        <label>-</label>
+                        <input type="datetime" class="form-control Wdate" ng-model="search.endCreateTime" placeholder="结束日期"
+                            onchange="" onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;,maxDate:'%y-%M-%d'})">
+                    </div>
+                    <div class="form-group">
+                        <label>消息状态</label>
+                        <select class="form-control" style="width: 180px" ng-model="search.sendStatus" ng-options="o.value as o.text for o in stateOut">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-default" ng-click="query()">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default" style="margin-bottom: 0;">
+                <div class="panel-heading">通知列表
+                    <button class="btn btn-danger pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="batchOpt(pageModel, 'del')">批量删除</button>
+                    <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="batchOpt(pageModel, 'send')">批量发送</button>
+                    <button class="btn btn-primary pull-right" ng-click="showEditModal()">新建通知</button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center">No.</th>
+                                <th class="text-center" style="width:20px">
+                                    <span role="button" ng-click="checkAll(pageModel)">
+                                        <i class="glyphicon glyphicon-unchecked" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                                    </span>
+                                </th>
+                                <th>标题</th>
+                                <th>发送范围</th>
+                                <th>创建人</th>
+                                <th>创建时间</th>
+                                <th>发送状态</th>
+                                <th>发送时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0 || !pageModel.data">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data" class="ng-scope">
+                                <td class="text-center ng-binding">{{$index +
+                                    1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td><i role="button" ng-click="checkOne(item, pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                        class="glyphicon glyphicon-unchecked"></i></td>
+                                <td class=""><a href="javascript:void(0)" class="btn-link ng-binding" ng-click="showLookModal(item)"
+                                        title="{{item.title}}">{{item.title | convertTitle }}</a></td>
+                                <td class="">{{item.sendType | convertSendType}}</td>
+                                <td class="">{{item.creatorName||'--'}}</td>
+                                <td class="">{{item.createTime||'--'}}</td>
+                                <td class="">{{item.sendStatus | convertSendStatus}}</td>
+                                <td class="">{{item.sendTime||'--'}}</td>
+                                <td class="">
+                                    <div>
+                                        <a href="javascript:void(0)" ng-show="item.sendStatus == 0" ng-click="sendItem(item)"
+                                            class="btn btn-xs"><span class="fa fa-send-o"></span>发送</a>
+                                        <a href="javascript:void(0)" ng-show="item.sendStatus == 0" ng-click="showEditModal(item)"
+                                            class="btn btn-xs"><span class="fa fa-edit"></span>修改</a>
+                                        <a href="javascript:void(0)" ng-show="item.sendStatus == 0" ng-click="delItem(item)"
+                                            class="btn btn-xs"><span class="fa fa-trash"></span>删除</a>
+                                        <a href="javascript:void(0)" ng-click="showLookModal(item)" class="btn btn-xs"><span
+                                                class="fa fa-send-o"></span>查看</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'" class="ng-scope">
+                            <style type="text/css" class="ng-scope">
+                                .pagination>li>span:hover {
+                                    background-color: #fff;
+                                    cursor: text
+                                }
+                            </style>
+                        </ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 内部消息 -->
+        <div ng-show="current==2">
+            <div class="x-panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>标题</label>
+                        <input ng-model="search2.title" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                            type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>发送时间</label>
+                        <input type="datetime" class="form-control Wdate" ng-model="search2.sendTimeBegin" placeholder="开始日期"
+                            onchange="" onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()||'%y-%M-%d'}&quot;})">
+                        <label>-</label>
+                        <input type="datetime" class="form-control Wdate" ng-model="search2.sendTimeEnd" placeholder="结束日期"
+                            onchange="" onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;,maxDate:'%y-%M-%d'})">
+                    </div>
+                    <div class="form-group">
+                        <label>消息状态</label>
+                        <select class="form-control" ng-model="search2.readStatus" ng-options="o.value as o.text for o in stateIn">
+                            <option value="">--全部--</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-default" ng-click="find2()">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default" style="margin-bottom: 0;">
+                <div class="panel-heading">通知列表
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center">No.</th>
+                                <th>标题</th>
+                                <th>创建人</th>
+                                <th>消息状态</th>
+                                <th>发送时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0 || !pageModel.data">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data" class="ng-scope">
+                                <td class="text-center ng-binding">{{$index +
+                                    1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td class=""><a href="javascript:void(0)" class="btn-link ng-binding" ng-click="showLookModal2(item)"
+                                        title="{{item.title}}">{{item.title | convertTitle }}</a></td>
+                                <td class="">{{item.creatorName||'--'}}</td>
+                                <td class="">{{item.readStatus | readStatus}}</td>
+                                <td class="">{{item.sendTime||'--'}}</td>
+                                <td class="">
+                                    <div>
+                                        <a href="javascript:void(0)" ng-click="showLookModal2(item)" class="btn btn-xs"><span
+                                                class="fa fa-send-o"></span>查看</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'" class="ng-scope">
+                            <style type="text/css" class="ng-scope">
+                                .pagination>li>span:hover {
+                                    background-color: #fff;
+                                    cursor: text
+                                }
+                            </style>
+                        </ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    .tab_index {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 0;
+    }
+
+    .tab_index li {
+        width: 86px;
+        color: #989898;
+        background-color: #fff;
+        border: 1px solid #e6e6ed;
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 0;
+        margin-right: 15px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    .tab_index li.act {
+        color: #fff;
+        background-color: #5891eb;
+    }
+</style>
+
+</html>

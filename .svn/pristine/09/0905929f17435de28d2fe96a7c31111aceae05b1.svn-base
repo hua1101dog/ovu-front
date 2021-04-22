@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>审核合同</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div ng-controller="examAgreementCtrl">
+        <div class="title_left">
+            <h3>审核合同</h3>
+        </div>
+        <div class="examAgreement x_panel">
+            <!-- 基本信息 -->
+            <ul class="ul_list">
+                <li>
+                    <label for="">租户名称：</label>
+                    <p title="{{contractMsg.secondPartyName}}">{{contractMsg.secondPartyName}}</p>
+                </li>
+                <li>
+                    <label for="">合同名称：</label>
+                    <p title="{{contractMsg.name}}">{{contractMsg.name}}</p>
+                </li>
+                <li>
+                    <label for="">合同编号：</label>
+                    <p>{{contractMsg.code}}</p>
+                </li>
+                <li>
+                    <label for="">合同面积（m²）：</label>
+                    <p>{{contractMsg.contractArea}}</p>
+                </li>
+                <li>
+                    <label for="">甲方：</label>
+                    <p title="{{contractMsg.firstPartyName}}">{{contractMsg.firstPartyName}}</p>
+                </li>
+                <li>
+                    <label for="">乙方：</label>
+                    <p title="{{contractMsg.secondPartyName}}">{{contractMsg.secondPartyName}}</p>
+                </li>
+                
+                <li>
+                    <label for="">租金模式：</label>
+                    <p>{{contractMsg.rentalModal|rentalModal}}</p>
+                </li>
+               
+                <li>
+                    <label for="">合同租期：</label>
+                    <p>
+                        <span>{{contractMsg.leaseStart}}</span>
+                        <span ng-if="contractMsg.leaseStart != null"> 至</span>
+                        <span>{{contractMsg.leaseEnd}}</span>
+                        <span ng-if="contractMsg.leaseStart != null">共{{contractMsg.leaseMonth}}个月</span>
+                    </p>
+                </li>
+                <li>
+                    <label for="">支付方式：</label>
+                    <p>{{contractMsg.payType|payType}}</p>
+                </li>
+                <li>
+                    <label for="">履约保证金：</label>
+                    <p>{{contractMsg.deposit|number:2}}</p>
+                </li>
+                <li>
+                    <label for="">签约时间：</label>
+                    <p>{{contractMsg.signDate}}</p>
+                </li>
+                <li>
+                    <label for="">进场日期：</label>
+                    <p>{{contractMsg.enterDate}}</p>
+                </li>
+                <li>
+                    <label for="">相关文档：</label>
+                    <ul>
+                        <li ng-repeat="contractFile in contractMsg.contractFileList">
+                            <a href="{{contractFile.url}}">{{contractFile.name}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <label for="">租赁空间：</label>
+                    <!-- <p>武汉创意天地-一期-高层办公-11号楼1至2层</p> -->
+                    <ul style="float: left;">
+                        <li ng-repeat="x in contractMsg.contractHouseList">{{x.stageName?x.stageName+'-'+x.buildName+'-'+x.houseName:x.houseName}}</li>
+                    </ul>
+                </li>
+                <li>
+                    <label for="">免租期：</label>
+                    <p>
+                        <span>{{contractMsg.rentFreePeriod}}</span>
+                        <span ng-if="contractMsg.rentFreePeriod != null && contractMsg.rentFreePeriod != ''">个月</span>
+                    </p>
+                </li>
+            </ul>
+            <!-- 固定租金 -->
+            <div class="panel panel-default">
+                <h4 class="table_title">固定租金</h4>
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                        <tr class="">
+                            <th>序号</th>
+                            <th>收费项目</th>
+                            <th>是否安首期</th>
+                            <th>首期金额</th>
+                            <th>费项金额</th>
+                            <th>付款日期</th>
+                            <th>计费方式</th>
+                            <th>费用标准</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr style="color:#333333;" ng-repeat="x in pageModel">
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td>{{x.name}}</td>
+                            <td>
+                                <span ng-if="x.firstPrice===null || x.firstPrice===0">否</span>
+                                <span ng-if="x.firstPrice!=0.00 && x.firstPrice!=null" >是</span>
+                            </td>
+                            <td>
+                                <span>{{x.firstPrice|number:2}}</span>
+                            </td>
+                            <td>
+                                <span>{{x.amountStandard|number:2}}</span>
+                            </td>
+                            <td>
+                                <span ng-if="x.payTime!=null">账单生成后{{x.payTime}}日内</span>
+                                <span ng-if="x.payTime==null">账单生成后0日内</span>
+                            </td>
+                            <td>
+                                <span ng-if="x.payType==='11'" >固定单价</span>
+                                <span ng-if="x.payType==='12'" >固定增长率</span>
+                                <span ng-if="x.payType==='2'" >固定抽成</span>
+                                <span ng-if="x.payType==='3'" >比例抽成</span>
+                            </td>
+                            <td>
+                                <a class="blue_btn" style="margin: 0 auto;"
+                                   ng-if="x.payType =='2' || x.payType =='3' || (x.category !='02' && x.payType =='11')"
+                                   ng-click="openSetCost($index,x)">查看</a>
+                                <a class="blue_btn" style="background-color: grey; margin: 0 auto;cursor: default;" disabled
+                                   ng-if="x.payType == null || x.payType == '' || (x.payType=='11' && x.category =='02') || x.payType=='12'">查看</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix" ng-if="pageModel.data.length != 0">
+                    <ng-include src="'/common/pager.html'" class="ng-scope">
+                        <style type="text/css" class="ng-scope">
+                            .pagination>li>span:hover {
+                                background-color: #fff;
+                                cursor: text
+                            }
+                        </style>
+                    </ng-include>
+                </div>
+                </div>
+            </div>
+            <!-- 审批 -->
+            <ul class="ul_list">
+                <li class="inline_li">
+                    <label for="">审批人：</label>
+                    <p>{{user.nickname}}</p>
+                </li>
+                <li class="inline_li">
+                    <label for="">审批意见：</label>
+                    <textarea ng-model="opinion" cols="30" rows="5"></textarea>
+                </li>
+            </ul>
+            <div class="submitBtn_m">
+                <a ng-click="submint(2)" class="btn btn-primary">通过</a>
+                <a ng-click="submint(3)" class="btn btn-default">驳回</a>
+                <a class="btn btn-primary" ng-click="back()">返回</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

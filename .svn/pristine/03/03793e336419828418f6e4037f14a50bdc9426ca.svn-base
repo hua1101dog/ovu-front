@@ -1,0 +1,197 @@
+<div id="angularId" ng-controller="takingCompareCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>承接对比</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-12">
+			<div class="form-group">
+				<label class="control-label">
+					<i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+					<a role="button" ng-click="selectProject()">{{search.projectName?search.projectName:'请选择项目'}} </a></label>
+			</div>
+			<div class="x_panel">
+				<div class="x_title">承接类型
+				</div>
+				<div class="x_content">
+					<table class="table table-responsive  " style="table-layout: fixed">
+						<tbody>
+						<tr ng-repeat="item in list" ng-class="{'bg-primary':item.id == typeId}" role="button" ng-click="clicktr(item)">
+							<td>{{item.text}}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+			<div class="x_panel">
+				<div class="x_content">
+					<div class="" role="tabpanel" data-example-id="togglable-tabs">
+						<ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+							<li role="presentation" class="active">
+								<a href="#tab_content1" role="tab" id="tab1"
+								   ng-click="switchTab(1)"
+								   data-toggle="tab" aria-expanded="true">盘点清单</a>
+							</li>
+							<li role="presentation" class="">
+								<a href="#tab_content2" role="tab" id="tab2"
+								   ng-click="switchTab(2)"
+								   data-toggle="tab" aria-expanded="false">查验清单</a>
+							</li>
+							<li role="presentation" class="">
+								<a href="#tab_content3" role="tab" id="tab3"
+								   ng-click="switchTab(3)"
+								   data-toggle="tab" aria-expanded="false">检测清单</a>
+							</li>
+						</ul>
+						<!--盘点清单-->
+						<div id="myTabContent" class="tab-content">
+							<div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
+								 aria-labelledby="tab1">
+								<table class="table table-hover text-left" id="checkTable">
+									<thead>
+									<tr align="center">
+										<th class="text-center" style="vertical-align: middle" rowspan="2">NO</th>
+										<th  style="vertical-align: middle" rowspan="2">移交位置</th>
+										<th  style="vertical-align: middle" rowspan="2">查验项</th>
+										<th  style="vertical-align: middle" rowspan="2">查验内容</th>
+										<th class="text-center" colspan="2">品牌</th>
+										<th class="text-center" colspan="2">数量</th>
+										<th style="vertical-align: middle" rowspan="2">承接日志</th>
+									</tr>
+									<tr align="center">
+										<th class="text-center">首次承接</th>
+										<th class="text-center">二次承接</th>
+										<th class="text-center">首次承接</th>
+										<th class="text-center">二次承接</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-if="pageModel.data.length == 0">
+										<td colspan="100" class="text-center">暂无记录</td>
+									</tr>
+									<tr ng-repeat="item in pageModel.data">
+										<td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+										</td>
+										<td>{{item.area}}</td>
+										<td>{{item.item_name}}</td>
+										<td>{{item.content}}</td>
+										<td class="text-center"><span ng-if="item.times!=2">{{item.brand}}</span></td>
+										<td class="text-center"><span ng-if="item.times==2">{{item.brand}}</span></td>
+										<td class="text-center"><span ng-if="item.times!=2">{{item.num}}</span></td>
+										<td class="text-center"><span ng-if="item.times==2">{{item.num}}</span></td>
+										<td>
+											<a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-search'></span>查看日志</a>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+								<div class="page-footer clearfix">
+									<ng-include src="'/common/pager.html'"></ng-include>
+								</div>
+							</div>
+							<!--查验清单-->
+							<div role="tabpanel" class="tab-pane fade" id="tab_content2"
+								 aria-labelledby="tab2">
+								<table class="table table-hover text-left">
+									<thead>
+									<tr align="center">
+										<th class="text-center" style="vertical-align: middle" rowspan="2">NO</th>
+										<th  style="vertical-align: middle" rowspan="2">移交位置</th>
+										<th  style="vertical-align: middle" rowspan="2">查验项</th>
+										<th  style="vertical-align: middle" rowspan="2">查验内容</th>
+										<th class="text-center" colspan="2">是否有问题</th>
+										<th class="text-center" colspan="2">问题描述</th>
+										<th style="vertical-align: middle" rowspan="2">承接日志</th>
+									</tr>
+									<tr align="center">
+										<th class="text-center">首次承接</th>
+										<th class="text-center">二次承接</th>
+										<th class="text-center">首次承接</th>
+										<th class="text-center">二次承接</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-if="pageModel.data.length == 0">
+										<td colspan="100" class="text-center">暂无记录</td>
+									</tr>
+									<tr ng-repeat="item in pageModel.data">
+										<td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+										</td>
+										<td>{{item.area}}</td>
+										<td>{{item.item_name}}</td>
+										<td>{{item.content}}</td>
+										<td class="text-center"><span ng-if="item.times!=2">{{item.has_problem|keyToValue:yesNoDict}}</span></td>
+										<td class="text-center"><span ng-if="item.times==2">{{item.has_problem|keyToValue:yesNoDict}}</span></td>
+										<td class="text-center"><span ng-if="item.times!=2">{{item.remark}}</span></td>
+										<td class="text-center"><span ng-if="item.times==2">{{item.remark}}</span></td>
+										<td>
+											<a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-search'></span>查看日志</a>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+								<div class="page-footer clearfix">
+									<ng-include src="'/common/pager.html'"></ng-include>
+								</div>
+							</div>
+							<!--检测清单-->
+							<div role="tabpanel" class="tab-pane fade" id="tab_content3"
+								 aria-labelledby="tab3">
+								<table class="table table-hover text-left">
+									<thead>
+									<tr align="center">
+										<th class="text-center"  style="vertical-align: middle" rowspan="2">NO</th>
+										<th  style="vertical-align: middle" rowspan="2">移交位置</th>
+										<th  style="vertical-align: middle" rowspan="2">查验项</th>
+										<th  style="vertical-align: middle" rowspan="2">查验内容</th>
+										<th  style="vertical-align: middle" rowspan="2">检测标准</th>
+										<th class="text-center" colspan="2">是否有问题</th>
+										<th class="text-center" colspan="2">实际检测值</th>
+										<th style="vertical-align: middle" rowspan="2">承接日志</th>
+									</tr>
+									<tr align="center">
+										<th class="text-center">首次承接</th>
+										<th class="text-center">二次承接</th>
+										<th class="text-center">首次承接</th>
+										<th class="text-center">二次承接</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-if="pageModel.data.length == 0">
+										<td colspan="100" class="text-center">暂无记录</td>
+									</tr>
+									<tr ng-repeat="item in pageModel.data">
+										<td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+										</td>
+										<td>{{item.area}}</td>
+										<td>{{item.item_name}}</td>
+										<td>{{item.content}}</td>
+										<td>
+                                            <ul>
+                                                <li ng-repeat="s in item.standards">{{$index+1}}:{{s.name}} {{s.param_key}}:{{s.param_val}}</li>
+                                            </ul>
+										</td>
+										<td class="text-center"><span ng-if="item.times!=2">{{item.has_problem|keyToValue:yesNoDict}}</span></td>
+										<td class="text-center"><span ng-if="item.times==2">{{item.has_problem|keyToValue:yesNoDict}}</span></td>
+										<td class="text-center"><span ng-if="item.times!=2">{{item.check_val}}</span></td>
+										<td class="text-center"><span ng-if="item.times==2">{{item.check_val}}</span></td>
+										<td>
+											<a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-search'></span>查看日志</a>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+								<div class="page-footer clearfix">
+									<ng-include src="'/common/pager.html'"></ng-include>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

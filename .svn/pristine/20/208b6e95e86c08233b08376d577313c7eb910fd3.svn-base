@@ -1,0 +1,20 @@
+<!-- BIM -->
+<div class="bim-container">
+    <div id="gdmap" ng-if="noBim">
+
+    </div>
+    <div id="viewport"></div>
+    <div id="messages"></div>
+</div>
+<!-- bim 依赖的css -->
+<link href="/res/js/bimViz/sdk/third/css/essentials.css" rel="stylesheet" />
+<link href="/res/js/bimViz/sdk/viz/ui/default.css" rel="stylesheet" type="text/css" />
+<style>
+    .bim-container {
+        position: relative;
+    }
+    
+    #viewport {
+        /* min-height: 720px; */
+    }
+</style>

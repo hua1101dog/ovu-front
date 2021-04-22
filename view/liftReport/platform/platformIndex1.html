@@ -1,0 +1,87 @@
+<!-- 电梯总览页面 -->
+<div  class="row m-t-sm">
+	<div class="col-lg-4 col-sm-6 col-xs-12">
+		<div class="x_panel col-xs-12" style=" height: 100px; ">
+		<div class="x_title">电梯台数 </div>
+		<div class="x_content" style="z-index: 1">
+			<div class="col-xs-12 border-line-sm">
+				<div>
+					<span class="font-size-lg">{{vm.index1.total}}</span>
+					<span>台</span>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="x_panel col-xs-12" style="height: 390px; ">
+			<div class="x_title">电梯品牌统计 </div>
+			<div class="x_content" style="z-index: 1">
+				<div id="elevator-brand2-chart" 
+					style="height:350px;width:100%;" 
+					ui-echarts="vm.index1ElevatorOption" >
+				</div>
+			</div>
+		</div>
+		<div class="x_panel col-xs-12" style=" height: 390px; ">
+			<div class="x_title">电梯品牌故障率统计 </div>
+			<div class="x_content" style="z-index: 1">
+				<div id="elevator-fault-chart" 
+					style="height:320px;width:100%;" 
+					ui-echarts="vm.index1FaultOption" >
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-8 col-sm-6 col-xs-12 row">
+		<div class="row">
+			<div class="col-lg-6 col-sm-12 col-xs-12">
+				<div class="x_panel" style=" height: 388px; ">
+					<div class="x_title">电梯分类统计 </div>
+					<div class="x_content" style="z-index: 1">
+						<div id="elevator-classify-chart" 
+							style="height:300px;width:100%;" 
+							ui-echarts="vm.index1ClassifyOption" >
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-sm-12 col-xs-12">
+				<div class="x_panel" style=" height: 388px; ">
+					<div class="x_title">电梯分布统计 </div>
+					<div class="x_content" style="z-index: 1">
+						<div id="elevator-distribution-chart" 
+							style="height:300px;width:100%;" 
+							ui-echarts="vm.index1DistributionOption" >
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="x_panel" style="height: 500px;padding:0">
+			<div ui-map="vm.map" style="height:500px; "
+					ui-options="vm.mapOptions" ui-map-cache="allMap"
+					ui-event="{'map-click':'vm.clickMap($event,$params)'}">
+		 	 </div>
+		     <div ng-repeat="marker in vm.markers" 
+		    	ui-map-marker="vm.markers[$index]" 
+		    	ui-event="{'map-mouseover':'vm.mouseoverMaker($event,$params,marker)',
+		    	'map-mouseout':'vm.myInfoWindow.close()'}">
+		     </div>
+		      <div ui-map-info-window="vm.myInfoWindow" style="width:190px">
+			      	<div class="x_title">{{vm.markerData.name}}</div>
+			      	<div class="x_content" style="z-index: 1">
+		           		<div class="row">
+		           			<label class="col-xs-6 control-label">电梯数：</label>
+		           			<label class="col-xs-6 control-label">{{vm.markerData.liftTotal}}台</label>
+		           		</div>
+					</div>
+		        </div>
+		</div>
+	</div>
+</div>
+<style>
+.border-line-sm {
+    margin: 10px 0;
+    text-align: center;
+    line-height: 5px;
+}
+</style>

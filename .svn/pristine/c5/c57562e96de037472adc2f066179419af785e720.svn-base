@@ -1,0 +1,57 @@
+<div class="map-container" map-full-page id="map-indoor" >
+    <div id="mapTrackBox" style="height:750px;">
+        <div style="position: absolute;transform: translate(-50%,0);left: 50%;" id="iconList">
+            <div ng-if="$ctrl.startRange" class="iconWraper">
+                <img onerror="javascript:this.src='res/img/preview.png';" class="layui-anim "
+                    uib-tooltip="{{$ctrl.curMarkType.name}}" tooltip-placement="bottom" ng-src="{{$ctrl.curMarkType.url}}">
+                <span>开始标注范围</span>
+            </div>
+            <!---->
+        </div>
+        <div style="position: absolute;transform: translate(-50%,40px);left: 50%;">
+            <ul class="ul-block" ng-if="$ctrl.startRange">
+                <li ng-repeat="point in $ctrl.curMarker.points track by $index" role="button" class="btn btn-default"
+                    ng-class="{'btn-warning':$ctrl.curMarker.curPoint == point}"
+                    ng-click="$ctrl.selectPoint($ctrl.curMarker,point)">
+                    <span>
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                        {{$index+1}}
+                    </span>
+                    <a ng-click="$ctrl.delPoint(point)"><i class="fa fa-remove"></i></a></li>
+            </ul>
+            <!---->
+        </div>
+    </div>
+</div>
+<style>
+     #map-indoor {
+        position: relative;
+    }
+
+    #mapBox {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    #iconList>div.iconWraper {
+        text-align: center;
+        float: left;
+        width:  160px;
+        height: 36px;
+        cursor: pointer;
+    }
+
+    #iconList>div.iconWraper img {
+        max-width: 32px;
+        max-height: 32px;
+    }
+    .layui-anim {
+        -webkit-animation-duration: .3s;
+        animation-duration: .3s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        -webkit-animation-name: layui-scale;
+        animation-name: layui-scale;
+    }
+</style>

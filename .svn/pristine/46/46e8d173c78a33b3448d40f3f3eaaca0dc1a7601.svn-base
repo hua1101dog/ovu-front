@@ -1,0 +1,42 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">{{item.id?'编辑':'添加'}}资源</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="form-group" >
+			<label class="col-xs-2 control-label required">资源名称：</label>
+			<div class="col-xs-4 ">
+				<input type="text" class="form-control" ng-model="item.text" name="text" required/>
+			</div>
+			<label class="col-xs-2 control-label required">资源分类：</label>
+			<div  class="col-xs-4">
+				<input type="text" class="form-control" ng-focus="item.typeFocus=true" ng-blur="item.typeFocus=false"  ng-model="item.ptexts" name="ptexts" readonly  required/>
+				<layer-select node-list="treeData" ng-show="item.typeFocus||item.typeHover" ng-mouseover="item.typeHover=true" ng-mouseleave="item.typeHover=false" class="layerSelect" style="left: 15px;top:inherit;" ></layer-select>
+			</div>
+		</div>
+		<div class="form-group" >
+			<label class="col-xs-2 control-label required">url：</label>
+			<div  class="col-xs-10">
+				<input type="text" class="form-control" ng-model="item.url" name="url" required/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">权限池：</label>
+			<div  class="col-xs-10 ">
+				<input type="text" ng-model="item.operations" class="form-control" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">备注：</label>
+			<div class="col-xs-10">
+				<textarea type="text" style="height:150px;resize:vertical" class="form-control" ng-model="item.comment"   />
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

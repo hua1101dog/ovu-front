@@ -1,0 +1,117 @@
+<h4 class="text-lg font-bold">统计分析</h4>
+<div class="row text-center">
+    <div class="col-lg-12 col-sm-12">
+        <div class="x_panel">
+            <div class="col-lg-3 col-sm-3 col-xs-3 border-line-lg ">
+                <div>
+                    <span class="font-size-lg">{{vm.runningstatus.MaintenanceUnit}}</span>
+                </div>
+                <div>维保单位(家)</div>
+            </div>
+            <div class="col-lg-3 col-sm-3 col-xs-3 border-line-lg  b-r">
+                <div>
+                    <span class="font-size-lg">{{vm.runningstatus.MaintenancePerson}}</span>
+                </div>
+                <div>维保人员(人)</div>
+            </div>
+            <div class="col-lg-3 col-sm-3 col-xs-3 border-line-lg ">
+                <div>
+                    <span class="font-size-lg">{{vm.runningstatus.Elevator}}</span>
+                </div>
+                <div>电梯台数(台)</div>
+            </div>
+            <div class="col-lg-3 col-sm-3 col-xs-3  border-line-lg ">
+                <div>
+                    <span class="font-size-lg">{{vm.runningstatus.safeDate}}</span>
+                </div>
+                <div>安全运行(天)</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="row">
+    <div class="col-lg-12 col-sm-12">
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>查询时间</label>
+                    <input type="text" ng-model="search.customerName" readonly
+                           class="form-control" ng-lay-date/>
+                </div>
+                <button class="btn btn-default pull-right" ng-click="find(1)">查询</button>
+            </div>
+        </div>
+    </div>
+</div>-->
+<div class="row">
+    <div class="col-lg-4 col-sm-6 coo-xs-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">维保单位电梯分布统计</h3>
+            </div>
+            <div class="panel-body">
+                <div style="height:300px;" ui-echarts="vm.option1">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="col-lg-6 col-sm-6 coo-xs-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">维保单位电梯故障率分布TOP10统计</h3>
+            </div>
+            <div class="panel-body">
+                <div style="height:200px;" ui-echarts="vm.option1">
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div class="col-lg-4 col-sm-6 coo-xs-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">维保单位维保工作完成率TOP10统计</h3>
+            </div>
+            <div class="panel-body">
+                <div style="height:300px;" ui-echarts="vm.option2">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 coo-xs-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">维保人员服务排行TOP10统计</h3>
+            </div>
+            <div class="panel-body">
+                <div style="height:300px;" ui-echarts="vm.option3">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .b-r {
+        border-right: 1px solid #ddd;
+    }
+
+    .border-line {
+        margin: 25px 0;
+        text-align: center;
+        line-height: 32px;
+    }
+
+    .font-size-lg {
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    .font-16 {
+        font-size: 16px;
+    }
+
+    .border-line-lg {
+        margin: 60px 0;
+        text-align: center;
+        line-height: 40px;
+    }
+</style>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>企业信息报表</title>
+    <link rel="stylesheet" href="reportManage/style/report.css">
+</head>
+<body>
+<div id="angularId" ng-controller="reportFormsController" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>企业信息报表</h3>
+        </div>
+    </div>
+    <div class="">
+        <div class="x_panel">
+            <!-- <div class="col-md-12 form-inline"> -->
+	            <div class="form-inline">
+		            <div class="form-group">
+	                    <label class="control-label">地址类型</label>
+	                    <select class="form-control" style="width: 180px;" ng-model="search.regAddrType" ng-change="changeAddrType()">
+	                        <option value="">--请选择--</option>
+	                        <option value="1">园区内</option>
+                            <option value="2">园区外</option>
+	                    </select>
+	                </div>
+	                <div class="form-group">
+	                    <label class="control-label">企业名称</label> <input
+	                        class="form-control" ng-model="search.companyName" />
+	                </div>
+	                <div class="form-group">
+						<label class="control-label">一级行业</label> 
+						<select
+							style="min-width: 179px;max-width: 180px;" class="form-control"
+							ng-model="search.parentIndustryCode"  ng-change = "getIndustryList()" >
+							 <option value="">--请选择--</option>  
+	                       	 <option ng-repeat="item in parentIndustryList" value="{{item.industryCode}}">{{item.industryName}}</option>    
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="control-label">二级行业</label> 
+						<select
+							style="min-width: 179px;max-width: 180px;" class="form-control childSelect"
+							ng-model="search.industryCode">
+							 <option value="">--请选择--</option>  
+                        	 <option ng-repeat="item in industryList" value="{{item.industryCode}}">{{item.industryName}}</option>    
+						</select>
+					</div>
+                </div>
+                <div class="form-inline" style="margin-top:10px;">
+                    <div class="form-group">
+                        <label class="control-label">是否上市</label>
+                        <select
+                            style="min-width: 179px;max-width: 180px;" class="form-control childSelect"
+                            ng-model="search.beListed">
+                            <option value="">--请选择--</option>
+                            <option ng-repeat="item in beListeds" value="{{item.value}}">{{item.text}}</option>
+                        </select>
+                    </div>
+					<div class="form-group">  <!-- m-l-none-->
+		                <label>入驻时间</label>
+		                <input type="datetime" style="width: 180px;" id = "enterTimeBegin" class="form-control Wdate bg-readOnly" ng-model="search.enterTimeBegin" onchange=""
+							onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+						至 <input type="datetime" style="width: 180px;" class="form-control Wdate bg-readOnly" ng-model="search.enterTimeEnd" onchange=""
+							onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',minDate:'#F{$dp.$D(\'enterTimeBegin\');}'})">
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="control-label">企业类型</label>
+                        <select style="width:180px;" class="form-control" ng-model="search.enterpriseNatureCode">
+                            <option value="">--请选择--</option>
+                            <option ng-repeat="item in companyTypeList" value="{{item.dicSort}}">{{item.dicItem}}
+                            </option>
+                        </select>
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <div class="form-group">
+	                    <label class="control-label">联系人</label> <input
+	                        class="form-control" ng-model="search.linkman" />
+	                </div>
+
+                    <div class="form-group" style="margin-left: 1px;">
+	                    <label class="control-label">联系方式</label> <input
+	                        class="form-control" ng-model="search.mobile" />
+	                </div>
+
+                    <button ng-if="!isShow" class="btn btn-default" style="margin-top: 10px; ;margin-left:70px;" ng-click="query()">查询</button>
+	                <button ng-if="!isShow" class="btn btn-primary pull-right" ng-click="exportToTable()">导出</button>
+                </div>
+                <div ng-if="isShow" class="form-inline" style="margin-top:10px;">
+	                <div class="form-group">
+	                    <label class="control-label">分<span style="padding:0 14px;"></span>期</label> 
+	                    <select class="form-control"  ng-model="search.stageId" ng-change="selectStage()">
+	                        <option value="">--请选择--</option>
+	                        <option ng-repeat="stage in stageList track by $index"  value="{{stage.id}}">{{stage.text}}</option>
+	                    </select> 
+                    </div>
+                    <div class="form-group">
+	                    <label class="control-label">楼<span style="padding:0 14px;"></span>栋</label>
+	                    <select class="form-control" ng-model="search.buildId" ng-change="selectBuild()"  >
+							<option value="">--请选择--</option>
+							<option ng-repeat="build in buildList track by $index" value="{{build.id}}">{{build.buildName}}</option>
+						</select>
+					</div>
+                    <div class="form-group">
+	                    <label class="control-label">单<span style="padding:0 14px;"></span>元</label> 
+	                    <select class="form-control" ng-model="search.unitNum" ng-change="selectUnit()"  >
+							<option value="">--请选择--</option>
+							<option ng-repeat="unit in unitList track by $index" value="{{unit}}">{{unit}}单元</option>
+						</select>
+					</div>
+                    <div class="form-group">	                    
+                    	<label class="control-label">楼<span style="padding:0 14px;"></span>层</label> 
+	                    <select class="form-control" ng-model="search.floorNum" ng-change="selectGround()"  >
+							<option value="">--请选择--</option>
+							<option ng-repeat="floor in floorList track by $index" value="{{floor}}">{{floor}}</option>
+						</select>
+					</div>
+                    <div class="form-group">
+						<label class="control-label">房<span style="padding:0 14px;"></span>屋</label> 
+	                    <select class="form-control" ng-model="search.houseId">
+								<option value="">--请选择--</option>
+							<option ng-repeat="house in houseList track by $index" value="{{house.id}}">{{house.houseName}}</option>
+						</select>
+                    </div>
+
+
+                    <button class="btn btn-default" ng-click="query()">查询</button>
+	                <button class="btn btn-primary pull-right" ng-click="exportToTable()">导出</button>
+	            </div>
+            <!-- </div> -->
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body" style="overflow-x: scroll;overflow-y: hidden;">
+                <table class="table table-striped table-hover" id="table"
+                    style="margin-top: 10px; color: #999999;">
+                    <thead class="title">
+                        <tr class="text-center">
+                            <th class="text-center">序号</th>
+                            <th class="text-center">企业名称</th>
+                            <th class="text-center">注册地址</th>
+                            <th class="text-center">地址类型</th>
+                            <th class="text-center">产权所属</th>
+                            <th class="text-center">所属行业</th>
+                            <th class="text-center">企业性质</th>
+                            <th class="text-center">成立时间</th>
+                            <th class="text-center">入驻时间</th>
+                            <th class="text-center">注册资本</th>
+                            <th class="text-center">员工人数</th>
+                            <th class="text-center">联系人</th>
+                            <th class="text-center">联系方式</th>
+                            <th class="text-center">职务</th>
+                            <th class="text-center">是否上市</th>
+                            <th class="text-center">注册地是否在园区</th>
+                            <th class="text-center">入驻空间详情</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data" style="color: #333333;"
+                            class="text-center">
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td>{{item.companyName||'--'}}</td>
+                            <td>
+	                            <span>{{item.regAddrType=='2'?item.regAddrDomain+item.corporateRegAddr||'--':(item.regAddrType=='1'?(item.parkHouse?item.parkHouse.stageName+item.parkHouse.buildName+unitNo+'单元'+item.parkHouse.groundNum+'层'+item.parkHouse.houseName:'--'):'--')||'--'}}</span>
+                            </td>
+                            <td>{{item.regAddrType==1 ? "园区内" : (item.regAddrType==2 ? "园区外" : "--")}}</td>
+                            <td>{{item.parkHouse.owner||'中电光谷'}}</td>
+                            <td>{{getIndustryName(item.industryCode)}}</td>
+                            <td>{{item.enterpriseNatureCode|convertCompanyNature}}</td>
+                            <td>{{item.corporateRegTime||'--'}}</td>
+                            <td>{{item.enterTime||'--'}}</td>
+                            <td>{{item.moneyType==1 ? item.regCapital+'万人民币'||'--': (item.moneyType==2 ? item.regCapital+'万美元': "--")||'--'}}</td>
+                            <td>{{item.staffCount||'--'}}</td>
+                            <td>{{item.linkman||'--'}}</td>
+                            <td>{{item.mobile||'--'}}</td>
+                            <td>{{item.job|convertJob}}</td>
+	                        <td>
+	                            <span>{{item.beListed == 1?'是':'否'||'--'}}</span>
+	                        </td>
+	                        <td>
+	                        	<span>{{item.regAddrType == 1?'是':'否'||'--'}}</span>
+	                        </td>
+                            <td>
+                                <a href='javascript:void(0)' ng-click='queryCompanyEnterHouses(item.id)' style="color:green;"><span></span>详情</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-footer clearfix">	                      
+               <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+   /* * {
+        margin-top: 3px !important;
+    } */
+
+
+
+</style>
+</body>
+</html>

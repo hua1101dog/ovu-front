@@ -1,0 +1,110 @@
+<div ng-cloak>
+    <!--<div class="videoDiv" ng-if="video.on">
+        <img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute"
+             ng-click="video.on = false"></img>
+        <play-video id="video" device-id="video.id"></play-video>
+    </div>-->
+    <header class="main-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-sm-3">
+                    <img src="/government/img/bg.png">
+                </div>
+                <div class="col-lg-9 col-sm-9 text-right">
+                    <span ui-sref="app.warning" class="cursor-pointer">
+                        <i class="fa fa-bell fa-fw"></i>
+                        <span class="iconRight">{{equipmentTotal || 0}}</span>
+                    </span>
+                    <span class="white">今天是{{today}}</span>
+                    <span uib-dropdown class="m-l-xl font-bold text-md">
+                      <a href id="simple-dropdown" uib-dropdown-toggle>
+                          <span class="black">
+                              {{user.NICKNAME}}
+                              <span class="caret"></span>
+                          </span>
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-right" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                        <li role="menuitem"><a href="javascript:;;" ng-click="showinfo(user)">个人信息</a></li>
+                        <li role="menuitem"><a href="javascript:;;" ng-click="changePwd(user)">修改密码</a></li>
+                        <li class="divider"></li>
+                        <li role="menuitem"><a href="/government/portal/main.html"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
+                      </ul>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav class=" main-navigation">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <ul class="menu">
+                        <li  role="presentation" ng-repeat="menu in menuList track by $index" >
+                            <a ng-class="{'active':$state.current.name.indexOf(menu.url.split('.')[1]) != -1}"
+                               ui-sref="{{menu.url}}">{{menu.text}}</a>
+                        </li>
+                    </ul>
+                    <!--<ul class="menu">
+                        <li  role="presentation">
+                            <a ui-sref-active="active" ui-sref="app.platform">平台运营管理</a>
+                        </li>
+                        <li  role="presentation">
+                            <a ui-sref-active="active" ui-sref="app.warning">预警事件管理</a>
+                        </li>
+                        <li  role="presentation">
+                            <a ui-sref-active="active" ui-sref="app.elevatorMonitoring">电梯运行监测</a>
+                        </li>
+                        <li  role="presentation">
+                            <a ui-sref-active="active" ui-sref="app.elevatorManage">电梯管理</a>
+                        </li>
+                        <li  role="presentation">
+                            <a ui-sref-active="active" ui-sref="app.maintenance.list">维保单位管理</a>
+                        </li>
+                        <li  role="presentation">
+                            <a ui-sref-active="active" ui-sref="app.contractManage">维保合同管理</a>
+                        </li>
+                        <li  role="presentation">
+                            <a ui-sref-active="active" ui-sref="app.useUnitManage">使用单位管理</a>
+                        </li>
+                        <li  role="presentation">
+                            <a ui-sref-active="active" ui-sref="app.serviceQuality">服务质量管理</a>
+                        </li>
+                        <li  role="presentation">
+                            <a ui-sref-active="active" ui-sref="app.workManage">维保工作管理</a>
+                        </li>
+                        <li  role="presentation">
+                            <a ui-sref-active="active" ui-sref="app.statistics">统计分析</a>
+                        </li>
+                        <li  role="presentation">
+                            <a ui-sref-active="active" ui-sref="app.homeManage.notify.list">首页后台管理</a>
+                        </li>
+                        <li  role="presentation">
+                            <a ui-sref-active="active" ui-sref="app.system">系统管理</a>
+                        </li>
+                    </ul>-->
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="content-wrap">
+        <div class="container-fluid">
+            <div ui-view class="" id="routeBody" ></div>
+        </div>
+    </section>
+</div>
+<footer class="myfooter">
+    <div class="container">
+        <p class="text-muted text-center" style="margin: 14px 0;">技术支持：武汉光谷联合集团有限公司</p>
+    </div>
+</footer>
+<!--头部end-->
+<!--<div class="leftDiv bg-black" id="menuDiv">
+    <ul class="topMenu " style="">
+        <li ng-repeat="menu in menuList">
+            <a ui-sref="{{menu.url}}" ng-class="{active:$state.includes('{{menu.url}}')}">
+                <i class="{{menu.icon}}"></i>
+                <div>{{menu.name}}</div>
+            </a>
+        </li>
+    </ul>
+</div>-->

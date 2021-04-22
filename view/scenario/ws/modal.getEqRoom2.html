@@ -1,0 +1,111 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel($event)">×</button>
+    <h4 class="modal-title">{{name}}事件详情</h4>
+</div>
+<div class="modal-body">
+    <div class="panel panel-default" ng-if="params0">
+        <div class="panel-heading" style="border-bottom: 2px solid #E6E9ED">关键参数</div>
+        <div class="panel-body" style="height: 200px;overflow: auto">
+            <table class="table table-bordered" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th>参数名</th>
+                        <th>参数值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!sensorParamList ||sensorParamList.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in sensorParamList">
+                        <td>{{item.paramName}}</td>
+                        <td>{{item.paramValue}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="border-bottom: 2px solid #E6E9ED">摄像头联动</div>
+                <div class="panel-body">
+                    <iframe  class="iframeWork" ng-src="{{'/view/video.html?cameraCode='+cameraCode+'&equipmentId='+equipmentId}}"
+                            style="width: 100%;height: 320px"></iframe>
+                            <!-- <embed ng-src="{{'/view/video.html?cameraCode='+cameraCode}}" width=200 height=320 /> -->
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="border-bottom: 2px solid #E6E9ED">事件点位</div>
+                <div class="panel-body">
+                    <div id="mainMap" ui-map="mainMap" style="height:320px; " ui-options="mainMapOptions"
+                        ui-map-cache="mainMap">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+            <div class="panel-heading" style="border-bottom: 2px solid #E6E9ED">附近的人</div>
+            <div class="panel-body" style="height: 265px;overflow: auto">
+                <table class="table table-bordered" style="margin-top: 10px;">
+                    <thead>
+                        <tr>
+                            <th>员工</th>
+                            <th>距离</th>
+                            <th>电话</th>
+                            <th>定位时间</th>
+                            <th ng-if="hasPower('通知')">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!personList ||personList.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in personList">
+                            <td>{{item.personName}}</td>
+                            <td>{{item.distance}}km</td>
+                            <td>{{item.phone}}</td>
+                            <td>{{item.positionTime}}</td>
+                            <td> <a href='javascript:void(0)' class='btn btn-xs btn-link' ng-click="tell(item.personId)" ng-if="hasPower('通知')">通知</a></td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        </div>
+</div>
+<style>
+    .equipTab {
+        background-color: #ccc;
+    }
+
+    .equipTab li {
+        float: left;
+        margin-right: 40px;
+        text-align: center;
+        padding: 5px 10px;
+    }
+
+    .equipTab li a {
+        width: 100%;
+        display: block;
+    }
+
+    .active {
+        background-color: #fff;
+    }
+
+    .abnormal {
+        color: red
+    }
+</style>

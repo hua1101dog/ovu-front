@@ -1,0 +1,6 @@
+<div class="input-group" style="white-space: nowrap;width: 100%">
+    <input type="text" placeholder="请筛选" class="form-control" style="float:none"   ng-model="text"/>
+    <span class="input-group-btn">
+         <button class="btn btn-default" ng-click="text=undefined"  style="height: 34px"><i class='fa fa-close'></i></button>
+    </span>
+</div>

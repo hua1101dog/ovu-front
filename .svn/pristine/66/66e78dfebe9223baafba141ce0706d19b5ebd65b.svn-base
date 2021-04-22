@@ -1,0 +1,115 @@
+<div class="modal-header">
+    <button class="close" type="button" ng-click="$ctrl.cancel()">×</button>
+    <h4 class="modal-title" id="modal-title">审核</h4>
+</div>
+<div class="modal-body" id="modal-body">
+
+    <div class="form-group clearfix">
+        <label class="col-sm-4 control-label text-right">业主姓名：</label>
+        <div class="col-sm-8">
+            <p class="form-control-static" ng-bind="$ctrl.item.ownerName"></p>
+        </div>
+    </div>
+
+    <div class="form-group clearfix">
+        <label class="col-sm-4 control-label text-right">业主手机号：</label>
+        <div class="col-sm-8">
+            <p class="form-control-static" ng-bind="$ctrl.item.ownerTel"></p>
+        </div>
+    </div>
+    <div class="form-group clearfix">
+        <label class="col-sm-4 control-label text-right">装修公司名称：</label>
+        <div class="col-sm-8">
+            <p class="form-control-static" ng-bind="$ctrl.item.decoCompony"></p>
+        </div>
+    </div>
+    <div class="form-group clearfix">
+        <label class="col-sm-4 control-label text-right">施工方负责人：</label>
+        <div class="col-sm-8">
+            <p class="form-control-static" ng-bind="$ctrl.item.construcDirector"></p>
+        </div>
+    </div>
+    <div class="form-group clearfix">
+        <label class="col-sm-4 control-label text-right">施工方电话：</label>
+        <div class="col-sm-8">
+            <p class="form-control-static" ng-bind="$ctrl.item.construcTel"></p>
+        </div>
+    </div>
+    <div class="form-group clearfix">
+        <label class="col-sm-4 control-label text-right">报装项目：</label>
+        <div class="col-sm-8">
+            <p class="form-control-static" ng-bind="$ctrl.item.reportProjectNames"></p>
+        </div>
+    </div>
+    <div class="form-group clearfix" style="padding: 0;">
+        <div ng-repeat="item in $ctrl.item.files track by $index" class="clearfix" style="margin-bottom: 15px;">
+            <label class="col-xs-4 control-label text-right">{{item.fileName}}：</label>
+            <div class="col-xs-8">
+            	<!--方案变更，展示多张图片-->
+                <!--<div class="thumbnail text-center file-photo-wraper" style="background:#ccc">-->
+                    <!-- <a href="{{item.fileUrl}}" target="_blank" class="form-control-static btn-link">{{item.fileUrl}}</a> -->
+                   <!-- <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="$ctrl.showPhoto()" ng-src="{{$ctrl.processImgUrl(item.fileUrl)}}">
+                </div>-->
+                <div class="photoWraper" style="margin-left:14px" ng-repeat="p in item.fileUrls track by $index">
+					<img onerror="javascript:this.src='/res/img/detail.png';" ng-click="$ctrl.showPhoto()" ng-src="{{$ctrl.processImgUrl(p)}}" />
+				</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group clearfix">
+        <label class="col-sm-4 control-label text-right">备注：</label>
+        <div class="col-sm-8">
+            <p class="form-control-static" ng-bind="$ctrl.item.suggest"></p>
+        </div>
+    </div>
+
+    <div style="border-bottom: 1px solid #777; margin: 20px 0;"></div>
+    <form name="approveForm" novalidate="">
+
+        <div class="form-group clearfix">
+            <label class="col-sm-4 control-label required text-right">审核结果：</label>
+            <div class="col-sm-8">
+                <label role="button" style="margin-right: 15px">
+                    <input type="radio" style="margin:0 5px" ng-model="$ctrl.item.auditState" value="1" name="applyStatus">
+                    <span>通过</span>
+                </label>
+                <label role="button" style="margin-right: 15px">
+                    <input type="radio" style="margin:0 5px" ng-model="$ctrl.item.auditState" value="2" name="applyStatus">
+                    <span>不通过</span>
+                </label>
+            </div>
+
+        </div>
+
+        <div class="form-group clearfix">
+            <label class="col-sm-4 control-label required text-right">审核备注：</label>
+            <div class="col-sm-8">
+                <span class="input-tip">您还可以输入{{$ctrl.item.resonRest}}个字符</span>
+                <textarea type="text" name="reason" class="form-control" ng-change="$ctrl.resonTestChange()" placeholder="限制输入300个字符" required ng-model="$ctrl.item.approveDesc">
+                </textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok(approveForm)">确定</button>
+    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">取消</button>
+</div>
+
+<style>
+    p.form-control-static {
+        padding-top: 0;
+        display: inline;
+    }
+    
+    .input-tip {
+        position: absolute;
+        top: -17px;
+    }
+    
+    .file-photo-wraper {
+        height: 163px;
+        overflow: hidden;
+    }
+</style>

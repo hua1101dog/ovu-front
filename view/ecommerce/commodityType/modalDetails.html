@@ -1,0 +1,32 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">商品类型管理</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+	<div class="form-inline" style="padding-left: 24px; padding-bottom: 24px;">
+        <div class="form-group">
+        	<div style="width:500px;margin-top: 24px;">
+        		<div class = "col-md-12">
+        			<label class="col-xs-3 control-label required" style="padding-top:0px;">商品类型：</label>
+        			<input type="text" class="form-control" ng-model="item.cateName" style="width: 270px;margin-bottom: 10px;" />
+        		</div>
+        		<div class = "col-md-12" ng-show="item.grade == 3">
+        			<label class="col-xs-3 control-label required" style="padding-top:0px;">类型图片：</label>
+                    <div class="col-xs-5" style="padding-left:0px;">
+                        <div class="photoWraper" ng-repeat="p in imageUrlList track by $index" style="height: 100px;width:100%;">
+                            <img onerror="javascript:this.src='/res/img/detail.png';"
+                                 ng-click="showPhoto()"
+                                 ng-src="{{processImgUrl(p)}}" style="height:100%;width:100%;border:1px solid #ddd"/>
+                            <a role="button" style="margin-right: 5px; color: #f51419;" ng-click="delPhoto(imageUrlList, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                        </div>
+                        <img ng-show="imageUrlList.length < 1" height="40px" width="40px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(imageUrlList)" title="上传图片">
+                    </div>
+        		</div>
+        	</div>
+        </div>
+   </div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default pull-right btn_search" style="width: 50px;" ng-click="delItem()">删除</button>
+	<button class="btn btn-default pull-right btn_search" style="width: 50px;" ng-click="editName()">保存</button>
+</div>

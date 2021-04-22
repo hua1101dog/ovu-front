@@ -1,0 +1,35 @@
+<div id="angularId" ng-controller="checkItemCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>查验项管理</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">承接类型
+				</div>
+				<div class="x_content">
+					<table class="table table-responsive" style="table-layout: fixed">
+						<tbody>
+						<tr ng-repeat="item in list" ng-class="{'bg-primary':item.id == typeId}" role="button" ng-click="clicktr(item)">
+							<td>{{item.text}}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+			<div class="panel panel-default">
+				<div class="panel-heading">查验项列表
+					<a ng-click='addTopNode()' role="button" class='btn-link pull-right' ng-show="typeId"><i class='fa fa-plus'></i>新增查验项</a>
+				</div>
+				<div class="panel-body">
+					<!--<tree-view node-list="treeData" config="config"></tree-view>-->
+                    <tree-view-pro node-list="treeData" config="config"></tree-view-pro>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

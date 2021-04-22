@@ -1,0 +1,47 @@
+<div class="page-title ">
+    <div class="title_left">
+        <button class="btn btn-default" ui-sref="app.home">返回</button>
+        |
+        <span class="h4">{{vm.title}}</span>
+    </div>
+</div>
+<div class="row home">
+    <div class="col-lg-6 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label style="padding-left:5px;">标题</label>
+                    <input type="text" ng-model="search.title" placeholder="标题" class="form-control"/>
+                </div>
+                <button class="btn btn-default pull-right" ng-click="find()">查询</button>
+            </div>
+        </div>
+        <div class="panel panel-default ">
+            <div class="panel-heading">列表
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li ng-repeat="item in pageModel.data">
+                        <a href='javascript:void(0)' ng-click="vm.see(item.noticeId || item.newsId || item.dataId || item.guideId)"
+                           class='col-lg-8 col-sm-7 col-xs-9 btn btn-xs btn-link text-ellipsis text-left'
+                           uib-tooltip="{{item.title}}" tooltip-placement="top-left">{{item.title}}</a>
+                        <span class="pull-right">{{item.createTime | time}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12 col-xs-12">
+        <div class="ueditor" config="config" ng-model="vm.content" ready="ready"></div>
+    </div>
+</div>
+<style>
+    .edui-default .edui-editor{
+    }
+    .edui-editor-toolbarbox{
+        display: none;
+    }
+</style>

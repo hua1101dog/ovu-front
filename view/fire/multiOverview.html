@@ -1,0 +1,192 @@
+<div ng-controller="MultiOverviewCtrl as vm">
+	<div class="x_panel">
+		<span class="h4" style="line-height: 1.7;">项目总览</span>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-sm-8 col-xs-12">
+			<div class="panel panel-default">
+				<div class="panel-body" style="padding: 5px;">
+					<div ui-map="vm.map" style="height: 400px;"
+						ui-options="vm.mapOptions" ui-map-cache="alsMap"
+						ui-event="{'map-click':'vm.clickMap($event,$params)'}">
+					</div>
+					<div ng-repeat="marker in vm.markers" 
+			    	ui-map-marker="vm.markers[$index]" 
+			    	ui-event="{'map-mouseover':'vm.mouseoverMaker($event,$params,marker)','map-click':'vm.clickMaker($event,$params,marker,vm.markerData.parkName)',
+			    	'map-mouseout':'vm.myInfoWindow.close()'}">
+			        </div>
+				    <div ui-map-info-window="vm.myInfoWindow" style="width:190px">
+				    	<div>
+				    		<div class="x_title">{{vm.markerData.parkName}}</div>
+					      	<div class="x_content" style="z-index: 1" >
+					      		<div class="row" >
+				           			<label class="col-xs-6 control-label ">火警：</label>
+			           				<label class="col-xs-6 control-label ">{{vm.markerData.fireamount}}</label>
+				           		</div>
+					      		<div class="row">
+				           			<label class="col-xs-6 control-label ">误报：</label>
+			           				<label class="col-xs-6 control-label ">{{vm.markerData.falsepositives}}</label>
+				           		</div>
+							</div>
+				    	</div>
+				     </div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 col-sm-4 col-xs-12">
+			<div class="x_panel" style=" height: 410px; ">
+				<div class="x_title">火警实时播报 </div>
+				<div class="x_content" style="z-index: 1;position: static;">
+					<div ng-repeat="item in vm.list | limitTo:4">
+						<div class="row">
+							<div class="col-lg-12 col-sm-12">
+								<a class="btn btn-link" ng-click="vm.toFireMonitoring(item.firePointId)" style="white-space: normal;text-align: left;">
+									<span>{{item.detail}}</span>
+								</a>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12 col-sm-12 b-b">
+								<label class="col-xs-6 control-label ">{{item.time  | date:'yyyy-MM-dd HH:mm:ss'}}</label>
+								<label class="col-xs-6 control-label ">{{item.parkName}}</label>
+							</div>
+						</div>
+					</div>
+					<button class="btn btn-primary" ng-click="vm.toFireBroadcast()"
+							style="position: absolute;bottom: 0;right: 0;">更多</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-sm-8 col-xs-12">
+			<div class="x_panel" style=" height: 300px; ">
+				<div class="x_title">各项目火警统计 </div>
+				<div class="x_content" style="z-index: 1">
+					<div class="col-lg-12 col-sm-12">
+						<div id="fire-chart" 
+							style="height:250px;" 
+							ui-echarts="vm.fireAlarmOption" >
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 col-sm-4 col-xs-12">
+			<div class="x_panel" style=" height: 300px; ">
+				<div class="x_title">工单统计 </div>
+				<div class="x_content" style="z-index: 1">
+					<div class="col-lg-12 col-sm-12">
+						<div id="work-chart" 
+							style="height:250px;" 
+							ui-echarts="vm.workUnitOption" >
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">火警事件处理列表 </div>
+				<div class="x_content" style="z-index: 1">
+					<div class="form-inline">
+						<div class="form-group">
+							<input type="text" ng-model="search.equipCode"  placeholder="设备编号" class="form-control" />
+						</div>
+						<div class="form-group">
+							<input type="text" ng-model="search.name"  placeholder="设备名称" class="form-control" />
+						</div>
+						<div class="form-group">
+							<input type="text" ng-model="search.fireAddress"  placeholder="火情发生地址" class="form-control" />
+						</div>
+						<button class="btn btn-default pull-right" ng-click="find()" >查询</button>
+					</div>
+					<table class="table table-hover  ">
+                       <thead>
+                           <tr>
+                               <th>设备编号</th>
+                               <th>设备名称</th>
+                               <th>传感器分类</th>
+							   <th>消防类型</th>
+							   <th>火情发生地址</th>
+							   <th>发生时间</th>
+							   <th>当前状态</th>
+                               <th>操作</th>
+
+                           </tr>
+                       </thead>
+                       <tbody>
+					   	   <tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+					       <tr ng-repeat="item in pageModel.data">
+                               <td>{{item.equipCode}}</td>
+                               <td>{{item.name}}</td>
+                               <td>{{item.equipmentType}}</td>
+							   <td>{{item.typeName}}</td>
+							   <td>{{item.fireAddress}}</td>
+							   <td>{{item.createTime}}</td>
+							   <td>{{item.typeName}}</td>
+                               <td>
+                               		<a href='javascript:void(0)' ng-click="vm.falseAlarmHandle(item.workunitId)" ng-show="item.status != 4"  class='btn btn-xs btn-link'>处理</a>
+								   <a href='javascript:void(0)' ng-click="vm.handleDetail(item.workunitId)" ng-show="item.status == 4" class='btn btn-xs btn-link'>查看详情</a>
+                               </td>
+                           </tr>
+                       </tbody>
+                   </table>
+                   <div class="page-footer clearfix">
+						<ng-include src="'/common/pager.html'"></ng-include>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.m-t-sm {
+ 	 margin-top: 10px;
+	}
+	.m-t {
+	  margin-top: 15px;
+	}
+	.m-t-md {
+	  margin-top: 20px;
+	}
+	.m-t-lg {
+	  margin-top: 30px;
+	}
+	.m-n {
+	  margin: 0 !important;
+	}
+	.b {
+		border: 1px solid #ddd;
+		background: #fff;
+	}
+	.b-n {
+		border: 1px solid #ddd;
+	}
+	.border-r10 {
+    	border-radius: 10px;
+	}
+	.b-b {
+	  border-bottom: 1px solid #dee5e7;
+	}
+	.amap-touch-toolbar .amap-zoomcontrol {
+		bottom: 10px;
+	}
+	.line {
+	  width: 100%;
+	  height: 2px;
+	  margin: 10px 0;
+	  font-size: 0;
+	  overflow: hidden;
+	}
+	.line-xs {
+	  margin: 0;
+	}
+	.line-lg {
+	  margin-top: 15px;
+	  margin-bottom: 15px;
+	}
+</style>

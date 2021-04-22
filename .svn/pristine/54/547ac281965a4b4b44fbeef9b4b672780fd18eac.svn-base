@@ -1,0 +1,92 @@
+<link href="/ovu-pcos/show2046/css/owner.css" rel="stylesheet">
+<!-- 头部 -->
+<div class="row head">
+    <div class="col-md-6 title">
+        <div class="triangle-s"></div>
+        <div class="triangle-s2"></div>
+        <h2>设&nbsp;备&nbsp;运&nbsp;行&nbsp;情&nbsp;况</h2>
+    </div>
+</div>
+<!-- 主体部分 -->
+<div class="row main">
+    <!-- 左侧部分 -->
+    <div class="col-md-7 col-lg-7 left" style="height: 100%;">
+        <div class="panel panel-default tab" style="height: 100%;">
+            <div class="panel-body" style="height: 100%;">
+                <div ui-map="vm.map" style="height: 100%;"
+                     ui-options="vm.mapOptions" ui-map-cache="allMap"
+                     ui-event="{'map-click':'vm.clickMap($event,$params)'}">
+                </div>
+                <div ng-repeat="marker in vm.markers track by $index"
+                     ui-map-marker="vm.markers[$index]"
+                     ui-event="{'map-click':'vm.clickMaker($event,$params,marker)'}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 右侧部分 -->
+    <div class="col-md-5 col-lg-5 right" >
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default tab">
+                    <div class="panel-body">
+                        <div style="height:300px;" ui-echarts="vm.option1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default tab">
+                    <div class="panel-body">
+                        <table class="table" style="color: #ccc">
+                            <thead class="title">
+                            <tr>
+                                <th>工单名称</th>
+                                <th>工单类型</th>
+                                <th>创建时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in vm.workList ">
+                                <td style="width: 55%">{{item.wORKUNIT_NAME}}</td>
+                                <td>{{item.uNIT_STATUS|keyToValue:vm.statusList}}</td>
+                                <td>{{item.rEL_TIME}}</td>
+                            </tr>
+
+                            <!--<tr>
+                                <td>扶手损坏焊接不牢</td>
+                                <td>应急</td>
+                                <td>2017-11-24 </td>
+                            </tr>
+                            <tr>
+                                <td>墙顶水泥掉落</td>
+                                <td>应急</td>
+                                <td>2017-11-24 </td>
+                            </tr>
+                            <tr>
+                                <td>周界报警弱电系统每日巡查120171124</td>
+                                <td>计划</td>
+                                <td>2017-11-20 </td>
+                            </tr>
+                            <tr>
+                                <td>周界报警弱电系统每日巡查220171127</td>
+                                <td>计划</td>
+                                <td>2017-11-20  </td>
+                            </tr>
+                            <tr>
+                                <td>视频监控弱电系统日巡查</td>
+                                <td>计划</td>
+                                <td>2017-11-20 </td>
+                            </tr>
+                            <tr>
+                                <td>三号楼监控视频无信号</td>
+                                <td>应急</td>
+                                <td>2017-11-14 </td>
+                            </tr>-->
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

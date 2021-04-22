@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">分户数据管理</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div>
+        <span style="font-size: 18px;font-weight: 700">总计数据：</span><span style="font-size: 18px;font-weight: 700;margin-right: 20px">{{allData.totalValue}}</span>
+        <span style="font-size: 18px;font-weight: 700">时间：</span><span style="font-size: 18px;font-weight: 700">{{allData.time}}</span>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>空间名称</th>
+                <th>业主</th>
+                <th>分户数据</th>
+                <th>能耗占比</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in allData.spaceList">
+                <td>
+                    <span>{{item.spaceName}}</span>
+                </td>
+                <td>
+                    <span>{{item.ownerName}}</span>
+                </td>
+                <td>
+                        <span ng-show="item.seeStatus">{{item.value}}</span>
+                    <label class="required" ng-show="!item.seeStatus"></label>
+                    <input type="text" ng-show="!item.seeStatus" ng-model="item.value">
+                </td>
+                <td>
+                        <span>{{item.scale}}</span>
+                </td>
+                <td>
+                    <a href="javascript:void(0)" ng-click="editBtn(item)" class="btn btn-xs" ng-show="item.seeStatus">编辑</a>
+                    <!--<a href='javascript:void(0)' ng-click='del(item.spaceId)' class='btn btn-xs' ng-show="item.seeStatus">删除</a>-->
+                    <a href="javascript:void(0)" ng-click="saveBtn(item)" class="btn btn-xs" ng-show="!item.seeStatus">保存</a>
+                    <a href="javascript:void(0)" ng-click="cancelBtn(item)" class="btn btn-xs" ng-show="!item.seeStatus">取消</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save()">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

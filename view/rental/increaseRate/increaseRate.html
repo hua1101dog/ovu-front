@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>递增率管理</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+<body>
+<div id="angularId" ng-controller="increaseRateCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>递增率管理</h3>
+        </div>
+    </div>
+    
+    <!-- <div class="x_panel" >
+        <div class="form-inline" >
+        </div>
+    </div> -->
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color:#999999;">
+            递增率列表
+            <button class="btn btn-primary pull-right"  ng-click="editModal()" >新增</button>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                <thead class="title">
+                    <tr>
+                        <th>No.</th>
+                        <th>年限</th>
+                        <th>递增率</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="list.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                <tr style="color:#333333;" ng-repeat="x in list">
+                    <td>{{$index+1}}</td>
+                    <td>{{x.name}}</td>
+                    <td>{{x.increaseRate}}%</td>
+                    <td>
+                        <a href='javascript:void(0)' ng-click='editModal(x)' class='btn btn-xs'><span></span>编辑</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- <%@ include file="/common/modal.industry.tree.jsp" %> -->
+</body>
+</html>

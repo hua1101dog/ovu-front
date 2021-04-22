@@ -1,0 +1,61 @@
+<div class="modal-header">
+    <h5 class="modal-title">备注</h5>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" style="padding: 0 20px" novalidate>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">异常类型：</label>
+            <div class="col-xs-8">
+                <div ng-if="!item.remark">
+                    <label role="button" style="line-height:32px;margin-right: 15px" ng-if="item.signStatus=='2' || item.signStatus=='3' || item.signStatus=='5' || item.signStatus=='4'">
+                        <input type="radio" style="margin:0 5px" required ng-model="item.status" value='1'
+                            name="readWay">缺勤</label>
+                    <label role="button" style="line-height:32px;"  ng-if="item.signStatus=='2' || item.signStatus=='3' || item.signStatus=='5' || item.signStatus=='4'">
+                        <input type="radio" style="margin:0 5px" required ng-model="item.status" value='2'
+                            name="readWay">忘打卡</label>
+                    <label role="button" style="line-height:32px;" ng-if="item.signStatus=='6' || item.signStatus=='7'">
+                        <input type="radio" style="margin:0 5px" required ng-model="item.status" value='0'
+                            name="readWay">加班</label>
+                </div>
+                <div ng-if="item.remark">
+                    <label role="button" style="line-height:32px;margin-right: 15px" ng-if="item.status==1 || item.status==2">
+                        <input type="radio" style="margin:0 5px" required ng-model="item.status" value='1'
+                            name="readWay">缺勤</label>
+                    <label role="button" style="line-height:32px;"  ng-if="item.status==1 || item.status==2">
+                        <input type="radio" style="margin:0 5px" required ng-model="item.status" value='2'
+                            name="readWay">忘打卡</label>
+                    <label role="button" style="line-height:32px;"  ng-if="item.status==0">
+                        <input type="radio" style="margin:0 5px" required ng-model="item.status" value='0'
+                            name="readWay">加班</label>
+                </div>
+
+            </div>
+        </div>
+        <div ng-if="item.status==1">
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">备注</label>
+                <div class="col-xs-8" style="padding-left: 0px">
+                    <select class="form-control" ng-model="item.remark" ng-options="o as o for o in remarkList"
+                        required>
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        
+       
+        <div class="form-group" style="margin-top: 20px">
+            <label class="col-xs-3 control-label">描述：</label>
+            <div class="col-xs-8" style="padding-left: 0px">
+                <textarea type="text" cols="6" style="resize:none" class="form-control"
+                    ng-model="item.description"></textarea>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" style="margin: 0 10px" ng-click="confirm(form)">确定</button>
+    <button class="btn btn-warning" style="margin: 0 10px" ng-click="cancel()">取消</button>
+</div>

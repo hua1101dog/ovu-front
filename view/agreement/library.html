@@ -1,0 +1,153 @@
+<div ng-controller="libraryCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>企业合同库</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>合同名称</label>
+                <input type="text" class="form-control" style="width:150px" ng-model="search.compactName"
+                    placeholder="请输入合同名称" />
+            </div>
+            <div class="form-group">
+                <label>合同分类</label>
+                <select class="form-control" ng-model="search.classifyId"
+                    ng-options="o.classifyId as o.classifyName for o in msg">
+                    <option value="">--全部--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>合同类型</label>
+                <select class="form-control" ng-model="search.classifyType">
+                    <option value="">--全部--</option>
+                    <option value="1">进账合同</option>
+                    <option value="2">支出合同</option>
+                </select>
+
+            </div>
+
+
+            <button class="btn btn-default" ng-click="find()">查询</button>
+        </div>
+    </div>
+    <div class="x_panel">
+
+        <button class="btn btn-default" ng-click="selfFind()">请设置自定义查询</button>
+
+        <div ng-repeat="(index, item) in pageDate" class="form-inline">
+            <!-- <div class="form-inline"> -->
+            <div class="form-group " ng-if="item.dataItemType == 1">
+                <label>{{item.dataItemName}}</label>
+                <input type="text" class="form-control" readonly="readonly" style="width:150px" ng-model="item.Text" />
+            </div>
+            <div class="form-group" ng-if="item.dataItemType == 3">
+                <label>{{item.dataItemName}}</label> 最小金额:
+                <input type="text" class="form-control " style="width:150px" readonly="readonly"
+                    ng-model="item.minMoney" /> 最大金额:
+                <input type="text" class="form-control" style="width:150px" readonly="readonly"
+                    ng-model="item.maxMoney" />
+            </div>
+            <div class="form-group" ng-if="item.dataItemType == 4">
+                <label>{{item.dataItemName}}</label>
+                <input type="text" class="form-control" readonly="readonly" style="width:150px"
+                    ng-model="item.futext" />
+            </div>
+            <div class="form-group" ng-if="item.dataItemType == 2">
+                <label>{{item.dataItemName}}</label> 开始日期:
+                <input type="text" class="form-control" style="width:150px" readonly="readonly"
+                    ng-model="item.startDate" /> 结束日期:
+                <input type="text" class="form-control" style="width:150px" readonly="readonly"
+                    ng-model="item.deadDate" />
+            </div>
+
+        </div>
+
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            合同库列表
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top:10px">
+                <thead>
+                    <tr style="margin-top:0; border:none; background-color:white;">
+                        <th class="tdClass">NO</th>
+                        <th nowrap="nowrap">合同类型</th>
+                        <th nowrap="nowrap">分类名称</th>
+                        <th nowrap="nowrap">模版名称</th>
+                        <th nowrap="nowrap">合同名称</th>
+                        <!-- <th>甲方名称</th>
+                                        <th>乙方名称</th> -->
+                        <th nowrap="nowrap">创建时间</th>
+                        <th nowrap="nowrap">合同金额</th>
+                        <th nowrap="nowrap">创建人</th>
+                        <th nowrap="nowrap">当前流程</th>
+                        <th nowrap="nowrap">合同状态</th>
+                        <th nowrap="nowrap" ng-if="pageModel.data[0].searchData"
+                            ng-repeat="title in pageModel.data[0].searchData">{{title.dataItemName}}</th>
+                        <th nowrap="nowrap">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr ng-if="!pageModel.data || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="(index, item) in pageModel.data">
+                        <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.classifyTypeName}}</td>
+                        <td>{{item.classifyName}}</td>
+                        <td>{{item.templetName}}</td>
+                        <td>{{item.compactName}}</td>
+                        <!-- <td>{{item.firstCustomerName}}</td>
+                                <td>{{item.secondCustomerName}}</td> -->
+                        <td>{{item.createTime}}</td>
+                        <td>{{item.compactMoney}}</td>
+                        <td>{{item.userName}}</td>
+                        <td style="color:red">{{item.stepName}}</td>
+                        <td>{{item.statusName}}</td>
+                        <td ng-if="pageModel.data[index].searchData"
+                            ng-repeat="nsg in pageModel.data[index].searchData">
+                            <a ng-if="nsg.dataItemType == 4" href="javascript:void(0)"
+                                ng-click="showRichText(nsg.dataItemName,nsg.compactInfoData)"
+                                class="btn btn-xs">查看详情</a>
+                            <span ng-if="nsg.dataItemType != 4"> {{nsg.compactInfoData}}</span>
+                        </td>
+                        <!-- <td ng-if="pageModel.data[index].searchData" ng-repeat="nsg in pageModel.data[index].searchData"><div ng-bind-html=""></div></td> -->
+                        <td>
+                            <a href="javascript:void(0)" ng-click="showInform(item)" class="btn btn-xs">
+                                <span class="fa fa-eye"></span> 查看
+                            </a>
+                            <!-- <a href="javascript:void(0)" ng-if="item.compactStatus!=4" ng-click="showInform(item)" class="btn btn-xs"><span class="fa fa-edit"></span>废弃</a> -->
+                            <a href="javascript:void(0)" ng-click="showProcess(item)" class="btn btn-xs"
+                                style="margin-right:6px;">
+                                <span class="fa fa-eye"></span>审批流
+                            </a>
+                            <a href="javascript:void(0)" ng-click="remind(item)" class="btn btn-xs"
+                                style="margin-right:6px;">
+                                <span class="fa fa-eye"></span>合同提醒
+                            </a>
+                            <a href="javascript:void(0)" ng-click="del(item)" class="btn btn-xs">
+                                <span class="fa fa-trash"></span>删除
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+
+    
+</style>

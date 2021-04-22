@@ -1,0 +1,229 @@
+<!--配件库  -->
+<div class="parts-lib" id="angularId" ng-controller="PartsLibCtrl as vm">
+    <!--title BEGIN-->
+    <div class="page-title x_panel">
+        <div class="title_left">
+            <h3>配件库</h3>
+        </div>
+    </div>
+    <div>
+        <label class="control-label"><i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i><a role="button" ng-click="findPark()">{{search.projectName?search.projectName:'请选择项目'}} </a></label>
+    </div>
+    <!--title END-->
+    <!--body BEGIN-->
+    <div class="parts-lib-body row clearfix">
+        <!--<div class="col-md-4 col-sm-12 col-xs-12 project-list">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h4>项目列表</h4>
+                </div>
+                <div class="x_content">
+                    <div ng-if="!vm.treeData || vm.treeData.length === 0">
+                        暂无数据
+                    </div>
+                    <div id="house_tree">
+                        <tree-view node-list="vm.treeData"></tree-view>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div class="col-md-12 col-sm-12 col-xs-12 add-part">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <div class="pull-right">
+                        <span class="btn btn-success" ng-disabled="vm.disabled" ng-click="vm.toAdd()">新增配件</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <td width="200">部位</td>
+                                <td width="200">零件名称</td>
+                                <td width="200">操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!vm.partsList.length">
+                                <td colspan="100" class="text-center">{{vm.treeNotice}}</td>
+                            </tr>
+                            <tr ng-repeat="item in vm.partsList | limitTo: vm.numPerPage: (vm.currentPage - 1) * vm.numPerPage">
+                                <td>{{item.position}}</td>
+                                <td>{{item.partName}}</td>
+                                <td class="clearfix">
+                                    <a href="javascript:void(0)" ng-click="vm.toEdit(item)">
+                                        <i class="icon glyphicon glyphicon-edit"></i>
+                                        <span>编辑</span>
+                                    </a>
+                                    <span class="pipe"></span>
+                                    <a href="javascript:void(0)" ng-click="vm.toDelete(item)">
+                                        <i class="icon glyphicon glyphicon-trash"></i>
+                                        <span>删除</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer clearfix">
+                    <div class="pager-left pull-left">
+                        <span>共{{vm.totalItems}}条记录，当前显示{{vm.currentDisplay}}条</span>
+                    </div>
+                    <div class="pager-right pull-right">
+                        <div class="pull-left num-perpage">
+                            <span>每页</span>
+                            <select ng-model="vm.numPerPage" ng-options="x[0] as x[1] for x in [[20,'20'],[50,'50'],[100,'100']]"></select>
+                            <span>条</span>
+                        </div>
+                        <ul uib-pagination total-items="vm.totalItems" ng-model="vm.currentPage" max-size="vm.maxSize" num-pages="vm.numPages" items-per-page="vm.numPerPage" boundary-links="true" first-text="首页" last-text="最后一页" previous-text="上一页" next-text="下一页" class="pagination-sm pull-left">
+                        </ul>
+                        <div class="to-page pull-left">
+                            <span>到</span>
+                            <select ng-model="vm.currentPage" ng-options="x for x in vm.selectablePages"></select>
+                            <span>页</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--body END-->
+    <!--modal模板 删除确认 BEGIN-->
+    <script type="text/ng-template" id="confirmModalComponent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">系统消息</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            确定要删除这条数据吗？
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">确定</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">取消</button>
+        </div>
+    </script>
+    <!--modal模板 删除确认 END-->
+
+    <!--增加编辑弹出框 BEGIN-->
+    <script type="text/ng-template" id="editModalComponent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">{{$ctrl.title}}</h3>
+        </div>
+        <div class="modal-body container-fluid" id="modal-body">
+            <form name="form" novalidate class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label required">部位：</label>
+                    <div class="col-xs-8">
+                        <input type="text" id="position" class="form-control" required ng-trim="false" auto-focus="true" ng-model="$ctrl.item.position">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label required">零件名称：</label>
+                    <div class="col-xs-8">
+                        <input type="text" id="partName" class="form-control" required ng-trim="false" ng-model="$ctrl.item.partName">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.ok(form)">保存</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">取消</button>
+        </div>
+    </script>
+    <style>
+        .edit-parts .input-groups {
+            display: inline-block;
+        }
+
+        .edit-parts .input-groups .input-group {
+            display: block;
+            margin: 8px 0;
+        }
+
+        .edit-parts .input-groups .input-group.non-empty {
+            position: relative;
+        }
+
+        .edit-parts .input-groups .input-group.non-empty .empty-warning {
+            position: absolute;
+            /*right: -124px;*/
+            top: 5px;
+            color: red;
+        }
+
+        .edit-parts .empty-warning.first {
+            right: -100px;
+        }
+
+        .edit-parts .empty-warning.second {
+            right: -124px;
+        }
+    </style>
+    <!--增加编辑弹出框 END-->
+
+</div>
+
+<style>
+    .show-cell {
+        display: table-cell;
+    }
+
+    .hide-cell {
+        display: none;
+    }
+
+    .project-list .x_content {
+        height: 575px;
+        min-width: 360px;
+        overflow: auto;
+    }
+
+    .add-part .panel-body {
+        height: 530px;
+        overflow: auto;
+    }
+
+    .add-part .panel-body table {
+        min-width: 650px;
+    }
+
+    .add-part table tr th,
+    .add-part table tr td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .add-part table td a {
+        padding: 0 10px 0 12px;
+    }
+
+    .add-part .pipe {
+        border-right: 2px solid #5A738E;
+    }
+
+    .add-part .add-sign {
+        font-size: 30px;
+        vertical-align: middle;
+    }
+    /* 分页 start */
+
+    .panel-footer .pager-right>ul {
+        margin: 10px auto;
+    }
+
+    .panel-footer .pager-left {
+        margin: 15px auto;
+    }
+
+    .panel-footer .to-page {
+        margin: 15px;
+    }
+
+    .panel-footer .to-page select {
+        width: 45px;
+    }
+
+    .panel-footer .num-perpage {
+        margin: 15px;
+    }
+    /* 分页end */
+</style>

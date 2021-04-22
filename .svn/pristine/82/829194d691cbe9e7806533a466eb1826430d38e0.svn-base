@@ -1,0 +1,65 @@
+<!--工单总览页面 -->
+<div class="row m-t-sm">
+	<div class="col-lg-6 col-sm-6 col-xs-12">
+		<div class="x_panel" style="height: 300px;">
+			<div class="x_title">工单总数
+				<div class="pull-right">
+					<b class="font-16">{{vm.index4.total | number}}</b>条
+				</div>
+			 </div>
+			<div class="x_content" style="z-index: 1">
+				<div class="col-xs-6 border-line-lg b-r">
+					<div>
+						<span class="font-size-lg">{{vm.index4.planTotal | number}}</span>
+					</div>
+					<div>维保工单(条)</div>
+				</div>
+				<div class="col-xs-6 border-line-lg ">
+					<div>
+						<span class="font-size-lg">{{vm.index4.emergencyTotal | number}}</span>
+					</div>
+					<div>应急工单(条)</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6 col-sm-6 col-xs-12">
+		<div class="x_panel" style="height: 300px;">
+			<div class="x_title">应急工单来源统计</div>
+			<div class="x_content" style="z-index: 1">
+				<div id="worry-work-chart" 
+					style="height:250px;" 
+					ui-echarts="vm.index4WorryOption" >
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-6 col-sm-6 col-xs-12">
+		<div class="x_panel" style="height: 400px;">
+			<div class="x_title">工单总完成率
+				<div class="pull-right">
+					<b class="font-16">{{vm.index4.totalFinishedRate}}</b>
+				</div>
+			</div>
+			<div class="x_content" style="z-index: 1">
+				<div id="work-success-chart" 
+					style="height:350px;" 
+					ui-echarts="vm.index4SuccessOption" >
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6 col-sm-6 col-xs-12">
+		<div class="x_panel" style="height: 400px;">
+			<div class="x_title">各项目工单类型分布及电梯数量</div>
+			<div class="x_content" style="z-index: 1">
+				<div id="work-elevator-chart" 
+					style="height:350px;" 
+					ui-echarts="vm.index4WorkAndElevatorOption" >
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,171 @@
+<style>
+th{
+    padding: 2px !important;
+}
+td{
+    padding: 2px !important;
+}
+</style>
+<div id="angularId" ng-controller="spaceIndexCtl" style="" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>空间维护</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-3">
+            <div class="x_panel">
+                <!-- <div class="x_title">楼栋列表<a href="javaScript:void(0)" ng-click='addTopNode()' class='btn btn-xs pull-right'><span class='fa fa-plus'></span>分期</a></div> -->
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="oriList.length==0">无楼栋信息</div>
+                    <div id="house_tree">
+                        <tree-view node-list="treeData" config="config"></tree-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-9" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>&nbsp;单&nbsp;&nbsp;&nbsp;元&nbsp;&nbsp;&nbsp;&nbsp;号</label>
+                        <input type="text"  class="form-control" ng-model="search.unitNo" placeholder="单元号如00" />
+                    </div>
+                    <div class="form-group">
+                        <label>楼&nbsp;&nbsp;层&nbsp; 号</label>
+                        <input type="text"  class="form-control" ng-model="search.groundNo" placeholder="楼层号如000" />
+                    </div>
+                    <div class="form-group">
+                        <label>房号</label>
+                        <input type="text"  class="form-control" ng-model="search.houseCode" placeholder="房号" />
+                    </div>
+                    <div class="form-group">
+                        <label>空间编码</label>
+                        <input type="text"  class="form-control" ng-model="search.houseNo" placeholder="空间编码" />
+                    </div>
+                    <div class="form-group">
+                        <label>空间名称</label>
+                        <input type="text"  class="form-control" ng-model="search.houseName" placeholder="空间名称" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>租售性质</label>
+                        <select class="form-control" ng-model="search.rentsaleCharacter"
+                                ng-options="o.code as o.name for o in spaceRentList" ng-change="spaceRentChange(search.rentsaleCharacter)"
+                                style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>户规划用途</label>
+                        <select class="form-control" ng-model="search.housePlanPurposes"
+                                ng-options="o.code as o.name for o in planPurposeList" ng-change="planPurposeChange(search.housePlanPurposes)"
+                                style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>物业分类</label>
+                        <select class="form-control" ng-model="search.spacePropertyType"
+                                ng-options="o.dicCode as o.dicItem for o in propertyClassifyList"
+                                style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                  <!--  <div class="form-group">
+                        <label>空间类别</label>
+                        <select class="form-control" ng-model="search.rmCats" ng-change="changeHouseType()" ng-options="o.id as o.dicItem for o in houseType" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>-->
+                    <div class="form-group">
+                        <label>空间状态</label>
+                        <select class="form-control" ng-model="search.spaceStatus" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                            <option value="1">自持</option>
+                            <option value="2">已租</option>
+                            <option value="3">已售</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>空间来源</label>
+                        <select class="form-control" ng-model="search.isBase" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                            <option value="1">基础空间</option>
+                            <option value="0">拆合空间</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-default" ng-click="find(1)" >查询</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    房屋列表
+                    <button class="btn btn-primary pull-right" ng-if="hasPower('合并')" ng-disabled="!hasChecked(pageModel)" ng-click="mergeSpace()">合并</button>
+                </div>
+                <div class="panel-body" style="overflow: auto;padding: 0;">
+                    <table class="table col-md-9 col-sm-8" style="margin-top: 10px;">
+                        <thead class="">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th class="text-center" style="width:20px">
+                                    <span role="button" ng-click="checkAll(pageModel)">
+                                        <i class="glyphicon glyphicon-unchecked" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                                    </span>
+                                </th>
+                                <th style="text-align:center;">期/楼栋/单元/楼层/房号</th>
+                                <th style="text-align:center">空间名称</th>
+                                <th style="text-align:center">空间编码</th>
+                                <th style="text-align:center">租售性质</th>
+                                <th style="text-align:center">户规划用途</th>
+                                <th style="text-align:center">物业分类</th>
+                                <th style="text-align:center">空间状态</th>
+                                <th style="text-align:center">空间面积(m<sup>2</sup>)</th>
+                                <th style="text-align:center">空间来源</th>
+                                <th style="text-align:center;width: 50px;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                            <tr ng-repeat="item in pageModel.data" ng-if="!item.edit">
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+                                <td class="text-center">{{item.stageName}}/{{item.buildName}}/{{item.unitNo+'单元'+item.groundNo+'层'+item.houseCode}}</td>
+                                <td class="text-center">{{item.houseName}}</td>
+                                <td class="text-center">{{item.houseNo}}</td>
+                                <td class="text-center">{{item.rentsaleCharacter==1?'可租售':'不可租售'}}</td>
+                                <td class="text-center">{{item.housePlanPurposes|housePlanPurposesType}}</td>
+                                <!--<td class="text-center">{{item.rmCat|rmCatType}}</td>-->
+                                <td class="text-center">{{getSpacePropertyName(item.spacePropertyType)}}</td>
+                                <td class="text-center">{{item.spaceStatus|spaceType}}</td>
+                                <td class="text-center">{{item.area}}</td>
+                                <td class="text-center">
+                                    <span ng-show="item.isBase==1">基础空间</span>
+                                    <a href='javascript:void(0)' ng-click='goSeparateMergeSpace(item)' class='btn btn-xs' ng-show="item.isBase==null || item.isBase==0" style="color: #0b70ed">拆合空间</a>
+                                </td>
+                                <td class="text-left">
+                                    <!--<a href='javascript:void(0)' ng-click="goDetail('/ovu-base/system/parkHouse/spaceInfo.do',item,$event)" class='btn btn-xs'><span class='fa fa-book'></span>详情</a>-->
+                                    <a href='javascript:void(0)' ng-click="goDetail(item)" class='btn btn-xs'><span class='fa fa-book'></span>详情</a>
+                                    <a href='javascript:void(0)' ng-click='getPositon(item)' class='btn btn-xs' ng-if="item.housePlanPurposes != 3"><span class='fa  fa-user-o'></span>工位</a>
+                                    <a href='javascript:void(0)' ng-click="separate(item)" ng-show="item.rentsaleCharacter==1 && (!item.checkStatus || item.checkStatus==1) && item.spaceStatus==1"
+									class='btn btn-xs'><span class='fa fa-wrench'></span>拆分</a>
+                                    <a href='javascript:void(0)' ng-click='check(item.id,item.checkStatus,$event)' class='btn btn-xs' ng-show="item.rentsaleCharacter==1 && item.checkStatus==2"><span class='fa  fa-check'></span>复核(拆)</a>
+                                    <a href='javascript:void(0)' ng-click='check(item.id,item.checkStatus,$event)' class='btn btn-xs' ng-show="item.rentsaleCharacter==1 && item.checkStatus==3"><span class='fa  fa-check'></span>复核(合)</a>
+
+                                    <a href='javascript:void(0)' ng-click="uploadSpaceInfo(item)"  class='btn btn-xs'>上传空间信息</a>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

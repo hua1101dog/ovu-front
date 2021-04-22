@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>租赁资源管理</title>
+    <link rel="stylesheet" href="rental/rent.css">
+    <style>
+        table th,
+        table td {
+            text-align: center !important;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="angularId" ng-controller="rentResourceCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>租赁资源</h3>
+            </div>
+        </div>
+
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>分期：</label>
+                    <select style="width: 180px;" ng-model="search.stageId"
+                        ng-options="s.id as s.stageName for s in stages" ng-change="getBulid()" class="form-control">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>楼栋：</label>
+                    <select style="width: 180px;" ng-model="search.buildId"
+                        ng-options="b.id as b.buildName for b in builds" class="form-control">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>单元：</label>
+                    <input ng-model="search.unitNo" type="text" class="form-control" placeholder="单元" />
+                </div>
+                <div class="form-group">
+                    <label>楼层：</label>
+                    <input ng-model="search.groundNo" type="text" class="form-control" placeholder="楼层" />
+                </div>
+                <div class="form-group">
+                    <label>房号：</label>
+                    <input ng-model="search.houseCode" type="text" class="form-control" placeholder="房号" />
+                </div>
+                <div class="form-group">
+                    <label>房屋名称：</label>
+                    <input ng-model="search.houseName" type="text" class="form-control" placeholder="房屋名称" />
+                </div>
+                <div class="form-group">
+                    <label>状态：</label>
+                    <select style="width: 180px;" ng-model="search.rentalStatus" class="form-control">
+                        <option value="">全部</option>
+                        <option value="{{x.value}}" ng-repeat="x in status">{{x.text}}</option>
+                    </select>
+                </div>
+                <button class="btn btn-default" ng-click="find(1)">查询</button>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#999999;">
+                租赁资源列表
+                <button class="btn btn-danger pull-right" ng-click="batchUpdate(0)">批量停用</button>
+                <button class="btn btn-primary pull-right" ng-click="batchUpdate(1)">批量启用</button>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center">No.</th>
+                            <th class="text-center" style="width:20px"><span role="button"
+                                    ng-click="checkAll(pageModel)">
+                                    <i class="glyphicon"
+                                        ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                            </th>
+                            <th>分期</th>
+                            <th>楼栋</th>
+                            <th>单元</th>
+                            <th>楼层</th>
+                            <th>房号</th>
+                            <th>房屋名称</th>
+                            <th>
+                                <div class="sortFlex">
+                                    <span>面积（m<sup>2</sup>）</span>
+                                    <div class="sortIcon">
+                                        <span class="icon_up"
+                                            ng-class="{true: 'color-deep-up', false: 'color-shallow-up'}[sortStatus.areaSort==1]" ng-click="resourcesSort('areaSort',1)"></span>
+                                        <span class="icon_down"
+                                            ng-class="{true: 'color-deep-down', false: 'color-shallow-down'}[sortStatus.areaSort==2]" ng-click="resourcesSort('areaSort',2)"></span>
+                                    </div>
+                                </div>
+                            </th>
+                            <!-- <th>租金单价（元/月/m<sup>2</sup>）</th> -->
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr style="color:#333333;" ng-repeat="x in pageModel.data">
+                            <td class="text-center">{{$index+1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td><i role="button" ng-click="checkOne(x)"
+                                    ng-class="{'glyphicon-check':x.checked,'glyphicon-unchecked':!x.checked}"
+                                    class="glyphicon"></i></td>
+                            <td>{{x.stageName}}</td>
+                            <td>{{x.buildName}}</td>
+                            <td>{{x.unitNum || x.unitNo}}</td>
+                            <td>{{x.groundNum}}</td>
+                            <td>{{x.houseCode}}</td>
+                            <td>{{x.houseName}}</td>
+                            <td>{{x.area}}</td>
+                            <!-- <td>{{x.rentPrice|number:2}}</td> -->
+                            <td>{{x.rentalStatus==1?'启用':'停用'}}</td>
+                            <td>
+                                <a ng-show="x.rentalStatus==1?true:false" href='javascript:void(0)'
+                                    ng-click='updateStatus(0,x)' class='btn btn-xs'
+                                    style="border:1px solid #5692ea;color:#5692ea;">
+                                    <span></span>停用</a>
+                                <a ng-show="x.rentalStatus!=1?true:false" href='javascript:void(0)'
+                                    ng-click='updateStatus(1,x)' class='btn btn-xs'
+                                    style="border:1px solid #5692ea;color:#5692ea;">
+                                    <span></span>启用</a>
+                                <a ng-click='detail(x)' class='btn btn-xs'
+                                    style="border:1px solid #5692ea;color:#5692ea;">
+                                    <span></span>查看</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'" class="ng-scope" ng-if="pageModel.data.length != 0">
+                        <style type="text/css" class="ng-scope">
+                            .pagination>li>span:hover {
+                                background-color: #fff;
+                                cursor: text
+                            }
+
+                        </style>
+                    </ng-include>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

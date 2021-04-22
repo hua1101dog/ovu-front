@@ -1,0 +1,61 @@
+<div ng-controller="processCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>审批流程</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <button class="btn btn-default" ng-click="back()">返回</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">审批流程列表
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top:10px">
+                        <thead class="title">
+                            <tr>
+                                <th>NO</th>
+                                <th>合同名称</th>
+                                <th>审批人</th>
+                                <th>审批时间</th>
+                                <th>审批流程</th>
+                                <th>审批结果</th>
+                                <th>审批意见</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data || pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data">
+                                <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td>{{item.compactName}}</td>
+                                <td>{{item.userName}}</td>
+                                <td>{{item.passDate}}</td>
+                                <td>{{item.stepName}}</td>
+                                <td ng-show="item.passResultData == '退回'" style="color:red">{{item.passResultData}}</td>
+                                <td ng-show="item.passResultData != '退回'">{{item.passResultData}}</td>
+                                <td>{{item.passDetail}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

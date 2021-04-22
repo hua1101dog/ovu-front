@@ -1,0 +1,180 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h5 class="modal-title">订单详情</h5>
+</div>
+<div class="modal-body checkOrder">
+	<h4>订单信息</h4>
+	<div class="order-msg">
+		<div class="order-group">
+			<div>订单编号</div>
+			<div ng-attr-title="{{item.billNo}}">{{item.billNo}}</div>
+			<div>订单类别</div>
+			<div ng-attr-title="{{item.orderTypeStr}}">{{item.orderTypeStr|| '--'}}</div>
+		</div>
+		<div class="order-group">
+			<div>订单金额</div>
+			<div>¥{{item.totalAmount?item.totalAmount/100:'' || '--'}}</div>
+			<div>商户类别</div>
+			<div ng-attr-title="{{item.mtypeStr}}">{{item.mtypeStr}}</div>
+		</div>
+		<div class="order-group">
+			<div>子商户号</div>
+			<div ng-attr-title="{{item.mid}}">{{item.mid}}</div>
+			<div >商家名称</div>
+			<div ng-attr-title="{{item.mname}}">{{item.mname}}</div>
+		</div>
+		<div class="order-group">
+			<div>商品名称</div>
+			<div ng-attr-title="{{item.goodsName}}">{{item.goodsName}}</div>
+			<div>商品ID</div>
+			<div ng-attr-title="{{item.serviceId}}">{{item.serviceId}}</div>
+		</div>
+		<div class="order-group">
+			<div>商品数量</div>
+			<div>{{item.goodsNum}}</div>
+			<div>订单时间</div>
+			<div>{{item.orderTime}}</div>
+		</div>
+		<div class="order-group">
+			<div>支付方式</div>
+			<div>{{item.payTypeStr}}</div>
+			<div>备注</div>
+			<div ng-attr-title="{{item.billBack}}">{{item.billBack}}</div>
+		</div>
+		<div class="order-group">
+			<div>手续费率</div>
+			<div>{{item.payFeeRateStr}}</div>
+			<div>手续费</div>
+			<div>{{(item.fee/100).toFixed(2)}}</div>
+		</div>
+		<div class="order-group">
+			<div>支付时间</div>
+			<div>{{item.payTime}}</div>
+			<div>入账金额</div>
+			<div>{{item.totalAmount - item.fee ? ((item.totalAmount - item.fee)/100).toFixed(2) : "--"}}</div>
+		</div>
+		<div class="order-group">
+			<div>订单状态</div>
+			<div>{{item.orderStatusStr}}</div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+	<h4>对账信息</h4>
+	<div class="check-msg">
+		<div class="check-group">
+			<div>对账状态</div>
+			<div>{{item.ownVerifyStatusStr}}</div>
+		</div>
+        <div class="check-group" ng-if="item.ownVerifyStatus==1||item.ownVerifyStatus==3">
+            <div>对账人员</div>
+            <div>{{item.ownVerifyName}}</div>
+        </div>
+        <div class="check-group" ng-if="item.ownVerifyStatus==1||item.ownVerifyStatus==3">
+            <div>对账时间</div>
+            <div>{{item.ownVerifyDate}}</div>
+        </div>
+
+		<div class="check-group">
+			<div>处理备注</div>
+			<div>
+				<input type="text" ng-model="item.ownVerifyRemark" style="width: 66%;height: 35px;">
+			</div>
+		</div>
+	</div>
+	<div class="" style="overflow:visible;margin-top: 15px;text-align:center;" ng-hide="item.ownVerifyStatus==1||item.ownVerifyStatus==3">
+        <button class="btn btn-primary" ng-click="saveEdit()">{{item.ownVerifyStatus==2?'冲正处理':'对账处理'}}</button>
+    </div>
+</div>
+<style>
+	.checkOrder {
+		padding: 25px;
+	}
+
+	.checkOrder>h4 {
+		font-weight: 700;
+		margin-bottom: 20px;
+	}
+
+	.checkOrder .order-msg {
+		width: 100%;
+		font-size: 14px;
+		margin-bottom: 20px;
+	}
+
+	.order-msg .order-group {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	.order-msg .order-group>div:nth-of-type(odd) {
+		width: 15%;
+		box-sizing: border-box;
+		text-align: right;
+		padding-right: 15px;
+		background-color: #F9FAFC;
+	}
+
+	.order-msg .order-group>div:nth-of-type(even) {
+		width: 35%;
+		box-sizing: border-box;
+		text-align: left;
+		padding-left: 15px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow:ellipsis;
+	}
+
+	.order-msg .order-group>div {
+		height: 50px;
+		line-height: 50px;
+		border-left: 1px solid #f1f1f1;
+		border-top: 1px solid #f1f1f1;
+	}
+
+	.order-msg .order-group>div:last-of-type {
+		border-right: 1px solid #f1f1f1;
+	}
+
+	.order-msg .order-group:last-of-type>div {
+		border-bottom: 1px solid #f1f1f1;
+	}
+	.checkOrder .check-msg {
+		width: 100%;
+		font-size: 14px;
+	}
+	.check-msg .check-group {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+	.check-msg .check-group>div:nth-of-type(odd) {
+		width: 15%;
+		box-sizing: border-box;
+		text-align: right;
+		padding-right: 15px;
+		background-color: #F9FAFC;
+	}
+
+	.check-msg .check-group>div:nth-of-type(even) {
+		width: 85%;
+		box-sizing: border-box;
+		text-align: left;
+		padding-left: 15px;
+	}
+	.check-msg .check-group>div {
+		height: 50px;
+		line-height: 50px;
+		border-left: 1px solid #f1f1f1;
+		border-top: 1px solid #f1f1f1;
+	}
+
+	.check-msg .check-group>div:last-of-type {
+		border-right: 1px solid #f1f1f1;
+	}
+
+	.check-msg .check-group:last-of-type>div {
+		border-bottom: 1px solid #f1f1f1;
+	}
+</style>

@@ -1,0 +1,185 @@
+<div class="x_panel">
+    <div class="form-inline">
+        <div class="form-group">
+            <span>选择起始时间</span>
+            <input type="datetime" class="form-control Wdate engerCouSt" style="display: inline-block;width: auto" ng-model="search.startTime" onchange=""
+                onclick="javascript:WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.engerCouEn').last().val()||'%y-%M-%d'}&quot;})">
+            <span>选择截止时间</span>
+            <input type="datetime" class="form-control Wdate engerCouEn" style="display: inline-block;width: auto" ng-model="search.endTime" onchange=""
+                onclick="javascript:WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.engerCouSt').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+        </div>
+        <button class="btn btn-default" style="margin-bottom: 4px" ng-click="find()">查询</button>
+        <button class="btn btn-default" style="margin-bottom: 4px" ng-disabled="(!search.nodeId) || (!search.parkId)" ng-click="outputDo()">导出数据</button>
+    </div>
+</div>
+<div class="panel panel-default" style="border:0;padding: 15px">
+    <div ng-if="energyCouple && energyCouple.length!==0" ng-repeat="item in energyCouple track by $index">
+        <div class="maxDiv">
+            <div class="main">
+                <div class="mDiv" ng-mouseenter="show(item)">
+                    <p class="num">{{item.energyValue}} </p>
+                    <p class="con" style="color:#fff; width: 78px;word-wrap: break-word"> {{item.text}}</p>
+                </div>
+                <div class="left">
+                    <div class="sDiv" ng-if="item.pointList && item.pointList.length!==0" ng-repeat="t in item.pointList track by $index">
+                        <p class="num">{{t.pointValue}} </p>
+                        <p class="con"> {{t.pointName}}</p>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="item.nodes && item.nodes.length!==0" ng-repeat="i in item.nodes  track by $index">
+                <div class="lDiv">
+                    <div class="leftdiv">
+                        <p class="num">{{i.energyValue}} </p>
+                        <p class="con"> {{i.text}}</p>
+                    </div>
+                    <div class="rigthdiv">
+                        <div class=" minDiv" ng-if="i.pointList && i.pointList.length!==0" ng-repeat="v in i.pointList track by $index">
+                            <p class="num">{{v.pointValue}} </p>
+                            <p class="con"> {{v.pointName}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="item.nodes && item.nodes.length!==0" ng-repeat="i in item.nodes track by $index">
+                <div ng-if="i.nodes && i.nodes.length!==0" ng-repeat="v in i.nodes track by $index">
+                    <div class="lDiv">
+                        <div class="leftdiv">
+                            <p class="num">{{v.energyValue}} </p>
+                            <p class="con"> {{v.text}}</p>
+                        </div>
+                        <div class="rigthdiv">
+                            <div class=" minDiv" ng-if="v.pointList && v.pointList.length!==0" ng-repeat="i in v.pointList track by $index">
+                                <p class="num">{{i.pointValue}} </p>
+                                <p class="con"> {{i.pointName}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div ng-if="item.nodes && item.nodes.length!==0" ng-repeat="i in item.nodes track by $index">
+                <div ng-if="i.nodes && i.nodes.length!==0" ng-repeat="v in i.nodes track by $index">
+                    <div ng-if="v.nodes && v.nodes.length!==0" ng-repeat="i in v.nodes track by $index">
+                        <div class="lDiv">
+                            <div class="leftdiv">
+                                <p class="num">{{i.energyValue}} </p>
+                                <p class="con"> {{i.text}}</p>
+                            </div>
+                            <div class="rigthdiv">
+                                <div class=" minDiv" ng-if="i.pointList && i.pointList.length!==0" ng-repeat="v in i.pointList track by $index">
+                                    <p class="num">{{v.pointValue}} </p>
+                                    <p class="con"> {{v.pointName}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="item.nodes && item.nodes.length!==0" ng-repeat="i in item.nodes track by $index">
+                <div ng-if="i.nodes && i.nodes.length!==0" ng-repeat="v in i.nodes track by $index">
+                    <div ng-if="v.nodes && v.nodes.length!==0" ng-repeat="i in v.nodes track by $index">
+                        <div ng-if="i.nodes && i.nodes.length!==0" ng-repeat="v in i.nodes track by $index">
+                            <div class="lDiv">
+                                <div class="leftdiv">
+                                    <p class="num">{{v.energyValue}} </p>
+                                    <p class="con"> {{v.text}}</p>
+                                </div>
+                                <div class="rigthdiv">
+                                    <div class=" minDiv" ng-if="v.pointList && v.pointList.length!==0" ng-repeat="i in v.pointList track by $index">
+                                        <p class="num">{{i.pointValue}} </p>
+                                        <p class="con"> {{i.pointName}}</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .main {
+            position: relative
+        }
+
+        .left {
+            margin-left: 125px
+        }
+
+        .sDiv {
+            border: 1px solid #ccc;
+            display: inline-block;
+            margin: 5px;
+
+            padding: 8px;
+            border-radius: 20%;
+            background-color: #f3f3f3;
+        }
+
+        .mDiv {
+            border: 1px solid #ccc;
+            display: inline-block;
+            background-color: #1778D6;
+            padding: 10px;
+            border-radius: 20%;
+            color: #fff;
+            float: left;
+            border-right: 1px solid #ccc;
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%)
+        }
+
+        .maxDiv:focus {
+            outline: none
+        }
+
+        .maxDiv {
+            padding: 10px
+        }
+
+        .num {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .con {
+            color: #676565;
+           
+        }
+
+        .lDiv {
+            margin: 10px 7px;
+            padding: 15px 13px;
+            background-color: #f3f3f3;
+            border-radius: 20px;
+            display: inline-block;
+            position: relative
+        }
+
+        .minDiv {
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 9px;
+            padding: 0 20px;
+            margin: 6px 5px
+        }
+
+        .leftdiv {
+            width: 86px;
+            float: left;
+            border-right: 1px solid #ccc;
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%)
+        }
+
+        .rigthdiv {
+            margin-left: 88px
+        }
+    </style>

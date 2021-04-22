@@ -1,0 +1,30 @@
+<!-- 添加人员 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+
+    <h4 class="modal-title">产权变更记录</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <ul class="layui-timeline" ng-if="dataList && dataList.length">
+        <li class="layui-timeline-item" ng-repeat="item in dataList">
+          <i class="layui-icon layui-timeline-axis"></i>
+          <div class="layui-timeline-content layui-text">
+            <h3 class="layui-timeline-title">变更时间：{{item.changeTime.substring(0, 10)}}</h3>
+            <p>
+                交易代理公司：{{item.agency}}
+              <br>成交单价：{{item.unitPrice}}千元/㎡
+              <br><span style="width: 50%;" class="inline_block" ng-if="item.ownerName">业主：{{item.ownerName}}</span>  <span ng-if="item.ownerPhone">手机号：{{item.ownerPhone}} </span>
+              <br ><span style="width: 50%;" class="inline_block" ng-if="item.relativeName">亲属：{{item.relativeName}}</span> <span ng-if="item.relativePhone">手机号：{{item.relativePhone}} </span>
+            
+            </p>
+          </div>
+        </li>
+       
+      </ul>  
+      <p ng-if="!dataList || !dataList.length">暂无记录</p>
+</div>
+<div class="modal-footer">
+   
+    <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+</div>
+

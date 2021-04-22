@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>账务管理</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="derateExamineCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>{{check?"审批查看":"减免审批"}}</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color:#999999;">基本信息</div>
+                <div class="panel-body">
+                    <table style="color:#999999;border: 1px solid #ddd;width: 100%;">
+                        <tbody>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">租户名称：</td>
+                                <td style="border: 1px solid #ddd;">{{list.secondPartyName}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">减免日期：</td>
+                                <td style="border: 1px solid #ddd;">{{list.reliefDate}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">减免金额：</td>
+                                <td style="border: 1px solid #ddd;">{{list.reliefAmount| number:2}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">减免原因：</td>
+                                <td style="border: 1px solid #ddd;">{{list.reliefReason}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;" ng-show="check">审批人：</td>
+                                <td style="border: 1px solid #ddd;" ng-show="check">{{list.auditUserName}}</td>
+                                <td style="border: 1px solid #ddd;"></td>
+                                <td style="border: 1px solid #ddd;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--<ul class="basaMsg_ul">
+                    <li class="form-group">
+                        <label>租户名称：</label>
+                        <span>{{list.secondPartyName}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>减免日期：</label>
+                        <span>{{list.reliefDate}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>减免金额：</label>
+                        <span>{{list.reliefAmount | number:2}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>减免原因：</label>
+                        <span>{{list.reliefReason}}</span>
+                    </li>
+                    <li class="form-group" ng-show="check">
+                        <label>审批人：</label>
+                        <span>{{list.auditUserName}}</span>
+                    </li>
+                </ul>-->
+                    
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color:#999999;">应收明细</div>
+                <div class="panel-body">
+                    
+                    <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                        <thead class="title">
+                            <tr>
+                                <th>费项名称</th>
+                                <th>应收日期</th>
+                                <th>租赁资源</th>
+                                <th>账单周期</th>
+                                <th>应收金额</th>
+                                <th>已收金额</th>
+                                <th>已减免</th>
+                                <th>可减免金额</th>
+                                <th>申请减免金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                            <tr style="color:#333333;" ng-repeat="x in pageModel">
+                                <td>{{x.expenditureName||'租金'}}</td>
+                                <td>{{x.dateReceivable}}</td>
+                                <td>{{x.houseName}}</td>
+                                <td>{{x.billDateStart}}<span ng-if="x.billDateEnd">至</span>{{x.billDateEnd}}</td>
+                                <td>{{x.billPrice| number:2}}</td>
+                                <td>{{x.lastReceiveAmount| number:2}}</td>
+                                <td>{{x.lastReliefAmount| number:2}}</td>
+                                <td>{{x.lastUnreceiveAmount| number:2}}</td>
+                                <td>{{x.reliefAmount| number:2}}</td>
+                            </tr>
+                            <tr style="color:#333333;" ng-if="pageModel.length != 0">
+                                <td>合计</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{{billPriceTotal| number:2}}</td>
+                                <td>{{lastReceiveAmountTotal| number:2}}</td>
+                                <td>{{lastReliefAmountTotal| number:2}}</td>
+                                <td>{{lastUnreceiveAmountTotal| number:2}}</td>
+                                <td>{{reliefTotal| number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-default" ng-show="(check)&&(list.status == 2)">
+                <div class="panel-heading" style="color:#999999;">驳回原因</div>
+                <div class="panel-body">{{list.auditRemark}}</div>
+            </div>
+        </div>
+        <div class="modal-footer" ng-show="check">
+            <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+        </div>
+        <ul class="ul_list"  ng-show="!check">
+            <li class="inline_li">
+                <label for="">审批人：</label>
+                <p>{{user.nickname}}</p>
+            </li>
+            <li class="inline_li">
+                <label for="">审批意见：</label>
+                <textarea ng-model="remark" cols="30" rows="5" class="ng-pristine ng-untouched ng-valid ng-empty" aria-multiline="true" aria-invalid="false"></textarea>
+            </li>
+        </ul>
+        <div class="submitBtn_m" ng-show="!check">
+            <a ng-click="pass(1)" class="btn btn-primary">通过</a>
+            <a ng-click="pass(0)" class="btn btn-default">驳回</a>
+            <a class="btn btn-primary" ng-click="back()">返回</a>
+        </div>
+    </div>
+</body>
+
+</html>

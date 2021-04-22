@@ -1,0 +1,2032 @@
+<style>
+    .modal-dialog .modal-content .modal-body {
+        position: relative;
+    }
+
+    .status {
+        margin-top: -5px;
+        display: inline-block;
+        padding: 2px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+        color: #fff;
+    }
+
+    .title-f {
+        font-size: 12px;
+    }
+
+    .bg-red {
+        background-color: red
+    }
+
+    .bg-green {
+        background-color: green
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .paramList {
+        padding: 0 20px;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .paramList li {
+        line-height: 30px;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .mt-10 {
+        margin-top: 10px;
+    }
+
+    .mb-10 {
+        margin-bottom: 10px!important;
+    }
+
+    .top-border {
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+    }
+</style>
+<div id="angularId" ng-controller="equipMonitorCtl">
+    <div class="page-title">
+        <style>
+            .rm-essential {
+                font-family: inherit;
+                font-weight: 500;
+                line-height: 1.1;
+                color: inherit;
+            }
+        </style>
+        <div class="title_left">
+            <h3 class="rm-essential">设备监测</h3>
+            <div class="col-xs-12" ng-if="search.isGroup">
+                <label class="control-label"><i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i><a role="button" ng-click="findPark(search,refresh)">{{search.parkName||'请选择项目'}} </a></label>
+            </div>
+        </div>
+        <!-- wjlong BEGIN -->
+        <div class="title_right">
+            <!-- 4个tab 切换 -->
+            <div class="btn-group pull-right">
+                <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'list-mode'">列表模式</label>
+                <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'icon-mode'">图标模式</label>
+                <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'2D/3D-mode'">2D/3D模式</label>
+                <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'BIM-mode'">BIM模式</label>
+            </div>
+        </div>
+        <!-- wjlong END -->
+    </div>
+    <!-- wjlong BEGIN-->
+    <div class="row">
+        <!-- 主显示区 -->
+        <div class="col-md-9 col-sm-9 col-xs-9">
+            <div class="wjl-content">
+                <!-- 列表模式 -->
+                <div class="list-mode" ng-show="radioModel === 'list-mode'">
+                    <div class="x_panel">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>设备分类：</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" readonly="readonly" style="min-width: 250px" ng-focus="search.typeFocus=true" ng-blur="search.typeFocus=false" ng-model="search.typeName" />
+                                    <layer-select node-list="equipTypeTree" select-method="selectEquipType" ng-show="search.typeFocus||search.typeHover" ng-mouseover="search.typeHover=true" ng-mouseleave="search.typeHover=false" class="layerSelect" style="left: 0px;top:35px;"></layer-select>
+
+                                    <span class="input-group-btn">
+                                        <button  class="btn btn-default" ng-click="clearEquipType()" style="height: 34px">
+                                            <i class='fa fa-close'></i>
+                                        </button>
+							        </span>
+                                </div>
+                                <!--<input type="text" class="form-control" ng-focus="search.typeFocus=true" ng-blur="search.typeFocus=false"  ng-model="search.typeName" readonly/>
+							            <layer-select node-list="equipTypeTree" select-method="selectEquipType" ng-show="search.typeFocus||search.typeHover" ng-mouseover="search.typeHover=true" ng-mouseleave="search.typeHover=false" class="layerSelect" style="left: 15px;top:inherit;" ></layer-select>
+					                -->
+                            </div>
+                            <div class="form-group">
+                                <label>设备状态</label>
+                                <select class="form-control" ng-model="search.equip_status" ng-options="o[0] as o[1] for o in equipStatusDict">
+							            <option value="">--请选择--</option>
+						            </select>
+                            </div>
+                            <div class="form-group">
+                                <label>监测参数是否正常</label>
+                                <select class="form-control" ng-model="search.is_regular" ng-options="o[0] as o[1] for o in yesNoDict">
+							        <option value="">--请选择--</option>
+						        </select>
+                            </div>
+                            <button class="btn btn-default" ng-click="find(1)">查询</button>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <!-- <div class="panel-heading">
+                            设备监测列表
+                             <button type="button" class="btn btn-default btn-sm pull-right" ng-click="type == 'list'?(type = 'chart'):(type = 'list')">
+						        <span class="glyphicon " ng-class="{'glyphicon-th-list':type!='list','glyphicon-th-large':type=='list'}"></span>
+					        </button>
+                        </div> -->
+                        <div class="panel-body">
+                            <!--列表-->
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">NO</th>
+                                        <th>设备名称</th>
+                                        <th>设备地址</th>
+                                        <th>设备状态</th>
+                                        <th>监测参数</th>
+                                        <th>监测状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="item in pageModel.data">
+                                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.park_name}} {{item.stage_name}} {{item.floor_name}} {{item.house_name}}</td>
+                                        <td>{{item.equip_status|keyToValue:equipStatusDict}}</td>
+                                        <td>
+                                            <ul>
+                                                <li ng-repeat="param in item.params">{{param.param_name}}：<b ng-class="{'text-danger':param.is_regular==2}">{{param.val}}{{(param.val_type==1 && param.val!=undefined)?param.unit:''}}</b></li>
+                                            </ul>
+                                        </td>
+                                        <td>{{item.is_regular == 1?'正常':''}}{{item.is_regular == 2?'异常':''}}</td>
+                                        <td><a href='javascript:void(0)' class="btn-link" ng-click='showMore(item)'>查看详情</a></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="page-footer clearfix">
+                                <ng-include src="'/common/pager.html'"></ng-include>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 图标模式 -->
+                <div class="icon-mode" ng-show="radioModel === 'icon-mode'">
+                    <div class="x_panel">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>设备分类：</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" readonly="readonly" style="min-width: 250px" ng-focus="search.typeFocus=true" ng-blur="search.typeFocus=false" ng-model="search.typeName" />
+                                    <layer-select node-list="equipTypeTree" select-method="selectEquipType" ng-show="search.typeFocus||search.typeHover" ng-mouseover="search.typeHover=true" ng-mouseleave="search.typeHover=false" class="layerSelect" style="left: 0px;top:35px;"></layer-select>
+
+                                    <span class="input-group-btn">
+                                            <button  class="btn btn-default" ng-click="clearEquipType()" style="height: 34px">
+                                                <i class='fa fa-close'></i>
+                                            </button>
+							            </span>
+                                </div>
+                                <!--<input type="text" class="form-control" ng-focus="search.typeFocus=true" ng-blur="search.typeFocus=false"  ng-model="search.typeName" readonly/>
+							            <layer-select node-list="equipTypeTree" select-method="selectEquipType" ng-show="search.typeFocus||search.typeHover" ng-mouseover="search.typeHover=true" ng-mouseleave="search.typeHover=false" class="layerSelect" style="left: 15px;top:inherit;" ></layer-select>
+					                -->
+                            </div>
+                            <div class="form-group">
+                                <label>设备状态</label>
+                                <select class="form-control" ng-model="search.equip_status" ng-options="o[0] as o[1] for o in equipStatusDict">
+							            <option value="">--请选择--</option>
+						            </select>
+                            </div>
+                            <div class="form-group">
+                                <label>监测参数是否正常</label>
+                                <select class="form-control" ng-model="search.is_regular" ng-options="o[0] as o[1] for o in yesNoDict">
+							        <option value="">--请选择--</option>
+						        </select>
+                            </div>
+                            <button class="btn btn-default" ng-click="find(1)">查询</button>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <!-- <div class="panel-heading">
+                            设备监测列表
+                             <button type="button" class="btn btn-default btn-sm pull-right" ng-click="type == 'list'?(type = 'chart'):(type = 'list')">
+						        <span class="glyphicon " ng-class="{'glyphicon-th-list':type!='list','glyphicon-th-large':type=='list'}"></span>
+					        </button>
+                        </div> -->
+                        <style>
+                            .icon-mode .icon-mode-body {
+                                height: 600px;
+                                overflow: auto;
+                            }
+                        </style>
+                        <div class="panel-body icon-mode-body">
+                            <!--图表-->
+                            <div class="row">
+                                <div class="col-sm-4" ng-repeat="item in pageModel.data">
+                                    <div class="panel panel-default mb-10">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title title-f">&nbsp;{{item.name}}
+                                                <span class="status bg-green pull-right" ng-if="item.is_regular==1">正常</span>
+                                                <span class="status bg-red pull-right " ng-if="item.is_regular==2">异常</span>
+                                            </h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-5" style="height:150px;">
+                                                    <img style="max-height: 100%;max-width: 100%" alt="" ng-click="showPhoto()" ng-src="{{'/ovu-pcos/'+item.logo_url}}" onerror="javascript:this.src='/res/img/detail.png';" />
+                                                </div>
+                                                <div class="col-sm-7" style="position:relative;height:150px;">
+                                                    <ul class="paramList">
+                                                        <li ng-repeat="param in item.params|limitTo:4">{{param.param_name}}：
+                                                            <b ng-class="{'text-danger':param.is_regular==2}">{{param.val}}{{(param.val_type==1 && param.val!=undefined)?param.unit:''}}</b></li>
+                                                        <li ng-if="item.params.length"><a href='javascript:void(0)' class="btn-link" ng-click='showMore(item)'>查看详情</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-10">
+                                                <div class="col-sm-12 top-border">{{item.park_name}} {{item.stage_name}} {{item.floor_name}} {{item.house_name}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="page-footer clearfix">
+                                <ng-include src="'/common/pager.html'"></ng-include>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 2D/3D模式 -->
+                <div class="2D_3D-mode" ng-if="radioModel === '2D/3D-mode'">
+                    <link rel="stylesheet" href="../css/style.css">
+
+                    <style>
+                        .box {
+                            animation: change 1s ease-in infinite;
+                            font-size: 6px;
+                            color: #f00;
+                            font-weight: bold
+                        }
+
+                        @keyframes change {
+                            0% {
+                                text-shadow: 0 0 4px #f00
+                            }
+                            50% {
+                                text-shadow: 0 0 40px #f00
+                            }
+                            100% {
+                                text-shadow: 0 0 4px #f00
+                            }
+                        }
+                    </style>
+
+                    <style>
+                        .topbar {
+                            position: absolute;
+                            top: 2%;
+                            left: 2%;
+                        }
+
+                        .topbar button {
+                            margin-left: 5px;
+                        }
+
+                        #table-container {
+                            height: 300px;
+                            overflow: auto;
+                        }
+
+                        #table-container table {
+                            min-width: 300px;
+                        }
+
+                        #table-container table th,
+                        #table-container table td {
+                            text-align: center;
+                            vertical-align: middle;
+                        }
+
+                        .viewmode-group.btn-group-vertical {
+                            position: absolute;
+                            left: 2%;
+                            bottom: 20%;
+                        }
+                        /*树  */
+
+                        .map2D {
+                            min-height: 700px;
+                        }
+                        /*.map2D>div {
+                            min-height: 700px;
+                        }*/
+
+                        .map2D .panel-body {
+                            height: 320px;
+                        }
+                        /* 视频 */
+
+                        .map-video {
+                            position: absolute;
+                            left: 12%;
+                            bottom: 0;
+                            width: 300px;
+                            height: 250px;
+                        }
+                    </style>
+
+                    <div class="map2D" ng-controller="validateCtrl">
+
+                        <div id="fengMap"></div>
+                        <!-- 顶部工具条 -->
+                        <div class="topbar">
+                            <div class="type pull-left">
+                                <span class="type-1">已租赁</span>
+                                <span class="type-2">未租赁</span>
+                                <span class="type-3">已定</span>
+                            </div>
+                            <style>
+                                .topbar .type {
+                                    margin-left: 20px;
+                                    margin-top: 7px;
+                                }
+
+                                .topbar .type>span {
+                                    margin: 10px 10px;
+                                }
+
+                                .topbar .type>span::before {
+                                    content: '';
+                                    display: inline-block;
+                                    width: 20px;
+                                    height: 20px;
+                                    vertical-align: middle;
+                                    margin-right: 10px;
+                                }
+
+                                .topbar .type>span.type-1::before {
+                                    background-color: red;
+                                }
+
+                                .topbar .type>span.type-2::before {
+                                    background-color: yellow;
+                                }
+
+                                .topbar .type>span.type-3::before {
+                                    background-color: white;
+                                }
+                            </style>
+                        </div>
+                        <!-- 视角按钮组  -->
+                        <div class="viewmode-group btn-group-vertical" data-toggle="buttons">
+                            <button class="btn btn-default" id="2dbuuton">2D</button>
+                            <button class="btn btn-default btn-primary" id="3dbuuton">3D</button>
+                        </div>
+
+                        <!-- 视频框 -->
+                        <div class="map-video panel panel-default" ng-if="showVideo">
+                            <div class="panel-heading clearfix">
+                                <div draggable class="title pull-left">视频</div>
+                                <button type="button" class="close pull-right" ng-click="hideVideo()" style="margin-top:-5px;">×</button>
+                            </div>
+                            <div class="panel-body">
+                                <video src="" ></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- BIM模式 -->
+                <div class="BIM-mode" ng-if="radioModel === 'BIM-mode'">
+                    <link href="/res/js/bimViz/sdk/third/css/essentials.css" rel="stylesheet" />
+                    <link href="/res/js/bimViz/sdk/viz/ui/default.css" rel="stylesheet" type="text/css" />
+                    <script src="/res/js/bimViz/sdk/third/toolbar/jquery.toolbar.js"></script>
+                    <script src="/res/js/bimViz/sdk/viz/bimviz.js"></script>
+                    <div class="bodyClass" id="angularId" ng-controller="equipmentBimCtl">
+                        <style>
+                            .bodyClass {
+                                position: relative;
+                            }
+
+                            .floor.panel {
+                                position: absolute;
+                                left: 0;
+                                top: 0;
+                                width: 20%;
+                                height: 45%;
+                                overflow: auto;
+                            }
+
+                            .equipment.panel {
+                                position: absolute;
+                                right: 0%;
+                                top: 0;
+                                width: 20%;
+                                height: 45%;
+                                overflow: auto;
+                            }
+
+                            .thing.panel {
+                                position: absolute;
+                                right: 0%;
+                                bottom: 0%;
+                                width: 20%;
+                                height: 40%;
+                                overflow: auto;
+                            }
+
+                            .chart.x_panel {
+                                position: absolute;
+                                left: 0;
+                                bottom: 0%;
+                                width: 25%;
+                                height: 45%;
+                                overflow: auto;
+                            }
+
+                            #viewport {
+                                min-height: 720px;
+                            }
+                        </style>
+
+                        <div id="viewport"></div>
+                        <div id="messages"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 工具条显示区 -->
+        <div class="col-md-3 col-sm-3 col-xs-3 right-bar">
+            <style>
+                .right-bar .panel {
+                    margin-bottom: 10px;
+                }
+            </style>
+            <!-- 空间信息默认打开 -->
+            <style>
+                .space-info .space-body {
+                    height: 230px;
+                    overflow: auto;
+                }
+            </style>
+            <div class="panel panel-default space-info">
+                <div class="panel-heading" style="cursor: pointer;" ng-click="clps1.isCollapsed = !clps1.isCollapsed">
+                    空间列表
+                    <div class="pull-right">
+                        <span class="glyphicon glyphicon-triangle-bottom" ng-show="clps1.isCollapsed"></span>
+                        <span class="glyphicon glyphicon-triangle-top" ng-show="!clps1.isCollapsed"></span>
+                    </div>
+                </div>
+                <div class="panel-body space-body" uib-collapse="clps1.isCollapsed">
+                    <div class="tree-house">
+                        <div class="alert" role="alert" ng-show="houseTree.length==0">无楼栋信息</div>
+                        <tree-view node-list="houseTree" config="config"></tree-view>
+                    </div>
+                </div>
+            </div>
+            <!-- BIM专用 楼层区域 -->
+            <div class="panel panel-default floor-area" ng-if="radioModel === 'BIM-mode'">
+                <div class="panel-heading" style="cursor: pointer;" ng-click="clps2.isCollapsed = !clps2.isCollapsed">
+                    楼层区域
+                    <div class="pull-right">
+                        <span class="glyphicon glyphicon-triangle-bottom" ng-show="clps2.isCollapsed"></span>
+                        <span class="glyphicon glyphicon-triangle-top" ng-show="!clps2.isCollapsed"></span>
+                    </div>
+                </div>
+                <div class="panel-body floor-body" uib-collapse="clps2.isCollapsed">
+                    <div class="tree-house">
+                        <div class="alert" role="alert" ng-show="floorTree.length==0">无楼栋信息</div>
+                        <tree-view node-list="floorTree" config="config"></tree-view>
+                    </div>
+                </div>
+            </div>
+            <!-- 除了空间信息外的其他panel -->
+            <style>
+                .four-accordion .accordion-panel>.panel-body {
+                    height: 230px;
+                    overflow: auto;
+                }
+
+                .four-accordion a:hover,
+                .four-accordion a:focus {
+                    color: black;
+                }
+
+                .four-accordion h4 {
+                    font-weight: 500;
+                }
+            </style>
+            <uib-accordion close-others="true" class="four-accordion" >
+                <div uib-accordion-group class="panel panel-default accordion-panel" is-open="status2.open" ng-if="radioModel === '2D/3D-mode' || radioModel === 'BIM-mode'">
+                    <uib-accordion-heading>
+                        设备分类
+                        <i class="pull-right glyphicon" ng-class="{'glyphicon-triangle-top': status2.open, 'glyphicon-triangle-bottom': !status2.open}"></i>
+                    </uib-accordion-heading>
+                    <!-- 树状设备分类 -->
+                    <!--
+                    <div ng-if="radioModel === 'list-mode' || radioModel === 'icon-mode'">
+                        <div class="tree-house">
+                            <div ng-if="!equipTypeTree1 || equipTypeTree1.length === 0">
+                                暂无数据
+                            </div>
+                            <tree-equip node-list="equipTypeTree1"></tree-equip>
+                        </div>
+                    </div>
+                     -->
+                    <div >
+                        <style>
+                            .eqType.panel {
+                                margin: 10px -15px;
+                            }
+                        </style>
+                        <!-- 修剪树状设备分类 -->
+                        <div ng-if="!simpleEquipTypeTree || simpleEquipTypeTree.length === 0">
+                            暂无数据
+                        </div>
+                        <div class="panel panel-default eqType" ng-repeat="obj in simpleEquipTypeTree" ng-show="obj.leafNodes.length !== 0">
+                            <div class="panel-heading">
+                                {{obj.text}}
+                            </div>
+                            <div class="panel-body row">
+                                <div class="col-xs-4" ng-repeat="item in obj.leafNodes track by $index" ng-click="eqTypeItemClick(item)">
+                                    {{item.text}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div uib-accordion-group class="panel panel-default accordion-panel" is-open="status3.open">
+                    <uib-accordion-heading>
+                        事件列表
+                        <i class="pull-right glyphicon" ng-class="{'glyphicon-triangle-top': status3.open, 'glyphicon-triangle-bottom': !status3.open}"></i>
+                    </uib-accordion-heading>
+                    <table class="table table-striped table-hover">
+                        <!--
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>事件id</th>
+                                <th>事件名称</th>
+                            </tr>
+                        </thead>
+                         -->
+                        <tbody>
+                            <tr ng-repeat="item in eventList" ng-click="eventItemClick(item)">
+                                <!--
+                                <td>{{$index + 1}}</td>
+                                <td>{{item.workunit_id}}</td>
+                                 -->
+                                <td>{{item.workunit_name}}</td>
+                                <td>{{item.CREATE_DATE}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div uib-accordion-group class="panel panel-default accordion-panel" is-open="status4.open">
+                    <uib-accordion-heading>
+                        设备数量统计
+                        <i class="pull-right glyphicon" ng-class="{'glyphicon-triangle-top': status4.open, 'glyphicon-triangle-bottom': !status4.open}"></i>
+                    </uib-accordion-heading>
+                    <!-- 饼图 -->
+                    <div id="pieChartDiv" style="width:200px;height:200px;">
+                    </div>
+                </div>
+                <div uib-accordion-group class="panel panel-default accordion-panel" is-open="status5.open">
+                    <uib-accordion-heading>
+                        设备故障统计
+                        <i class="pull-right glyphicon" ng-class="{'glyphicon-triangle-top': status5.open, 'glyphicon-triangle-bottom': !status5.open}"></i>
+                    </uib-accordion-heading>
+                    <!-- 折线图 -->
+                    <div id="barChartDiv" style="width:200px;height:200px;">
+                    </div>
+                </div>
+            </uib-accordion>
+
+        </div>
+    </div>
+    <!-- wjlong END-->
+    <!-- 是 -->
+    <ng-include src="'/common/modal.park.html'"></ng-include>
+</div>
+
+<!--2DMap BEGIN-->
+<script src="../lib/fengmap.min.js"></script>
+<!-- <script type="text/ng-template" id="mapVideoModalComponent.html">
+
+</script> -->
+<!-- 2DMap END -->
+
+<script>
+    (function() {
+        document.title = "OVU-设备监测";
+        var app = angular.module("angularApp");
+        //项目架构ctl
+        app.controller('equipMonitorCtl', function($scope, $rootScope, $interval, $http, $filter, $uibModal, fac) {
+
+            function send_echo() {
+                //debugger;
+                echo_websocket = new SockJS("/ovu-pcos/pcos/sayhello"); //初始化 websocket
+                echo_websocket.onopen = function() {
+                    console.log('Info: connection opened.');
+                };
+                echo_websocket.onmessage = function(event) {
+                    console.log('Received: ' + event.data); //处理服务端返回消息
+                    $scope.$apply(
+                        function() {
+                            debugger;
+                            var data = JSON.parse(event.data);
+                            console.log(data);
+                            //新的应急工单H
+                            if (data.type == 1) {
+                                $rootScope.$broadcast('eventItemClick', data);
+                            } else if (data.type == 2) {
+                                //$rootScope.warmingThing();
+                            }
+                        }
+                    )
+                };
+                echo_websocket.onclose = function(event) {
+                    console.log('Info: connection closed.');
+                    console.log(event);
+                };
+            }
+            send_echo();
+
+            $scope.clps1 = {};
+            $scope.clps2 = {};
+            $scope.clps3 = {};
+            $scope.clps1.isCollapsed = false;
+            $scope.clps2.isCollapsed = true;
+            $scope.clps3.isCollapsed = true;
+
+            $scope.radioModel = 'list-mode';
+            $scope.status2 = {};
+            $scope.status2.open = true;
+
+            // 事件查询
+            function fingthing() {
+                $http.get("/ovu-pcos/pcos/equipment/listexceptions.do?parkId=af98a32c9b4d490297cadc2d85faf797")
+                    .success(function(results) {
+                        $scope.eventList = results;
+                    })
+                    .error(function() {
+                        alert("出错")
+                    });
+            }
+            fingthing();
+
+            var parkId = "af98a32c9b4d490297cadc2d85faf797";
+            // 绘制故障数量饼图
+            $scope.drawEqNumChart1 = function() {
+                $http
+                    .post(
+                        "/ovu-pcos/pcos/equipment/listpiebimtype.do", {
+                            parkId: parkId
+                        },
+                        fac.postConfig)
+                    .success(
+                        function(
+                            data) {
+
+                            _eqNumChart = echarts.init(document
+                                .getElementById('pieChartDiv'));
+                            var legendData = [];
+                            var seriesData = [];
+                            data
+                                .forEach(function(eqType) {
+                                    if (eqType.pid === '') {
+                                        //debugger;
+                                        var name = eqType.name +
+                                            ":" +
+                                            eqType.num;
+                                        legendData.push(name);
+                                        var seriesDataItem = {
+                                            value: eqType.num,
+                                            name: name
+                                        };
+                                        seriesData
+                                            .push(seriesDataItem);
+                                    }
+                                });
+                            var option = {
+                                title: {
+                                    text: '设备数量分类统计',
+                                    x: 'center'
+                                },
+                                tooltip: {
+                                    trigger: 'item',
+                                    formatter: "{a} <br/>{b} ({d}%)"
+                                },
+                                calculable: false,
+                                series: [{
+                                    name: '设备数量',
+                                    type: 'pie',
+                                    radius: '50%',
+                                    center: ['50%', '70%'],
+                                    data: seriesData
+                                }]
+                            };
+                            _eqNumChart.setOption(option);
+
+                        });
+            };
+
+            // 绘制故障分布柱状图
+            $scope.drawEqFaultChart1 = function() {
+                $http
+                    .post(
+                        "/ovu-pcos/pcos/equipment/listbarbimtype.do", {
+                            parkId: parkId
+                        },
+                        fac.postConfig)
+                    .success(
+                        function(
+                            data) {
+
+                            _eqFaultChart = echarts.init(document
+                                .getElementById('barChartDiv'));
+
+                            var legendData = [];
+                            var xAxisData = [];
+                            var seriesData = [];
+
+                            data.forEach(function(eqType) {
+                                if (eqType.pid === '') {
+                                    var name = eqType.name;
+                                    xAxisData.push(name);
+                                    seriesData
+                                        .push(eqType.faultNum);
+                                }
+
+                            });
+
+                            var option = {
+                                title: {
+                                    text: '设备故障分类统计',
+                                    x: 'center'
+                                },
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: legendData
+                                },
+                                xAxis: [{
+                                    type: 'category',
+                                    data: xAxisData
+                                }],
+                                yAxis: [{
+                                    type: 'value'
+                                }],
+                                series: [{
+                                    name: '故障次数',
+                                    type: 'bar',
+                                    data: seriesData,
+                                    markPoint: {
+                                        data: [{
+                                            type: 'max',
+                                            name: '最大值'
+                                        }, {
+                                            type: 'min',
+                                            name: '最小值'
+                                        }]
+                                    }
+                                }]
+                            };
+                            // 为echarts对象加载数据
+                            _eqFaultChart.setOption(option);
+                        });
+
+            };
+
+            $scope.drawEqNumChart1();
+            $scope.drawEqFaultChart1();
+
+            // 设备查询
+            function findTypeId() {
+                $http
+                    .get("/ovu-pcos/pcos/equipment/list2dequipment.do?parkId=" + parkId)
+                    //$http.get("abc.json")
+                    .success(
+                        function(results) {
+                            //debugger;
+                            $scope.equipTypeTree1 = results;
+                            console.log('equipTypeTree1');
+                            console.log(results);
+                            console.log(tree2list(results));
+                            // 2D/3D BIM 模式下不显示tree结构数据 显示简化的tree 根节点-叶节点 省去中间节点
+                            $scope.simpleEquipTypeTree = tree2list(results);
+                            $rootScope.equipdata = results;
+                        }).error(function() {
+                        alert("出错")
+                    });
+            }
+
+            findTypeId();
+
+            // tree2list   修剪树  tree --> [{id,pid,text,...,leafnodes:[]}]
+            function tree2list(tree) {
+                // 取出一个对象的所有叶节点
+                function getLeafs(obj) {
+                    var res = [];
+                    // 如果nodes 不存在 或者 length === 0 或者不是array  返回 []
+                    if (!obj.nodes || !angular.isArray(obj.nodes)) {
+                        return [];
+                    }
+                    obj.nodes.forEach(function(v) {
+                        // 叶节点 is_equip === true
+                        if (v.is_equip) {
+                            res.push(v);
+                            return;
+                        }
+                        // 尾递归优化
+                        getLeafs(v);
+                    });
+                    return res;
+                }
+                // map 一下
+                var arr = tree.map(function(v) {
+                    // 取出叶节点
+                    v.leafNodes = getLeafs(v);
+                    return {
+                        text: v.text,
+                        id: v.id,
+                        pid: v.pid,
+                        leafNodes: v.leafNodes
+                    }
+                });
+                return arr;
+            }
+            // 设备分类  点击事件 广播出去
+            $scope.eqTypeItemClick = function(equip) {
+                $rootScope.$broadcast('eqTypeItemClick', equip);
+            };
+            // 事件列表 广播点击事件
+            $scope.eventItemClick = function(model) {
+                //console.log(123);
+                $rootScope.$broadcast('eventItemClick', model);
+
+            };
+            // $scope.budingTree = $rootScope.budingTree;
+
+            // bim 加载完成 获取楼层数据
+            $rootScope.$on('bimFloorLoaded', function(e, data) {
+                console.log('bim 楼层数据');
+                console.log(data);
+                $scope.floorTree = data;
+            });
+
+
+
+            $rootScope.config = {
+                edit: false
+            };
+            //图表切换
+            $scope.pageModel = {};
+
+            $scope.find = function(pageNo) {
+                if(!fac.hasActivePark($scope.search)){
+                    return;
+                }
+                $.extend($scope.search, {
+                    currentPage: pageNo || 1,
+                    pageSize: $scope.pageModel.pageSize || 10
+                });
+                $scope.search.pageIndex = $scope.search.currentPage - 1;
+                fac.getPageResult("/ovu-pcos/pcos/equipment/queryByPage.do", $scope.search, function(data) {
+                    $scope.pageModel = data;
+                });
+            };
+
+            //集团版,设置好项目后更新 期栋树
+            $scope.refresh = function() {
+                fac.getHouseTree($scope, $scope.search.parkId);
+                var p = fac.setEquipTypeTree($scope, $scope.search.parkId);
+                $scope.find();
+                p.then(function(data) {
+                    console.log('刷新加载');
+                    console.log(data);
+                });
+            }
+
+            app.modulePromiss.then(function() {
+                $scope.search = {
+                    isGroup: fac.isGroupVersion()
+                };
+                //项目版时,会保存已选 中的 parkId至 search中. 而在集团版中,每次打开页面,parkId默认为空
+                if (app.park) {
+                    $scope.search.parkId = app.park.ID;
+                    $scope.search.PARK_NAME = app.park.PARK_NAME;
+                    // fac.getHouseTree($scope, $scope.search.parkId);
+                    var p = fac.getHouseTree($scope, $scope.search.parkId);
+                    p.then(function(data) {
+                        console.log(data);
+                    })
+                }
+                var p = fac.setEquipTypeTree($scope, $scope.search.parkId);
+                $scope.find();
+                p.then(function(data) {
+                    console.log('初始加载');
+                    console.log(data);
+                });
+            })
+
+            $scope.selectNode = function(node) {
+
+                if ($scope.curNode != node) {
+                    $scope.curNode && $scope.curNode.state && ($scope.curNode.state.selected = false);
+                }
+                node.state = node.state || {};
+                node.state.selected = !node.state.selected;
+                debugger;
+                if(node.type&&(node.type=="root"||node.type=="floor"||node.type=="area")){
+                	$rootScope.$broadcast('eqTreeItemClick', node);
+                	if (node.state.selected) {
+                        $scope.curNode = node;
+                	}else{
+                		delete $scope.curNode;
+                	}
+                }else if(node.is_equipNode||node.is_equip||node.is_equipRoot){
+                	if (node.state.selected) {
+                        $scope.curNode = node;
+                	}else{
+                		delete $scope.curNode;
+                	}
+                }else{
+                    if (node.state.selected) {
+                        $scope.curNode = node;
+                        $scope.search.stageId = node.stageId;
+                        $scope.search.floorId = node.floorId;
+                        $scope.find();
+                    } else {
+                        delete $scope.curNode;
+                        delete $scope.search.stageId;
+                        delete $scope.search.floorId;
+                    }
+                }
+
+
+            }
+            $scope.selectEquipType = function(node) {
+                $scope.search.equipTypeId = node.id;
+                $scope.search.typeName = (node.ptexts ? node.ptexts + " > " : "") + node.text;
+                $scope.search.typeHover = $scope.search.typeFocus = false;
+            }
+
+            $scope.clearEquipType = function() {
+                delete $scope.search.equipTypeId;
+                delete $scope.search.typeName;
+            }
+
+            //查看更多
+            $scope.showMore = function(equipment) {
+                $rootScope.curEquip = equipment;
+                var modal = $uibModal.open({
+                    animation: false,
+                    templateUrl: '/view/equipment/modal.moreDetail.html',
+                });
+            };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+            //查看日志
+            $scope.showLog = function() {
+                var modal = $uibModal.open({
+                    animation: false,
+                    size: 'lg',
+                    templateUrl: '/view/equipment/modal.equipmentLog.html',
+                    controller: 'equipmentLogCtrl'
+                });
+            };
+
+            // 加载layui  一堆
+            $scope.loadfkCss = function() {
+                $scope.showfkCss = true;
+                $rootScope.bimTimeFn();
+            };
+            $scope.unloadfkCss = function() {
+                $scope.showfkCss = false;
+                $rootScope.closeBimTimeFn();
+            };
+
+            // Map定时器
+            $scope.openTimer = function() {
+                $rootScope.timeFn();
+            };
+            $scope.closeTimer = function() {
+                $rootScope.closeTimeFn();
+            };
+
+
+        });
+
+        app.controller('moreCtrl', function($scope, $uibModalInstance) {
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        });
+        app.controller('equipmentLogCtrl', function($scope, $uibModalInstance) {
+            $scope.pageModel = {
+                "currentPage": 1,
+                'totalPage': 2,
+                "totalRecord": 13,
+                "pageSize": 10
+            };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        });
+
+        // 2D/3DMap 控制器
+        app.controller('validateCtrl', ['$scope', '$http', '$rootScope', '$interval', '$uibModal', '$document', 'fac', function($scope, $http, $rootScope, $interval, $uibModal, $document, fac) {
+
+            $scope.$on('eqTypeItemClick', function(e, data) {
+                // debugger;
+                console.log('设备分类监听事件');
+                console.log(e);
+                console.log(data);
+                $scope.selectEqupNode(data);
+            });
+
+            $scope.$on('eventItemClick', function(e, data) {
+                console.log('事件列表监听事件');
+                console.log(e);
+                console.log(data);
+                $scope.selectThing(data);
+            });
+
+
+            $scope.selectEqupNode = function(node) {
+
+                $scope.curNode = node;
+                removeAllTop();
+
+                if ($scope.curNode.is_equip != undefined && $scope.curNode.is_equip == true && $scope.curNode.map_lat != undefined && $scope.curNode.map_lat != "" && $scope.curNode.map_lng != undefined && $scope.curNode.map_lng != "") {
+
+                    if (polygonLayer) {
+                        polygonLayer.removeAll();
+                    }
+
+                    console.info($scope.curNode.map_lat);
+                    console.info($scope.curNode.map_lng);
+
+                    var coord = {
+                        //设置弹框的x轴
+                        x: parseFloat($scope.curNode.map_lat),
+                        //设置弹框的y轴
+                        y: parseFloat($scope.curNode.map_lng),
+
+                        z: parseFloat(1),
+
+                        groupID: parseInt($scope.curNode.ground_num)
+                    };
+                    moveTo(coord); //定位跳转
+
+                    //信息框控件大小配置
+                    var ctlOpt = new fengmap.controlOptions({
+                        mapCoord: {
+                            //设置弹框的x轴
+                            x: parseFloat($scope.curNode.map_lat),
+                            //设置弹框的y轴
+                            y: parseFloat($scope.curNode.map_lng),
+
+                            //z: parseFloat(1),
+                            //设置弹框位于的楼层
+                            groupID: parseInt($scope.curNode.ground_num)
+                        },
+                        //设置弹框的宽度
+                        width: 200,
+                        //设置弹框的高度
+                        height: 100,
+                        marginTop: 0,
+                        init2D: false,
+                        //设置弹框的内容
+                        content: $scope.curNode.text //'<a target="_bank" href="#">'+name+'</a>'
+                    });
+
+                    //addCircleMaker(parseInt($scope.curNode.ground_num),parseFloat($scope.curNode.map_lat),parseFloat($scope.curNode.map_lat));
+                    //添加弹框到地图上
+                    var popMarker = new fengmap.FMPopInfoWindow(map, ctlOpt);
+                }
+
+            }
+
+
+            $scope.selectThing = function(model) {
+                debugger;
+                if (polygonLayer) {
+                    polygonLayer.removeAll();
+                }
+
+                removeAllTop();
+
+                //debugger;
+
+                if (isNaN(parseFloat(model.map_lat)) || isNaN(parseFloat(model.map_lng)) ||
+                    isNaN(parseInt(model.ground_num))) return;
+
+                //debugger;
+
+                var coord = {
+                    x: parseFloat(model.map_lat),
+                    y: parseFloat(model.map_lng),
+                    z: 0,
+                    groupID: parseInt(model.ground_num)
+                };
+                moveTo(coord); //定位跳转
+
+                addCircleMaker(parseInt(model.ground_num), parseFloat(model.map_lat),
+                    parseFloat(model.map_lng));
+
+                map.storeSelect(
+                    model,
+                    true,
+                    false);
+
+                //debugger;
+
+                //信息框控件大小配置
+                var ctlOpt = new fengmap.controlOptions({
+                    mapCoord: {
+                        //设置弹框的x轴
+                        x: parseFloat(model.map_lat),
+                        //设置弹框的y轴
+                        y: parseFloat(model.map_lng),
+
+                        z: parseFloat(0),
+                        //设置弹框位于的楼层
+                        groupID: parseInt(model.ground_num)
+                    },
+                    //设置弹框的宽度
+                    width: 200,
+                    //设置弹框的高度
+                    height: 100,
+                    marginTop: 10,
+                    //设置弹框的内容
+                    content: '<a class="box">異常事件</a><br>' + model.workunit_name
+                        //'<a target="_bank" href="#">'+name+'</a>'
+                });
+
+                var popMarker = new fengmap.FMPopInfoWindow(
+                    map,
+                    ctlOpt);
+
+            }
+
+            var map;
+            var fmapID = 'ovuhlw';
+            var groupLayer;
+            var searchAnalyser;
+            var defaultGroupID = 1; //默认显示楼层
+            var res = [];
+            var res1 = [];
+
+            var groupControl;
+
+            var polygonLayer = null;
+
+            var newThindId = "";
+
+            //debugger;
+            map = new fengmap.FMMap({
+                //渲染dom
+                container: document.getElementById('fengMap'),
+                //地图数据位置
+                mapServerURL: '../data/' + fmapID,
+                //主题数据位置
+                mapThemeURL: '../data/theme/',
+                //设置主题
+                defaultThemeName: '2001',
+                // 默认比例尺级别设置为20级
+                defaultMapScaleLevel: 22,
+                //开启2维，3维切换的动画显示
+                viewModeAnimateMode: true,
+                //开发者申请应用下web服务的key
+                key: '7e7845016c9c7fb97e603a8a35e8697e',
+                //开发者申请应用名称
+                appName: 'OVU',
+            });
+
+            window.map = map;
+            //打开Fengmap服务器的地图数据和主题
+            map.openMapById(fmapID);
+
+            //var oTable_container = document.querySelector('#table-container');
+
+            var aBtn = document.querySelectorAll('.btn');
+            //开启2维模式
+
+            var buuton1 = document.getElementById("2dbuuton");
+            var buuton2 = document.getElementById("3dbuuton");
+
+
+
+            buuton1.onclick = function() {
+                //设置地图为2维模式
+                map.viewMode = fengmap.FMViewMode.MODE_2D;
+                this.classList.add('btn-primary');
+                buuton2.classList.remove('btn-primary');
+            };
+
+            //开启3维模式
+            buuton2.onclick = function() {
+                //设置地图为3维模式
+                map.viewMode = fengmap.FMViewMode.MODE_3D;
+                this.classList.add('btn-primary');
+                buuton1.classList.remove('btn-primary');
+            };
+
+
+            function addCircleMaker(gid, x, y) {
+                //debugger;
+                var group = map.getFMGroup(gid);
+
+                if (group == undefined) return;
+
+                //创建PolygonMarkerLayer
+                if (!polygonLayer) {
+                    polygonLayer = new fengmap.FMPolygonMarkerLayer();
+                    group.addLayer(polygonLayer);
+                } else {
+                    polygonLayer.removeAll();
+                    group.addLayer(polygonLayer);
+                }
+                var circleMaker = new fengmap.FMPolygonMarker({
+                    //设置颜色
+                    color: '#3CF9DF',
+                    //设置透明度
+                    alpha: .3,
+                    //设置边框线的宽度
+                    lineWidth: 3,
+                    //设置高度
+                    height: 6,
+                    points: {
+                        //设置为圆形
+                        type: 'circle',
+                        //设置此形状的中心坐标
+                        center: {
+                            x: x,
+                            y: y
+                        },
+                        //设置半径
+                        radius: 3,
+                        //设置段数，默认为40段
+                        segments: 40,
+                    }
+                });
+                polygonLayer.addMarker(circleMaker);
+            };
+
+            //移动方法
+            function moveTo(coord) {
+                map.visibleGroupIDs = [coord.groupID];
+                map.focusGroupID = coord.groupID;
+                map.moveTo(coord);
+            };
+
+            //解析方法
+            function parseJson(results) {
+                //debugger;
+                //for (var i in results) {
+                for (var i = 0; i < results.length; i++) {
+                    i = parseInt(i);
+                    var model = results[i];
+
+                    // debugger;
+
+                    if (model.is_equip != undefined && model.is_equip == true && model.map_lat !=
+                        undefined && model.map_lat != "" && model.map_lng != undefined && model.map_lng !=
+                        "") {
+                        addMarkers(model.ground_num,
+                            model.map_lat,
+                            model.map_lng,
+                            model.pname,
+                            model.text);
+                    }
+
+                    if (model.nodes != undefined) {
+                        parseJson(model.nodes);
+                    }
+
+                }
+            }
+
+            //移除多余的弹出框
+            function removeAllTop() {
+                //debugger;
+                var a = map.mapView.container_;
+                var b = a.children;
+                var len = b.length;
+                if (len <= 3)
+                    return;
+                for (var i = 0; i < len - 3; i++) {
+                    a.removeChild(b[2])
+                }
+
+            }
+
+            //添加Marker,额外添加一个参数图片类型
+            function addMarkers(gid, X, Y,
+                imageType, name) {
+
+                //debugger;
+                var group = map
+                    .getFMGroup(gid);
+
+                if (group != undefined) {
+
+                    //返回当前层中第一个imageMarkerLayer,如果没有，则自动创建
+                    var layer = group
+                        .getOrCreateLayer('imageMarker');
+
+                    var imageUrl = '';
+
+                    switch (imageType) {
+                        case "显示屏": //hollow. u needn't change this color. because i will make a hole on the model in the final version.
+                            imageUrl = '../image/xsp.png';
+                            break;
+                        case "机箱": //closed area
+                            imageUrl = '../image/jx.png';
+                            break;
+                        case "摄像头": //empty shop
+                            imageUrl = '../image/sxt.png';
+                            break;
+                        case "4": //empty shop
+                            imageUrl = '../image/jkp.png';
+                            break;
+                        case "5": //empty shop
+                            imageUrl = '../image/yp.png';
+                            break;
+                        case "6": //empty shop
+                            imageUrl = '../image/dy.png';
+                            break;
+                        case "传感器": //empty shop
+                            if (name.indexOf("温湿") > -1) {
+                                imageUrl = '../image/wsd.png';
+                            } else if (name.indexOf("红外") > -1) {
+                                imageUrl = '../image/hwx.png';
+                            } else {
+                                imageUrl = '../image/mc.png';
+                            }
+                            break;
+                        case "8": //empty shop
+                            imageUrl = '../image/hwx.png';
+                            break;
+                        default:
+                            imageUrl = '../image/mc.png';
+                            break;
+                    }
+
+                    var im = new fengmap.FMImageMarker({
+                        //id:1,
+                        x: X,
+                        y: Y,
+                        z: 1,
+                        url: imageUrl,
+                        size: 32,
+                        callback: function() {
+                            im
+                                .alwaysShow();
+                        }
+                    });
+                    layer.addMarker(im);
+                }
+            };
+
+            function removeMarkers() {
+                //获取多楼层Marker
+                map
+                    .callAllLayersByAlias(
+                        'imageMarker',
+                        function(
+                            layer) {
+                            layer
+                                .removeAll();
+                        });
+            };
+
+
+
+            var ctlOpt = new fengmap.controlOptions({
+                //默认在右下角
+                position: fengmap.controlPositon.RIGHT_BOTTOM,
+                //默认显示楼层的个数
+                showBtnCount: 2,
+                //位置x,y的偏移量
+                offset: {
+                    x: 20,
+                    y: 150
+                }
+            });
+
+            //摄像头显示
+            map.on('mapClickNode', function(event) {
+                var model = event;
+                //var d;
+                switch (event.nodeType) {
+                    case fengmap.FMNodeType.IMAGE_MARKER:
+                        //判断是否为摄像头
+                        //debugger;
+                        console.info(model);
+
+                        if (model.url.indexOf('sxt.png') > -1) {
+                            fac.showVedio();
+                        }
+                        break;
+                }
+            });
+
+            map.on('loadComplete', function() {
+                //创建楼层(按钮型)，创建时请在地图加载后(loadComplete回调)创建。
+                //不带单/双层楼层控制按钮,初始时只有1个按钮,点击后可弹出其他楼层按钮
+                //debugger;
+                groupControl = new fengmap.buttonGroupsControl(
+                    map,
+                    ctlOpt);
+
+                //楼层控件是否可点击，默认为true
+                groupControl.enableExpand = true;
+
+                if (polygonLayer) {
+                    polygonLayer.removeAll();
+                }
+
+                var request = {
+                    types: ['model'],
+                    typeID: ['200200']
+                };
+
+                fengmap.MapUtil.search(map, 1, request, function(result) {
+                    //debugger;
+
+                    for (var i = 0; i < result.length; i++) {
+                        var model = result[i];
+
+                        //console.info(model.FID);
+                        //console.info(model.name);
+                        //console.info(model.typeID);
+
+                        if (i % 3 == 1) {
+                            model.setColor("red")
+                        }
+
+                        if (i % 3 == 2) {
+                            model.setColor("yellow")
+                        }
+
+                        if (i % 3 == 0) {
+                            model.setColor("white");
+                        }
+
+                    }
+
+                    //var models = result;
+                });
+
+                //保持多层和楼层切换一致
+                groupControl
+                    .onChange(function(
+                        groups,
+                        allLayer) {
+                        //groups 表示当前要切换的楼层ID数组,
+                        //allLayer表示当前楼层是单层状态还是多层状态。
+                        removeAllTop();
+
+                        if (polygonLayer) {
+                            polygonLayer.removeAll();
+                        }
+
+                    });
+
+                parseJson($rootScope.equipdata);
+
+            });
+
+        }]);
+
+        // BIM 控制器
+        app.controller('equipmentBimCtl', ['$scope', '$http', '$rootScope', '$window', '$interval', 'fac', 'chartsService',
+            function($scope, $http, $rootScope, $window, $interval, fac, charts) {
+
+                var res1 = [];
+                var _storeys; //空间列表
+                var bim_projectName = "创意天地-体验馆";
+
+                var projId = "f9939a62-35cd-4448-97aa-b2b48154278f";
+
+                var _eqNumChart; //设备数量图表
+                var _eqFaultChart; //设备故障图表
+                var parkId = "af98a32c9b4d490297cadc2d85faf797";
+                var _selectedEq; //已选择的设备
+                var _selectedEqType; //已选择的某个设备类型
+                var _eventInterval; //报警动画的值
+                var _eventEqBimId; //事件设备构件ID
+
+                var _elementRGBA = [0.8, 0.6, 0.0, 1.0]; //设备定位选中的颜色
+                var _eventRGBA = [1.0, 0.0, 0.0, 1.0]; //事件设备定位选中的颜色
+
+                var _eqTypes = [];
+                var _eqDatas = [];
+
+                var _initPosition; //相机初始位置
+                var _initTarget; //相机初始目标
+
+                var _areaShowFlag = false; //区域显示标志
+                var _coveringHideFlag = false; //二楼天花版隐藏标志
+                var _selectedArea; //已选择的区域
+
+                var _areaPosition = {
+                    "x": 9598.50627013739,
+                    "y": -9171.581856450859,
+                    "z": 59806.71142485092
+                }; //查看区域初始相机位置
+                var _areaTarget = {
+                    "x": 3296.6468032172493,
+                    "y": -3923.50266231428,
+                    "z": -1500.6909583266652
+                }; //查看区域初始相机目标
+
+                var _floorTwoTexts = ["72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d4615",
+                    "72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d4630",
+                    "72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d4652", "72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d4664", ,
+                    "72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d468e", "72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d460a",
+                    "72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d458a", "72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d45ba"
+                ];
+
+                $scope.config = {
+                    edit: false,
+                    sort: false
+                };
+
+                var bimEngine = new BIMVIZ.RenderEngine({
+                    projectId: projId,
+                    renderDomId: 'viewport',
+                    ip: "cloud.bimviz.io",
+                    port: 10001,
+                    key: 'e65d3b1a-2d39-4e8c-b10d-25c88b829e28',
+                    resizeMode: 'fullpage',
+                    resourcePath: '/res/js/bimViz/sdk/viz/data/',
+                    selectSettings: {
+                        grayScene: false,
+                        cameraMove: true
+                    }
+
+                });
+
+                //var msgControl = new BIMVIZ.UI.DefaultMessageControl(bimEngine, 'messages');
+                try {
+                    bimEngine.start();
+                } catch (e) {
+                    console.log('BIM 服务器异常');
+                    console.log(e);
+                }
+
+
+
+                bimEngine.addListener(BIMVIZ.EVENT.OnLoadProgressStep, function(evt) {
+                    var data = evt.args;
+                    if (data.current == data.total) {
+                        _initPosition = bimEngine.getCameraPosition();
+                        _initTarget = bimEngine.getCameraTarget();
+                        // $rootScope.bimTimeFn();
+                    }
+                });
+
+                function getFloorNodes() {
+                    var floorNodes = [];
+
+                    //根节点
+                    var rootNode = {
+                        id: 0,
+                        pid: "",
+                        text: bim_projectName,
+                        spread: true,
+                        nodes: [],
+                        type: "root"
+                    };
+
+                    //遍历楼层
+                    _storeys.forEach(function(floor) {
+                        //去掉夹层
+                        if (floor.Id == "2") {
+                            return;
+                        }
+
+                        var floorNode = {
+                            id: floor.Id,
+                            pid: "0",
+                            text: floor.Name,
+                            nodes: [],
+                            type: "floor"
+                        };
+
+                        //遍历楼层内的区域
+                        var groupList = floor.GroupList;
+                        groupList.forEach(function(group) {
+                            if (group.Name == "IfcSlab") {
+                                var areas = group.ElementNodes;
+                                areas.forEach(function(area) {
+                                    //debugger;
+                                    var areaNode = {
+                                        id: area.GlobalId,
+                                        text: area.Name.split(":")[1],
+                                        pid: floor.Id,
+                                        floorId: floor.Id,
+                                        type: "area",
+                                        is_equip: true
+                                    };
+
+                                    floorNode.nodes.push(areaNode);
+                                    //floorNodes.push(areaNode);
+                                });
+                            }
+                        });
+
+                        rootNode.nodes.push(floorNode);
+                        //floorNodes.push(floorNode);
+
+                    });
+
+                    floorNodes.push(rootNode);
+                    //debugger;
+                    return floorNodes;
+                }
+
+
+                function showFloor(type, floorId) {
+                    if (type == 'all') {
+                        _storeys.forEach(function(floor) {
+                            bimEngine.showBuildingStorey(floor.Id, true);
+                        });
+                    } else if (type == 'single') {
+                        if (floorId == 3 && _coveringHideFlag) {
+                            return;
+                        }
+                        _storeys.forEach(function(floor) {
+                            if (floorId == floor.Id) {
+                                bimEngine.showBuildingStorey(floor.Id, true);
+                            } else {
+                                bimEngine.showBuildingStorey(floor.Id, false);
+                            }
+
+                        });
+
+                    } else {
+                        console.log("Error:showFloor type not defined!");
+                    }
+                }
+
+                //eqTreeItemClick
+                $scope.$on('eqTreeItemClick', function(e, data) {
+                    // debugger;
+                    console.log('设备分类监听事件');
+                    console.log(e);
+                    console.log(data);
+                    $scope.selectTreeNode(data);
+                });
+
+                //加载树状菜单
+                $scope.$on('eqTypeItemClick', function(e, data) {
+                    // debugger;
+                    console.log('设备分类监听事件');
+                    console.log(e);
+                    console.log(data);
+                    $scope.selectTreeNode(data);
+                });
+
+                $scope.$on('eventItemClick', function(e, data) {
+                    console.log('事件列表监听事件');
+                    console.log(e);
+                    console.log(data);
+                    $scope.selectThing(data);
+                });
+
+                bimEngine.addListener(BIMVIZ.EVENT.ProjectOverviewLoaded, function(evt) {
+                    var project = evt.args;
+                    _storeys = project.spaces;
+
+                    var bodyMsg = getFloorNodes();
+                    //debugger;
+                    $scope.budingTree = bodyMsg;
+                    // 传递给root
+                    // $rootScope.budingTree = bodyMsg;
+                    $scope.$emit('bimFloorLoaded', bodyMsg);
+                });
+
+                //window resize 事件 重新渲染
+                angular.element($window).on('resize', function() {
+                    $scope.$broadcast("onWindowResize");
+                });
+
+                $scope.reDraw = function() {
+                    $scope.$broadcast('reDraw');
+                }
+
+
+
+
+
+
+
+                $scope.selectThing = function(row) {
+                    showFloor('all');
+                    var eventList = $scope.eventList;
+                    //debugger;
+                    clearSelectedEq();
+                    clearSelectedEqType();
+
+                    flyToEq(row.revit_no);
+                    showAlarm(row.bim_id);
+                }
+
+                function flyToEq(eqCode) {
+                    var cameraBookmarkManager = bimEngine.getCameraBookmarkManager();
+                    cameraBookmarkManager.getList(function(success, list) {
+                        if (success && list.length > 0) {
+                            list.forEach(function(cameraBookmark) {
+                                //debugger;
+                                if (cameraBookmark.description == eqCode) {
+                                    bimEngine.flyFromTo(cameraBookmark.position, cameraBookmark
+                                        .target);
+                                }
+                            });
+                        }
+
+                    });
+                }
+
+                function showAlarm(eqBimId) {
+                    //var eqData = getEqDataByEqCode(eqCode);
+                    var flag = true;
+                    if (_eventInterval) {
+                        window.clearInterval(_eventInterval);
+                    }
+                    if (_eventEqBimId) {
+                        bimEngine.resetElementRGBA(_eventEqBimId);
+                    }
+                    _eventEqBimId = eqBimId;
+                    _eventInterval = window.setInterval(function() {
+                        if (flag) {
+                            bimEngine.changeElementRGBA(_eventEqBimId, _eventRGBA);
+                        } else {
+                            bimEngine.resetElementRGBA(_eventEqBimId);
+                        }
+
+                        flag = !flag;
+
+                    }, 500);
+                }
+
+                function closeAlarm() {
+                    if (_eventInterval) {
+                        window.clearInterval(_eventInterval);
+                    }
+                    if (_eventEqBimId) {
+                        bimEngine.resetElementRGBA(_eventEqBimId);
+                    }
+
+                }
+
+                function getEqDataByEqCode(eqCode) {
+                    var eqData;
+                    _eqDatas.forEach(function(item) {
+                        if (item.eqCode == eqCode) {
+                            eqData = item;
+                            return;
+                        }
+                    });
+                    return eqData;
+                }
+
+                $scope.selectTreeNode = function(node) {
+                	debugger;
+                    closeAlarm();
+
+                    clearSelectedEq();
+
+                    clearSelectedEqType();
+
+                    if (node.type) {
+                        if (node.type == "root") {
+                            if (_selectedArea) {
+                                bimEngine.resetElementRGBA(_selectedArea);
+                            }
+
+                            showFloor('all');
+                            bimEngine.flyFromTo(_initPosition, _initTarget);
+
+                            _areaShowFlag = false;
+                        }
+
+                        if (node.type == "floor") {
+
+                            if (_selectedArea) {
+                                bimEngine.resetElementRGBA(_selectedArea);
+                            }
+
+                            _coveringHideFlag = false;
+                            showFloor('single', node.id);
+
+                            hideCovering();
+
+                            //显示二楼的区域说明文字
+                            if (node.id == 3) {
+                                _floorTwoTexts.forEach(function(item) {
+                                    bimEngine.setElementVisible(item, true);
+                                });
+                            }
+
+                            bimEngine.flyFromTo(_initPosition, _initTarget);
+
+                            _areaShowFlag = false;
+
+                        }
+
+                        if (node.type == "area") {
+                            //debugger;
+                            if (_selectedArea) {
+                                bimEngine.resetElementRGBA(_selectedArea);
+                            }
+
+                            _selectedArea = node.id;
+
+                            showFloor('single', node.floorId);
+
+                            //显示二楼的区域说明文字
+                            if (node.floorId == 3) {
+                                hideCovering();
+
+                                _floorTwoTexts.forEach(function(item) {
+                                    bimEngine.setElementVisible(item, true);
+                                });
+                            }
+
+                            bimEngine.changeElementRGBA(node.id, _elementRGBA);
+
+                            if (_areaShowFlag) {
+                                //debugger;
+                                bimEngine.flyToElement(node.id);
+                            } else {
+                                bimEngine.flyFromTo(_areaPosition, _areaTarget);
+                                _areaShowFlag = true;
+                            }
+
+                        }
+
+
+                    } else if (node.is_equip) {
+                        showFloor('all');
+
+                        console.info(node);
+                        debugger;
+                        bimEngine.changeElementRGBA(node.bim_id, _elementRGBA);
+
+                        _selectedEq = node.bim_id;
+
+                        //跳转到设备相机书签
+                        flyToEq(node.revit_no);
+
+                        //showEqDetailInfo(item.code);
+                        if (node.pname == "摄像头") {
+                            fac.showVedio();
+                        }
+
+
+                    } else {
+
+                        showFloor('all');
+
+                    }
+
+
+                }
+
+                //清除已选择的设备
+                function clearSelectedEq() {
+                    if (_selectedEq) {
+                        bimEngine.resetElementRGBA(_selectedEq);
+                    }
+                }
+
+                //清除已选择的设备类型下的所有设备
+                function clearSelectedEqType() {
+                    if (_selectedEqType) {
+                        _eqDatas.forEach(function(eqData) {
+                            if (eqData.eqType == _selectedEqType) {
+                                bimEngine.resetElementRGBA(eqData.eqBimId);
+                            }
+                        });
+                    }
+                }
+
+                // findTypeId();
+                // findThings();
+
+                function hideCovering() {
+                    if (_coveringHideFlag) {
+                        return;
+                    }
+
+                    bimEngine.searchElementsByText("IfcCovering", function(result, text) {
+                        if (result.success && result.total > 0) {
+                            result.list.forEach(function(item) {
+                                bimEngine.setElementVisible(item.Element.GlobalId, false);
+                            });
+                        }
+                    });
+
+                    _coveringHideFlag = true;
+                }
+
+            }
+        ]);
+
+        app.factory('chartsService', function() {
+            return {
+                initPie: function() {
+                    return {
+                        title: {
+                            text: '设备数量分类统计',
+                            x: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} ({d}%)"
+                        },
+                        calculable: false,
+                        animation: true,
+                        animationDuration: 2000,
+                        series: [{
+                            name: '设备数量',
+                            type: 'pie',
+                            radius: '50%',
+                            center: ['50%', '70%'],
+                            data: [] //seriesData
+                        }]
+                    }
+                },
+                getPieOptionByData: function(option1) {
+                    var pieOption = this.initPie();
+                    pieOption.series[0].data = option1;
+                    return pieOption;
+                },
+                initBar: function() {
+                    return {
+                        title: {
+                            text: '设备故障分类统计',
+                            x: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: [] //legendData
+                        },
+                        xAxis: [{
+                            type: 'category',
+                            data: [], //xAxisData
+                        }],
+                        yAxis: [{
+                            type: 'value'
+                        }],
+                        series: [{
+                            name: '故障次数',
+                            type: 'bar',
+                            data: [], //seriesData,
+
+                            markPoint: {
+                                data: [{
+                                    type: 'max',
+                                    name: '最大值'
+                                }, {
+                                    type: 'min',
+                                    name: '最小值'
+                                }],
+
+                                animation: true,
+                                animationDuration: 9000,
+                            }
+                        }]
+                    }
+                },
+                getBarOptionByData: function(legendData, xAxisData, seriesData) {
+                    var barOption = this.initBar();
+                    barOption.legend.data = legendData;
+                    barOption.xAxis[0].data = xAxisData;
+                    barOption.series[0].data = seriesData;
+                    return barOption;
+                }
+            }
+        });
+
+        angular.bootstrap(document.getElementById("angularId"), ['angularApp']);
+    })()
+</script>

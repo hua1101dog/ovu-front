@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>租金定价</title>
+</head>
+<body>
+<div id="angularId" ng-controller="rentPriceCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>租金定价</h3>
+        </div>
+    </div>
+    
+        <div class="x_panel" >
+            <div class="form-inline" >
+                <div class="form-group">
+                    <label>分期：</label>
+                    <select style="width: 180px;" class="form-control" ng-model="search.stageId" ng-options="x.stageId as x.stageName for x in stageList">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>状态：</label>
+                    <select style="width: 180px;" class="form-control" ng-model="search.status">
+                        <option value="">--请选择--</option>
+                        <option value="{{x.value}}" ng-repeat="x in status">{{x.text}}</option>
+                    </select>
+                </div>
+                <button class="btn btn-default" ng-click="find(1)" >查询</button>
+                
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#999999;">
+                项目列表
+                <button class="btn btn-primary pull-right"  ng-click="newModal(1)" >新增</button>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center">No.</th>
+                            <th>项目名称</th>
+                            <th>提交日期</th>
+                            <th>项目编码</th>
+                            <th>总计租面积（m<sup>2</sup>）</th>
+                            <th>计划年租金（万元）</th>
+                            <th>实际总租面积（m<sup>2</sup>）</th>
+                            <th>标准年租金（万元）</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                    <tr style="color:#333333;" ng-repeat="x in pageModel.data">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{x.stageName+"租金定价"+x.code}}</td>
+                        <td>{{x.createTime | dateDay}}</td>
+                        <td>{{x.code}}</td>
+                        <td>{{x.plannedRentalArea}}</td>
+                        <td>{{x.plannedAnnualRent|number:2}}</td>
+                        <td>{{x.actualRentalArea}}</td>
+                        <td>{{x.actualAnnualRent|number:2}}</td>
+                        <td>{{x.status|rentPriceStatus}}</td>
+                        <td>
+                            <a ng-show="(x.dataValid==='1') && (x.status==='0'||x.status==='3')" href='javascript:void(0)' ng-click='submit(x.id)' class='btn btn-xs' style="border:1px solid #5692ea;color:#5692ea;">
+                                <span></span>提交</a>
+                            <a ng-show="(x.dataValid==='1') && (x.status==='0'||x.status==='3')" href='javascript:void(0)' 
+                                ng-click='resolve(x.id,x.stageId,0)' class='btn btn-xs' style="border:1px solid #5692ea;color:#5692ea;">
+                                <span></span>分解</a>
+                            <a href='javascript:void(0)' ng-click='detail(x.id,x.stageId)' class='btn btn-xs' style="border:1px solid #5692ea;color:#5692ea;">
+                                <span></span>明细</a>
+                            <a ng-show="(x.dataValid==='1') && (x.status==='2')" href='javascript:void(0)' 
+                                ng-click='resolve(x.id,x.stageId,1)' class='btn btn-xs' style="border:1px solid #5692ea;color:#5692ea;">
+                                <span></span>变更</a>
+                            <a ng-show="(x.dataValid==='1') && (x.status==='2')" href='javascript:void(0)' ng-click='historyModal(x)' class='btn btn-xs' style="border:1px solid #5692ea;color:#5692ea;">
+                                <span></span>历史记录</a>
+                            <!-- <a ng-show="(x.dataValid==='1') && (x.status==='1')" href='javascript:void(0)' class='btn btn-xs' style="border:1px solid #b3aeae;color:#b3aeae;">
+                                <span></span>审批查看</a>
+                            <a ng-show="(x.dataValid==='1') && (x.status==='3')" href='javascript:void(0)' ng-click='examModal(x)' class='btn btn-xs' style="border:1px solid #5692ea;color:#5692ea;">
+                                    <span></span>审批查看</a> -->
+                            <a ng-show="(x.dataValid==='1') && (x.status==='0'|| x.status==='3')" href='javascript:void(0)' ng-click='deleteProject(x)' class='btn btn-xs' style="border:1px solid #5692ea;color:#5692ea;">
+                                <span></span>删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'" class="ng-scope" ng-if="pageModel.data.length != 0">
+                    <style type="text/css" class="ng-scope">
+                        .pagination>li>span:hover{background-color: #fff;cursor:text}
+                    </style>
+                </ng-include>
+                </div>
+            </div>
+        </div>
+    
+</div>
+<!-- <%@ include file="/common/modal.industry.tree.jsp" %> -->
+</body>
+</html>

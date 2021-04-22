@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <script src="/res/gentelella/vendors/jquery/dist/jquery.min.js"></script> -->
+</head>
+
+<body>
+    <div id="angularId" ng-controller="projectInfoIndexCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>项目信息</h3>
+            </div>
+        </div>
+        <div class="x_panel container-fluid form-horizontal inforec">
+            <form name="peojectForm" novalidate>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">项目名称：</label>
+                    <label class="col-xs-5 pt7">{{projectInfo.parkName}}</label>
+                    <div class="col-xs-4"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">项目地址：</label>
+                    <label class="col-xs-5 pt7">{{projectInfo.parkAddress}}</label>
+                    <div class="col-xs-4"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">招商电话：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control"  ng-model="projectInfo.investPhone" ng-pattern="/^((0\d{2,3}-\d{7,8})|(1[34578]\d{9}))$/" required/>
+                    </div>
+                    <div class="col-xs-6"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label"  ng-class="{'required':projectInfo.rentalPriceDisplay==1}">租金：</label>
+                    <div class="col-xs-2" style="padding-right: 0px;">
+                        <input type="number" class="form-control"  ng-model="projectInfo.rentalPrice"
+                        ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="99999999.99" ng-required="projectInfo.rentalPriceDisplay==1"/>
+                    </div>
+                    <label class="col-xs-1 pt7" style="width: 120px;">元/m²/月起租</label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-model="projectInfo.rentalPriceDisplay" ng-true-value=1 ng-false-value=2>
+                        <span>显示</span>
+                    </label>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label" ng-class="{'required':projectInfo.salePriceDisplay==1}">售价：</label>
+                    <div class="col-xs-2" style="padding-right: 0px;">
+                        <input type="number" class="form-control"  ng-model="projectInfo.salePrice"
+                        ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99" ng-required="projectInfo.salePriceDisplay==1"/>
+                    </div>
+                    <label class="col-xs-1 pt7" style="width: 120px;">元/m²起售</label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-model="projectInfo.salePriceDisplay" ng-true-value=1 ng-false-value=2>
+                        <span>显示</span>
+                    </label>
+                </div>
+                <!-- ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" -->
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">佣金比：</label>
+                    <div class="col-xs-2" style="padding-right: 0px;">
+                        <input type="number" class="form-control"  max="100" ng-model="projectInfo.commissionRate" ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"/>
+                    </div>
+                    <label class="col-xs-1 pt7" style="width: 120px;">‰ </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">地产类型:</label>
+                    <div class="col-xs-10">
+                        <label class="radio-inline" ng-repeat="item in realEstateList track by $index" style="margin-right: 20px;">
+                            <input type="radio" ng-model="projectInfo.realEstateType" ng-value="item.dicSort" name="pricingmanner" > {{item.dicItem}}
+                        </label>
+                    </div>
+                </div>
+                <!-- <div class="form-group">
+                    <label class="col-xs-2 control-label required">项目标签:</label>
+                    <div class="col-xs-10">
+                        <label class="checkbox-inline"  style="margin-right: 20px;" ng-repeat="item in projectTagList track by $index" >
+                            <input type="checkbox" name="ptype" ng-true-value=true ng-false-value=false ng-model="item.selTag">{{item.dicItem}}
+                        </label>
+                    </div>
+                </div> -->
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">项目业态:</label>
+                    <div class="col-xs-10">
+                     <div ng-repeat="item in projectFormList track by $index" style="float: left;" ng-style="{'margin-left':$index==0?'0px':'10px'}">
+                    <div style="margin-bottom: 5px;" >
+                        <label class="checkbox-inline"  style="margin-right: 20px;" >
+                        <input type="checkbox" name="people" ng-true-value=true ng-false-value=false ng-model="item.checked">{{item.dicItem}}
+                       </label>
+                    </div>
+                    <div class="photoWraper" ng-repeat="p in item.picArr track by $index">
+                        <img onerror="javascript:this.src='/res/img/detail.png';"
+                             ng-click="showPhoto()"
+                             ng-src="{{processImgUrl(p)}}" />
+                        <a role="button" ng-click="delPhoto(item.picArr, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                    <img height="70px" width="70px" ng-show="!item.picArr||item.picArr.length < 1" src="/res/img/mbs/add.jpg" role="button" ng-click="uploadImg(item)" title="上传图片">
+              
+                   </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0px;">
+                    <label class="col-md-2 control-label required">项目图片:</label>
+                    <label class="col-md-8 pt7" style="color: red;font-weight: normal;text-align: left;">
+                                                                 注：最多只能上传五张图片！
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-xs-10">
+                        <div class="photoWraper" ng-repeat="p in photoArr track by $index">
+                            <img onerror="javascript:this.src='/res/img/detail.png';"
+                                 ng-click="showPhoto()"
+                                 ng-src="{{processImgUrl(p)}}" />
+                            <a role="button" ng-click="delPhoto(photoArr, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                        </div>
+                        <img height="80px" width="80px"  src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(photoArr,5)" title="上传图片">
+                  
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">视频文件</label>
+                    <div class="col-xs-8" >
+                        <div style="height: 30px;color: #337ab7;">
+                            <input type="text" class="col-xs-12 my-form-control" ng-model="projectInfo.videohttp" name="videohttp"/>
+                        </div>
+                        <div style="display: inline-block;">
+                            <input type="file" name="upfile" id="upfile" value="上传文件" style="opacity:0;height:0px;"
+                                accept=".mp4" />
+                            <a class="btn btn-primary" ng-click="uploadFile()">上传</a>（最多只上传1份.mp4格式的文件）
+                        </div>
+                        
+                    </div>
+                    <!-- <div class="col-xs-8" >
+
+                        <input type="text" class="col-xs-6 my-form-control" ng-model="item.fileName" name="fileName" style="height: 34px;"/>
+                        <button class="btn btn-info" ng-click="uploadFile(item)" style="margin-left: 5px;">选择文件</button>
+                       
+                    </div> -->
+                </div>
+                   
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">项目亮点:</label>
+                    <div class="col-xs-10" >
+                        <!-- <div  id="highEditor"  ></div>
+                        <div  id="editor"  style="display: none;"></div> -->
+                        <div class="ueditor" config="config" style="width: 700px; height: 300px;"
+                        ng-model="projectInfo.highlights" ready="ready"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-8" style="width: 700px;text-align: center;">
+                       <button class="btn btn-primary" ng-click="save(peojectForm,item)" style="width: 120px;">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
+<style>
+    .pt7{
+        padding-top: 7px;
+    }
+    .inforec .control-label{
+        padding-right: 0px;
+        width: 120px;
+    }
+</style>

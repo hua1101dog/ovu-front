@@ -1,0 +1,60 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}分期</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group" >
+            <label class="col-xs-2 control-label">所属项目：</label>
+            <div class="col-xs-4">
+                <div style="margin-top: 8px">{{item.parkName}}</div>
+            </div>
+            <label class="col-xs-2 control-label">项目编码：</label>
+            <div class="col-xs-4">
+                <div style="margin-top: 8px">{{item.parkNo}}</div>
+            </div>
+        </div>
+        <div class="form-group" >
+            <label class="col-xs-2 control-label required">分期名称：</label>
+            <div  class="col-xs-4">
+                <!-- <input type="text" class="form-control"  placeholder="3位编码"  required  ng-model="item.STAGE_NAME" name="STAGE_NAME" maxlength="18" /> -->
+                <input type="text" class="form-control" required ng-model="item.stageName"  name="STAGE_NAME" maxlength="18"
+                       oninput="if(value.length>18)value=value.slice(0,18)" />
+            </div>
+            <label class="col-xs-2 control-label">建成日期：</label>
+            <div  class="col-xs-4">
+                <input type="datetime" class="form-control Wdate" ng-model="item.finishDate"  onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-xs-2 control-label">辅助码：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.stageHelpNo" name="STAGEHELPNO"
+                    ng-change="stageHelpNoChange()" maxlength="2" oninput="if(value.length>2)value=value.slice(0,2)"
+                    ng-pattern="/^[0-9a-zA-Z]{2}$/" placeholder="两位辅助码"/>
+            </div>
+            <label class="col-xs-2 control-label required">分期编码：</label>
+            <div  class="col-xs-4">
+                <input type="text" class="form-control" required disabled ng-model="item.stageNo" name="STAGE_NO" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">备注：</label>
+            <div class="col-xs-10">
+                <textarea type="text" style="height:150px;resize:vertical" class="form-control" ng-model="item.content"   />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style type="text/css">
+	.form-control[disabled] {
+        background-color: #c7c5c552;
+        cursor: auto;
+    }
+</style>

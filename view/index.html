@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <title>OVU-智慧运营平台</title>
+
+    <!--   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="bookmark" href="/favicon.ico" />-->
+    <link href="/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 密码更改 表单验证 用到了这个css -->
+    <!-- <link href="/js/angular.css" rel="stylesheet"> -->
+    <script>
+        var now = new Date().getTime();
+        document.write('<link href="/js/angular.css?t=' + Date.now() + '" rel="stylesheet" type="text/css"/>');
+</script>
+    <!-- dropdown退出 icon -->
+    <link href="https://lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 新设计的图标库 -->
+    <link rel="stylesheet" href="/res/fonts/iconfont.css">
+    <link href="/view/main.css?time=new Date().getTime()" rel="stylesheet" type="text/css" />
+</head>
+<body ng-app="angularApp" ng-controller="indexCtrl" ng-cloak>
+    <div class="photoDiv" ng-if="curPic.on">
+        <img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute"
+            ng-click="curPic.on = false"></img>
+        <img class="photo" ng-src="{{curPic.url}}" image-load="wheel()"></img>
+    </div>
+    <div class="header">
+        <div class="header-img">
+            <h1 class="title">OVU-智慧运营平台</h1>
+            <div class="sub-title">
+                OVU-INTELLIGENT OPERATION PLATFORM
+            </div>
+        </div>
+        <div class="nav-bar">
+            <div class="container-N clearfix">
+                <div class="row nav-row">
+                    <div class="col-xs-6 text-left">
+                        <span class="user-name">{{user.nickname}}</span>
+                        <span class="welcome-text">，欢迎您回来，请选择登录系统！</span>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <div class="pull-right account" uib-dropdown auto-close="always">
+                            <a href="javascript:void(0)" class="user-info" uib-dropdown-toggle>
+                                <span class="thumb-sm avatar pull-right user-icon">
+                                    <img ng-src="{{processImgUrl(user.userIcon,40)}}" />
+                                    <i class="on md b-white bottom"></i>
+                                </span> {{user.nickname}}
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                                <li role="menuitem"><a href="javascript:;" ng-click="showinfo(user)">个人信息</a></li>
+                                <li role="menuitem"><a href="javascript:;" ng-click="changePwd(user)">修改密码</a></li>
+                                <li class="divider"></li>
+                                <li role="menuitem"><a href="javascript:;" ng-click="logout()"><i
+                                            class="fa fa-sign-out pull-right"></i>退出</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content-list">
+            <!-- wjlong BEGIN 添加响应式布局 -->
+            <!-- <a ng-href="{{'/view/'+item.id+'.do'}}" target="_blank" ng-repeat="item in modules">{{item.name}} </a> -->
+
+            <!--bootstrap栅格系统 -->
+            <div class="container-A">
+                <div class="row list-con">
+                    <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="item in modules">
+                        <div class="panel panel-default item-panel" ng-mouseenter="item.hover = true"
+                            ng-mouseleave="item.hover = false">
+                            <div class="panel-body text-center thumbnail">
+                                <!-- <img ng-src="{{'/' + item.logo_url}}" alt="..."> -->
+                                <i class="icon iconfont {{item.tmpIcon}}"></i>
+                                <!-- <div ng-show="!item.hover">
+                                <img ng-src="/res/img/login/icon_property_nor.png" alt="...">
+                            </div>
+                            <div ng-show="item.hover">
+                                <img ng-src="/res/img/login/icon_property_press.png" alt="...">
+                            </div> -->
+                                <div class="caption">
+                                    {{item.name}}
+                                </div>
+                                <a class="btn btn-default btn-md enter-button" ng-href="{{item.url}}" target="_blank">
+                                    立即进入
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- flex布局 + bootstrap栅格系统 -->
+            <!-- <div class="flex-con" ng-class="{'oneline':modules.length < 4}">
+            <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="item in modules">
+                <div class="panel panel-default item-panel">
+                    <div class="panel-body text-center thumbnail">
+                        <a ng-href="{{'/view/'+item.id+'.do'}}" target="_blank">
+                            <img ng-src="{{'/' + item.logo_url}}" alt="...">
+                            <div class="caption">
+                                {{item.name}}
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+            <!-- wjlong END-->
+        </div>
+    </div>
+
+    <div class="footer-logo">
+        <img src="/res/img/login/logo_buttom.png" alt="logo">
+        <div class="logo-text">
+            OVU-智慧运营管理系统
+        </div>
+    </div>
+
+</body>
+<!-- wjlong BEGIN 添加样式 -->
+<style>
+    html,
+    body {
+        height: 100%;
+        width: 100%;
+        /* background-color: #1a2b36; */
+        /* background-color: #fff; */
+        background: #EEF4F4;
+        position: relative;
+    }
+
+    [ng\:cloak],
+    [ng-cloak],
+    [data-ng-cloak],
+    [x-ng-cloak],
+    .ng-cloak,
+    .x-ng-cloak {
+        display: none !important;
+    }
+
+    .header {
+        width: 100%;
+        position: absolute;
+        top: 0;
+    }
+
+    .header-img {
+        height: 200px;
+        background-image: url("/res/img/login/bg_platform_top.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        padding-top: 70px;
+    }
+
+    .header-img>h1 {
+        font: bold 44px/44px Helvetica, sans-serif;
+        color: #FFF;
+        text-align: center;
+        margin: 0;
+        text-shadow: 0px 5px 5px #005292;
+        letter-spacing: 5px;
+    }
+
+    .header-img>div.sub-title {
+        font: 14px/14px Arial, sans-serif;
+        /* color: #80FFFF; */
+        color: #7AADD1;
+        text-align: center;
+        margin: 18px;
+        position: relative;
+        letter-spacing: 3.5px;
+    }
+
+    .header-img>div.sub-title:before {
+        content: '';
+        display: block;
+        width: 200px;
+        height: 14px;
+        position: absolute;
+        background-image: url("/res/img/login/login_garnish.png");
+        background-repeat: no-repeat;
+        background-size: 43%;
+        background-position: center;
+        left: 50%;
+        top: 0;
+        transform: rotate(180deg) translate(195%, 0);
+    }
+
+    .header-img>div.sub-title:after {
+        content: '';
+        display: block;
+        width: 200px;
+        height: 14px;
+        position: absolute;
+        background-image: url("/res/img/login/login_garnish.png");
+        background-repeat: no-repeat;
+        background-size: 43%;
+        background-position: center;
+        left: 50%;
+        top: 0;
+        transform: translate(95%, 0);
+    }
+
+    .nav-bar {
+        background: #FFF;
+        height: 50px;
+        /* box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
+        box-shadow: 0 0 5px #CCC;
+    }
+
+    .nav-bar .container-N {
+        padding: 0 170px;
+        height: 100%;
+    }
+
+    .nav-bar a.user-info {
+        text-decoration: none;
+    }
+
+    .nav-bar a.user-info:hover {
+        text-decoration: none;
+    }
+
+    .nav-row {
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .nav-row .user-name {
+        color: #1F74D3;
+    }
+
+    .nav-row .account {
+        line-height: 50px;
+    }
+
+    .nav-row .user-icon {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background-color: gray;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 35px;
+        color: #FFF;
+        font-weight: 600;
+        font-size: 17px;
+        overflow: hidden;
+        margin-left: 15px;
+        margin-top: 5px;
+    }
+
+    .welcome-text {
+        color: #999;
+    }
+
+    .nav-bar .account img {
+        width: 40px;
+    }
+
+    .content {
+        width: 100%;
+        /* height: 100%; */
+        padding: 250px 0 0px;
+    }
+
+    .content-list {
+        /* min-height: 535px; */
+        padding: 50px 0;
+        /* background: #F6F8FA; */
+        background: #EEF4F4;
+        /* height: 100%; */
+    }
+
+    .enter-button.btn {
+        border: 1px solid #1778D5;
+        border-radius: 0px;
+    }
+
+    .footer-logo {
+        width: 100%;
+        height: 60px;
+        text-align: center;
+        background: #EEF4F4;
+        /* position: absolute;
+        bottom: 0; */
+        position: relative;
+    }
+
+    .footer-logo>img {
+        width: 120px;
+    }
+
+    .footer-logo .logo-text {
+        color: #BBB;
+        height: 16px;
+        line-height: 16px;
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        transform: translate(-50%);
+        font-size: 14px;
+    }
+
+    .container-A {
+        /* padding: 25px 70px; */
+        padding: 0 170px;
+        /* height: 100%; */
+        /* overflow: auto; */
+    }
+
+    .item-panel {
+        height: 350px;
+        margin-bottom: 30px;
+        border-radius: 0;
+        border: none;
+        /* background-color: #1a2b36; */
+    }
+
+    .item-panel:hover {
+        /* border: 2px solid #363383; */
+        /* border-image: -webkit-linear-gradient( red, blue) 30 30;
+        border-image: -moz-linear-gradient( red, blue) 30 30;
+        border-image: linear-gradient( red, blue) 30 30; */
+        box-sizing: border-box;
+        border: 4px solid transparent;
+        background-clip: padding-box, border-box;
+        background-origin: padding-box, border-box;
+        background-image: linear-gradient(#fff, #fff), linear-gradient(#56A2BE, #363383);
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .item-panel .thumbnail {
+        height: 100%;
+        padding: 0;
+        border-radius: 0;
+        border: none;
+        position: relative;
+        padding: 20px;
+    }
+
+    .item-panel .caption {
+        font-size: 16px;
+        color: #666;
+        position: relative;
+        top: 30px;
+    }
+
+    .item-panel .thumbnail>a {
+        display: block;
+        width: 155px;
+        height: 40px;
+        line-height: 40px;
+        padding: 0;
+        color: #1778D5;
+        position: absolute;
+        bottom: 50px;
+        left: 50%;
+        transform: translate(-50%);
+    }
+
+    .item-panel .thumbnail img {
+        /* height: 150px; */
+        height: 35%;
+        margin: 12% auto;
+    }
+
+    .item-panel .thumbnail>i {
+        font-size: 88px;
+    }
+
+    .item-panel:hover .thumbnail>i {
+        font-size: 88px;
+        color: #0054A7;
+    }
+
+    .list-container {
+        margin: 0;
+        padding: 15px;
+    }
+
+    .flex-con {
+        height: 100%;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        /* justify-content: center; */
+        align-items: center;
+        align-content: center;
+    }
+
+    .oneline {
+        justify-content: center;
+    }
+
+</style>
+<!-- wjlong END -->
+<!-- layer 依赖jQuery -->
+<script type="text/javascript" src="/res/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+<!-- alert confirm msg与系统保持一致 系统使用layer 覆盖了原生alert confirm msg  -->
+<script type="text/javascript" src="/res/js/layer/layer.js"></script>
+
+<script type="text/javascript" src="/res/js/angular1.5.11/angular.min.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/angular-cookies.min.js"></script>
+<!-- 添加ui.bootstrap -->
+<script type="text/javascript" src="/res/js/angular1.5.11/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="/res/js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/res/js/wheelzoom-feng.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/ocLazyLoad.min.js"></script>
+<script>
+    var app = angular.module("angularApp", ['ui.bootstrap', 'ngCookies', 'oc.lazyLoad']);
+    app.controller('indexCtrl', function ($scope, $rootScope, $location, $http, $uibModal, $q, $cookies, $ocLazyLoad) {
+        
+        // 处理url参数
+        $rootScope.parseQueryString =  function(url) {
+            var str = url.split("?")[1];
+            var iterms = str.split("&");
+            var arr, Json = {};
+            for (var i = 0; i < iterms.length; i++) {
+                arr = iterms[i].split("=");
+                Json[arr[0]] = arr[1];
+            }
+            return Json;
+        }
+        if (window.location.search.indexOf("token=") !== -1) {
+            let params = $rootScope.parseQueryString(window.location.search);
+            // var token = window.location.search.split("&")[1].split("token=")[1];
+            let token = params['token'];
+            document.cookie = `token=${token};path=/`;
+
+        }
+        $rootScope.processImgUrl = function (imgUrl, width) {
+            if (!imgUrl) {
+                return "/res/img/userIcon.png";
+            } else if (imgUrl.indexOf("http") == 0) {
+                if ('origin' == width) {
+                    return imgUrl;
+                } else if (width && !isNaN(width)) {
+                    //指定了宽度
+                    return imgUrl + "?imageView2/2/w/" + width;
+                }
+                return imgUrl;
+                //return imgUrl + "?imageView2/2/w/100";
+            } else {
+                return '/ovu-base/' + imgUrl;
+            }
+        }
+
+        // 获取个人信息
+        function getLoginUser() {
+            var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
+            $http.get("/ovu-base/getSessionInfo").success(function (data) {
+                if (data.user) {
+                    deferred.resolve(data.user);
+                } else {
+                    location.href = "/login.html";
+                }
+            }).error(function (data, status, headers, config) {
+                location.href = "/login.html";
+                deferred.reject(data); // 声明执行失败，即服务器返回错误
+            });
+            return deferred.promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+        }
+        getLoginUser().then(function (user) {
+            $scope.user = user;
+
+            $http.get("/ovu-base/getUserModule").success(function (resp) {
+                $scope.modules = resp.data;
+               
+                var tempMap = [{
+                    name: '物业管理系统(集团版)',
+                    id: 1,
+                    icon: 'icon-EMSjituanban'
+                }, {
+                    name: '物业管理系统(项目版)',
+                    id: 2,
+                    icon: 'icon-EMSxiangmuban'
+                }, {
+                    name: 'IBMS演示',
+                    id: 4,
+                    icon: 'icon-ibmsyanshi'
+                }, {
+                    name: 'IBMS',
+                    id: 5,
+                    icon: 'icon-ibms'
+                }, {
+                    name: '智慧消防',
+                    id: 6,
+                    icon: 'icon-zhihuixiaofang'
+                }, {
+                    name: '大屏2.0',
+                    id: 7,
+                    icon: 'icon-daping'
+                }, {
+                    name: '光谷节能',
+                    id: 8,
+                    icon: 'icon-guanggujieneng'
+                }, {
+                    name: '智慧电梯(维保单位版)',
+                    id: 9,
+                    icon: 'icon-zhihuidianti-weibaodanwei'
+                }, {
+                    name: '智慧电梯(维保单位版)',
+                    id: 10,
+                    icon: 'icon-zhihuidianti-weibaodanwei'
+                }, {
+                    name: '智慧电梯(使用单位版)',
+                    id: 11,
+                    icon: 'icon-zhihuidianti-shiyongdanwei'
+                }];
+                $scope.modules.forEach(function (element) {
+                    //如果这个模块有指定的主页，那就跳往指定的主页，反之跳入默认view页面
+                    if (element.mainUrl) {
+                        //如果是以/开头表示是内部跳转，以http开头为外部跳转
+                        if (element.mainUrl.indexOf("/") == 0) {
+                            element.url = element.mainUrl + '?module=' + element.id;
+                        } else {
+                            if (element.name.indexOf("态势") !== -1) {
+                                element.url = element.mainUrl + '?module=' + element
+                                    .id + '&token=' + $cookies.get("token") +
+                                    '&userId=' + user.id + '&isStatus=' + true;
+                            } else {
+                                element.url = element.mainUrl + '?module=' + element
+                                    .id + '&token=' + $cookies.get("token") +
+                                    '&userId=' + user.id;
+                            }
+                        }
+                    } else {
+                        element.url = '/view/main.html?module=' + element.id;
+                    }
+                    element.tmpIcon = 'icon-icon_demonstration'; // 缺省图标
+                    tempMap.some(function (v) {
+                        if (v.name.toLowerCase() == element.name
+                        .toLowerCase()) {
+                            element.tmpIcon = v.icon;
+                            return true;
+                        }
+                    });
+                });
+                if($scope.modules.length == 1){
+                    let url = $scope.modules[0].url
+                    window.location.replace(url)
+                }
+
+            });
+        });
+
+        //退出
+        $scope.logout = function () {
+            $http.get("/ovu-base/logout").success(function (resp) {
+                location.href = "/";
+                // location.href = "/login.html";
+            })
+        };
+
+        //展示个人信息
+        $scope.showinfo = function (user) {
+            var modal = $uibModal.open({
+                component: 'userInfoModelComponent',
+                resolve: {
+                    param: user
+                }
+            });
+            modal.result.then(function (node) {
+                user.nickname = node.nickname;
+                user.userIcon = node.userIcon;
+            }, function () {});
+        };
+        //修改密码
+        $scope.changePwd = function () {
+            var modal = $uibModal.open({
+                component: 'changePasswordModelComponent'
+            });
+            modal.result.then(function (node) {}, function () {});
+        };
+    });
+    // 添加一个精简版的fac customComponent中的changePasswordModelComponent 发post请求会用到fac.postConfig
+    app.factory("fac", function ($http, $q, $rootScope, $uibModal) {
+        window.confirm = function (message, fn) {
+            layer.confirm(message, {
+                btn: ['确定', '取消'],
+                title: false
+            }, function (index) {
+                fn && fn();
+                layer.close(index);
+            }, function () {});
+        };
+        window.msg = function (tip) {
+            layer.msg(tip || "操作成功！", {
+                time: 2000,
+                icon: 1
+            });
+        };
+        window.alert = function (tip) {
+            layer.msg(tip || '操作失败！', {
+                time: 2000,
+                icon: 5
+            });
+        };
+        var postConfig = {
+            transformRequest: function (obj) {
+                var str = [];
+                if (typeof obj === 'object' && !obj.length) {
+                    for (var p in obj) {
+                        if (obj[p] === null || obj[p] === undefined || obj[p] === "") {
+                            //str.push(encodeURIComponent(p) +"=");
+                        } else if (typeof obj[p] === 'object' && obj[p].length === undefined) {
+                            continue;
+                        } else if (angular.isArray(obj[p])) {
+                            continue;
+                        } else {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                    }
+                } else if (typeof obj === 'object' && obj.length > 0) {
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(obj[p].name) + "=" + encodeURIComponent(obj[p]
+                            .value));
+                    }
+                }
+                return str.join("&");
+            },
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        };
+        return {
+            postConfig: postConfig,
+        }
+    });
+
+</script>
+<!-- <script type="text/javascript" src="/js/filter.js"></script> -->
+<script>document.write("<script type='text/javascript' src='/js/filter.js?t=" + Date.now() + "'><\/script>");</script>
+
+<!-- customComponent 依赖angularApp 所以要放在后面 -->
+<!-- <script type="text/javascript" src="/js/customComponent.js"></script> -->
+<script>document.write("<script type='text/javascript' src='/js/customComponent.js?t=" + Date.now() + "'><\/script>");</script>
+
+</html>

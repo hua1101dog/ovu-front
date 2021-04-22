@@ -1,0 +1,107 @@
+<div ng-controller="workPlanSetCtl">
+	<div class="page-title">
+		<div class="title_left">
+			<h3>工作计划设置</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-12">
+			<div class="x_panel" style="padding-right: 0;padding-left: 0">
+				<div class="x_title">
+					<a ng-click='expandAll(planWorkTypeTree)' role="button" class='btn-link' title="展开与收缩">
+						<i class="glyphicon"
+							ng-class="{'glyphicon-resize-small':planWorkTypeTree.expanded,'glyphicon-resize-full':!planWorkTypeTree.expanded}"></i></a>
+					工作分类
+				</div>
+				<div class="x_content" style="z-index: 1">
+					<div class="alert" role="alert" ng-show="!planWorkTypeTree">无工作分类</div>
+					<div>
+						<tree-view-pro node-list="planWorkTypeTree" host="search" host-text="'text'" host-key="'key'"
+							callback="selectNode" clean="clean" config="config"></tree-view-pro>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+			<div class="x_panel">
+				<div class="form-inline">
+					<div class="form-group">
+						<label>工作事项</label>
+						<input type="text" ng-model="search.workTaskName" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>是否设备任务</label>
+						<select class="form-control" ng-model="search.IsEquip"
+							ng-options="o[0] as o[1] for o in yesNoDict">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>是否已冻结</label>
+						<select class="form-control" ng-model="search.is_frozen"
+							ng-options="o[0] as o[1] for o in yesNoDict">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>频次类型</label>
+						<select class="form-control" ng-model="search.EXEC_CYCLE"
+							ng-options=" o[0] as o[1]+'任务' for o  in frequencyDict" ng-change="changeFre(search.EXEC_CYCLE)">
+							<option value="" ng-show="curTab=='list'">--请选择--</option>
+						</select>
+
+					</div>
+					<div class="form-group">
+						<label>是否必选任务</label>
+						<select class="form-control" ng-model="search.isRequired"
+							ng-options="o[0] as o[1] for o in [[0,'非必选'],[1,'必选']]">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label class="pl13">执行人</label>
+					
+							<select-person host="search.exec" dept-id="search.deptId"></select-person>
+					</div>
+					<div class="form-group">
+						<label class="pl13">管理人</label>
+						
+							<select-person host="search.manage" dept-id="search.deptId"></select-person>
+					</div>
+					<div class="form-group">
+						<label>审批状态</label>
+						<select class="form-control" ng-model="search.STATUS" ng-options="o[0] as o[1] for o in approvalStatusDict">
+							<option value="">--请选择--</option>
+						</select>
+						<button class="btn btn-default" ng-click="find(1)">查询</button>
+					</div>
+
+
+
+				</div>
+			</div>
+			<uib-tabset active="active">
+				<uib-tab index="0" heading="列表模式" select="setCurTab('list')">
+					<div>
+						<ng-include src="'./workunit/workPlanSet.table.html'" ></ng-include>
+						
+					
+
+					</div>
+				</uib-tab>
+				<uib-tab index="1" heading="日历模式" select="setCurTab('calendar')">
+					<ng-include src="'./workunit/workPlanSet.calendar.html'" ></ng-include>
+				
+
+				</uib-tab>
+
+			</uib-tabset>
+
+		</div>
+		
+	</div>
+</div>
+
+
+

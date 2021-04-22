@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">内测人员列表</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope checkScroll">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade active in">
+                    <table class="table text-center">
+                        <thead>
+                            <tr>
+                                <th>NO.</th>
+                                <th>姓名</th>
+                                <th>登录账号</th>
+                            </tr>
+                            <tr class="hide">
+                                <th colspan="7">
+                                    <div class="alert" role="alert">加载中...</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.userList||pageModel.userList.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="x in pageModel.userList">
+                                <td>{{$index + 1}}</td>
+                                <td>{{x.userName || "--"}}</td>
+                                <td>{{x.loginName || '--'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- <ng-include src="'/common/pager.html'"></ng-include> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-warning" style="float: right;" ng-click="cancel()">关闭</button>
+</div>
+<style>
+    .checkScroll {
+        max-height: 800px;
+        overflow-y: scroll;
+    }
+
+</style>

@@ -1,0 +1,464 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}企业信息</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" ng-init="getCompanySizeList();">
+    <div class="x_content" style="max-height:650px;overflow: auto;">
+        <form name="form" novalidate>
+            <div class="title-info">基本信息</div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">经营类型：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.operatingClassCode" required>
+                        <option value="">--请选择--</option>
+                        <option value="1">企业办公</option>
+                        <option value="2">配套商户</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">企业类型：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-change="changeComType(item.companyType)" ng-model="item.companyType" required>
+                        <option value = '1'>企业</option>
+                        <option value = '2'>个体户</option>
+                        <option value = '3'>政府机构</option>
+                        <option value = '4'>工作室</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">企业名称：</label>
+                <div class="col-md-7">
+                    <!-- <input type="text" class="form-control" required ng-model="item.companyName" /> -->
+                    
+                    <table-selector host="search"  host-text="'name'" host-url="url" callback="checkName"></table-selector>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">统一信用代码：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-disabled="item.companyType != 1" ng-model="item.uniformSocialCreditCode" required />
+                    <!-- <input type="text" ng-if="item.companyType == 2" ng-init="item.uniformSocialCreditCode = '000000000000000000'"  disabled class="form-control" ng-model="item.uniformSocialCreditCode" required />
+                    <input type="text" ng-if="item.companyType == 3" ng-init="item.uniformSocialCreditCode = '111111111111111111'"  disabled class="form-control" ng-model="item.uniformSocialCreditCode" required /> -->
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">企业简称：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-model="item.companyShortName" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">法人代表：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" required ng-model="item.corporateRepresentative" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">是否中电光谷子公司：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.isChild">
+                        <option value="">--请选择--</option>
+                        <option value="1">是</option>
+                        <option value="0">否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">联系人：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-model="item.linkman" />
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label ">联系人职务：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.job">
+                        <option value="">--请选择--</option>
+                        <option ng-repeat="item in jobDic" value="{{item[0]}}">{{item[1]}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">联系电话：</label>
+                <div class="col-md-7">
+                    <!-- <input type="text" class="form-control" name="MOBILE" ng-model="item.mobile"
+                        ng-pattern="/^0?(13[0-9]|14[5-9]|15[012356789]|166|17[0135678]|18[0-9]|19[89])[0-9]{8}$/"
+                        placeholder="请输入手机号码" required /> -->
+                    <input type="text" class="form-control" name="MOBILE" ng-model="item.mobile"
+                        ng-pattern="/^((0\d{2,3}-\d{7,8})|(1[34578]\d{9}))$/" placeholder="请输入手机号码或座机号码" required />
+                    <span style="color:red" ng-show="form.MOBILE.$dirty && form.MOBILE.$invalid">
+                        <span class="col-xs-12 control-label" style="color:red;text-align:left"
+                            ng-show="form.MOBILE.$dirty && form.MOBILE.$invalid && form.MOBILE.$error.pattern"
+                            style>请输入正确的手机号或座机号码</span>
+                    </span>
+                </div>
+            </div>
+            <div ng-repeat="item in brandLogoList track by $index">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">企业品牌：</label>
+                    <div class="col-md-9">
+                        <div class="col-md-5 p-l-none">
+                            <input type="text" class="form-control" ng-model="item.brand" />
+                        </div>
+
+                        <div class="col-md-4 p-r-none" style="padding-top: 8px;padding-left: 0px;">
+                            <a ng-if="$index == 0" href='javascript:void(0)' style="font-size:12px;"
+                                ng-click='addBrand()'>添加</a>
+                            <a ng-if="$index > 0" href='javascript:void(0)' style="font-size:12px;"
+                                ng-click='deleteBrand($index)'>删除</a>
+                            <span ng-if="$index == 0" style="color:#d1d1d1;">(仅限添加三个品牌)</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">LOGO：</label>
+                    <div class="thumbnail col-md-9"
+                        style="height: auto;min-height: 70px; width: 70px;padding:0;margin-left:12px">
+                        <img alt="" onerror="this.src='/res/img/detail.png';"
+                            ng-src="{{processImgUrl(item.brandLogo)}}" />
+
+                        <div class="caption">
+                            <p>
+                                <button class="btn company-logo" style="color:#eea236;"
+                                    ng-click="clearPhoto(item,'brandLogo')"><i
+                                        class="glyphicon glyphicon-remove"></i></button>
+                                <button class="btn btn-default company-logo m-l-xs"
+                                    ng-click="addPhoto(item,'brandLogo')"><i
+                                        class="glyphicon glyphicon-picture "></i></button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="title-info">入驻信息</div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">入驻状态：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.enterStatus" required>
+                        <option value="">--请选择--</option>
+                        <option ng-repeat="item in enterStatusDic" value="{{item[0]}}">{{item[1]}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="item.enterStatus == 1||item.enterStatus == 3">
+                <label class="col-md-3 control-label">入驻时间：</label>
+                <div class="col-md-7">
+                    <input type="datetime" class="form-control Wdate" ng-model="item.enterTime" onchange=""
+                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="item.enterStatus ==3">
+                <label class="col-md-3 control-label">迁出时间：</label>
+                <div class="col-md-7">
+                    <input type="datetime" class="form-control Wdate" ng-model="item.outTime" onchange=""
+                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">企业人数：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.enterpriseSizeCode">
+                        <option value="">--请选择--</option>
+                        <option ng-repeat="x in companySizeList" value="{{x.dicSort}}">{{x.dicItem}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label ">具体人数：</label>
+                <div class="col-md-7">
+                    <input type="number" class="form-control" ng-model="item.staffCount" ng-input="changeStaffCount()"
+                        ng-pattern="/^[+]{0,1}(\d+)$/" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">办公面积(㎡)：</label>
+                <div class="col-md-7">
+                    <input type="number" class="form-control" ng-model="item.officeArea"
+                        ng-pattern="/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">场地权属：</label>
+                <div class="col-md-7">
+                    <!-- <input type="number" class="form-control" ng-model="item.siteOwnership"  ng-pattern="/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/"/> -->
+                    <select class="form-control" ng-model="item.siteOwnership">
+                        <option value="0">--请选择--</option>
+                        <option value="1">租</option>
+                        <option value="2">购</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">是否创客星：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.isckx">
+                        <option value="">--请选择--</option>
+                        <option value="1">是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">是否自用变投资：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.changeues">
+                        <option value="">--请选择--</option>
+                        <option value="1">是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+            </div>
+
+            <hr />
+            <div class="title-info">工商信息</div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">父行业领域：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.parentIndustryCode"
+                        ng-change="getIndustryList('select')" required>
+                        <option value="">--请选择--</option>
+                        <option ng-repeat="industry in parentIndustryList" value="{{industry.industryCode}}">
+                            {{industry.industryName}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label required">行业领域：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.industryCode" required>
+                        <option value="">--请选择--</option>
+                        <option ng-repeat="item in industryList" value="{{item.industryCode}}">{{item.industryName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">企业类型：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.enterpriseNatureCode">
+                        <option value="">--请选择--</option>
+                        <option ng-repeat="item in companyTypeList" value="{{item.dicSort}}">{{item.dicItem}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">注册资本（万元）：</label>
+                <!-- <div class="col-md-3">
+					<select class="form-control"  ng-model="item.moneyType">
+						<option value="1">人民币</option>
+						<option value="2">美元</option>
+					</select>
+				</div> -->
+                <div class="col-md-7">
+                    <input type="number" class="form-control" ng-model="item.regCapital"
+                        ng-pattern="/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/" />
+                </div>
+                <!-- <span class="col-md-1 control-label" ng-if="item.moneyType == '1'">万元</span>
+				<span class="col-md-1 control-label" ng-if="item.moneyType == '2'">万美元</span> -->
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">是否上市：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.beListed">
+                        <option value="">--请选择--</option>
+                        <option value="1">是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="item.beListed ==1">
+                <label class="col-md-3 control-label">上市范围：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.listedPlate">
+                        <option value="">--请选择--</option>
+                        <option value="1">主板</option>
+                        <option value="2">新三板</option>
+                        <option value="3">中小板</option>
+                        <option value="4">创业板</option>
+                        <option value="5">境外</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">经营状态：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.operationStatus">
+                        <option value="">--请选择--</option>
+                        <!-- <option ng-repeat="item in operationStatusDic" value="{{item[0]}}">{{item[1]}}</option> -->
+                        <option value="1">在业</option>
+                        <option value="2">存续</option>
+                        <option value="3">吊销</option>
+                        <option value="4">注销</option>
+                        <option value="5">迁出</option>
+                        <option value="6">迁入</option>
+                        <option value="7">停业</option>
+                        <option value="8">清算</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">注册时间：</label>
+                <div class="col-md-7">
+                    <input type="datetime" class="form-control Wdate" ng-model="item.corporateRegTime" onchange=""
+                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">注册地址：</label>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="item.regAddrType" ng-change="findAllStage()">
+                        <option value="">--请选择--</option>
+                        <option value="1">--园区内--</option>
+                        <option value="2">--园区外--</option>
+                    </select>
+                </div>
+            </div>
+            <!-- <div class="form-group" ng-if="item.regAddrType=='2'">
+                <label class="col-md-3 control-label required">地址：</label>
+                <div class="col-md-7">
+                    <select class="form-control" required ng-model="item.regAddrDomain">
+                        <option value="">--请选择--</option>
+                        <option ng-repeat="itemDomain in itemDomain" value="{{itemDomain.code}}">{{itemDomain.name}}
+                        </option>
+                    </select>
+                </div>
+            </div> -->
+            <div class="form-group" ng-if="item.regAddrType=='2'">
+                <label class="col-md-3 control-label required">具体地址：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" required ng-model="item.corporateRegAddr"
+                        placeholder="请输入注册地址" />
+                </div>
+            </div>
+
+            <div ng-if="item.regAddrType=='1'">
+                <div class="form-group">
+                    <label class="col-md-3 control-label required">分期：</label>
+                    <div class="col-md-7">
+                        <select class="form-control col-md-2" required ng-model="item.stageId"
+                            ng-change="selectStage()">
+                            <option value="">--请选择--</option>
+                            <option ng-repeat="stage in stageList track by $index" value="{{stage.id}}">{{stage.text}}
+                            </option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label required">楼栋：</label>
+                    <div class="col-md-7">
+                        <select class="form-control col-md-2" required ng-model="item.buildId"
+                            ng-change="selectBuild()">
+                            <option value="">--请选择--</option>
+                            <option ng-repeat="build in buildList track by $index" value="{{build.id}}">
+                                {{build.buildName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label required">单元：</label>
+                    <div class="col-md-7">
+                        <select class="form-control col-md-2" required ng-model="item.unitNum" ng-change="selectUnit()">
+                            <option value="">--请选择--</option>
+                            <option ng-repeat="unit in unitList track by $index" value="{{unit}}">{{unit}}单元</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label required">楼层：</label>
+                    <div class="col-md-7">
+                        <select class="form-control col-md-2" required ng-model="item.floorNum"
+                            ng-change="selectGround()">
+                            <option value="">--请选择--</option>
+                            <option ng-repeat="floor in floorList track by $index" value="{{floor}}">{{floor}}层</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label required">房屋：</label>
+                    <div class="col-md-7">
+                        <select class="form-control col-md-2" required ng-model="item.houseId">
+                            <option value="">--请选择--</option>
+                            <option ng-repeat="house in houseList track by $index" value="{{house.id}}">
+                                {{house.houseName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">经营地址：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-model="item.runAddr" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label ">经营范围：</label>
+                <div class="col-md-7">
+                    <textarea type="text" style="height: 50px;resize: vertical;" class="form-control"
+                        ng-model="item.businessScope" maxlength="500"></textarea>
+                </div>
+            </div>
+
+            <hr />
+            <div class="title-info">经营信息</div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">企业资产(万元)：</label>
+                <div class="col-md-7">
+                    <input type="number" class="form-control" ng-model="item.asset"
+                        ng-pattern="/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">企业产值(万元)：</label>
+                <div class="col-md-7">
+                    <input type="number" class="form-control" ng-model="item.outputValue"
+                        ng-pattern="/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">企业收入(万元)：</label>
+                <div class="col-md-7">
+                    <input type="number" class="form-control" ng-model="item.income"
+                        ng-pattern="/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">企业税收(万元)：</label>
+                <div class="col-md-7">
+                    <input type="number" class="form-control" ng-model="item.taxRevenue"
+                        ng-pattern="/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

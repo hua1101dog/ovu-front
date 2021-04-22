@@ -1,0 +1,61 @@
+<div class="videoDiv" ng-style="{width:vm.width,height:vm.height}">
+    <div class="head" ng-init="size = 1">
+        <button class="  btn btn-custerm" ng-click="vm.small();size=1" ng-class="{myactive:size == 1}">小尺寸</button>
+        <button class="  btn btn-custerm" ng-click="vm.middle();size=2" ng-class="{myactive:size == 2}">中尺寸</button>
+        <button class="  btn btn-custerm" ng-click="vm.large();size=3" ng-class="{myactive:size == 3}">大尺寸</button>
+        <img src="/res/img/refuse.png" class="hand" ng-click="vm.close()">
+    </div>
+
+    <div style="width: 80%;display: inline-block">
+        <div id="video"></div>
+    </div>
+    <div class="right-pa">
+        <p style="color: white;margin: 20px 0 0 20px;font-size: 18px;">信号源</p>
+        <div class="list-group" style="padding: 20px;"  ng-init="index = 1">
+            <button class="list-group-item  btn-sm btn-custerm" ng-click="vm.url = vm.data.interM3u8;index=1" ng-class="{myactive:index == 1}" style=" color: white;">地址一</button>
+            <button class="list-group-item  btn-sm btn-custerm"  ng-click="vm.url = vm.data.lanM3u8;index=2" ng-class="{myactive:index == 2}" style=" color: white;">地址二</button>
+           <!-- <a href="javascript:;;"  style="margin-bottom: 10px;" type="button" class="list-group-item btn btn-default btn-sm" >京汉名都</a>
+            <a href="javascript:;;"  style="margin-bottom: 10px;" type="button" class="list-group-item btn btn-default btn-sm" >京汉名都</a>-->
+        </div>
+        <!--<button class="btn btn-primary btn-sm" ng-click="vm.url = vm.data.lanM3u8">内网</button>
+        <button class="btn btn-primary btn-sm" ng-click="vm.url = vm.data.interM3u8">外网</button>-->
+    </div>
+  <!--  <div class="" style="position: absolute;top: 0;">
+        <button class="btn btn-primary btn-sm" ng-click="vm.url = vm.data.lanM3u8">内网</button>
+        <button class="btn btn-primary btn-sm" ng-click="vm.url = vm.data.interM3u8">外网</button>
+    </div>-->
+</div>
+
+<style>
+    .head{
+        background-color: #302929;
+        width: 100%;
+    }
+    .right-pa{
+        width: 20%;
+        float: right;
+        background-color: #3f3434;
+        height: 100%;
+    }
+    .btn-custerm{
+        background-color: transparent;
+        margin: 10px 0;
+        color: white !important;
+    }
+    .btn-default:active:focus, .btn-default:active:hover{
+        background-color: transparent;
+        border-color: #0b70ed;
+    }
+    button.list-group-item:focus,button.list-group-item:hover{
+        background-color: transparent;
+    }
+    button.myactive{
+        border-color:#5959ff;
+        color: #5959ff !important;
+    }
+    .hand{
+        padding: 10px;
+        float: right;
+        cursor: pointer;
+    }
+</style>

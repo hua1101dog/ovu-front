@@ -1,0 +1,24 @@
+{
+    "datas": {
+        "business": {
+            "bs_totle_area": "326000",
+            "bs_percentage": "58.38",
+            "bs_building": "14"
+        },
+        "office": {
+            "of_sale_area": "230000",
+            "office_area": "235000",
+            "of_sign_area": "1463",
+            "of_self_area": "4485",
+            "of_rental_area": "169000"
+        },
+        "supporting": {
+            "sup_self_area": "2684",
+            "sup_area": "7324",
+            "sup_rental_area": "1463",
+            "sup_sale_area": "4640",
+            "sup_sign_area": "2495"
+        }
+    },
+    "success": true
+}

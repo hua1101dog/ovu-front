@@ -1,0 +1,32 @@
+<!--<p>{{currentNode.text}}</p>
+<ul>
+    <li ng-repeat="node in currentNode.nodes">
+        <tree-view current-node="node"></tree-view>
+    </li>
+</ul> -->
+
+<ul class="fengTree" ng-if="nodeList.length">
+    <li ng-repeat="node in nodeList" class="clearfix" >
+        <div class="form-inline " ng-class="{'bg-success':node.state.selected,'text-danger':node.WORKITEM_ID&&!node.WORKPROGRAM_ID}" >
+            <i class="icon glyphicon " ng-click="node.state.expanded = !node.state.expanded"
+                    ng-style="{visibility:node.nodes.length?'visible':'hidden'}"
+                    ng-class="{'glyphicon-minus':node.state.expanded,'glyphicon-plus':!node.state.expanded}"></i>
+            <i class="icon glyphicon " ng-click="check(node)" ng-if="config.showCheckbox"
+               ng-class="{'glyphicon-check':node.state.checked,'glyphicon-unchecked':!node.state.checked}"></i>
+          <!--  <div class="arrowDiv" ng-if="config.sort" ng-style="{visibility:nodeList.length>1?'visible':'hidden'}">
+                <i class="icon glyphicon glyphicon-chevron-up" ng-click="sort(nodeList,node,$index-1)" ></i>
+                <i class="icon glyphicon glyphicon-chevron-down " ng-click="sort(nodeList,node,$index+1)"></i>
+            </div>-->
+            <span role="button" ng-click="selectNode(node)" ><i ng-class="node.icon"  ng-if="node.icon"></i>{{node.text}}</span>
+            <span  ng-if="config.edit" class="edit-span">
+                 <i class="icon glyphicon glyphicon-plus-sign"  ng-click="addSubType(node)"></i>
+                 <i class="icon glyphicon glyphicon-edit" ng-click="editNode(node,pnode)"></i>
+                 <i class="icon glyphicon glyphicon-trash" ng-click="delNode(node)" ng-if="!(node.nodes && node.nodes.length)"></i>
+            </span>
+            <span  ng-if="config.set" class="edit-span">
+                 <i class="icon glyphicon glyphicon-edit" ng-click="setNode(node)"></i>
+            </span>
+        </div>
+        <tree-worktype  node-list ="node.nodes" pnode="node" config="config" ng-if="node.state.expanded"></tree-worktype>
+    </li>
+</ul>

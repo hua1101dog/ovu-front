@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="rental/rent.css">
+    <title>租赁合同</title>
+</head>
+
+<body>
+    <div id="angularId" ng-controller="rentAgreementCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>租赁合同</h3>
+            </div>
+        </div>
+
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>租户名称：</label>
+                    <input ng-model="search.secondPartyName" type="text" class="form-control" placeholder="租户名称" />
+                </div>
+                <div class="form-group">
+                    <label>合同编号：</label>
+                    <input ng-model="search.code" type="text" class="form-control" placeholder="合同编号" />
+                </div>
+                <div class="form-group">
+                    <label>状态：</label>
+                    <select style="width:180px;" class="form-control" ng-model="search.status">
+                        <option value="">--全部--</option>
+                        <option value="{{x.id}}" ng-repeat="x in contractStatus">{{x.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>合同起止日期：</label>
+                    <input type="datetime" class="form-control Wdate" ng-model="search.startCreateTime" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    至
+                    <input type="datetime" class="form-control Wdate" ng-model="search.endCreateTime" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                </div>
+                <button class="btn btn-default" ng-click="find(1)">查询</button>
+
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#999999;">
+                合同列表
+                <button class="btn btn-primary pull-right" ng-click="addEditAgreement()">新增</button>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center">No.</th>
+                            <th>租户名称</th>
+                            <th>合同编号</th>
+                            <th>租金模式</th>
+                            <th>
+                                <div class="sortFlex">
+                                    <span>创建日期</span>
+                                    <div class="sortIcon">
+                                        <span class="icon_up"
+                                            ng-class="{true: 'color-deep-up', false: 'color-shallow-up'}[sortStatus.createTimeSort==1]" ng-click="sort('createTimeSort',1)"></span>
+                                        <span class="icon_down"
+                                            ng-class="{true: 'color-deep-down', false: 'color-shallow-down'}[sortStatus.createTimeSort==2]" ng-click="sort('createTimeSort',2)"></span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="sortFlex">
+                                    <span>开始日期</span>
+                                    <div class="sortIcon">
+                                        <span class="icon_up"
+                                            ng-class="{true: 'color-deep-up', false: 'color-shallow-up'}[sortStatus.leaseStartSort==1]" ng-click="sort('leaseStartSort',1)"></span>
+                                        <span class="icon_down"
+                                            ng-class="{true: 'color-deep-down', false: 'color-shallow-down'}[sortStatus.leaseStartSort==2]" ng-click="sort('leaseStartSort',2)"></span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="sortFlex">
+                                    <span>结束日期</span>
+                                    <div class="sortIcon">
+                                        <span class="icon_up"
+                                            ng-class="{true: 'color-deep-up', false: 'color-shallow-up'}[sortStatus.leaseEndSort==1]" ng-click="sort('leaseEndSort',1)"></span>
+                                        <span class="icon_down"
+                                            ng-class="{true: 'color-deep-down', false: 'color-shallow-down'}[sortStatus.leaseEndSort==2]" ng-click="sort('leaseEndSort',2)"></span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th>来源</th>
+                            <th>状态</th>
+                            <th>操作人</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="pageModel.data.length ==0||!pageModel.data">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr style="color:#333333;" ng-repeat="x in pageModel.data">
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td>{{x.secondPartyName}}</td>
+                            <td>{{x.code}}</td>
+                            <td>{{x.rentalModal|rentalModal}}</td>
+                            <td>{{x.createTime | date :'yyyy-MM-dd'}}</td>
+                            <td>{{x.leaseStart | date :'yyyy-MM-dd'}}</td>
+                            <td>{{x.leaseEnd | date :'yyyy-MM-dd'}}</td>
+                            <td>{{x.contractSource|contractSource}}</td>
+                            <td>{{x.status|contractStatus}}</td>
+                            <td>{{x.updatorName == null?x.creatorName:x.updatorName}}</td>
+                            <td>
+                                <a ng-show="(((x.status=='-1') || (x.status=='0')||(x.status=='3')) && x.contactStatus=='1')||(x.status=='2' && x.createBillModel == '2')"
+                                    ng-click='addEditAgreement(x)' class='btn btn-xs'
+                                    style="border:1px solid #5692ea;color:#5692ea;">
+                                    <span></span>编辑
+                                </a>
+                                <a ng-show="((x.status=='0')||(x.status=='3')) && x.contactStatus=='1'"
+                                    ng-click='submitContract(x.id)' class='btn btn-xs'
+                                    style="border:1px solid #5692ea;color:#5692ea;">
+                                    <span></span>提交
+                                </a>
+                                <a ng-show="x.status=='2'" ng-click='endAgreement(x.id)' class='btn btn-xs'
+                                    style="border:1px solid #5692ea;color:#5692ea;">
+                                    <span></span>终止
+                                </a>
+                                <!-- <a ng-show="x.status=='1'" ng-click='examAgreement(x.id,x.status)' class='btn btn-xs' style="border:1px solid #5692ea;color:#5692ea;">
+                                <span></span>审批
+                            </a>  -->
+                                <a ng-click='lookAgreement(x)' class='btn btn-xs'
+                                    style="border:1px solid #5692ea;color:#5692ea;">
+                                    <span></span>预览
+                                </a>
+                                <a ng-show="(x.status=='0'|| x.status=='-1' || x.status=='3') && x.contactStatus=='1'"
+                                    ng-click='delAgreement(x.id)' class='btn btn-xs'
+                                    style="border:1px solid #5692ea;color:#5692ea;">
+                                    <span></span>删除
+                                </a>
+                                <a ng-show="x.status=='2'" ng-click='updateContractFile(x)' class='btn btn-xs'
+                                    style="border:1px solid #5692ea;color:#5692ea;">
+                                    <span></span>更新合同附件
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'" class="ng-scope" ng-if="pageModel.data.length != 0">
+                        <style type="text/css" class="ng-scope">
+                            .pagination>li>span:hover {
+                                background-color: #fff;
+                                cursor: text
+                            }
+
+                        </style>
+                    </ng-include>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- <%@ include file="/common/modal.industry.tree.jsp" %> -->
+</body>
+
+</html>

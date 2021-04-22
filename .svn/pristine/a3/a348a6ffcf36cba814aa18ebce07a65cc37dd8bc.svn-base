@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>预览合同</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div ng-controller="lookAgreementCtrl">
+        <div class="title_left">
+            <h3>预览合同</h3>
+        </div>
+        <!-- <div class="examAgreement x_panel"> -->
+        <!-- 基本信息 -->
+        <!-- <ul class="ul_list">
+                <li>
+                    <label for="">租户名称：</label>
+                    <p title="{{contractMsg.secondPartyName}}">{{contractMsg.secondPartyName}}</p>
+                </li>
+                <li>
+                    <label for="">合同名称：</label>
+                    <p>{{contractMsg.name}}</p>
+                </li>
+                <li>
+                    <label for="">合同编号：</label>
+                    <p>{{contractMsg.code}}</p>
+                </li>
+                <li>
+                    <label for="">合同面积（m<sup>2</sup>）：</label>
+                    <p>{{contractMsg.contractArea}}</p>
+                </li>
+                <li>
+                    <label for="">甲方名称：</label>
+                    <p title="{{contractMsg.firstPartyName}}">{{contractMsg.firstPartyName}}</p>
+                </li>
+                <li>
+                    <label for="">乙方名称：</label>
+                    <p title="{{contractMsg.secondPartyName}}">{{contractMsg.secondPartyName}}</p>
+                </li>
+
+                <li>
+                    <label for="">租金模式：</label>
+                    <p>{{contractMsg.rentalModal|rentalModal}}</p>
+                </li>
+
+                <li>
+                    <label for="">合同租期：</label>
+                    <p>
+                        <span>{{contractMsg.leaseStart | date : 'yyyy-MM-dd'}}</span>
+                        <span ng-if="contractMsg.leaseStart != null"> 至</span>
+                        <span>{{contractMsg.leaseEnd | date: 'yyyy-MM-dd'}}</span>
+                        <span ng-if="contractMsg.leaseStart != null">共{{contractMsg.leaseMonth}}个月</span>
+                    </p>
+                </li>
+                <li>
+                    <label for="">签约时间：</label>
+                    <p>{{contractMsg.signDate | date : 'yyyy-MM-dd'}}</p>
+                </li>
+                <li>
+                    <label for="">进场日期：</label>
+                    <p>{{contractMsg.enterDate | date : 'yyyy-MM-dd'}}</p>
+                </li>
+                <li>
+                    <label for="">相关文档：</label>
+                    <ul>
+                        <li ng-repeat="file in contractMsg.contractFileList">
+                            <a href="{{file.url}}">{{file.name}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <label for="">租赁空间（租期）：</label>
+                    <ul style="float: left;">
+                        <li ng-repeat="x in contractMsg.rentalContractHouseInfos">
+                            <span ng-if="x.stageName">{{x.stageName+'-'+x.buildName+'-'+(x.unitNum==null?'':x.unitNum+'单元-')+(x.groundNum==null?'':x.groundNum+'层-')+x.houseName}}（{{x.leaseStart  | date: 'yyyy-MM-dd'}}至{{x.leaseEnd | date: 'yyyy-MM-dd'}}）</span>
+                            <span ng-if="!x.stageName">{{x.houseName}}（{{x.leaseStart  | date: 'yyyy-MM-dd'}}至{{x.leaseEnd | date: 'yyyy-MM-dd'}}）</span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <label for="">免租期：</label>
+                    <ul style="float: left;">
+                        <li ng-repeat="x in contractMsg.rentalContractFreePeriods | orderBy:'rentModel'">
+                            <span>{{x.freeDateStart  | date: 'yyyy-MM-dd'}}至{{x.freeDateEnd | date: 'yyyy-MM-dd'}}<span ng-if="contractId.createBillModel==2">({{x.houseName}})</span><span ng-if="contractId.createBillModel!=2">({{x.rentModel | rentalModal}})</span></span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <label for="">账单：</label>
+                    <p><a href="javascript:;" style="color: #1010ff" ng-click="estimatedBill()">预计应收账单</a></p>
+                </li>
+            </ul> -->
+        <!-- 租赁资源列表 -->
+        <!-- <div class="panel panel-default" ng-if="contractId.createBillModel==2">
+                <h4 class="table_title">租赁资源列表</h4>
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                        <tr class="">
+                            <th>No.</th>
+                            <th>租赁资源</th>
+                            <th>状态</th>
+                            <th>合同租期</th>
+                            <th>终止日期</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="contractMsg.rentalContractHouseInfos.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr style="color:#333333;" ng-repeat="x in contractMsg.rentalContractHouseInfos">
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td>{{x.parkName+x.houseName}}</td>
+                            <td ng-if="contractId.status == 2"><span ng-class="{false: 'redTerminated',true: 'blueSubsist'}[x.dataStatus==1]">{{x.dataStatus==1? '存续':'已终止'}}</span></td>
+                            <td ng-if="contractId.status != 2">{{contractMsg.status|contractStatus}}</td>
+                            <td>{{x.leaseStart | date : 'yyyy-MM-dd'}}至{{x.leaseEnd | date : 'yyyy-MM-dd'}}</td>
+                            <td ng-if="x.dataStatus == 0">
+                                {{x.updateTime ? (x.updateTime | date : 'yyyy-MM-dd') : ''}}
+                            </td>
+                            <td ng-if="x.dataStatus != 0 && contractMsg.status == 4">
+                                {{contractMsg.costEndTime ? (contractMsg.costEndTime | date : 'yyyy-MM-dd') : ''}}
+                            </td>
+                            <td ng-if="x.dataStatus != 0 && contractMsg.status != 4">
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+        <!-- 固定租金 -->
+        <!-- <div class="panel panel-default">
+                <h4 class="table_title">收费信息</h4>
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                        <tr class="">
+                            <th>序号</th>
+                            <th>收费项目</th>
+                            <th>租赁资源</th>
+                            <th>费项金额</th>
+                            <th>计费周期</th>
+                            <th>计费标准</th>
+                            <th>费用类别</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="pageModel.rentalContractRelativeExpenditures.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr style="color:#333333;" ng-repeat="x in pageModel.rentalContractRelativeExpenditures">
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td>{{x.expenditureName}}</td>
+                            <td>{{x.houseName}}</td>
+                            <td>
+                                <span>{{x.totalPrice|number:2}}</span>
+                            </td>
+                            <td>
+                                <span ng-if="x.payDateStart && x.payDateEnd">{{x.payDateStart
+                                    | date : 'yyyy-MM-dd'}}至{{x.payDateEnd | date : 'yyyy-MM-dd'}}</span>
+                                <span ng-if="!x.payDateStart || !x.payDateEnd">--</span>
+                            </td>
+                            <td>
+                                {{x.billingRates | billRate}}
+                            </td>
+                            <td>{{x.category | category}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+        <!-- 返回按钮 -->
+        <!-- <div class="submitBtn_m">
+                <a class="btn btn-primary" ng-click="back()">返回</a>
+            </div> -->
+        <!-- </div> -->
+
+        <!-- 改版2019/12/03 -->
+        <div class="examAgreement x_panel">
+            <!-- 基本资料 -->
+            <div class="panel panel-default part-base">
+                <h4>基本资料</h4>
+                <div class="base-msg">
+                    <ul>
+                        <li>
+                            <label>合同名称：</label>
+                            <div title="{{contractMsg.name}}">{{contractMsg.name}}</div>
+                        </li>
+                        <li>
+                            <label>合同编号：</label>
+                            <div>{{contractMsg.code}}</div>
+                        </li>
+                        <li>
+                            <label>甲方名称：</label>
+                            <div>{{contractMsg.firstPartyName}}</div>
+                        </li>
+                        <li>
+                            <label>乙方名称：</label>
+                            <div>{{contractMsg.secondPartyName}}</div>
+                        </li>
+                        <li>
+                            <label>租赁空间：</label>
+                            <div>
+                                <ul class="rentSpaceList" style="color:#000;text-decoration:none;">
+                                    <li ng-repeat="rentHouse in contractMsg.rentalContractHouseInfos track by $index">
+                                        {{rentHouse.stageName+'>'+rentHouse.buildName+'>'+rentHouse.houseName}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <label>合同面积 (m <sup>2</sup>) ：</label>
+                            <div>{{contractMsg.contractArea|number:2}}</div>
+                        </li>
+                        <li class="billStatusBox">
+                            <label>生成账单约定：</label>
+                            <div>{{contractMsg.createBillModel | createBillModel}}</div>
+                        </li>
+                        <li id="selectId">
+                            <label>租金模式：</label>
+                            <div>{{contractMsg.rentalModal | rentalModal}}</div>
+                        </li>
+                        <li>
+                            <label>合同租期：</label>
+                            <div>
+                                <span>{{contractMsg.leaseStart | date: 'yyyy-MM-dd'}}</span> 至
+                                <span>{{contractMsg.leaseEnd | date: 'yyyy-MM-dd'}}</span> <span
+                                    style="padding:0 10px;">共{{contractMsg.leaseMonth}}个月</span>
+                                <a class="label_search"
+                                    style="margin:0 8px 0 0 ;width:auto;cursor: pointer;color: blue;"
+                                    ng-click="showLeaseDate()">租期详细<span>({{leaseDate?'收起':'展开'}})</span> <span
+                                        style="display: inline-block; margin-left: 8px; font-size: 30; font-weight: 700; color: red;"
+                                        ng-if="baseMsgDetailStatus">!</span></a>
+                            </div>
+                        </li>
+                        <li ng-show="leaseDate">
+                            <label>空间租期详情：</label>
+                            <div>
+                                <table class="table table-striped table-hover"
+                                    style="margin-top: 10px;color:#999999;border: 1px solid #ccc;">
+                                    <thead class="title">
+                                        <tr>
+                                            <th rowspan="2" style="width:50px;">序号</th>
+                                            <th rowspan="2">空间名称</th>
+                                            <th rowspan="2"
+                                                ng-if="contractMsg.status==2 && contractMsg.createBillModel==2">状态</th>
+                                            <th colspan="2">合同租期</th>
+                                            <th rowspan="2">时长(月)</th>
+                                            <th rowspan="2">进场时间</th>
+                                        </tr>
+                                        <tr>
+                                            <th>开始日期</th>
+                                            <th>结束日期</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="color:#333333;"
+                                            ng-repeat="item in contractMsg.rentalContractHouseInfos track by $index">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{item.stageName+'>'+item.buildName+'>'+item.houseName}}</td>
+                                            <td ng-if="contractMsg.status==2 && contractMsg.createBillModel==2">
+                                                <span
+                                                    ng-class="{false: 'redTerminated',true: 'blueSubsist'}[item.dataStatus==1]">{{item.dataStatus==1? '存续':'已终止'}}</span>
+                                            </td>
+                                            <td>{{item.leaseStart | date: 'yyyy-MM-dd'}}</td>
+                                            <td>{{item.leaseEnd | date: 'yyyy-MM-dd'}}</td>
+                                            <td>{{item.leaseMonth}}</td>
+                                            <td>{{item.enterDate | date: 'yyyy-MM-dd'}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                        <li>
+                            <label>进场时间：</label>
+                            <div>{{contractMsg.enterDate | date: 'yyyy-MM-dd'}}</div>
+                        </li>
+                        <li>
+                            <label>签约日期：</label>
+                            <div>{{contractMsg.signDate | date: 'yyyy-MM-dd'}}</div>
+                        </li>
+                        <li>
+                            <label>置业顾问：</label>
+                            <div>{{contractMsg.consultant}}</div>
+                        </li>
+                        <li>
+                            <label>相关文档：</label>
+                            <div>
+                                <ul class="workList">
+                                    <li ng-repeat="file in contractMsg.contractFileList track by $index">
+                                        <a href="javascript:;" ng-click="downLoad(file.id)"
+                                            style="color: #417CDD;">{{file.name}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 租金约定 -->
+            <div class="panel panel-default part-rent">
+                <h4>租金约定</h4>
+                <div ng-if="tabList.length>0">
+                    <div class="rent-tabs">
+                        <div ng-repeat="tab in tabList track by $index" ng-class="{'active': tabStatus == tab.value}"
+                            ng-click="changeTab(tab.value)">{{tab.name}}</div>
+                    </div>
+                    <!-- 固定租金约定 -->
+                    <div class="rent-msg" ng-if="tabStatus==1">
+                        <div class="x_panel">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label class="required">计费单位</label>
+                                    <select class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                        ng-model="fixedRentMsg.payUnit" required ng-disabled="true">
+                                        <option value="">--请选择--</option>
+                                        <option value="{{x.id}}" ng-repeat="x in unitStatus track by $index">{{x.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 租赁条件约定 -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="color:#999999;">
+                                租赁条件约定<span>(合同租期:
+                                    {{contractMsg.leaseStart | date: 'yyyy-MM-dd'}}至{{contractMsg.leaseEnd | date: 'yyyy-MM-dd'}})</span>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                                    <thead class="title">
+                                        <tr>
+                                            <th rowspan="2" style="width: 50px;">序号</th>
+                                            <th colspan="2">合同租期</th>
+                                            <th>固定租金单价</th>
+                                            <th>可出租面积</th>
+                                            <th>固定租金</th>
+                                            <th rowspan="2">固定租金(不含税)</th>
+                                            <th rowspan="2">税额</th>
+                                            <th rowspan="2">备注</th>
+                                            <th rowspan="2">操作</th>
+                                        </tr>
+                                        <tr>
+                                            <th>起止日期</th>
+                                            <th>截至日期</th>
+                                            <th>A</th>
+                                            <th>B</th>
+                                            <th>A×B</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="fixedRentList.length ==0||!fixedRentList">
+                                            <td colspan="100" class="text-center">暂无数据</td>
+                                        </tr>
+                                        <tr style="color:#333333;" ng-repeat="item in fixedRentList track by $index">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{item.leaseStart}}</td>
+                                            <td>{{item.leaseEnd}}</td>
+                                            <td>{{item.unitPrice | number:2}}</td>
+                                            <td>{{item.area | number:2}}</td>
+                                            <td>{{item.totalPrice | number:2}}</td>
+                                            <td>{{item.rentPrice | number:2}}</td>
+                                            <td>{{item.taxPrice | number:2}}</td>
+                                            <td>
+                                                <a href="javascript:;" style="color: #417CDD;"
+                                                    ng-click="fixRentDetail(item)">查看租金详细</a>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- 免租期约定 -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="color:#999999;">
+                                免租期约定
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                                    <thead class="title">
+                                        <tr>
+                                            <th style="width: 50px;">序号</th>
+                                            <th>免租期起始日期</th>
+                                            <th>免租期截至日期</th>
+                                            <th ng-if="contractMsg.createBillModel=='2'">租赁资源
+                                            </th>
+                                            <th>免租天数</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="freeRentList.length ==0||!freeRentList">
+                                            <td colspan="100" class="text-center">暂无数据</td>
+                                        </tr>
+                                        <tr style="color:#333333;" ng-repeat="item in freeRentList track by $index">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{item.freeDateStart}}</td>
+                                            <td>{{item.freeDateEnd}}</td>
+                                            <td ng-if="contractMsg.createBillModel=='2'">{{item.houseName}}</td>
+                                            <td>{{item.days}}</td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- 交费约定 -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="color:#999999;">
+                                交费约定
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-inline" style="margin-bottom: 10px;">
+                                    <div class="form-group">
+                                        <label class="required">交费周期</label>
+                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                            ng-model="fixedRentMsg.payCycle" required ng-disabled="true">
+                                            <option value="">--请选择--</option>
+                                            <option value="{{x.id}}" ng-repeat="x in payStatus track by $index">
+                                                {{x.name}}
+                                            </option>
+                                        </select>
+                                        <label class="required" ng-if="fixedRentMsg.payCycle === '1'">周期推算方式</label>
+                                        <select ng-if="fixedRentMsg.payCycle == '1'"
+                                            class="form-control ml10 ng-pristine ng-untouched ng-valid ng-empty"
+                                            ng-model="fixedRentMsg.cycleWay" required ng-disabled="true">
+                                            <option value="">--请选择--</option>
+                                            <option value="{{x.id}}" ng-repeat="x in cycleStatus track by $index">
+                                                {{x.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label class="required">交费期限</label>
+                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                            ng-model="fixedRentMsg.payDate" required ng-disabled="true">
+                                            <option value="">--请选择--</option>
+                                            <option value="{{x.id}}" ng-repeat="x in dueTimeStatus track by $index">
+                                                {{x.name}}</option>
+                                        </select>
+                                        <label class="required" ng-if="fixedRentMsg.payDate == '3'">本期首日后</label>
+                                        <label class="required" ng-if="fixedRentMsg.payDate == '5'">本期首日前</label>
+                                        <input ng-if="fixedRentMsg.payDate == '3' || fixedRentMsg.payDate == '5'"
+                                            type="number" step="1"
+                                            class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                            ng-model="fixedRentMsg.afterDays"
+                                            oninput="this.value=this.value.replace(/^[0]+[0-9]*$/gi,'');this.value=this.value.replace(/\D/g,'')"
+                                            required ng-disabled="true">
+                                        <span
+                                            ng-if="fixedRentMsg.payDate == '3' || fixedRentMsg.payDate == '5'">日</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 抽成租金约定 -->
+                    <div class="rent-msg" ng-if="tabStatus==2">
+                        <!-- 租赁条件约定 -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="color:#999999;">
+                                租赁条件约定<span>(合同租期:
+                                    {{contractMsg.leaseStart | date: 'yyyy-MM-dd'}}至{{contractMsg.leaseEnd | date: 'yyyy-MM-dd'}})</span>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                                    <thead class="title">
+                                        <tr>
+                                            <th rowspan="2" style="width: 50px;">序号</th>
+                                            <th colspan="2">合同租期</th>
+                                            <th colspan="3">抽成约定</th>
+                                            <th rowspan="2">操作</th>
+                                        </tr>
+                                        <tr>
+                                            <th>起始日期</th>
+                                            <th>截止日期</th>
+                                            <th>抽成模式</th>
+                                            <th>抽成比例(%)</th>
+                                            <th>保底金额(元/月)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="rentOutList.length ==0||!rentOutList">
+                                            <td colspan="100" class="text-center">暂无数据</td>
+                                        </tr>
+                                        <tr style="color:#333333;" ng-repeat="item in rentOutList track by $index">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{item.leaseStart}}</td>
+                                            <td>{{item.leaseEnd}}</td>
+                                            <td>{{item.commissionModel == 2 ? '固定比例':''}}</td>
+                                            <td>{{item.commissionPercent | number:2}}</td>
+                                            <td>{{item.billingAmount | number:2}}</td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- 免租期约定 -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="color:#999999;">
+                                免租期约定
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                                    <thead class="title">
+                                        <tr>
+                                            <th style="width: 50px;">序号</th>
+                                            <th>免租期起始日期</th>
+                                            <th>免租期截至日期</th>
+                                            <th>免租天数</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="freeOutList.length ==0||!freeOutList">
+                                            <td colspan="100" class="text-center">暂无数据</td>
+                                        </tr>
+                                        <tr style="color:#333333;" ng-repeat="item in freeOutList track by $index">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{item.freeDateStart}}</td>
+                                            <td>{{item.freeDateEnd}}</td>
+                                            <td>{{item.days}}</td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- 营业额计费约定 -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="color:#999999;">
+                                营业额计费约定
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-inline" style="margin-bottom: 10px;">
+                                    <div class="form-group">
+                                        <label class="required">计费周期</label>
+                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                            ng-model="rentOutMsg.turnoverCycle"
+                                            ng-change="cycleChange(rentOutMsg.turnoverCycle, 1)" ng-disabled="true"
+                                            required>
+                                            <option value="">--请选择--</option>
+                                            <option value="{{x.id}}" ng-repeat="x in payStatus track by $index">
+                                                {{x.name}}
+                                            </option>
+                                        </select>
+                                        <label class="required" ng-if="rentOutMsg.turnoverCycle === '1'">周期推算方式</label>
+                                        <select ng-if="rentOutMsg.turnoverCycle === '1'"
+                                            class="form-control ml10 ng-pristine ng-untouched ng-valid ng-empty"
+                                            ng-model="rentOutMsg.turnoverCycleWay" ng-disabled="true" required>
+                                            <option value="">--请选择--</option>
+                                            <option value="{{x.id}}" ng-repeat="x in cycleStatus track by $index">
+                                                {{x.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label class="required">计费基准</label>
+                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                            ng-model="rentOutMsg.turnoverStandard" ng-disabled="true" required>
+                                            <option value="">--请选择--</option>
+                                            <option value="{{x.id}}" ng-repeat="x in taxStatus track by $index">
+                                                {{x.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 交费约定 -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="color:#999999;">
+                                交费约定
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-inline" style="margin-bottom: 10px;">
+                                    <div class="form-group">
+                                        <label class="required">交费周期</label>
+                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                            ng-model="rentOutMsg.payCycle"
+                                            ng-change="cycleChange(rentOutMsg.payCycle, 2)" ng-disabled="true" required>
+                                            <option value="">--请选择--</option>
+                                            <option value="{{x.id}}" ng-repeat="x in payStatus track by $index">
+                                                {{x.name}}
+                                            </option>
+                                        </select>
+                                        <label class="required" ng-if="rentOutMsg.payCycle === '1'">周期推算方式</label>
+                                        <select ng-if="rentOutMsg.payCycle === '1'"
+                                            class="form-control ml10 ng-pristine ng-untouched ng-valid ng-empty"
+                                            ng-model="rentOutMsg.cycleWay" ng-disabled="true" required>
+                                            <option value="">--请选择--</option>
+                                            <option value="{{x.id}}" ng-repeat="x in cycleStatus track by $index">
+                                                {{x.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label class="required">交费期限</label>
+                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                            ng-model="rentOutMsg.payDate" ng-disabled="true" required>
+                                            <option value="">--请选择--</option>
+                                            <option value="{{x.id}}"
+                                                ng-repeat="x in rentOutDueTimeStatus track by $index">
+                                                {{x.name}}</option>
+                                        </select>
+                                        <label class="required" ng-if="rentOutMsg.payDate === '4'">营业额提交后</label>
+                                        <input ng-if="rentOutMsg.payDate === '4'" type="number" step="1"
+                                            class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                            ng-model="rentOutMsg.afterDays"
+                                            oninput="this.value=this.value.replace(/^[0]+[0-9]*$/gi,'');this.value=this.value.replace(/\D/g,'')"
+                                            ng-disabled="true" required><span
+                                            ng-if="rentOutMsg.payDate === '4'">日</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 首期约定 -->
+            <div class="panel panel-default part-first">
+                <h4>首期约定</h4>
+                <div class="first-msg">
+                    <div class="rentAppoint" ng-if="contractMsg.createBillModel == '1'">
+                        <ul>
+                            <li>
+                                <label class="required">首期涵盖日期从</label>
+                                <input type="datetime" id="first001"
+                                    class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                                    ng-model="initialAgreeMsg.firstStartDate" onchange=""
+                                    onclick="javascript:WdatePicker({maxDate:'#F{$dp.$D(\'first002\')}'})"
+                                    ng-change="getLeaseMonth(initialAgreeMsg.leaseStart, initialAgreeMsg.leaseEnd, 2)"
+                                    required ng-disabled="true">
+                                <span class="label_search" style="float:left;margin:0 8px 0 0 ;width:auto;">到</span>
+                                <input type="datetime" id="first002"
+                                    class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                                    ng-model="initialAgreeMsg.firstEndDate" onchange=""
+                                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'first001\')}'})"
+                                    ng-change="getLeaseMonth(initialAgreeMsg.leaseStart, initialAgreeMsg.leaseEnd, 2)"
+                                    required ng-disabled="true">
+                            </li>
+                            <li>
+                                <label class="required">首期交费期限</label>
+                                <select class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                    ng-model="initialAgreeMsg.firstPayPeriod" ng-disabled="true" required>
+                                    <option value="">--请选择--</option>
+                                    <option value="{{x.id}}" ng-repeat="x in downPayStatus track by $index">{{x.name}}
+                                    </option>
+                                </select>
+                            </li>
+                            <li ng-if="initialAgreeMsg.firstPayPeriod == '2'|| initialAgreeMsg.firstPayPeriod == '3'">
+                                <label class="required">{{initialAgreeMsg.firstPayPeriod == '2'?'指定交费日':'线下盖章时间'}}</label>
+                                <input type="datetime"
+                                    class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" onchange=""
+                                    ng-model="initialAgreeMsg.firstAppiontDate"
+                                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" ng-disabled="true"
+                                    required>
+                            </li>
+                            <li ng-if="initialAgreeMsg.firstPayPeriod == '1'|| initialAgreeMsg.firstPayPeriod == '3'">
+                                <label class="required">审批通过后</label>
+                                <input type="number" step="1" ng-model="initialAgreeMsg.afterApproveDays"
+                                    class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                    oninput="this.value=this.value.replace(/^[0]+[0-9]*$/gi,'');this.value=this.value.replace(/\D/g,'')"
+                                    required ng-disabled="true">日
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body" ng-if="contractMsg.createBillModel == '2'">
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th rowspan="2" style="width:50px;">序号</th>
+                                    <th rowspan="2">租赁资源</th>
+                                    <th colspan="2">首期涵盖日期</th>
+                                </tr>
+                                <tr>
+                                    <th>起始日期</th>
+                                    <th>截至日期</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="initialAgreeList.length ==0||!initialAgreeList">
+                                    <td colspan="100" class="text-center">暂无数据</td>
+                                </tr>
+                                <tr style="color:#333333;" ng-repeat="item in initialAgreeList track by $index">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{item.houseName}}</td>
+                                    <td>{{item.firstStartDate}}</td>
+                                    <td>{{item.firstEndDate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ul style="margin-top:50px;">
+                            <li>
+                                <label class="required">首期交费期限</label>
+                                <select class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                    ng-model="initialAgreeMsg.firstPayPeriod" required ng-disabled="true">
+                                    <option value="">--请选择--</option>
+                                    <option value="{{x.id}}" ng-repeat="x in downPayStatus track by $index">{{x.name}}
+                                    </option>
+                                </select>
+                            </li>
+                            <li ng-if="initialAgreeMsg.firstPayPeriod == '2'|| initialAgreeMsg.firstPayPeriod == '3'">
+                                <label class="required">{{initialAgreeMsg.firstPayPeriod == '2'?'指定交费日':'线下盖章时间'}}</label>
+                                <input type="datetime"
+                                    class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" onchange=""
+                                    ng-model="initialAgreeMsg.firstAppiontDate"
+                                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" required
+                                    ng-disabled="true">
+                            </li>
+                            <li ng-if="initialAgreeMsg.firstPayPeriod == '1'|| initialAgreeMsg.firstPayPeriod == '3'">
+                                <label class="required">审批通过后</label>
+                                <input type="number" step="1" ng-model="initialAgreeMsg.afterApproveDays"
+                                    class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                    oninput="this.value=this.value.replace(/^[0]+[0-9]*$/gi,'');this.value=this.value.replace(/\D/g,'')"
+                                    required ng-disabled="true">日
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- 其他费项 -->
+            <div class="panel panel-default part-other">
+                <h4>其他费项</h4>
+                <div class="other-msg">
+                    <div class="panel-heading" style="color:#999999;border-bottom: 1px solid #ccc">
+                        其他费项
+                    </div>
+                    <div>
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th rowspan="2" style="width: 50px;">序号</th>
+                                    <th rowspan="2">费项名称</th>
+                                    <th colspan="2">计费期间</th>
+                                    <th rowspan="2">计费标准</th>
+                                    <th rowspan="2" ng-if="contractMsg.createBillModel=='2'">租赁资源</th>
+                                    <th rowspan="2" ng-if="contractMsg.status==2 && contractMsg.createBillModel==2">状态
+                                    </th>
+                                    <th rowspan="2">单价</th>
+                                    <th rowspan="2">总价</th>
+                                    <th rowspan="2">总价(不含税)</th>
+                                    <th rowspan="2">税额</th>
+                                    <th rowspan="2">税率(%)</th>
+                                    <th rowspan="2">滞纳金比例(%)</th>
+                                    <th rowspan="2">操作</th>
+                                </tr>
+                                <tr>
+                                    <th>起始日期</th>
+                                    <th>截止日期</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="otherChargeList.length ==0||!otherChargeList">
+                                    <td colspan="100" class="text-center">暂无数据</td>
+                                </tr>
+                                <!-- 按合同生成账单 -->
+                                <tr style="color:#333333;" ng-repeat="item in otherChargeList track by $index"
+                                    ng-if="contractMsg.createBillModel=='1'">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{item.expenditureName}}</td>
+                                    <td>{{item.payDateStart}}</td>
+                                    <td>
+                                        <span ng-if="item.dataStatus == 0">
+                                            {{item.updateTime ? (item.updateTime | date : 'yyyy-MM-dd') : ''}}
+                                        </span>
+                                        <span ng-if="item.dataStatus != 0 && contractMsg.status == 4">
+                                            {{contractMsg.costEndTime ? (contractMsg.costEndTime | date : 'yyyy-MM-dd') : ''}}
+                                        </span>
+                                        <span ng-if="item.dataStatus != 0 && contractMsg.status != 4">
+                                            {{item.payDateEnd}}
+                                        </span>
+                                    </td>
+                                    <td>{{item.billingRates | billRate}}</td>
+                                    <td>{{item.unitPrice || '/'}}</td>
+                                    <td>{{item.totalPrice | number:2}}</td>
+                                    <td>{{item.rentPrice | number:2}}</td>
+                                    <td>{{item.taxPrice | number:2}}</td>
+                                    <td>{{item.taxRate}}</td>
+                                    <td>{{item.delayCharge}}</td>
+                                    <td></td>
+                                </tr>
+                                <!-- 按租赁空间生成账单 -->
+                                <tr style="color:#333333;" ng-repeat="item in otherChargeList track by $index"
+                                    ng-if="contractMsg.createBillModel=='2'">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{item.expenditureName}}</td>
+                                    <td>{{item.payDateStart}}</td>
+                                    <td>
+                                        <span ng-if="item.dataStatus == 0">
+                                            {{item.updateTime ? (item.updateTime | date : 'yyyy-MM-dd') : ''}}
+                                        </span>
+                                        <span ng-if="item.dataStatus != 0 && contractMsg.status == 4">
+                                            {{contractMsg.costEndTime ? (contractMsg.costEndTime | date : 'yyyy-MM-dd') : ''}}
+                                        </span>
+                                        <span ng-if="item.dataStatus != 0 && contractMsg.status != 4">
+                                            {{item.payDateEnd}}
+                                        </span>
+                                    </td>
+                                    <td>{{item.billingRates | billRate}}</td>
+                                    <td ng-if="contractMsg.createBillModel=='2'">{{item.houseName}}</td>
+                                    <td ng-if="contractMsg.status==2 && contractMsg.createBillModel==2">
+                                        <span
+                                            ng-class="{false: 'redTerminated',true: 'blueSubsist'}[item.dataStatus==1]">{{item.dataStatus==1? '存续':'已终止'}}</span>
+                                    </td>
+                                    <td>\</td>
+                                    <td>{{item.totalPrice | number:2}}</td>
+                                    <td>{{item.rentPrice | number:2}}</td>
+                                    <td>{{item.taxPrice | number:2}}</td>
+                                    <td>{{item.taxRate}}</td>
+                                    <td>{{item.delayCharge}}</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- 预计应收账单 -->
+            <div class="panel panel-default part-other">
+                <h4>预计应收账单</h4>
+                <div class="other-msg">
+                    <div class="panel-heading" style="color:#999999;border-bottom: 1px solid #ccc">
+                        预计应收账单
+                    </div>
+                    <div>
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th style="width:50px;">序号</th>
+                                    <th ng-if="contractId.createBillModel==2">租赁资源</th>
+                                    <th>费项名称</th>
+                                    <th>账单周期</th>
+                                    <th>账单日期</th>
+                                    <th>账单金额</th>
+                                    <th>账单金额(不含税)</th>
+                                    <th>税额</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length == 0 || !pageModel">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr style="color:#333333;" ng-repeat="x in pageModel.data track by $index"
+                                    ng-if="$index<6">
+                                    <td style="width:50px;" class="text-center">
+                                        {{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <td ng-if="contractId.createBillModel==2">{{x.houseName}}</td>
+                                    <td>{{x.contractExpenditureId ? (x.contractExpenditureName || '') : '租金'}}</td>
+                                    <td>
+                                        <span ng-if="x.billDateStart!=null && x.billDateEnd!=null">{{x.billDateStart}} 至
+                                            {{x.billDateEnd}}</span>
+                                    </td>
+                                    <td>{{x.billDate || '--'}}</td>
+                                    <td>{{(x.billPrice| number:2) || '--'}}</td>
+                                    <td>{{(x.billPriceTax | number:2) || '--'}}</td>
+                                    <td>{{(x.tax| number:2) || '--'}}</td>
+                                </tr>
+                                <tr ng-if="pageModel.data.length>6">
+                                    <td colspan="100" class="text-center"><a href="javascript:;" style="color: #337ab7"
+                                            ng-click="estimatedBill()">查看更多账单</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+            </div>
+            <!-- <div class="submitBtn_m">
+                <a class="btn btn-primary" ng-click="cancel()">返回</a>
+            </div> -->
+        </div>
+    </div>
+</body>
+
+</html>
+<style>
+    .examAgreement {
+        padding-top: 50px !important;
+    }
+
+    .examAgreement>div {
+        width: 100%;
+        position: relative;
+        padding: 40px 10px;
+        margin-bottom: 40px;
+    }
+
+    .examAgreement>div>h4 {
+        padding: 10px 50px;
+        background: rgba(235, 235, 235, 1);
+        border: 1px solid #000;
+        border-radius: 5px;
+        position: absolute;
+        top: 0;
+        left: 10px;
+        transform: translateY(-50%);
+    }
+
+    /* 基本资料 */
+    .examAgreement ul {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .examAgreement ul>li {
+        width: 100%;
+        overflow: hidden;
+        margin-bottom: 0px;
+        line-height: 34px;
+    }
+
+    .examAgreement ul>li>label {
+        float: left;
+        margin-right: 15px;
+        min-width: 120px;
+        height: 34px;
+        line-height: 34px;
+        text-align: right;
+    }
+
+    .examAgreement ul>li>div {
+        float: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 800px;
+    }
+
+    .examAgreement ul>li .rentSpaceList {
+        float: left;
+        color: #417CDD;
+        text-decoration: underline;
+        line-height: 30px;
+        font-size: 14px;
+    }
+
+    .examAgreement ul>li .workList {
+        color: #417CDD;
+        text-decoration: underline;
+        line-height: 30px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    /* 租金约定 */
+    div.rent-tabs {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    div.rent-tabs>div {
+        padding: 10px 20px;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        background: #fff;
+    }
+
+    div.rent-tabs>div.active {
+        background: rgba(235, 235, 235, 1);
+    }
+
+    div.rent-msg {
+        border: 1px solid #ccc;
+    }
+
+    /* 首期约定 */
+    .first-msg>div>ul>li {
+        margin-bottom: 10px;
+    }
+
+    .first-msg>div>ul>li>label {
+        float: left;
+        margin-right: 15px;
+        min-width: 120px;
+        height: 34px;
+        line-height: 34px;
+        text-align: right;
+    }
+
+    .first-msg>div>ul>li input,
+    .first-msg>div>ul>li select {
+        width: 175px;
+        float: left;
+        margin-right: 8px;
+    }
+
+    /* 其他费项 */
+    div.other-msg {
+        border: 1px solid #ccc;
+    }
+
+</style>

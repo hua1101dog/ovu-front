@@ -1,0 +1,123 @@
+<div ng-controller="energySpaceCtrl">
+    <div class="content" style="margin:20px 0">
+        <span class="h3">空间能耗统计</span>
+        <ul ng-init="search.meterType=1" class="picType" style="margin: 0 15px;line-height: 24px">
+            <li ng-repeat="item in classifyList" style="width: 38px;text-align: center;font-size: 11px" ng-class="{'actives': search.meterType ==item.type,'bor-l':$index=='0'}"
+                ng-click="checkTypes(item)">{{item.name}}</li>
+        </ul>
+    </div>
+   
+    <div class="col-md-3 col-sm-4 col-xs-12">
+        <div class="x_panel">
+            <!-- <div class="x_title">
+                <div class="input-group">
+                    <input class="form-control" style="margin-bottom: 10px" placeholder="请输入空间名称" ng-model="search.spaceName" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="loadParkTree()" style="margin-top:-10px">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div> -->
+            <div class="x_content" style="z-index: 1;overflow: auto">
+                <div class="alert" role="alert" ng-show="oriList.length==0">无楼栋信息</div>
+                <div id="house_tree">
+                    <a ng-click="clearAll(parkTree)" role="button" class="btn-link pull-right" title="置空">置空</a>
+                    <a ng-click="selectAll(parkTree)" role="button" class="btn-link pull-right" title="全选" style="margin-right:10px">全选</a>
+
+                    <!-- <engergytree-view node-list="parkTree" config="config">
+                        </tree-view> -->
+                        <tree-filter node-list="parkTree"></tree-filter>
+                        <engergytree-view node-list="parkTree" check-callback="check"
+                        config="config"></engergytree-view>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9 col-sm-8 col-xs-12 content" style="padding:0">
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <select ng-model="search.timeDim" class="form-control" style="width:200px" ng-options="o[0] as o[1] for o in  timeDimList"
+                        ng-change="selectTime(search.timeDim)">
+                        <option value="">-请选择-</option>
+                    </select>
+
+                </div>
+                <div class="form-group" ng-if="search.timeDim=='year'">
+                    <input type="datetime" class="form-control Wdate" required style="display: inline-block;width: auto" ng-model="search.time"
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy',maxDate:'%y'})" onchange="search.time=search.time">
+                    <button class="btn btn-default" style="margin-bottom: 4px" ng-click="findAll()">查询</button>
+                </div>
+                <div class="form-group" ng-if="search.timeDim=='month'">
+                    <input type="datetime" class="form-control Wdate" required style="display: inline-block;width: auto" ng-model="search.time"
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" onchange="search.time=search.time">
+                    <button class="btn btn-default" style="margin-bottom: 4px" ng-click="findAll()">查询</button>
+                </div>
+                <div class="form-group" ng-if="search.timeDim=='day'">
+                    <input type="datetime" class="form-control Wdate" required style="display: inline-block;width: auto" ng-model="search.time"
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" onchange="search.time=search.time">
+                    <button class="btn btn-default" style="margin-bottom: 4px" ng-click="findAll()">查询</button>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="x_panel">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div  id="energyTotal" style="height: 400px;" ng-if="engerytotal && engerytotal.length!==0"></div>
+            </div>
+            <table class="table table-bordered" ng-if="tableList && tableList.length !== 0">
+                <thead>
+                    <tr>
+
+                        <th>空间名称</th>
+                        <th>耗能量</th>
+                        <th>比例</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in tableList">
+
+                        <td>{{item.spaceName}}</td>
+                        <td>{{item.total}}</td>
+                        <td>{{item.percent}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .actives {
+        background-color: #62c3ff;
+    }
+
+    .content ul,
+    .picType {
+        float: right;
+        margin-top: 8px;
+    }
+
+    .content ul li {
+        display: inline-block;
+        cursor: pointer;
+        border: 1px solid #ccc
+    }
+
+    .bor-l {
+        border-left: 1px solid #ccc
+    }
+
+    .bor-r {
+        border-right: 1px solid #ccc
+    }
+
+    .h3 {
+        font-weight: 800;
+        font-size: 24px;
+    }
+
+</style>

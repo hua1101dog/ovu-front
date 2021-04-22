@@ -1,0 +1,59 @@
+<style>
+	.center-box{
+		text-align: center;
+	}
+	.x_title{
+		text-align: center;
+	}
+	h5{
+	text-indent: 2em;}
+	h5 span{
+	color:#122df3;}
+	.progress{
+	padding:0;
+	margin-bottom: 0!important;
+	border-radius:10px!important;}
+	.modal-body{
+	max-height: 600px;
+	overflow: auto;}
+</style>
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">统计分析</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <h3 class="center-box">{{item.title}}</h3>
+    <div class="x_title">{{item.instruction}}</div>
+    <h4>问卷参与有效人数: {{item.countJoin}}</h4>
+	<div class="form-group" ng-repeat="questionInfo in item.questionItems">
+		<div><h5><span>{{$index + 1}}、</span>{{questionInfo.title}}<span>[{{questionInfo.questionType == "checkbox" ? "多选题" : "单选题"}}]</span></h5></div>
+		<div class="col-xs-8" style="padding-left: 50px;">
+		<table class="table table-bordered table-hover" style="margin-top: 10px;">
+			<thead class="title">
+				<tr>
+					<th class="text-left col-xs-5">选项</th>
+					<th class="text-left col-xs-2">小计</th>
+					<th class="text-left col-xs-5">比例</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="ng-scope" ng-repeat="option in questionInfo.optionItems">
+                    <td class="ng-binding">{{option.content}}</td>
+                    <td class="ng-binding">{{option.countChoice}}</td>
+       				<td class="ng-binding">
+						<div class="progress col-xs-10">
+						    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{item.countJoin == 0 ? 0 : ((option.countChoice / item.countJoin) * 100).toString().substring(0,6)}}%;">
+						        <span class="sr-only">{{item.countJoin == 0 ? 0 : ((option.countChoice / item.countJoin) * 100).toString().substring(0,6)}}% 完成</span>
+						    </div>
+						</div>	
+						<div>{{item.countJoin == 0 ? 0 : ((option.countChoice / item.countJoin) * 100).toString().substring(0,6)}}%</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

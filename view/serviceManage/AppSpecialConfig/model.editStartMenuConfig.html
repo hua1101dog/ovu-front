@@ -1,0 +1,204 @@
+<style>
+    .checkbox-inline{
+	    margin-left: 10px;
+        font-size: 14px
+    }
+    .checkbox-inline input[type="checkbox"] {
+        visibility:visible;
+    }
+</style>
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id ? '编辑':'添加'}}引导页</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="x_content" style="max-height:650px;overflow: auto;overflow-x: hidden">
+        <form name="form" novalidate>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">配置类型：</label>
+                <div class="col-xs-4">
+                    <input class="form-control" ng-model="parentServiceName" type="text" disabled="disabled"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label required" style="padding-left: 0;">引导页方案名称：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item.name" required type="text">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">图1服务路由：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item_1.appServiceUrl" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">图1H5路径：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item_1.appH5Url" type="text">
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-xs-3 control-label required">图片1：</label>
+                <div class="col-xs-4 thumbnail text-center" style=" margin-left: 12px;margin-bottom: 0">
+                    <img alt="" onerror="this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(item_1.photo,'240')}}" 
+                         style="max-height: 180px;"/>
+                    <div class="caption">
+                        <p>
+                            <button class="btn btn-warning height34" ng-click="clearPhoto(item_1,'photo')">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                            <button class="btn btn-default height34" ng-click="addPhoto(item_1,'photo',true)">
+                                <i class="glyphicon glyphicon-picture "></i>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required" style="padding-left: 0;font-size: 13px;">图片1是否GIF图：</label>
+                <div style="padding-top: 7px;" class="col-md-5">
+                    <label>
+                        <input type="radio" name="isGif_1 " required ng-value="false"  ng-model="item_1.isGif" class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="false" aria-checked="true" aria-required="false" aria-invalid="false">
+                        <span>否</span>
+                    </label>
+                    &nbsp;&nbsp;
+                    <label>
+                        <input type="radio" name="isGif_1" required ng-value="true" ng-model="item_1.isGif" class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="true" aria-checked="false" aria-required="false" aria-invalid="false">
+                        <span>是</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">图2服务路由：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item_2.appServiceUrl" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">图2H5路径：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item_2.appH5Url" type="text">
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-xs-3 control-label">图片2：</label>
+                <div class="col-xs-4 thumbnail text-center" style=" margin-left: 12px;margin-bottom: 0">
+                    <img alt="" onerror="this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(item_2.photo,'240')}}" 
+                         style="max-height: 180px;"/>
+                    <div class="caption">
+                        <p>
+                            <button class="btn btn-warning height34" ng-click="clearPhoto(item_2,'photo')">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                            <button class="btn btn-default height34" ng-click="addPhoto(item_2,'photo',true)">
+                                <i class="glyphicon glyphicon-picture "></i>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label" style="padding-left: 0;font-size: 13px;">图片2是否GIF图：</label>
+                <div style="padding-top: 7px;" class="col-md-5" >
+                    <label>
+                        <input type="radio" name="isGif_2" ng-required="item_2.photo" ng-value="false"  ng-model="item_2.isGif" class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="false" aria-checked="true" aria-required="false" aria-invalid="false">
+                        <span>否</span>
+                    </label>
+                    &nbsp;&nbsp;
+                    <label>
+                        <input type="radio" name="isGif_2" ng-required="item_2.photo" ng-value="true" ng-model="item_2.isGif" class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="true" aria-checked="false" aria-required="false" aria-invalid="false">
+                        <span>是</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">图3服务路由：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item_3.appServiceUrl" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">图3H5路径：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item_3.appH5Url" type="text">
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <label class="col-xs-3 control-label">图片3：</label>
+                <div class="col-xs-4 thumbnail text-center" style=" margin-left: 12px;margin-bottom: 0">
+                    <img alt="" onerror="this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(item_3.photo,'240')}}" 
+                         style="max-height: 180px;"/>
+                    <div class="caption">
+                        <p>
+                            <button class="btn btn-warning height34" ng-click="clearPhoto(item_3,'photo')">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                            <button class="btn btn-default height34" ng-click="addPhoto(item_3,'photo',true)">
+                                <i class="glyphicon glyphicon-picture "></i>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label"  style="padding-left: 0;font-size: 13px;">图片3是否GIF图：</label>
+                <div style="padding-top: 7px;" class="col-md-5" >
+                    <label>
+                        <input type="radio" name="isGif" ng-required="item_3.photo" ng-value="false"  ng-model="item_3.isGif" class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="false" aria-checked="true" aria-required="false" aria-invalid="false">
+                        <span>否</span>
+                    </label>
+                    &nbsp;&nbsp;
+                    <label>
+                        <input type="radio" name="isGif" ng-required="item_3.photo" ng-value="true"  ng-model="item_3.isGif" class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="true" aria-checked="false" aria-required="false" aria-invalid="false">
+                        <span>是</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">展示概率：</label>
+                <div class="col-xs-8">
+                    <label class="col-xs-3 control-label">图片1：</label>
+                    <input class="col-xs-2   text-right" ng-required="item_1.photo" style="height: 25px;margin-top: 5px;" ng-model="item_1.rate" type="text">
+                    <span style="margin-top: 10px;display: inline-block;margin-left: 5px;">%</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"></label>
+                <div class="col-xs-8">
+                    <label class="col-xs-3 control-label">图片2：</label>
+                    <input class="col-xs-2 text-right " ng-required="item_2.photo" style="height: 25px;margin-top: 5px;" ng-model="item_2.rate" type="text">
+                    <span style="margin-top: 10px;display: inline-block;margin-left: 5px;">%</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"></label>
+                <div class="col-xs-8">
+                    <label class="col-xs-3 control-label">图片3：</label>
+                    <input class="col-xs-2 text-right" ng-required="item_3.photo" style="height: 25px;margin-top: 5px;" ng-model="item_3.rate" type="text">
+                    <span style="margin-top: 10px;display: inline-block;margin-left: 5px;">%</span>
+                </div>
+            </div>
+         
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary save" ng-click="save(form)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

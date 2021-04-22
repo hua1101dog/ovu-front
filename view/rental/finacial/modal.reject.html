@@ -1,0 +1,13 @@
+<div class="modal-header" style="border-bottom: none;">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+</div>
+<div class="modal-body container-fluid form-horizontal" style="padding-top: 0;margin-top: -10px;">
+    <div class="row panel-body">
+        <span style="float:left;margin-bottom: 10px;font-size: 13px;">驳回原因：</span>
+        <textarea type="text" ng-model="remark" class="form-control ng-pristine ng-untouched ng-valid ng-empty"></textarea>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary saveParkSteward" ng-click="save(remark)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+</div>

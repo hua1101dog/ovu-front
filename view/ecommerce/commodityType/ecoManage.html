@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品类型管理</title>
+    <link rel="stylesheet" href="crowdSource/demand/demandPublishIndex.css">
+</head>
+<body>
+<div id="angularId" ng-controller="ecoManageCtrl" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>商品类型管理</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline" style="padding-left: 36px; padding-bottom: 24px;">
+            <div ng-if="$index<3?true:false" class="form-group" ng-repeat="typeList in productTypeList track by $index">
+            	<div style="width:180px;margin-top: 24px;">
+            		<input type="text" class="form-control" ng-model="newTypeArr[$index]" style="width: 120px;margin-bottom: 10px;" />
+           			<button class="btn btn-default pull-right" style="width: 50px;color: #fff;background-color: #5891eb;" ng-click="addItem($index,typeList)">添加</button>
+            	</div>
+               <select class="form-control" style="width:180px; height: 200px; cursor: pointer;" multiple="multiple"> 
+			   		<option ng-click="getLevelType(item.id,$parent.$index+1,item)" ng-dblclick="showEditModal(item,typeList,$parent.$index)" ng-repeat="item in typeList" value="{{item.id}}">{{item.cateName}}</option>  
+               </select> 
+			    <div ng-if="$index<productTypeList.length-1 && $index<2?true:false" style="margin-left: 15px;display: inline-block;margin-bottom: 0;vertical-align: middle;">
+			    	》
+			    </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

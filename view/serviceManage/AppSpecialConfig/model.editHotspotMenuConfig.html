@@ -1,0 +1,129 @@
+<style>
+    .checkbox-inline{
+	    margin-left: 10px;
+        font-size: 14px
+    }
+    .checkbox-inline input[type="checkbox"] {
+        visibility:visible;
+    }
+    .btn-oper {
+        background-color: #fff;
+        border: 1px solid #78c4ec;
+        color: #78c4ec;
+        padding: 3px 10px;
+    }
+
+</style>
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id ? '编辑':'添加'}}热点栏</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="x_content" style="max-height:650px;overflow: auto;overflow-x: hidden">
+        <form name="form" novalidate>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">配置类型：</label>
+                <div class="col-xs-4">
+                    <input class="form-control" ng-model="parentServiceName" type="text" disabled="disabled"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">排序号：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item.orderNo" required type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">热点名称：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item.serviceName" required type="text">
+                </div>
+            </div>
+
+            <!-- <div class="form-group">
+                <label class="col-xs-3 control-label">关联服务：</label>
+                <div class="col-sm-8 col-xs-8" >
+                    <label>待选区</label>
+                        <div class="well" style="padding-left: 0px">
+                            <tree-filter node-list="vm.filteredDeptTree"></tree-filter>
+                            <tree-view node-list="vm.filteredDeptTree" check-callback="afterCheck"
+                                       config="{'edit':false,'showCheckbox':true}"></tree-view>
+                        </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label"></label>
+                <div class="col-sm-8 col-xs-8">
+                    <label>已选区</label>
+                    <div class="well">
+                        <tree-view node-list="vm.personDeptTree" config="{'edit':false}"></tree-view>
+                    </div>
+                </div>
+            </div>
+         -->
+
+         <div class="form-group">
+            <label class="col-xs-3 control-label">关联服务：</label>
+            <div class="col-sm-8 col-xs-8" >
+                <label>待选区</label>
+                <div style="border:1px solid #ccc;width:100%;padding:10px;overflow-y:scroll">
+                    <ul id="AppServerTree_hot"></ul>  
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label"></label>
+            <div class="col-sm-8 col-xs-8">
+                <label>已选区</label>
+                <ul style="border:1px solid #ccc;width:100%;padding:10px;overflow-y:scroll">
+                    <li ng-repeat="item in personDeptTree track by $index" style="overflow: hidden;margin: 5px;">
+                       
+                            <span style="margin-left: 40px;">{{item.serviceName}}</span>
+
+                            <a class="btn-oper" href="javaScript:;" style="float: right;"
+                                ng-click="delPro(item)">删除
+                            </a>
+                            <a class="btn-oper" href="javaScript:;" style="float: right;"
+                                ng-click="moveDown(personDeptTree,$index)">下移
+                                </a>  
+                                <a class="btn-oper" href="javaScript:;"  style="float: right;"
+                                    ng-click="moveUp(personDeptTree,$index)">上移
+                                </a>     
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        
+            <div class="form-group" >
+                <label class="col-xs-3 control-label required">用户权限：</label>
+                <div class="col-xs-8">
+                    <label class="checkbox-inline">
+                        <input  type="checkbox"  ng-model="userClassify.enterprise" ng-true-value=true ng-false-value=false >实体企业
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox"  ng-model="userClassify.virtualCom" ng-true-value=true ng-false-value=false >虚拟企业
+                    </label>
+                    <label class="checkbox-inline">
+                        <input  type="checkbox"  ng-model="userClassify.staff" ng-true-value=true ng-false-value=false >员工
+                    </label>
+                    <label class="checkbox-inline">
+                        <input  type="checkbox"  ng-model="userClassify.personal" ng-true-value=true ng-false-value=false >个人
+                    </label>
+                    <label class="checkbox-inline">
+                        <input  type="checkbox"  ng-model="userClassify.operation" ng-true-value=true ng-false-value=false >运营人员
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary save" ng-click="save(form)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

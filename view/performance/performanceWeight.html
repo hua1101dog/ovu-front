@@ -1,0 +1,73 @@
+<div ng-controller="performanceWeightCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>定义权重</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12" style="padding:0">
+            <!--<div class="col-xs-12">
+                <label class="control-label">
+                    <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+                    <a role="button" ng-click="findPark(search,doSearch)">{{search.parkName?search.parkName:'请选择项目'}} </a>
+                </label>
+            </div>-->
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" ng-model="search.name" class="form-control" placeholder="部门"/>
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)">查询</button>
+                </div>
+            </div>
+            <div class="alert alert-warning" role="alert"> 注：权重值总和为100。</div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                        <tr>
+                            <th>部门</th>
+                            <th>应急工单</th>
+                            <th>计划工单</th>
+                            <th>自发工单</th>
+                            <th>总权重</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="pageModel.list.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.list">
+                            <td>{{item.deptName}}</td>
+                            <td><input type="number" ng-model="item.emergency_weight" required  class="text-center"></td>
+                            <td><input type="number" ng-model="item.plan_weight" required class="text-center"></td>
+                            <td><input type="number" ng-model="item.spontaneous_weight" required class="text-center"></td>
+                            <td ng-if="item.emergency_weight!=null&&item.plan_weight!=null&&item.spontaneous_weight!=null">
+                                {{item.emergency_weight*1 + item.plan_weight*1 + item.spontaneous_weight*1}}
+                            </td>
+                            <td class="text-center" ng-if="item.emergency_weight==null||item.plan_weight==null||item.spontaneous_weight==null">
+                                0
+                            </td>
+                            <td class="text-center">
+                                <a class="btn btn-xs" ng-click="save(item)"><span class="fa fa-edit"></span> 保存</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+ table tr th,
+        table tr td {
+            text-align: center;
+        }
+
+</style>

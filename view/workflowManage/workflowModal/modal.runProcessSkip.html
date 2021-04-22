@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <h3 class="modal-title">跳转</h3>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="panel panel-default">
+        <form name="myForm" novalidate>
+            <ul class="list-group" style="font-size: 16px;">
+                <li class="list-group-item">
+                    <label for="" class="control-label">节点名称</label>
+                </li>
+                <li class="list-group-item">
+                    <select class="form-control" name="categeory" ng-model="search.chooseNode" ng-options="o.nodeId as o.nodeName for o in nodeList" ng-change="nodeChange()">
+                        <option value=""> --任务节点--</option>
+                    </select>
+                </li>
+                <li class="list-group-item" ng-if="!search.isEnd">
+                    <label for="" class="control-label required">人员信息</label>
+                    <span style="color: red" ng-if="!search.isChoose">
+                        人员必须选择一个
+                    </span>
+                </li>
+                <li class="list-group-item" ng-if="!search.isEnd">
+                    <span ng-repeat="item in peopleList.userId track by $index" style="margin-right: 3px">
+                        <input type="checkbox" name="people" value="item.id" ng-model="item.checked" ng-change="choosePeoson(item)">{{item.name}}
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save()">确定</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+</div> 

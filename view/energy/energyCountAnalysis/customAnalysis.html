@@ -1,0 +1,54 @@
+<div ng-controller="customAnalysisCtrl">
+    <div class="content" style="margin:20px 0">
+        <span class="h3">自定义值分析</span>
+        <ul ng-init="search.meterType=1" class="picType" style="margin: 0 15px;line-height: 24px">
+            <li ng-repeat="item in classifyList" style="width: 32px;text-align: center;font-size: 15px" ng-class="{'actives': search.meterType ==item.type,'bor-l':$index=='0'}"
+                ng-click="checkTypes(item)" class="bor-r">{{item.name}}</li>
+        </ul>
+    </div>
+  
+    <uib-tabset>
+        <uib-tab index="0" heading="时间段" select="changeIndex(0)">
+            <ng-include src="'./energy/energyCountAnalysis/energyTime.html'"></ng-include>
+        </uib-tab>
+        <uib-tab index="1" heading="数据段" select="changeIndex(1)">
+            <ng-include src="'./energy/energyCountAnalysis/energyData.html'"></ng-include>
+        </uib-tab>
+
+    </uib-tabset>
+
+
+</div>
+<style>
+    /* .actives {
+        background-color: #62c3ff;
+    } */
+    .active_s{
+        background-color: transparent
+    }
+    .content ul,
+    .picType {
+        float: right;
+        margin-top: 8px;
+    }
+
+    .content ul li {
+        display: inline-block;
+        cursor: pointer;
+        border: 1px solid #ccc
+    }
+
+    .h3 {
+        font-weight: 800;
+        font-size: 24px;
+    }
+
+    .bor-l {
+        border-left: 1px solid #ccc
+    }
+
+    .bor-r {
+        border-right: 1px solid #ccc
+    }
+
+</style>

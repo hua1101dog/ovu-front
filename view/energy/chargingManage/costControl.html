@@ -1,0 +1,64 @@
+<div ng-controller="costControlCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>费控计算</h3>
+            <div ng-if="search.isGroup" style="margin-top:20px;">
+                <label class="control-label">
+                    <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+                    <a role="button" ng-click="findPark(search,init)">{{search.parkName?search.parkName:'请选择项目'}} </a>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+        	<div class="form-group">
+        		<label>选择年份</label>
+        		<input type="datetime" class="form-control Wdate" ng-model="search.time"  onchange=""
+                   onclick="javascript:WdatePicker({dateFmt:'yyyy',maxDate:'%y'})">
+        	</div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;" ng-if="search.parkId">
+                <thead>
+                    <tr>
+                        <!--<th class="text-center" style="width:20px">
+                            <span role="button" ng-click="checkAll(pageModel)">
+                                <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                            </span>
+                        </th>-->
+                        
+                        <th ng-repeat="item in fields">{{item.name}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-if="pageModel.data && pageModel.data.length>0 && !hasClassify">
+                    	<td colspan="100" class="text-center">所选项目无有效分类</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data" ng-if="hasClassify">
+                        <!--<td>
+                            <i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                class="glyphicon"></i>
+                        </td>-->
+                        <td ng-repeat="o in fields">{{item[o.classifyId]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--<div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>-->
+            <h4 class="text-center" ng-if="!search.parkId">请选择项目</h4>
+        </div>
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

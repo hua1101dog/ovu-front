@@ -1,0 +1,447 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">新增标签</h4>
+</div>
+<div class="modal-body form-horizontal">
+    <form name="editForm" novalidate>
+        <uib-tabset style=" border:1px solid #eee;">
+            <uib-tab heading="标签编码维护">
+                <div class="form-group">
+                    <label class="control-label  col-xs-3 required">标题(图示部分1)：</label>
+                    <div class="col-xs-8">
+                        <input type="text" ng-model="block.unit" required
+                            class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label  col-xs-3">单位(图示部分2)：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                            ng-model="block.blockContent">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label  col-xs-3">说明(图示部分3)：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                            ng-model="block.explains">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label  col-xs-3">标签编码位置图示：</label>
+                    <div class="col-xs-8" style="padding-left: 0px;">
+                        <img src="/image/tagCode.png" alt="">
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab heading="标签详情维护">
+                <!-- 板块1 开始-->
+                <div style="margin-bottom: 10px;">
+                    <div class="form-group">
+                        <label class="control-label  col-xs-2 required">序号：</label>
+                        <div class="col-xs-8">
+                            <input type="number" ng-model="item_1.orderNo" required placeholder="请输入序号"
+                                class="form-control ng-pristine ng-untouched ng-valid ng-empty" min=1 max=3>
+                        </div>
+                        <!-- <a style="line-height: 35px;" href="javascript:void(0)" ng-click="showModal2()">{{!showModal_2 ? '拆分板块' : '合并板块'}}</a> -->
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label  col-xs-2 required">标题：</label>
+                        <div class="col-xs-8">
+                            <input type="text" ng-model="item_1.title" required placeholder="请输入标题(限50字)"
+                                class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                        </div>
+                        <a style="line-height: 35px;" href="javascript:void(0)"
+                            ng-click="showModal2()">{{!showModal_2 ? '拆分板块' : '合并板块'}}</a>
+                        <span style="color: red;">(最多三个)</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">是否支持点击：</label>
+                        <div class="col-xs-8">
+                            <label>
+                                <input type="radio" name="supportCheck" ng-value="0" ng-model="item_1.supportCheck"
+                                    class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="0"
+                                    aria-checked="true" aria-required="false" aria-invalid="false">
+                                <span>是</span>
+                            </label>
+                            &nbsp;&nbsp;
+                            <label>
+                                <input type="radio" name="supportCheck" ng-value="1" ng-model="item_1.supportCheck"
+                                    class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="1"
+                                    aria-checked="false" aria-required="false" aria-invalid="false">
+                                <span>否</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-if="item_1.supportCheck==0">
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">内容形式：</label>
+                            <div class="col-xs-8">
+                                <label>
+                                    <input type="radio" name="contentForm" ng-value="0" ng-model="item_1.contentForm"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="0"
+                                        aria-checked="true" aria-required="false" aria-invalid="false">
+                                    <span>图文</span>
+                                </label>
+                                &nbsp;&nbsp;
+                                <label>
+                                    <input type="radio" name="contentForm" ng-value="1" ng-model="item_1.contentForm"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="1"
+                                        aria-checked="false" aria-required="false" aria-invalid="false">
+                                    <span>启用导航</span>
+                                </label>
+                                &nbsp;&nbsp;
+                                <button ng-if="item_1.contentForm != 1" class="btn btn-primary" ng-click="addContent()"> +
+                                    新增图文</button>
+                                <button ng-if="item_1.contentForm != 1" class="btn btn-danger" ng-click="delContent()"> -
+                                    删除图文</button>
+                            </div>
+                        </div>
+                        <div ng-if="item_1.contentForm != 1">
+                            <div class="contentList_1" ng-repeat="item in textImgList1 track by $index">
+                                <div class="form-group">
+                                    <label class="control-label  col-xs-2 required">主题{{$index+1}}：</label>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control" ng-model="item.themeTitle" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-2 control-label required"> 内容{{$index+1}}：</label>
+                                    <div class="col-xs-10">
+                                        <div type="text/html" style="height:300px;min-width:100%"
+                                            ng-model="item.themeContent" meta-umeditor
+                                            meta-umeditor-config='{required:true}' meta-umeditor-placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group" ng-if="item_1.contentForm == 1">
+                            <label class="col-xs-2 control-label required">选择地图：</label>
+                            <div class="col-xs-8">
+                                <select class="form-control" ng-model="item_1.map"
+                                    ng-options="o.path as o.mapName for o in pageModel" required>
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div> -->
+                        <div class="form-group" ng-if="item_1.contentForm == 1">
+                            <label class="col-xs-2 control-label">导航内容：</label>
+                            <div class="col-xs-8">
+                                <label>
+                                    <input type="radio" name="navigationContent_1" ng-value="0"
+                                        ng-model="item_1.navigationContent"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="0"
+                                        aria-checked="true" aria-required="false" aria-invalid="false">
+                                    <span>员工</span>
+                                </label>
+                                &nbsp;&nbsp;
+                                <label>
+                                    <input type="radio" name="navigationContent_1" ng-value="1"
+                                        ng-model="item_1.navigationContent"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="1"
+                                        aria-checked="false" aria-required="false" aria-invalid="false">
+                                    <span>企业</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="item_1.contentForm == 1">
+                            <label class="control-label  col-xs-2 required">导航范围：</label>
+                            <div class="col-xs-8" ng-if="item_1.navigationContent != 1">
+                                <input type="text" id="focusShow" class="form-control awesomplete"
+                                    ng-change="searchCompany1(item_1.companyName)" ng-model="item_1.companyName"
+                                    list="mylist1" placeholder="请输入企业名称" style="padding-left: 30px;" autocomplete="off" required/>
+                                <datalist id="mylist1">
+                                    <option ng-repeat="item in companyList1" value="{{item.companyName}}">
+                                        {{item.companyName}}</option>
+                                </datalist>
+                                <!-- <input type="text" ng-model="item_1.navigationRange" placeholder="点击下拉选择"
+                                    class="form-control ng-pristine ng-untouched ng-valid ng-empty"> -->
+                            </div>
+                            <div class="col-xs-8" ng-if="item_1.navigationContent == 1">
+                                <input type="text"  disabled placeholder="默认全园区"
+                                    class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 板块1 结束-->
+
+                <!-- 板块2 开始-->
+                <div ng-if="showModal_2" style="border:1px solid #eee;margin-bottom: 10px;">
+                    <div class="form-group">
+                        <label class="control-label  col-xs-2 required">序号：</label>
+                        <div class="col-xs-8">
+                            <input type="number" ng-model="item_2.orderNo" placeholder="请输入序号"
+                                class="form-control ng-pristine ng-untouched ng-valid ng-empty" min=1 max=3 required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label  col-xs-2 required">标题：</label>
+                        <div class="col-xs-8">
+                            <input type="text" ng-model="item_2.title" placeholder="请输入标题(限50字)"
+                                class="form-control ng-pristine ng-untouched ng-valid ng-empty" required>
+                        </div>
+                        <a style="line-height: 35px;" href="javascript:void(0)"
+                            ng-click="showModal3()">{{!showModal_3 ? '拆分板块' : '合并板块'}}</a>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">是否支持点击：</label>
+                        <div class="col-xs-8">
+                            <label>
+                                <input type="radio" name="supportCheck_2" ng-value="0" ng-model="item_2.supportCheck"
+                                    class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="0"
+                                    aria-checked="true" aria-required="false" aria-invalid="false">
+                                <span>是</span>
+                            </label>
+                            &nbsp;&nbsp;
+                            <label>
+                                <input type="radio" name="supportCheck_2" ng-value="1" ng-model="item_2.supportCheck"
+                                    class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="1"
+                                    aria-checked="false" aria-required="false" aria-invalid="false">
+                                <span>否</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-if="item_2.supportCheck==0">
+                        <div class="form-group" >
+                            <label class="col-xs-2 control-label">内容形式：</label>
+                            <div class="col-xs-8">
+                                <label>
+                                    <input type="radio" name="contentForm_2" ng-value="0" ng-model="item_2.contentForm"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="0"
+                                        aria-checked="true" aria-required="false" aria-invalid="false">
+                                    <span>图文</span>
+                                </label>
+                                &nbsp;&nbsp;
+                                <label>
+                                    <input type="radio" name="contentForm_2" ng-value="1" ng-model="item_2.contentForm"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="1"
+                                        aria-checked="false" aria-required="false" aria-invalid="false">
+                                    <span>启用导航</span>
+                                    &nbsp;&nbsp;
+                                    <button ng-if="item_2.contentForm != 1" class="btn btn-primary"
+                                        ng-click="addContent_2()"> + 新增图文</button>
+                                    <button ng-if="item_2.contentForm != 1" class="btn btn-danger"
+                                        ng-click="delContent_2()"> - 删除图文</button>
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-if="item_2.contentForm != 1">
+                            <div class="contentList_2" ng-repeat="item in textImgList2 track by $index">
+                                <div class="form-group">
+                                    <label class="control-label  col-xs-2 required">主题{{$index+1}}：</label>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control" 
+                                            ng-model="item.themeTitle" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-2 control-label required"> 内容{{$index+1}}：</label>
+                                    <div class="col-xs-10">
+                                        <div type="text/html" style="height:300px;min-width:100%"
+                                            ng-model="item.themeContent" meta-umeditor
+                                            meta-umeditor-config='{required:true}' meta-umeditor-placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group" ng-if="item_2.contentForm == 1">
+                            <label class="col-xs-2 control-label required">选择地图：</label>
+                            <div class="col-xs-8">
+                                <select class="form-control" ng-model="item_2.map"
+                                    ng-options="o.path as o.mapName for o in pageModel" required>
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div> -->
+                        <div class="form-group" ng-if="item_2.contentForm == 1">
+                            <label class="col-xs-2 control-label">导航内容：</label>
+                            <div class="col-xs-8">
+                                <label>
+                                    <input type="radio" name="navigationContent_2" ng-value="0"
+                                        ng-model="item_2.navigationContent"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="0"
+                                        aria-checked="true" aria-required="false" aria-invalid="false">
+                                    <span>员工</span>
+                                </label>
+                                &nbsp;&nbsp;
+                                <label>
+                                    <input type="radio" name="navigationContent_2" ng-value="1"
+                                        ng-model="item_2.navigationContent"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="1"
+                                        aria-checked="false" aria-required="false" aria-invalid="false">
+                                    <span>企业</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="item_2.contentForm == 1">
+                            <label class="control-label  col-xs-2 required">导航范围：</label>
+                            <div class="col-xs-8" ng-if="item_2.navigationContent != 1">
+                                <input type="text" id="focusShow" class="form-control awesomplete"
+                                    ng-change="searchCompany2(item_2.companyName)" ng-model="item_2.companyName"
+                                    list="mylist2" placeholder="请输入企业名称" style="padding-left: 30px;" autocomplete="off" required/>
+                                <datalist id="mylist2">
+                                    <option ng-repeat="company in companyList2" value="{{company.companyName}}">
+                                        {{item.companyName}}</option>
+                                </datalist>
+                            </div>
+                            <div class="col-xs-8" ng-if="item_2.navigationContent == 1">
+                                <input type="text"  disabled placeholder="默认全园区"
+                                    class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                            </div>
+                        </div>
+                   </div>
+                </div>
+                <!-- 板块2 结束-->
+
+                <!-- 板块3 开始-->
+                <div ng-if="showModal_3" style="border:1px solid #eee;margin-bottom: 10px;">
+                    <div class="form-group">
+                        <label class="control-label  col-xs-2 required">序号：</label>
+                        <div class="col-xs-8">
+                            <input type="number" ng-model="item_3.orderNo" placeholder="请输入序号"
+                                class="form-control ng-pristine ng-untouched ng-valid ng-empty" min=1 max=3 required>
+                        </div>
+                        <!-- <a style="line-height: 35px;" href="javascript:void(0)" ng-click="showModal2()">{{!showModal_2 ? '拆分板块' : '合并板块'}}</a> -->
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label  col-xs-2 required">标题：</label>
+                        <div class="col-xs-8">
+                            <input type="text" ng-model="item_3.title" placeholder="请输入标题(限50字)"
+                                class="form-control ng-pristine ng-untouched ng-valid ng-empty" required>
+                        </div>
+                        <!-- <a style="line-height: 35px;" href="javascript:void(0)" ng-click="showModal4()">{{!showModal_4 ? '拆分板块' : '合并板块'}}</a> -->
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">是否支持点击：</label>
+                        <div class="col-xs-8">
+                            <label>
+                                <input type="radio" name="supportCheck_3" ng-value="0" ng-model="item_3.supportCheck"
+                                    class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="0"
+                                    aria-checked="true" aria-required="false" aria-invalid="false">
+                                <span>是</span>
+                            </label>
+                            &nbsp;&nbsp;
+                            <label>
+                                <input type="radio" name="supportCheck_3" ng-value="1" ng-model="item_3.supportCheck"
+                                    class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="1"
+                                    aria-checked="false" aria-required="false" aria-invalid="false">
+                                <span>否</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-if="item_3.supportCheck==0">
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">内容形式：</label>
+                            <div class="col-xs-8">
+                                <label>
+                                    <input type="radio" name="contentForm_3" ng-value="0" ng-model="item_3.contentForm"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="0"
+                                        aria-checked="true" aria-required="false" aria-invalid="false">
+                                    <span>图文</span>
+                                </label>
+                                &nbsp;&nbsp;
+                                <label>
+                                    <input type="radio" name="contentForm_3" ng-value="1" ng-model="item_3.contentForm"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="1"
+                                        aria-checked="false" aria-required="false" aria-invalid="false">
+                                    <span>启用导航</span>
+                                    &nbsp;&nbsp;
+                                    <button ng-if="item_3.contentForm != 1" class="btn btn-primary"
+                                        ng-click="addContent_3()"> + 新增图文</button>
+                                    <button ng-if="item_3.contentForm != 1" class="btn btn-danger"
+                                        ng-click="delContent_3()"> - 删除图文</button>
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-if="item_3.contentForm != 1">
+                            <div class="contentList_3" ng-repeat="item in textImgList3 track by $index">
+                                <div class="form-group">
+                                    <label class="control-label  col-xs-2 required">主题{{$index+1}}：</label>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control" ng-model="item.themeTitle" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-2 control-label required"> 内容{{$index+1}}:</label>
+                                    <div class="col-xs-10">
+                                        <div type="text/html" style="height:300px;min-width:100%"
+                                            ng-model="item.themeContent" meta-umeditor
+                                            meta-umeditor-config='{required:true}' meta-umeditor-placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group" ng-if="item_3.contentForm == 1">
+                            <label class="col-xs-2 control-label required">选择地图：</label>
+                            <div class="col-xs-8">
+                                <select class="form-control" ng-model="item_3.map"
+                                    ng-options="o.path as o.mapName for o in pageModel" required>
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div> -->
+                        <div class="form-group" ng-if="item_3.contentForm == 1">
+                            <label class="col-xs-2 control-label">导航内容：</label>
+                            <div class="col-xs-8">
+                                <label>
+                                    <input type="radio" name="navigationContent_3" ng-value="0"
+                                        ng-model="item_3.navigationContent"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="0"
+                                        aria-checked="true" aria-required="false" aria-invalid="false">
+                                    <span>员工</span>
+                                </label>
+                                &nbsp;&nbsp;
+                                <label>
+                                    <input type="radio" name="navigationContent_3" ng-value="1"
+                                        ng-model="item_3.navigationContent"
+                                        class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required" value="1"
+                                        aria-checked="false" aria-required="false" aria-invalid="false">
+                                    <span>企业</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="item_3.contentForm == 1">
+                            <label class="control-label  col-xs-2 required">导航范围：</label>
+                            <div class="col-xs-8" ng-if="item_3.navigationContent != 1">
+                                <input type="text" id="focusShow" class="form-control awesomplete"
+                                    ng-change="searchCompany3(item_3.companyName)" ng-model="item_3.companyName"
+                                    list="mylist3" placeholder="请输入企业名称" style="padding-left: 30px;" autocomplete="off" required/>
+                                <datalist id="mylist3">
+                                    <option ng-repeat="company in companyList3" value="{{company.companyName}}">
+                                        {{company.companyName}}</option>
+                                </datalist>
+                            </div>
+                            <div class="col-xs-8" ng-if="item_3.navigationContent == 1">
+                                <input type="text"  disabled placeholder="默认全园区"
+                                    class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 板块3 结束-->
+            </uib-tab>
+        </uib-tabset>
+    </form>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-primary" ng-click="save(editForm,item)">确认</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .tab-content {
+        padding: 15px 10px;
+    }
+    .edui-container{
+        width:100% !important;
+    }
+    .edui-dialog-image .edui-image-dragTip{
+        text-shadow: none;
+    }
+    .edui-btn-toolbar .edui-btn-fullscreen{
+        float:left
+    }
+</style>

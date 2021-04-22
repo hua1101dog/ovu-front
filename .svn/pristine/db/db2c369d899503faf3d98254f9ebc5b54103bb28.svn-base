@@ -1,0 +1,128 @@
+<div class="modal-header" style="border-bottom: none;">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <!--<h4 class="modal-title">租赁资源详情</h4>-->
+</div>
+
+<div class="modal-body container-fluid" style="padding-top: 0;margin-top: -10px;">
+
+    <div class="" style="border: none;">
+        <ul class="nav nav-tabs bar_tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#baseDetail" id="tab1" role="tab" data-toggle="tab" aria-expanded="true" ng-click="">企业</a>
+            </li>
+            <li role="presentation" class="">
+                <a href="#companyDetail" id="tab2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false"
+                   ng-click="">个人</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <!-- 企业 -->
+            <div role="tabpanel" class="tab-pane fade active in" id="baseDetail">
+                <div class="form-inline" style="margin-top:5px;">
+                    <div class="form-group">
+                        <label>企业名称：</label>
+                        <input ng-model="search.companyName" type="text" class="form-control" placeholder=""/>
+                    </div>
+                    <button class="btn btn-info" style="background-color:#5692ea;"
+                            ng-click="searchCustomers2(1)">查询
+                    </button>
+
+                </div>
+                <div style="height:270px; overflow:scroll;">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                        <thead class="title">
+                        <tr>
+                            <th class="text-center">No.</th>
+                            <th>企业名称</th>
+                            <th>企业类型</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="companyPageModel.data.length ==0||!companyPageModel.data">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr style="color:#333333;" ng-repeat="x in companyPageModel.data" ng-click="selectSecondPart($event,x)">
+                            <td class="text-center">{{$index +
+                                1+companyPageModel.pageSize*companyPageModel.pageIndex}}
+                            </td>
+                            <td>{{x.name}}</td>
+                            <td>{{x.typeName}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/view/rental/common/companyPager.html'" class="ng-scope">
+                            <style type="text/css" class="ng-scope">
+                                .pagination > li > span:hover {
+                                    background-color: #fff;
+                                    cursor: text
+                                }
+                                .page.ng-scope {
+                                    height: 20px;
+                                }
+                            </style>
+                        </ng-include>
+                    </div>
+                </div>
+            </div>
+            <!--  合作信息 -->
+            <div role="tabpanel" class="tab-pane fade" id="companyDetail">
+                <div class="form-inline" style="margin-top:5px;">
+                    <div class="form-group">
+                        <label>客户名称：</label>
+                        <input ng-model="search.personName" type="text" class="form-control" placeholder=""/>
+                    </div>
+                    <div class="form-group">
+                        <label>联系方式：</label>
+                        <input ng-model="search.phone" type="text" step="1" class="form-control" placeholder="请输入联系方式"/>
+                    </div>
+                    <button class="btn btn-info" style="background-color:#5692ea;"
+                            ng-click="searchCustomers1(1)">查询
+                    </button>
+
+                </div>
+                <div style="height:270px; overflow:scroll;">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                        <thead class="title">
+                        <tr>
+                            <th class="text-center">No.</th>
+                            <th>客户名称</th>
+                            <th>联系方式</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="personPageModel.data.length ==0||!personPageModel.data">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr style="color:#333333;" ng-repeat="x in personPageModel.data" ng-click="selectSecondPart($event,x)">
+                            <td class="text-center">{{$index + 1+personPageModel.pageSize*personPageModel.pageIndex}}</td>
+                            <td>{{x.name}}</td>
+                            <td>{{x.phone}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix" style="height: 70px">
+                        <ng-include src="'/view/rental/common/personPager.html'" class="ng-scope">
+                            <style type="text/css" class="ng-scope">
+                                .pagination > li > span:hover {
+                                    background-color: #fff;
+                                    cursor: text
+                                }
+                            </style>
+                        </ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="save()">确认</button>
+    <button class="btn" ng-click="cancel()">关闭</button>
+</div>
+<style>
+    .modal-dialog {
+        width: 700px !important;
+    }
+</style>

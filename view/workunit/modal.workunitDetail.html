@@ -1,0 +1,491 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title" ng-if="!item.isFault">工单详情</h4>
+    <h4 class="modal-title" ng-if="item.isFault">故障详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong ng-class="{'text-danger':item.WORKUNIT_TYPE==2}">{{item.WORKUNIT_TYPE|keyToValue:workunitTypeDict}}</strong>工单：
+            <strong style="margin-right: 15px;">{{item.WORKUNIT_NAME}}（编码：{{item.ID}}）</strong>
+            <strong ng-class="{'text-info':item.equipment_id}">{{item.equipment_id?'设备工单':'普通工单'}}</strong>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <label class="col-xs-2 control-label">工作分类：</label>
+                <div class="col-xs-2">
+                    <div style="margin-top: 8px">{{item.WORKTYPE_NAME}}</div>
+                </div>
+                <div ng-if="item.equipment_id">
+                    <label class="col-xs-2 control-label">设备名称：</label>
+                    <div class="col-xs-2">
+                        <div style="margin-top: 8px">
+                            {{item.equipment_name}}
+                        </div>
+                    </div>
+                </div>
+                <label class="col-xs-2 control-label">工单状态：</label>
+                <div class="col-xs-2">
+                    <div style="margin-top: 8px">{{item.UNIT_STATUS|keyToValue:unitStatusDict}}</div>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-xs-2 control-label">地址：</label>
+                <div class="col-xs-10 mt7">
+                    {{item.reportLoc}}
+                </div>
+            </div>
+
+            <!-- 装修巡检工单 验收工单显示的 巡检验收标准 -->
+            <div class="row" ng-if="item.onsiteinsp_node">
+                <label class="col-xs-2 control-label">巡检验收标准：</label>
+                <div class="col-xs-10 mt7" ng-bind-html="item.onsiteinsp_node">
+                </div>
+            </div>
+
+            <!-- <div class="row">
+                <label class="col-xs-2 control-label">任务描述：</label>
+                <div class="col-xs-10 mt7">
+                    {{item.WORKUNIT_TYPE==2?item.DESCRIPTION:task.TASK_DESCRIPTION}}
+                </div>
+            </div> -->
+            <div class="row">
+                <label class="col-xs-2 control-label">发起人：</label>
+                <div class="col-xs-2">
+                    <div style="margin-top: 8px">{{item.SOURCE_PERSON_NAME||'无'}}</div>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-xs-2 control-label">执行人：</label>
+                <div class="col-xs-2">
+                    <div style="margin-top: 8px">{{item.EXEC_PERSON_NAME}}</div>
+                </div>
+                <label class="col-xs-2 control-label">管理人：</label>
+                <div class="col-xs-2">
+                    <div style="margin-top: 8px">{{item.MANAGE_PERSON_NAME}}</div>
+                </div>
+                <label class="col-xs-2 control-label">协助人：</label>
+                <div class="col-xs-2">
+                    <div style="margin-top: 8px">{{item.ASSIST_PERSON_NAMES}}</div>
+                </div>
+            </div>
+            <div class="row" ng-if="showEquipment">
+                <div class="col-xs-2 control-label">
+                    <a class='btn-link' href='javascript:void(0)' ng-click='item.equipexpanded =!item.equipexpanded'><span class='fa' ng-class="{'fa-angle-double-down':!item.equipexpanded,'fa-angle-double-up':item.equipexpanded}"></span>查看设备详情</a>
+                </div>
+            </div>
+            <div class="row" ng-show="item.equipexpanded">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <label class="col-xs-2 control-label">编码：</label>
+                        <div class="col-xs-4">
+                            <div style="margin-top: 8px">{{equipinfo.equip_code}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">地址：</label>
+                        <div class="col-xs-4">
+                            <div style="margin-top: 8px">{{equipinfo.stage_name}} {{equipinfo.floor_name}} {{equipinfo.house_name}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">设备分类：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.type_name}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">品牌：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.brand_name}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">设备型号：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.mode_name}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">设备状态：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.equip_status|keyToValue:equipStatusDict}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">采购成本(元)：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.cost_purchase}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">位置惯用名：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.loc_simple_name}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">设备惯用名：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.equip_simple_name}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">图纸位置编号：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.dwg_loc}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">出厂编号：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.produce_serial}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">供应商编号：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.supplier_id}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">制造日期：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.made_date}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">购买日期：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.buy_date}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">验收日期：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.accept_date}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">接管日期：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.takeover_date}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">进场日期：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.entrance_date}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">启用日期：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.service_date}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">移交状态：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.transfer_status|keyToValue:yesNoDict}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">产地：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.origin}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">生产厂家：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.made_company}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">折旧类型：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.depre_type}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">折旧年数：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.depre_year}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">预计寿命：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.expct_life}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">折旧值：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.depre_money}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">操作人：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.op_people}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">使用单位：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.useDeptName}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">出厂日期：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.produce_date}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">改造单位：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.reform_company}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">注册代码：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.regi_code}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">安装单位：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.install_company}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">安装日期：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.install_date}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">维保单位：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.maintain_name}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">维保负责人：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.maintain_person}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">首保日期：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.frist_maintain_date}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">下次维保日期：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.next_maintain_date}}</div>
+                        </div>
+                        <label class="col-xs-2 control-label">年度维保日期：</label>
+                        <div class="col-xs-2">
+                            <div style="margin-top: 8px">{{equipinfo.year_maintain_date}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div ng-repeat="attr in equipinfo.attrs">
+                            <label class="col-xs-2 control-label">{{attr.name}}：</label>
+                            <div class="col-xs-2">
+                                <div style="margin-top: 8px">{{attr.val}}{{attr.unit}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-xs-2 control-label">备注：</label>
+                        <div class="col-xs-10">
+                            <div style="margin-top: 8px">{{equipinfo.comment}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--查看配件-->
+            <div class="row" ng-show="item.partsList.length>0">
+                <div class="col-xs-2 control-label">
+                    <a class='btn-link' href='javascript:void(0)' ng-click='item.partsexpanded =!item.partsexpanded'><span class='fa' ng-class="{'fa-angle-double-down':!item.partsexpanded,'fa-angle-double-up':item.partsexpanded}"></span>查看配件</a>
+                </div>
+            </div>
+            <div style="padding-left: 60px;padding-right: 60px" ng-show="item.partsexpanded">
+                <table class="table" style="margin-bottom: 0px; ">
+                    <thead class="title">
+                    <tr>
+                        <th class="text-center">配件名称</th>
+                        <th class="text-center">部位</th>
+                        <th class="text-center">数量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="part in item.partsList" >
+                        <td class="text-center">{{part.partsName}}</td>
+                        <td class="text-center">{{part.position}}</td>
+                        <td class="text-center">{{part.amount}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <uib-progress max=5>
+        <uib-bar ng-repeat="bar in stacked track by $index" value="bar.value" type="{{bar.type}}">
+            <span>{{bar.title}}</span>
+        </uib-bar>
+    </uib-progress>
+
+    <div ng-repeat="phase in phaseList|orderBy:['time','UNIT_STATUS']:true">
+        <div class="col-xs-3 text-center">{{phase.time}}<br/><label ng-class="{'text-danger':phase.title=='已督办'||phase.title=='待督办'}">{{phase.title}}</label></div>
+        <div class="col-xs-9 well" style="padding-bottom: 9px">
+            <div class="form-group">
+                <label class="text-nowrap col-xs-4">{{phase.content}}</label>
+                <div class="col-xs-8">
+                    <a href='javascript:void(0)' ng-hide="phase.noDetail" ng-click='phase.expanded =!phase.expanded' class='btn-link'><span class='fa' ng-class="{'fa-angle-double-down':!phase.expanded,'fa-angle-double-up':phase.expanded}"></span>查看详情</a>
+                </div>
+            </div>
+            <div ng-show="phase.expanded" ng-if="phase.title == '报事'">
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">报事类型：</label>
+                    <div class="col-xs-10">{{item.EVENT_TYPE|keyToValue:eventTypeDict}}</div>
+                </div>
+                <div class="form-group" ng-if="item.EVENT_TYPE == 1">
+                    <label class="col-xs-2 text-nowrap">业主信息：</label>
+                    <div class="col-xs-10">{{item.CUSTOMER_NAME?(item.CUSTOMER_NAME+','):'姓名未知,'}} {{item.CUSTOMER_PHONE?item.CUSTOMER_PHONE:'手机未知'}}</div>
+                </div>
+                <!-- <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">紧急程度：</label>
+                    <div class="col-xs-10">{{item.IMPORTENT_LEVEL|keyToValue:importantLevelDict}}</div>
+                </div> -->
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">报事位置：</label>
+                    <div class="col-xs-10">{{item.reportLoc}}</div>
+                </div>
+                <div class="form-group" ng-if="item.pictures.length">
+                    <label class="col-xs-2 text-nowrap">现场照片：</label>
+                    <div class="col-xs-10">
+                        <div class="photoWraper" ng-repeat="p in item.pictures track by $index">
+                            <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">工单描述：</label>
+                    <div class="col-xs-10">{{item.DESCRIPTION}}</div>
+                </div>
+            </div>
+
+            <div ng-show="phase.expanded" ng-if="phase.title == '工单生成'">
+                <p style="padding-left: 10px;  line-height: 28px;">{{task.WORKTASK_NAME}}</p>
+            </div>
+            <div ng-show="phase.expanded" ng-if="phase.title == '派发'">
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">备注：</label>
+                    <div class="col-xs-10">{{phase.WORK_CONTENT}}</div>
+                </div>
+            </div>
+            <div ng-show="phase.expanded" ng-if="phase.title == '延期'">
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">延期原因：</label>
+                    <div class="col-xs-10">{{phase.reason}}</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">延期到：</label>
+                    <div class="col-xs-10">{{phase.date}}</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">延期备注：</label>
+                    <div class="col-xs-10">{{phase.remark}}</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">审批状态：</label>
+                    <div class="col-xs-10">{{phase.statusName}}</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">审批时间：</label>
+                    <div class="col-xs-10">{{phase.verifyTime}}</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">审批意见：</label>
+                    <div class="col-xs-10">{{phase.verifyRemark}}</div>
+                </div>
+            </div>
+            <div ng-show="phase.expanded" ng-if="phase.title == '退回'">
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">退回原因：</label>
+                    <div class="col-xs-10">{{phase.WORK_CONTENT}}</div>
+                </div>
+            </div>
+            <div ng-show="phase.expanded" ng-if="phase.title == '修订'">
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">修订原因：</label>
+                    <div class="col-xs-10">{{phase.WORK_CONTENT}}</div>
+                </div>
+            </div>
+            <div ng-show="phase.expanded" ng-if="phase.title == '回访'">
+                <div class="form-group">
+                    <label class="col-xs-2 text-nowrap">回访内容：</label>
+                    <div class="col-xs-10">{{phase.BACK_TEXT}}</div>
+                </div>
+            </div>
+
+            <div ng-show="phase.expanded" ng-if="phase.title == '评价'">
+                <div class="form-group" ng-if="phase.evaluate.owner">
+                    <label class="col-xs-2 ">评价人：</label>
+                    <div class="col-xs-10">
+                        {{phase.evaluate.owner}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 ">评分：</label>
+                    <div class="col-xs-10">
+                        <span uib-rating ng-model="phase.evaluate.EVALUATE_SCORE" max="5" read-only=true on-hover="hoveringOver(value)" state-on="'star-on'" state-off="'star-off'" on-leave="overStar = null"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 ">图片：</label>
+                    <div class="col-xs-10">
+                        <div class="photoWraper" ng-repeat="p in phase.evaluate.photos">
+                            <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 ">内容：</label>
+                    <div class="col-xs-10">
+                        <p>{{phase.evaluate.EVALUATE_TEXT}}</p>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="phase.expanded" ng-if="phase.title == '执行'">
+                <div ng-if="item.WORKUNIT_TYPE==1">
+                    <div class="x_panel">
+                        <div class="x_title">任务名称:{{task.WORKTASK_NAME}}</div>
+                        <div class="x_content">
+                            <p><label>任务描述：</label>{{task.TASK_DESCRIPTION}}</p>
+                            <div class="alert" role="alert" ng-show="!task.stepChild||task.stepChild.length==0">无步骤信息</div>
+                            <ol>
+                                <li ng-repeat="step in task.stepChild"><b>{{step.WORKSTEP_NAME}}：</b>{{step.DESCRIPTION}}
+                                    <div ng-if="step.OPERATION_TYPE ==1" class="clearfix">
+                                        <!--照片-->
+                                        <div class="photoWraper" ng-repeat="p in step.oper.photos">
+                                            <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}">
+                                        </div>
+                                    </div>
+                                    <div ng-if="step.OPERATION_TYPE !=1" class="form-inline">
+                                        {{step.oper.value||'（空）'}}
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="item.WORKUNIT_TYPE==2">
+                    <div class="form-group" ng-if="item.faultType">
+                        <label class="col-xs-2">故障类型：</label>
+                        <div class="col-xs-10">
+                            {{item.faultTypeName}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2">现场图片：</label>
+                        <div class="col-xs-10">
+                            
+                            <div class="photoWraper" ng-repeat="p in item.photos">
+                                <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2">备注：</label>
+                        <div class="col-xs-10">{{item.SUCCESS_TEXT}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .progress {
+        border-radius: 6px;
+        height: 35px;
+        white-space: nowrap;
+    }
+
+    .progress .progress-bar {
+        font-size: large;
+        color: #000;
+        line-height: 35px;
+        display: inline-block;
+        float: none;
+        border-right: 1px solid #fefef3;
+    }
+
+    .progress-bar-default {
+        background-color: #f5f5f5;
+    }
+</style>

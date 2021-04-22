@@ -1,0 +1,142 @@
+<div ng-controller="parkCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>项目架构</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    项目列表
+                    <span
+                        ng-click="addTopNode()"
+                        class="btn btn-xs pull-right"
+                        ng-if="hasPower('编辑')"
+                        ><span class="fa fa-plus"></span>项目分类</span
+                    >
+                </div>
+                <div
+                    class="x_content"
+                    style="z-index: 1;max-height: 700px; overflow: auto"
+                >
+                    <div
+                        class="alert"
+                        role="alert"
+                        ng-show="parkTreeData.length==0"
+                    >
+                        无分类信息
+                    </div>
+                    <tree-view-pro
+                        node-list="parkTreeData"
+                        host="search"
+                        host-text="'parentName'"
+                        host-key="'parentId'"
+                        callback="selectNode"
+                        config="spaceConfig"
+                    ></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>项目名称</label>
+                        <input
+                            type="text"
+                            ng-model="search.parkName"
+                            class="form-control"
+                        />
+                    </div>
+                    <button
+                        class="btn btn-primary pull-right"
+                        ng-click="showModal()"
+                        ng-if="hasPower('新增')"
+                    >
+                        新增
+                    </button>
+                    <button class="btn btn-default" ng-click="find()">
+                        查询
+                    </button>
+                </div>
+            </div>
+            <div class="panel panel-default" style="display: grid;">
+                <div class="panel-body" style="overflow: auto;">
+                    <table
+                        class="table table-striped table-hover"
+                        style="margin-top: 10px;"
+                    >
+                        <thead>
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th nowrap="nowrap">项目名称</th>
+                                <th nowrap="nowrap">项目简称</th>
+                                <th nowrap="nowrap" style="min-width: 160px;">
+                                    项目经纬度
+                                </th>
+                                <th nowrap="nowrap">授权公司</th>
+                                <th nowrap="nowrap">地址</th>
+                                <th nowrap="nowrap">创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr
+                                ng-repeat="item in pageModel.data"
+                                ng-if="!item.edit"
+                            >
+                                <td class="text-center">
+                                    {{$index +
+                                    1+pageModel.pageSize*pageModel.pageIndex}}
+                                </td>
+                                <td>{{item.parkName}}</td>
+                                <td>{{item.shortName}}</td>
+                                <td style="word-break: break-all;">
+                                    {{item.mapLng?(item.mapLng+','+item.mapLat):''}}
+                                </td>
+                                <td>
+                                    {{item.authOrgName}}-{{item.authOrgDeptName}}
+                                </td>
+                                <td>{{item.address}}</td>
+                                <td style="min-width: 135px;">
+                                    {{item.opTime | date:'yyyy-MM-dd HH:mm:ss'}}
+                                </td>
+                                <td>
+                                    <a
+                                        href="javascript:void(0)"
+                                        ng-click="showModal(item)"
+                                        class="btn btn-xs"
+                                        ng-if="hasPower('编辑')"
+                                        ><span class="fa fa-edit"></span>编辑</a
+                                    >
+                                    <a
+                                        href="javascript:void(0)"
+                                        ng-click="del(item)"
+                                        class="btn btn-xs"
+                                        ng-if="hasPower('删除')"
+                                        ><span class="fa fa-trash"></span>删除</a
+                                    >
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                        <!-- <page page-model="pageModel"></page> -->
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

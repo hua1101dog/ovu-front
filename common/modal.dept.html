@@ -1,0 +1,88 @@
+<div id="modalDept" class="modal fade">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">部门选择</h4>
+      </div>
+      <div class="modal-body">
+        <div id="modalDeptTree"></div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+var modalDept = {};
+modalDept.open = function(optional){
+    //加载数据
+    loadData(optional.parkId);
+   
+	if(optional.callback){
+		modalDept.callback = optional.callback;
+	}
+	$("#modalDept").modal({});
+
+    var node = modalDept.treeView && modalDept.treeView.getSelected();
+    node &&  modalDept.treeView.unselectNode(node);
+    if(optional.selectedId){
+        var node = modalDept.oriList.find(function(n){return n.id == optional.selectedId });
+        if(!node ){
+            return;
+        }
+        $.extend(node.state,{selected:true});
+        var pid = node.parentId;
+        while(pid){
+            var pnode = modalDept.oriList.find(function(n){return n.id == pid });
+            if(pnode){
+                modalDept.treeView.expandNode(pnode)
+                pid = pnode.parentId;
+            }else{
+                break;
+            }
+        }
+    }
+    if(optional.forbitList){
+        modalDept.oriList.forEach(function(n){
+            if(optional.forbitList.indexOf(n.id)>0 && n.id != optional.selectedId){
+                n.text = n.text+"(已关联)";
+                n.selectable = false;
+            }
+        })
+    }
+
+
+}
+modalDept.close = function(optional){
+	$("#modalDept").modal("hide");
+}
+modalDept.callback = function(node){
+	console.log(node);
+}
+modalDept.setData = function(data){
+//	$('#modalDeptTree').treeview('remove');
+	if(data && data.length>0){
+		data.unshift({id:'0',deptNo:'',parentId:'',text:'无'});
+	}
+	$('#modalDeptTree').treeview({
+		data : data
+	});
+	$('#modalDeptTree').on('nodeSelected', function(event, node) {
+		modalDept.callback(node);
+	});
+}
+
+function loadData(id){
+
+    $.post("/ovu-base/system/dept/tree.do", {parkId:id
+    }, function(data) {
+        modalDept.setData(data);
+        modalDept.treeView = $("#modalDeptTree").data('treeview');
+        modalDept.oriList = modalDept.treeView.getUnchecked();
+    }, 'json');
+}
+
+</script>

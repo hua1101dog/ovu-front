@@ -1,0 +1,74 @@
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancel()">×</button>
+            <h4 class="modal-title">查看园区活动</h4>
+        </div>
+        <div class="modal-body container-fluid form-horizontal">
+            <form name="form" novalidate>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">发布者：</label>
+                    <div class="col-xs-4">
+                        <input type="hidden" name="activityType" value="1"/>
+                        <input type="text" class="form-control" ng-model="item.creatorName" name="creatorName"  style="cursor: default;" readonly/>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label required">标题：</label>
+                    <div class="col-xs-9">
+                        <input type="text" class="form-control" required ng-readonly="true" ng-model="item.title" name="title"  style="cursor: default;"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">简介：</label>
+                    <div class="col-xs-9">
+                        <textarea type="text" required style="height:50px;resize:vertical;cursor: default;" 
+                        class="form-control" ng-readonly="true" ng-model="item.theme" name="theme" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label class="col-xs-2 control-label required">活动日期：</label>
+                            <div class="col-xs-9">
+                                <input type="datetime" ng-readonly="true" class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.beginTime" id="search_date1" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'search_date2\');}'})">
+                                                                                    至
+                                <input type="datetime" ng-readonly="true" class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.endTime" id="search_date2" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'search_date1\');}'})">
+                            </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">限额人数：</label>
+                    <div class="col-xs-9">
+                        <input type="number" class="form-control" ng-readonly="true" ng-model="item.maxPeople" name="maxPeople"  style="cursor: default;" placeholder="仅可填数字"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">报名费：</label>
+                    <div class="col-xs-9">
+                        <input type="number" class="form-control" ng-readonly="true" ng-model="item.price" name="price"  style="cursor: default;" placeholder="仅可填数字"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">活动地点：</label>
+                    <div class="col-xs-9">
+                        <input type="text" class="form-control" ng-readonly="true" ng-model="item.place" name="place"  style="cursor: default;"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">内容：</label>
+                    <div class="col-xs-9">
+                        <div id="Layer_text" runat="server">
+                            <article class="form-control" style="height: auto;" ng-readonly="true" ng-bind-html="item.content | trustHtml"></article>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">照片：</label>
+                    <div class="col-xs-9">
+                        <img alt="暂无图片" style="height:80px; width:80px;border:1px solid #ddd" src="{{item.photo}}">
+                    </div>
+                </div>
+            </form>
+        </div>
+       <div class="modal-footer" ng-show="!item.isView">
+            <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        </div>

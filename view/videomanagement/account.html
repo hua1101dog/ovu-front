@@ -1,0 +1,357 @@
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .margin-0 {
+        margin: 0;
+    }
+
+    .margin-b10 {
+        padding-bottom: 10px;
+    }
+
+    .card-border {
+        border: 1px solid #ddd;
+        background: #fff;
+    }
+
+
+
+    .margin-10 {
+        margin-top: 10px;
+    }
+
+    .margin-t-5 {
+        margin-top: 5px;
+    }
+
+    .border-r10 {
+        border-radius: 10px;
+    }
+
+    .title {
+        height: 45px;
+        margin: 10px;
+        border-bottom: 1px solid #ddd;
+
+    }
+
+    .fw {
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 35px;
+    }
+
+    .h50 {
+        height: 50%;
+    }
+
+    .lg-40 {
+        line-height: 40px;
+    }
+
+    .actives {
+        color: blue;
+        line-height: 35px;
+        font-size: 14px;
+    }
+
+    .red {
+        color: red;
+        
+    }
+
+</style>
+<div ng-controller="accountCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>视频设备台账</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <!-- <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>设备类型</label>
+                        <select class="form-control" ng-model="search.equip_type" ng-options="o[0] as o[1] for o in equipTypeDict">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)">查询</button>
+                </div>
+            </div> -->
+
+            <div class="row margin-10">
+                <div class="col-sm-4 col-xs-12">
+                    <div class="card-border" style="height:350px">
+                        <div class="title">
+                            <h5 class="pull-left margin-0 fw">硬件台账</h5>
+                            <a href="javascript:void(0)" class="pull-right actives" ng-click="goHardware('hardware')">详情>></a>
+                        </div>
+                        <div id="hardware" style="height: 260px;" class="row margin-0">
+                            <div class="col-sm-6 col-xs-12 h5  margin-0" style="margin-top:18px">
+
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{hardware[0].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{hardware[0].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:18px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{hardware[1].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{hardware[1].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:37px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{hardware[2].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{hardware[2].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:37px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{hardware[3].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{hardware[3].value}}台</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="card-border" style="height:350px">
+                        <div class="title">
+                            <h5 class="pull-left margin-0 fw">摄像机台账</h5>
+                            <a href="javascript:void(0)" class="pull-right actives" ng-click="goCamera('camera')">详情>></a>
+                        </div>
+                        <div id="camera" style="height: 260px;" class="row margin-0">
+                            <div class="col-sm-6 col-xs-12 h5  margin-0" style="margin-top:18px">
+
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{camera[0].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{camera[0].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:18px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{camera[1].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{camera[1].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:37px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{camera[2].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{camera[2].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:37px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{camera[3].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{camera[3].value}}台</span>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="card-border" style="height:350px">
+                        <div class="title">
+                            <h5 class="pull-left margin-0 fw">NVR台账</h5>
+                            <a href="javascript:void(0)" class="pull-right actives" ng-click="goNVR('nvr')">详情>></a>
+                        </div>
+                        <div id="nvr" style="height: 260px;">
+                            <div class="col-sm-6 col-xs-12 h5  margin-0" style="margin-top:18px">
+
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{nvr[0].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{nvr[0].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:18px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{nvr[1].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{nvr[1].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:37px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{nvr[2].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{nvr[2].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:37px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{nvr[3].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{nvr[3].value}}台</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row margin-10 paddiing-b10">
+                <div class="col-sm-4 col-xs-12">
+                    <div class="card-border"  style="height:350px;margin-top: 15px;">
+                        <div class="title">
+                            <h5 class="pull-left margin-0 fw">监控服务台账</h5>
+                            <a href="javascript:void(0)" class="pull-right actives" ng-click="goIMOS('imos')">详情>></a>
+                        </div>
+                        <div id="imos" style="height: 260px;">
+                            <div class="col-sm-6 col-xs-12 h5  margin-0" style="margin-top:18px">
+
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{imos[0].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{imos[0].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:18px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{imos[1].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{imos[1].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:37px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{imos[2].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{imos[2].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:37px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{imos[3].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{imos[3].value}}台</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="card-border" style="height:350px;margin-top: 15px;">
+                        <div class="title">
+                            <h5 class="pull-left margin-0 fw">转流服务台账</h5>
+                            <a href="javascript:void(0)" class="pull-right actives" ng-click="goTransform('transform')">详情>></a>
+                        </div>
+                        <div id="transform" style="height: 260px;">
+                            <div class="col-sm-6 col-xs-12 h5  margin-0" style="margin-top:18px">
+
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{transform[0].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{transform[0].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:18px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{transform[1].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{transform[1].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:37px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{transform[2].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{transform[2].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:37px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{transform[3].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{transform[3].value}}台</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="card-border" style="height:350px;margin-top: 15px;">
+                        <div class="title">
+                            <h5 class="pull-left margin-0 fw">流媒体服务台账</h5>
+                            <a href="javascript:void(0)" class="pull-right actives" ng-click="goMedia('media')">详情>></a>
+                        </div>
+                        <div id="media" style="height: 260px;">
+                            <div class="col-sm-6 col-xs-12 h5  margin-0" style="margin-top:18px">
+
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{media[0].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{media[0].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:18px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{media[1].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{media[1].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:37px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{media[2].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{media[2].value}}台</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 h5 margin-0" style="margin-top:37px">
+                                <div class="h50 text-center lg-40 card-border" style="border-bottom:  0px;">
+                                    <span class="fw">{{media[3].name}}</span>
+                                </div>
+                                <div class="h50 text-center lg-40 card-border" style="border-top: 0px;">
+                                    <span class="red">{{media[3].value}}台</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

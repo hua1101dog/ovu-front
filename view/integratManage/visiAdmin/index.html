@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>参观点管理</title>
+  <link rel="stylesheet" href="integratManage/visiAdmin/indexStyle.css">
+</head>
+
+<body>
+  <div id="angularId" ng-controller="groupCustomServiceCtrl">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>参观点管理</h3>
+      </div>
+    </div>
+    <div class="row" id="accountIndex">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <ul class="nav nav-tabs bar_tabs" role="tablist">
+            <li role="presentation" class="active">
+              <a href="#visitadmin" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">参观点管理</a>
+            </li>
+            <li role="presentation" class="">
+              <a href="#visitorder" id="tab2" role="tab" data-toggle="tab" aria-expanded="false">参观订单</a>
+            </li>
+            <li role="presentation" class="">
+              <a href="#RecommendedRoute" id="tab3" role="tab" data-toggle="tab" aria-expanded="false">推荐路线</a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <!--参观点管理 -->
+
+            <div role="tabpanel" class="tab-pane fade active  in " id="visitadmin"
+              ng-controller="groupCustomServiceCtrl">
+
+              <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <div class="form-inline" style="margin-top: 20px;">
+                  <div class="form-group">
+                    <label class="label_search">参观点名称：</label>
+                    <input class="form-control" type="text" ng-model="search.pointName" style="width: 140px;">
+                  </div>
+                  <button class="btn btn-default" ng-click="find()">查询</button>
+                  <button class="btn btn-primary pull-right" ng-click='newAdd(item)'>新增</button>
+                </div>
+                <div class="panel-heading" style="color: #999999;">参观点管理</div>
+                <thead class="title">
+                  <tr>
+                    <th style="text-align:center">No.</th>
+                    <th style="text-align:center">参观点名称</th>
+                    <th style="text-align:center">位置</th>
+                    <th style="text-align:center">讲解</th>
+                    <th style="text-align:center">参观时长</th>
+                    <th style="text-align:center">联系人</th>
+                    <th style="text-align:center">预约次数</th>
+                    <th style="text-align:center">发布时间</th>
+                    <th style="text-align:center">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                  </tr>
+                  <tr ng-repeat="item in pageModel.data track by $index">
+                    <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td class="text-center">{{item.pointName}}</td>
+                    <td class="text-center">{{item.place}}</td>
+                    <td class="text-center">{{item.introduceStatu}}</td>
+                    <td class="text-center">{{item.visitTime}}</td>
+                    <td class="text-center">{{item.phone}}</td>
+                    <td class="text-center">{{item.orderNum}}</td>
+                    <td class="text-center">{{item.createTime}}</td>
+                    <td class="text-center">
+                      <button class="btn btn-oper" ng-click='newAdd(item)'>编辑</button>
+                      <button class="btn btn-oper" ng-click='del(item)'>删除</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+              </div>
+            </div>
+
+
+            <!-- 参观订单 -->
+
+            <div role="tabpanel" class="tab-pane  fade " id="visitorder" ng-controller="groupCustomServiceCtrlone">
+              <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <div class="form-inline" style="margin-top: 20px;">
+                  <div class="form-group">
+                    <label class="label_search">参观名称</label>
+                    <input class="form-control" type="text" ng-model="all" style="width: 140px;">
+                  </div>
+                  <button class="btn btn-default" ng-click="findone()">查询</button>
+                  <!-- <button class="btn btn-primary pull-right" ng-click='newAdd(item)'>新增</button> -->
+                </div>
+                <div class="panel-heading" style="color: #999999;">参观订单</div>
+                <thead class="title">
+                  <tr>
+                    <th style="text-align:center">No.</th>
+                    <th style="text-align:center">参观流程</th>
+                    <th style="text-align:center">联系人</th>
+                    <th style="text-align:center">联系电话</th>
+                    <th style="text-align:center">预约时间</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                  </tr>
+                  <tr ng-repeat="item in pageModel.data track by $index">
+                    <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td class="text-center">南湖大道-创意天地-软件园-北京</td>
+                    <td class="text-center">111111</td>
+                    <td class="text-center">00000000</td>
+                    <td class="text-center">2020.5.20</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+              </div>
+
+            </div>
+
+
+
+            <!-- 推荐路线 -->
+            <div role="tabpanel" class="tab-pane  fade " id="RecommendedRoute"
+              ng-controller="groupCustomServiceCtrltwo">
+              <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <div class="form-inline" style="margin-top: 20px;">
+                  <div class="form-group">
+                    <label class="label_search">推荐路线</label>
+
+                  </div>
+                  <!-- <button class="btn btn-default" ng-click="find()">查询</button> -->
+                  <button class="btn btn-primary pull-right" ng-click='addRouter(item)'>新增</button>
+                </div>
+                <div class="panel-heading" style="color: #999999;">推荐路线</div>
+                <thead class="title">
+                  <tr>
+                    <th style="text-align:center">No.</th>
+                    <th style="text-align:center">推荐路线</th>
+                    <th style="text-align:center">使用次数</th>
+                    <th style="text-align:center">发布时间</th>
+                    <th style="text-align:center">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                  </tr>
+                  <tr ng-repeat="item in pageModel.data track by $index">
+                    <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td class="text-center">22222222222</td>
+                    <td class="text-center">111111</td>
+                    <td class="text-center">00000000</td>
+                    <td class="text-center">
+                      <button class="btn btn-oper" ng-click='addRouter(item)'>编辑</button>
+                      <button class="btn btn-oper" ng-click='del(item)'>删除</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+</body>
+
+</html>

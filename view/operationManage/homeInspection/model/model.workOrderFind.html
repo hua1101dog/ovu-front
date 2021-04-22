@@ -1,0 +1,77 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">工单详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <div class="bookingDetail" style="text-align: left;">
+        <div class="form-group">
+            <label class="col-xs-3 control-label ">工单标题：</label>
+            <span class="col-xs-9 s_content">{{pageModel.WORKUNIT_NAME}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label ">服务单号：</label>
+            <span class="col-xs-9 s_content">{{pageModel.ID}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label ">报事发起人：</label>
+            <span class="col-xs-9 s_content">{{pageModel.SOURCE_PERSON_NAME}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label ">报事地址：</label>
+            <span class="col-xs-9 s_content">{{pageModel.reportLoc}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label ">报事详情：</label>
+            <span class="col-xs-9 s_content">{{pageModel.DESCRIPTION}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label ">工单分类：</label>
+            <span class="col-xs-9 s_content">{{pageModel.WORKTYPE_NAME}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label ">工单状态：</label>
+            <span class="col-xs-9 s_content" ng-if="pageModel.UNIT_STATUS==-1?true:false">工单生成</span>
+            <span class="col-xs-9 s_content" ng-if="pageModel.UNIT_STATUS==0?true:false">待派发</span>
+            <span class="col-xs-9 s_content" ng-if="pageModel.UNIT_STATUS==1?true:false">待接收</span>
+            <span class="col-xs-9 s_content" ng-if="pageModel.UNIT_STATUS==4?true:false">已退回</span>
+            <span class="col-xs-9 s_content" ng-if="pageModel.UNIT_STATUS==5?true:false">待处理</span>
+            <span class="col-xs-9 s_content" ng-if="pageModel.UNIT_STATUS==7?true:false">待评价</span>
+            <span class="col-xs-9 s_content" ng-if="pageModel.UNIT_STATUS==8?true:false">已关闭</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label ">执行人：</label>
+            <span class="col-xs-9 s_content">{{pageModel.EXEC_PERSON_NAME||'--'}}</span>
+        </div>
+        <b></b>
+    </div>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+</div>
+<style>
+    .bookingDetail {
+        /* margin: 0 60px; */
+        margin-right: 0px;
+    }
+
+    .bookingDetail b {
+        display: block;
+        widows: 100%;
+        border-bottom: 1px dashed #ccc;
+        margin-bottom: 4px;
+    }
+
+    .bookingDetail .form-group span.s_content {
+        font-size: 14px;
+        padding-left: 0px;
+        padding-top: 7px;
+    }
+
+</style>

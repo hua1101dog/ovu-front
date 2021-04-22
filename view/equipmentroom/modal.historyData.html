@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <ul class="equipTab" ng-init="selected=0" style="overflow: hidden;margin: 0">
+        <li ng-class={active:selected==$index} ng-click="toggleTab($index)" ng-repeat="item in nameArr"><a href="javascript:;">{{item.name}}</a></li>
+    </ul>
+</div>
+<div class="modal-body">
+    <div class="form-inline x_panel">
+        <div class="form-group">
+          <label>开始时间</label>
+          <input type="datetime" class="form-control Wdate" ng-model="search.startDate"
+                 onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+        </div>
+        <div class="form-group">
+          <label>结束时间</label>
+          <input type="datetime" class="form-control Wdate" ng-model="search.endDate"
+                 onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.Wdate').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+        </div>
+        <div class="form-group">
+            <label>状态</label>
+            <select class="form-control" ng-model="search.isRegular" ng-options="o[0] as o[1] for o in isRegular">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <button class="btn btn-default pull-right" ng-click="find()">搜索</button>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-striped table-hover">
+              <thead>
+              <tr >
+                <th>NO</th>
+                <th>检测值</th>
+                <th >检测时间</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-if="!pageModel.data ||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+              <tr ng-repeat="item in pageModel.data">
+                <td>{{$index+1}}</td>
+                <td ng-class="{abnormal:item.isRegular==2}">{{item.val}}</td>
+                <td>{{item.lastTime}}</td>
+              </tr>
+              </tbody>
+            </table>
+            <div class="page-footer clearfix">
+              <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .equipTab {
+        background-color: #ccc;
+    }
+    .equipTab li {
+        float: left;
+        margin-right: 40px;
+        text-align: center;
+        padding: 5px 10px;
+    }
+    .equipTab li a {
+        width: 100%;
+        display: block;
+    }
+    .active {
+        background-color: #fff;
+    }
+    table tr th,
+table tr td {
+    text-align: center;
+}
+   .abnormal {
+      color:red
+   }
+</style>

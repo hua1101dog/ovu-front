@@ -1,0 +1,48 @@
+<!---应急记录详情弹出框   -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">应急记录详情</h4>
+</div>
+<div class="modal-body container-fluid">
+    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <label class="col-xs-3 control-label">工单名称：</label>
+        <span>{{data.name}}</span>
+    </div>
+    <!-- <div>
+    	<span class="key">现场图片：</span>
+      <div class="photoWraper" ng-repeat="p in data.photo track by $index">
+            <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}" />
+        </div>
+     </div> -->
+     <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <label class="col-xs-3 control-label">现场图片：</label>
+        <div class="photoWraper" ng-repeat="p in data.photo  track by $index">
+            <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}" />
+        </div>
+       
+    </div>
+    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <label  class="col-xs-3 control-label">备注：</label>
+            <div class="col-xs-9">
+                    <textarea type="text" style="resize:none;" class="form-control" ng-model="data.description" ng-disabled="true" maxlength="500"
+                     oninput="if(value.length>500)value=value.slice(0,500)">
+                        </textarea>
+                </div>
+        </div>
+</div>
+<div class="modal-footer">
+    <!--<span>维保记录单：</span>-->
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    <!--<button class="btn btn-info" ng-click="cancel()">下载</button>
+    <button class="btn btn-info" ng-click="cancel()">打印</button>-->
+</div>
+<style>
+    .photoWraper {
+    width: 80px;
+    height:50px;
+    position: relative;
+    float: left;
+    margin-right: 5px;
+    text-align: center;
+}
+</style>

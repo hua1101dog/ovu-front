@@ -1,0 +1,88 @@
+<div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">{{item.groupId?'编辑':'新增'}}规则</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <form name="form" novalidate="">
+            <div class="form-group">
+                <div>
+                    <label class="col-xs-3 control-label required">选择部门：</label>
+                    <div class="col-xs-6" style="padding-left: 0px">
+                        <tree-selector ng-show="!item.groupId" node-list="searchDeptTree" need=true host="auth" host-key="'deptId'" host-text="'deptName'" leaf-only=false tip-text="'请选择部门'"></tree-selector>
+                        <input type="text" class="form-control" ng-show="item.groupId"  readonly ng-model="auth.deptName" onchange="">
+                    </div>
+                    <span class="col-xs-2" ng-if="auth.deptId">
+                            <a class="btn btn-primary" style="margin-bottom: 10px;" href="javascript:void(0)"  ng-click="addClasses()" aria-label="Add">
+                                    <i class="glyphicon glyphicon-plus" aria-hidden="true" ng-disabled=true>新增班次</i>
+                                </a>
+                               
+                    </span>
+    
+                </div>
+    
+            </div>
+        
+            <div class="form-group" ng-repeat="c in classesList track by $index">
+                    <div>
+                        <label class="col-xs-3 control-label required">{{c.scheduleName}}：</label>
+                        <div class="col-xs-6" style="padding-left: 0px">
+                                 <!-- <input type="text"  class="form-control Wdate time" ng-model="c.timeFrom" ng-pattern='/^([01]\d|2[0123]):([0-5]\d|60)$/'> -->
+                                 <!-- <input type="datetime"  class="form-control Wdate time" ng-model="c.timeFrom" onchange=""  edate-picker onclick="javascript:WdatePicker({dateFmt:'HH:mm',quickSel:['%H-00-00','%H-15-00','%H-30-00','%H-45-00']})"> -->
+                                 <input type="text" readonly ng-model="c.timeFrom" required
+                                    class="form-control time" format="HH:mm" ng-lay-date="">
+                               <label>-</label>
+                               <!-- <input type="text" class="form-control Wdate time" ng-model="c.timeTo" onchange="" ng-pattern='/^([01]\d|2[0123]):([0-5]\d|60)$/'> -->
+                               <!-- <input type="datetime" class="form-control Wdate time" ng-model="c.timeTo" onchange="" is-Second=true  edate-picker onclick="javascript:WdatePicker({dateFmt:'HH:mm'})"> -->
+                               <input type="text" readonly ng-model="c.timeTo" required
+                               class="form-control time" format="HH:mm" ng-lay-date="">
+                        </div>
+                        <span class="col-xs-2">
+                                <a class="btn btn-primary" href="javascript:void(0)" style="display:  block;width:36px" ng-click="delItem(c)"
+                                    aria-label="Delete">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                    </div>
+        
+                </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="save(form)">确定</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+    <style>
+      .time {
+        display: inline-block;
+        width: 45%;
+        height: 30px;
+        padding: 6px 24px;
+        font-size: 20px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+    .inputWarper {
+    width: 100%
+    }
+    .layui-laydate-content>.layui-laydate-list {
+	            padding-bottom: 0px;
+	            overflow: hidden;
+	        }
+	        .layui-laydate-content>.layui-laydate-list>li{
+	            width:50%
+	        }
+ 
+			.merge-box .scrollbox .merge-list {
+			    padding-bottom: 5px;
+			}
+
+    </style>

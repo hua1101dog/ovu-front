@@ -1,0 +1,18 @@
+<div class="form-group" style="margin-top: 10px">
+    <label class="control-label col-xs-1">摄像机：</label>
+    <div class="col-xs-11">
+        <div class="input-group">
+            <a class='btn btn-success ' ng-click='chooseCamera()'><span class='glyphicon glyphicon-plus'></span>选择摄像机</a>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="control-label col-xs-1"></label>
+    <div class="col-xs-11">
+        <div class="input-group">
+            <ul id="person" class="ul-persons">
+                <li class="item" ng-repeat="p in cameras">{{p.equip_simple_name || p.name}}<a ng-click="delCamera(cameras,p)"><i class='fa fa-remove'></i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>

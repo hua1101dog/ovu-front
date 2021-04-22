@@ -1,0 +1,185 @@
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+    <uib-tabset>
+        <uib-tab  heading="基本信息" >
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group" ng-if="item.pid">
+                            <label class="col-xs-4 control-label">上级分类：</label>
+                            <div class="col-xs-8">
+                                <div style="margin-top: 8px">{{item.ptexts}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label required">设备分类名称：</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" ng-model="item.text" name="text" ensure_unique="text"
+                                       api='/ovu-pcos/pcos/equipment/checkTypeName_mute' id="{{item.id}}" required
+                                       uib-popover="{{form.text.$error.required?'设备分类名称不可为空！':(form.text.$error.unique?'设备分类名称已被使用':'')}}"
+                                       popover-placement="bottom" popover-trigger="mouseenter"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label required">设备分类编码：</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" ng-model="item.code" name="code" required
+                                       ng-readonly="readOnly"/>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="item.pEquipType != 'sensor'">
+                            <label class="col-xs-4 control-label">设备分类：</label>
+                            <div class="col-xs-8">
+                                <select class="form-control" ng-model="item.equipType"
+                                        ng-options="o[0] as o[1] for o in equipTypeDict">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="item.pEquipType == 'sensor'">
+                            <label class="col-xs-4 control-label">传感器协议类型：</label>
+                            <div class="col-xs-8">
+                                <select class="form-control" ng-model="item.sensorTypeId"
+                                        ng-options="o.id as o.text for o in sensorTypeTree">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group" ng-if="item.canUploadLogo">
+                            <label class="col-xs-4 control-label">上传logo：</label>
+                            <div class="col-xs-8">
+                                <div class="thumbnail text-center">
+                                    <img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+                                         ng-click="showPhoto()"
+                                         ng-src="{{processImgUrl(item.logo_url)}}"/>
+                                    <div class="caption">
+                                        <p>
+                                            <button class="btn btn-warning height34" ng-click="clearPhoto(item,'logo_url')"><i
+                                                class="glyphicon glyphicon-remove"></i></button>
+                                            <button class="btn btn-default height34" ng-click="addPhoto(item,'logo_url')"><i
+                                                class="glyphicon glyphicon-picture "></i></button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">设备参数列表
+                        <button class="btn btn-primary pull-right" ng-click="item.defs.push({})">新增参数</button>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover" style="margin-bottom: 0px; ">
+                            <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th>参数名称</th>
+                                <th>参数代码(英文)</th>
+                                <th>值类型</th>
+                                <th style="width: 300px">单位/选项</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-if="item.defs.length == 0">
+                                <td colspan="100" class="text-center">暂无参数</td>
+                            </tr>
+                            <tr ng-repeat="def in item.defs">
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td style="padding:1px"><input type="text" class="form-control" required name="name{{$index}}"
+                                                               ng-model="def.name"/></td>
+                                <td style="padding:1px"><input type="text" class="form-control" required name="code{{$index}}"
+                                                               ng-model="def.code"/></td>
+                                <td style="padding:1px">
+                                    <select class="form-control" required name="val_type{{$index}}" ng-model="def.val_type"
+                                            ng-options="o[0] as o[1] for o in valTypeDict">
+                                        <option value="">--请选择--</option>
+                                    </select></td>
+                                <td style="padding:1px">
+                                    <input type="text" ng-if="def.val_type == 2" placeholder="数值单位，如 '千克' " class="form-control"
+                                           required name="unit{{$index}}" ng-model="def.unit"/>
+                                    <input type="text" ng-if="def.val_type == 3" placeholder="以英文逗号分隔,如 '客梯,货梯' "
+                                           class="form-control" required name="option_list{{$index}}"
+                                           ng-model="def.option_list"/>
+                                </td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='item.defs.splice(item.defs.indexOf(def),1)'
+                                       class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel panel-default" ng-if="!hasNodes&&item.pEquipType!='sensor'">
+                    <div class="panel-heading">检测参数列表<i>(tip：关联工作类型后,在监测参数异常时，自动生成应急工单！)</i>
+                        <button class="btn btn-primary pull-right" ng-click="selectDetectParam(item)" >新增检测参数</button>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover" style="margin-bottom: 0px; ">
+                            <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th>检测参数名称</th>
+                                <th>值类型</th>
+                                <th >单位/选项</th>
+                                <th >阈值/正常项</th>
+                                <th>异常时应急工单类型</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-if="!item.params||item.params.length == 0"><td colspan="100" class="text-center">暂无检测参数</td></tr>
+                            <tr ng-repeat="param in item.params" >
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td >{{param.ptexts+":"+param.text}}</td>
+                                <td >{{param.val_type|keyToValue:sensorDataDict}}</td>
+                                <td style="max-width: 220px">{{param.val_type == 1?param.unit:param.option_list}}</td>
+                                <td style="padding:1px;white-space: nowrap">
+                                    <div ng-if="param.val_type == 1">
+                                        <input type="text" class="form-control" style="width: 120px;display: inline-block" placeholder="最小阈值" name="min_val{{$index}}" ng-model="param.min_val" />
+                                        <input type="text" class="form-control" style="width: 120px;display: inline-block" placeholder="最大阈值" name="max_val{{$index}}" ng-model="param.max_val" />
+                                    </div>
+                                    <div ng-if="param.val_type == 2">
+                                        <input type="text" class="form-control" placeholder="正常项" name="regular_list{{$index}}" ng-model="param.regular_list" />
+                                    </div>
+                                </td>
+                                <td style="padding:1px;">
+                                    <layer-selector host="param" host-key="'worktype_id'" host-text="'nodeText'" node-list="emerWorkTypeTree"></layer-selector>
+                                </td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='item.params.splice(item.params.indexOf(param),1)' class='btn btn-xs' ><span class='fa fa-trash'></span>删除</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+        </uib-tab>
+        <uib-tab  heading="故障类型" >
+            <div class="x_panel">
+                <div class="x_title">故障类型 <span ng-click='addTopNode()' class='btn btn-xs pull-right'><span class='fa fa-plus' ></span>一级故障类型</span>
+                </div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="item.faultTypeTree.length==0">故障类型</div>
+                    <tree-view node-list="item.faultTypeTree" config="{'edit':true}"></tree-view>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="saveType(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+</div>
+
+

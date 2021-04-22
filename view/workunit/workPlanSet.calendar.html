@@ -1,0 +1,74 @@
+<div class="panel panel-default" style="display: grid;">
+    <div class="panel-heading"><span style="vertical-align: super;">工作计划列表</span>
+    <span class="planSquare planSquare_ytg"></span>	<span style="vertical-align: super;">已通过</span>
+    <span class="planSquare planSquare_spz" ></span>	<span style="vertical-align: super;">审批中</span>
+        
+        <span class="planSquare planSquare_wtj" ng-if="!hasNoStatus"></span><span style="vertical-align: super;" ng-if="!hasNoStatus">未提交</span>
+        <span class="planSquare planSquare_yjj" ></span><span style="vertical-align: super;">已拒绝</span>
+        
+    </div>
+    <div class="panel-body" style="overflow: auto;">
+        <table class="table table-bordered" style="margin-top: 10px;">
+            <thead>
+                <th colspan="{{dayList.length +4}}" style="vertical-align:middle;width: 30px;text-align: center;">{{search.EXEC_CYCLE==1?'每周工作':search.EXEC_CYCLE==2?'每月工作':'每年工作'}}</th>
+                <tr>
+                    <th class="text-center">NO</th>
+
+                
+                    <th>事项</th>
+                
+                    <th>频次</th>
+                    <th>派发时间</th>
+                    <th ng-style="{width:item.exec_cycle==2?'12px':'32px'}" style="padding: 8px 2px;" ng-repeat="d in dayList track by $index">{{d}}
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel.data">
+                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}
+                    </td>
+                    <td>{{item.workTaskName}}</td>
+                    <td>{{item.execCycle ? (item.execCycle | keyToValue:frequencyDict) :''}}{{item.execNum?item.execNum+'次':''}}</td>
+                    <td>{{item.sendTime}}</td>
+                    <td ng-repeat="d in dayList track by $index" ng-class="{
+                        'planSquare_ytg':item.execDateList.indexOf($index -0 +1+'')!==-1 && item.status==0,
+                        'planSquare_spz':item.execDateList.indexOf($index -0 +1+'')!==-1 && item.status==1,
+                        'planSquare_wtj':item.execDateList.indexOf($index -0 +1+'')!==-1 && item.status==2,
+                        'planSquare_yjj':item.execDateList.indexOf($index -0 +1+'')!==-1 && item.status==3,
+                    }" ng-style="{width:item.exec_cycle==2?'12px':'32px'}">
+                       
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-footer clearfix" ng-if="pageModel.data && pageModel.data.length">
+            <page-pro page-model="pageModel"></page-pro>
+        </div>
+    </div>
+</div>
+<style>
+    .planSquare {
+	    width: 40px;
+    height: 29px;
+    display: inline-block;
+    margin: 0 20px 0 20px;
+    vertical-align: bottom;
+    }
+    .planSquare_ytg {
+        background: rgba(102, 204, 0, 1);
+    }
+    .planSquare_spz{
+        background: rgba(255, 153, 0, 1)
+    }
+    .planSquare_wtj{
+        background:rgba(204, 204, 204, 1);
+    }
+    .planSquare_yjj{
+        background:rgb(241 15 65);
+    }
+</style>

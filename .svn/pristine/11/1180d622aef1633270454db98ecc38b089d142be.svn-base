@@ -1,0 +1,39 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">详情列表</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>数据来源</th>
+            <th>原始数据</th>
+            <th>原始数据读取时间</th>
+            <th>手动修改数据</th>
+            <th>手动修改时间</th>
+            <th>总计数据</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="!pageModel.data || pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+            <tr ng-repeat="item in pageModel.data">
+                <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                <td>{{item.dataSourceName}}</td>
+                <td>{{item.originalValue}}</td>
+                <td>{{item.originalTime}}</td>
+                <td>{{item.modifyValue}}</td>
+                <td>{{item.modifyTime}}</td>
+                <td>{{item.totalValue}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="page-footer clearfix">
+        <ng-include src="'/common/pager.html'"></ng-include>
+    </div>
+</div>
+<style>
+	.modal-dialog{
+		top:20%;
+	}
+</style>

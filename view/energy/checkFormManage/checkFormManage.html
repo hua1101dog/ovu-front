@@ -1,0 +1,140 @@
+<div ng-controller="checkFormManageCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>抄表管理</h3>
+        </div>
+      
+    </div>
+   
+    <h4>抄表导入数据</h4>
+    <div class="x_panel">
+        <div class="x_title">注意事项</div>
+        <div class="x_content">
+            <p style="margin: 0">请先下载模板文件，根据模板认真填好数据，导入表格</p>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">计量点抄表数据导入</h3>
+              </div>
+              <div class="panel-body">
+                <h5>导入计量点总数据</h5>
+                <div style="text-align: center;padding: 10px 0">
+                  <button type="button" class="btn btn-primary" style="margin: 0 10px" ng-click="outputTemplate(1)" ng-disabled="!search.parkId">导出模板</button>
+                  <button type="button" class="btn btn-primary" style="margin: 0 10px" ng-click="inputFile(1)">导入</button>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">分户抄表数据导入</h3>
+              </div>
+              <div class="panel-body">
+                <h5>导入分户数据</h5>
+                <div style="text-align: center;padding: 10px 0">
+                  <button type="button" class="btn btn-primary" style="margin: 0 10px" ng-click="outputTemplate(2)" ng-disabled="!search.parkId">导出模板</button>
+                  <button type="button" class="btn btn-primary" style="margin: 0 10px" ng-click="inputFile(2)">导入</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <h4>抄表导入记录</h4>
+    <div class="x_panel">
+        <div class="form-inline">
+            
+            <!-- <div class="form-group" ng-if="search.isGroup">
+                    <label>项目</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" readonly="readonly" style="min-width: 250px"  ng-model="search.parkName" />
+                         <span class="input-group-btn">
+                            <button  class="btn btn-default" ng-click="findPark(search,fn)"><i class='fa fa-map-marker'></i></button>
+                         </span>
+                    </div>
+                </div> -->
+            <div class="form-group">
+                <label>选择导入类型</label>
+                <select class="form-control" ng-model="search.importType" ng-options="o[0] as o[1] for o in inputType">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>选择计量分类</label>
+                <select class="form-control" ng-model="search.classifyId" ng-options="o.classifyId as o.name for o in measureCategory">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>附件名称</label>
+                <input type="text" class="form-control" placeholder="请输入附件名称" ng-model="search.attachName" />
+            </div>
+            <div class="form-group">
+                <label>操作人</label>
+                <!-- <input type="text" class="form-control" placeholder="请输入操作人" ng-model="search.personName" /> -->
+                <input class="form-control" type="text" ng-model="search.personName" ng-class="{'waiting':loadingExecPerson}"
+                uib-typeahead="o.name as o.name+' ('+o.deptName+')' for o in searchPerson($viewValue,search.parkId)"
+                typeahead-on-select="selectedPerson($item,search)"
+                typeahead-loading="loadingExecPerson" typeahead-wait-ms='300' typeahead-editable=false />
+            </div>
+            <button class="btn btn-default" ng-click="find()">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            导入记录列表
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:20px">序号</th>
+                        <th class="text-center">所属项目</th>
+                        <th>导入类型</th>
+                        <th>计量分类</th>
+                        <th>抄表方式</th>
+                        <th>导入时间</th>
+                        <th>所选时间</th>
+                        <th>操作人</th>
+                        <th>附件名称</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.parkName}}</td>
+                        <td>{{item.importTypeName}}</td>
+                        <td>{{item.classifyName}}</td>
+                        <td>{{item.readWayName}}</td>
+                        <td>{{item.createTime}}</td>
+                        <td>{{item.selectTime}}</td>
+                        <td>{{item.personName}}</td>
+                        <td>{{item.attachName}}</td>
+                        <td>
+                            <a href='{{item.onlinePath}}' target="_blank" class='btn btn-xs'>查看附件</a>
+                            <a href='{{item.attachPath}}?attname={{item.attachName}}'  class='btn btn-xs'>下载附件</a>
+                            <a href='javascript:void(0)' class='btn btn-xs' ng-click="del(item)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    table th,
+    table td {
+        text-align: center;
+    }
+</style>

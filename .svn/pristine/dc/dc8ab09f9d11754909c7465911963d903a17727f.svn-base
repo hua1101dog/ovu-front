@@ -1,0 +1,112 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}访客</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label">头像：</label>
+                <div class="col-xs-4">
+                    <div class="thumbnail text-center"  >
+                        <img class="img-circle cust-img"  alt=""  onerror="javascript:this.src='/res/img/detail.png';"
+                             ng-click="showPhoto()"
+                             ng-src="{{processImgUrl(item.avatar)}}" />
+                        <div class="caption">
+                            <p>
+                                <button class="btn btn-warning height34" ng-click="clearPhoto(item,'avatar')"><i class="glyphicon glyphicon-remove"></i></button>
+                                <button class="btn btn-default height34" ng-click="setAvatar(item,'avatar')"><i class="glyphicon glyphicon-picture "></i></button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">识别图片：
+                    <a href="javascript:;" uib-tooltip="图片分辨率大于200*200"><i class="fa fa-exclamation-circle fa-lg" style="color: red"></i></a>
+                </label>
+                <div class="col-xs-8">
+                    <div class="photoWraper" ng-repeat="p in item.photos">
+                        <img onerror="javascript:this.src='/res/img/detail.png';"
+                             ng-click="showPhoto()"
+                             ng-src="{{processImgUrl(p.url)}}" />
+                        <a role="button" ng-click="delPhoto(item.photos,p)"><i class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                    <img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="setPhotos(item.photos,3)" title="上传图片">
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="form-group" >
+                <label class="col-xs-2 control-label required">姓名：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" required ng-model="item.name" name="name"/>
+                </div>
+                <label class="col-xs-2 control-label required">访客类型：</label>
+                <div class="col-xs-4">
+                    <select class="form-control" name="subject_type" ng-model="item.subject_type" ng-options="o[0] as o[1] for o in subjectTypes" required>
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-xs-2 control-label required">来访目的：</label>
+                <div class="col-xs-4">
+                    <select class="form-control" name="purpose" ng-model="item.purpose" ng-options="o[0] as o[1] for o in facePurposeDict" required>
+                        <option value="">--请选择--</option>
+                    </select>
+
+                </div>
+                <label class="col-xs-2 control-label">所属单位：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="item.come_from" name="come_from" ng-maxlength="30"/>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-xs-2 control-label required">联系方式：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" required ng-model="item.phone" name="phone" ng-maxlength="20"/>
+                </div>
+                <label class="col-xs-2 control-label required">受访人：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="item.interviewee" name="interviewee" ng-maxlength="20" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">门禁开启：</label>
+                <div  class="col-xs-4">
+                    <input type="datetime" class="form-control Wdate" ng-model="item.startTime"  onchange="" required
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})">
+                </div>
+                <label class="col-xs-2 control-label required">门禁关闭：</label>
+                <div  class="col-xs-4">
+                    <input type="datetime" class="form-control Wdate" ng-model="item.endTime"  onchange="" required
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})">
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <label class="col-xs-2 control-label">签名：</label>
+                <div class="col-xs-10">
+                    <textarea class="form-control" style="resize: vertical" ng-model="item.description" name="description" rows="3"  maxlength="30"/>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-xs-2 control-label">备注：</label>
+                <div class="col-xs-10">
+                    <textarea class="form-control" style="resize: vertical" ng-model="item.remark" name="remark" rows="3"  maxlength="30"/>
+                </div>
+            </div>
+        </div>
+</form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .cust-img{
+        width: 100px;
+        height: 100px;
+    }
+</style>

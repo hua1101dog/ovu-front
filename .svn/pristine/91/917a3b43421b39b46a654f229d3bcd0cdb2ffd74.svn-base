@@ -1,0 +1,180 @@
+
+<div class="x_panel" >
+    <div class="form-inline">
+        <div class="form-group">
+            <label style="padding-left:5px;">工单名称</label>
+            <input type="text"  ng-model="search.NAME" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>工单编号</label>
+            <input type="text"  ng-model="search.ID" class="form-control" />
+        </div>
+        <div class="form-group" ng-if="search.curTab!='DCL'">
+            <label>已关闭</label>
+            <select class="form-control" ng-model="search.isClosed" ng-options="o[0] as o[1] for o in yesNoDict">
+                <!--<option value="">&#45;&#45;请选择&#45;&#45;</option>-->
+            </select>
+        </div>
+
+        <div class="form-group" ng-if="search.curTab!='MYJOB'">
+            <label>工单类型</label>
+            <select class="form-control" ng-change="changeWorktype(search.WORKUNIT_TYPE)" ng-model="search.WORKUNIT_TYPE" ng-options="o[0] as o[1] for o in workunitTypeDict">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <div class="form-group" ng-if="search.curTab!='MYJOB'">
+            <label>工作分类</label>
+            <div class="input-group">
+                <layer-selector host="search" host-key="'WORKTYPE_ID'" host-text="'workTypeName'"
+                                node-list="workTypeTree"></layer-selector>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>是否设备任务</label>
+            <select class="form-control" ng-model="search.is_equip"  ng-options="o[0] as o[1] for o in yesNoDict">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>生成时间</label>
+            <input type="datetime" class="form-control Wdate"  ng-model="search.startTime"  placeholder="开始日期" onchange=""
+                   onclick="$.curPicker = $(event.target);javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;})">
+            <label>-</label>
+            <input type="datetime" class="form-control Wdate"  ng-model="search.endTime"  placeholder="结束日期" onchange=""
+                   onclick="$.curPicker = $(event.target);javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;})">
+        </div>
+        <div class="form-group">
+            <label>计划执行时间</label>
+            <input type="datetime" class="form-control Wdate"  ng-model="search.FROM_DATE"  placeholder="开始日期" onchange=""
+                   onclick="$.curPicker = $(event.target);javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;})">
+            <label>-</label>
+            <input type="datetime" class="form-control Wdate"  ng-model="search.TO_DATE"  placeholder="结束日期" onchange=""
+                   onclick="$.curPicker = $(event.target);javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;})">
+        </div>
+        <div class="form-group">
+            <label>实际执行时间</label>
+            <input type="datetime" class="form-control Wdate"  ng-model="search.FinishTimeStart"  placeholder="开始日期" onchange=""
+                   onclick="$.curPicker = $(event.target);javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;})">
+            <label>-</label>
+            <input type="datetime" class="form-control Wdate"  ng-model="search.FinishTimeEnd"  placeholder="结束日期" onchange=""
+                   onclick="$.curPicker = $(event.target);javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;})">
+        </div>
+
+      <!--  <div class="form-group">
+            <label>工单状态</label>
+            <select class="form-control" ng-model="search.operateType" ng-options="o.value as o.title group by o.type for o in operateTypeDict">
+                <option value="">&#45;&#45;请选择&#45;&#45;</option>
+            </select>
+        </div>-->
+
+        <button class="btn btn-default" ng-click="find(1)" >查询</button>
+    </div>
+</div>
+<div class="panel panel-default" style="display: grid;">
+    <div class="panel-heading">工单列表
+<!--
+      <button class="btn btn-success pull-right" ng-if="search.operateType==11" ng-disabled="!hasChecked(pageModel)" ng-click="distributeAll()" >批量派发</button>
+-->
+      <button class="btn btn-success pull-right" ng-if="search.operateType==21" ng-disabled="!hasChecked(pageModel)" ng-click="acceptAll()" >批量接单</button>
+    </div>
+        <div class="panel-body" style="overflow: scroll;">
+            <table  class="table table-striped table-hover" style="margin-top: 10px">
+                        <thead >
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th class="text-center" ng-if="search.operateType==11||search.operateType==21" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+                                            <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                            <th>工单编号</th>
+                            <th>工单名称</th>
+                            <th>工单类型</th>
+                            <th>工作分类</th>
+                            <th>设备</th>
+                            <th>位置</th>
+                            <th>执行人</th>
+                            <th>生成时间</th>
+                            <th>计划执行时间</th>
+                            <th>实际执行时间</th>
+                            <th>工单状态</th>
+                            <th>督办状态</th>
+                            <th>管理人评分</th>
+                            <th>发起人评分</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="pageModel.list.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                        <tr ng-repeat="item in pageModel.list" >
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td ng-if="search.operateType==11||search.operateType==21"><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+                            <td style="word-break: break-all">{{item.ID}}</td>
+                            <td><a  href='javascript:void(0)' class="btn-link overHidden" ng-click='showWorkUnitDetail(item.ID)' >{{item.WORKUNIT_NAME}}</a></td>
+                            <td>{{item.WORKUNIT_TYPE|keyToValue:workunitTypeDict}}</td>
+                            <td style="min-width: 150px;">{{item.WORKTYPE_NAME}}</td>
+                            <td title=" {{item.equipment_name || item.tasks[0].equipment_name}}"><div class="overHidden" >
+                                {{item.equipment_name || item.tasks[0].equipment_name}}
+                            </div></td>
+                            <td title=" {{item.reportLoc}}"><div class="overHidden">
+                                {{item.reportLoc}}
+                            </div></td>
+                            <td>{{item.EXEC_PERSON_NAME}}</td>
+                            <td>{{item.CREATE_DATE}}</td>
+                            <td>{{item.EXEC_DATE}}</td>
+                            <td>{{item.FINISH_TIME}}</td>
+                            <td>{{item.UNIT_STATUS|keyToValue:unitStatusDict}}</td>
+                            <td>{{item.SUPERVISE_STATUS|keyToValue:superviseStatusDict}}<strong class="text-danger" ng-if="item.SUPERVISE_STATUS == 0 && item.UNIT_STATUS > 5">(过期)</strong></td>
+                            <td>
+                                <!--{{item.MANAGE_PERSON_NAME}}（管理人）评分: -->{{item.EVALUATE_SCORE}}
+                            </td>
+                            <td>{{item.SOURCE_SCORE}}</td>
+                            <td>
+                                <div ng-if="(item.UNIT_STATUS==0 ||item.UNIT_STATUS==4 )&& item.canDistriUserIds && item.canDistriUserIds.indexOf(currUser.id)>-1">
+                                    <a href='javascript:void(0)' ng-if="item.WORKUNIT_TYPE == 2" ng-click='modifyModal(item)' class='btn btn-xs text-danger' ><span class='fa fa-legal' ></span>纠正</a>
+                                    <a href='javascript:void(0)' ng-click='distributeModal(item.ID,item.SOURCE_PERSON,item.deptId,item.PARK_ID,item.WORKUNIT_TYPE)' class='btn btn-xs text-success' ><span class='fa fa-paper-plane' ></span>派发</a>
+                                </div>
+                                <div ng-if="item.UNIT_STATUS==1 && (item.EXEC_PERSON_ID==currUser.personId||(currUser.personId&&item.assis_person_ids.indexOf(currUser.personId)>-1))">
+                                    <a href='javascript:void(0)' ng-click='acceptWork(item)' class='btn btn-xs text-success' ><span class='fa fa-thumbs-o-up' ></span>
+                                        {{item.EXEC_PERSON_ID==currUser.personId?"接收":"抢单"}}</a>
+                                    <a href='javascript:void(0)' ng-if="item.EXEC_PERSON_ID==currUser.personId" ng-click='showRefuseModal(item)' class='btn btn-xs text-danger' ><span class='fa fa-thumbs-o-down'></span>退回</a>
+                                </div>
+                                <div ng-if="item.UNIT_STATUS==5 && item.EXEC_PERSON_ID==currUser.personId">
+                                    <a href='javascript:void(0)' ng-click='showExecModal(item.ID)' class='btn btn-xs text-success' ><span class='fa fa-gavel' ></span>执行</a>
+                                    <a href='javascript:void(0)' ng-click='showRefuseModal(item)' class='btn btn-xs text-danger' ><span class='fa fa-thumbs-o-down'></span>退回</a>
+                                    <a href='javascript:void(0)' ng-if="item.WORKUNIT_TYPE == 2 && !item.delayId" ng-click='showDelayModal(item)' class='btn btn-xs text-warning' ><span class='fa fa-calendar'></span>延期</a>
+                                </div>
+                                <div ng-if="[1,5].indexOf(item.UNIT_STATUS)>-1 && item.SUPERVISE_STATUS==0 ">
+                                    <a href='javascript:void(0)' ng-click='supervise(item)' class='btn btn-xs text-warning' ><span class='fa fa-eye' ></span>督办</a>
+                                </div>
+                                <div ng-if="item.UNIT_STATUS==7 && (item.MANAGE_PERSON_ID == currUser.personId )">
+                                    <a href='javascript:void(0)' ng-click='evaluateModal(item,2)' class='btn btn-xs text-success' ><span class='fa fa-star' ></span>管理人评价</a>
+                                </div>
+                                <div ng-if="item.UNIT_STATUS==7 && (item.SOURCE_PERSON == currUser.id ) && item.WORKUNIT_TYPE == 2 && !item.SOURCE_SCORE && item.MANAGE_PERSON_ID != currUser.personId">
+                                    <a href='javascript:void(0)' ng-click='evaluateModal(item,1)' class='btn btn-xs text-success' ><span class='fa fa-star' ></span>发起人评价</a>
+                                </div>
+                                <div ng-if="item.MANAGE_PERSON_ID==currUser.personId && item.delayStatus==0">
+                                    <a href='javascript:void(0)' ng-click='showVerifyModal(item)' class='btn btn-xs text-success' ><span class='fa fa-edit' ></span>延期审核</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+        </div>
+
+</div>
+<style>
+    .overHidden{
+    width: 100px;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: -o-ellipsis-lastline;
+
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  }
+</style>

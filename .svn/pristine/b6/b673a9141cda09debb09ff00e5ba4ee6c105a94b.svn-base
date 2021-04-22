@@ -1,0 +1,561 @@
+<div ng-controller="tripScenarioCtrl" class="s-m-m">
+    <div class="s-header">
+        <img src="../../image/car0.png" alt="">
+        <span class="h-t-t">出行</span>
+    </div>
+    <div class="s-main">
+        <div class="s-m-side">
+            <div class="s-t-00">-- 统计分析 --</div>
+            <div class="s-t-t-0">
+                <span class="s-t-t-0-t1">126</span>
+                <span class="s-t-t-0-t2">今日剩余车位/个</span>
+            </div>
+            <div class="s-s-h">
+                <div style="height: 200px">
+                    <div class="s-s-h-t">
+                        <span>车位统计</span>
+                        <div></div>
+                    </div>
+                    <div id="parkingInfo" class="s-s-h-t-b"></div>
+                </div>
+                <div style="flex: 1;">
+                    <div class="s-s-h-t">
+                        <span>车辆进出统计</span>
+                        <div></div>
+                    </div>
+                    <div>
+                        <div class="s-s-h-t-info">当日24小时以内</div>
+                        <div class="parking-msg">
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>6辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>62辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                            <div>
+                                <div class="p-m-line"></div>
+                                <div class="dot-00"><div></div></div>
+                                <div style="margin-left: 15px;width: 45px">00:00</div>
+                                <div style="width: 85px;"><span style="color: #34A7FF;">【进】</span>446辆</div>
+                                <div><span style="color: #FFB128;">【出】</span>0辆</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="s-m-an">
+            <div class="m-t-00">-- 关键点位摄像头 --</div>
+            <div class="camera-con">
+                <div style="padding: 14px 7px 7px 7px">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div style="padding: 7px 7px 14px 7px">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="m-t-00" style="background: #FFECE2;color: #FF5A00;margin-top: 12px">-- 车位预警 --</div>
+            <div class="remain-00">
+                <div>
+                    <div>
+                        <div id="mainMap" ui-map="mainMap" style="height:320px " ui-options="mainMapOptions"
+                             ui-map-cache="mainMap">
+                        </div>
+                        <div ng-repeat="marker in mainMarkers track by $index" ui-map-marker="mainMarkers[$index]"
+                             ui-event="{'map-click':'clickMainMap($event,$params,marker)'}">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="parking-msg-item">
+                        <div>
+                            <div></div>
+                            <span>车主 张三的车位被车牌号为鄂 A 04567占领</span>
+                        </div>
+                        <span class="right-t">10s前</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .s-main{
+        width: 100%;
+        height: 880px;
+        display: flex;
+        flex-direction: row;
+
+    }
+    .s-main>div{
+        height: 100%;
+    }
+    .s-m-side{
+        width: 300px;
+        margin-right: 12px;
+        background: #fff;
+    }
+    .s-t-00,.m-t-00,.c-t-00{
+        width: 100%;
+        height: 30px;
+        font-size:9px;
+        font-family:MicrosoftYaHei-Bold;
+        font-weight:bold;
+        color:rgba(0,120,255,1);
+        background:rgba(226,240,255,1);
+        text-align: center;
+        line-height: 30px;
+    }
+    .map-top-menu{
+        position: absolute;
+        top:40px;
+        left: 20px;
+        display: flex;
+        flex-direction: row;
+
+    }
+
+    .map-top-menu>div{
+        padding: 0 10px;
+        height: 32px;
+        box-shadow:0px 1px 2px 0px rgba(0, 0, 0, 0.54);
+        border-radius:16px;
+        background: white;
+        z-index: 55;
+        margin-right: 15px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+    .map-top-menu>div>img{
+        width: 22px;
+        height: 22px;
+    }
+    .map-top-menu>div>span {
+        margin-left: 5px;
+    }
+
+    .s-m-an{
+        flex: 1;
+    }
+    .right-t{
+        font-size:8px;
+        font-family:MicrosoftYaHei;
+        font-weight:400;
+        color:rgba(153,153,153,1);
+        margin-right: 28px;
+    }
+    .moved-msg{
+        width: 100%;
+        padding: 12px 20px;
+
+    }
+    .moved-msg-inner{
+        width:100%;
+        height: 75px;
+        background:rgba(255,236,226,1);
+        overflow: hidden;
+        position: relative;
+    }
+    .msg-item>div{
+        font-size: 14px;
+    }
+    .camera-con{
+        width: 100%;
+        height: 460px;
+        background: #fff;
+    }
+    .camera-con>div{
+        width: 100%;
+        height: 50%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+    }
+    .camera-con>div>div{
+        flex: 1;
+        height: 100%;
+        margin: 0 7px;
+        background: #ccc;
+    }
+    .moved-msg-inner>div{
+        position: absolute;
+        left: 0;
+        height: 25px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background:rgba(255,236,226,1);
+
+        justify-content: space-between;
+        transition: top .3s;
+
+    }
+    .moved-msg-inner>div>div{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .m-i-0{
+        top:-25px;
+        z-index: 9;
+    }
+    .s-s-h-t-info{
+        font-size:6px;
+        font-family:MicrosoftYaHei;
+        color:rgba(187,187,187,1);
+        margin-left: 19px;
+    }
+
+
+    .s-t-t-0{
+        width: 100%;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .s-t-t-0-t1{
+        font-size:18px;
+        font-family:Arial-BoldMT;
+        font-weight:bold;
+        color:rgba(0,120,255,1);
+    }
+    .s-t-t-0-t2{
+        font-size:7px;
+        font-family:MicrosoftYaHei;
+        font-weight:400;
+        color:rgba(102,102,102,1);
+    }
+    .m-i-1{
+        top:0;
+        z-index: 10;
+    }
+    .m-i-2{
+        top:25px;
+        z-index: 10;
+    }
+
+    .m-i-3{
+        top:50px;
+        z-index: 10;
+    }
+
+    .m-i-4{
+        top:75px;
+        z-index: 9;
+    }
+    .c-h-m{
+        width: 100%;
+        height: 170px;
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    .c-h-m>div{
+        flex: 1;
+        height: 100%;
+        margin: 0 2px;
+        background: #ccc;
+    }
+    .map-con{
+        height: 750px;
+        overflow: hidden;
+        position: relative;
+    }
+    .s-header{
+        width: 100%;
+        height: 30px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+    }
+
+    .h-t-t{
+        font-size:12px;
+        font-family:FZZYJW--GB1-0;
+        font-weight:400;
+        color:rgba(51,51,51,1);
+    }
+    .s-header>img{
+        width: 14px;
+        height: 14px;
+        margin-left: 20px;
+        margin-right: 9px;
+    }
+    .s-s-h{
+        width: 100%;
+        height: calc(100%- 100px);
+        display: flex;
+        flex-direction: column;
+
+    }
+    .s-s-h>div{
+        width: 100%;
+        margin: 3px 0;
+    }
+    .s-s-h-t{
+        display:flex;
+        flex-direction: row;
+        font-size:8px;
+        font-family:MicrosoftYaHei-Bold;
+        font-weight:bold;
+        color:rgba(51,51,51,1);
+        align-items: center;
+        justify-content: space-between;
+    }
+    .s-s-h-t>span{
+        margin-left: 20px;
+    }
+    .s-s-h-t>div{
+        width: 130px;
+        height: 1px;
+        background: #ccc;
+        margin-right: 14px;
+    }
+    .s-s-h-t-b{
+        width: 100%;
+        height: 190px;
+        background: #ccc;
+    }
+    .parking-msg{
+        width: 100%;
+        max-height: 500px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+    .parking-msg>div{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 13px;
+        height: 40px;
+        color:rgba(51,51,51,1);
+        margin-left: 35px;
+        position: relative;
+    }
+    .dot-00{
+        width: 14px;
+        height: 14px;
+        background:rgba(0,120,255,.3);
+        border-radius: 50%;
+        z-index: 99;
+    }
+    .dot-00>div{
+        width: 8px;
+        height: 8px;
+        background:rgba(0,120,255,1);
+        border-radius: 50%;
+        margin-left: 3px;
+        margin-top: 3px;
+    }
+    .p-m-line{
+        position: absolute;
+        width: 2px;
+        height: 100%;
+        left: 6px;
+        top: 0;
+        background:rgba(0,120,255,.3);
+    }
+    .parking-msg>div:first-child>.p-m-line{
+        height: 50%;
+        top: 50%;
+    }
+
+    .parking-msg>div:last-child>.p-m-line{
+        height: 50%;
+    }
+    .parking-msg::-webkit-scrollbar{
+        background: #fff;
+        width: 4px;
+    }
+
+    .parking-msg::-webkit-scrollbar-thumb{
+        background: #aaa;
+        width: 4px;
+    }
+    .remain-00{
+        width: 100%;
+        height: 348px;
+        display: flex;
+        flex-direction: row;
+        background: #fff;
+
+    }
+    .remain-00>div{
+        height: 100%;
+        width: 50%;
+        box-sizing: border-box;
+        padding: 14px;
+    }
+    .parking-msg-item{
+        width: 100%;
+        height: 24px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .parking-msg-item>div{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .parking-msg-item>div>div{
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background: rgba(255, 106, 44, 1);
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+</style>
+

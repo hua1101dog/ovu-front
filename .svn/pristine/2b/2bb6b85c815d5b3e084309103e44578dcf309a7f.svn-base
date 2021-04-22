@@ -1,0 +1,317 @@
+<div ng-controller="HumanInsCtrl">
+	 <div ng-show="!isPlay">
+		<div class="page-title">
+			<div class="title_left">
+				<h3>视频巡查</h3>
+			</div>
+			<p class="pull-right" style="padding-top: 5px;" ng-init="selectedModel=1">
+		        <button class="btn btn-icon btn-default"
+		        	ng-class="{'btn-info':(selectedModel == 1) }" ng-click="selectedModel=1">
+		        	<i class="glyphicon glyphicon-fullscreen"></i>
+	        	</button>
+		        <button class="btn btn-icon btn-default"
+		        	ng-class="{'btn-info':(selectedModel == 2) }" ng-click="selectedModel=2;clickListModel()">
+		        	<i class="glyphicon glyphicon-align-justify"></i>
+	        	</button>
+	        </p>
+		</div>
+		 <div class="row" ng-if="search.isGroup">
+			 <div class="col-xs-12">
+				 <label class="control-label">
+					 <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+					 <a role="button" ng-click="findPark(search,initMap2List)">{{search.parkName?search.parkName:'请选择项目'}} </a>
+				 </label>
+			 </div>
+		 </div>
+		 <div class="x_panel"  ng-show="selectedModel == 2">
+			 <div class="form-inline">
+				 <div class="form-group">
+					 <label>巡查路线名称</label>
+					 <input type="text" ng-model="search.insWayName"   class="form-control" />
+				 </div>
+				 <div class="form-group">
+					 <label>巡查点名称</label>
+					 <input type="text" ng-model="search.insPointName"   class="form-control" />
+				 </div>
+				 <div class="form-group">
+					 <label>巡查项</label>
+					 <select class="form-control" ng-model="search.insItemId"  ng-options="o.insItemId as o.name for o in insItems">
+						 <option value="">--请选择--</option>
+					 </select>
+				 </div>
+				 <button class="btn btn-default" ng-click="find(1)" >查询</button>
+			 </div>
+		 </div>
+		<div class="panel panel-default">
+			<div class="panel-body" style="padding:5px;position: relative;" ng-show="selectedModel == 1">
+				<div id="myMap" ui-map="myMap" style="height:600px; "
+					ui-options="mapOptions" ui-map-cache="mainMap"
+					 ui-event="{'map-click':'clickMap($event,$params)'}">
+	  			</div>
+		 	    <div ng-repeat="marker in markers"
+		 	    	ui-map-marker="markers[$index]"
+		 	    	ui-event="{'map-click':'clickMarker($event,$params,marker)'}">
+				</div>
+				<div ng-repeat="polyline in polylines track by $index"
+					 ui-map-polyline="polyline">
+				</div>
+				<img ng-init="showSearch = false" ng-click="showSearch = true"
+					 src="../res/img/quality/search.png" class="left-panel" ng-hide="showSearch">
+				<div class="x_panel left-panel" style="width: 260px;" ng-show="showSearch">
+					<div class="x_title">
+						查询条件
+						<button type="button" class="close" style="line-height: 18px;"
+								ng-click="showSearch = false">×</button>
+					</div>
+					<div class="x_content " style="z-index: 1;overflow-y: auto;max-height: 240px;overflow-x: hidden;">
+						<div class="form-inline">
+							<div class="form-group">
+								<input type="text" placeholder="巡查点名称" style="width: 100px;"
+									   ng-model="insPointName" class="form-control input-sm"/>
+							</div>
+							<button class="btn btn-default btn-sm" ng-click="searchWay2Item()">查询</button>
+						</div>
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div>巡查路线选择:</div>
+								<label class="checkbox-inline" ng-repeat="way in wayList track by $index">
+									<input type="checkbox" ng-change="changeWayOrItemType(2)"
+										   ng-model="way.checked" ng-true-value=true ng-false-value=false>
+									{{way.wayName}}
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-12 col-xs-12 line b"></div>
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div>巡查项类型选择:</div>
+								<label class="checkbox-inline" ng-repeat="itemType in itemTypeList track by $index">
+									<input type="checkbox" ng-change="changeWayOrItemType(1)"
+										   ng-model="itemType.checked" ng-true-value=true ng-false-value=false>
+									{{itemType.name}}
+								</label>
+							</div>
+						</div>
+						<div class="form-inline text-center">
+							<button class="btn btn-default btn-sm" ng-click="reset1()">重置</button>
+							<button class="btn btn-primary btn-sm" ng-click="finish1()">完成</button>
+						</div>
+					</div>
+				</div>
+				<img ng-init="showHistory = false" ng-click="showHistory = true"
+					 src="../res/img/quality/history.png" class="right-panel" ng-hide="showHistory">
+				<div class="x_panel right-panel"  style="width: 260px;z-index: 1000" ng-show="showHistory">
+					<div class="x_title">
+						巡查轨迹历史查询
+						<button type="button" class="close" style="line-height: 18px;"
+								ng-click="showHistory = false">×</button>
+					</div>
+					<div class="x_content " style="z-index: 1;overflow-y: auto;max-height: 240px;overflow-x: hidden;">
+						<div class="form-inline">
+							<div class="form-group">
+								<input type="datetime" class="form-control Wdate" placeholder="请选择日期"
+									   ng-model="date" onchange=""  required
+									   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div>巡查路线选择:</div>
+								<label class="checkbox-inline" ng-repeat="way in wayList2 track by $index">
+									<input type="checkbox" ng-change="changeWayOrItemTypeBottom()" ng-true-value=true ng-false-value=false
+										   ng-model="way.checked">
+									{{way.wayName}}
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-12 col-xs-12 line b"></div>
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div>巡查轨迹选择:</div>
+								<label class="checkbox-inline" ng-repeat="type in orbitTypes track by $index">
+									<input type="checkbox" ng-model="type.checked" ng-change="changeWayOrItemTypeBottom()"
+										   ng-true-value=true ng-false-value=false>{{type.name}}
+								</label>
+							</div>
+						</div>
+						<div class="form-inline text-center">
+							<button class="btn btn-default btn-sm" ng-click="reset2()">重置</button>
+							<button class="btn btn-primary btn-sm" ng-click="finish2()">完成</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body"  ng-show="selectedModel == 2">
+					<table class="table table-striped table-hover" style="margin-top: 10px;">
+						<thead class="title">
+						<tr>
+							<th class="text-center">NO</th>
+							<th class="col-lg-5 col-sm-5 col-xs-6">巡查路线</th>
+							<th class="col-lg-5 col-sm-5 col-xs-6">点位名称</th>
+							<th class="col-lg-5 col-sm-5 col-xs-6">巡查点类型</th>
+							<th>操作</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-if="!pageModel.data  || pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+						<tr ng-repeat="item in pageModel.data">
+							<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+							<td>{{item.wayName}}</td>
+							<td>{{item.name}}</td>
+							<td>{{item.type | keyToValue:pointTypeDict}}</td>
+							<td>
+								<a href='javascript:void(0)' ng-click='inpect(item)' class='btn btn-xs'><span class='fa fa-camera'></span>巡查</a>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					<div class="page-footer clearfix">
+						<ng-include src="'/common/pager.html'"></ng-include>
+					</div>
+			 </div>
+		</div>
+	</div>
+	<div ng-if="isPlay">
+		<div class="page-title">
+			<div class="title_left">
+				<h3>{{insTitle}} 视频监控</h3>
+			</div>
+			<button class="btn btn-default pull-right" style="margin-top: 5px" ng-click="goBack()">返回上级</button>
+		</div>
+		<div class="row">
+			<div class="col-lg-6 col-sm-12">
+				<div class="panel panel-default">
+				  <div class="panel-body" style="padding: 0;position: relative;">
+						  <!-- <play-video id="myVedor" device-id="equipmentId"></play-video> -->
+						  <iframe ng-src="{{'/view/video.html?equipmentId='+equipmentId}}" style="width: 100%;height: 320px"></iframe>
+				  </div>
+				</div>
+			</div>
+			<div class="col-lg-2 col-sm-4" style="padding-right: 0;">
+				<div class="x_panel" style="border-right: 0;">
+					<div class="x_title">巡查项</div>
+					<div class="x_content"
+						style="z-index: 1; min-height: 550px; padding: 0;">
+						<div class="list-group">
+							<a href="#" class="list-group-item b-none ellipsis" ng-repeat="item in insItemList track by $index"
+								ng-class="{active: (selectedListItem == {{ $index }} )}"
+								ng-click="clickOneIns(item,$index)" uib-tooltip="{{item.name}}">
+								<i class="glyphicon glyphicon-ok-circle a-icon" ng-if="item.isOk"></i> {{item.name}}
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-sm-8" style="padding-left: 0;">
+				<div class="x_panel">
+					<div class="x_title">评价</div>
+					<div class="x_content" style="z-index: 1; min-height: 550px;">
+						<form name="form" novalidate class="form-horizontal">
+							<div class="form-group">
+								<label class="col-xs-4 control-label ">巡查类型：</label>
+								<div class="col-xs-8">
+									<label class=" control-label " ng-bind="ins.insItemTypeName"></label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label ">标准描述：</label>
+								<div class="col-xs-8">
+									<label class=" control-label " ng-bind="ins.description"></label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">标准图片：</label>
+								<div class="col-xs-8">
+									<div class="thumbnail" style="height: auto;">
+										<img
+											onerror="javascript:this.src='/res/img/detail.png';"
+                      ng-click="showPhoto()"
+											ng-src="{{processImgUrl(ins.imgPath)}}">
+									</div>
+								</div>
+							</div>
+							<div class="form-group" ng-if="ins.checkType == 1">
+								<label class="col-xs-4 control-label required">是否达标：</label>
+								<div class="col-xs-8">
+                                    <label class="radio-inline">
+                                        <input type="radio" ng-model="$parent.ins.score" value="1">是
+									</label>
+                                    <label class="radio-inline">
+                                        <input type="radio" ng-model="$parent.ins.score" value="0">否
+                                     </label>
+								</div>
+							</div>
+							<div class="form-group" ng-if="ins.checkType == 2">
+								<label class="col-xs-4 control-label required">评分：</label>
+								<div class="col-xs-8 radio-inline">
+									<span uib-rating ng-model="$parent.ins.score" on-hover="hoveringOver(value)"
+										on-leave="$parent.overStar = null"
+										aria-labelledby="default-rating"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label required">
+									截屏图片：
+								</label>
+								<div class="col-xs-8">
+									<div class="photoWraper" ng-repeat="p in ins.imgPaths track by $index">
+										<img onerror="javascript:this.src='/res/img/detail.png';"
+											 ng-click="showPhoto()"
+											 ng-src="{{processImgUrl(p)}}" />
+										<a role="button" ng-click="delPhoto(ins.imgPaths,p)"><i class="glyphicon glyphicon-remove"></i></a>
+									</div>
+                                    <button style="padding: 5px 20px" class="btn btn-primary btn-sm"
+                                            ng-disabled="saveDisabled"
+                                            ng-click="cutoutImg(ins.imgPaths,3)">截屏</button>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label required">巡查意见：</label>
+								<div class="col-xs-8">
+									<textarea type="text" class="form-control" rows="5" required
+										ng-model="ins.feedback" name="feedback" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label"></label>
+							    <div class=" col-xs-8">
+                                    <button type="submit" ng-disabled="saveDisabled"
+                                            class="btn btn-primary" ng-click="save(form)">保存</button>
+							    </div>
+							 </div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="/res/js/AirocovMap/AirocovMap.min.js"></script>
+<style>
+    .amap-touch-toolbar .amap-zoomcontrol {
+	bottom: 10px;
+    }
+    .b-none{
+	border-left: 0;
+    border-right: 0;
+    }
+    .a-icon{
+	float: right; color: #0ce496; width: 1.28571429em; text-align: center;
+    }
+    .checkbox-inline{
+	margin-left: 10px;
+    }
+    .left-panel{
+	position: absolute;
+	left:0;
+	top: 0;
+    }
+    .right-panel{
+	position: absolute;
+	left:0;
+	top: 310px;
+    }
+	table tr td{
+        text-align: center
+    }
+</style>

@@ -1,0 +1,89 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}户型</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="x_content" style="max-height:650px;overflow-y: auto;overflow-x: hidden;">
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">户型名称：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" required ng-model="item.roomModel" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">建筑面积：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control"  required ng-model="item.area" name="area" maxlength="200"/>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <label class="col-md-3 control-label">套内面积：</label>
+                <div class="col-md-7">
+                    <input type="number" class="form-control"  ng-model="item.suArea" name="suArea"  ng-pattern="/^([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9])$/"/>
+                </div>
+            </div> -->
+            <div class="form-group">
+                <label class="col-md-3 control-label required">总价：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" 
+                    maxlength="200" ng-model="item.totalPrice" required/>
+                </div>
+            </div>      
+            <!-- <div class="form-group">
+                <label class="col-md-3 control-label">户型类型：</label>
+                <div class="col-md-7">
+                    <select class="form-control"  ng-model="item.type" ng-options="o.dicSort as o.dicItem for o in doorModelList">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div> -->
+            <div class="form-group">
+                <label class="col-md-3 control-label">户型业态：</label>
+                <div class="col-md-7">
+                    <select class="form-control"  ng-model="item.condition" ng-options="o.type as o.text for o in unitFormList">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <label class="col-md-3 control-label">户型图片:</label>
+                <label class="col-md-7" style="color: red;font-weight: normal;text-align: left;padding-top: 7px;">
+                                                             注：最多只能上传五张图片！
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label"></label>
+                <div class="col-xs-9">
+                    <div class="photoWraper" ng-repeat="p in picArr track by $index">
+                        <img onerror="javascript:this.src='/res/img/detail.png';"
+                             ng-click="showPhoto()"
+                             ng-src="{{processImgUrl(p)}}" />
+                        <a role="button" ng-click="delPhoto(picArr, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                    <img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(picArr,5)" title="上传图片">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">户型解析：</label>
+                <div class="col-md-7">
+                    <textarea ng-model="item.roomAnalysis" name="roomAnalysis" class="form-control" rows="2" ></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">户型排序：</label>
+                <div class="col-md-7">
+                    <input  type="number" class="form-control" ng-pattern="/^[1-9]\d*$/" max="9999999"
+                     ng-model="item.order" >
+                </div>
+            </div>
+        
+
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

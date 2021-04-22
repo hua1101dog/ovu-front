@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">预览</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <div class="bookingDetail">
+        <h4>{{item.title}}</h4>
+        <div class = "content">            
+            <div ng-bind-html="item.content"></div>
+            <img ng-src="{{item.logo}}"  alt="" style="width: 100%;">
+        </div>
+        
+    </div>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-warning" style="float: right;" ng-click="cancel()">关闭</button>
+</div>
+<style>
+    .bookingDetail {
+        /* width: 100%; */
+        height: 630px;
+        /* background-image: url('/res/img/yqyq2.png'); */
+        margin: 0 10px;
+        background-size: 100% 100%;
+        overflow: hidden;
+        /* margin-right: 0px; */
+    }
+    .content{
+        padding: 10px 50px;
+        width: 100%;
+        height: 570px;
+        box-sizing: border-box;
+        /* background-color: rgba(0,0,0,.3); */
+        overflow-y: scroll;
+        line-height: 24px;
+        /* margin-bottom: 350px; */
+        /* overflow: hidden; */
+    }
+    .content img{
+        max-width: 100%;
+    }
+    .content::-webkit-scrollbar {  
+            width:0 !important;   /* remove scrollbar space */
+            background: transparent;  /* optional: just make scrollbar invisible */
+        }
+
+    .bookingDetail h4{
+        text-align: center;
+        margin-bottom: 10px;
+        margin-top: 20px;
+    }
+    /* .bookingDetail p span:first-child{
+            display: inline-block;
+            width: 110px;
+            color: #999;
+            float:left;
+        }
+        .bookingDetail p span:last-child{
+            display: inline-block;
+            color: #070707;
+            width: 320px;
+        } */
+    .bookingDetail b {
+        display: block;
+        widows: 100%;
+        border-bottom: 1px dashed #ccc;
+        margin-bottom: 4px;
+    }
+
+    .bookingDetail .form-group span.s_content {
+        font-size: 14px;
+        padding-left: 0px;
+        padding-top: 7px;
+    }
+
+</style>

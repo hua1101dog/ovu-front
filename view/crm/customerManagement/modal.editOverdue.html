@@ -1,0 +1,66 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title"  ng-show="!item.isView">编辑客户</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <form name="form" novalidate class="ng-pristine ng-invalid ng-invalid-required">
+        <div class="form-group">
+            <label class="col-xs-3 label_search text-right">客户类型</label>
+            <div class="col-xs-9 ">
+                <select
+                class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                ng-model="item.type">
+                <option value="">--请选择--</option>
+                <option value="1">个人</option>
+                <option value="2">企业</option>
+            </select>
+            </div>
+        </div>
+        <div class="form-group" ng-if="item.type==2">
+            <label class="col-xs-3 control-label text-left">企业名称</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" ng-model="item.name" name="subtitle"
+                    style="cursor: default;" />
+            </div>
+        </div>
+        <div class="form-group" ng-if="item.type==2">
+            <label class="col-xs-3 control-label text-left">联系人</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" ng-model="item.contactMan" name="subtitle"
+                    style="cursor: default;" />
+            </div>
+        </div>
+        <div class="form-group" ng-if="item.type==2">
+            <label class="col-xs-3 control-label text-left">联系职务</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" ng-model="item.contactJob" name="subtitle"
+                    style="cursor: default;" />
+            </div>
+        </div>
+        <div class="form-group" ng-if="item.type==1">
+            <label class="col-xs-3 control-label text-left">客户姓名</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" ng-model="item.name" name="subtitle"
+                    style="cursor: default;" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label text-left">联系人电话</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" ng-model="item.phone" name="subtitle"
+                    style="cursor: default;" />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" ng-show="!item.isView">
+    <button class="btn btn-primary" ng-click="saveNews(item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .modal-dialog {
+    width: 1000px;
+}
+</style>
+
+

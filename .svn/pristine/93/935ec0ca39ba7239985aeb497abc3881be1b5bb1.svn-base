@@ -1,0 +1,182 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}计划工单 </h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate ng-disabled="true">
+        <div class="form-group" >
+            <label class="col-xs-2 control-label required">工单名称：</label>
+            <div class="col-xs-4">
+                <textarea type="text" style="height:60px;resize:vertical" ng-readonly="!item.workTaskNewId  && item.id" class="form-control" ng-model="item.workUnitName"   />
+            </div>
+          
+        </div>
+       
+        <div ng-if="!item.id">
+           
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">工作分类：</label>
+                <div  class="col-xs-4">
+                    <layer-selector style="width: 100%" host="item" host-key="'workTypeId'" need="true"  host-text="'workTypeName'" node-list="planWorkTypeTree" callback="selectWorkType"></layer-selector>
+                </div>   
+                <label class="col-xs-2 control-label required">工作事项：</label>
+						<div class="col-xs-4">
+							<select class="form-control"   required ng-model="item.workTaskNewId"  ng-options="o.id as o.workTaskName for o in workItemDict">
+								<option value="">--工作事项--</option>
+							</select>
+						</div>        
+           
+            </div>
+            <div class="form-group" >
+                <label class="col-xs-2 control-label required"
+                >任务派发时间：</label>
+                <div class="col-xs-4 " >
+                    <input class="form-control Wdate required"   readOnly=true onchange=""
+                    required  onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-%d %H-%m-%s',isShowToday:false})" ng-model="item.execDate"></input>
+                </div>
+            </div>
+
+            <div ng-if="item.equip_only">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">设备：</label>
+                    <div class="col-xs-10 mt7">
+                        {{item.equipmentName}}
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!item.equip_only">
+                <div class="form-group" ng-show="!item.hasScan">
+                    <label class="col-xs-2 control-label required">是否设备任务：</label>
+                    <div class="col-xs-4">
+                        <label  role="button" style="line-height:32px;margin-right: 15px"><input type="radio" style="margin:0 5px"  ng-model="item.is_equip" value="1"  name="is_equip" >是</label>
+                        <label  role="button" style="line-height:32px;"><input type="radio" style="margin:0 5px" ng-model="item.is_equip" value="2"  name="is_equip" >否</label>
+                    </div>
+                </div>
+                <div ng-if="item.is_equip!=1">
+                    <div class="form-group" >
+                        <label class="col-xs-2 control-label required">选择空间：</label>
+                        <house-selector class="col-xs-10" need-park="true" form-bean="item" ></house-selector>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">详细位置：</label>
+                        <div class="col-xs-10">
+                            <input type="text" class="form-control" ng-model="item.eventAddr" >
+                        </div>
+                    </div>
+                </div>
+                <div   class="form-group" ng-if="item.is_equip==1">
+                    <label class="col-xs-2 control-label">设备：</label>
+                    <div class="col-xs-4">
+                        <tree-selector node-list="$root.parkTree" host="item" need=true
+                                       host-key="'parkId'" host-text="'parkName'" leaf-only=true
+                                       tip-text="'请选择项目'"></tree-selector>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" readonly="readonly" placeholder="请选择设备"  required ng-model="item.equipmentName" name="equipmentName" />
+                                <span class="input-group-btn">
+                                    <button  class="btn btn-default" ng-click="chooseEquipment(item)" ng-disabled="!item.parkId"><i class='fa fa-search'></i></button>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="item.id ">
+            <div class="form-group">
+                <label class="col-xs-2 control-label">工作事项名称：</label>
+                <div class="col-xs-4 mt7">{{item.workTaskNewName}}</div>
+                <label  class="col-xs-2 control-label">工作事项编码：</label>
+                <div class="col-xs-4 mt7">{{item.workTaskNewNo}}</div>
+            </div>
+            <div class="form-group" >
+                <label class="col-xs-2 control-label ">工作分类：</label>
+                <div  class="col-xs-4 mt7">{{item.workTypeName}}</div>
+                <label class="col-xs-2 control-label required"
+                >任务派发时间：</label
+            >
+            
+            <div class="col-xs-4 " ng-if="item.workTaskNewId">
+                <input class="form-control Wdate required"   readOnly=true onchange=""
+                required  onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-%d %H-%m-%s'})" ng-model="item.execDate"></input>
+            </div>
+            <div class="col-xs-4 mt7" ng-if="!item.workTaskNewId">
+                <!-- 以前的工单 -->
+                {{item.execDate}}
+            </div>
+            </div>
+            
+            <div ng-if="item.equip_only">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">设备：</label>
+                    <div class="col-xs-10 mt7">
+                        {{item.equipmentName}}
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!item.equip_only">
+                
+                <div ng-if="item.is_equip!=1">
+                    <div class="form-group" >
+                        <label class="col-xs-2 control-label ">空间：</label>
+                        <div class="col-xs-10 mt7">
+                            {{item.parkName}} 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">详细位置：</label>
+                        <div class="col-xs-10 mt7"> {{item.eventAddr}}  </div>
+                    </div>
+                </div>
+                <div   class="form-group" ng-if="item.is_equip==1">
+                    <label class="col-xs-2 control-label">设备：</label>
+                    <div class="col-xs-10 mt7">{{item.equipmentName}}</div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-if="item.workTaskNewId || !item.id">
+            <label class="col-xs-2 control-label required">执行人：</label>
+            <div class="col-xs-2">
+                <button ng-click="distriubteModal(item)"  ng-if="!item.execPersonName" class="btn btn-default btn-xs btn-success mt7">执行人</button>
+                <div style="margin-top: 8px;display: inline-block;" ng-click="distriubteModal(item)" class="btn-link">{{item.execPersonName}}</div>
+            </div>
+            <label class="col-xs-2 control-label required">管理人：</label>
+            <div class="col-xs-2">
+                <button ng-click="distriubteModal(item)" ng-if="!item.managerName"  class="btn btn-default btn-xs btn-success mt7">管理人</button>
+                <div style="margin-top: 8px;display: inline-block;" ng-click="distriubteModal(item)" class="btn-link">{{item.managerName}}</div>
+            </div>
+            <label class="col-xs-2 control-label">协助人：</label>
+            <div class="col-xs-2">
+                <button ng-click="distriubteModal(item)" ng-if="!item.assisNames "  class="btn btn-default btn-xs btn-success mt7">协助人</button>
+                <div style="margin-top: 8px;display: inline-block;" ng-click="distriubteModal(item)" class="btn-link">{{item.assisNames}}</div>
+            </div>
+        </div>
+        <div class="form-group" ng-if="!item.workTaskNewId && item.id ">
+            <label class="col-xs-2 control-label required">执行人：</label>
+            <div class="col-xs-2">
+                <div style="margin-top: 8px;display: inline-block;"  >{{item.execPersonName}}</div>
+            </div>
+            <label class="col-xs-2 control-label required">管理人：</label>
+            <div class="col-xs-2">
+                <div style="margin-top: 8px;display: inline-block;" >{{item.managerName}}</div>
+            </div>
+            <label class="col-xs-2 control-label">协助人：</label>
+            <div class="col-xs-2">
+                <div style="margin-top: 8px;display: inline-block;"  >{{item.assisNames}}</div>
+            </div>
+        </div>
+      
+            <div class="form-group" ng-if="!item.id">
+                <label class="col-xs-2 control-label">提示：</label>
+                <div class="col-xs-10 mt7">
+                    点击确认后，工作事项、位置、设备等信息将不可再修改，仅可在派发前修改执行人、管理人与工单描述。
+                </div>
+            </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

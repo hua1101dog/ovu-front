@@ -1,0 +1,298 @@
+<!-- 能耗概况 -->
+<div ng-controller="nergyProfileCtrl">
+
+    <!--title BEGIN-->
+    <div class="page-title x_panel">
+        <div class="content" style="margin:6px 0">
+            <span class="h3">能耗概况</span>
+            <ul ng-init="search.pointType =1" class="picType" style="margin: 0 15px;line-height: 24px">
+                <li ng-repeat="item in classifyList track by $index" style="width: 32px;text-align: center;font-size: 15px"
+                 ng-class="{'actives': search.pointType ==item.type,'bor-l':$index=='0'}"
+                 ng-click="checkTypes(item)" class="bor-r">{{item.name}}</li>
+        </div>
+    </div>
+
+    <!--title END-->
+
+    <!--上半部分 BEGIN-->
+    <div class="row up">
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+
+            <div class="panel panel-default">
+
+                <div ui-map="map" style="height:400px; " ui-options="mapOptions" ui-map-cache="mayap">
+                </div>
+                <div ng-repeat="marker in markers" ui-map-marker="markers[$index]" ui-event="{'map-mouseover':'mouseoverMaker($event,$params,marker)',
+                          'map-mouseout':'myInfoWindow.close()'}">
+                </div>
+                <div ui-map-info-window="myInfoWindow" style="width:300px">
+
+                    <div class="x_content" style="z-index: 1;padding-bottom: 0;">
+                        <div class="pull-left" style="border-right:  1px solid #ddd;width: 75px;">
+                            <div class="x_title" style="margin-bottom: 0;font-weight:700;text-align:center;">{{markerData.parkName}}</div>
+                            <div class="x_title" style="margin-bottom: 0;font-weight:700;border:0;text-align:center;color:#62c3ff;margin-top:10px;font-size:18px">{{markerData.meterValue}}</div>
+
+                            <div class="x_title" style="margin-bottom: 0;border:0;text-align:center;font-weight:700;margin-top:10px">仪表数</div>
+                        </div>
+                        <div class="x_title" style="margin-bottom: 0;border:0;text-align:center">总用能量</div>
+                        <div id="proOrder" class="pull-left h100" style="width: 225px;height:100px;">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+    <!--上半部分 END-->
+
+    <!--下半部分 BEGIN-->
+    <div class="row down">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    用能概况
+                </div>
+                <div class="panel-body">
+                    <div class="clearfix m-b-md">
+                        <div class="col-lg-4 col-sm-4  card-border border-r10 font-c" style="background-color: #FFA200">
+                            <div class="col-lg-3 col-sm-3 leftCont">
+                                <img ng-src="{{'/res/img/energy/'+(search.pointName=='电' ? '1':search.pointName=='水' ? '2':'3')+'.png'}}" style="margin-top: 60px; margin-left: 34%">
+                            </div>
+                            <div class="col-lg-9 col-sm-9" style="padding:0px">
+                                <div class="col-lg-12 col-sm-12;" style="padding:0px">
+                                    <h4 class="col-lg-6 col-sm-6" style="margin: 15px 0;font-weight: 700">今日用{{search.pointName}}</h4>
+                                    <h4 class="col-lg-6 col-sm-6" style="margin: 15px 0;padding:0">
+                                        <span>{{parkEnergyBasicTime.dayPercentValue}}</span>
+                                        <i ng-class="{'fa fa-arrow-up':parkEnergyBasicTime.dayStatus==1,'fa fa-arrow-down':parkEnergyBasicTime.dayStatus==2}"></i>
+                                        </span>
+
+                                    </h4>
+                                </div>
+
+                                <div class="col-lg-12 col-sm-12">
+                                    <h4>{{parkEnergyBasicTime.dayEnergyValue}}
+                                        <i class="text-xs">{{search.unitName}}</i>
+                                    </h4>
+
+                                </div>
+                                <div class="col-lg-12 col-sm-12">
+                                    <h4 style="margin: 15px 0;">昨日同期用{{search.pointName}}:
+                                        <span class="text-xs">{{parkEnergyBasicTime.lastDayEnergyValue}}</span>
+                                    </h4>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4  card-border border-r10 font-c" style="background-color:#4BC153">
+                            <div class="col-lg-3 col-sm-3 leftCont">
+                                <img ng-src="{{'/res/img/energy/'+(search.pointName=='电' ? '1':search.pointName=='水' ? '2':'3')+'.png'}}" style="margin-top: 60px; margin-left: 34%">
+                            </div>
+                            <div class="col-lg-9 col-sm-9" style="padding:0px">
+                                <div class="col-lg-12 col-sm-12;" style="padding:0px">
+                                    <h4 class="col-lg-6 col-sm-6" style="margin: 15px 0;font-weight: 700">当月用{{search.pointName}}</h4>
+                                    <h4 class="col-lg-6 col-sm-6" style="margin: 15px 0;padding:0">
+                                        <span>{{parkEnergyBasicTime.monthPercentValue}}</span>
+                                        <i ng-class="{'fa fa-arrow-up':parkEnergyBasicTime.monthStatus==1,'fa fa-arrow-down':parkEnergyBasicTime.monthStatus==2}"></i>
+                                        </span>
+
+                                    </h4>
+                                </div>
+
+                                <div class="col-lg-12 col-sm-12">
+                                    <h4>{{parkEnergyBasicTime.monthEnergyValue}}
+                                        <i class="text-xs">{{search.unitName}}</i>
+                                    </h4>
+
+                                </div>
+                                <div class="col-lg-12 col-sm-12">
+                                    <h4 style="margin: 15px 0;">上月同期用{{search.pointName}}:
+                                        <span class="text-xs">{{parkEnergyBasicTime.lastMonthEnergyValue}}</span>
+                                    </h4>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4  card-border border-r10 font-c" style="background-color:#4C84F3">
+                            <div class="col-lg-3 col-sm-3 leftCont">
+                                <img ng-src="{{'/res/img/energy/'+(search.pointName=='电' ? '1':search.pointName=='水' ? '2':'3')+'.png'}}" style="margin-top: 60px; margin-left: 34%">
+                            </div>
+                            <div class="col-lg-9 col-sm-9" style="padding:0px">
+                                <div class="col-lg-12 col-sm-12;" style="padding:0px">
+                                    <h4 class="col-lg-6 col-sm-6" style="margin: 15px 0;font-weight: 700">当年用{{search.pointName}}</h4>
+                                    <h4 class="col-lg-6 col-sm-6" style="margin: 15px 0;padding:0">
+                                        <span>{{parkEnergyBasicTime.yearPercentValue}}</span>
+                                        <i ng-class="{'fa fa-arrow-up':parkEnergyBasicTime.yearStatus==1,'fa fa-arrow-down':parkEnergyBasicTime.yearStatus==2}"></i>
+                                        </span>
+
+                                    </h4>
+                                </div>
+
+                                <div class="col-lg-12 col-sm-12">
+                                    <h4>{{parkEnergyBasicTime.yearEnergyValue}}
+                                        <i class="text-xs">{{search.unitName}}</i>
+                                    </h4>
+
+                                </div>
+                                <div class="col-lg-12 col-sm-12">
+                                    <h4 style="margin: 15px 0;">上年同期用{{search.pointName}}:
+                                        <span class="text-xs">{{parkEnergyBasicTime.lastYearEnergyValue}}</span>
+                                    </h4>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading content" style="height:49px">
+                    <span style="line-height:34px">用能均值</span>
+                    <ul ng-init="selected=1" style="margin:0px;line-height: 24px">
+                        <li ng-class='{actives:selected==1}' ng-click="selected=1;selectTime('day')" style="line-height: 25px;padding: 0px 6px">本日</li>
+                        <li ng-class='{actives:selected==2}' ng-click="selected=2;selectTime('month')" style="line-height: 25px;padding: 0px 6px">本月</li>
+                        <li ng-class='{actives:selected==3}' ng-click="selected=3;selectTime('year')" style="line-height: 25px;padding: 0px 6px">本年</li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6 col-sm-12 right-border">
+                        <!--<div stack-bar ui-option="stackBarOption"></div>-->
+                        <div style="height:400px;width:100%;" ui-echarts="unitAreaTop"></div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <!--<div progress-bar ui-option="progressBarOption"></div>-->
+                        <div style="height:400px;width:100%;" ui-echarts="perCapitaTop"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--下半部分 END-->
+    
+
+</div>
+
+<style>
+    /*item-select end*/
+
+    /*地图容器*/
+
+    #map-container {
+        height: 400px;
+        background: blue;
+    }
+
+    .blue {
+        color: #1778D6
+    }
+
+    /*右边加border*/
+
+    .right-border {
+        border-right: 2px solid #E6E9ED;
+    }
+
+    /*echarts 宽高*/
+
+    /*公用的card 样式*/
+
+    .card-border {
+        border: 1px solid #ddd;
+        background: #fff;
+        border-radius: 10px;
+        padding: 0 0px;
+        background-color: white;
+        height: 172px;
+        width: 31%;
+        margin: 10px;
+    }
+
+    .card-border h5 {
+        margin: 5px;
+        text-align: center;
+    }
+
+    /*地图上面的panel 样式*/
+
+    .mapfix {
+        width: 260px;
+        max-height: 360px;
+        position: absolute;
+        overflow-y: auto;
+        top: 10px;
+        left: 20px;
+    }
+
+    .card-border .nav-pills>li>a {
+        border-radius: 0;
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    .card-border .wrapper {
+        margin: 20px;
+    }
+
+    /*map-marker*/
+
+    .map-marker {
+        border: 1px solod red;
+        background-color: skyblue;
+        width: 120px;
+        height: 120px;
+        padding: 20px;
+        border-radius: 50%;
+        text-align: center;
+    }
+
+    .amap-touch-toolbar .amap-zoomcontrol {
+        bottom: 10px;
+    }
+
+
+
+    .m-b-md {
+        margin-bottom: 10px
+    }
+
+    .leftCont {
+        height: 172px;
+        border-radius: 10px 0 0 10px;
+    }
+
+    .actives {
+        background-color: #62c3ff;
+    }
+
+    .content ul,
+    .picType {
+        float: right;
+        margin-top: 8px;
+    }
+
+    .content ul li {
+        display: inline-block;
+        cursor: pointer;
+        border: 1px solid #ccc
+    }
+
+    .font-c {
+        color: #fff
+    }
+    .bor-l{
+        border-left: 1px solid #ccc
+    }
+    .bor-r{
+        border-right: 1px solid #ccc
+    }
+  
+</style>

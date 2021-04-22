@@ -1,0 +1,89 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+    ×
+  </button>
+  <h4 class="modal-title">用户选择器</h4>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <form class="form-horizontal form-label-left ng-pristine ng-valid" id="searchName">
+        <div class="input-group col-md-12" style="margin-top:0px ;positon:relative">
+          <input placeholder="请输入用户名称" class="form-control ng-pristine ng-untouched ng-valid ng-empty" id="NAME"
+            ng-model="search.name" type="text" style="width: 130px">
+            <input placeholder="请输入登录账号" class="form-control ng-pristine ng-untouched ng-valid ng-empty" id="NAME"
+            ng-model="search.account" type="text" style="width: 150px;margin-left: 15px;">
+          <span class="input-group-btn">
+            <a href="javascript:void(0)" class="btn  btn-info btn-sm" ng-click="query();">
+             查询
+            </a>
+          </span>
+        </div>
+      </form>
+      <table class="table table-striped table-condensed" id="selectTable">
+        <thead>
+          <tr>
+            <th style="padding-left: 20px !important;">No.</th>
+            <th class="text-left">用户名称</th>
+            <th>用户登录账号</th>
+            <th>操作</th>
+          </tr>
+          <tr class="loading hide">
+            <th colspan="3">
+              <div class="alert" role="alert">加载中...</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="rows">
+          <tr ng-if="pageModel.data.length == 0 || !pageModel.data">
+            <td colspan="100" class="text-center">暂无记录</td>
+          </tr>
+          <tr ng-repeat="item in pageModel.data" class="ng-scope">
+            <td style="padding-left: 20px">
+              {{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+            <td class="text-left">{{item.name||'--'}}</td>
+            <td>{{item.loginName||'--'}}</td>
+            <td>
+              <a href="javascript:void(0);" class="btn btn-save btn-sm" id="{{item.id}}"
+                ng-disabled="{{item.disabled}}" style="padding:0px 4px;" ng-click="addPersonItem(item, true)">
+                <span class="glyphicon glyphicon-plus" ng-show="{{!item.disabled}}">添加</span>
+                <span class="glyphicon" ng-show="{{item.disabled}}">已添加</span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="page-footer clearfix" ng-if="pageModel.data.length" style="margin-left:8%;margin-top:-20px;">
+        <ng-include src="'/common/pager.html'" class="ng-scope">
+          <style type="text/css" class="ng-scope">
+            .pagination>li>span:hover {
+              background-color: #fff;
+              cursor: text
+            }
+          </style>
+        </ng-include>
+      </div>
+      <div class="form-group" style="margin-top:15px; positon:relative">
+        <div class="control-label col-md-2 col-sm-2 col-xs-12" style="text-align: right;line-height: 40px;">您已选择:</div>
+
+
+        <div class="col-md-10 col-sm-10 col-xs-12">
+          <div class="input-group">
+            <ul id="person" class="list-inline ul-persons">
+              <li class="item" ng-repeat="cus in customer444" personId="{{cus.id}}" personName="{{cus.name}}">
+                {{cus.name}}<a href="javascript:void(0);" ng-click="initRemove(cus);"><i
+                    class='fa fa-remove'></i></a></li>
+            </ul>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary edit" ng-click="checkPerson();">确定</button>
+  <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">取消</button>
+</div>

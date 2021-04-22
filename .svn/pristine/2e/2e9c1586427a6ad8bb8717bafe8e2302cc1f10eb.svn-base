@@ -1,0 +1,15 @@
+.current ul li {
+	list-style:none;
+}
+.current ul li span:nth-of-type(1) {
+	display:inline-block;
+	padding:10px 0;
+	width:70px;
+}
+.current ul li span:nth-of-type(2) {
+	display:inline-block;
+	padding:10px 0;
+	width:130px;
+	vertical-align:top;
+	text-align:left;
+}

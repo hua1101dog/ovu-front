@@ -1,0 +1,99 @@
+<div ng-controller="relativeManageCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>业主亲属管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="col-xs-12" ng-if="search.isGroup">
+                <label class="control-label">
+                    <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+                    <a role="button" ng-click="findPark(search,init)">{{search.parkName?search.parkName:'请选择项目'}} </a>
+                </label>
+            </div>
+            <div class="x_panel">
+                <div class="x_title">楼栋列表</div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="oriList.length==0">无楼栋信息</div>
+                    <div id="house_tree">
+                        <tree-view node-list="treeData" config="config"></tree-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+
+                    <div class="form-group">
+                        <input type="text" ng-model="search.ownerName" class="form-control" placeholder="业主姓名" />
+                        <input type="text" ng-model="search.relationName" class="form-control" placeholder="亲属姓名" />
+                        <input type="text" ng-model="search.relationTel" class="form-control" placeholder="亲属电话" />
+                        <button class="btn btn-default" ng-click="find(1)">查询</button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">业主信息列表
+                    <!-- <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="outputAll()">批量导出</button> -->
+
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th>房屋名称</th>
+                                <th>业主姓名</th>
+                                <th>业主电话</th>
+                                <th>业主身份证号</th>
+                                <th>业主地址</th>
+                                <th>业主所在单位</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data">
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td>{{item.houseName}}</td>
+                                <td>
+                                    <span ng-repeat="v in item.name track by $index" style="display:block">{{v}}</span>
+                                </td>
+                                <td>
+                                    <span ng-repeat="v in item.phone track by $index" style="display:block">{{v}}</span>
+                                </td>
+                                <td>{{item.address}}</td>
+                                <td>
+                                    <span ng-repeat="v in item.idCard track by $index" style="display:block">{{v}}</span>
+                                </td>
+                                <td>
+                                    <span ng-repeat="v in item.ownerUnit track by $index" style="display:block">{{v}}</span>
+                                </td>
+                                <!-- <td>
+                                    <a href='javascript:void(0)' ng-click='showAddModal(item)' class='btn btn-xs'>
+                                        <span class='fa fa-user'></span>亲属操作</a>
+
+                                </td> -->
+                                 <td>
+                                    <a href='javascript:void(0)' ng-click='showAddModal(item)' class='btn btn-xs'>
+                                        <span class='fa fa-search'></span>查看亲属</a>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

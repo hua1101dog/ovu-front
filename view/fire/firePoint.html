@@ -1,0 +1,67 @@
+<div ng-controller="firePointCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>消防点管理</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-12">
+			<div class="col-xs-12" ng-if="search.isGroup">
+				<label class="control-label"><i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i><a role="button" ng-click="findPark(search,init)">{{search.parkName?search.parkName:'请选择项目'}}</a></label>
+			</div>
+			<div class="x_panel">
+				<div class="x_title">楼栋列表</div>
+				<div class="x_content" style="z-index: 1">
+					<div class="alert" role="alert" ng-show="oriList.length==0">无楼栋信息</div>
+					<div id="house_tree">
+						<tree-view node-list="treeData" config="config"></tree-view>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+
+			<div class="x_panel" >
+				<div class="form-inline">
+					<div class="form-group">
+						<input type="text" ng-model="search.name"  placeholder="名称" class="form-control" />
+					</div>
+					<button class="btn btn-success pull-right" ng-click="showEditModal()" ng-disabled="!search.buildId">新增</button>
+					<!-- <button class="btn btn-success pull-right" ng-click="showEditModal()" >新增</button> -->
+					<button class="btn btn-default pull-right" ng-click="find()" >查询</button>
+				</div>
+				<table class="table table-striped table-hover" style="margin-top: 10px;">
+					<thead class="title">
+					<tr>
+						<th class="text-center">NO</th>
+						<th >消防点编号</th>
+						<th >消防点名称</th>
+						<th >设备名称</th>
+						<th >所在位置</th>
+						<th >具体描述</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+					<tr ng-repeat="item in pageModel.data">
+						<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+						<td>{{item.number}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.equipmentName}}</td>
+						<td>{{item.equipmentLocation}}</td>
+						<td>{{item.description}}</td>
+						<td>
+							<a href='javascript:void(0)' ng-click='showEditModal(item.firePointId)' class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+							<a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+					<ng-include src="'/common/pager.html'"></ng-include>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

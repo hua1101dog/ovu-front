@@ -1,0 +1,121 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">生成通知单</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group" >
+            <label class="col-xs-2 control-label">部门：</label>
+            <div class="col-xs-6 mt7">
+               
+                    <span class="mr15" style="display: block;"  >{{deptName}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">姓名：</label>
+            <div class="col-xs-2 mt7">
+                <span class="mr15">{{item.name}}</span>
+            </div>
+            <label class="col-xs-1 control-label">工号：</label>
+            <div class="col-xs-2 mt7">
+                <span class="mr15">{{item.jobCode}}</span>
+            </div>
+            <label class="col-xs-2 control-label">身份证号：</label>
+            <div class="col-xs-3 mt7">
+                <span class="mr15" >{{item.idCard}}</span>
+            </div>
+        </div>
+        <div class="form-group" >
+            <label class="col-xs-2 control-label">岗位：</label>
+            <div class="col-xs-8 mt7">
+                    <span class="mr15" style="display: block;" ng-repeat="post in item.postList" >{{post[1]|keyToValue:postDict:'id':'postName'}}</span>
+            </div>
+        </div>
+        <div class="form-group" >
+            <label class="col-xs-2 control-label">入职日期：</label>
+            <div class="col-xs-6 mt7">
+                <input type="datetime" ng-show="false" class="form-control Wdate" id="cc" ng-model="item.partinDay" onchange="" readonly
+                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate: '#F{$dp.$D(\'xx\') ||  %y-%M-%d}'})"/> 
+                <span class="mr15" >{{item.partinDay}}</span>
+            </div>
+        </div>
+        <div class="form-group" >
+            <label class="col-xs-2 control-label required">报到日期：</label>
+            <div class="col-xs-6 mt7">
+                <input type="datetime" class="form-control Wdate" required id="xx" ng-model="item.arrivalTime" onchange=""  readonly
+                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'cc\')}'})">
+            </div>
+        </div>
+        <div class="form-group" >
+                <label class="col-xs-2 control-label  required">接收人：</label>
+                 
+                <div class="col-xs-6 mt7">
+                        <!-- <select-person host="search.user" need="true" style="width: 100%;" dept-id="item.postList[0][0]"></select-person> -->
+                        <ui-select ng-model="selected.value" multiple >
+                            <ui-select-match>
+                                <span ng-bind="$item.name"> </span>
+                               
+                            </ui-select-match>
+                            <ui-select-choices  repeat="item in (personListBlock | filter: $select.search) track by item.id">
+                                <span ng-bind="item.name"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                </div>
+            </div>
+        <div class="form-group" >
+            <label class="col-xs-2 control-label  mt7">预览：</label>
+            
+        </div>
+        <div style=" border-top: 1px solid #e5e5e5;"></div>
+            
+           
+          <div   style=" padding: 15px;"><p  style="font-size: 16px;font-weight: 700; text-align: center;">工 作 安 排 通 知 单</p>
+            <div id="html2canvas"><p  style="text-align: center; margin: 10px;">丽物人字[{{year}}]{{number}}号</p><p><span  style=" border-bottom: 1px solid black;padding-bottom: 3px; font-weight: 700;padding: 0 5px;">{{deptName}}</span>   部（物业服务中心）：</p><p  style="  text-indent: 2em;line-height: 30px; padding: 15px; ">经研究决定，<span  style=" border-bottom: 1px solid black;padding-bottom: 3px; font-weight: 700;padding: 0 5px;">{{item.name}}（{{item.jobCode || '-'}}）</span> 同志安排在你处<span  style=" border-bottom: 1px solid black;padding-bottom: 3px; font-weight: 700;padding: 0 5px;" ng-repeat="post in item.postList"><span ng-if="$index!==0">,</span>{{post[1]|keyToValue:postDict:'id':'postName'}}</span> 岗位工作，入职时间为： <span style=" border-bottom: 1px solid black;padding-bottom: 3px; font-weight: 700;padding: 0 5px;">{{item.partinDay || '-'}}</span>，报到时间为：<span style=" border-bottom: 1px solid black;padding-bottom: 3px; font-weight: 700;padding: 0 5px;">{{item.arrivalTime}}</span>，考勤从报到之日起计，身份证号码为<span style=" border-bottom: 1px solid black;padding-bottom: 3px; font-weight: 700;padding: 0 5px;">{{item.idCard}}</span>。</p><p  style="color: #333;margin-bottom: 5px; margin-right: 15px;  text-align: right;">人力资源中心</p><p  style="color: #333; margin-right: 15px;  text-align: right;">{{getTimes[0]}}年{{getTimes[1]}}月{{getTimes[2]}}日</p>
+
+            </div>
+          </div>
+       
+        
+       
+        
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+ <style>
+     .pt15{
+         padding: 15px;
+     }
+ .text-center{
+    text-align: center;
+}
+.text-right{
+    text-align: right;
+}
+.pt15>.title{
+    font-size: 16px;
+    font-weight: 700;
+    
+}
+.NO{
+    margin: 10px;
+}
+.mr15{
+    
+    margin-right: 15px;
+}
+.text-decoration{
+    border-bottom: 1px solid black;padding-bottom: 3px;
+    font-weight: 700;
+    padding: 0 5px;
+}
+.pt15 .content{
+    text-indent: 2em;
+    line-height: 30px;
+}
+ 
+ </style>
+
+

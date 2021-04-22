@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Airocov Map</title>
+</head>
+<body>
+</body>
+<div id="canvas" style="width: 500px;height: 500px;margin:auto;"></div>
+<script src="AirocovMap.js"></script>
+<!--<script src="AirocovMap.min.js"></script>-->
+<input type="button" id="test" value="显示单楼层"/>
+<input type="button" id="test1" value="显示多楼层"/>
+<input type="button" id="test2" value="2d"/>
+<input type="button" id="test3" value="3d"/>
+<input type="button" id="test4" value="切换楼栋"/>
+<script>
+    window.onload = function () {
+        //    AirocovMap.config({
+//        showAllFloor: true,
+//        count: 2,
+//        defaultFloor: "F1",
+//    })
+        var map = new AirocovMap.Map({
+            container: document.getElementById("canvas"),
+            mapList: [
+                {
+                    name: "F1",
+                    mapUrl: "./lidao2047.geojson",
+//                    themeUrl: "./fillcolor.json",
+                    other: [
+                        {
+                            type: "Point",
+                            sType: "test",
+                            x: -6.468859890123395,
+                            y:0.9999999999999987,
+                            z: 5.732027702054255,
+                            logo: "../logos.png",
+                            id:"102458290033441"
+                        },
+                        {
+                            type: "Room",
+                            sType: "test1",
+                            name: "楼栋1",
+                            id: 101,
+                            fillcolor: "#00ff00"
+                        },
+                        {
+                            type: "Position",
+                            sType: "position",
+                            dinates: AirocovMap.Utils.GPS.gcj_decrypt_exact("30.519469","114.331224"),
+                            logo: "../logos.png",
+                        }
+                    ]
+
+                },
+                {
+                    name: "F2",
+                    mapUrl: "./1.geojson",
+                }
+                ,
+                {
+                    name: "F3",
+                    mapUrl: "./002.geojson",
+                }
+
+            ],
+//            themeUrl: "./fillcolor.json",
+            position: {
+                x: 300,
+                y: 0,
+                z: 300,
+            },
+        });
+        document.querySelector("#test").onclick = function () {
+            map.showFloor("F2");
+        }
+        document.querySelector("#test1").onclick = function () {
+            map.showAllFloor();
+        }
+        document.querySelector("#test2").onclick = function () {
+            map.mapTo2D();
+        }
+        document.querySelector("#test3").onclick = function () {
+            map.mapTo3D();
+        }
+        map.event.on("click", function (e) {//注册点击事件
+            if (e.type == "clickModel") {//判断点击类型为模块元素
+
+                console.log(e);//返回模块信息
+                map.clickOutModel(e.target.intersectInfo.id);//模块高亮，把对应模块ID传入
+            } else if (e.type == "clickEq") {//判断点击类型为设备元素
+                console.log(e);//返回设备信息
+                // 弹出气泡
+
+                var n=map.addInfoWindow({
+                    content: '<div style="background-color: #ffffff"><div>气泡</div><div>内容</div></div></div>',//传入前端样式
+//                    position: e.position//传入返回的定位
+                    id:e.target.id,
+                });
+
+            } else if (e.type == "clickMap") {//点击到地图上，但没有点中元素
+                console.log(e);//返回地图信息，包含点击坐标
+
+            }
+        });
+        document.querySelector("#test4").onclick = function () {
+            map.resetRender({
+                mapList: [
+                    {
+                        name: "F1",
+                        mapUrl: "./lidao2048.geojson",
+                        themeUrl: "./fillcolor.json",
+                        other: [
+                            {
+                                type: "Point",
+                                sType: "test",
+                                x: -0.5839360508942608,
+                                y: 1.1102230246251565,
+                                z: -4.749845707875181,
+                                logo: "../logos.png",
+                                // info: "12345645678"
+                            },
+                            {
+                                type: "Room",
+                                sType: "test1",
+                                name: "楼栋1",
+                                id: 101,
+                                fillcolor: "#00ff00"
+                            }
+                        ]
+                    },
+                    {
+                        name: "F2",
+                        mapUrl: "./a1-2f.geojson",
+                    }
+                ]
+            });
+        }
+//        map.event.on("click", function(e) {
+//            console.log(e)//点击地图返回对象
+//            map.addMarkerIcon({
+//                icon: "",//图片路径，如果没有显示默认
+//                position: e.position,//点击返回对象里的定位坐标
+//            });
+//        });
+        window.map = map;
+    }
+
+
+</script>
+</html>

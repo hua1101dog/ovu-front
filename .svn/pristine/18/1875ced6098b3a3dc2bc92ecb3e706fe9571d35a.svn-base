@@ -1,0 +1,80 @@
+<div class="" style="height:100%;">
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="">
+            <!--园区摄像头情况-->
+            <div>
+                <div class="col-lg-12 col-sm-12 b-b b-2x ">
+                    <h4 class="font-bold">项目设备房概况</h4>
+                    <div class="col-lg-6 col-sm-6 text-center m-b-md">
+                        <h3>{{::vm.equipmentRoom.houseCount}}</h3>
+                        <div>设备房总数</div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-center m-b-md">
+                        <h3>{{::vm.equipmentRoom.equipCount}}</h3>
+                        <div>设备总数</div>
+                    </div>
+                </div>
+                <div class="lift-panel col-lg-12 col-sm-12">
+                    <h4 class="font-bold">设备房设备列表</h4>
+                    <div class="content">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>设备名称</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in vm.sensorList track by $index">
+                                <td>{{$index+1}}</td>
+                                <td>{{item.name}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">设备工单列表(总数:{{vm.workUnitList.length || 0}}条)</h4>
+                <table class="table">
+                  <thead class="title">
+                  <tr>
+                    <th>工单位置</th>
+                    <th>执行人</th>
+                    <th>工单状态</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  <!--<tr ng-repeat="item in vm.EquipmentRoomList | limitTo : vm.num"-->
+                  <!--ng-class="{myactive : vm.checked==item.id}"-->
+                  <!--ng-click="vm.checkOne(item.id)">-->
+                  <!--<td>{{item.name}}</td>-->
+                  <!--<td>{{item.val}}</td>-->
+                  <!--</tr>-->
+                  <tr ng-repeat="item in vm.workUnitList">
+                    <td>{{vm.location}}</td>
+                    <td>{{item.NAME}}</td>
+                    <td>{{item.UNIT_STATUS|keyToValue:vm.statusList}}</td>
+                  </tr>
+                  <!--<tr ng-if="vm.EquipmentRoomList.length>=4">-->
+                  <!--<td colspan="2">-->
+                  <!--<a  class="more" ng-click="vm.getmore()">{{vm.info}}</a>-->
+                  <!--</td>-->
+                  <!--</tr>-->
+
+                  </tbody>
+
+                </table>
+              </div>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>
+<style>
+    .right-panel .lift-panel .content {
+        height: 300px;
+        overflow: auto;
+    }
+
+</style>

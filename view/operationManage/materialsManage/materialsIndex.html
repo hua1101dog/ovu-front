@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <link rel="stylesheet" href="productDatabase/style/css/custom.css"> -->
+</head>
+
+<body>
+    <div id="angularId">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>物资管理</h3>
+            </div>
+        </div>
+        <div class="row" id="accountIndex">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <ul class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#apply_tab" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">物资申请</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#set_tab" id="tab2" role="tab" data-toggle="tab" aria-expanded="false">物资设置</a>
+                        </li>
+                    </ul>
+
+
+                    <div class="tab-content">
+                        <!-- 物资申请 -->
+                        <div role="tabpanel" class="tab-pane fade active in" id="apply_tab"
+                            ng-controller="materialApplyCtrl">
+                            <div class="form-inline" style="margin: 15px 0;">
+                                <div class="form-group">
+                                    <label class="m-r-xs">企业名称</label> <input type="text" ng-model="search.companyName"
+                                        class="form-control ng-valid ng-empty">
+                                </div>
+                                <div class="form-group">
+                                    <label class="m-r-xs">下单时间</label> 
+                                    <input type="datetime" class="form-control Wdate" id="start" placeholder="输入开始时间"
+                                        style="display: inline-block;width: auto" ng-model="search.startDate" onchange=""
+                                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'end\',{M:-1})}',maxDate:'#F{$dp.$D(\'end\')}' || '%y-%M-%d'})">
+                                        <span>-</span>
+                                        <input type="datetime" class="form-control Wdate"  placeholder="输入结束时间"
+                                        style="display: inline-block;width: auto" ng-model="search.endDate" id="end" onchange=""
+                                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'start\')}',maxDate:'%y-%M-%d' || '#F{$dp.$D(\'start\',{M:1})}'})">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">企业状态</label>
+                                    <select style="min-width:160px;" class="form-control" ng-model="search.status"
+                                        ng-change="find(1)">
+                                        <option value="">请选择</option>
+                                        <option value="0">未联系</option>
+                                        <option value="1">已联系</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-default" ng-click="query()">查询</button>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="color: #999999;">申请列表</div>
+
+
+
+                                <div class="panel-body" style="padding: 0px 15px;">
+                                    <table class="table table-bordered"
+                                        style="margin-top: 10px">
+                                        <thead class="title">
+                                            <tr>
+                                                <th class="text-center">NO</th>
+                                                <th>企业名称</th>
+                                                <th>物资名称</th>
+                                                <th>单价</th>
+                                                <th>数量</th>
+                                                <th>总价</th>
+                                                <th>联系人</th>
+                                                <th>联系电话</th>
+                                                <th>下单时间    </th>
+                                                <th>状态</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody ng-repeat="item in pageModel.data" ng-if="pageModel.data && pageModel.data.length>0">
+
+                                            <tr ng-repeat="good in item.goodsList track by $index">
+                                              <!-- <td class="text-center">{{$index + 1}}</td> -->
+                                              <td class="text-center" rowspan="{{item.goodsList.length}}" ng-if="$index==0">
+                                                {{item.indexNum+ 1+pageModel.pageSize*pageModel.pageIndex}}
+                                            </td>
+                                            <td rowspan="{{item.goodsList.length}}" ng-if="$index==0">{{item.companyName|| '--'}}</td>
+                                            <td>
+                                                {{good.name}}
+                                             </td>
+                                             <td>
+                                                ￥{{good.unitPrice}}
+                                             </td>
+                                             <td>
+                                                {{good.amount+good.spec}}
+                                             </td>
+                                             <td rowspan="{{item.goodsList.length}}" ng-if="$index==0">￥{{item.totalPrice}}</td>
+                                             <td rowspan="{{item.goodsList.length}}" ng-if="$index==0">{{item.linkman|| '--'}}</td>
+                                             <td rowspan="{{item.goodsList.length}}" ng-if="$index==0">{{item.contactWay|| '--'}}</td>
+                                             <td rowspan="{{item.goodsList.length}}" ng-if="$index==0">{{item.createTime|| '--'}}</td>
+                                             <td rowspan="{{item.goodsList.length}}" ng-if="$index==0">{{item.status === 0?'未联系':'已联系'}}</td>
+                                             <td rowspan="{{item.goodsList.length}}" ng-if="$index==0">
+                                                 <a href='javascript:void(0)' 
+                                                     ng-click='linkto(item)' class='btn btn-xs'
+                                                     style="border: 1px solid #5692ea; color: #5692ea;" ng-disabled="item.status==1">{{item.status==0?'我要联系':'已联系'}}</a>
+                                                 </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody ng-if="!pageModel.data  || pageModel.data.length == 0">
+                                            <tr>
+                                              <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr>
+                                         </tbody>
+                                    </table>
+                                    <div class="page-footer clearfix">
+                                        <ng-include src="'/common/pager.html'" class="ng-scope">
+                                            <style type="text/css" class="ng-scope">
+                                                .pagination>li>span:hover {
+                                                    background-color: #fff;
+                                                    cursor: text
+                                                }
+
+                                            </style>
+                                        </ng-include>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- 物资设置 -->
+                        <div role="tabpanel" class="tab-pane fade in" id="set_tab"
+                            ng-controller="materialSetCtrl">
+                            <div class="panel panel-default" style="margin-top: 15px;">
+                                <div class="panel-heading" style="color: #999999;">库存与购买限额设置</div>
+                                <div class="panel-body" style="padding: 0px 15px;">
+                                    <table class="table table-hover"
+                                        style="margin-top: 10px; color: #999999;">
+                                        <thead class="title">
+                                            <tr>
+                                                <th>物资名称</th>
+                                                <th>规格</th>
+                                                <th>单价</th>
+                                                <th>库存管理</th>
+                                                <th>购买限额</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="!pageModel|| pageModel.length == 0">
+                                                <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr>
+                                            <tr ng-repeat="item in pageModel" style="color: #333333;">
+                                                <td>{{item.name||'--'}}</td>
+                                                <td>{{item.spec||'--'}}</td>
+                                                <td>{{item.unitPrice||'--'}}</td>
+                                                <td><input type="number" ng-model="item.amount"
+                                                    class="form-control ng-valid ng-empty" ng-pattern="/^[+]{0,1}(\d+)$/" min="0"></td>
+                                                <td><input type="number" ng-model="item.purchaseQuota"
+                                                    class="form-control ng-valid ng-empty" ng-pattern="/^[+]{0,1}(\d+)$/" min="0"></td>
+                                               
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div style="margin-bottom: 15px;" class="clearfix">
+                                        <button class="btn btn-primary pull-right" ng-click="saveSet()">确认设置</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

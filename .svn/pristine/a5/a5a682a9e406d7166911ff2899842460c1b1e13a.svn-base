@@ -1,0 +1,127 @@
+<div id="modalPark" class="modal fade" style="z-index:2000;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">项目架构选择器</h4>
+      </div>
+      <div class="modal-body">
+        <div id="modalParkTree"></div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+var modalPark = {};
+modalPark.open = function(optional){
+	//将每个项目的顶级id放到每个子节点上面,用于查询
+	function handelSons(node,topId){
+		node.top_id_ = topId;
+		if(node.nodes && node.nodes.length){
+			node.nodes.forEach(function(n){handelSons(n,topId);})
+		}
+	}
+	
+	if(optional.callback){
+		modalPark.callback = optional.callback;
+	}
+	$("#modalPark").modal({});
+	$.post("/ovu-base/system/park/tree.do", {parkType:optional.parkType,isGroup:optional.isGroup}, function(data) {
+		data.forEach(function(n){
+			var topId = n.did;
+			handelSons(n,topId);
+		})
+		
+		modalPark.setData(data);
+		var treeView = $("#modalParkTree").data('treeview');
+		
+		var oriList = treeView.getUnchecked();
+
+		if(optional.realStateOnly){
+			oriList.forEach(function(n){
+				//0 空间  1 实体
+				if(n.parkType =="0"){
+					n.selectable = false;
+				}
+			})
+		}
+		if(optional.leafOnly){
+			oriList.forEach(function(n){
+				if(n.nodes && n.nodes.length){
+					n.selectable = false;
+				}
+			})
+		}
+		if(optional.selectedId){
+			var node = oriList.find(function(n){return n.did == optional.selectedId });
+			if(!node ){
+				return;
+			}
+			$.extend(node.state,{selected:true});
+			var pid = node.pdid;
+			while(pid){
+				var pnode = oriList.find(function(n){return n.did == pid });
+				if(pnode){
+					treeView.expandNode(pnode)
+					pid = pnode.pdid;
+				}else{
+					break;
+				}
+			}
+		}
+		if(optional.forbitList){
+			
+			oriList.forEach(function(n){
+				if(optional.forbitList.indexOf(n.did)>-1 && n.did != optional.selectedId){
+					n.text = n.text+"(已关联)";
+					n.selectable = false;
+				}
+			})
+		}
+
+//		data.forEach(function(n){
+//			_addState(n);
+//		});
+
+	}, 'json');
+}
+function _addState(node){
+	for(var i=0;i<keys.length;i++){
+		if(node.hasOwnProperty(keys[i])){
+			var key = keys[i];
+			var oldNode = oriList.find(function(n){return n[key] == node[key]});
+			oldNode && (node.state = oldNode.state);
+			break;
+		}
+	}
+	if(node.nodes && node.nodes.length>0){
+		node.nodes.forEach(function(n){
+			_addState(n);
+		})
+	}
+}
+modalPark.close = function(optional){
+	$("#modalPark").modal("hide");
+}
+modalPark.callback = function(node){
+	console.log(node);
+}
+modalPark.setData = function(data){
+	$('#modalParkTree').treeview('remove');
+	if(data && data.length>0){
+		data.unshift({parkId:'0',parkNo:'',parkPid:'',text:'无'});
+	}
+	$('#modalParkTree').treeview({
+		data : data
+	});
+	$('#modalParkTree').on('nodeSelected', function(event, node) {
+		modalPark.callback(node);
+	});
+
+}
+
+</script>

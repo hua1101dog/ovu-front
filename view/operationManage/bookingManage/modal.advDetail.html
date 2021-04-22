@@ -1,0 +1,150 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">广告位预定详情</h4>
+    <h3 style="text-align: center;" ng-if="item.morderStatus != 3">{{getStatus(item.morderStatus)}}</h3>
+    <h3 style="text-align: center;" ng-if="item.morderStatus == 3">{{item.refundStatus == 0 ? "已取消" : "交易关闭"}}</h3>
+    <p style="text-align: center; color:red;margin-top: 10px;"
+        ng-if="(item.morderStatus == 3 && item.refundStatus != 0)||item.morderStatus == 5">
+        {{item.refundStatus == 4 ? "退款成功" : "退款处理中"}}</p>
+    <p style="text-align: center; color:red;margin-top: 10px;" ng-if="item.morderStatus == 1">
+        {{item.refundStatus == 3 ? "拒绝退款" : "已支付"}}</p>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <div class="bookingDetail">
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">广告位名称：</label>
+            <span class="col-xs-8 s_content">{{item.advertisement.adName}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">广告位位置：</label>
+            <div class="col-xs-2">
+                <a href="javascript:;" class="fa fa-map-marker setLocation"
+                    ng-click="showPosition(item.advertisement)"></a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">预订时段：</label>
+            <span class="col-xs-8 s_content">{{item.beginDate}} ~ {{item.endDate}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">预订时长：</label>
+            <span class="col-xs-8 s_content">{{item.totalWeek||'--'}}周</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">单价：</label>
+            <span class="col-xs-8 s_content">{{item.advertisement.price}}元/周</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">订单金额：</label>
+            <span class="col-xs-8 s_content">{{item.totalPrice}}元</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">实际时段：</label>
+            <span class="col-xs-8 s_content">{{item.realStartTime}} ~ {{item.realEndTime | date : 'yyyy-MM-dd'}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">实际金额：</label>
+            <span class="col-xs-8 s_content">{{item.realMoney ? item.realMoney + "元" : "--"}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">预定人：</label>
+            <span class="col-xs-8 s_content">{{item.reservation}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">联系人：</label>
+            <span class="col-xs-8 s_content">{{item.contactMan}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">联系方式：</label>
+            <span class="col-xs-8 s_content">{{item.contactPhone}}</span>
+        </div>
+
+        <b></b>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">创建时间：</label>
+            <span class="col-xs-8 s_content">{{item.createTime}}</span>
+        </div>
+
+        <div class="form-group" ng-if="item.morderStatus == 4 ||(item.morderStatus == 3 && item.refundStatus != 0)">
+            <label class="col-xs-4 control-label ">申请退款时间：</label>
+            <span class="col-xs-8 s_content">{{item.refundApplyTime}}</span>
+        </div>
+
+        <div class="form-group" ng-if="item.morderStatus == 4">
+            <label class="col-xs-4 control-label ">申请退款原因：</label>
+            <span class="col-xs-8 s_content">{{item.refundApplyReason}}</span>
+        </div>
+
+
+        <div class="form-group" ng-if="item.morderStatus == 2||item.morderStatus == 1">
+            <label class="col-xs-4 control-label ">付款时间：</label>
+            <span class="col-xs-8 s_content">{{item.payTime}}</span>
+        </div>
+
+        <div class="form-group" ng-if="item.morderStatus == 3 && item.refundStatus == 0">
+            <label class="col-xs-4 control-label ">取消时间：</label>
+            <span class="col-xs-8 s_content">{{item.cancelTime}}</span>
+        </div>
+
+        <div class="form-group" ng-if="item.refundStatus == 4">
+            <label class="col-xs-4 control-label ">退款时间：</label>
+            <span class="col-xs-8 s_content">{{item.refundTime}}</span>
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">订单编号：</label>
+            <span class="col-xs-8 s_content">{{item.orderCode}}</span>
+        </div>
+
+
+
+        <b></b>
+
+        <div class="form-group" ng-if="item.morderStatus == 4 && item.advertisement.userType == 0">
+            <label class="col-xs-4 control-label" style="padding-top: 12px;">拒绝退款原因：</label>
+            <span class="col-xs-8 s_content"><input style="width: 300px;" type="text"
+                    class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.refundApproveSuggest"
+                    placeholder="请输入原因（同意退款可忽略"></span>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <span ng-if="item.morderStatus == 4 && item.advertisement.userType == 0">
+        <button class="btn btn-primary" ng-click="save(item,2)">确认退款</button>
+        <button class="btn btn-danger" ng-click="save(item,3)">拒绝退款</button>
+    </span>
+    <button class="btn btn-warning" style="float: right;" ng-click="cancel()">关闭</button>
+</div>
+<style>
+    .bookingDetail {
+        margin: 0 30px;
+        margin-right: 0px
+    }
+
+    .bookingDetail b {
+        display: block;
+        widows: 100%;
+        border-bottom: 1px dashed #ccc;
+        margin-bottom: 4px;
+    }
+
+    .bookingDetail .form-group span.s_content {
+        font-size: 14px;
+        padding-left: 0px;
+        padding-top: 7px;
+    }
+
+</style>

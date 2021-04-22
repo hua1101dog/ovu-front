@@ -1,0 +1,106 @@
+<div ng-controller="energyCategoryCtrl">
+    <!-- <h3>能源分类分项统计</h3> -->
+    <!-- <div class="page-title">
+            <h3 style="display: inline-block;margin-left:10px">能源分类分项统计</h3>
+    </div> -->
+    <div class="page-title">
+        <div class="title_left">
+            <h3>能源分类分项统计</h3>
+        </div>
+    </div>
+   
+    <div class="col-md-3 col-sm-4 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">计量分类信息
+            </div>
+            <div class="x_content" style="z-index: 1">
+                <!-- <div ng-click="clickMainMenu()">一级菜单</div>
+                 <div ng-click="clickSubMenu()">二级菜单</div>-->
+                 <div class="alert" role="alert" ng-show="oriList.length==0">无分类信息</div>
+                 <div id="house_tree">
+                     <!-- <tree-view node-list="treeData"  config="config"></tree-view> -->
+                     <tree-view-pro node-list="treeData"  callback="selectNode" config="{'edit':false}"></tree-view-pro>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9 col-sm-8 col-xs-12 content" style="padding:0">
+        <div class="x_panel">
+            <span>选择起始时间</span>
+            <input type="datetime" class="form-control Wdate engergyCateStartTime" style="display: inline-block;width: auto" ng-model="search.startTime" onchange=""
+            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.engergyCateEtartTime').last().val()||'%y-%M-%d'}&quot;})">
+            <span>选择截止时间</span>
+            <input type="datetime" class="form-control Wdate engergyCateEtartTime" style="display: inline-block;width: auto" ng-model="search.endTime" onchange=""
+            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.engergyCateStartTime').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+            <button class="btn btn-default pull-right" style="margin-bottom: 4px" ng-click="find()">查询</button>
+        </div>
+        <div class="x_panel">
+            <div style="margin-bottom: 20px;display:inline" class="content">
+                <ul>
+                    <li  ng-class='{active_s:selected==1}' ng-click="selected=1;selectTime('day')" style="line-height: 25px;padding: 0px 6px">本日</li>
+                    <li ng-class='{active_s:selected==2}' ng-click="selected=2;selectTime('week')" style="line-height: 25px;padding: 0px 6px">本周</li>
+                    <li ng-class='{active_s:selected==3}' ng-click="selected=3;selectTime('month')" style="line-height: 25px;padding: 0px 6px">本月</li>
+                    <li ng-class='{active_s:selected==4}' ng-click="selected=4;selectTime('year')" style="line-height: 25px;padding: 0px 6px">本年</li>
+                </ul>
+            </div>  
+            <!-- <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-6" ui-echarts="energyConsumeAll" style="height: 300px;"></div>
+                <div class="col-md-6 col-sm-6 col-xs-6" ui-echarts="energyConsumeFenXiangCount" style="height: 300px;"></div>
+            </div> -->
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <div>
+                    <div id="energyConsumeAll" style="height: 300px;"></div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                 <div>
+                    <div id="energyConsumeFenXiangCount" style="height: 300px;"></div>
+                 </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required" style="margin-top: 6px">请选择年份：</label>
+                <div class="col-xs-8">
+                    <select class="form-control" style="width: auto" ng-change="toggleYear(search.year)" ng-model="search.year" ng-options="o[0] as o[1] for o in currentYear">
+                </select>
+                </div>
+                <ul class="picType" ng-init="isSelected=1">
+                    <li ng-click="toggleLine(true);isSelected=1" ng-class="{active_s:isSelected==1}"  style="line-height: 25px;padding: 0px 6px">折线</li>
+                    <li ng-click="toggleLine(false);isSelected=2" ng-class="{active_s:isSelected==2}"  style="line-height: 25px;padding: 0px 6px">柱状</li>
+                    
+                </ul>
+            </div>
+            <!-- <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-12 col-sm-12 col-xs-12" ng-if="isLine" ui-echarts="energyLineTrendData" style="height: 400px;"></div>
+                <div class="col-md-12 col-sm-12 col-xs-12" ng-if="isColumn" ui-echarts="energyColumnTrendData" style="height: 400px;"></div>
+            </div> -->
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                 <div>
+                    <div  ng-show="isLine" id="energyLineTrendData" style="height: 400px;"></div>
+                    <div  ng-show="isColumn" id="energyColumnTrendData" style="height: 400px;"></div>
+                 </div>
+                </div>
+              
+              </div>
+        </div>
+    </div>
+</div>
+<style>
+    .active_s {
+        background-color: #62c3ff;
+    }
+
+    .content ul,
+    .picType {
+        float: right;
+        margin-top: 8px;
+    }
+
+    .content ul li {
+        display: inline-block;
+        cursor: pointer;
+        border: 1px solid #ccc
+    }
+</style>

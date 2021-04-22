@@ -1,0 +1,171 @@
+<!--新增修改弹出框  -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()">×</button>
+    <h4 class="modal-title">{{!item.id?'新增':'修改'}}培训文件</h4>
+</div>
+<div class="modal-body container-fluid">
+    <div class="row">
+        <form name="form1" novalidate class="form-horizontal">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                <div class="form-inline" style="border-bottom: 1px solid #525252">
+                    <h4>
+                        <label class="required">培训主题：</label>
+                        <input type="text" ng-model="item.title" placeholder="请输入培训主题" required class="form-control" maxlength="32" oninput="if(value.length>32)value=value.slice(0,32)"
+                            style="width:60%" />
+                    </h4>
+                </div>
+                <div class="x_panel">
+                    <div class="panel-body" style="height:533px">
+                        <div class="form-group" style="clear:both">
+                            <h4 class="col-xs-4" style="clear:both;padding:0px">
+                                <label class="required">培训内容：</label>
+                            </h4>
+                            <div class="col-xs-8 required">
+                                <textarea type="text" style="height:200px;resize:none" required class="form-control" ng-model="item.content" />
+                            </div>
+                        </div>
+                        <div class="form-group" style="clear:both;">
+                            <h4 class="col-xs-4" style="clear:both;padding:0px;line-height: 62px">
+                                <label class="required">培训附件：</label>
+                            </h4>
+                            <div class="col-xs-8">
+                                <div class="input-group" style="padding-top:24px">
+                                    <!-- <input type="text" class="form-control" required ng-model="vm.item.name"> -->
+                                    <span class="input-group-btn;">
+                                        <button class="btn btn-default" type="button" ng-click="addLimitFiles(item,'path','name',accepts,fileList)">选择上传文件</button>
+                                    </span>
+                                </div>
+                                <div class="mt7 fileName">
+                                    只能上传PDF/WORD/EXCEL/PPT文档文件，且最多上传2个文件。
+                                </div>
+                                <div class="mt7" ng-repeat="item in fileList track by $index">
+                                    <span class="fileName">{{item.name}}
+                                        <a ng-click="delFile(fileList,item)" class="f-r">
+                                            <i class='fa fa-remove'></i>
+                                        </a>
+                                    </span>
+                                    <uib-progressbar value="val" type="success">100%</uib-progressbar>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="form-inline" style="border-bottom: 1px solid #525252">
+                <h4>
+                    <b>部门选择</b>
+                </h4>
+            </div>
+            <div class="x_panel">
+                <div class="panel-heading" style="border-bottom: 1px solid #525252">部门列表</div>
+                <div class="panel-body">
+                    <div class="panel-body" style="overflow: auto;height:478px">
+                        <div class="alert" role="alert" ng-if="treeData && treeData.length==0">无部门信息</div>
+                        <!-- <div id="dept_tree"></div> -->
+                        <!-- <tree-view node-list="treeData" config="config"></tree-view> -->
+                        <tree-filter node-list="treeData"></tree-filter>
+                        <tree-view node-list="treeData" check-callback="check"
+                        config="{'edit':false,'showCheckbox':true}"></tree-view>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel panel-default" style="height:  218px;overflow:auto;">
+                <div class="panel-body">
+                    <form name="form" novalidate class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12 required">培训部门：</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <div class="input-group" ng-if="depts.length!==0">
+                                    <ul class="ul-persons">
+                                        <li class="item" ng-repeat="d in depts  track by $index"> {{d.text}}
+                                            <a ng-click="delP(depts,d)">
+                                                <i class='fa fa-remove'></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+
+
+                                </div>
+                            </div>
+
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="vm.save(form1)">确定</button>
+    <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+</div>
+<style>
+    span a {
+        cursor: pointer;
+    }
+
+    .pagination>li>a,
+    .pagination>li>span {
+        position: relative;
+        float: left;
+        padding: 5px 4px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #337ab7;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+
+    .pagination>li>span:hover {
+        background-color: #fff;
+        cursor: text;
+    }
+
+    .fileName {
+        font-family: '微软雅黑';
+        font-weight: 400;
+        font-style: normal;
+        color: #999999;
+        text-align: left;
+    }
+
+    .f-r {
+        float: right;
+    }
+
+    .progress-bar-success {
+        background-color: #1ABC9C;
+    }
+
+    .ul-persons {
+        list-style: none;
+        float: left;
+        padding: 0px;
+    }
+
+    .ul-persons li {
+        margin: 5px;
+        padding: 5px;
+        float: left;
+    }
+
+    .ul-persons li.item {
+        background-color: #F9F9F9;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+</style>

@@ -1,0 +1,106 @@
+<div  ng-controller="workunitKpiSettingCtl">
+	<div class="page-title">
+		<div class="title_left">
+			<h3>工单统计关键指标设置</h3>
+		</div>
+	</div>
+    <form name="form" novalidate>
+    <div class="panel panel-default">
+        <div class="panel-heading">有效使用人达标标准设置
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <label style="font-size: large" class="col-xs-12 control-label">集团公司：</label>
+            </div>
+            <div class="row" style="margin-left: 0px">
+                <label class="col-md-5 col-sm-5 col-xs-12 control-label pt7 min-lab required">物业部门：</label>
+                <div  class="col-md-7 col-sm-7 col-xs-12 form-inline">
+                    <input type="number" class="form-control" ng-model="item.num" name="num" min="1" ng-pattern="/^[0-9]+$/" required/>&nbsp;条
+                </div>
+            </div>
+            <div class="row" style="margin-left: 0px">
+                <label class="col-md-5 col-sm-5 col-xs-12 control-label pt7 min-lab required">非物业部门：</label>
+                <div  class="col-md-7 col-sm-7 col-xs-12 form-inline">
+                    <input type="number" class="form-control" ng-model="item.extNum" name="extNum" min="1" ng-pattern="/^[0-9]+$/" required/>&nbsp;条
+                </div>
+            </div>
+            <div class="row">
+                <label style="font-size: large" class="col-xs-12 control-label">外包公司：</label>
+            </div>
+            <div class="row" ng-repeat="out in item.outList" style="margin-left: 0px">
+                <label class="col-md-5 col-sm-5 col-xs-12 control-label pt7 min-lab required">{{out.domainName}}：</label>
+                <div  class="col-md-7 col-sm-7 col-xs-12 form-inline">
+                    <input type="number" class="form-control" ng-model="out.num" name="outnum_{{$index}}" min="1" ng-pattern="/^[0-9]+$/" required/>&nbsp;条
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">统计周期设置
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <label class="mr15" style="cursor: hand" ng-click="checkType(item)"><input type="radio" name="cycleType" ng-model="item.cycleType" value="1" required/>自然月</label><br/>
+                    <div class="form-inline">
+                        <label style="cursor: hand"><input type="radio" name="cycleType" ng-model="item.cycleType" value="2" required/></label>
+                        上月&nbsp<input type="number" width="100px" class="form-control" ng-model="item.startDay" name="startDay"
+                               min="1" max="28" ng-pattern="/^[0-9]+$/" placeholder="几号" ng-readonly="item.cycleType==1" ng-required="item.cycleType==2"/>&nbsp至&nbsp;
+                        本月&nbsp<input type="number" width="100px" class="form-control" ng-model="item.endDay" name="endDay"
+                               min="1" max="28" ng-pattern="/^[0-9]+$/" placeholder="几号" ng-readonly="item.cycleType==1" ng-required="item.cycleType==2"/>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">异常工单时限设置
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                    <label class="col-md-5 col-sm-5 col-xs-12 control-label pt7 required">1.报事-派发：></label>
+                    <div  class="col-md-7 col-sm-7 col-xs-12 form-inline">
+                        <input type="number" class="form-control" ng-model="item.toDistriTimes" name="toDistriTimes" min="1" ng-pattern="/^[0-9]+$/" required/>&nbsp;min
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-5 col-sm-5 col-xs-12 control-label pt7 required">2.派发-接单：></label>
+                    <div  class="col-md-7 col-sm-7 col-xs-12 form-inline">
+                        <input type="number" class="form-control" ng-model="item.toAcceptTimes" name="toAcceptTimes" min="1" ng-pattern="/^[0-9]+$/" required/>&nbsp;h
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-5 col-sm-5 col-xs-12 control-label pt7 required">3.接单-已执行：></label>
+                    <div  class="col-md-7 col-sm-7 col-xs-12 form-inline">
+                        <input type="number" class="form-control" ng-model="item.toFinishTimes" name="toFinishTimes" min="1" ng-pattern="/^[0-9]+$/" required/>&nbsp;h
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-5 col-sm-5 col-xs-12 control-label pt7 required">4.延时截止时间-已执行：></label>
+                    <div  class="col-md-7 col-sm-7 col-xs-12 form-inline">
+                        <input type="number" class="form-control" ng-model="item.toDelayTimes" name="toDelayTimes" min="1" ng-pattern="/^[0-9]+$/" required/>&nbsp;h
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-8 col-sm-8 col-xs-12"></div> -->
+
+        </div>
+    </div>
+    </form>
+    <div class="form-group text-center">
+        <button class="btn btn-primary" ng-click="save(form,item)">保存</button>
+    </div>
+</div>
+<style>
+    .pt7{
+        padding-top: 7px;
+    }
+    .row{
+        margin-top: 5px;
+    }
+    .min-lab{
+        min-width: 135px;
+    }
+</style>

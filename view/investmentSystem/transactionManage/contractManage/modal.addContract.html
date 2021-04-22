@@ -1,0 +1,168 @@
+<div class="modal-header" ng-show="showModal">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">新增合同</h4>
+</div>
+<div class="modal-body" ng-show="showModal">
+    <div class="firstContent" ng-if="curTabIndex==1">
+        <div class="col-sm-4">
+            <select class="form-control" ng-model="selHouse.parkId" ng-options="o.id as o.parkName for o in parkList" ng-change="serachBuild(selHouse.parkId)">
+            </select>
+            <div class="well" style="padding-right: 15px; max-height: 600px;">
+                <tree-view node-list="stageTree" config="config"></tree-view>
+            </div>
+        </div>
+        <div class="col-sm-1 text-center">
+            <label class="labelSty">单元</label>
+            <div class="well">
+                <ul>
+                    <li ng-class={selColor:unit.checked} ng-click="findListByBuild('楼层',unit)"
+                        ng-repeat="unit in unitList">{{unit.name}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-1 text-center">
+            <label class="labelSty">楼层</label>
+            <div class="well">
+                <ul>
+                    <li ng-class={selColor:floor.checked} ng-click="findListByBuild('房间',floor)" ng-repeat="floor in floorList">{{floor.name}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-6">
+
+            <label class="labWidth  labelSty" style="width:58%">房号</label>
+            <label class="labWidth  labelSty" style="width:40%">状态</label>
+            <div class="well">
+                <ul ng-repeat="house in houseList">
+                    <li class="col-sm-7 text-left">{{house.name}}</li>
+                    <li class="col-sm-5 text-left"> {{house.status|toSaleStatus}}
+                        <i role="button" ng-click="checkOne(houseList,house)"
+                            ng-class="{'glyphicon-check':house.checked,'glyphicon-unchecked':!house.checked}"
+                            class="glyphicon"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div ng-if="curTabIndex==2">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-xs-1 control-label ">联系电话:</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" ng-model="search.phone" name="phone">
+                </div>
+                <label class="col-xs-1 control-label ">客户姓名:</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" ng-model="search.name" name="name">
+                </div>
+                <button class="btn btn-default" ng-click="find(1)">查询</button>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-xs-1" style="text-align: right">提示:</label>
+                <div class="col-xs-9">
+                    为了提高查找效率，查询时，请尽量使用联系电话和客户姓名一起查找；<br>
+                    查询时，联系电话是精确查找，客户姓名是模糊查找，两者是并且的关系；<br>
+                    在查询后，如果没有对应的机会，请点击新增客户，如果有对应的机会，则选择机会点击下一步
+                </div>
+            </div>
+        </div>
+        <div class="table-title">机会列表</div>
+        <table class="table table-striped table-hover">
+            <thead class="title">
+                <tr>
+                    <th style="width:30px;text-align:center">序号</th>
+                    <th style="text-align:center">客户名称</th>
+                    <th style="text-align:center">联系电话</th>
+                    <th style="text-align:center">客户类型</th>
+                    <!-- <th style="text-align:center">首次创建时间</th> -->
+                    <th>置业顾问</th>
+                    <!-- <th style="text-align:center">客户状态</th> -->
+                    <th>账号</th>
+                    <th style="text-align:center">操作</th>
+                    <!-- <th style="text-align:center">机会状态</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel.data" ng-class="{'checkCustom':item.checked}" ng-click="checkOne(pageModel.data,item)">
+                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td class="text-center">{{item.name}}</td>
+                    <td class="text-center">{{item.phone}}</td>
+                    <td class="text-center">{{item.type==1?'个人':'企业'}}</td>
+                    <td class="text-center">{{item.operator||'--'}}</td>
+                    <!-- <td class="text-center">{{item.assignationStatus==1?'公共客户':item.assignationStatus==2?'跟进中客户':
+                        item.assignationStatus==3?'无效客户':item.assignationStatus==4?'垃圾箱客户':item.assignationStatus==5?'丢弃客户':
+                        item.assignationStatus==6?'成交客户':'--'}}</td> -->
+                    <td class="text-center">{{item.loginName||'--'}}</td>
+                    <td class="text-center">
+                        <a href='javascript:void(0)' ng-click='showCustomer(item)'
+                            class='btn btn-xs btn-color1'>查看 </a>
+                        <!-- <a href='javascript:void(0)' ng-click='delete(item)' class='btn btn-xs btn-color2'>删除
+                        </a> -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-footer clearfix">
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" style="clear: both" ng-show="showModal">
+    <button class="btn btn-primary" ng-if="curTabIndex==2" ng-click="addCustomer()">新增客户</button>
+    <button class="btn btn-primary" ng-click="nextStep()">下一步</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .modal-header {
+        background-color: #337ab7;
+        padding: 10px 15px;
+        color: #ffffff
+    }
+
+    .firstContent .well {
+        clear: both;
+        min-height: 250px;
+        margin-top: 15px;
+        padding-left: 0px;
+        padding-right: 0px;
+        overflow: auto;
+    }
+
+    .labelSty {
+        font-size: 14px;
+        margin-top: 15px;
+        margin-bottom: 0px;
+    }
+
+    label.labWidth {
+        text-align: left;
+        padding-left: 20px
+    }
+
+    div.table-title {
+        padding: 5px 15px;
+        font-size: 15px;
+        color: #fff;
+        background-color: #337ab7;
+        font-weight: 700;
+        margin-top: 20px
+    }
+
+    label.col-xs-1 {
+        padding-right: 0px;
+        padding-left: 0px
+    }
+    
+    .table>tbody>tr.checkCustom {
+        background-color: #DFF0D8
+    }
+
+    .selColor {
+        background-color: #DFF0D8;
+    }
+</style>

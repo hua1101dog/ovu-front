@@ -1,0 +1,74 @@
+{
+	"VERSION": "1.0",
+	"bgColor": {
+		"name": "背景",
+		"fillcolor": "#F1F2F7"
+	},
+	"modelStyle": [
+		{
+			"sType": "1",
+			"logo": "./0/louti.png"
+		}, {
+			"sType": "2",
+			"logo": "./0/futi.png"
+		}, {
+			"sType": "3",
+			"logo": "./0/huoti.png"
+		}, {
+			"sType": "4",
+			"logo": "./0/keti.png"
+		}, {
+			"sType": "5",
+			"logo": "./0/nanwei.png"
+		}, {
+			"sType": "6",
+			"logo": "./0/nvwei.png"
+		}, {
+			"sType": "7",
+			"logo": "./0/weishengjian.png"
+		}, {
+			"sType": "8",
+			"logo": "./0/canwei.png"
+		}, {
+			"sType": "9",
+			"logo": "./0/men.png"
+		}, {
+			"sType": "10",
+			"logo": "./0/rukou.png"
+		}, {
+			"sType": "1005",
+			"logo": "./0/dianzipin.png"
+		}, {
+			"sType": "1007",
+			"logo": "./0/men.png"
+		},
+		{
+			"sType": "2004",
+			"logo": "./0/bangongqu.png"
+		},{
+			"sType": "2008",
+			"logo": "./0/bangongshi.png"
+		},{
+			"sType": "2009",
+			"logo": "./0/huiyishi.png"
+		},{
+			"sType": "2010",
+			"logo": "./0/gonggongquyu.png"
+		},{
+			"sType": "2013",
+			"logo": "./0/chashuijian.png"
+		},{
+			"sType": "2014",
+			"logo": "./0/chucangjian.png"
+		},{
+			"sType": "2015",
+			"logo": "./0/xishujian.png"
+		},{
+			"sType": "2016",
+			"logo": "./0/shangpu.png"
+		},{
+			"sType": "2017",
+			"logo": "./0/kefang.png"
+		}
+	]
+}

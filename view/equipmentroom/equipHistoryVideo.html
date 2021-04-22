@@ -1,0 +1,101 @@
+<div ng-controller="historyVideoCtrl">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>历史视频查询</h3>
+      </div>
+    </div>
+    
+    <div class="form-inline x_panel">
+     <form class="form" novalidate>
+        <div class="form-inline">
+          <div class="form-group">
+            <label>设备房</label>
+            <select class="form-control" style="width: 150px;" ng-change="selectEquip()" ng-model="search.equipHouseId" ng-options="o.equipHouseId as o.equipHouseName for o in equipNameArr">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>开始时间</label>
+            <input type="datetime" class="form-control Wdate d2" ng-model="search.startTime" id="d1" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:&quot;#F{$('.d2').last().val()||'%y-%M-%d'}&quot;})" required>
+          </div>
+          <div class="form-group">
+        <label>结束时间</label>
+        <input type="datetime" class="form-control Wdate d1" ng-model="search.endTime" onchange="" id="d2" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('.d1').first().val()}&quot;,maxDate:'%y-%M-%d'})" required>
+      </div>
+    </form>
+        <button class="btn btn-default pull-right" style="margin-top: 3px" ng-click="find(1)">查询</button>
+    </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="row panel-body">
+        <div style="margin-left: 15px" ng-if="!videoList || videoList.length==0">暂无数据</div>
+        <!-- <div class="col-md-4 col-sm-6 col-xs-12" style="margin-bottom: 20px" ng-repeat="item in videoList">
+          <div style="border: 1px solid #ccc;">
+            <div style="height: 150px"></div>
+            <p style="height: 35px;line-height:35px;border-top: 1px solid #ccc;margin: 0;text-align: center">{{item.deviceName}}</p>
+          </div>
+        </div> -->
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-repeat="item in videoList">
+          <div class="thumbnail" style="height:300px">
+                 
+              <!-- <a href="javascript:;;" style="cursor: pointer;" ng-click="enterVideo(item.equipId)" class="pic"> -->
+                  <a href="javascript:;;" style="cursor: pointer;" ng-click="playVideo(item.equipId,item.cameraCode,'playback')" class="pic">
+                  <img ng-src="{{processImgUrl(item.photoUrl || item.image)}}" onerror="javascript:this.src='/res/img/detail.png';" alt="摄像头" style="display:block;height:240px;padding:10px" />
+                  <span class="ico"><i></i></span>
+              </a>
+              
+              <div class="card-bottom clearfix" >
+                         <div class="row">
+                          <span  class="crName" style="font-size:16px;text-align:left;margin-left:22px" uib-tooltip={{item.equipName}}>{{item.equipName}}</span>
+                        </div>
+          </div>
+        
+      </div>
+      </div>
+    </div>
+</div>
+<style>
+  .crName{
+      
+   max-width: 60%;
+  display: block;
+  float: left;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  }
+
+  .thumbnail .pic{
+      position: relative;
+      display: block;
+      
+     
+  }
+  .pic>.ico{
+      position: absolute;
+      display: block;
+      /* visibility: hidden; */
+      width: 50px;
+      height: 50px;
+      border-width: 4px;
+      border-style: solid;
+      border-color: #eee;
+      border-radius: 50%;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      opacity: 0;
+     
+      
+ }
+ a.pic:hover .ico{
+     /* display: block; */
+     left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      transition: all .3s ease-in;
+      /* visibility: visible; */
+      opacity: 1;
+ }
+</style>

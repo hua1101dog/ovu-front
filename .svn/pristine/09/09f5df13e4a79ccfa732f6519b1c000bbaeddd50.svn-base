@@ -1,0 +1,10 @@
+
+<div class="row m-b m-t">
+    <div class="col-lg-12 col-sm-12 text-lg font-bold title">
+        <a href="javascript:;"  ui-sref="app.homeManage.notify.list"  ng-class="{active:$state.includes('app.homeManage.notify')}" >通知公告</a>|
+        <a href="javascript:;"  ui-sref="app.homeManage.news.list"  ng-class="{active:$state.includes('app.homeManage.news')}">行业新闻</a>|
+        <a href="javascript:;" ui-sref="app.homeManage.guide.list"  ng-class="{active:$state.includes('app.homeManage.guide')}">业务指南</a>|
+        <a href="javascript:;" ui-sref="app.homeManage.data.list"  ng-class="{active:$state.includes('app.homeManage.data')}">公示数据</a>
+    </div>
+</div>
+<div ui-view></div>

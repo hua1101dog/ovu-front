@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>H5资源管理</title>
+    <link rel="stylesheet" href="integratManage/forceUpdate/forceUpdateIndex.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="h5UploadIndexCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>H5资源管理</h3>
+            </div>
+        </div>
+        <div>
+            <div class="x-panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>所属平台</label>
+                        <input type="text" ng-model="search.platformName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>所属功能</label>
+                        <input type="text" ng-model="search.function" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>开发者</label>
+                        <input ng-model="search.developer" class="form-control"
+                            type="text">
+                    </div>
+                    <button class="btn btn-default" ng-click="query()">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default" style="margin-bottom: 0;">
+                <div class="panel-heading">H5资源管理列表
+                    <button class="btn btn-primary pull-right" ng-click="showEditModal()">新增</button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center">No.</th>
+                                <th>根路径</th>
+                                <th>所属平台</th>
+                                <th>所属功能</th>
+                                <th>开发人员</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0 || !pageModel.data">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data" class="ng-scope">
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td>{{item.rootPath}}</td>
+                                <td>{{item.platformName}}</td>
+                                <td>{{item.function}}</td>
+                                <td>{{item.developer}}</td>
+                                <td>{{item.createTime}}</td>
+                                <td>
+                                    <div>
+                                        <a href='javascript:void(0)' ng-click='showEditModal(item)'
+                                            class='btn btn-xs'><span class='fa fa-edit'></span>查看</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'" class="ng-scope">
+                            <style type="text/css" class="ng-scope">
+                                .pagination>li>span:hover {
+                                    background-color: #fff;
+                                    cursor: text
+                                }
+                            </style>
+                        </ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    .tab_index {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 0;
+    }
+
+    .tab_index li {
+        width: 86px;
+        color: #989898;
+        background-color: #fff;
+        border: 1px solid #e6e6ed;
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 0;
+        margin-right: 15px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    .tab_index li.act {
+        color: #fff;
+        background-color: #5891eb;
+    }
+
+</style>
+
+</html>

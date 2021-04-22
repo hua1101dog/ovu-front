@@ -1,0 +1,132 @@
+<div class="modal-content" style="position:relative">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">查看详情</h4>
+    </div>
+
+    <div class="modal-body model-flex" style="height: 900px">
+        <div class="detail">
+            <div style="width:150px;height:150px;">
+                <img onerror="javascript:this.src='/res/img/detail.png';" ng-src="{{ConversionUrl(initData.url)}}" alt=""
+                    style="width:150px;height:150px;">
+            </div>
+            <div style="margin-top: 20px">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="choseStartTime" class="col-sm-3 control-label" style="text-align: left">起始时间</label>
+                        <div class="col-sm-8">
+                            <input style="width: 180px;margin-left: -30px" type="datetime" class="form-control Wdate"
+                                ng-model="search.startTime" placeholder="开始日期" onchange="" id="choseStartTime"
+                                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d',isShowClear:false})"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="choseEndTime" class="col-sm-3 control-label" style="text-align: left">结束时间</label>
+                        <div class="col-sm-5">
+                            <input style="width: 180px; margin-left: -30px" type="datetime" class="form-control Wdate"
+                                ng-model="search.endTime" placeholder="结束日期" onchange="" id="choseEndTime"
+                                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'choseStartTime\')}',maxDate:'%y-%M-%d',isShowClear:false})"
+                                required>
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-primary" ng-click="find()">查询</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div>
+                <span class="countSpan">抓拍总次数：</span>
+                <span class="countSpan">{{pageModel.totalCount}}</span>
+            </div>
+            <div class="selectPointDiv" style="width: 95%;">
+                <div class="pointItemDiv">
+                    <div class="pointItem">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default" ng-repeat='item in pageModel.data track by $index'>
+                                <div class="panel-heading" role="tab" id="{{ 'panel-' + $index }}">
+                                    <h4 class="panel-title">
+                                        <a
+                                          data-toggle="collapse"
+                                          aria-controls="{{ '#collapse' + $index }}"
+                                          href="{{ '#collapse' + $index }}"
+                                          ng-click="getPath($event, item, $index)"
+                                          aria-expanded="false">
+                                            {{ item.date }}
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="{{ 'collapse' + $index }}" class="panel-collapse collapse" aria-labelledby="{{ 'collapse' + $index }}">
+                                    <div style="padding: 5px;">
+                                        <ul class="layui-timeline">
+                                            <li class="layui-timeline-item" ng-repeat='path in item.paths track by $index'>
+                                                <i class="layui-icon layui-timeline-axis"></i>
+                                                <div class="layui-timeline-content layui-text">
+                                                    <h3 class="layui-timeline-title">{{ path.location }}</h3>
+                                                    <p>
+                                                        停留次数：{{ path.count }}
+                                                        <br>停留时间: {{ path.betweenTime }}
+                                                        <br>最后停留时间: {{ path.lastTime }}
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <button ng-if="item.paths.length > 1" class="btn btn-success" ng-click="drawPath(item.paths)">绘制轨迹</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="!pageModel.data.length" style="font-size: 18px;" class="text-center">
+                            <strong>暂无轨迹</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 地图组件 -->
+        <div>
+            <stranger-map></stranger-map>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</div>
+
+<style>
+    .model-flex {
+        display: flex;
+        justify-content: stretch;
+    }
+    .model-flex > div:last-child {
+        flex: 1;
+        overflow: hidden;
+    }
+    .detail {
+        width: 25%
+    }
+
+    .detail .selectPointDiv {
+        overflow: hidden;
+        margin-top: 20px
+    }
+
+    .detail .selectPointDiv .pointItemDiv {
+        overflow-y: auto;
+        height: 500px
+    }
+
+    .detail .selectPointDiv .pointItemDiv .pointItem {
+        margin-bottom: 10px;
+        /* border-bottom: 1px #666 solid */
+    }
+
+    .countSpan {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+</style>

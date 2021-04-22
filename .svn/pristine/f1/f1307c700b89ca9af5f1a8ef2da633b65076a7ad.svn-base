@@ -1,0 +1,29 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="vm.cancel()">×</button>
+	<h4 class="modal-title">当前版本信息</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<div ng-repeat="item in list">
+		<div class="row">
+			<div style="font-size: x-large;margin-left: 10px;">{{item.version}}</div>
+		</div>
+		<div class="row" style="margin-left: 10px;margin-right: 10px">
+			<pre>{{item.remark}}</pre>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" ng-click="vm.cancel()">关闭</button>
+</div>
+<style>
+	pre{
+		white-space: pre-wrap;
+		word-wrap:break-word;
+		background-color: transparent;
+		border: none;
+		font-size: larger;
+	}
+    .modal-dialog{
+        width: 900px;
+    }
+</style>

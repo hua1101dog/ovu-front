@@ -1,0 +1,94 @@
+<div class="" ng-controller="propertyMainCtrl as vm" style="height: 100%;">
+    <div ng-if="vm.fmapId == 'hfjrg'||'csrjy'" style="height: 100%;position:relative;">
+        <h1 class="text-center" style="position:absolute;top:50%;left:50%;transform: translate(-50%, -50%)">开发中...</h1>
+    </div>
+    <big-screen ng-if="vm.fmapId != 'hfjrg'||'csrjy'" gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="col-lg-12 col-sm-12 b-b b-2x text-center">
+            <button class="btn btn-title font-bold">{{vm.title || '未知区域'}}</button>
+        </div>
+        <!--企业服务中心》资产-->
+        <div ng-show="vm.showFloor">
+            <div class="col-lg-12 col-sm-12">
+                <h4 class="font-bold">资产信息</h4>
+                <div class="col-lg-12 col-sm-12 text-center m-b-lg">
+                    <h3>{{vm.assets.totalAssetNum || 1230}}<span class="text-xs">万元</span>
+                    </h3>
+                    <span class="spantext">总资产数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3 class="red">{{vm.assets.assetType || 43}}<span class="text-xs">种</span>
+                    </h3>
+                    <span class="spantext">资产种类</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center ">
+                    <h3 class="blue">{{vm.assets.freeAssets || 487}}<span class="text-xs">万元</span>
+                    </h3>
+                    <span class="spantext">自有资产数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b-lg">
+                    <h3 class="green">{{vm.assets.companyAssetNum || 680}}<span class="text-xs">万元</span>
+                    </h3>
+                    <span class="spantext">企业资产数</span>
+                </div>
+            </div>
+        </div>
+        <div ng-show="!vm.showFloor">
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">资产信息</h4>
+                <div class="col-lg-12 col-sm-12 text-center m-b-md">
+                    <h3>{{vm.assets.totalAssets || 20}}<span class="text-xs">万元</span>
+                    </h3>
+                    <span class="spantext">总资产数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3>{{vm.assets.totalAssetsNum || 20}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">资产状态数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center ">
+                    <h3 class="blue">{{vm.assets.assetsStaus.normalNum || 10}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">正常</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center  m-b-md">
+                    <h3 class="red">{{vm.assets.assetsStaus.damageNum || 5}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">损坏</span>
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 m-t-md">
+                <div class="col-lg-4 col-sm-4 text-center  m-b-md">
+                    <h3>{{vm.assets.stationNum || 5}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">工位数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                    <h3>{{vm.assets.parkingNum || 6}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">车位数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                    <h3>{{vm.assets.computerNum || 8}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">电脑数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3>{{vm.assets.projectionNum || 8}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">投影设备数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3>{{vm.assets.serverNum || 3}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">服务器数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3>{{vm.assets.cameraNum || 2}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">摄像头数</span>
+                </div>
+
+            </div>
+        </div>
+    </big-screen>
+</div>

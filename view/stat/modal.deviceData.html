@@ -1,0 +1,131 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">{{item.ID?'编辑':'添加'}}应急工单</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+					<div class="form-group">
+						<label class="col-xs-2 control-label required">工单名称：</label>
+						<div class="col-xs-4">
+							<input type="text" class="form-control" required ng-model="item.WORKUNIT_NAME" name="WORKUNIT_NAME" />
+						</div>
+						<label class="col-xs-2 control-label required">工单类型：</label>
+						<div class="col-xs-4">
+							<div class="input-group">
+								<input type="text" class="form-control" readonly="readonly"  required ng-model="item.WORKTYPE_NAME" name="WORKTYPE_NAME" />
+								<span class="input-group-btn">
+									<button  class="btn btn-default" ng-click="chooseWorkType()"><i class='fa fa-search'></i></button>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label required">报事类型：</label>
+						<div class="col-xs-4">
+							<select class="form-control" required name="EVENT_TYPE" ng-model="item.EVENT_TYPE"  ng-options="o[0] as o[1] for o in eventTypeDict">
+								<option value="">--请选择--</option>
+							</select>
+						</div>
+						<!--<label class="col-xs-2 control-label required">紧急程度：</label>
+						<div class="col-xs-4">
+							<select class="form-control" required name="IMPORTENT_LEVEL" ng-model="item.IMPORTENT_LEVEL"  ng-options="o[0] as o[1] for o in importantLevelDict">
+								<option value="">&#45;&#45;请选择&#45;&#45;</option>
+							</select>
+						</div>-->
+					</div>
+				<div ng-if="item.EVENT_TYPE ==1 ">
+					<div class="form-group" >
+						<label class="col-xs-2 control-label">选择空间：</label>
+						<div class="col-xs-10 form-inline text-nowrap">
+							<select class="form-control"  ng-model="item.STAGE_TEMP"  ng-options="o as o.stageName for o in treeData" >
+								<option value="">--期--</option>
+							</select>
+							<select class="form-control"   ng-model="item.FLOOR_TEMP" ng-change="geneUnit(item.FLOOR_TEMP)" ng-options="o as o.floorName for o in item.STAGE_TEMP.nodes track by o.floorId" >
+								<option value="">--栋--</option>
+							</select>
+							<select class="form-control"   ng-model="item.FLOOR_TEMP.UNIT_NUM"   ng-change="getHouseList(item.FLOOR_TEMP)" ng-options="o as o+'单元' for o in item.FLOOR_TEMP.unitList track by o" >
+								<option value="">--单元--</option>
+							</select>
+							<select class="form-control"   ng-model="item.FLOOR_TEMP.GROUND_NUM" ng-change="getHouseList(item.FLOOR_TEMP)"  ng-options="o as o+'楼' for o in item.FLOOR_TEMP.groundList track by o" >
+								<option value="">--楼--</option>
+							</select>
+							<select class="form-control"   ng-model="item.HOUSE_ID_TEMP" ng-change="getOwner(item.HOUSE_ID_TEMP)" ng-options="o.ID as o.HOUSE_NAME for o in item.FLOOR_TEMP.houseList" >
+								<option value="">--房号--</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">业主姓名：</label>
+						<div class="col-xs-4">
+							<input type="text" class="form-control" readonly ng-model="item.CUSTOMER_NAME" />
+						</div>
+						<label class="col-xs-2 control-label">业主电话：</label>
+						<div class="col-xs-4">
+							<input type="text" class="form-control" readonly ng-model="item.CUSTOMER_PHONE" />
+						</div>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label class="col-xs-2 control-label">报事位置：</label>
+					<div class="col-xs-10 form-inline text-nowrap">
+						<select class="form-control"  ng-model="item.STAGE"  ng-options="o as o.stageName for o in treeData" >
+							<option value="">--期--</option>
+						</select>
+						<select class="form-control"  ng-model="item.FLOOR" ng-change="geneUnit(item.FLOOR)" ng-options="o as o.floorName for o in item.STAGE.nodes" >
+							<option value="">--栋--</option>
+						</select>
+						<select class="form-control"  ng-model="item.FLOOR.UNIT_NUM"   ng-change="getHouseList(item.FLOOR)" ng-options="o as o+'单元' for o in item.FLOOR.unitList track by o" >
+							<option value="">--单元--</option>
+						</select>
+						<select class="form-control"  ng-model="item.FLOOR.GROUND_NUM" ng-change="getHouseList(item.FLOOR)"  ng-options="o as o+'楼' for o in item.FLOOR.groundList track by o" >
+							<option value="">--楼--</option>
+						</select>
+						<select class="form-control"  ng-model="item.HOUSE_ID" ng-options="o.ID as o.HOUSE_NAME for o in item.FLOOR.houseList" >
+							<option value="">--房号--</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">报事时间：</label>
+					<div class="col-xs-4">
+						<input type="datetime" class="form-control Wdate" required name="REPORT_TIME" ng-model="item.REPORT_TIME"  onchange=""
+							   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d'})">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">详细位置：</label>
+					<div class="col-xs-10">
+						<input type="text" class="form-control" ng-model="item.EVENT_ADDR" >
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">上传照片：</label>
+					<div class="col-xs-10">
+						<div class="photoWraper" ng-repeat="p in item.pics">
+							<img onerror="javascript:this.src='/ovu-pcos/res/img/detail.png';"
+								 ng-click="showPhoto()"
+								 ng-src="{{'/ovu-pcos/'+p.substr(p.indexOf('document'))}}">
+							<a role="button" ng-click="del(item.pics,p)"><i class="glyphicon glyphicon-remove"></i></a>
+						</div>
+						<img height="80px" width="80px" src="/ovu-pcos/res/img/mbs/add.jpg" role="button" ng-click="addPhoto(item)" title="上传图片">
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-xs-2 control-label">任务描述：</label>
+					<div class="col-xs-10">
+						<textarea type="text" style="height:150px;resize:vertical" class="form-control" ng-model="item.DESCRIPTION"   />
+					</div>
+				</div>
+
+
+
+
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+

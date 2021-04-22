@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <title>OVU-智慧运营平台</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="bookmark" href="/favicon.ico" />
+    <link href="/ovu-pcos/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body ng-app="angularApp" ng-controller="indexCtrl" ng-cloak style="width: 1024px;margin: 0 auto">
+    <div class="form-inline">
+        <label style="padding-left:30px;">项目编码</label>
+        <input type="text" class="form-control" readonly="readonly" style="min-width: 250px"  ng-model="search.parkNo" />
+        <div class="form-group">
+            <label>设备类型</label>
+            <select class="form-control" ng-model="search.type" ng-options="o[0] as o[1] for o in equipTypeDict">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>设备名称</label>
+            <input type="text" ng-model="search.NAME" class="form-control" />
+        </div>
+        <button class="btn btn-default" ng-click="find()">查询</button>
+    </div>
+    <h2>当前项目:{{park.PARK_NAME}},右上角坐标:{{park.TR_POSITION}},左下角坐标:{{park.BL_POSITION}}</h2>
+    <h2>{{totalData}}</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>楼栋列表:</h3>
+            <ul>
+                <li ng-repeat="floor in floors"><a href='javascript:void(0)' class="btn-link" ng-click='showFloorDetail(floor)'>{{floor.FLOOR_NAME}}</a></li>
+            </ul>
+
+            <h3>层列表:</h3>
+            <ul>
+                <li ng-repeat="ground in grounds"><a href='javascript:void(0)' class="btn-link" ng-click='showGroundDetail(ground)'>{{ground.name}}</a></li>
+            </ul>
+
+            <h3>房间列表:</h3>
+            <ul>
+                <li ng-repeat="house in houses"><a href='javascript:void(0)' class="btn-link" ng-click='showHouseDetail(house)'>{{house.HOUSE_NAME}}</a></li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h3>设备列表:</h3>
+            <ul>
+                <li ng-repeat="equip in equips"><a href='javascript:void(0)' class="btn-link" ng-click='showEquipDetail(equip.id)'>{{equip.name}}</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="/ovu-pcos/res/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/ovu-pcos/res/js/layer/layer.js"></script>
+<script type="text/javascript" src="/ovu-pcos/res/js/angular1.5.11/angular.min.js"></script>
+<script type="text/javascript" src="/ovu-pcos/res/js/angular1.5.11/ui-bootstrap-tpls.js"></script>
+<script>
+    var app = angular.module("angularApp", ['ui.bootstrap']);</script>
+<!--<script type="text/javascript" src="/ovu-pcos/js/filter.js"></script>-->
+<!-- 添加ui.bootstrap -->
+<script>
+    app.controller('indexCtrl', function($scope, $location, $http, $q) {
+
+
+        $scope.equipTypeDict=
+                [['elevator',"电梯"],['camera',"摄像头"],['parkingLot',"停车场"],['waterMeter',"水表"],['ammeter',"电表"],['energy',"能源表"],
+            ['temperature',"温湿度传感器"],['infrared',"红外传感器"],['gate',"门禁传感器"],['smoke',"烟感传感器"],['waterLevel',"液位传感器"],['pressure',"压力传感器"],['current',"电流阈值传感器"],['electric',"电参数综合传感器"],['sensor',"传感器"],['fire',"消防系统"]]
+
+        $scope.search = {parkNo:"03401110001HFJR"};
+
+        function getSpace(params){
+            /**
+             * 园区通 空间接口
+             * @param parkNo
+             * @param floorNo
+             * @param groundNum
+             * @param houseNo
+             * @param postionNo
+             * @return
+             */
+            $http.get("/ovu-pcos/pcos/show/space",{params:params}).success(function(resp){
+                console.log(resp);
+            })
+        }
+        function getCompany(params){
+            /**
+             * 园区通 公司接口
+             * @param parkNo
+             * @param floorNo
+             * @param groundNum
+             * @param houseNo
+             * @return
+             */
+            $http.get("/ovu-pcos/pcos/show/company",{params:params}).success(function(resp){
+                console.log(resp);
+            })
+        }
+
+        function getAssets(params){
+            /**
+             * 资产
+             * @param parkNo
+             * @param floorNo
+             * @param groundNum
+             * @param houseNo
+             * @return
+             */
+            $http.get("/ovu-pcos/pcos/show/assets",{params:params}).success(function(resp){
+                console.log(resp);
+            })
+        }
+
+        function getAd(params){
+            /**
+             * 园区通 广告接口
+             * @param parkNo
+             * @param floorNo
+             * @param groundNum
+             * @param houseNo
+             * @return
+             */
+            $http.get("/ovu-pcos/pcos/show/ad",{params:params}).success(function(resp){
+                console.log(resp);
+            })
+        }
+
+        function getWater(params){
+            /**
+             * 园区通  水表接口
+             * @param parkNo
+             * @param floorNo
+             * @param groundNum
+             * @param houseNo
+             * @return
+             */
+            $http.get("/ovu-pcos/pcos/show/water",{params:params}).success(function(resp){
+                console.log(resp);
+            })
+        }
+
+        function getPower(params){
+            /**
+             * 园区通 电表接口
+             * @param parkNo
+             * @param floorNo
+             * @param groundNum
+             * @param houseNo
+             * @return
+             */
+            $http.get("/ovu-pcos/pcos/show/power",{params:params}).success(function(resp){
+                console.log(resp);
+            })
+        }
+
+        function getTotal(params){
+            $http.get("/ovu-pcos/pcos/show/total",{params:params}).success(function(resp){
+                if(resp.success){
+                    $scope.totalData = resp.data;
+                }
+            })
+        }
+
+        function getHouseNo(){
+            /**
+             * 获取房间信息
+             * @param bimId 房间的 bimId
+             * @param floorNo
+             * @return
+             */
+            $http.get("/ovu-pcos/pcos/show/house/getHouseNo?bimId="+520238010116).success(function(resp){
+                if(resp.success){
+                    console.log(resp.data);
+                    var houseNo = resp.data&& resp.data.HOUSE_NO;
+                }
+            })
+        }
+
+
+
+        /**
+         * 获取项目信息
+         * @param parkNo
+         * @return
+         */
+        $http.get("/ovu-pcos/pcos/show/park/get",{params:$scope.search}).success(function(resp){
+            console.log(resp);
+            $scope.park = resp.data;
+        })
+
+        /**
+         * 获取车位总数
+         * @param parkNo
+         * @param equipId
+         * @return
+         */
+        $http.get("/ovu-pcos/pcos/show/parkingLot/total",{params:{parkNo:$scope.search.parkNo,equipId:1}}).success(function(resp){
+            console.log(resp);
+        })
+
+        /**
+         * 获取车位位置分布
+         * @param parkNo
+         * @return
+         */
+        $http.get("/ovu-pcos/pcos/show/parkingLot/groupByPostion",{params:{parkNo:$scope.search.parkNo}}).success(function(resp){
+            console.log(resp);
+        })
+
+        /**
+         * 获取各停车厂 出入门 的出入数量
+         * @param parkNo
+         * @param equipId
+         * @return
+         */
+        $http.get("/ovu-pcos/pcos/show/parkingLot/gate",{params:{parkNo:$scope.search.parkNo}}).success(function(resp){
+            console.log(resp);
+        })
+
+
+        $scope.find =function(){
+            if(!$scope.search.type){
+                alert("请选择设备类型!");
+                return;
+            }
+            /**
+             * 获取楼栋列表.
+             * @param type
+             * @return  equip_count : 设备数量
+             */
+
+            $http.get("/ovu-pcos/pcos/show/floor/list",{params:$scope.search}).success(function(resp){
+                if(resp.success){
+                    $scope.floors = resp.data;
+                }
+            })
+            var params ={parkNo:$scope.park.PARK_NO}
+
+            getSpace(params);
+            getCompany(params);
+            getAssets(params);
+            getAd(params);
+            getWater(params);
+            getPower(params);
+
+            /**
+             *  @param type
+             * @param floorNo
+             * @param groundNum
+             *
+             *
+             * 如果 type 为 fire,
+             *
+             */
+            params.type = $scope.search.type;
+            getTotal(params)
+
+
+            if($scope.search.type == 'sensor'){
+
+                /**
+                 * 获取项目里传感器的各类型统计 (针对LORA传咸器)
+                 * @param type
+                 * @param floorNo
+                 * @param groundNum
+                 */
+                $http.get("/ovu-pcos/pcos/show/sensorStatic",{params:$scope.search}).success(function(resp){
+                    if(resp.success){
+                        $scope.equipment = resp.data;
+                    }
+                })
+
+                /**
+                 * 获取项目里传感器的各类型统计 (针对LORA传咸器)
+                 * @param type
+                 * @param floorNo
+                 * @param groundNum
+                 */
+                $http.get("/ovu-pcos/pcos/show/sensorAlertList",{params:$scope.search}).success(function(resp){
+                    if(resp.success){
+                        $scope.equipment = resp.data;
+                    }
+                })
+
+            }else{
+                /*
+                 * @param type
+                 * @param floorNo
+                 * @param groundNum
+                 */
+                $http.get("/ovu-pcos/pcos/show/chartData",{params:$scope.search}).success(function(resp){
+                    if(resp.success){
+                        console.log(resp.data);
+                    }
+                })
+            }
+        }
+
+        //楼栋
+        $scope.showFloorDetail = function(floor){
+            $scope.floor = floor;
+            $scope.search.floorNo = floor.FLOOR_NO;
+
+            if(floor.UGROUND_NUM){
+                $scope.grounds = [];
+                for(var i =1;i<=floor.UGROUND_NUM;i++){
+                    $scope.grounds.push({groundNum:i,name:i+"层"});
+                }
+            }
+            var params = {type:$scope.search.type,parkNo:$scope.park.PARK_NO,floorNo:floor.FLOOR_NO}
+
+            getSpace(params);
+            getCompany(params);
+            getAssets(params);
+            getWater(params);
+            getPower(params);
+
+            getTotal(params)
+            /**
+             * 获取设备列表
+             * @param type 指定的传感器
+             * @param parkNo 指定的传感器
+             * @param floorId  楼栋id
+             * @param groundNum	楼层
+             */
+            $http.get("/ovu-pcos/pcos/show/equip/list",{params:params}).success(function(resp){
+                if(resp.success){
+                    $scope.equips = resp.data;
+                }
+            })
+        }
+
+        $scope.showGroundDetail = function(ground){
+            $scope.ground = ground;
+            var params = {type:$scope.search.type,floorNo:$scope.floor.FLOOR_NO};
+
+            //层
+            params.groundNum = ground.groundNum;
+
+            getCompany(params);
+            getAssets(params);
+            getPower(params);
+
+            /**
+             * @param floorNo
+             * @param groundNum
+             */
+            $http.get("/ovu-base/system/parkHouse/listByGrid",{params:{floorNo:$scope.floor.FLOOR_NO,groundNum:ground.groundNum}}).success(function(resp){
+                $scope.houses = resp.data;
+            })
+
+            /**
+             * 获取设备列表
+             * @param type 指定的传感器
+             * @param floorNo  楼栋编码
+             * @param groundNum	楼层
+             */
+            $http.get("/ovu-pcos/pcos/show/equip/list",{params:params}).success(function(resp){
+                if(resp.success){
+                    $scope.equips = resp.data;
+                }
+            })
+        }
+
+        $scope.showHouseDetail = function(house){
+            var params = {parkNo:$scope.park.PARK_NO,
+                floorNo:$scope.floor.FLOOR_NO,
+                groundNum:$scope.ground.groundNum,
+                houseNo:house.HOUSE_NO};
+
+            getAssets(params);
+            getCompany(params);
+
+        }
+
+        $scope.showEquipDetail = function(equipId){
+            /*
+             获取设备详情
+             */
+            $http.get("/ovu-pcos/pcos/equipment/get?id="+equipId).success(function(resp){
+                if(resp.success){
+                    $scope.equipment = resp.data;
+                }
+            })
+            var params = {powerId:equipId};
+            getPower(params);
+            /**
+             * 获取设备监测历史记录
+             *
+             */
+            $http.get("/ovu-pcos/pcos/show/getDetectHistory?id="+equipId).success(function(resp){
+                if(resp.success){
+                    $scope.detectHistory = resp.data;
+                }
+            })
+
+
+        }
+    });
+</script>
+
+</html>

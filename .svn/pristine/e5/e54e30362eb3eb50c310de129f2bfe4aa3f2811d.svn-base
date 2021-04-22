@@ -1,0 +1,74 @@
+<div class="modal-header" style="border-bottom: none;">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">抽成租金计算</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" style="padding-top: 0;margin-top: -10px;">
+    <div class="row">
+        <div class="x_panel" style="border: none;">
+            <div class="tab-content">
+                <!-- 抽成信息 -->
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="color:#999999;">抽成信息</div>
+                    <ul class="basaMsg_ul">
+                        <li>
+                            <label>租户：</label>
+                            <span>{{secondPartyName}}</span>
+                        </li>
+                        <li>
+                            <label>租赁空间：</label>
+                            <span ng-repeat="x in houseList">{{x.parkName |text}}{{x.stageName|text}}{{x.buildName|text}}{{x.houseName}}</span>
+                        </li>
+                        <li>
+                            <label>抽成比例：</label>
+                            <span>{{proportion}}%</span>
+                        </li>
+                        <li>
+                            <label>收费项目：</label>
+                            <span>{{expenditureName}}</span>
+                        </li>
+                        <li>
+                            <label>计算日期：</label>
+                            <span>{{date| date:'yyyy-MM-dd' }}</span>
+                        </li>
+                    </ul>
+
+                </div>
+                <!--  计算明细 -->
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="color:#999999;">计算明细</div>
+                    <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                        <thead class="title">
+                            <tr>
+                                <th>费用期间</th>
+                                <th>营业额</th>
+                                <th>账单金额</th>
+                                <th>账单金额（不含税）</th>
+                                <th>税额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="color:#333333;">
+                                <td>{{billDateStart}}<span ng-if="x.billDateEnd">至</span>{{billDateEnd}}</td>
+                                <td>
+                                    <input ng-model="inputcost" type="number"
+                                           ng-change="count(inputcost)" step="0.01"
+                                           style="width:100px"
+                                           max="999999999.99"
+                                           ng-pattern="/^\d+(\.\d{1,2})?$/  " />
+                                </td>
+                                <td>{{billPrice| number:2}}</td>
+                                <td>{{billPriceTax| number:2}}</td>
+                                <td>{{tax| number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary saveParkSteward" ng-click="save()" ng-disabled="!inputcost">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+</div>

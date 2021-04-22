@@ -1,0 +1,22 @@
+<!-- 层级配置 -->
+<div ng-controller="layeredEnergyCtrl">
+    
+        <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <span>选择起始时间</span>
+                        <input type="datetime" class="form-control Wdate layeredEnergySt" style="display: inline-block;width: auto" ng-model="search.startTime" onchange=""
+                        onclick="javascript:WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.layeredEnergyEn').last().val()||'%y-%M-%d'}&quot;})">
+                        <span>选择截止时间</span>
+                        <input type="datetime" class="form-control Wdate layeredEnergyEn" style="display: inline-block;width: auto" ng-model="search.endTime" onchange=""
+                        onclick="javascript:WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.layeredEnergySt').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+                    </div>
+                    <button class="btn btn-default" style="margin-bottom: 4px" ng-click="findLevel()">查询</button>
+                    <button class="btn btn-default" style="margin-bottom: 4px" ng-click="outputDo()" ng-disabled="(!search.nodeId) || (!search.parkId)">导出数据</button>
+                </div>
+            </div>
+         <div ng-if="treeList&& treeList.length!==0" ng-repeat="item in treeList">
+                <div class="col-xs-12 col-sm-offset-9" id="proOrder-{{$index}}" class=" col-md-12 col-sm-12" style="position: relative;overflow: hidden;height: 1000px;padding: 0px;margin: 0px;border-width: 0px;cursor: default;"></div>
+               
+         </div>
+     </div>

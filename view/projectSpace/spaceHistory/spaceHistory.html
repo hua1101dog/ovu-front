@@ -1,0 +1,103 @@
+<link rel="stylesheet" href="projectSpace/spaceHistory/spaceHistory.css">
+<div id="angularId" ng-controller="historyCtl" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3><a href="javaScript:void(0)" ng-click="goSpace()">空间维护</a>><a href="javaScript:void(0)">空间历史</a></h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0">
+            <div class="x_panel current" >
+                <ul class="pull-left">
+                    <li><span>空间名称：</span><span>{{detail.HOUSE_NAME}}</span></li>
+                    <li><span>空间状态：</span><span>{{detail.spaceStatus | spaceStatus}}</span></li>
+                    <li><span>空间类别：</span><span>{{detail.rm_cat | houseType}}</span></li>
+                </ul>
+                <ul class="pull-left">
+                    <li><span>空间编号：</span><span title="{{detail.oldHouseNo}}">{{detail.HOUSE_NO}}</span></li>
+                    <li><span style="width: 100px;">建筑面积(平米)：</span><span>{{detail.area || 0}}</span></li>
+                    <li><span>装修类型：</span><span>{{getType(isDecoration,detail.isDecoration)}}</span></li>
+                </ul>
+                <ul  class="pull-left">
+                    <li><span style="width: 40px;">分期：</span><span>{{detail.STAGE_NAME}}</span></li>
+                    <li><span style="width: 100px;">套内面积(平米)：</span><span>{{detail.area_su || 0}}</span></li>
+                    <li><span>产权方：</span><span>{{detail.owner ? detail.owner : "中电光谷"}}</span></li>
+                </ul>
+                <ul  class="pull-left">
+                    <li><span style="width: 40px;">楼栋：</span><span>{{detail.FLOOR_NAME}}</span></li>
+                    <li><span style="width: 100px;">使用面积(平米)：</span><span>{{detail.area_property || 0}}</span></li>
+                    <li><span>入驻企业：</span><span>{{detail.enterCusId ? detail.enter : ""}}</span></li>
+                </ul>
+                <ul  class="pull-left">
+                    <li><span style="width: 40px;">单元：</span><span>{{detail.unit_no}}</span></li>
+                </ul>
+            </div>
+            <div class="x_panel" >
+                <div class="form-inline">
+                    <!-- <div class="form-group">
+                        <select class="form-control"     >
+                            <option value="">--分期--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control"     >
+                            <option value="">--楼栋--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text"   placeholder="房号" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text"   placeholder="空间名称" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control"   ng-model="search.typeId"  ng-options="o[0] as o[1] for o in spaceType">
+                            <option value="">--空间类型--</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-default pull-right" ng-click="find()" >查询</button>
+                     -->
+                </div>
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead class="title">
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th >空间名称</th>
+                        <th >房号</th>
+                        <th >空间类型</th>
+                        <th >期/楼栋/单元/楼层</th>
+                        <th >建筑面积</th>
+                        <th >产权方</th>
+                        <th >入驻企业</th>
+                        <th >变更动作</th>
+                        <th >变更日期</th>
+                        <th >操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index+1}}</td>
+                        <td>{{item.HOUSE_NAME}}</td>
+                        <td>{{item.HOUSE_CODE}}</td>
+                        <td>{{item.rm_cat | houseType}}</td>
+                        <td>{{item.STAGE_NAME}}/{{item.FLOOR_NAME}}/{{item.unit_no+'单元'+item.ground_no+'层'}}</td>
+                        <td>{{item.area}}</td>
+                        <td>{{item.owner || '中电光谷'}}</td>
+                        <td>{{item.enter}}</td>
+                        <td>{{getType(historyAction,item.historyAction)}}</td>
+                        <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>
+                            <a href='javascript:void(0)' ng-click="goPositionDetail('/ovu-base/system/parkHouse/spaceInfo',item.ID)" class='btn btn-xs'><span class='fa fa-book'></span>详情</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

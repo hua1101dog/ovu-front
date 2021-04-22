@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>园区大屏</title>
+    <link rel="stylesheet" href="bigScreen/operational/parkInfo.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="parkInfoCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>园区大屏</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="x_panel">
+                <ul class="nav nav-tabs bar_tabs">
+                    <li ng-class="{active:selectPark}" ng-click="checkTab()">
+                        <a href="javascript:void(0);">园区整体指标</a>
+                    </li>
+                    <li ng-class="{active:x.ID==stageId}"  ng-repeat="x in stageList" ng-click="checkTab(x.ID, x.STAGE_NO, x.STAGE_NAME)">
+                        <a href="javascript:void(0);">{{x.STAGE_NAME}}</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <!-- 园区整体指标 -->
+                    <div class="tab-pane fade active in" ng-show="checkFlag=='park'">
+                        <div class="panel panel-default" style="margin-bottom: 0px;margin-top: 10px;">
+                            <div class="panel-body">
+								<form name="parkForm" novalidate>
+                                    <div class="form-inline" style="margin:15px 8px">
+                                        <button class="btn btn-default pull-right btn-search mt" ng-click="savePark(parkForm)">保存</button>
+                                    </div>
+									<div class="form-group">
+										<label class="col-xs-12 control-label"><h4 class="title-h4">产业指标</h4></label>
+									</div>
+									<div class="form-group row pl15">
+										<label class="col-xs-1 control-label title-lable">配套商家：</label>
+										<div class="col-xs-2">
+											<input ng-model="parkParams.assortCompany" type="number"
+												class="form-control input-text"
+												ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">家
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 control-label"><h4 class="title-h4">双创指标</h4></label>
+									</div>							
+									<div class="form-group row pl15">
+										<label class="col-xs-1 control-label title-lable">创客空间总面积：</label>
+										<div class="col-xs-1 w155">
+											<input ng-model="parkParams.scTotleSpace" type="number"
+												class="form-control input-text"
+												ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+												max="999999999999999.99">m<sup>2</sup>
+										</div>
+										<label class="col-xs-1 control-label title-lable">总办公工位数：</label>
+										<div class="col-xs-1 w155">
+											<input ng-model="parkParams.scTotleStation" type="number"
+												class="form-control input-text"
+												ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+										</div>
+										<label class="col-xs-1 control-label title-lable">独立办公室面积：</label>
+										<div class="col-xs-1 w155">
+											<input ng-model="parkParams.scIndependentSpace" type="number"
+												class="form-control input-text"
+												ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">m<sup>2</sup>
+										</div>
+										<label class="col-xs-1 control-label title-lable">独立办公室数：</label>
+										<div class="col-xs-1 w155">
+											<input ng-model="parkParams.scIndependentStation" type="number"
+												class="form-control input-text"
+												ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+										</div>
+									</div>								
+									<div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">开放办公区面积：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.scOpenSpace" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">m<sup>2</sup>
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">开放式工位数：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.scOpenStation" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">本期入驻企业：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.scEnterpriseCurrent" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">家
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">累计服务双创企业数：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.scEnterpriseTotle" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>                                   
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">总投资额（万元）：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.scValueTotle" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">年度产值（万元）：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.scAnnualValue" type="number"
+                                                class="form-control input-text"
+                                                 ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">年度税收（万元）：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.scAnnualTax" type="number"
+                                                class="form-control input-text"
+                                                 ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">会议室数：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.scMeetingRoom" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>                                    
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">会议室容纳人数：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.scMeetingContent" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">活动场地数：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.scActivitiesFiled" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">活动场地容纳人数：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.scActivityPeople" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>                                   
+                                    <div class="form-group">
+                                        <label class="col-xs-12 control-label"><h4 class="title-h4">产业聚焦度</h4></label>
+                                    </div>
+                                    
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">一月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.industryFocusJan" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">二月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.industryFocusFeb" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">三月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.industryFocusMar" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">四月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.industryFocusApr" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                    </div>                                  
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">五月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.industryFocusMay" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">六月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.industryFocusJun" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">七月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.industryFocusJul" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">八月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.industryFocusAug" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                     </div>                                   
+                                     <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">九月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.industryFocusSep" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">十月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.industryFocusOct" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">十一月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.industryFocusNov" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">十二月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.industryFocusDec" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                    </div>                                  
+                                    <div class="form-group">
+                                        <label class="col-xs-12 control-label"><h4 class="title-h4">就业人数</h4></label>
+                                    </div>   
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">一月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.employmentJan" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">二月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.employmentFeb" type="number"
+                                               class="form-control input-text"
+                                               ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">三月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.employmentMar" type="number"
+                                               class="form-control input-text"
+                                               ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">四月：</label>
+                                        <div class="col-xs-1 w155">
+                                            <input ng-model="parkParams.employmentApr" type="number"
+                                               class="form-control input-text"
+                                               ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>                                  
+                                     <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">五月：</label>
+                                        <div class="col-xs-1 w155">
+                                             <input ng-model="parkParams.employmentMay" type="number"
+                                               class="form-control input-text"
+                                               ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">六月：</label>
+                                        <div class="col-xs-1 w155">
+                                             <input ng-model="parkParams.employmentJun" type="number"
+                                               class="form-control input-text"
+                                               ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">七月：</label>
+                                        <div class="col-xs-1 w155">
+                                             <input ng-model="parkParams.employmentJul" type="number"
+                                               class="form-control input-text"
+                                               ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">八月：</label>
+                                        <div class="col-xs-1 w155">
+                                             <input ng-model="parkParams.employmentAug" type="number"
+                                               class="form-control input-text"
+                                               ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>                                 
+                                     <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">九月：</label>
+                                        <div class="col-xs-1 w155">
+                                             <input ng-model="parkParams.employmentSep" type="number"
+                                               class="form-control input-text"
+                                               ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">十月：</label>
+                                        <div class="col-xs-1 w155">
+                                             <input ng-model="parkParams.employmentOct" type="number"
+                                               class="form-control input-text"
+                                               ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">十一月：</label>
+                                        <div class="col-xs-1 w155">
+                                             <input ng-model="parkParams.employmentNov" type="number"
+                                               class="form-control input-text"
+                                               ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">十二月：</label>
+                                        <div class="col-xs-1 w155">
+                                             <input ng-model="parkParams.employmentDec" type="number"
+                                               class="form-control input-text"
+                                               ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>                                  
+								</form>
+							</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 分期指标 -->
+                    <div class="tab-pane fade active in" ng-show="checkFlag=='stage'">
+                        <div class="panel panel-default" style="margin-bottom: 0px;margin-top: 10px;">
+							<div class="panel-body">
+                                <form name="stageForm" novalidate>
+                                    <div class="form-inline" style="margin:15px 8px">
+                                        <button class="btn btn-default pull-right btn-search mt" ng-click="saveStage(stageForm)">保存</button>
+                                    </div>
+									<div class="form-group">
+										<label class="col-xs-12 control-label"><h4 class="title-h4">招商指标</h4></label>
+									</div>
+									<div class="form-group row pl15">
+										<label class="col-xs-1 control-label title-lable">建筑总面积：</label>
+										<div class="col-xs-2">
+											<input ng-model="stageParams.stageArea" type="number"
+												class="form-control input-text"
+												ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                                            max="999999999999999.99">m<sup>2</sup>
+										</div>
+										<label class="col-xs-1 control-label title-lable">楼栋数：</label>
+	                                    <div class="col-xs-2">
+	                                        <input ng-model="stageParams.floorTotal" type="number"
+	                                            class="form-control input-text"
+	                                            ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">栋
+	                                    </div>
+	                                    <label class="col-xs-1 control-label title-lable">总入住率：</label>
+	                                    <div class="col-xs-2">
+	                                        <input ng-model="stageParams.bsPercentage" type="number"
+	                                            class="form-control input-text"
+	                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                                            max="99.99">%
+	                                    </div>
+									</div>						
+									<div class="form-group row pl15">
+	                                    <label class="col-xs-1 control-label title-lable">办公面积：</label>
+	                                    <div class="col-xs-2">
+	                                        <input ng-model="stageParams.officeArea" type="number"
+	                                            class="form-control input-text"
+	                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                                            max="999999999999999.99">m<sup>2</sup>
+	                                    </div>
+	                                    <label class="col-xs-1 control-label title-lable">自持办公面积：</label>
+	                                    <div class="col-xs-2">
+	                                        <input ng-model="stageParams.ofSelfArea" type="number"
+	                                            class="form-control input-text"
+	                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                                            max="999999999999999.99">m<sup>2</sup>
+	                                    </div>
+	                                    <label class="col-xs-1 control-label title-lable">已签约办公面积：</label>
+	                                    <div class="col-xs-2">
+	                                        <input ng-model="stageParams.ofSignArea" type="number"
+	                                            class="form-control input-text"
+	                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                                            max="999999999999999.99">m<sup>2</sup>
+	                                    </div>
+	                                </div>                     
+	                                <div class="form-group row pl15">
+	                                    <label class="col-xs-1 control-label title-lable">可售办公面积：</label>
+	                                    <div class="col-xs-2">
+	                                        <input ng-model="stageParams.ofSaleArea" type="number"
+	                                            class="form-control input-text"
+	                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                                            max="999999999999999.99">m<sup>2</sup>
+	                                    </div>
+	                                    <label class="col-xs-1 control-label title-lable">可租办公面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="stageParams.ofRentArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">m<sup>2</sup>
+                                        </div>
+	                                    <label class="col-xs-1 control-label title-lable">已租办公面积：</label>
+	                                    <div class="col-xs-2">
+	                                        <input ng-model="stageParams.ofRentalArea" type="number"
+	                                            class="form-control input-text"
+	                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                                            max="999999999999999.99">m<sup>2</sup>
+	                                    </div>
+	                                </div>                   
+	                                <div class="form-group row pl15">
+	                                    <label class="col-xs-1 control-label title-lable">商业面积：</label>
+	                                    <div class="col-xs-2">
+	                                        <input ng-model="stageParams.supArea" type="number"
+	                                            class="form-control input-text"
+	                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                                            max="999999999999999.99">m<sup>2</sup>
+	                                    </div>
+	                                    <label class="col-xs-1 control-label title-lable">自持商业面积：</label>
+	                                    <div class="col-xs-2">
+	                                        <input ng-model="stageParams.supSelfArea" type="number"
+	                                            class="form-control input-text"
+	                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                                            max="999999999999999.99">m<sup>2</sup>
+	                                    </div>
+	                                    <label class="col-xs-1 control-label title-lable">已签约商业面积：</label>
+	                                    <div class="col-xs-2">
+	                                        <input ng-model="stageParams.supSignArea" type="number"
+	                                            class="form-control input-text"
+	                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                                            max="999999999999999.99">m<sup>2</sup>
+	                                    </div>
+	                                </div>                        
+	                                <div class="form-group row pl15">
+	                                    <label class="col-xs-1 control-label title-lable">可售商业面积：</label>
+	                                    <div class="col-xs-2">
+	                                        <input ng-model="stageParams.supSaleArea" type="number"
+	                                            class="form-control input-text"
+	                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                                            max="999999999999999.99">m<sup>2</sup>
+	                                    </div>
+	                                    <label class="col-xs-1 control-label title-lable">可租商业面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="stageParams.supRentArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">m<sup>2</sup>
+                                        </div>
+	                                    <label class="col-xs-1 control-label title-lable">已租商业面积：</label>
+	                                    <div class="col-xs-2">
+	                                        <input ng-model="stageParams.supRentalArea" type="number"
+	                                            class="form-control input-text"
+	                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                                            max="999999999999999.99">m<sup>2</sup>
+	                                    </div> 
+	                                </div>
+                                </form>
+							</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

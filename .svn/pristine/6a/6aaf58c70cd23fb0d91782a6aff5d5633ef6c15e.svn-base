@@ -1,0 +1,61 @@
+<div class="container-fluid top-banner" ng-style="vm.bg">
+    <div class="row">
+        <img ui-sref="portal" src="" alt="" ng-src="{{'/show/res/img/home/'+logo}}" class="logo">
+    </div>
+    <div class="row middle">
+        <button type="button" class="btn btn-custom btn-lg btn-margin" ui-sref="app.operation.business">
+                <i class="icon iconfont icon-yunyingzhibiaotixi"></i>
+                运营指标体系
+            </button>
+        <button type="button" class="btn btn-custom btn-lg btn-margin" ui-sref="app.facility.lift">
+                <i class="icon iconfont icon-sheshiyunweizhongxin"></i>
+                设施运维中心
+            </button>
+        <button type="button" class="btn btn-custom btn-lg btn-margin" ui-sref="app.company.space">
+                <i class="icon iconfont icon-qiyefuwuzhongxin"></i>
+                企业服务中心
+            </button>
+        <button type="button" class="btn btn-custom btn-lg btn-margin" ui-sref="app.safe.alarm">
+                <i class="icon iconfont icon-yuanquanquanzhongxin"></i>
+                园区安全中心
+            </button>
+    </div>
+</div>
+
+<style type="text/css">
+    .top-banner {
+        height: 100%;
+        background-repeat: no-repeat;
+        /* background-size: contain; */
+        /* background-size: cover; */
+        background-size: 100% 100%;
+        -moz-background-size: 100% 100%;
+        position: relative;
+    }
+
+    .btn-custom {
+        color: #fff;
+        background-color: #3C6FFF;
+        border-color: #2e6da4;
+    }
+
+    .middle {
+        position: absolute;
+        top: 45%;
+        transform: translateY(-50%);
+    }
+
+    .btn-margin {
+        display: block;
+        margin-top: 70px;
+        margin-left: 80px;
+    }
+
+    .logo {
+        position: absolute;
+        top: 8%;
+        height: 40px;
+        margin-left: 80px;
+        cursor: pointer;
+    }
+</style>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>留言板申请</title>
+    <link rel="stylesheet" href="operationManage/messageBoard/boardIndex.css">
+</head>
+<body>
+<div id="angularId" ng-controller="postingCtl" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>留言管理</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>标题</label>
+                <input ng-model="search.title" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text">
+            </div>
+            <div class="form-group">
+                <label style="margin-left: 6px;">发布日期</label>
+                <input type="text" class="form-control Wdate" id="search_date1" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                至
+                <input type="text" class="form-control Wdate" id="search_date2" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'search_date1\');}'})">
+            </div>
+            <button class="btn btn-default" ng-click="query()">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default" style="margin-bottom: 0px;">
+        <div class="panel-heading">留言列表
+            <button class="btn btn-danger pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="batchOpt(pageModel, 'del')" disabled="disabled">批量删除</button>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead class="title">
+                <tr>
+                    <th class="text-center">NO.</th>
+                    <th class="text-center" style="width:20px">
+							<span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon glyphicon-unchecked" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+							</span>
+                    </th>
+                    <th>标题</th>
+                    <th>发布人</th>
+                    <th>发布时间</th>
+                    <th>回复时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+                <tr ng-repeat="item in pageModel.data" class="ng-scope">
+                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td><i role="button" ng-click="checkOne(item, pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon glyphicon-unchecked"></i></td>
+                    <td><a href="javascript:void(0)" class="btn-link" ng-click="showReplyModal(item,'1')">{{item.title | convertTitle}}</a></td>
+                    <td>{{item.creatorName||'--'}}</td>
+                    <td>{{item.createTime||'--'}}</td>
+                    <td>{{item.approveTime||'--'}}</td>
+                    <td>
+                        <div>
+                            <a href="javascript:void(0)" ng-if="!item.approveTime" ng-click="showReplyModal(item,'0')" class="btn btn-xs"><span class="fa fa-edit"></span>回复</a>
+                            <a href="javascript:void(0)" ng-click="delItem(item)" class="btn btn-xs"><span class="fa fa-trash"></span>删除</a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'" class="ng-scope"><style type="text/css" class="ng-scope">
+                    .pagination>li>span:hover{background-color: #fff;cursor:text}
+                </style>
+                </ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

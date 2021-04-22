@@ -1,0 +1,13 @@
+<div ng-controller="contractCompletedCtrl" ng-cloak>
+    <div class="page-title">
+        <div class="title_left">
+            <h3 ng-if="search.isShow">已完成的合同</h3>
+            <h3 ng-if="!search.isShow" style="color: red">已完成</h3>
+        </div>
+        <div class="title_right" ng-if="!search.isShow">
+            <button class="btn btn-primary pull-right" style="margin-left: 10px" ng-click="search.isShow = true">返回</button>
+        </div>
+    </div>
+    <ng-include src="'/view/workflowManage/common/approval.listInfo.html'"></ng-include>
+</div>
+    

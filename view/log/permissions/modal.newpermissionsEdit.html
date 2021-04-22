@@ -1,0 +1,246 @@
+<!--新增修改弹出框  -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()">×</button>
+    <h4 class="modal-title">{{!item.permissionId?'新增':'修改'}}权限</h4>
+</div>
+<div class="modal-body container-fluid">
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">领导人员</div>
+                <div class="panel-body" style="overflow: auto;height:572px">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>员工姓名</label>
+                            <!-- <input type="text" ng-model="search.personName"  class="form-control" /> -->
+                            <input class="form-control" type="text" ng-model="search.highUser"
+                            ng-class="{'waiting':loadingPerson}"
+                            ng-change="changeExecPerson(search)"
+                            uib-typeahead="o as o.name+' ('+o.deptName+')' for o in searchPerson($viewValue,null,search.deptId)"
+                            typeahead-on-select="selectPerson($item,search)"
+                            typeahead-loading="loadingPerson" typeahead-min-length=0 typeahead-wait-ms='300'
+                            typeahead-editable="false"/>
+                        </div>
+                        <button class="btn btn-default" ng-click="find(1)">查询</button>
+
+                    </div>
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>姓名</th>
+                                <th>岗位</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="leaderList.data.length == 0">
+                                <td colspan="100">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in leaderList.data"
+                            ng-click="checkPost(item)"
+                            >
+                                <td>{{$index + 1+leaderList.pageSize*leaderList.pageIndex}}</td>
+                                <td>{{item.personName}}</td>
+                                <td>
+                                    <!-- <ul>
+                                        <li ng-repeat="post in item.postList">
+                                            {{post[0]|keyToValue:oriList:'did':'text'}}-{{post[1]|keyToValue:postDict}}
+                                        </li>
+                                    </ul> -->
+                                    {{item.postName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <div class="page"  style="font-size:12px;">
+                            <ul class="pagination pull-left" ng-show ="leaderList.pageTotal">
+                                <li ><span style="height:29px">每页
+                                  <select  style="width:50px;padding:0;border:none" type="number"   ng-model="leaderList.pageSize" ng-change="find(1)" ng-options="o[0] as o[1] for o in [[10,'&nbsp;&nbsp;&nbsp;10'],[20,'&nbsp;&nbsp;&nbsp;20'],[50,'&nbsp;&nbsp;&nbsp;50'],[100,'&nbsp;&nbsp;&nbsp;100']]">
+                                  </select>条</span></li>
+                                <li ng-if="$first" role="button" ng-repeat-start="page in leaderList.pages track by $index"  ng-class="{disabled:leaderList.currentPage ==1}" ng-click="leaderList.currentPage >1 && find(leaderList.currentPage-1)"><a>«</a></li>
+                                <li ng-class="{active:page==leaderList.currentPage}" role="button">
+                                    <a ng-if="page>0" ng-click="find(page)">{{page}}</a>
+                                    <span ng-if="!(page>0)" style="border-top:none;border-bottom:none">{{page}}</span>
+                                </li>
+                                <li ng-if="$last" role="button" ng-repeat-end ng-class="{disabled:leaderList.currentPage == leaderList.pageTotal}" ng-click="leaderList.currentPage < leaderList.pageTotal && find(leaderList.currentPage+1)"><a>»</a></li>
+                                <li><span>共{{leaderList.totalCount}}条记录</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- <button class="btn btn-primary pull-right" ng-click="vm.setPerson(2)" >设为领导</button> -->
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form name="form" novalidate class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label required" style="padding-left:12px">上级领导：{{pName}}</label>
+                            <label class="control-label required" style="padding-left:12px" ng-hide="true">{{parentId}}</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">下属成员</div>
+                <div class="panel-body">
+                        <div class="form-inline">
+                                <div class="form-group">
+                                    <label>员工姓名</label>
+                                    <!-- <input type="text" ng-model="personName"  class="form-control" /> -->
+                                    <input class="form-control" type="text" ng-model="lowerUser"
+                                    ng-class="{'waiting':loadingPerson}"
+                                    ng-change="changeExecPerson(search)"
+                                    uib-typeahead="o as o.name+' ('+o.deptName+')' for o in searchPerson($viewValue,null,search.deptId)"
+                                    typeahead-on-select="selectPerson($item,search)"
+                                    typeahead-loading="loadingPerson" typeahead-min-length=0 typeahead-wait-ms='300'
+                                    typeahead-editable="false"/>
+                                </div>
+                                <button class="btn btn-default" ng-click="findPerson(1)" ng-disabled="hasDep">查询</button>
+                                <!-- <button class="btn btn-default" ng-click="vm.setPerson(2)" >设为下属</button> -->
+                            </div>
+                    <div class="row" style="margin-top:20px">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body" style="overflow: auto;height:500px">
+                                    <div class="alert" role="alert" ng-if="treeData && treeData.length==0">无部门信息</div>
+                                    <!-- <div id="dept_tree"></div> -->
+                                    <!-- <tree-view node-list="treeData" config='config'></tree-view> -->
+                                    <tree-filter node-list="treeData"></tree-filter>
+                                    <tree-view node-list="treeData" check-callback="check"
+                                    config="{'edit':false,'showCheckbox':true}"></tree-view>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                            <div class="panel panel-default">
+                              <div class="panel-body" style="overflow: auto;height:500px">
+                                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                                        <thead>
+                                            <tr>
+                                                <th>NO</th>
+                                                <th style="width:20px">
+                                                    <span role="button" ng-click="checkPersonAll(personList)">
+                                                        <i class="glyphicon" ng-class="{'glyphicon-check':personList.checked,'glyphicon-unchecked':!personList.checked}"></i>
+                                                    </span>
+                                                </th>
+                                                <th>姓名</th>
+                                                <th>岗位</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="personList.data.length == 0">
+                                                <td colspan="100">暂无记录</td>
+                                            </tr>
+                                            <tr ng-repeat="item in personList.data">
+                                                <td>{{$index + 1+personList.pageSize*personList.pageIndex}}</td>
+                                                <td>
+                                                    <i role="button" ng-click="checkPerson(item,personList)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                                        class="glyphicon"></i>
+                                                </td>
+                                                <td>{{item.personName}}</td>
+                                                <td>{{item.postName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="page-footer clearfix">
+                                        <div class="page"  style="font-size:12px;">
+                                            <ul class="pagination pull-left" ng-show ="(personList.data.length !==0)  && personList.pageTotal">
+                                                <li ><span style="height:29px;">每页
+                                                  <select  style="width:50px;padding:0;border:none" type="number"   ng-model="personList.pageSize" ng-change="findPerson(1)" ng-options="o[0] as o[1] for o in [[10,'&nbsp;&nbsp;&nbsp;10'],[20,'&nbsp;&nbsp;&nbsp;20'],[50,'&nbsp;&nbsp;&nbsp;50'],[100,'&nbsp;&nbsp;&nbsp;100']]">
+                                                  </select>条</span></li>
+                                                <li ng-if="$first" role="button" ng-repeat-start="page in personList.pages track by $index"  ng-class="{disabled:personList.currentPage ==1}" ng-click="personList.currentPage >1 && findPerson(personList.currentPage-1)"><a>«</a></li>
+                                                <li ng-class="{active:page==personList.currentPage}" role="button">
+                                                    <a ng-if="page>0" ng-click="findPerson(page)">{{page}}</a>
+                                                    <span ng-if="!(page>0)" style="border-top:none;border-bottom:none">{{page}}</span>
+                                                </li>
+                                                <li ng-if="$last" role="button" ng-repeat-end ng-class="{disabled:personList.currentPage == personList.pageTotal}" ng-click="personList.currentPage < personList.pageTotal && findPerson(personList.currentPage+1)"><a>»</a></li>
+                                                <li><span>共{{personList.totalCount}}条记录</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default" style="height:  218px;overflow:auto;">
+                        <div class="panel-body">
+                            <form name="form" novalidate class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label required">下属人员：</label>
+                                    <div class="col-xs-8">
+                                        <div class="input-group">
+                                            <ul id="person3" class="ul-persons">
+                                                <li class="item" ng-repeat="p in persons">{{p.personName}}
+                                                    <a ng-click="delP(personlist,p)">
+                                                        <i class='fa fa-remove'></i>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="persons.length >= 10 && !shows"><a style="color: #2A60FF;" ng-click="getmores()">更多 <i class="fa fa-angle-double-right"></i></a></li>
+                                                <li ng-if="shows" ><a  style="color: #2A60FF;" ng-click="getlesss()">收起 <i class="fa fa-angle-double-left"></i></a></li>
+                                                <span ng-show="false">{{personIdList}}</span>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="vm.save()">确定</button>
+    <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+</div>
+<style>
+    .ul-persons {
+        list-style: none;
+        float: left;
+        padding: 0px;
+    }
+
+    .ul-persons li {
+        margin: 5px;
+        padding: 5px;
+        float: left;
+    }
+
+    .ul-persons li.item {
+        background-color: #F9F9F9;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    .pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 5px 4px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    }
+    .pagination>li>span:hover{
+        background-color: #fff;
+        cursor:text;
+    }
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

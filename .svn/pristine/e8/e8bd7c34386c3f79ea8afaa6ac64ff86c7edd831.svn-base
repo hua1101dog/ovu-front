@@ -1,0 +1,108 @@
+<style>
+   .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        height: 45px;
+    }
+    .checkbox-inline{
+	    margin-left: 10px;
+        font-size: 14px
+    }
+    .checkbox-inline input[type="checkbox"] {
+        visibility:visible;
+    }
+</style>
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id ? '编辑':'添加'}}banner栏</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="x_content" style="max-height:650px;overflow: auto;overflow-x: hidden">
+        <form name="form" novalidate>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">配置类型：</label>
+                <div class="col-xs-4">
+                    <input class="form-control" ng-model="parentServiceName" type="text" disabled="disabled"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">排序号：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item.orderNo" required type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">banner名称：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item.serviceName" required type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">banner说明：</label>
+                <div class="col-xs-8">
+                    <textarea type="text" cols="6" style="resize:vertical" class="form-control"
+                              ng-model="item.serviceInfo"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">服务路由：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item.appServiceUrl" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">H5路径：</label>
+                <div class="col-xs-8">
+                    <input class="form-control" ng-model="item.appH5Url" type="text">
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-xs-3 control-label required">背景图：</label>
+                <div class="col-xs-4 thumbnail text-center" style=" margin-left: 12px;margin-bottom: 0">
+                    <img alt="" onerror="this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(item.appLogoUrl,'240')}}" 
+                         style="max-height: 180px;"/>
+                    <div class="caption">
+                        <p>
+                            <button class="btn btn-warning height34" ng-click="clearPhoto(item,'appLogoUrl')">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                            <button class="btn btn-default height34" ng-click="addPhoto(item,'appLogoUrl',true)">
+                                <i class="glyphicon glyphicon-picture "></i>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <!-- <div style="line-height: 60px">统一图片尺寸要求：48*48</div> -->
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <label class="col-xs-3 control-label required">用户权限：</label>
+                <div class="col-xs-8">
+                    <label class="checkbox-inline">
+                        <input  type="checkbox"  ng-model="userClassify.enterprise" ng-true-value=true ng-false-value=false >实体企业
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox"  ng-model="userClassify.virtualCom" ng-true-value=true ng-false-value=false >虚拟企业
+                    </label>
+                    <label class="checkbox-inline">
+                        <input  type="checkbox"  ng-model="userClassify.staff" ng-true-value=true ng-false-value=false >员工
+                    </label>
+                    <label class="checkbox-inline">
+                        <input  type="checkbox"  ng-model="userClassify.personal" ng-true-value=true ng-false-value=false >个人
+                    </label>
+                    <label class="checkbox-inline">
+                        <input  type="checkbox"  ng-model="userClassify.operation" ng-true-value=true ng-false-value=false >运营人员
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary save" ng-click="save(form)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

@@ -1,0 +1,43 @@
+<!-- 问答题评分 -->
+<div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+    </div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+            <div class="panel-body" style="margin-top: 5px;" ng-repeat="item in pageModel">
+                    <div class="form-group" style="padding-top: 1px">
+                            <div class="col-xs-10">
+                                    <span class="tihao">Q{{$index+1}}.[{{item.typeName}}]</span>
+                                    <span style="white-space:normal; word-break:break-all;">{{item.question}}</span>
+                                    (<input type="text" ng-model="item.paperScore" style="width:18px;background-color: #fff;border:0" disabled 
+                                    >分)
+                                </div>
+                    </div>
+                    <!-- 问答题 -->
+                    <div class="form-group">
+                            <label class="col-xs-2 control-label">考生作答：</label>
+                            <div class="col-xs-8">
+                                <textarea class="form-control" rows="3" readonly>{{item.choose}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">正确答案：</label>
+                            <div class="col-xs-8 pt7" style="font-family: monospace;color:red;margin-top: 10px;word-break: break-all;">
+                                {{item.answer}}
+                            </div>
+                        </div> 
+                        <div class="pull-right" >
+                                <label class="col-xs-2 control-label" style="width: 100px;">评分处：</label>
+                                <div class="col-xs-8 pt7" >
+                                    <input type="number" placeholder="请输入评分" style="width:100px"  ng-model="item.score" ng-blur="getScore5(item.score,item.paperScore)">
+
+                                </div>
+                        </div>   
+                                 
+            </div>
+            <div class="modal-footer" v-show="$scope.search.id" style="text-align: center;">
+                    <button class="btn btn-primary" ng-click="save(item)" style="margin-right:30px;">确定</button>
+                    <button class="btn btn-warning" ng-click="cancel()" style="margin-left:30px;">取消</button>
+                </div> 
+    </form>
+</div>

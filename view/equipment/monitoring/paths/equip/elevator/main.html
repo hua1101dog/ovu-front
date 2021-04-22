@@ -1,0 +1,31 @@
+<!-- 设备管理 > 电梯 -->
+<div class="video-monitor" id="angularId" ng-controller="eqMonitVideo">
+    <!-- <ng-include src="'../view/equipment/monitoring/paths/safty/videoMonitor/main.html'"></ng-include> -->
+    <ng-include src="'../view/equipment/monitoring/detail/index.html'"></ng-include>
+</div>
+
+<!-- map3D组件 -->
+<script src="../view/equipment/monitoring/detail/map3D/map3D.js"></script>
+<!-- bim组件 -->
+<script src="../view/equipment/monitoring/detail/BIM/bim.js"></script>
+
+<!--Map3D 依赖 -->
+<script src="../lib/fengmap.min.js"></script>
+<!-- BIM 依赖 -->
+<script src="/res/js/bimViz/sdk/third/toolbar/jquery.toolbar.js"></script>
+<script src="/res/js/bimViz/sdk/viz/bimviz.js"></script>
+
+<script src="../view/equipment/monitoring/detail/index.js"></script>
+<script>
+    (function(angualr, document) {
+
+        document.title = "OVU-设备管理-设备管理-电梯";
+        var app = angular.module("angularApp");
+
+        app.controller('eqMonitVideo', ['$scope', '$rootScope', '$interval', '$http', '$filter', '$uibModal', 'fac', function($scope, $rootScope, $interval, $http, $filter, $uibModal, fac) {
+            $scope.equipmentType_id = 34;
+        }]);
+
+        angular.bootstrap(document.getElementById("angularId"), ['angularApp']);
+    })(angular, document);
+</script>

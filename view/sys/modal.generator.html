@@ -1,0 +1,147 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">代码生成配置</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">是否去除表前缀</label>
+            <div class="col-xs-4">
+                <select class="form-control" required ng-model="item.removeTablePrefix"
+                    ng-options="o[0] as o[1] for o in trueOrFalse">
+
+                </select>
+            </div>
+            <label class="col-xs-2 control-label required">是否覆盖</label>
+            <div class="col-xs-4">
+                <select class="form-control" required ng-model="item.cover"
+                    ng-options="o[0] as o[1] for o in trueOrFalse">
+
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">代码生成类型</label>
+            <div class="col-xs-4">
+                <select class="form-control" required ng-model="item.codeType" ng-init="item.codeType='all'">
+                    <option value="all">前台+后台</option>
+                    <option value="back">后台</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label required">是否分页：</label>
+            <div class="col-xs-4">
+                <select class="form-control" required ng-model="item.paging"
+                ng-options="o[0] as o[1] for o in trueOrFalse">
+            </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">后台项目路径：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control"  ng-model="item.projectPath" name="projectPath" required />
+            </div>
+            <label class="col-xs-2 control-label required">后台包路径：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.backPath" name="backPath" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">后台mapper路径：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.mapperPath" name="mapperPath"  required/>
+            </div>
+            <label class="col-xs-2 control-label required">后台接口前缀：</label>
+            <div class="col-xs-4">
+               <input type="text" class="form-control" required ng-model="item.backUrlPrefix" name="backUrlPrefix" />
+           </div>
+
+        </div>
+        <div class="form-group" ng-if="item.codeType=='all'">
+            <label class="col-xs-2 control-label required">前台文件路径：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.frontPath" name="frontPath" required />
+            </div>
+                <label class="col-xs-2 control-label required">前台接口前缀：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" required ng-model="item.frontUrlPrefix" name="frontUrlPrefix" />
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">作者:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.author" required name="author" />
+            </div>
+            <label class="col-xs-2 control-label required">模块名称:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.moduleName" required name="moduleName" />
+            </div>
+        </div>
+
+    </form>
+    <div class="panel panel-default">
+
+        <div class="panel-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th>字段名称</th>
+                        <th>字段类型</th>
+                        <th>字段标题</th>
+                        <th style="text-align: left;">查询方式</th>
+                        <th>列表显示</th>
+                        <th>是否用户录入</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="fieldList.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="file in fieldList track by $index">
+                        <td class="text-center">{{$index + 1}}</td>
+                        <td>{{file.columnName}}</td>
+                        <td>{{file.columnType}}</td>
+                        <td>
+                            <input class="form-control" value="" type="text" ng-model="file.columnComment"
+                                style="text-align: center;">
+
+
+                        <td>
+                            <select class="form-control" required ng-model="file.columnQuery"
+                                ng-options="o[0] as o[1] for o in [[1,'模糊查询'],[2,'精确查询']]">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" class="btn btn-xs"
+                                ng-click="file.columnShow=!file.columnShow">
+                                <span
+                                    ng-class="{'fa fa-toggle-on':file.columnShow,'fa fa-toggle-off':!file.columnShow}"></span></a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" class="btn btn-xs" ng-click="file.editShow=!file.editShow">
+                                <span
+                                    ng-class="{'fa fa-toggle-on':file.editShow,'fa fa-toggle-off':!file.editShow}"></span></a>
+                        </td>
+
+
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

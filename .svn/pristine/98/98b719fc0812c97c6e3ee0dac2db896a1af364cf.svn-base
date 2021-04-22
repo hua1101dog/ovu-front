@@ -1,0 +1,64 @@
+<div class="panel panel-default mt7">
+    <div class="panel-heading">关联传感器
+        <span class="pull-right form-inline">
+                    <div class="form-group" style="margin-top: -7px">
+                         <lable>传感器类型：</lable>
+                         <select ng-options="o as o.sensor_type_name for o in sensorTypes" ng-model="curSensorType" class="form-control"></select>
+                         <button class="btn btn-primary " ng-click="addSensor(curSensorType)" ng-disabled="!curSensorType" style="margin-top: 0">添加传感器</button>
+                    </div>
+                </span>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-hover">
+            <thead class="title">
+            <tr>
+                <th class="text-center">NO</th>
+                <th>检测参数名称</th>
+                <th>值类型</th>
+                <th >单位/选项</th>
+                <th >阈值/正常项</th>
+                <th>异常时应急工单类型</th>
+                <th>传感器型号</th>
+                <th>名称</th>
+                <th>编码</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tr ng-if="sensors.length == 0">
+                <td colspan="100" class="text-center">未配置检测参数</td>
+            </tr>
+            <tbody ng-repeat="sensor in sensors track by $index">
+            <tr ng-repeat="param in sensor.params">
+                <td class="text-center">{{($parent.$index+1)+'-'+ ($index + 1)}}</td>
+                <td >{{param.param_name}}</td>
+                <td >{{param.val_type|keyToValue:sensorDataDict}}</td>
+                <td style="max-width: 220px">{{param.val_type == 1?param.unit:param.option_list}}</td>
+                <td style="padding:1px;white-space: nowrap">
+                    <div ng-if="param.val_type == 1">
+                        <input type="text" class="form-control" style="width: 120px;display: inline-block" placeholder="最小阈值" name="min_val{{$index}}" ng-model="param.min_val" />
+                        <input type="text" class="form-control" style="width: 120px;display: inline-block" placeholder="最大阈值" name="max_val{{$index}}" ng-model="param.max_val" />
+                    </div>
+                    <div ng-if="param.val_type == 2">
+                        <input type="text" class="form-control" placeholder="正常项" name="regular_list{{$index}}" ng-model="param.regular_list" />
+                    </div>
+                </td>
+                <td style="padding:1px;" >
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-focus="param.worktypeFocus=true" ng-blur="param.worktypeFocus=false"  ng-model="param.worktype_name" name="worktype_name" readonly />
+                        <layer-select node-list="emerWorkTypeTree" select-method="selectWorktype" host="param" ng-show="param.worktypeFocus||param.worktypeHover" ng-mouseover="param.worktypeHover=true" ng-mouseleave="param.worktypeHover=false" class="layerSelect" style="left: 0px;top:34px;" ></layer-select>
+                        <span class="input-group-btn">
+                                        <button class="btn btn-default" ng-click="clearWorkType(param)" style="height: 34px"><i class='fa fa-close'></i></button>
+                                    </span>
+                    </div>
+                </td>
+                <td ng-if="$index ==0" rowspan={{sensor.params.length}} >{{sensor.sensor_type_name}}</td>
+                <td ng-if="$index ==0" rowspan={{sensor.params.length}} >{{sensor.name||'(未关联)'}}</td>
+                <td ng-if="$index ==0" rowspan={{sensor.params.length}} >{{sensor.mac}}</td>
+                <td ng-if="$index ==0" rowspan={{sensor.params.length}} ><a href='javascript:void(0)' ng-click='chooseSensor(item.park_id,sensor)' class='btn btn-xs'><span class='fa fa-edit'></span>关联</a>
+                    <a href='javascript:void(0)' ng-click='sensors.splice(sensors.indexOf(sensor), 1);' class='btn btn-xs'><span class='fa fa-close'></span>删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

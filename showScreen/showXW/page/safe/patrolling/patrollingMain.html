@@ -1,0 +1,64 @@
+<div class="" ng-controller="patrollingMainCtrl as vm" style="height: 100%;">
+    <div ng-if="vm.fmapId == 'hfjrg'||'csrjy'" style="height: 100%;position:relative;">
+        <h1 class="text-center" style="position:absolute;top:50%;left:50%;transform: translate(-50%, -50%)">开发中...</h1>
+    </div>
+    <big-screen ng-if="vm.fmapId != 'hfjrg'||'csrjy'" gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="">
+            <!--电子巡更 -->
+            <div ng-show="vm.show== 1">
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">{{vm.title}}电子巡更概况</h4>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.camera.total || 0}}</h3>
+                        <span class="spantext">巡更点总数</span>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.camera.regular_num || 0}}</h3>
+                        <span class="spantext">已巡更</span>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                        <h3 class="red">{{vm.camera.broken_num || 0}}</h3>
+                        <span class="spantext">未巡更</span>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <div style="height:200px;" ui-echarts="vm.option">
+                    </div>
+                </div>
+            </div>
+            <!--展示单个传奇的防盗情况-->
+            <div ng-show="vm.show== 2">
+                <div class="col-lg-12 col-sm-12">
+                    <h4 class="font-bold">巡更点001</h4>
+                    <table class="table">
+                        <thead class="title">
+                        <tr>
+                            <th>地点</th>
+                            <th>时间</th>
+                            <th>巡更人</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>合肥金融港体验馆1层</td>
+                            <td>2017-9-20 10:25:30</td>
+                            <td>张文杰</td>
+                        </tr>
+                        <tr>
+                            <td>合肥金融港体验馆2层</td>
+                            <td>2017-9-19 21:25:30</td>
+                            <td>张云</td>
+                        </tr>
+                        <tr>
+                            <td>合肥金融港体验馆1层</td>
+                            <td>2017-9-17 10:58:30</td>
+                            <td>王飞龙</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>

@@ -1,0 +1,179 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">办公巡检</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-md-3 control-label readonly">查看分期：</label>
+            <div class="col-md-5">
+                <input type="text" class="form-control" readonly ng-maxlength="20" ng-model="item.stageName"
+                       name="stageName"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label readonly">楼栋：</label>
+            <div class="col-md-5">
+                <input type="text" class="form-control" readonly ng-maxlength="20" ng-model="item.buildName"
+                       name="buildName"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label readonly">单元：</label>
+            <div class="col-md-5">
+                <input type="text" class="form-control" readonly ng-maxlength="20" ng-model="item.unitNo"
+                       name="unitNo"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label readonly">楼层：</label>
+            <div class="col-md-5">
+                <input type="text" class="form-control" readonly ng-maxlength="20" ng-model="item.groundNo"
+                       name="groundNo"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label readonly">房屋：</label>
+            <div class="col-md-5">
+                <input type="text" class="form-control" readonly ng-maxlength="20" ng-model="item.houseName"
+                       name="houseName"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label readonly">业态类型：</label>
+            <div class="col-md-5">
+                <input type="text" class="form-control" readonly ng-maxlength="20" ng-model="item.businessTypeName"
+                       name="businessTypeName"/>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-3 control-label readonly">房屋用途：</label>
+            <div class="col-md-5">
+                <input type="text" class="form-control" readonly ng-maxlength="20" ng-model="item.housePurposeName"
+                       name="housePurpose"/>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-3 control-label readonly">租赁单价（元/月）：</label>
+            <div class="col-md-5">
+                <input type="text" class="form-control" readonly ng-maxlength="20"  ng-model="item.rentUnitPrice "  name="longitude"  />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label">租赁周期：</label>
+            <div class="col-xs-7 form-inline">
+                        <input type="datetime" readonly class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.rentStartTime" id="search_date1" onchange=""
+                         onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-#{%d+1} 00:00',maxDate:'#F{$dp.$D(\'search_date2\');}'})">
+                                                                            至
+                        <input type="datetime" readonly class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.rentEndTime" id="search_date2" 
+                        onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'search_date1\');}'})">
+            </div>
+            <span ng-if="item.rentStartTime && item.rentEndTime && item.rentEndTime > item.rentStartTime" style="margin-left: -125px;margin-top: 20px; line-height: 35px; ">共{{getLeaseMonth(item.rentStartTime, item.rentEndTime)}}个月</span>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-3 control-label readonly">租赁总价（元）：</label>
+            <div class="col-md-5">
+                <input type="text" class="form-control" readonly ng-maxlength="20"  ng-model="item.rentTotalPrice "  name="longitude"  />
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label readonly">入驻方：</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control" readonly ng-maxlength="20" ng-model="item.enterName"
+                       name="enterName"/>
+            </div>
+        </div>
+        <div class="form-group" style="color:red"
+             ng-show="form.enterName.$invalid && form.enterName.$dirty && form.enterName.$error.maxlength">
+            <span class="col-xs-3"></span><span class="col-xs-5" ng-show="form.enterName.$error.maxlength">名称长度限20个字符</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label readonly">品牌名称：</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control" readonly ng-model="item.brand" name="brand"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">品牌照片：</label>
+            <label class="col-xs-9 control-label" style="color: red;font-weight: normal;text-align: left;">
+                注：最多只能上传三张图片！
+            </label>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label"><!-- 上传照片： --></label>
+            <div class="col-xs-9">
+                <div class="photoWraper" ng-repeat="pic in item.brandPics track by $index">
+                    <img onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(pic)}}"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label readonly">联系方式：</label>
+            <div class="col-xs-5">
+                <input type="text" name="phone" ng-model="item.phone" readonly
+                       maxLength="20" class="form-control col-md-7 col-xs-12" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">空间经度：</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control" readonly ng-model="item.longitude"  name="longitude" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">空间纬度：</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control" readonly ng-model="item.latitude"  name="latitude" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label readonly">巡检时间：</label>
+            <div class="col-xs-5">
+                <input style="width: 140px;" type="datetime" class="form-control Wdate" readonly ng-model="item.inspectionTime" placeholder="巡检时间" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">巡检照片：</label>
+            <label class="col-xs-9 control-label" style="color: red;font-weight: normal;text-align: left;">
+                注：最多只能上传三张图片！
+            </label>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label"><!-- 上传照片： --></label>
+            <div class="col-xs-9">
+                <div class="photoWraper" ng-repeat="p in item.pics track by $index">
+                    <img onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(p)}}"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">备注：</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control" readonly ng-model="item.remark" name="remark"/>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+</div>
+

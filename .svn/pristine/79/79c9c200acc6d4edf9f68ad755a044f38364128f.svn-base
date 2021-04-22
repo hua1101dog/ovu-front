@@ -1,0 +1,29 @@
+<div class="" style="height: 100%;">
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <!--门禁管理 -->
+        <div class="">
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">报警越界列表</h4>
+                <table class="table">
+                    <thead class="title">
+                    <tr>
+                        <th>报警位置</th>
+                        <th>报警时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>办公室3</td>
+                        <td>2017-11-25 10:25:30</td>
+                    </tr>
+                    <tr>
+                        <td>办公室8</td>
+                        <td>2017-11-24 21:25:30</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>

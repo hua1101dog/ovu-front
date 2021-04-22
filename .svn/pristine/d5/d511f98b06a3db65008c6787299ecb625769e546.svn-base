@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>客户台账</title>
+</head>
+
+<body>
+    <div id="angularId" ng-controller="customerManageCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>客户台账</h3>
+            </div>
+        </div>
+
+        <div style="width: 250px;line-height: 60px;float: left;" ng-hide="projectTree.length==0">
+                <tree-sel-project ng-class="{'not-valid':!$root.project.id}" node-list="projectTree" host="$root.project"
+                    host-key="'id'" host-text="'text'" callback="setProject" tip-text="'请选择项目'"></tree-sel-project>
+        </div>
+        
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>客户名称:</label>
+                    <input class="form-control" type="text" ng-model="search.name" />
+                </div>
+                <div class="form-group">
+                    <label>手机号码:</label>
+                    <input class="form-control" type="text" ng-model="search.phone" />
+                </div>
+                <div class="form-group">
+                    <label>客户状态:</label>
+                    <select class="form-control" ng-model="search.assignationStatus" ng-change="find(1)" style="width: 180px;">
+                        <option value="">所有客户</option>
+                        <option value="1">公共客户</option>
+                        <option value="2">跟进中客户</option>
+                        <option value="3">无效客户</option>
+                        <option value="4">垃圾箱客户</option>
+                        <option value="5">丢弃客户</option>
+                        <option value="6">成交客户</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>客户类型:</label>
+                    <select class="form-control" ng-model="search.type" ng-change="find(1)" style="width: 180px;">
+                        <option value="">所有类型</option>
+                        <option value="1">企业</option>
+                        <option value="0">个人</option>
+                    </select>
+                </div>
+                <button class="btn btn-default" ng-click="find(1)">查询</button>
+            </div>
+
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading" style="font-size: 14px">客户列表
+                <select class="form-control importSel pull-right" ng-model="temp" name="temp" ng-if="false">
+                    <option value="">生成导入模板</option>
+                    <option value="2">导入客户资料</option>
+                </select>
+                <button class="btn btn-primary pull-right" ng-click="" ng-if="false">导出</button>
+                <button class="btn btn-primary pull-right" ng-click="showCustomer()">新增</button>
+
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover" style="margin-top: 10px;">
+                    <thead class="title">
+                        <tr>
+                            <th style="width:30px;text-align:center">序号</th>
+                            <th style="text-align:left">客户名称</th>
+                            <th style="text-align:left">联系电话</th>
+                            <th style="text-align:left">客户类型</th>
+                            <th style="text-align:left">首次创建时间</th>
+                            <th style="text-align:left">客户状态</th>
+                            <th style="text-align:center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <!-- <tr ng-repeat="item in pageModel.data" > -->
+                        <tr ng-repeat="item in pageModel.data">
+                            <!-- {{$index + 1+pageModel.pageSize*pageModel.pageIndex}} -->
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td style="text-align:left">{{item.name}}</td>
+                            <td style="text-align:left">{{item.phone}}</td>
+                            <td style="text-align:left">{{item.type==1?'个人':'企业'}}</td>
+                            <td style="text-align:left">{{item.createTime||'--'}}</td>
+                            <td style="text-align:left">{{item.assignationStatus==1?'公共客户':item.assignationStatus==2?'跟进中客户':
+                                item.assignationStatus==3?'无效客户':item.assignationStatus==4?'垃圾箱客户':item.assignationStatus==5?'丢弃客户':
+                                item.assignationStatus==6?'成交客户':'--'}}</td>
+                            <td class="text-center">
+                                <a href='javascript:void(0)' ng-click='showCustomer(item)'
+                                    class='btn btn-xs btn-color1'>查看 </a>
+                                <!-- <a href='javascript:void(0)' ng-click='delete(item)' class='btn btn-xs btn-color2'>删除
+                                </a> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<style>
+    .btn-color1 {
+        color: rgb(0, 174, 255);
+    }
+
+    .panel-body>.table>thead.title {
+        background-color: #f5f5f5;
+        border: 1px solid #ddd;
+
+    }
+
+    .panel-body>.table>thead>tr>th {
+        border-bottom: none;
+        line-height: 40px
+    }
+
+    /* .panel-default>.panel-heading{
+        background-color: rgb(3, 193, 247)
+    } */
+    .x_panel {
+        padding: 15px
+    }
+
+    .btn-color2 {
+        color: rgb(207, 48, 48);
+    }
+
+    select.importSel {
+        width: 135px;
+        margin-top: -7px;
+        margin-left: 5px;
+        color: #ffffff;
+        height: 35px;
+        background-color: #337ab7
+    }
+</style>
+
+</html>

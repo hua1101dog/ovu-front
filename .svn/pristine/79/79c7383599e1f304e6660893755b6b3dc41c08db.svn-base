@@ -1,0 +1,133 @@
+<!-- 人工巡查报告 -->
+<style type="text/css">
+    .aList {
+        padding: 5px 0
+    }
+
+    .aList a {
+        padding: 3px 25px;
+        float: left;
+        cursor: pointer
+    }
+
+    .aList a+a {
+        border-left: 1px solid slategray !important;
+    }
+    .photoWraper {
+        width: 136px;
+        height: 100%;
+        text-align: left;
+        display: inline-block
+    }
+
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>
+
+<div ng-controller="artificialReportCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>| 人工巡查报告</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <!-- <input type="text" class="form-control" ng-model="search.createtime" placeholder="巡查时间" /> -->
+                <label>巡查时间</label>
+                <input style="width: 140px;" type="datetime" class="form-control Wdate" ng-model="search.time"
+                    placeholder="巡查时间" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',isShowClear:false})">
+
+            </div>
+            <div class="form-group">
+                    <label>选择部门:</label>
+                    <div style="display:inline-block;">
+                      
+                            <tree-selector   style="width: 300px;" node-list="childTree" host="search"  callback="setDept" host-key="'deptId1'" host-text="'nodeText'" leaf-only=false tip-text="'请选择部门'"></tree-selector>
+                    </div>
+                </div>
+                <div class="form-group">
+						<label>选择岗位</label>
+						<select class="form-control" ng-model="search.postId" ng-options="o.id as o.postName for o in search.postList" ng-change="findAllWay(search.deptId,search.postId)">
+								<option value="">--请选择岗位--</option>
+							</select>
+					</div>
+            <div class="form-group">
+                    <label>员工姓名</label>
+                    <select-person host="search.user" dept-id="search.deptId" post-id="search.postId"></select-person>
+                </div>
+
+            <div class="form-group">
+                <label>选择路线</label>
+                <select class="form-control" ng-model="search.insWayId"
+                    ng-options="o.insWayId as o.wayName for o in insWayList">
+                    <option value=""> --请选择--</option>
+                </select>
+            </div>
+            <button class="btn btn-default" ng-click="find(1)" ng-disabled="!search.insWayId">查询</button>
+            <button class="btn btn-primary pull-right" ng-click="exportFile()"  ng-disabled="!search.insWayId">导出</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">巡查结果比对
+            <!-- <uib-tabset active="active">
+                <uib-tab index="0" heading="问题列表" ng-click="search.score=0 ; find(1)">
+                    <div class="aList clearfix">
+                        <a ng-repeat="item in insWayList" ng-click="find(1, item.insWayId)" ng-class="{'btn-link':search.insWayIds ==item.insWayId}">{{item.wayName}}</a>
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="巡查结果列表" ng-click="search.score=1 ; find(1)">
+                    <div class="aList clearfix">
+                        <a ng-repeat="item in insWayList" ng-click="find(1, item.insWayId)" ng-class="{'btn-link':search.insWayIds ==item.insWayId}">{{item.wayName}}</a>
+                    </div>
+                </uib-tab>
+            </uib-tabset> -->
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                            <th class="text-center">NO</th>
+                            <th>巡查点名称</th>
+                            <th>巡查项</th>
+                            <th>巡查结果</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel  || pageModel.length == 0">
+                        <td colspan="100">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel">
+                        <!-- <td>{{$index +1+pageModel.pageSize*pageModel.pageIndex}}</td> -->
+                        <td>{{$index-0 +1}}</td>
+                        <td>{{item.insPointName}}</td>
+                        <td >
+                            <div  style="min-width: 200px;" ng-bind-html="item.insItemName">
+                              
+                            </div>
+                        </td>
+                        <td >
+                            <div >
+                                <div class="photoWraper" style="margin-right: 15px;" ng-click="showPictures(v.imgPaths)" ng-repeat="v in item.resultList">
+                                    <img onerror="javascript:this.src='/res/img/detail.png';"
+                                        style="width: 100%;height: 100px;display: block;"
+                                        ng-src="{{processImgUrl(v.imgPaths.split(',')[0])}}"">
+                                        <span>{{v.createTime}}<br>{{v.feedback}}</span>
+                                        </div>
+                            </div>
+							</td>
+                     
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <div class=" page-footer clearfix">
+                                <ng-include src="'/common/pager.html'"></ng-include>
+                            </div> -->
+        </div>
+    </div>
+
+</div>

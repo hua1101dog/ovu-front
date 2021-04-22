@@ -1,0 +1,49 @@
+	<!--新增修改弹出框  -->
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="vm.cancel()">×</button>
+		<h4 class="modal-title">{{vm.item.kb_id?'修改':'上传'}}文档</h4>
+    </div>
+    <div class="modal-body container-fluid">
+		<form name="form" novalidate class="form-horizontal">
+			<div class="form-group">
+				<label class="col-xs-3 control-label required">上传文档：</label>
+				<div class="col-xs-8">
+					<div class="input-group">
+				      <input type="text" class="form-control" required ng-model="vm.item.name">
+				      <span class="input-group-btn">
+				        <button class="btn btn-default" type="button" ng-click="addFile(vm.item,'path','name')">选择文档</button>
+				      </span>
+				    </div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label required">类型：</label>
+				<div class="col-xs-8">
+					<select type="text" ng-model="vm.item.type"
+						class="form-control" required
+						ng-options="type[0] as type[1] for type in vm.typeList">
+						<option value="">-请选择-</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label required">描述：</label>
+				<div class="col-xs-8">
+					<textarea type="text" class="form-control" 
+						required ng-model="vm.item.description" name="description" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label required">备注：</label>
+				<div class="col-xs-8">
+					<textarea type="text" class="form-control" 
+						required ng-model="vm.item.remark" name="remark" />
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="vm.save(form,vm.item)">确定</button>
+		<button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+	</div>
+

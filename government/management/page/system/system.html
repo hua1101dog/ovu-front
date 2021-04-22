@@ -1,0 +1,38 @@
+<h4 class="text-lg font-bold m-b-xxl">邮件管理</h4>
+<div class="row">
+    <div class="col-lg-12 col-sm-12">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">SMTP地址:</label>
+                <div class="col-sm-7">
+                    <input type="text" ng-model="vm.item.smtpServer" class="form-control" placeholder="发送方服务器地址">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">用户名称:</label>
+                <div class="col-sm-7">
+                    <input type="text" ng-model="vm.item.smtpServerUserName" class="form-control" placeholder="发送方用户名称">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">密码:</label>
+                <div class="col-sm-7">
+                    <input type="password" ng-model="vm.item.smtpServerUserPassword" class="form-control" placeholder="发送方密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">发送方E-mail地址:</label>
+                <div class="col-sm-7">
+                    <input type="text" ng-model="vm.item.sendFrom" class="form-control" placeholder="发送方地址">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-1g-12 col-sm-12 text-center">
+        <button class="btn btn-primary"  ng-click="vm.test(form,vm.item)">测试连接</button>
+        <button class="btn btn-primary" ng-disabled="!vm.isTest"  ng-click="vm.save(form,vm.item)">确定</button>
+        <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+    </div>
+</div>

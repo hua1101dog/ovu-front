@@ -1,0 +1,128 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">{{item.id?'编辑':'新增'}}APP版本</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="item form-group">
+			<label class="control-label col-md-3 col-sm-3 col-xs-12 required">APP名称
+			</label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<select class="form-control" ng-model="item.appId" ng-options="o.id as o.name for o in apps" required>
+					<option value="">--请选择--</option>
+				</select>
+			</div>
+		</div>
+        <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12 required">android版本
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" name="version" ng-model="item.androidVersion" required
+                       maxLength="20" class="form-control col-md-7 col-xs-12" >
+            </div>
+        </div>
+        <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12 required">ios版本
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" name="version" ng-model="item.iosVersion" required
+                       maxLength="20" class="form-control col-md-7 col-xs-12" >
+            </div>
+        </div>
+        <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12 required">app分享链接
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" name="version" ng-model="item.url" required
+                       maxLength="200" class="form-control col-md-7 col-xs-12" >
+            </div>
+        </div>
+        <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12 required">标题
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" name="name" ng-model="item.name" required
+                       maxLength="30" class="form-control col-md-7 col-xs-12" >
+            </div>
+        </div>
+		<div class="item form-group">
+			<label class="control-label col-md-3 col-sm-3 col-xs-12 required">代码版本
+			</label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<select class="form-control" ng-model="item.basicId" ng-options="o.id as o.version for o in basicVersions" ng-change="changeBasic(item.basicId)" required>
+					<option value="">--请选择--</option>
+				</select>
+			</div>
+		</div>
+		<div class="item form-group">
+			<label class="control-label col-md-3 col-sm-3 col-xs-12 required">子系统版本
+			</label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="input-group">
+					<a class='btn btn-success btn-sm' ng-click='addPostItem()'><span class='glyphicon glyphicon-plus'></span>选择系统版本</a>
+				</div>
+			</div>
+		</div>
+		<div class="item form-group">
+			<label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="input-group">
+					<ul id="person" class="ul-persons">
+						<li class="item" ng-repeat="p in pros">{{p.proName}}-{{p.version}}<a ng-click="delpost(pros,p)"><i class='fa fa-remove'></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="item form-group">
+			<label class="control-label col-md-3 col-sm-3 col-xs-12 required">android下载地址
+			</label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<input type="text" name="androidUrl" ng-model="item.androidUrl" required
+					   maxLength="200" class="form-control col-md-7 col-xs-12" >
+			</div>
+		</div>
+		<div class="item form-group">
+			<label class="control-label col-md-3 col-sm-3 col-xs-12 required">ios下载地址
+			</label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<input type="text" name="iosUrl" ng-model="item.iosUrl" required
+					   maxLength="200" class="form-control col-md-7 col-xs-12" >
+			</div>
+		</div>
+		<div class="item form-group">
+			<label
+				class="control-label col-md-3 col-sm-3 col-xs-12">更新内容</label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<textarea ng-model="item.remark" name="remark" class="form-control"
+					rows="8"></textarea>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+	</form>
+</div>
+<style>
+	.ul-persons{
+		list-style: none;
+		float: left;
+		padding: 0px;
+	}
+	.ul-persons li{
+		margin: 5px;
+		padding: 5px;
+		float: left;
+	}
+	.ul-persons li.item{
+		background-color: #F9F9F9;
+		border: 1px solid #CCCCCC;
+		border-radius: 4px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.ul-persons li a{
+		margin-left: 5px;
+		cursor: pointer;
+	}
+</style>

@@ -1,0 +1,63 @@
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancel()">×</button>
+		<h4 class="modal-title">{{item.title}}</h4>
+   </div>
+   <div class="modal-body container-fluid form-horizontal">
+		<form name="form" novalidate>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>企业名称：</label></div>
+				<div class="col-md-8"><span>{{item.companyName}}</span></div>
+			</div>
+			<div class="form-group" ng-if="item.operateType == 'unbind'">
+				<div class="col-md-3" align="right"><label>登录账号：</label></div>
+				<div class="col-md-5">
+					<span>{{item.parkUser.loginName}}</span>
+					<a href="javascript:void(0)" class="company-a-default p-l-s" ng-click="vm.unbindAccount(item)">解绑</a>
+				</div>
+			</div>
+			<div class="form-group" ng-if="item.operateType == 'init'">
+				<div class="col-md-3 height34" align="right"><label>登录账号：</label></div>
+				<div class="col-md-5">
+					<input type="text" style="height: 38px;" ng-model="item.mobile" required class="form-control"/>
+					<i class="glyphicon glyphicon-remove pull-right height34 p-l-xs account-init" style="margin-top: -36px;" ng-click="item.mobile = ''"></i>
+				</div>
+			</div>
+			<div class="form-group" ng-if="mobileStatus">
+				<div class="col-md-3" align="right"><label>   </label></div>
+				<div class="col-md-9">
+					<span class="spantip">登录账号为常用邮箱或是手机号码,请正确输入!</span>
+				</div>
+			</div>
+			<div class="form-group"  ng-if="item.operateType == 'init'">
+				<div class="col-md-3" align="right"><label>登录密码：</label></div>
+				<div class="col-md-5" ng-model="item.password"><span>默认密码ovu888888</span></div>
+			</div>
+            <div class="form-group"  ng-if="item.operateType == 'init'">
+                <div class="col-md-3" align="right"><label>是否虚拟：</label></div>
+                <div class="col-md-5" ng-init = "item.isVirtual = '0'">
+                    <input type="radio"  name="isVirtual" ng-value="0" required ng-model="item.isVirtual"/>
+                    <span>否</span>
+                    &nbsp;&nbsp;
+                    <input type="radio" name="isVirtual" ng-value="1" required ng-model="item.isVirtual" />
+                    <span>是</span>
+                </div>
+            </div>
+		</form>
+	</div>
+	<div class="modal-footer" ng-if="item.operateType == 'init'">
+		<button class="btn btn-primary" ng-click="initAccount(form, item)">确定</button>
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>
+	<style>
+		.spantip{
+            display: inline;
+            color: red;
+			margin-top: 8px;
+			padding-left: 0px
+        }
+        .ng-invalid-pattern .spantip{
+            display: inline;
+            color: red;
+        }
+	</style>
+

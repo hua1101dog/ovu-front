@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>标签管理</title>
+    <link rel="stylesheet" href="operationManage/groupCustomService/style.css">
+</head>
+<body>
+<div id="angularId" ng-controller="labelManageCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>标签管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-sm-8 col-xs-12" style="width: 100%;">
+            <div class="div-group"></div>
+            <div class="x_panel">
+                <div class="form-inline">
+
+
+                    <div class="form-group">
+                        <label class="label_search">标签状态</label>
+                        <select class="form-control" ng-model="search.enabled" style="width: 180px;">
+                            <option value="">全部</option>
+                            <option value="0">未启用</option>
+                            <option value="1">使用中</option>
+                            <option value="2">停用</option>
+                        </select>
+                    </div>
+
+
+                    <button class="btn btn-default" ng-click="query()">查询</button>
+                    <button class="btn btn-primary pull-right" ng-click='showItem()'>新增标签</button>
+                </div>
+            </div>
+            <div class="x_panel">
+
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead class="title">
+                    <tr>
+                        <th class="text-center" style="width: 13%">标签名</th>
+                        <th class="text-center" style="width: 33%">状态</th>
+                        <th class="text-center" style="width: 33%">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="">{{item.name||'--'}}</td>
+                        <td class="">
+                            {{item.enabled=='0'?'未启用':item.enabled=='1'?'使用中':'停用'}}
+                        </td>
+
+                        <td class="">
+                            <button class="btn btn-oper" ng-click='switchItem(item)'>
+                                {{item.enabled=='1'?'停用':'启用'}}
+                            </button>
+                            <button class="btn btn-oper" ng-click='showItem(item)' style="margin-right: 0">编辑</button>
+                            <button class="btn btn-oper" ng-click='del(item)'>删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

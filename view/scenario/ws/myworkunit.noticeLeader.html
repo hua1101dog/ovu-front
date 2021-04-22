@@ -1,0 +1,74 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">通知上级</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+        <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+                                <i class="glyphicon"
+                                    ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                        </th>
+                        <th style="text-align:center">姓名</th>
+                        <th style="text-align:center">岗位</th>
+                        <th style="text-align:center">app在线状态</th>
+                   
+        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="pageModel.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel track by $index" role="button">
+                        <td class="text-center">{{$index-0 + 1}}</td>
+                        <td>
+                            <i role="checkbox" ng-click="selectPersonItem(item,pageModel)" ng-if="item.onlineStatus=='online'"
+                                ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                class="glyphicon"></i>
+                               
+                        </td>
+                        <td style="text-align:center">{{item.personName}}</td>
+                        <td style="text-align:center">{{item.post}}</td>
+                        <td style="text-align:center">{{item.onlineStatus=='online'?'在线':'离线'}}</td>
+                     
+        
+                    </tr>
+                </tbody>
+            </table>
+            <form class="form-label-left" id="selectForm">
+                    <div class="form-group">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                已选人员:
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="input-group">
+                                        <ul id="person" class="ul-persons">
+                                            <li class="item" ng-repeat="p in personsSelected">
+                                                {{p.personName || ''}}
+                                                <a ng-click="delSelectedPersonItem(p)"><i class='fa fa-remove'></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                  
+            
+                </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="saveNotice(form)" ng-if="personsSelected.length">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+ 
+
+
+</style>

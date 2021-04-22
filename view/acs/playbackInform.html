@@ -1,0 +1,35 @@
+<div ng-controller="playbackInformCtrl">
+    <div style="overflow: hidden">
+        <button class="btn btn-primary" style="margin-top: 5px;float: right;" ng-click="goback()">返回</button>
+    </div>
+
+    <div class="row" style="overflow: hidden">
+        <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 15px">
+            <div ng-repeat="item in cameraList track by $index"  ng-class="{'col-md-6 col-sm-6 col-xs-12':cameraList.length==2,'col-md-4 col-sm-4 col-xs-12':cameraList.length==3}" style="margin-top: 15px">
+                <iframe ng-src="{{'/common/singleVideo.html?equipmentId='+equipmentId+'&cameraIndex='+$index+'&startTime='+startTime+'&endTime='+endTime}}" style="height: 320px;width:100%;"></iframe>
+            </div>
+            <div ng-if='cameraList.length<=1'>
+                <iframe ng-src="{{'/view/video.html?equipmentId='+equipmentId+'&startTime='+startTime+'&endTime='+endTime}}" style="width: 100%;height: 320px"></iframe>
+            </div>
+
+        </div>
+     
+       
+           
+        </div>
+    </div>
+  
+  
+
+</div>
+
+<style>
+    table th,
+    table td {
+        text-align: center;
+    }
+
+    .red {
+        color: red;
+    }
+</style>

@@ -1,0 +1,240 @@
+<head>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+    <link rel="stylesheet" href="operationManage/releaseManage/releaseIndex.css" />
+</head>
+
+<div ng-controller="jdorderManageIndexCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>京东订单管理</h3>
+        </div>
+    </div>
+    <div ng-controller="jdorderCtrl" ng-show="tabIndex==0">
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>京东订单号：</label>
+                    <input ng-model="search.jdOrderId" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                           type="text">
+                </div>
+                <div class="form-group" style="margin-left: 20px">
+                    <label>京东订单状态：</label>
+                    <select class="form-control" ng-model="search.jdOrderState"
+                            ng-options="o.value as o.text for o in jdOrderState">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>创建时间：</label>
+                    <input type="datetime" id="startTime"
+                           class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched"
+                           placeholder="请选择开始时间" ng-model="search.startTime" onchange=""
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'endTime\')}'})"
+                           aria-invalid="false">
+                    至
+                    <input type="datetime" id="endTime"
+                           class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched"
+                           placeholder="请选择结束时间" ng-model="search.endTime" onchange=""
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'startTime\')}'})"
+                           aria-invalid="false">
+                </div>
+                <button class="btn btn-default" ng-click="find(1)">查询</button>
+                <button class="btn btn-default" ng-click="search={}">重置</button>
+            </div>
+        </div>
+        <div class="x_panel">
+            <ul class="nav nav-tabs bar_tabs" role="tablist">
+                <li role="presentation"  ng-class="{'active':tabIndex==0}">
+                    <a role="tab" data-toggle="tab" aria-expanded="true" ng-click="selTab(0)">支付订单</a>
+                </li>
+                <li role="presentation" ng-class="{'active':tabIndex==1}">
+                    <a role="tab" data-toggle="tab" aria-expanded="false" ng-click="selTab(1)">退款订单</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <table class="table text-center">
+                    <thead>
+                    <tr>
+                        <!--<th class="text-center" style="width:20px">-->
+                                    <!--<span role="button" ng-click="checkAll(pageModel)">-->
+                                        <!--<i class="glyphicon glyphicon-unchecked" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>-->
+                                    <!--</span>-->
+                        <!--</th>-->
+                        <th>京东订单号</th>
+                        <th>商品信息</th>
+                        <th>订单金额</th>
+                        <th>支付金额</th>
+                        <th>运费</th>
+                        <th>支付方式</th>
+                        <th>物流状态</th>
+                        <th>订单状态</th>
+                        <th>京东订单状态</th>
+                        <th>创建时间</th>
+                        <th>订单完成时间</th>
+                        <th>收货人名称</th>
+                        <th>收货人地址</th>
+                        <th>收货人手机号</th>
+                        <th>收货人备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <!--<td><i role="button" ng-click="checkOne(item, pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"-->
+                               <!--class="glyphicon glyphicon-unchecked"></i></td>-->
+                        <td>{{item.jdOrderId||'--'}}</td>
+                        <td>{{item.skuNames||"--"}}</td>
+                        <td>￥{{item.orderPrice||"--"}}</td>
+                        <td>￥{{item.payMoney||"--"}}</td>
+                        <td>￥{{item.freight||"--"}}</td>
+                        <td>{{(['--','货到付款','邮局付款','在线支付','公司转账','银行转账'][item.paymentType])||"--"}}</td>
+                        <td>{{(['刚下单','妥投','拒收'][item.state])||"--"}}</td>
+                        <td>{{(['处理中','有效','拆单','取消'][item.orderState])||"--"}}</td>
+                        <td>{{item.jdOrderState|jdOrderState}}</td>
+                        <td>{{item.created||"--"}}</td>
+                        <td>{{item.finishTime||"--"}}</td>
+                        <td>{{item.name||"--"}}</td>
+                        <td>{{item.address||"--"}}</td>
+                        <td>{{item.mobile||"--"}}</td>
+                        <td>{{item.remark||"--"}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <ng-include src="'/common/pager.html'"></ng-include>
+
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="jdorderbackCtrl" ng-show="tabIndex==1">
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>父单号：</label>
+                    <input ng-model="search.orderId" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                           type="text">
+                </div>
+
+                <div class="form-group">
+                    <label>子单号：</label>
+                    <input ng-model="search.childOrderId" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                           type="text">
+                </div>
+                <div class="form-group" style="margin-left: 20px">
+                    <label>返还积分类型：</label>
+                    <select class="form-control" ng-model="search.returnType"
+                            ng-options="o.value as o.text for o in returnType">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>用户id：</label>
+                    <input ng-model="search.uid" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                           type="text">
+                </div>
+                <div class="form-group">
+                    <label>创建时间：</label>
+                    <input type="datetime" id="startDate"
+                           class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched"
+                           placeholder="请选择开始时间" ng-model="search.startDate" onchange=""
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'endDate\')}'})"
+                           aria-invalid="false">
+                    至
+                    <input type="datetime" id="endDate"
+                           class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched"
+                           placeholder="请选择结束时间" ng-model="search.endDate" onchange=""
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'startDate\')}'})"
+                           aria-invalid="false">
+                </div>
+                <button class="btn btn-default" ng-click="find(1)">查询</button>
+                <button class="btn btn-default" ng-click="search={}">重置</button>
+            </div>
+        </div>
+        <div class="x_panel">
+            <ul class="nav nav-tabs bar_tabs" role="tablist">
+                <li role="presentation"  ng-class="{'active':tabIndex==0}">
+                    <a role="tab" data-toggle="tab" aria-expanded="true" ng-click="selTab(0)">支付订单</a>
+                </li>
+                <li role="presentation" ng-class="{'active':tabIndex==1}">
+                    <a role="tab" data-toggle="tab" aria-expanded="false" ng-click="selTab(1)">退款订单</a>
+                </li>
+                <!--<button class="btn btn-primary"  ng-disabled="!hasChecked(pageModel)" style="float: right;margin-top: 5px" ng-click="batchOpt()">批量退款</button>-->
+            </ul>
+            <div class="tab-content">
+                <table class="table text-center">
+                    <thead>
+                    <tr>
+                        <!--<th class="text-center" style="width:20px">-->
+                                    <!--<span role="button" ng-click="checkAll(pageModel)">-->
+                                        <!--<i class="glyphicon glyphicon-unchecked" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>-->
+                                    <!--</span>-->
+                        <!--</th>-->
+                        <th>退款单号</th>
+                        <!--<th>业务单号</th>-->
+                        <!--<th>售后服务单号</th>-->
+                        <th>活动模式</th>
+                        <!--<th>活动id</th>-->
+                        <th>用户id</th>
+                        <th>创建时间</th>
+                        <th>更新时间</th>
+                        <th>实际金额</th>
+                        <th>父单号</th>
+                        <th>子单号</th>
+                        <th>是否返还积分</th>
+                        <th>返还积分</th>
+                        <th>返还类型</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <!--<td><i role="button" ng-click="checkOne(item, pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"-->
+                               <!--class="glyphicon glyphicon-unchecked"></i></td>-->
+                        <td>{{item.refundOrderId||'--'}}</td>
+                        <!--<td>{{item.businessCode||"&#45;&#45;"}}</td>-->
+                        <!--<td>{{item.afsServiceId||"&#45;&#45;"}}</td>-->
+                        <td>{{item.activityModel||"--"}}</td>
+                        <!--<td>{{item.activityId||"&#45;&#45;"}}</td>-->
+                        <td>{{item.uid||"--"}}</td>
+                        <td>{{item.createDate|toTime}}</td>
+                        <td>{{item.updateDate|toTime}}</td>
+                        <td>￥{{item.price}}</td>
+                        <td>{{item.parentOrderId||"--"}}</td>
+                        <td>{{item.childOrderId||"--"}}</td>
+                        <td>{{(['--','返还','未返还'][item.isReturn])||"--"}}</td>
+                        <td>{{item.returnBp||"--"}}</td>
+                        <td>{{(['--','父单返还','子单返还','售后退货'][item.returnType])||"--"}}</td>
+                        <td>{{item.remark||"--"}}</td>
+                        <td>
+                            <a href="javascript:void(0)" class="nnn"  ng-click="single(item)" ng-class=" {'disabled' : item.isrefund==1 }">退款</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+    .nnn{
+        color: #6f7eff;
+    }
+    .disabled{
+        color: #ccc;
+    }
+    .disabled:hover{
+        cursor: not-allowed;
+        color: #ccc;
+        /*pointer-events: none;*/
+    }
+</style>
+
+

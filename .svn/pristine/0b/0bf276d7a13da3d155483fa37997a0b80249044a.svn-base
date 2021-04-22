@@ -1,0 +1,208 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">查看任务</h4>
+</div>
+<div
+    class="modal-body container-fluid"
+    id="modal"
+    style="height: 800px; overflow: auto"
+>
+    <ul class="layui-timeline">
+        <li class="layui-timeline-item" ng-repeat="item in detailList">
+            <i
+                class="layui-icon layui-timeline-axis"
+                ng-class="{'bgColor_gray':(item.status==0),'bgColor_green':(item.status==1)}"
+                ></i
+            >
+            <div class="layui-timeline-content layui-text">
+                <h3 class="layui-timeline-title">
+                    {{item.insTime}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.insPointName}}
+                </h3>
+                <div ng-repeat="v in item.itemList track by $index">
+                    <form name="form" novalidate class="form-horizontal">
+                        <div
+                            class="form-group clearfix"
+                            style="margin-bottom: 0"
+                        >
+                            <label
+                                class="col-sm-3 col-xs-3 control-label"
+                                style="text-align: left"
+                                >巡查项{{$index-0+1}}:</label
+                            >
+                            <div class="col-sm-8">
+                                <p
+                                    class="form-control-static"
+                                    ng-bind="v.insItemName"
+                                    style="text-align: left"
+                                ></p>
+                            </div>
+                        </div>
+                        <div
+                            class="form-group clearfix"
+                            style="margin-bottom: 0"
+                        >
+                            <label
+                                class="col-sm-3 col-xs-3 control-label"
+                                style="text-align: left;margin-top: -6px;"
+                                >巡查内容{{$index-0+1}}:</label
+                            >
+                            <div class="col-sm-8">
+                                <div
+                                    ng-bind-html="v.trustHtml"
+                                    class="htmlCss"
+                                ></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label
+                                class="col-sm-3 col-xs-3 control-label"
+                                style="text-align: left"
+                                >巡查位置:</label
+                            >
+                            <div class="col-sm-8">
+                                <p
+                                    class="form-control-static"
+                                    ng-bind="item.insAddr"
+                                    style="text-align: left"
+                                ></p>
+                            </div>
+                        </div>
+                        <div
+                            class="form-group clearfix"
+                            style="margin-bottom: 0"
+                        >
+                            <label
+                                class="col-sm-3 col-xs-3 control-label"
+                                style="text-align: left"
+                                >是否合格:</label
+                            >
+                            <div class="col-sm-8">
+                                <p
+                                    class="form-control-static"
+                                    style="text-align: left"
+                                >
+                                    {{v.score==1 ? '是' : v.score == 0 ?
+                                    '否':''}}
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="form-group clearfix"
+                            style="margin-bottom: 0"
+                        >
+                            <label
+                                class="col-sm-3 col-xs-3 control-label"
+                                style="text-align: left"
+                                >问题描述:</label
+                            >
+                            <div class="col-sm-8">
+                                <p
+                                    class="form-control-static"
+                                    ng-bind="v.feedback"
+                                    style="text-align: left"
+                                ></p>
+                            </div>
+                        </div>
+                        <div
+                            class="form-group clearfix"
+                            style="margin-bottom: 0"
+                        >
+                            <label
+                                class="col-xs-3 control-label"
+                                style="text-align: left"
+                                >现场图片：</label
+                            >
+                            <div class="col-xs-8">
+                                <div
+                                    class="thumbnail111"
+                                    ng-repeat="p in v.imgPaths track by $index"
+                                >
+                                    <img
+                                        onerror="javascript:this.src='/res/img/upload.jpg';"
+                                        ng-click="showPhoto()"
+                                        ng-src="{{processImgUrl(p)}}"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <hr>
+                </div>
+            </div>
+        </li>
+        <li class="layui-timeline-item">
+            <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title"></div>
+            </div>
+        </li>
+    </ul>
+   
+</div>
+<style>
+    .thumbnail111 {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        float: left;
+        margin-right: 5px;
+        text-align: center;
+    }
+
+    .thumbnail111 img {
+        padding: 0 3px;
+        height: 100%;
+    }
+    #modal::-webkit-scrollbar {
+        width: 10px;
+
+        height: 10px;
+    }
+
+    /*正常情况下滑块的样式*/
+
+    #modal::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.05);
+
+        border-radius: 10px;
+
+        -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    /*正常时候的主干部分*/
+
+    #modal::-webkit-scrollbar-track {
+        border-radius: 10px;
+
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+
+        background-color: white;
+    }
+    .layui-timeline-axis {
+        position: absolute;
+        left: -5px;
+        top: 0;
+        z-index: 10;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        background-color: #fff;
+        color: #a2b5a7;
+        border-radius: 50%;
+        text-align: center;
+        cursor: pointer;
+    }
+    .bgColor_green {
+        background: #00cc00;
+    }
+    .bgColor_gray {
+        background: #c5c1c1;
+    }
+
+    .htmlCss {
+        word-break: break-all; max-width: 100%;
+			overflow: auto;white-space: nowrap;display: inline-block;vertical-align: bottom;
+       
+    }
+   
+
+</style>

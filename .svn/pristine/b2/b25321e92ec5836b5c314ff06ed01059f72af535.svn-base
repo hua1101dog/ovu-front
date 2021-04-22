@@ -1,0 +1,108 @@
+	<!--新增修改弹出框  -->
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="vm.cancel()">×</button>
+		<h4 class="modal-title">（员工）张三（工程班长）20170519日工作日志</h4>
+    </div>
+    <div class="modal-body container-fluid">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h5>工单完成情况：
+				</h5>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">
+					<div class="col-sm-4 col-xs-4 border-line b-r">
+						<div>计划工单</div>
+						<div>300条</div>
+						<div>查看详情</div>
+					</div>
+					<div class="col-sm-4 col-xs-4 border-line b-r">
+						<div>计划工单</div>
+						<div>300条</div>
+						<div>查看详情</div>
+					</div>
+					<div class="col-sm-4 col-xs-4 border-line">
+						<div>计划工单</div>
+						<div>300条</div>
+						<div>查看详情</div>
+					</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h5>自发工单：
+				</h5>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<table class="table table-condensed table-hover">
+					<thead class="title">
+					<tr>
+						<th class="text-center">工单名称</th>
+						<th>工单状态</th>
+						<th>执行时间</th>
+						<th>创建者</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>5454</td>
+						<td>87878878</td>
+						<td>87878878</td>
+						<td>87878878</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h5>待办事项:
+				</h5>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<table class="table table-condensed table-hover">
+					<thead class="title">
+					<tr>
+						<th class="text-center">工单名称</th>
+						<th>工单状态</th>
+						<th>执行时间</th>
+						<th>创建者</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>5454</td>
+						<td>87878878</td>
+						<td>87878878</td>
+						<td>87878878</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+	</div>
+	<style>
+		.panel-default{
+			margin-bottom: 0;
+		}
+		.border-line {
+			margin: 25px 0;
+			text-align: center;
+			line-height: 32px;
+		}
+		.b-r {
+			border-right: 1px solid #ddd;
+		}
+		.font-size-lg {
+			font-size: 25px;
+			font-weight: bold;
+		}
+	</style>

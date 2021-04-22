@@ -1,0 +1,145 @@
+<style>
+    .modal.in .modal-dialog {
+        min-width: 930px !important;
+    }
+    label.control-label {
+        padding-left: 0;
+        padding-right: 0;
+        width: 136px;
+    }
+
+    div.col-xs-8{
+        width: 310px;
+    }
+    .form-group{
+        margin-bottom: 6px;
+        margin-left: 0px !important;
+    }
+    .houseInfo {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .houseInfo:last-child {
+        border-bottom: none;
+    }
+</style>
+<div class="modal-content" style="width: 930px">
+    <div class="modal-header" style="width: 930px">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">空间复核</h4>
+    </div>
+    <div class="col-md-8 col-sm-8 col-xs-12" style="padding:15px;width: 930px">
+        <div class="x_panel form-horizontal" style="padding:0;width: 446px;float: left">
+            <div class="x_title"><h5>原房间信息</h5></div>
+            <div class="houseInfo" ng-repeat="item in orgHouseList">
+                <div><h5>{{item.houseCode}}</h5></div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">房屋名称：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.houseName" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">房屋编码：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.houseNo" readonly="readonly"/>
+                    </div>
+                </div>
+               <!-- <div class="form-group">
+                    <label class="col-xs-4 control-label">装修类型：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.isDecoration" readonly="readonly"/>
+                    </div>
+                </div>-->
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">户型：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.rmStd" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">是否设备房：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.isEmtHouse" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">房屋类型：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.rmCat" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">建筑面积（平米）：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.area" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">使用面积（平米）：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.areaProperty" readonly="readonly"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="x_panel form-horizontal" style="padding:0;width: 446px;float: left">
+            <div class="x_title"><h5>新房间信息</h5></div>
+            <div class="houseInfo" ng-repeat="item in newHouseList">
+                <div><h5>{{item.houseCode}}</h5></div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">房屋名称：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.houseName" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">房屋编码：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.houseNo" readonly="readonly"/>
+                    </div>
+                </div>
+               <!-- <div class="form-group">
+                    <label class="col-xs-4 control-label">装修类型：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.isDecoration" readonly="readonly"/>
+                    </div>
+                </div>-->
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">户型：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.rmStd" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">是否设备房：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.isEmtHouse" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">房屋类型：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.rmCat" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">建筑面积（平米）：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.area" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">使用面积（平米）：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" ng-model="item.areaProperty" readonly="readonly"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group text-center x_panel" style="margin-top:-10px;">
+        <button class="btn btn-primary" ng-click="save(1)">通过</button>
+        <button class="btn btn-warning" ng-click="save(2)">不通过</button>
+    </div>
+</div>

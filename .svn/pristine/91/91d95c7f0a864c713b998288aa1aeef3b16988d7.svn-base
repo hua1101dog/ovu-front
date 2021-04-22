@@ -1,0 +1,25 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">{{item.demandStatus == 2 ? "审核" : "查看"}}需求</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+   	<img src="/view/crowdSource/img/guide.png" ng-click="downLoad()" ng-if="item.filePath">
+   	<h4 class="title-font">需求详情</h4>
+   	<p class="content-color">审核需求行业：<span>{{item.industryName}}</span></p>
+   	<p class="content-color">寻求解决方式：<span>{{solution(item.solution)}}</span></p>
+   	<p class="content-color">期望完成时间：<span>{{item.estimatedTime}}</span></p>
+   	<p class="content-color">联系人：<span>{{item.contactPeople}}</span></p>
+   	<h4 class="title-font">现状描述：</h4>
+   	<p class="content-color">{{item.describeStatus}}</p>
+   	<h4 class="title-font">期望要求：</h4>
+   	<p class="content-color">{{item.expectation}}</p>
+   	<div class="mt25" ng-show="item.openStatus == 1">
+   		<img src="/view/crowdSource/img/phone.png">
+   		<span class="content-color pl10">联系方式：{{item.contactWay}}</span>
+   	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-info w70" ng-if="item.demandStatus != '2'" ng-click="cancel()">关 闭</button> 
+	<button class="btn btn-info w70" ng-if="item.demandStatus == '2'" ng-click="approve('1');" >通 过</button> 
+	<button class="btn btn-default w70" ng-if="item.demandStatus == '2'" ng-click="approve('0');">不通过</button>
+</div>

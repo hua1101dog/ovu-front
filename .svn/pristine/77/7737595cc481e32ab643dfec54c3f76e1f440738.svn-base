@@ -1,0 +1,463 @@
+<!--单电梯概览-->
+<div id="angularId" ng-controller="singleElevatorOverviewController">
+    <!--title BEGIN-->
+    <div class="page-title x_panel">
+        <div class="title_left">
+            <h4 style="font-weight: 700;">电梯详情</h4>
+        </div>
+       	<button class="btn btn-primary pull-right" ng-click="goBack()">返回</button>
+    </div>
+    <!--title END-->
+
+    <!--上半部分 BEGIN-->
+    <div class="row up">
+        <div class="col-md-4 col-sm-4 clearfix" ng-init="videoHide=true">
+            <div class="row" ng-show="!videoHide">
+                <div class="col-xs-12 col-sm-offset-9 " style="margin-bottom: 133px;">
+                    <img src="../view/liftReport/projectOperationCenter/img/vedio.png"
+                         ng-click="videoHide=true"
+                         style="padding-top: 10px;">
+                </div>
+            </div>
+            <div class="monitor panel panel-default" ng-show="videoHide">
+                <div class="panel-heading clearfix">
+                    <h6 class="pull-left">实时视频监控</h6>
+                    <!-- <button type="button" class="close" ng-click="videoHide=false">×</button> -->
+                    <!-- <button class="btn btn-primary btn-xs pull-right" ng-click="showVideo()" style="margin-top:4px"> 查看日志</button> -->
+                </div>
+                <div class="panel-body">
+                    <!-- <play-video id="video1" device-id="liftId"></play-video> -->
+                    <iframe ng-src="{{'/view/video.html?equipmentId='+liftId}}" style="width: 100%;height: 320px"></iframe>
+                    <!-- <button class="btn btn-primary btn-xs pull-right" ng-click="showVideo()">&lt;&lt; 详情</button> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4">
+                <div class="clearfix" ng-init="enHide = true">
+                        <div class="row" ng-show="!enHide">
+                            <div class="col-xs-12 col-sm-offset-9 ">
+                                <img src="../view/liftReport/projectOperationCenter/img/environment.png"
+                                     ng-click="enHide=true">
+                            </div>
+                        </div>
+                        <div class="real-time-state panel panel-default" ng-show="enHide">
+                            <div class="panel-heading clearfix">
+                                <h6 class="pull-left">电梯房环境</h6>
+                                <!-- <button type=" button " class="close" ng-click="enHide=false" style="margin-top: 0">×</button> -->
+                                <button class="btn btn-primary btn-xs pull-right " style="margin-top:4px" ng-click="showEnv(realTimeStatus)">查看日志</button>
+                            </div>
+                            <div class="panel-body ">
+                                 <p>温度：{{realTimeStatus.temperatureValue.val || '无'}}℃  {{realTimeStatus.temperatureValue.isRegular}}</p>
+                                 <p>湿度：{{realTimeStatus.temperatureValue.val || '无'}}℃  {{realTimeStatus.temperatureValue.isRegular}}</p>
+                                <!-- <table class="table " style="margin-bottom:-24px">
+                                    <tbody>
+                                    <tr>
+                                        <td>温度</td>
+                                        <td>{{realTimeStatus.temperatureValue.val || '无'}}℃  {{realTimeStatus.temperatureValue.isRegular}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>湿度</td>
+                                        <td>{{realTimeStatus.humidity.val || '无'}}%rh {{realTimeStatus.humidity.isRegular}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table> -->
+                                <!-- <button class="btn btn-primary btn-xs pull-right " ng-click="showEnv(realTimeStatus)">&lt;&lt; 详情</button> -->
+        
+                            </div>
+                        </div>
+                    </div>
+            <div class="map" ng-hide="showInfo !== 'map'">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="padding:0px;height:200px">
+                        <div id="map-container-elevator" style="height:200px">高德地图</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" ng-if="showInfo === 'elevatorVideo'" style="height: 200px;overflow:auto">
+                <div class="panel-heading">
+                    <button type="button" class="close" ng-click="cancel()">×</button>
+                    <div class="x_title">
+                                                                实时监控-{{name}}
+                    </div>
+                </div>
+                <div class="panel-body">
+                	<div class="row">
+                		<div class="col-sm-8 col-xl-8">
+                            <!-- <play-video id="video2" device-id="liftId"  url="historyUrl"></play-video> -->
+                            <iframe ng-src="{{'/view/video.html?equipmentId='+liftId}}" style="width: 100%;height: 320px"></iframe>
+                		</div>
+                		<div class="col-sm-4 col-xl-4">
+                		    <!-- <div class="col-sm-12 col-xl-12">
+                		    	<button class="btn btn-default btn-sm" style="width:100%"  ng-click="historyUrl = ''">实时监控</button>
+                		    </div> -->
+                		    <div class="col-sm-12 col-xl-12" >
+                		    	<div class="x_panel" style="height: 90px;margin-top: 10px;overflow: auto;">
+									<div class="x_title">历史视频 </div>
+									<div class="x_content" style="z-index: 1;">
+										<div class="list-group">
+					                       <input class="form-control" placeholder="请输入时间搜索" ng-model="q"/>
+					                    	<a href="javascript:;;" ng-click="clickHistory(item.screenUrl)" type="button" class="list-group-item" ng-repeat="item in historyList | filter:{screenTime:q} as results">{{item.screenTime}}</a>
+					                    </div>
+									</div>
+								</div>
+                		    </div>
+                		</div>
+               		 </div>
+            	</div>
+            </div>
+            <div class="panel panel-default" ng-if="showInfo === 'elevatorState'" style="height: 200px;overflow:auto">
+                <div class="panel-heading">
+                    <button type="button" class="close" ng-click="cancel()">×</button>
+                    <div class="x_title">
+                          实时监控-{{name}}
+                    </div>
+                    <div>2017-06-06 08:00:00</div>
+                </div>
+                <div class="panel-body">
+                	<div class="row">
+                		<div class="col-sm-7 col-xl-7">
+                			<table  class="table table-bordered ">
+	               				<thead>
+							     </thead>
+							     <tbody>
+							        <tr>
+							          <th>当前状态</th>
+							          <td>{{currenState.elevatorState.isRegular || currenState.elevatorState}}</td>
+							        </tr>
+							        <tr>
+							          <th >楼层</th>
+							          <td>{{currenState.floorInt.val || currenState.floorInt || 5}}</td>
+							        </tr>
+							        <tr>
+							          <th >方向</th>
+							          <td>{{currenState.directionInt.val || currenState.directionInt || '等客'}}</td>
+							        </tr>
+							        <tr>
+							          <th >状态</th>
+							          <td>{{currenState.elevatorState.val || currenState.elevatorState}}</td>
+							        </tr>
+							    </tbody>
+                			</table>
+                		</div>
+                		<div class="col-sm-5 col-xl-5">
+                		    <!-- <div class="col-sm-12 col-xl-12">
+                		    	<button class="btn btn-default btn-sm" style="width:100%"  ng-click="">实时监控</button>
+                		    </div> -->
+                		    <div class="col-sm-12 col-xl-12" >
+                		    	<div class="x_panel" style="height: 95px;margin-top: 10px;overflow: auto;">
+									<div class="x_title">日志 </div>
+									<div class="x_content" style="z-index: 1;">
+										<div class="list-group">
+                                           <!-- <input   class="form-control" placeholder="请输入时间搜索" ng-model="b"/> -->
+                                           <input type="datetime" class="form-control Wdate" required style="display: inline-block" ng-model="search.time"
+                                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"> 
+                                           <button class="btn btn-default" style="margin:4px 0" ng-click="findAll()">查询</button>
+					                    	<a href="javascript:;;" ng-click="clickStateHistory(item)" type="button" class="list-group-item" ng-repeat="item in historyStateList | filter:{time:b} as results">{{item.time}}</a>
+					                    </div>
+									</div>
+								</div>
+                		    </div>
+                		</div>
+               		 </div>
+            	</div>
+            </div>
+            <div class="panel panel-default" ng-if="showInfo == 'elevatorEnv'" style="height: 200px;overflow:auto">
+                <div class="panel-heading">
+                    <button type="button" class="close" ng-click="cancel()">×</button>
+                    <div class="x_title">
+                                                                实时监控-{{name}}
+                    </div>
+                    <div>2017-06-06 08:00:00</div>
+                </div>
+                <div class="panel-body">
+                	<div class="row">
+                		<div class="col-sm-7 col-xl-7">
+                			<table  class="table table-bordered ">
+	               				<thead>
+							        <tr>
+							          <th>传感器名称</th>
+							          <th>传感器参数</th>
+							          <th>传感器状态</th>
+							        </tr>
+							     </thead>
+							     <tbody>
+							        <tr>
+							          <th >温度传感器</th>
+							          <td>{{currenEv.temperatureValue.val || currenEv.temperatureValue}}℃</td>
+							          <td>{{currenEv.temperatureValue.isRegular || currenEv.temperatureValueRegular}}</td>
+							        </tr>
+							        <tr>
+							          <th >湿度传感器</th>
+							          <td>{{currenEv.humidity.val || currenEv.humidity}}%RH</td>
+							          <td>{{currenEv.humidity.isRegular || currenEv.humidityRegular}}</td>
+							        </tr>
+							    </tbody>
+                			</table>
+                		</div>
+                		<div class="col-sm-5 col-xl-5">
+                		    <!-- <div class="col-sm-12 col-xl-12">
+                		    	<button class="btn btn-default btn-sm" style="width:100%"  ng-click="">实时监控</button>
+                		    </div> -->
+                		    <div class="col-sm-12 col-xl-12" >
+                		    	<div class="x_panel" style="max-height: 90px;margin-top: 10px;overflow: auto;">
+									<div class="x_title">日志 </div>
+									<div class="x_content" style="z-index: 1;">
+										<div class="list-group">
+                                           <!-- <input class="form-control" placeholder="请输入时间搜索" ng-model="b"/> -->
+                                           <input type="datetime" class="form-control Wdate" required style="display: inline-block" ng-model="search.time"
+                                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"> 
+                                           <button class="btn btn-default" style="margin:4px 0" ng-click="findAll()">查询</button>
+					                    	<a href="javascript:;;" ng-click="clickEvHistory(item)" type="button" class="list-group-item" ng-repeat="item in historyEnvList | filter:{time:b} as results">{{item.time}}</a>
+					                    </div>
+									</div>
+								</div>
+                		    </div>
+                		</div>
+               		 </div>
+            	</div>
+            </div>
+            
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12 elevator-detail">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>电梯详情</h4>
+                </div>
+                <div class="panel-body" style="max-height:300px">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr ng-if="!elevatorDetailsData ||elevatorDetailsData.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in elevatorDetailsData track by $index" ng-class="{'active': item.isActive}">
+                                <td>{{item.name}}</td>
+                                <td>{{item.content}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 clearfix" ng-init="statusHide = true">
+            <div class="row" ng-show="!statusHide">
+                <div class="col-xs-12 col-sm-offset-9 " style="margin-bottom: 193px;">
+                    <img src="../view/liftReport/projectOperationCenter/img/status.png"
+                         ng-click="statusHide=true">
+                </div>
+            </div>
+            <div class="real-time-state panel panel-default" ng-show="statusHide">
+                <div class="panel-heading clearfix">
+                    <h6 class="pull-left" style="font-weight:700">传感器检测参数</h6>
+                    <span class="pull-left" style="margin-left: 30px;margin-top: 8px">当前状态:&nbsp;&nbsp;&nbsp;&nbsp;{{realTimeStatus.elevatorState.isRegularr || '无'}}</span>
+                    <!-- <button type="button" class="close" ng-click="statusHide=false" style="margin-top: 0">×</button> -->
+                    <button class="btn btn-primary btn-xs pull-right" ng-click="showStatus(realTimeStatus)" style="margin-top:4px"> 查看日志</button>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div  class="col-md-4 col-sm-4" style=" text-align:  center;"><span class="real">{{realTimeStatus.elevatorState.val || '无'}}</span>&nbsp;&nbsp;<em class="em">状态</em></div>
+                        <!-- <div class="col-md-4 col-sm-4">状态:&nbsp;&nbsp;&nbsp;&nbsp;{{realTimeStatus.elevatorState.val || '无'}}</div> -->
+                        <div class="col-md-4 col-sm-4"><span class="real">{{realTimeStatus.directionInt.val || '等客'}}</span>&nbsp;&nbsp;</span><em class="em">方向</em></div>
+                        <div class="col-md-4 col-sm-4"><span class="real">{{realTimeStatus.floorInt.val || '5'}}</span>&nbsp;&nbsp;<em class="em">楼层</em></div>
+                    </div>
+                    <!-- <button class="btn btn-primary btn-xs pull-right" ng-click="showStatus(realTimeStatus)">&lt;&lt; 详情</button> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--上半部分 END-->
+
+
+    <!--下半部分 BEGIN-->
+    <div class="row down ">
+        <div class="col-md-4 col-sm-12 " ng-controller="RecordListCtrl">
+            <div class="panel panel-default ">
+                <div class="panel-heading ">
+                    <h4>维保记录</h4>
+                </div>
+                <div class="panel-body " style="height: 500px;overflow:  auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>维保类型</th>
+                                <th>维保时间</th>
+                                <th>维保工</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!recordList ||recordList.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in recordList track by $index ">
+                                <td>{{item.maintainType}}</td>
+                                <td>{{item.execTime}}</td>
+                                <td>{{item.personName}}</td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='showDetailModal(item)' class='btn btn-xs btn-primary'><span class='fa fa-info-circle'></span>查看详情</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12 " ng-controller="EmergencyListCtrl">
+            <div class="panel panel-default ">
+                <div class="panel-heading ">
+                    <h4>应急记录</h4>
+                </div>
+                <div class="panel-body " style="height: 500px;overflow:  auto;">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th>故障来源</th>
+                                <th>维修时间</th>
+                                <th>维保工</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!emergencylist ||emergencylist.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in emergencylist track by $index ">
+                             	<td>{{item.eventType | keyToValue:eventTypeDict}}</td>
+                                <td>{{item.execTime}}</td>
+                                <td>{{item.personName}}</td>
+                                <td>
+                                    <!--<div class="btn btn-primary ">查看详情</div>-->
+                                    <a href='javascript:void(0)' ng-click='showDetailModal(item)' class='btn btn-xs btn-primary'><span class='fa fa-info-circle'></span>查看详情</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12 " ng-controller="PlanListCtrl">
+            <div class="panel panel-default ">
+                <div class="panel-heading ">
+                    <h4>维保计划</h4>
+                </div>
+                <div class="panel-body " style="height: 500px;overflow:  auto;">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th>维保类型</th>
+                                <th>维保时间</th>
+                                <th>维保工</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!planList ||planList.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in planList track by $index ">
+                                <td>{{item.maintainType}}</td>
+                                <td>{{item.execTime}}</td>
+                                <td>{{item.personName}}</td>
+                                <td>
+                                    <!--<div class="btn btn-primary ">查看详情</div>-->
+                                    <a href='javascript:void(0)' ng-click='showDetailModal(item)' class='btn btn-xs'><span class='fa fa-info-circle'></span>查看详情</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--下半部分 END-->
+
+</div>
+</div>
+<style>
+    .panel {
+        margin-bottom: 20px !important;
+    }
+    /*地图容器*/
+
+    #map-container-elevator {
+        height: 316px;
+        background: blue;
+    }
+    /*up begin*/
+    /*电梯详情*/
+
+    .active {
+        color: red;
+    }
+
+    .elevator-detail .panel-body {
+        height: 470px;
+        overflow: auto;
+    }
+
+    .elevator-detail .table {
+        min-width: 270px;
+        margin-bottom: 0;
+    }
+    /*实时监控视频*/
+
+    .monitor video {
+        width: 200px;
+        height: 100px;
+        display: block;
+    }
+
+    .map-right-side {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    .map-right-side li {
+        background-color: transparent;
+        border: none;
+    }
+
+    .map-right-side li button {
+        margin-top: 5px;
+    }
+
+    .map-right-side .panel {
+        margin: 0;
+    }
+
+    .map-right-side .panel-heading {
+        padding: 0;
+    }
+
+    .map-right-side .panel-body {
+        padding: 0;
+    }
+
+    .map-right-side li {
+        padding: 0;
+    }
+    /*up end*/
+    /*map-marker*/
+
+    .map-marker {
+        border: 1px solod red;
+        background-color: skyblue;
+        width: 220px;
+        height: 220px;
+        padding: 10px;
+        border-radius: 50%;
+        text-align: center;
+    }
+    .real{
+    font-size: 24px;
+    font-weight: 700;
+    }
+    .em{
+    color: #969292;
+    font-style: normal
+    }
+</style>

@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}内网代理</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">代理名称：</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" ng-model="item.name" required>
+            </div>
+        </div>
+        <div  class="form-group">
+            <label class="col-xs-2 control-label required">代理编码：</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" ng-model="item.proxyCode" required name="proxyCode" id={{item.id}}
+                       ensure_unique="proxyCode" ng-model-options="{ updateOn: 'blur' }" api='/middleware/proxy/checkUnique_mute'
+                       uib-popover="{{form.proxyCode.$error.unique?'代理编码已被使用':''}}" popover-placement="bottom" popover-trigger="mouseenter" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">备注：</label>
+            <div class="col-xs-10">
+                <textarea type="text" style="height:50px;resize:none" class="form-control" ng-model="item.comment" />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="vm.save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+</div>

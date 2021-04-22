@@ -1,0 +1,105 @@
+<style type="text/css">
+  .userDiv {
+    text-align: center;
+    padding: 6px;
+  }
+
+  .userDiv label {
+    margin-top: 5px;
+    padding: 0 6px;
+    border-radius: 6px 6px;
+  }
+
+  #mapDiv{
+      border: 1px solid #ccc;
+  }
+
+  .map-full {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9999999999;
+  }
+
+  .map-init {
+    min-height: 600px;
+    height: 600px;
+    margin-top: 10px;
+    position: relative
+  }
+
+  .amap-info-content {
+    background-color: #ffe000ed;
+    border-radius: 8px;
+    border: none;
+  }
+</style>
+
+<div id="angularId" ng-controller="personTrackCtrl">
+  <div class="page-title">
+    <div class="title_left">
+      <h3>历史轨迹</h3>
+    </div>
+  </div>
+  <div>
+    <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0">
+      <div class="x_panel" id="queryBox">
+        <div class="form-inline">
+          <div class="form-group">
+            <label>选择日期：</label>
+            <input type="datetime"
+                   class="form-control"
+                   placeholder="" ng-model="search.date" ng-lay-date max-date="tody">
+          </div>
+          <div class="form-group">
+              <label>日期区间：</label>
+            <input type="text" readonly ng-model="search.time" 
+            class="form-control" style="margin-right: 2px;margin-top: 2px;" ng-lay-range="">
+          </div>
+          <div class="form-group">
+              <label>员工姓名</label>
+              <select-person host="search.user"  dept-id="dept.id"></select-person>
+          </div>
+          <button class="btn btn-primary pull-right" ng-click="find(search.user)">查询</button>
+        </div>
+      </div>
+      <!--需求变更
+         <div class="x_panel" id="personList">
+        <div class="x_title">已选人员列表
+          <button class="btn btn-sm btn-primary pull-right" ng-click="choosePerson()"
+                  style="margin-top:-7px;">选择人员
+          </button>
+        </div>
+        <div class="x_content" style="height: auto">
+          <div ng-repeat="item in personsSelected" class="pull-left userDiv">
+            <span ng-class="{'label-primary':item.position,'label-default':!item.position,'label-danger':item.isClick}"
+                  class="label" ng-click="setZoomAndCenter(item,personsSelected)" style="display: inline-block;">{{item.name}}</span>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- 地图 -->
+      <div id="mapDiv" class="map-init">
+        <div style="height:100%; width: 100%;" id="containerTrack"></div>
+      </div>
+      <div id="navBar0"></div>
+
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+<style>
+ .layui-laydate-content>.layui-laydate-list {
+	            padding-bottom: 0px;
+	            overflow: hidden;
+	        }
+	        .layui-laydate-content>.layui-laydate-list>li{
+	            width:50%
+	        }
+ 
+			.merge-box .scrollbox .merge-list {
+			    padding-bottom: 5px;
+			}
+
+</style>

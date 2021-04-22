@@ -1,0 +1,220 @@
+
+<div ng-controller="spaceMerge_houseCtrl" id="spaceMerge">
+	<div class="page-title">
+		<div class="title_left">
+			<h3>
+				空间合并
+			</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-5 col-sm-5 col-xs-12">
+			<div class="x_panel form-horizontal">
+				<div class="x_title"><h4>原房间信息</h4></div>
+					
+					<div class="houseInfo"  ng-repeat="item in mergeData">
+										
+						<div class="form-group" style="margin-left:0;margin-right:0">
+							<label class="col-xs-2 control-label required">房屋编码</label>
+							<div class="col-xs-10">
+								<label class=" control-label f-w-4 label_ellipsis" ng-attr-title="{{item.houseNo}}">{{item.houseNo}}</label>
+							</div>
+						</div>
+						<div class="form-group" style="margin-left:0;margin-right:0">
+							<label class="col-xs-2 control-label required">房屋名称</label>
+							<div class="col-xs-4">
+								<label class=" control-label f-w-4 label_ellipsis" ng-attr-title="{{item.houseName}}">{{item.houseName}}</label>
+							   
+						   
+							</div>
+							<label class="col-xs-2 control-label">房屋简称</label>
+							<div class="col-xs-4">
+								<label class=" control-label f-w-4 label_ellipsis" ng-attr-title="{{item.rmShortName}}">{{item.rmShortName}}</label>
+								
+							</div>
+						</div>
+						<div class="form-group" style="margin-left:0;margin-right:0">
+							<label class="col-xs-2 control-label">空间信息</label>
+							<div class="col-xs-10">
+								<label class=" control-label f-w-4 label_ellipsis" ng-attr-title="{{item.stageName}}/{{item.buildName}}/{{item.unitNo+'单元'+item.floorName+item.houseName}}">{{item.stageName}}/{{item.buildName}}/{{item.unitNo+'单元'+item.floorName+item.houseName}}</label>
+							  
+								
+							</div>
+						</div>
+						<div class="form-group" style="margin-left:0;margin-right:0">
+							<label class="col-xs-2 control-label required">建筑面积</label>
+							<div class="col-xs-4">
+								<label class=" control-label f-w-4 " >{{item.area}}(㎡)</label>
+							  
+							 
+							</div>
+							<label class="col-xs-2 control-label required">使用面积</label>
+							<div class="col-xs-4">
+								<label class=" control-label f-w-4">{{item.areaProperty}}(㎡)</label>
+								
+							</div>
+						</div>
+						<div class="form-group" style="margin-left:0;margin-right:0">
+							<label class="col-xs-2 control-label required">房屋类别</label>
+							<div class="col-xs-4">
+								<label class=" control-label f-w-4">{{item.rmCat | keyToValue:houseType:'dicCode':'dicItem'}}</label>
+								
+							</div>
+							<label class="col-xs-2 control-label required">房屋类型</label>
+							<div class="col-xs-4">
+								<label class=" control-label f-w-4">{{item.rmType | keyToValue:item.treeTypeList:'id':'dicItem'}}</label>
+								
+							</div>
+						</div>
+						<div class="form-group" style="margin-left:0;margin-right:0">
+							<label class="col-xs-2 control-label">使用状态</label>
+							<div class="col-xs-4">
+								<label class=" control-label f-w-4">{{item.rmStatus | keyToValue:houseStatus:'dicCode':'dicItem'}}</label>
+		
+							</div>
+							<label class="col-xs-2 control-label">装修类型</label>
+								<div class="col-xs-4">
+									<label class=" control-label f-w-4">{{item.isDecoration | keyToValue:isDecoration:'dicVal':'dicItem'}}</label>
+								  
+								</div>
+							
+						</div>
+						<div  class="form-group" style="margin-left:0;margin-right:0">
+                    
+							<label class="col-xs-2 control-label required">空间来源</label>
+							
+								<div class="col-xs-4">
+									<label class=" control-label f-w-4 label_ellipsis">基础空间</label>
+								   
+									
+								</div>
+								<label class="col-xs-2 control-label required">设备房</label>
+							<div class="col-xs-4">
+								
+								<label class=" control-label f-w-4">{{item.isEmtHouse | keyToValue:yesNoDict:[0]:[1]}}</label>
+							</div>
+						</div>
+					
+					</div>									
+			</div>
+		</div>
+		<div class="col-md-7 col-sm-7 col-xs-12" style="padding:0">
+			<form name="form" novalidate>
+				<div class="x_panel form-horizontal">
+					<!-- <div class="x_title" >
+                        <h4 style=" line-height: 40px;">{{maxHouseCode-0+1}} </h4>
+                    </div> -->
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label required">房屋名称</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control " required ng-model="saveItemData.houseName"
+                               >
+                        </div>
+                        <label class="col-xs-1 control-label required">房屋简称</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control " required ng-model="saveItemData.rmShortName"
+                                 name="">
+                        </div>
+                        <label class="col-xs-1 control-label">房屋编码</label>
+                        <div class="col-xs-3">
+							
+							<label class=" control-label f-w-4 label_ellipsis"  ng-attr-title="{{houseNoCopy}}{{PrefixInteger(maxHouseCode-0+1,3)}}">{{houseNoCopy}}{{PrefixInteger(maxHouseCode-0+1,3)}} </label>
+                        </div>
+ 
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label required">建筑面积(㎡)</label>
+                        <div class="col-xs-3">
+                            <input type="number" class="form-control " required ng-model="saveItemData.area" readonly
+                               >
+                        </div>
+                      
+                        <label class="col-xs-1 control-label required">使用面积(㎡)</label>
+                        <div class="col-xs-3">
+                            <input type="number" class="form-control" ng-model="saveItemData.areaProperty" readonly>
+                        </div>
+                        <label class="col-xs-1 control-label ">空间信息</label>
+                        <div class="col-xs-3">
+                            <label class=" control-label f-w-4 label_ellipsis" 
+                            ng-attr-title="{{mergeData[0].stageName}}/{{mergeData[0].buildName}}/{{mergeData[0].unitNo+'单元'+mergeData[0].floorName}}{{maxHouseCode-0+1+'房'}}">
+                            {{mergeData[0].stageName}}/{{mergeData[0].buildName}}/{{mergeData[0].unitNo+'单元'+mergeData[0].floorName}}{{maxHouseCode-0+1+'房'}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                       
+						<label class="col-xs-1 control-label required">房屋类别</label>
+						<div class="col-xs-3">
+                            <select class="form-control" required name="rm_cat" ng-model="saveItemData.rmCat"
+                            ng-options="o.dicCode as o.dicItem for o in houseType"
+                            ng-change="selectHouseType(saveItemData)">
+                            <option value="">--请选择--</option>
+                        </select>
+                        </div>
+                        <label class="col-xs-1 control-label required">房屋类型</label>
+                        <div class="col-xs-3">
+                            <select class="form-control" required name="rm_type" ng-model="saveItemData.rmType"
+                                ng-options="o.id as o.dicItem for o in treeTypeList">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                        <label class="col-xs-1 control-label ">使用状态</label>
+                        <div class="col-xs-3">
+                            <select class="form-control" name="rmStatus" ng-model="saveItemData.rmStatus"
+                                ng-options="o.dicCode as o.dicItem  for o in houseStatus">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                       
+						<label class="col-xs-1 control-label ">装修类型</label>
+						<div class="col-xs-3">
+							<select class="form-control "   ng-model="saveItemData.isDecoration" ng-options="o.dicVal as o.dicItem for o in isDecoration">
+                             <option value="" >--请选择--</option>
+                            </select>
+                        </div>
+                        <label class="col-xs-1 control-label required">空间来源</label>
+                        <div class="col-xs-3">
+                            <label class=" control-label ">拆合空间</label>
+                         
+                           
+                        </div>
+                        <label class="col-xs-1 control-label required">设备房</label>
+                        <div class="col-xs-3">
+                            <select class="form-control" required name="IS_EMT_HOUSE" ng-model="saveItemData.isEmtHouse"
+                            ng-options="o[0] as o[1] for o in yesNoDict">
+                            <option value="">--请选择--</option>
+                        </select>
+                        </div>
+                    </div>
+					<div class="text-center" style="border-top: 1px solid #ddd;padding-top: 20px;">
+						<button class="btn btn-primary" ng-click="saveInfo(form)">保存</button>
+						<!-- <button class="btn btn-warning" ng-click="cancle()">关闭</button> -->
+					</div>
+				</div>
+			</form>			
+		</div>
+    </div>
+</div>
+ <style>
+	#spaceMerge label.control-label{
+	padding-left:0;
+	padding-right:0;
+}
+.houseInfo {
+	border-bottom:1px solid #ddd;
+}
+.houseInfo:last-child {
+	border-bottom:none;
+}
+.label_ellipsis{
+    display: inline-block;
+   
+    overflow: hidden;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left !important;
+}
+
+ </style>

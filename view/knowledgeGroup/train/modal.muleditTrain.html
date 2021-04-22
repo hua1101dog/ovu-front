@@ -1,0 +1,258 @@
+<!--新增修改弹出框 集团版  -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()">×</button>
+    <h4 class="modal-title">{{!item.id?'新增':'修改'}}培训文件</h4>
+</div>
+<div class="modal-body container-fluid">
+    <div class="row">
+        <form name="form1" novalidate class="form-horizontal">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="form-inline" >
+                    <h4>
+                        <label class="required">培训主题：</l>
+                            <input type="text" ng-model="item.title" required placeholder="请输入培训主题" class="form-control" maxlength="32" oninput="if(value.length>32)value=value.slice(0,32)"
+                                style="width:60%" />
+                    </h4>
+                </div>
+
+                <div class="x_panel">
+                    <div class="panel-body" style="height:533px">
+                        <div class="form-group" style="clear:both">
+                            <h4 class="col-xs-4" style="clear:both;padding:0px">
+                                <label class="required">培训内容：</l>
+                            </h4>
+                            <div class="col-xs-8">
+                                <textarea type="text" style="height:200px;resize:none" required class="form-control" ng-model="item.content" />
+                            </div>
+                        </div>
+                        <div class="form-group" style="clear:both;">
+                            <h4 class="col-xs-4" style="clear:both;padding:0px;line-height: 62px">
+                                <label class="required">培训附件：</l>
+                            </h4>
+                            <div class="col-xs-8">
+                                <div class="input-group" style="padding-top:24px">
+                                    <!-- <input type="text" class="form-control" required ng-model="vm.item.name"> -->
+                                    <span class="input-group-btn;">
+                                        <button class="btn btn-default" type="button" ng-click="addLimitFiles(item,'path','name',accepts,fileList)">选择上传文件</button>
+                                    </span>
+                                </div>
+                                <div class="mt7 fileName">
+                                    只能上传PDF/WORD/EXCEL/PPT文档文件，且最多上传2个文件。
+                                </div>
+                                <div class="mt7" ng-repeat="item in fileList track by $index">
+                                    <span class="fileName">{{item.name}}
+                                        <a ng-click="delFile(fileList,item)" class="f-r">
+                                            <i class='fa fa-remove'></i>
+                                        </a>
+                                    </span>
+                                    <uib-progressbar value="val" type="success">100%</uib-progressbar>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="form-inline">
+                <label class="required">项目名称：</l>
+                    <input type="text" ng-model="search.parkName" placeholder="请输入项目名称" class="form-control"style="width:150px" />
+                        <button class="btn btn-default" ng-click="findParks(1)">查询</button>
+            </div>
+            <div class="x_panel">
+                <div class="panel-heading" style="border-bottom: 1px solid #ccc">项目列表
+                    <span class="pull-right">项目数{{parkLength}}个</span>
+                </div>
+                <div class="panel-body" style="overflow: auto;height:508px">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th class="text-center" style="width:20px">
+                                    <span role="button" ng-click="checkparkAll(parkList,parks)">
+                                        <i class="glyphicon" ng-class="{'glyphicon-check':parkList.checked,'glyphicon-unchecked':!parkList.checked}"></i>
+                                    </span>
+                                </th>
+                                <th>项目名称</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="parkList.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in parkList.data">
+                                <td class="text-center">{{$index + 1+parkList.pageSize*parkList.pageIndex}}</td>
+                                <td>
+                                    <i role="button" ng-click="checkpark(item,parkList)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                        class="glyphicon"></i>
+                                </td>
+                                <td>{{item.parkName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <div class="page" style="font-size:12px;">
+                            <ul class="pagination pull-left" ng-show="parkList.pageTotal">
+                                <li>
+                                    <span style="height:29px;">每页
+                                        <select style="width:50px;padding:0;border:none" type="number" ng-model="parkList.pageSize" ng-change="findParks(1)" ng-options="o[0] as o[1] for o in [[10,'&nbsp;&nbsp;&nbsp;10'],[20,'&nbsp;&nbsp;&nbsp;20'],[50,'&nbsp;&nbsp;&nbsp;50'],[100,'&nbsp;&nbsp;&nbsp;100']]">
+                                        </select>条</span>
+                                </li>
+                                <li ng-if="$first" role="button" ng-repeat-start="page in parkList.pages track by $index" ng-class="{disabled:parkList.currentPage ==1}"
+                                    ng-click="parkList.currentPage >1 && findParks(parkList.currentPage-1)">
+                                    <a>«</a>
+                                </li>
+                                <li ng-class="{active:page==parkList.currentPage}" role="button">
+                                    <a ng-if="page>0" ng-click="findParks(page)">{{page}}</a>
+                                    <span ng-if="!(page>0)" style="border-top:none;border-bottom:none">{{page}}</span>
+                                </li>
+                                <li ng-if="$last" role="button" ng-repeat-end ng-class="{disabled:parkList.currentPage == parkList.pageTotal}" ng-click="parkList.currentPage < parkList.pageTotal && findParks(parkList.currentPage+1)">
+                                    <a>»</a>
+                                </li>
+                                <li>
+                                    <span>共{{parkList.totalCount}}条记录</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" style="height:  218px;overflow:auto;">
+                    <div class="panel-body">
+
+                <form name="form" novalidate class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12 required">培训项目：</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <div class="input-group">
+                                    <ul class="ul-persons">
+                                <li class="item"ng-repeat="p in parks">{{p.parkName}}
+                                   
+                                </li>
+                             </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                   </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="form-inline">
+                <h4 style="margin-bottom: 10px;">
+                    <b>部门选择</b>
+                </h4>
+            </div>
+            <div class="x_panel">
+                <div class="panel-heading" style="border-bottom: 1px solid #ccc">部门列表</div>
+                <div class="panel-body">
+                    <div class="panel-body" style="overflow: auto;height:478px">
+                        <div class="alert" role="alert" ng-if="treeData && treeData.length==0">无部门信息</div>
+                        <!-- <div id="dept_tree"></div> -->
+                        <tree-filter node-list="treeData"></tree-filter>
+                        <tree-view node-list="treeData" check-callback="check"
+                        config="{'edit':false,'showCheckbox':true}"></tree-view>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" style="height:  218px;overflow:auto;">
+                <div class="panel-body">
+                    <form name="form" novalidate class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12 required">培训部门：</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12" ng-if="depts.length!==0">
+                                <div class="input-group" ng-if="depts.length!==0">
+                                    <ul class="ul-persons">
+                                        <li class="item" ng-repeat="d in depts  track by $index"> {{d.text}}
+                                            <a ng-click="delP(depts,d)">
+                                                <i class='fa fa-remove'></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                    </form>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+</div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="vm.save(form1)">确定</button>
+    <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+</div>
+<style>
+    span a {
+        cursor: pointer;
+    }
+
+    .pagination>li>a,
+    .pagination>li>span {
+        position: relative;
+        float: left;
+        padding: 5px 4px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #337ab7;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+
+    .pagination>li>span:hover {
+        background-color: #fff;
+        cursor: text;
+    }
+
+    .fileName {
+        font-family: '微软雅黑';
+        font-weight: 400;
+        font-style: normal;
+        color: #999999;
+        text-align: left;
+    }
+
+    .f-r {
+        float: right;
+    }
+
+    .progress-bar-success {
+        background-color: #1ABC9C;
+    }
+
+    .ul-persons {
+        list-style: none;
+        float: left;
+        padding: 0px;
+    }
+
+    .ul-persons li {
+        margin: 5px;
+        padding: 5px;
+        float: left;
+    }
+
+    .ul-persons li.item {
+        background-color: #F9F9F9;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+   
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+
+</style>

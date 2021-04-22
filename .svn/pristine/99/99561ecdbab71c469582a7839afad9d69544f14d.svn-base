@@ -1,0 +1,75 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">|&nbsp;编辑状态</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" class="form-horizontal" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required text-left">跟进人：</label>
+            <div class="col-xs-10">
+                <div class="input-group">
+                    <input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                           readonly="readonly" placeholder="选择人员" ng-model="item.followupUsername"
+                           name="followupUsername" aria-invalid="false">
+                    <span class="input-group-btn">
+										<button class="btn btn-default" ng-click="choosePerson(item)"><i
+                                                class="fa fa-search"></i></button>
+									</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label required text-left">跟进时间：</label>
+            <div class="col-xs-10">
+                <input type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched"
+                       ng-model="item.followUpOnTime" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d'})"
+                       aria-invalid="false">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label required text-left">详细描述：</label>
+            <div class="col-xs-10">
+                <textarea class="form-control" rows="6" ng-model="item.remark"
+                          name="followupDetails"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">跟进状态：</label>
+            <div class="col-xs-10">
+                <select class="form-control" required ng-model="item.followUpState"
+                        ng-options="o[0] as o[1] for o in followUpState_options">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="item.followUpState == 3">
+            <label class="col-xs-2 control-label required">合同期限：</label>
+            <div class="col-xs-4">
+                <input type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched"
+                       ng-model="item.startTime" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                       aria-invalid="false">
+            </div>
+            <label class="col-xs-1 control-label">至</label>
+            <div class="col-xs-4">
+                <input type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched"
+                       ng-model="item.endTime" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                       aria-invalid="false">
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

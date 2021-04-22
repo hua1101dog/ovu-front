@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="productDatabase/style/css/custom.css">
+</head>
+<body>
+	<div class="statistic-condition" ng-controller="statisticsIndexCtrl"
+		ng-init="vm.getProvinceList();">
+		<div class="page-title">
+			<div class="title_left">
+				<h3>数据统计</h3>
+			</div>
+		</div>
+		<div class="row col-md-12 p-t-m border-b p-b-m statisticsPage">
+			<div class="col-md-2 condition-title">产业编号</div>
+			<div class="col-md-9">
+				<div class="statistic-condition1"
+					ng-repeat="obj in chainDomainCodeList">
+					<a ng-model="vm.statistics.chainDomainCode"
+						ng-class="{true:'selected',false:''}[vm.statistics.chainDomainCode == obj[1]]"
+						ng-click="vm.getIndustryCategoryNameList('select',obj)">{{obj[0]}}</a>
+				</div>
+			</div>
+		</div>
+		<div class="row col-md-12 p-t-m border-b p-b-m">
+			<div class="col-md-2 condition-title">产业名称</div>
+			<div class="col-md-10">
+				<div class="statistic-condition2"
+					ng-repeat="obj in vm.industryCategoryNameList | limitTo: 5">
+					<a
+						ng-class="{true:'selected',false:''}[vm.statistics.chainSupplyId == obj.chainSupplyId]"
+						ng-model="vm.statistics.chainSupplyId"
+						ng-click="vm.getCompanyNum(obj)">{{obj.chainSupplyName}}</a>
+				</div>
+				<div class="col-md-12 clear-both p-l-none"
+					ng-if="!vm.showAllIndustryName">
+					<div class="statistic-condition2"
+						ng-repeat="obj in vm.industryCategoryNameList| limitTo: vm.industryCategoryNameList.length:5">
+						<a
+							ng-class="{true:'selected',false:''}[vm.statistics.chainSupplyId == obj.chainSupplyId]"
+							ng-model="vm.statistics.chainSupplyId"
+							ng-click="vm.getCompanyNum(obj);vm.getDomainCategoryBychainSupplyId(vm.statistics,obj)">{{obj.chainSupplyName}}</a>
+					</div>
+				</div>
+				<div ng-if="vm.showAllIndustryName"
+					class="statistic-condition2 condition-more">
+					<i class="glyphicon glyphicon-circle-arrow-down p-r-xs"
+						ng-click="vm.showALLindustryName('open')"></i>更多
+				</div>
+				<div ng-if="!vm.showAllIndustryName"
+					class="statistic-condition2 condition-more">
+					<i class="glyphicon glyphicon-circle-arrow-up p-r-xs"
+						ng-click="vm.showALLindustryName('close')"></i>收起
+				</div>
+			</div>
+		</div>
+		<div class="row col-md-12 p-t-m border-b p-b-m">
+			<div class="col-md-2 condition-title">产品链位置</div>
+			<div class="col-md-10">
+				<div class="statistic-condition2"
+					ng-repeat="obj in vm.relationStatusList">
+					<a
+						ng-class="{true:'selected',false:''}[vm.statistics.relationStatus == obj.value]"
+						ng-model="vm.statistics.relationStatus"
+						ng-click="vm.getDomainCategory();vm.statistics.relationStatus = obj.value">{{obj.name}}</a>
+				</div>
+			</div>
+		</div>
+		<div class="row col-md-12 p-t-m border-b p-b-m">
+			<div class="col-md-2 condition-title">产品链名称</div>
+			<div class="col-md-10">
+				<div class="statistic-condition2"
+					ng-repeat="obj in vm.domainRelationList| limitTo: 5">
+					<a
+						ng-class="{true:'selected',false:''}[vm.statistics.industryCategoryCode == obj.industryCategoryCode]"
+						ng-model="vm.statistics.industryCategoryCode"
+						ng-click="find('1');vm.statistics.industryCategoryCode = obj.industryCategoryCode;vm.statistics.industryCategoryName =obj.industryCategoryName;">{{obj.industryCategoryName}}</a>
+				</div>
+				<div class="col-md-12 clear-both p-l-none"
+					ng-if="!vm.showAllCategoryName">
+					<div class="statistic-condition2"
+						ng-repeat="obj in vm.domainRelationList| limitTo: vm.domainRelationList.length:5">
+						<a
+							ng-class="{true:'selected',false:''}[vm.statistics.industryCategoryCode == obj.industryCategoryCode]"
+							ng-model="vm.statistics.industryCategoryCode"
+							ng-click="find('1');vm.statistics.industryCategoryCode = obj.industryCategoryCode;vm.statistics.industryCategoryName =obj.industryCategoryName;">{{obj.industryCategoryName}}</a>
+					</div>
+				</div>
+				<div ng-if="vm.showAllCategoryName"
+					class="statistic-condition2 condition-more">
+					<i class="glyphicon glyphicon-circle-arrow-down p-r-xs"
+						ng-click="vm.showMoreCategoryName('open')"></i>更多
+				</div>
+				<div ng-if="!vm.showAllCategoryName"
+					class="statistic-condition2 condition-more">
+					<i class="glyphicon glyphicon-circle-arrow-up p-r-xs"
+						ng-click="vm.showMoreCategoryName('close')"></i>收起
+				</div>
+			</div>
+		</div>
+			<div class="row col-md-12 p-t-m border-b p-b-m">
+			<div class="col-md-2 condition-title">省份地区</div>
+			<div class="col-md-10">
+				<div class="statistic-condition3">
+					<a
+						ng-class="{true:'selected',false:''}[vm.statistics.regProvinceCode == '']"
+						ng-model="vm.statistics.regProvinceCode"
+						ng-click="vm.queryCompanyListByArea({'cityCode':'','cityName':'全部'});vm.cityList =[];vm.statistics.regProvinceCode = '';vm.statistics.regProvinceName = '全部';">全部</a>
+				</div>
+				<div class="statistic-condition3"
+					ng-repeat="obj in vm.provinceList| limitTo: 18">
+					<a
+						ng-class="{true:'selected',false:''}[vm.statistics.regProvinceCode == obj.provinceCode]"
+						ng-model="vm.statistics.regProvinceCode"
+						ng-click="vm.getCityList(obj.provinceCode);vm.statistics.regProvinceCode = obj.provinceCode;vm.statistics.regProvinceName = obj.provinceName;">{{obj.provinceName}}</a>
+				</div>
+				<div class="col-md-12 clear-both p-l-none" ng-if="vm.showAllProvince">
+					<div class="statistic-condition3"
+						ng-repeat="obj in vm.provinceList| limitTo: vm.provinceList.length:18">
+						<a
+							ng-class="{true:'selected',false:''}[vm.statistics.regProvinceCode == obj.provinceCode]"
+							ng-model="vm.statistics.regProvinceCode"
+							ng-click="vm.getCityList(obj.provinceCode);vm.statistics.regProvinceCode = obj.provinceCode;vm.statistics.regProvinceName = obj.provinceName;">{{obj.provinceName}}</a>
+					</div>
+				</div>
+				<div class="col-md-12 clear-both p-l-none m-t-s" ng-if="vm.cityList.length > 0 ">
+					<div class='cityTitle'>城市<i class="glyphicon glyphicon-list-alt p-l-xs"></i></div>
+					<div class="statistic-condition4"
+						ng-repeat="obj in vm.cityList">
+						<a
+							ng-class="{true:'selected',false:''}[vm.statistics.regCityCode == obj.cityCode]"
+							ng-model="vm.statistics.regCityCode"
+							ng-click="query();vm.statistics.regCityCode = obj.cityCode;vm.statistics.regCityName = obj.cityName;">{{obj.cityName}}</a>
+					</div>
+				</div>
+				<!-- <div ng-if="vm.showAllProvince"
+					class="statistic-condition2 condition-more">
+					<i class="glyphicon glyphicon-circle-arrow-down p-r-xs"
+						ng-click="vm.showMoreProvince('open')"></i>更多
+				</div>
+				<div ng-if="!vm.showAllProvince"
+					class="statistic-condition2 condition-more">
+					<i class="glyphicon glyphicon-circle-arrow-up p-r-xs"
+						ng-click="vm.showMoreProvince('close')"></i>收起
+				</div> -->
+			</div>
+		</div>
+		<!-- <div class="row col-md-12 p-t-m border-b p-b-m">
+			<div class="col-md-2 condition-title">省份地区</div>
+			<div class="col-md-10">
+				<div class="statistic-condition2">
+					<a
+						ng-class="{true:'selected',false:''}[vm.statistics.regCityCode == '']"
+						ng-model="vm.statistics.regCityCode"
+						ng-click="find('1');vm.statistics.regCityCode = '';vm.statistics.regCityName = '全部';">全部</a>
+				</div>
+				<div class="statistic-condition2"
+					ng-repeat="obj in vm.cities| limitTo: 4">
+					<a
+						ng-class="{true:'selected',false:''}[vm.statistics.regCityCode == obj.cityCode]"
+						ng-model="vm.statistics.regCityCode"
+						ng-click="find('1');vm.statistics.regCityCode = obj.cityCode;vm.statistics.regCityName = obj.cityName;">{{obj.cityName}}</a>
+				</div>
+				<div class="col-md-12 clear-both p-l-none" ng-if="!vm.showAllCitys">
+					<div class="statistic-condition2"
+						ng-repeat="obj in vm.cities| limitTo: vm.cities.length:4">
+						<a
+							ng-class="{true:'selected',false:''}[vm.statistics.regCityCode == obj.cityCode]"
+							ng-model="vm.statistics.regCityCode"
+							ng-click="find('1');vm.statistics.regCityCode = obj.cityCode;vm.statistics.regCityName = obj.cityName;">{{obj.cityName}}</a>
+					</div>
+				</div>
+				<div ng-if="vm.showAllCitys"
+					class="statistic-condition2 condition-more">
+					<i class="glyphicon glyphicon-circle-arrow-down p-r-xs"
+						ng-click="vm.showMoreCitys('open')"></i>更多
+				</div>
+				<div ng-if="!vm.showAllCitys"
+					class="statistic-condition2 condition-more">
+					<i class="glyphicon glyphicon-circle-arrow-up p-r-xs"
+						ng-click="vm.showMoreCitys('close')"></i>收起
+				</div>
+			</div>
+		</div> -->
+		<div class="row col-md-12 p-t-m border-b p-b-m">
+			<div class="col-md-2 condition-title">办公地点</div>
+			<div class="col-md-10">
+				<div class="statistic-condition2"
+					ng-repeat="obj in vm.parkareaStatusList">
+					<a
+						ng-class="{true:'selected',false:''}[vm.statistics.parkareaStatus == obj.value]"
+						ng-model="vm.statistics.parkareaStatus"
+						ng-click="query();vm.statistics.parkareaStatus = obj.value;vm.statistics.parkareaName = obj.name;">{{obj.name}}</a>
+				</div>
+			</div>
+		</div>
+		<div class="row statistic-content">
+			<div class="col-md-12 list-header">
+				<span class="list-header-title"
+					ng-if="vm.statistics.companyCountShow">{{vm.statistics.chainSupplyName}}</span>
+				<span class="list-header-content"
+					ng-if="vm.statistics.companyCountShow"> 全国地区共有<b
+					class="count-style">{{vm.statistics.companyCount}}</b>家企业
+				</span>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-body p-b-none p-t-none">
+					<table class="table table-striped table-hover m-b-none"
+						style="margin-top: 10px; color: #999999;">
+						<thead class="title">
+							<tr>
+								<th class="text-center">序号</th>
+								<th>企业名称</th>
+								<th>产品链</th>
+								<th>覆盖产品链位置</th>
+								<th>省份地区</th>
+								<th>详细地址</th>
+								<th>市场联系人</th>
+								<th>联系电话</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="!pageModel.data || pageModel.data.length == 0">
+								<td colspan="100" class="text-center">暂无记录</td>
+							</tr>
+							<tr ng-repeat="item in pageModel.data" style="color: #333333;">
+								<td class="text-center">{{$index +
+									1+pageModel.pageSize*pageModel.pageIndex}}</td>
+								<td class="td-style"><span  tooltip-placement="auto top"
+									uib-tooltip="{{item.companyName}}" class="line-style">{{item.companyName || '--'}}</span></td>
+								<td class='showIndustryChain'><a href='javascript:void(0)'
+									ng-click='vm.showIndustryChain(item)'
+									class='custom-btn line-style'>{{item.industryNum || '--'}}</a></td>
+								<td class="td-style"><span tooltip-placement="auto top"
+									uib-tooltip="{{item.relationStatus}}" class="line-style">{{item.relationStatus || '--'}}</span></td>
+								<td><span class="line-style">{{item.regCityName || '--'}}</span></td>
+								<td class="td-style"><span tooltip-placement="auto top"
+									uib-tooltip="{{item.workAddress}}" class="line-style">{{item.workAddress || '--'}}</span></td>
+								<td><span class="line-style">{{item.companyCeo || '--'}}</span></td>
+								<td><span class="line-style">{{item.companyTelephone || '--'}}</span></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="page-footer clearfix">
+						<ng-include src="'/common/pager.html'" class="ng-scope">
+						<style type="text/css" class="ng-scope">
+								.pagination>li>span:hover {
+									background-color: #fff;
+									cursor: text
+								}
+								</style>
+						</ng-include>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

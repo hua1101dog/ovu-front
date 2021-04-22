@@ -1,0 +1,50 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()">×</button>
+    <h4 class="modal-title">{{item.ID?'编辑':'添加'}}工单报表</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">部门：</label>
+            <div class="col-xs-4" >
+                <tree-selector style="width: 100%;" node-list="$parent.deptTree" name="deptId"
+                               need=true host="item" host-key="'deptId'" host-text="'deptName'" tip-text="'请选择部门'"></tree-selector>
+            </div>
+            <label class="col-xs-2 control-label required">统计维度：</label>
+            <div class="col-xs-4">
+                <select class="form-control" required ng-model="item.reportType"  ng-options="o.id as o.text for o in reportTypeDict">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" id="reportPeriod">
+            <label class="col-xs-2 control-label required">统计周期</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control Wdate" ng-model="beginTime" placeholder="开始日期"
+                ng-lay-date-range  max-date="endTime" call-back="setTimeRange" date-obj="report_start_obj" date-copy="report_end_obj"  min-max="min"
+                      >
+            </div>
+            <label class="col-xs-2 control-label required">至</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control Wdate" ng-model="endTime" placeholder="结束日期"
+                ng-lay-date-range call-back="setTimeRange" min-date="beginTime" max-date="today_global" date-obj="report_end_obj"  date-copy="report_start_obj"  min-max="max">
+            </div>
+
+
+
+
+        </div>
+        <div class="form-group" >
+            <label class="col-xs-2 control-label">任务描述：</label>
+            <div class="col-xs-10">
+                <textarea type="text" style="height:150px;resize:vertical" class="form-control" ng-model="item.DESCRIPTION"   />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+</div>
+
+

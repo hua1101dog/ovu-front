@@ -1,0 +1,62 @@
+<div ng-controller="generatorCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>代码生成</h3>
+        </div>
+    </div>
+    <div class="x_panel" >
+        <div class="form-inline">
+            <div class="form-group">
+                <label>数据库名称 </label>
+                <!-- <input type="text" ng-model="search.databaseName" placeholder="请输入数据库名称" class="form-control" /> -->
+                <select class="form-control" required ng-model="search.databaseName"
+                        ng-options="o as o for o in databaseList">
+                    <option value="">--请选择数据库--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>表名 </label>
+                <input type="text" ng-model="search.tableName" placeholder="请输入表名" class="form-control" />
+            </div>
+
+            <button class="btn btn-primary pull-right" style=" min-width: 80px;" ng-click="find(1)" >查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-striped table-hover" >
+                <thead class="title">
+                <tr>
+                    <th class="text-center">NO</th>
+                    <th >表名</th>
+                     <th>创建时间</th>
+                    <th style="width:180px">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td></tr>
+                <tr ng-repeat="item in pageModel.data" >
+                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td>{{item.tableName}}</td>
+                    <td>{{item.createTime}}</td>
+
+                    <td>
+                        <a href="javascript:void(0)" ng-click="showEditModal(item)" class="btn btn-xs"><span class="fa fa-edit"></span>生成代码</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+table tr th,
+        table tr td {
+            text-align: center;
+        }
+
+</style>

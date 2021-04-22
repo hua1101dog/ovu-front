@@ -1,0 +1,71 @@
+	<!--新增修改弹出框  -->
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="vm.cancel()">×</button>
+		<h4 class="modal-title">{{!vm.item.contractId?'创建':'修改'}}合同</h4>
+    </div>
+    <div class="modal-body container-fluid">
+		<form name="form" novalidate class="form-horizontal">
+      <div class="form-group">
+        <label class="col-xs-3 control-label required">上传合同：</label>
+        <div class="col-xs-8">
+          <div class="input-group">
+            <input type="text" class="form-control" required ng-model="vm.item.contractName">
+            <span class="input-group-btn">
+				        <button class="btn btn-default" type="button" ng-click="addFile(vm.item,'docUrl','contractName')">选择合同</button>
+				      </span>
+          </div>
+        </div>
+      </div>
+			<!--<div class="form-group">
+				<label class="col-xs-3 control-label required">合同名称：</label>
+				<div class="col-xs-8">
+				      <input type="text" class="form-control"  required ng-model="vm.item.contractName" name="contractName">
+				</div>
+			</div>-->
+			<div class="form-group">
+				<label class="col-xs-3 control-label required">甲方名称：</label>
+				<div class="col-xs-8">
+					 <input type="text" class="form-control" required ng-model="vm.item.firstName">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label required">甲方管理员：</label>
+				<div class="col-xs-8">
+					 <input type="text" class="form-control" required ng-model="vm.item.firstAdmin">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label required">甲方联系方式：</label>
+				<div class="col-xs-8">
+					 <input type="text" class="form-control" required ng-model="vm.item.firstTel">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label required">合同金额：</label>
+				<div class="col-xs-8">
+					<input type="text" class="form-control" required ng-model="vm.item.amount">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label required">合同开始时间：</label>
+				<div class="col-xs-8">
+				     <input type="datetime" class="form-control Wdate"
+				     	ng-model="vm.item.startTime" onchange=""  required
+				     	onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label required">合同结束时间：</label>
+				<div class="col-xs-8">
+				     <input type="datetime" class="form-control Wdate"
+				     	ng-model="vm.item.endTime"  onchange=""  required
+				     	onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="vm.save(form,vm.item)">确定</button>
+		<button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+	</div>
+

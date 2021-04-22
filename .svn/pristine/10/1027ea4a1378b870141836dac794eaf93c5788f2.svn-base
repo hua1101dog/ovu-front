@@ -1,0 +1,152 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancelFloor()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}楼层</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="col-xs-2 control-label">所属单元：</label>
+                <div class="col-xs-10">
+                    <div style="margin-top: 8px">{{item.text}}（编码:{{item.unitCode}}）</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">楼层编号：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="saveFloor.floorNo" name="FLOOR_NO"
+                    	ng-change="floorNoChange()" required maxlength="3" 
+                    	ng-pattern="/^[0-9a-zA-Z]{3}$/" placeholder="三位编码"/>
+                </div>
+                <label class="col-xs-2 control-label required">楼层编码：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" disabled ng-model="saveFloor.floorCode" name="FLOOR_CODE" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">楼层名称：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="saveFloor.floorName" name="FLOOR_NAME" required maxlength="18"
+                           oninput="if(value.length>18)value=value.slice(0,18)"/>
+                </div>
+                <label class="col-xs-2 control-label required">是否夹层：</label>
+                <div class="col-xs-4">
+	                <select class="form-control" required ng-model="saveFloor.isInterlayer" name="IS_INTERLAYER" ng-options="s.value as s.text for s in isInterlayerOps" >
+	                    <option value="">--请选择--</option>
+	                </select>
+            	</div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">建筑面积：</label>
+                <div class="col-xs-4">
+                    <input type="number" min="0" class="form-control" ng-model="saveFloor.area" name="AREA" required />
+                </div>
+                <label class="col-xs-2 control-label">层高描述：</label>
+                <div class="col-xs-4">
+                    <input type="number" min="0" class="form-control" ng-model="saveFloor.layerHeight" name="LAYER_HEIGHT" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label">总房间数：</label>
+                <div class="col-xs-4">
+                    <input type="number" min="0" class="form-control" ng-model="saveFloor.houseNum" name="HOUSE_NUM" />
+                </div>
+                <label class="col-xs-2 control-label">办公面积：</label>
+                <div class="col-xs-4">
+                    <input type="number" min="0" class="form-control" ng-model="saveFloor.officeArea" name="OFFICE_AREA" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label">商业面积：</label>
+                <div class="col-xs-4">
+                    <input type="number" min="0" class="form-control" ng-model="saveFloor.businessArea" name="BUSINESS_AREA" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label">楼层图文件：</label>
+                <div class="col-xs-8">
+	                <input type="text" class="col-xs-6 my-form-control" disabled="true" ng-model="saveFloor.imgName" name="imgName" />
+	                <button class="btn btn-info" ng-click="uploadFile()" style="margin-left: 5px;">选择文件</button>
+	                <button class="btn btn-info" ng-click="deleteFile()" style="margin-left: 5px;">删除文件</button>
+            	</div>
+            </div>
+            <div class="form-group" ng-if="saveFloor.img && refresh">
+                <div class="col-xs-12">
+                    <indoor-map file="saveFloor.img"></indoor-map>
+                </div>
+            </div>
+        </div>
+        <!--<div class="col-xs-4">
+            <div class="thumbnail text-center" style="height: 220px;">
+                <img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+                     ng-click="showPhoto()"
+                     ng-src="{{processImgUrl(saveFloor.img,'220')}}" class="max-height:220px"/>
+                <div class="caption">
+                    <p>
+                        <span class="btn btn-warning height34" ng-click="clearPhoto(saveFloor,'img')"><i
+                            class="glyphicon glyphicon-remove"></i></span>
+                        <span class="btn btn-default height34" ng-click="addPhoto(saveFloor,'img')"><i
+                            class="glyphicon glyphicon-picture "></i></span>
+                    </p>
+                </div>
+            </div>
+        </div>-->
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,saveFloor)">确定</button>
+    <button class="btn btn-warning" ng-click="cancelFloor()">取消</button>
+</div>
+
+<style>
+    /*wjlong BEGIN 地图上面添加搜索框  */
+    .AMap-wrapper {
+        position: relative;
+    }
+    #tip {
+        position: absolute;
+        top: 2%;
+        right: 2%;
+        background-color: #ddf;
+        color: #333;
+        border: 1px solid silver;
+        box-shadow: 3px 4px 3px 0px silver;
+        border-radius: 5px;
+        overflow: hidden;
+        line-height: 20px;
+        padding: 0 10px;
+    }
+    #tip input[type="text"] {
+        height: 25px;
+        border: 0;
+        padding-left: 5px;
+        width: 200px;
+        border-radius: 3px;
+        outline: none;
+    }
+    .amap-sug-result{
+        z-index: 10000;
+    }
+    .my-form-control {
+	    display: block;
+	    /*width: 100%;*/
+	    height: 34px;
+	    padding: 6px 12px;
+	    font-size: 14px;
+	    line-height: 1.42857143;
+	    color: #555;
+	    background-color: #fff;
+	    background-image: none;
+	    border: 1px solid #ccc;
+	    border-radius: 4px;
+	    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+	    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	}
+    .form-control[disabled] {
+        background-color: #c7c5c552;
+        cursor: auto;
+    }
+</style>

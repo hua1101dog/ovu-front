@@ -1,0 +1,196 @@
+<!--门户地图首页-->
+    <div class="container-fluid main">
+        <div class="row"  style="height: 100%;">
+            <div ui-map="vm.map" style="height: 100%;"
+                 ui-options="vm.mapOptions" ui-map-cache="allMap">
+
+            </div>
+            <div ng-repeat="marker in vm.markers"
+                 ui-map-marker="vm.markers[$index]"
+                 ui-event="{'map-click':'vm.clickMap($event,$params,marker)',
+                 'map-mouseover':'vm.mouseoverMaker($event,$params,marker)',
+		    	 'map-mouseout':'vm.myInfoWindow.close()'}">
+            </div>
+            <div ui-map-info-window="vm.myInfoWindow">
+                <div class="x_content">
+                    <div class="row">
+                        <label class="col-xs-12 control-label panel-mytitle">{{vm.markerData.PARK_NAME}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--标题-->
+        <div class="row font-color font-bolder title">
+            中电光谷智慧社区云平台
+        </div>
+        <!--左侧边栏-->
+        <div class="left-banner">
+            <h2 class="font-color font-bolder">空间运营指标</h2>
+            <div class="panel panel-custmer" style="height: 608px;">
+                <div class="panel-body">
+                    <div style="margin-top: 50px;">
+                        <p class="panel-mytitle">城市布局</p>
+                        <p>
+                            <span class="panel-number">8</span>
+                            <span class="panel-small">个</span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="panel-mytitle">小区数量</p>
+                        <p>
+                            <span class="panel-number">72</span>
+                            <span class=" panel-small">个</span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="panel-mytitle">管理面积</p>
+                        <p>
+                            <span class="panel-small">约</span>
+                            <span class="panel-number">4000万</span>
+                            <span class="panel-small">m<sup>2</sup></span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="panel-mytitle">服务业主</p>
+                        <p>
+                            
+                            <span class="panel-number">10万</span>
+                            <span class="panel-small">人</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--右侧边栏-->
+        <div class="right-banner">
+            <h2 class="font-color font-bolder">社区服务指标</h2>
+            <div class="panel panel-custmer" style="height: 608px;">
+                <div class="panel-body">
+                    <div style="margin-top: 50px;">
+                        <p class="panel-mytitle">在职</p>
+                        <p>
+                            <span class="panel-number">4000</span>
+                            <span class="panel-small">人</span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="panel-mytitle">中级职称以上</p>
+                        <p>
+                            <span class="panel-number">200</span>
+                            <span class=" panel-small">人</span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="panel-mytitle">编制工作标准</p>
+                        <p>
+                            <span class="panel-number">6000</span>
+                            <span class=" panel-small">条</span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="panel-mytitle">运行工单</p>
+                        <p>
+                            <span class="panel-number">211168</span>
+                            <span class=" panel-small">条</span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="panel-mytitle">年产值</p>
+                        <p>
+                            <span class="panel-number">3</span>
+                            <span class=" panel-small">亿</span>
+                        </p>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+<style type="text/css">
+    .main{
+        height: 100%;
+        position: relative;
+    }
+    .font-color{
+        color: #1EFBE9;
+    }
+    .font-bolder{
+        font-weight: bolder;
+    }
+    .title{
+        position: absolute;
+        top: 2%;
+        letter-spacing: 8px;
+        font-size: 45px;
+        width: 100%;
+        text-align: center;
+    }
+    .left-banner{
+        position: absolute;
+        left: 2%;
+        top: 52%;
+        transform: translateY(-50%);
+    }
+    .right-banner{
+        position: absolute;
+        right: 2%;
+        top: 52%;
+        transform: translateY(-50%);
+    }
+    .panel-custmer{
+        background-color: #121139;
+        border: #3F3E77 2px solid;
+        color: #fff;
+        width: 210px;
+    }
+    .panel-mytitle{
+        font-size: 25px;
+        font-weight: bolder;
+    }
+    .panel-number{
+        color: #1EFBE9;
+        font-size: 30px;
+        font-weight: 300;
+    }
+    .panel-small{
+        color: #1EFBE9;
+        font-size: 14px;
+    }
+    .tipMarker{
+        color:#555;
+        background-color:rgba(255,254,239,0.8);
+        border:1px solid #7E7E7E;
+        padding:2px 6px;
+        font-size:12px;
+        white-space:nowrap;
+        display:inline-block;
+    }
+    .tipMarker:before,
+    .tipMarker:after{
+        content:'';
+        display:block;
+        position:absolute;
+        margin:auto;
+        width:0;
+        height:0;
+        border:solid transparent;
+        border-width:5px 5px;
+    }
+    .tipMarker.top{
+        transform:translate(-50%,-110%);
+    }
+    .tipMarker.top:before,
+    .tipMarker.top:after{
+        bottom:-9px;
+        left:0;
+        right:0;
+        border-top-color:rgba(255,254,239,0.8);
+    }
+    .tipMarker.top:before{
+        bottom:-10px;
+        border-top-color:#7E7E7E;
+    }
+
+</style>

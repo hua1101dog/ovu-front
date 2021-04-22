@@ -1,0 +1,16 @@
+{
+    "success":"true",
+    "datas":{
+        // 资产信息
+        "assert_mes":{
+            // 总资产数
+            "totalAssetNum":1230,
+            // 资产种类
+            "assetType":2,
+            // 自有资产数
+            "freeAssets":487,
+            // 企业资产数
+            "companyAssetNum":680
+        }
+    }
+}

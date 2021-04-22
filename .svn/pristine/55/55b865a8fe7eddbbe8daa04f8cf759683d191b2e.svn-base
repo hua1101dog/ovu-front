@@ -1,0 +1,100 @@
+<!-- 巡查任务计划 -->
+<div ng-controller="instaskCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>巡查任务计划</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">巡查项类型
+                </div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="insTreeData.length==0">无巡查项信息</div>
+                    <!-- <div id="house_tree">
+                        <tree-view node-list="insTreeData" config="config"></tree-view>
+                    </div> -->
+                    <tree-view-pro node-list="insTreeData" host="search" host-text="'text'" host-key="'insItemTypeId'" callback="selectNode" config="{'edit':false}"></tree-view-pro>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="x_title">
+                    巡查任务列表
+                </div>
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead>
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th>巡查项</th>
+                            <th>巡查内容</th>
+                            <th>巡查点</th>
+                            <!-- <th>巡查频率</th> -->
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!pageModel.data || pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data">
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td>{{item.insItemName}}</td>
+                            <td style="width:200px"><span uib-tooltip="{{item.description}}" class="content">{{item.description}}</span></td>
+                            <td>
+                                <table style="width: 100%" >
+                                    <tr ng-repeat="i in item.insTaskParamBo track by $index">
+                                        <td  class="text-left">{{i.insPointName}}</td>
+                                    </tr>
+
+                                </table>
+
+                            </td>
+                            <!-- <td>
+                                <table ng-repeat="i in item.insTaskParamBo track by $index" style="border-bottom: 1px solid #ccc;width: 100%">
+                                    <tr ng-repeat="v in i.insTaskList track by $index">
+                                        <td class="text-center" style="width:56px;display:inline-block">每日{{v.insTime}}</td>
+                                    </tr>
+
+                                </table>
+                            </td> -->
+                            <td>
+                                <a href='javascript:void(0)' ng-click='showModal(item)' class='btn btn-xs'><span class='fa fa-edit'></span>设置巡查点</a>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #house_tree {
+        margin-left: -17px;
+    }
+
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+
+    .tab_bottom {
+        border-bottom: 1px solid #ccc
+    }
+
+    .content {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block
+    }
+</style>

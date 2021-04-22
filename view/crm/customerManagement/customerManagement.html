@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>客户管理</title>
+</head>
+
+<body>
+  <div id="angularId">
+    <div class="page-title">
+      <div class="title_left" style="padding-top: 15px;">
+        <h3>客户管理</h3>
+      </div>
+    </div>
+    <div class="row" id="customerManageBox">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <ul class="nav nav-tabs bar_tabs" role="tablist" style="padding-top: 15px;">
+            <li role="presentation" class="active">
+              <a href="#followUp" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">跟进中客户</a>
+            </li>
+            <li role="presentation" class="">
+              <a href="#public" id="tab2" role="tab" data-toggle="tab" aria-expanded="true">公共客户</a>
+            </li>
+            <li role="presentation" class="">
+              <a href="#repeat" id="tab3" role="tab" data-toggle="tab" aria-expanded="true">重复客户</a>
+            </li>
+            <li role="presentation" class="">
+              <a href="#invalid" id="tab4" role="tab" data-toggle="tab" aria-expanded="true">无效客户</a>
+            </li>
+            <li role="presentation" class="">
+              <a href="#bin" id="tab5" role="tab" data-toggle="tab" aria-expanded="true">垃圾箱客户</a>
+            </li>
+            <li role="presentation" class="">
+              <a href="#discarded" id="tab6" role="tab" data-toggle="tab" aria-expanded="true">丢弃客户</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="customerManage">
+            <!-- 跟进中客户 star -->
+            <div role="tabpanel" class="tab-pane fade active in" id="followUp">
+              <div class="row" id="customerManageBox">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                    <ul class="nav nav-tabs bar_tabs" role="tablist" style="padding-top: 15px;">
+                      <li role="presentation" class="active">
+                        <a href="#normally" id="tab1" role="tab" data-toggle="tab" aria-expanded="false">正常跟进客户</a>
+                      </li>
+                      <li role="presentation" class="">
+                        <a href="#overdue" id="tab2" role="tab" data-toggle="tab" aria-expanded="false">逾期未跟进客户</a>
+                      </li>
+                    </ul>
+                    <!-- 正常跟进客户 star -->
+                    <div class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade active in" id="normally" ng-controller="normallyCtrl">
+                        <div class="form-inline find_input marT_15" style="padding-top: 15px;">
+                          <div class="form-group">
+                           <label class="common_inputTitle">客户类型:</label>
+                            <select class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                              ng-model="search.type">
+                              <option value="">--请选择--</option>
+                              <option value="1">个人</option>
+                              <option value="2">企业</option>
+                            </select>
+                          </div>
+                          <div class="form-group" style="margin-left: 5px;">
+                           <label class="common_inputTitle">客户名称:</label>
+                            <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                              type="text" ng-model="search.name" aria-invalid="false">
+                          </div>
+                          <div class="form-group">
+                           <label class="common_inputTitle">客户电话:</label>
+                            <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                              type="text" ng-model="search.phone" aria-invalid="false">
+                          </div>
+                          <div class="form-group">
+                            <label style="width: 100px;text-align: right;margin-left: -36px;">最近跟进:</label>
+                            <input type="datetime" class="form-control Wdate" ng-model="search.followStartTime"
+                              placeholder="开始日期" onchange=""
+                              onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()||'%y-%M-%d'}&quot;})">
+                            <label style="width: 10px;">-</label>
+                            <input type="datetime" class="form-control Wdate" ng-model="search.followEndTime"
+                              placeholder="结束日期" onchange=""
+                              onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;,maxDate:'%y-%M-%d'})">
+                          </div>
+                          <div class="form-group">
+                           <label class="common_inputTitle">客户状态:</label>
+                            <select class="form-control" type="text" ng-model="search.customerStatus"
+                              ng-options="o['dicSort'] as o['dicItem'] for o  in customerStatusList">
+                              >
+                              <option value="">--请选择--</option>
+                            </select>
+                          </div>
+                          <div class="form-group" style="margin-left:0px;">
+                            <label class="common_inputTitle">意向级别:</label>
+                            <select class="form-control" type="text" ng-model="search.intentionLevel"
+                              ng-options="o['dicSort'] as o['dicItem'] for o  in intentionLevelList">
+                              >
+                              <option value="">--请选择--</option>
+                            </select>
+                          </div>
+                        
+                          <div class="form-group">
+                           <label class="common_inputTitle">业务员:</label>
+                            <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                              type="text" ng-model="search.operator" aria-invalid="false">
+                          </div>
+                          <button class="btn btn-default" ng-click="find()" style="margin-top: 5px;margin-left: 84px;">查询</button>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading" >
+                            跟进中客户列表
+                            <!--<button class="btn btn-primary " ng-click="importCustomer(2)" style="float: right;margin-right: 34px;">导入跟进记录</button>-->
+                            <!--<button class="btn btn-primary " ng-click="importCustomer(1)" style="float: right;">导入客户</button>-->
+                            <button class="btn btn-primary " ng-click="showReception()" style="float: right;">导出客户</button>
+
+                            <button class="btn btn-primary " ng-disabled="!hasChecked(pageModel)"ng-click="recycle(pageModel)" style="float: right;">批量回收</button>
+
+                            <button class="btn btn-primary " ng-disabled="!hasChecked(pageModel)" ng-click="distribution(pageModel)" style="float: right;">批量分配</button>
+
+
+                          </div>
+                          <div class="panel-body">
+                            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                              <thead class="title">
+                                <tr>
+                                  <th class="text-center" style="width:20px">
+                                    <span role="button" ng-click="checkAll(pageModel)">
+                                      <i class="glyphicon glyphicon-unchecked"
+                                        ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                                    </span>
+                                  </th>
+                                  <th class="text-center">序号</th>
+                                  <th>客户类型</th>
+                                  <th>客户名称</th>
+                                  <th>联系人</th>
+                                  <th>电话</th>
+                                  <th>业务员</th>
+                                  <th>客户状态</th>
+                                  <th>意向级别</th>
+                                  <th>最近跟进时间</th>
+                                  <th>跟进方式</th>
+                                  <th>创建日期</th>
+                                  <th>逾期截止日期</th>
+                                  <th>操作</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                  <td colspan="100" rowspan="5" class="text-center cry">
+                                      <img src="../../../image/cry.png" alt="">
+                                                              暂无数据</td>
+                              </tr>
+                                <tr ng-repeat="item in pageModel.data track by $index" style="color: #333333;">
+                                  <td><i role="button" ng-click="checkOne(item, pageModel)"
+                                      ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                      class="glyphicon glyphicon-unchecked"></i>
+                                  </td>
+                                  <td class="text-center">{{$index +
+                                                    1+pageModel.pageSize*pageModel.pageIndex}}</td>
+
+                                  <td>{{item.type == '1' ? '个人' :'企业'||'--'}}
+                                  </td>
+                                  <td>{{item.name||'--'}}</td>
+                                  <td>{{item.contactMan||'--'}}</td>
+                                  <td>{{item.phone||'--'}}</td>
+                                  <td>{{item.operator||"--"}}</td>
+                                  <td>{{item.customerStatus|keyToValue:customerStatusList:'dicSort':'dicItem'}}
+                                  </td>
+                                  <td>{{item.intentionLevel|keyToValue:intentionLevelList:'dicSort':'dicItem'}}
+                                  </td>
+                                  <td>{{item.latelyFollowTime||'--'}}</td>
+                                  <td>{{item.followWay|keyToValue:followWayList:'dicSort':'dicItem'}}
+                                  </td>
+                                  <td>{{item.createTime||'--'}}</td>
+                                  <td>{{item.nextTime||'--'}}</td>
+                                  <td>
+                                    <button class="btn btn-oper" ng-click="view(item)">查看</button>
+                                    <button class="btn btn-oper" ng-click='distribution(item)'>分配</button>
+                                    <button class="btn btn-oper" ng-click='recycle(item)'>回收</button>
+                                    <button class="btn btn-oper" ng-click='edit(item)'>编辑</button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <div class="page-footer clearfix">
+                              <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                  .pagination>li>span:hover {
+                                    background-color: #fff;
+                                    cursor: text
+                                  }
+                                </style>
+                              </ng-include>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 正常跟进客户 end -->
+
+                      <!-- 逾期未跟进客户 star -->
+                      <div role="tabpanel" class="tab-pane fade" id="overdue" ng-controller="overdueCtrl">
+                        <div class="form-inline find_input marT_15">
+                          <div class="form-group">
+                           <label class="common_inputTitle">客户类型</label>
+                            <select class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                              ng-model="search.type">
+                              <option value="">--请选择--</option>
+                              <option value="1">个人</option>
+                              <option value="2">企业</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group">
+                           <label class="common_inputTitle">客户名称</label>
+                            <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                              type="text" ng-model="search.name" aria-invalid="false">
+                          </div>
+
+                          <div class="form-group">
+                           <label class="common_inputTitle">客户电话</label>
+                            <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                              type="text" ng-model="search.phone" aria-invalid="false">
+                          </div>
+
+                          <div class="form-group">
+                           <label class="common_inputTitle">客户状态</label>
+                            <select class="form-control" type="text" ng-model="search.customerStatus"
+                              ng-options="o['dicSort'] as o['dicItem'] for o  in customerStatusList">
+                              >
+                              <option value="">--请选择--</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="common_inputTitle">意向级别</label>
+                            <select class="form-control" type="text" ng-model="search.intentionLevel"
+                              ng-options="o['dicSort'] as o['dicItem'] for o  in intentionLevelList">
+                              >
+                              <option value="">--请选择--</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group">
+                            <label style="width: 100px;text-align: right;">最近跟进</label>
+                            <input type="datetime" class="form-control Wdate" ng-model="search.followStartTime"
+                              placeholder="开始日期" onchange=""
+                              onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()||'%y-%M-%d'}&quot;})">
+                            <label style="width: 10px;">-</label>
+                            <input type="datetime" class="form-control Wdate" ng-model="search.followEndTime"
+                              placeholder="结束日期" onchange=""
+                              onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;,maxDate:'%y-%M-%d'})">
+                          </div>
+
+                          <div class="form-group">
+                           <label class="common_inputTitle">业务员</label>
+                            <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                              type="text" ng-model="search.operator" aria-invalid="false" style="">
+                          </div>
+                          <button class="btn btn-default" ng-click="find()">查询</button>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading" style="color: #999999;">
+                            逾期客户列表
+                            <button class="btn btn-primary pull-right" ng-click="showReception()">导出客户</button>
+                            <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)"
+                              ng-click="recycle(pageModel)">批量回收</button>
+                            <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)"
+                              ng-click="distribution(pageModel)">批量分配</button>
+                          </div>
+                          <div class="panel-body">
+                            <table class="table table-striped table-hover" style="margin-top: 10px; color: #999999;">
+                              <thead class="title">
+                                <tr>
+                                  <th class="text-center" style="width:20px">
+                                    <span role="button" ng-click="checkAll(pageModel)">
+                                      <i class="glyphicon glyphicon-unchecked"
+                                        ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                                    </span>
+                                  </th>
+                                  <th class="text-center">序号</th>
+                                  <th>客户类型</th>
+                                  <th>客户名称</th>
+                                  <th>联系人</th>
+                                  <th>电话</th>
+                                  <th>业务员</th>
+                                  <th>客户状态</th>
+                                  <th>意向级别</th>
+                                  <th>最近跟进时间</th>
+                                  <th>跟进方式</th>
+                                  <th>创建日期</th>
+                                  <th>逾期天数</th>
+                                  <th>操作</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-if="pageModel.data.length == 0">
+                                  <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr ng-repeat="item in pageModel.data track by $index" style="color: #333333;">
+                                  <td><i role="button" ng-click="checkOne(item, pageModel)"
+                                      ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                      class="glyphicon glyphicon-unchecked"></i>
+                                  </td>
+                                  <td class="text-center">
+                                    {{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+                                  </td>
+                                  <td>{{item.type == '1' ? '个人' :'企业'||'--'}}</td>
+                                  <td>{{item.name||'--'}}</td>
+                                  <td>{{item.contactMan||'--'}}</td>
+                                  <td>{{item.phone||'--'}}</td>
+                                  <td>{{item.operator||"--"}}</td>
+                                  <td>{{item.customerStatus|keyToValue:customerStatusList:'dicSort':'dicItem'}}
+                                  </td>
+                                  <td>{{item.intentionLevel|keyToValue:intentionLevelList:'dicSort':'dicItem'}}
+                                  </td>
+                                  <td>{{item.latelyFollowTime||'--'}}</td>
+                                  <td>{{item.followWay|keyToValue:followWayList:'dicSort':'dicItem'}}
+                                  </td>
+                                  <td>{{item.createTime||'--'}}</td>
+                                  <td>{{item.overdueDay||'--'}}</td>
+                                  <td>
+                                    <button class="btn btn-oper" ng-click="view(item)">查看</button>
+                                    <button class="btn btn-oper" ng-click='distribution(item)'>分配</button>
+                                    <button class="btn btn-oper" ng-click='recycle(item)'>回收</button>
+                                    <button class="btn btn-oper" ng-click='edit(item)'>编辑</button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <div class="page-footer clearfix">
+                              <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                  .pagination>li>span:hover {
+                                    background-color: #fff;
+                                    cursor: text
+                                  }
+                                </style>
+                              </ng-include>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 逾期未跟进客户 end -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 跟进中客户 end -->
+            <!-- 公共客户 star -->
+            <div role="tabpanel" class="tab-pane fade" id="public" ng-controller="publicCtrl">
+              <div class="form-inline find_input marT_15">
+                <div class="form-group">
+                 <label class="common_inputTitle">客户类型</label>
+                  <select class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="search.type">
+                    <option value="">--请选择--</option>
+                    <option value="1">个人</option>
+                    <option value="2">企业</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                 <label class="common_inputTitle">客户名称</label>
+                  <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                    ng-model="search.name" aria-invalid="false">
+                </div>
+                <div class="form-group">
+                 <label class="common_inputTitle">客户电话</label>
+                  <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                    ng-model="search.phone" aria-invalid="false" style="">
+                </div>
+                <div class="form-group">
+                 <label class="common_inputTitle">客户状态</label>
+                  <select class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                    ng-model="search.customerStatus">
+                    <option value="">--请选择--</option>
+                    <option value="1">询问</option>
+                    <option value="2">来访</option>
+                    <option value="3">认购</option>
+                    <option value="4">签约</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="common_inputTitle">意向级别</label>
+                  <select class="form-control" type="text" ng-model="search.intentionLevel"
+                    ng-options="o['dicSort'] as o['dicItem'] for o  in intentionLevelList">
+                    >
+                    <option value="">--请选择--</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label style="width: 100px;text-align: right;">最近跟进</label>
+                  <input type="datetime" class="form-control Wdate" ng-model="search.followStartTime" placeholder="开始日期"
+                    onchange=""
+                    onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()||'%y-%M-%d'}&quot;})">
+                  <label style="width: 10px;">-</label>
+                  <input type="datetime" class="form-control Wdate" ng-model="search.followEndTime" placeholder="结束日期"
+                    onchange=""
+                    onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;,maxDate:'%y-%M-%d'})">
+                </div>
+                <div class="form-group">
+                 <label class="common_inputTitle">业务员</label>
+                  <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                    ng-model="search.operator" aria-invalid="false" style="">
+                </div>
+                <button class="btn btn-default" ng-click="find()">查询</button>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" style="color: #999999;">
+                  公共客户列表
+                  <button class="btn btn-primary pull-right" ng-click="showReception()">导出客户</button>
+                  <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)"
+                    ng-click="moveAll(pageModel)" disabled="disabled">移动垃圾桶</button>
+                  <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)"
+                    ng-click="distribution(pageModel)" disabled="disabled">批量分配</button>
+                </div>
+                <div class="panel-body">
+                  <table class="table table-striped table-hover" style="margin-top: 10px; color: #999999;">
+                    <thead class="title">
+                      <tr>
+                        <th class="text-center" style="width:20px">
+                          <span role="button" ng-click="checkAll(pageModel)">
+                            <i class="glyphicon glyphicon-unchecked"
+                              ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                          </span>
+                        </th>
+                        <th class="text-center">序号</th>
+                        <th>客户类型</th>
+                        <th>客户名称</th>
+                        <th>联系人</th>
+                        <th>电话</th>
+                        <th>原业务员</th>
+                        <th>客户状态</th>
+                        <th>意向级别</th>
+                        <th>最近跟进时间</th>
+                        <th>回收原因</th>
+                        <th>回收时间</th>
+                        <th>回收次数</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-if="pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                      </tr>
+                      <tr ng-repeat="item in pageModel.data track by $index" style="color: #333333;">
+                        <td><i role="button" ng-click="checkOne(item, pageModel)"
+                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                            class="glyphicon glyphicon-unchecked"></i></td>
+                        <td class="text-center">{{$index +
+                                                1+pageModel.pageSize*pageModel.pageIndex}}</td>
+
+                        <td>{{item.type == '1' ? '个人' :'企业'||'--'}}
+                        </td>
+                        <td>{{item.name||'--'}}</td>
+                        <td>{{item.contactMan||'--'}}</td>
+                        <td>{{item.phone||'--'}}</td>
+                        <td>{{item.operator||"--"}}</td>
+                        <td>{{item.customerStatus==1?'询问':2?'来访':3?'认购':4?'签约':''}}
+                        </td>
+                        <td>{{item.intentionLevel|keyToValue:intentionLevelList:'dicSort':'dicItem'}}
+                        </td>
+                        <td>{{item.latelyFollowTime||'--'}}</td>
+                        <td>{{item.recoveryReason||"--"}}</td>
+                        <td>{{item.recoveryReason||"--"}}</td>
+                        <td>{{item.backCount||"--"}}</td>
+                        <td>
+                          <button class="btn btn-oper" ng-click="view(item)">查看</button>
+                          <button class="btn btn-oper" ng-click='distribution(item)'>分配</button>
+                          <button class="btn btn-oper" ng-click='move(item)'>移至垃圾箱</button>
+                          <button class="btn btn-oper" ng-click='edit(item)'>编辑</button>
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'" class="ng-scope">
+                      <style type="text/css" class="ng-scope">
+                        .pagination>li>span:hover {
+                          background-color: #fff;
+                          cursor: text
+                        }
+                      </style>
+                    </ng-include>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 公共客户  end -->
+
+            <!-- 重复客户  start -->
+            <div role="tabpanel" class="tab-pane fade" id="repeat" ng-controller="repeatCtrl">
+              <div class="panel panel-default">
+                <div class="panel-heading" style="color: #999999;">
+                  重复客户列表
+                </div>
+                <div class="panel-body">
+                  <table class="table" style="margin-top: 10px; color: #999999;">
+                    <thead class="title">
+                      <tr>
+                        <th class="text-center">序号</th>
+                        <th>客户类型</th>
+                        <th>客户名称</th>
+                        <th>电话</th>
+                        <th>业务员</th>
+                        <th>客户状态</th>
+                        <th>最近跟进时间</th>
+                        <th>跟进方式</th>
+                        <th>创建日期</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody ng-repeat='item in pageModel.data' ng-init='parentIndex=$index'>
+                      <tr ng-if="pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                      </tr>
+                      
+                      <tr ng-repeat='i in item track by $index' style="color: #333333;">
+                        <td class="text-center" style="border-right: 1px solid #ddd;" ng-if="$index==0"
+                          rowspan="{{item.length}}">
+                          {{parentIndex +1+pageModel.pageSize*pageModel.pageIndex}}
+                        </td>
+                        <td>
+                          {{i.type == '1' ? '个人' :'企业'||'--'}}
+                        </td>
+                        <td>
+                          {{i.name||'--'}}
+
+                        </td>
+                        <td>
+                          {{i.phone||'--'}}
+                        </td>
+                        <td>
+                          {{i.operator||'--'}}
+                        </td>
+                        <td>
+                          {{i.customerStatusName}}
+                        </td>
+                        <td>
+                          {{i.latelyFollowTime||"--"}}
+                        </td>
+                        <td>
+                          {{i.followWayName}}
+                        </td>
+                        <td>
+                          {{i.createTime||'--'}}
+                        </td>
+                        <td>
+                          <button class="btn btn-oper" ng-click="view(i)">查看</button>
+                          <button class="btn btn-oper" ng-click='edit(i)'>编辑</button>
+                        </td>
+                        <td style="border-left: 1px solid #ddd;" rowspan="{{item.length}}" ng-if="$index==0">
+                          <button class="btn btn-oper" ng-click='delRepeat(item)'>处理重复</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'" class="ng-scope">
+                      <style type="text/css" class="ng-scope">
+                        .pagination>li>span:hover {
+                          background-color: #fff;
+                          cursor: text
+                        }
+                      </style>
+                    </ng-include>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 重复客户  end -->
+
+            <!-- 无效客户  start -->
+            <div role="tabpanel" class="tab-pane fade" id="invalid" ng-controller="invalidCtrl">
+              <div class="form-inline find_input marT_15">
+                <div class="form-group">
+                 <label class="common_inputTitle">客户类型</label>
+                  <select class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="search.type">
+                    <option value="">--请选择--</option>
+                    <option value="1">个人</option>
+                    <option value="2">企业</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                 <label class="common_inputTitle">客户名称</label>
+                  <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                    ng-model="search.name" aria-invalid="false">
+                </div>
+                <div class="form-group">
+                 <label class="common_inputTitle">客户电话</label>
+                  <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                    ng-model="search.phone" aria-invalid="false" style="">
+                </div>
+                <div class="form-group">
+                 <label class="common_inputTitle">客户状态</label>
+                  <select class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                    ng-model="search.customerStatus">
+                    <option value="">--请选择--</option>
+                    <option value="1">询问</option>
+                    <option value="2">来访</option>
+                    <option value="3">认购</option>
+                    <option value="4">签约</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="common_inputTitle">意向级别</label>
+                  <select class="form-control" type="text" ng-model="search.intentionLevel"
+                    ng-options="o['dicSort'] as o['dicItem'] for o  in intentionLevelList">
+                    >
+                    <option value="">--请选择--</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label style="width: 100px;text-align: right;">最近跟进</label>
+                  <input type="datetime" class="form-control Wdate" ng-model="search.followStartTime" placeholder="开始日期"
+                    onchange=""
+                    onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()||'%y-%M-%d'}&quot;})">
+                  <label style="width: 10px;">-</label>
+                  <input type="datetime" class="form-control Wdate" ng-model="search.followEndTime" placeholder="结束日期"
+                    onchange=""
+                    onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;,maxDate:'%y-%M-%d'})">
+                </div>
+                <div class="form-group">
+                 <label class="common_inputTitle">业务员</label>
+                  <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                    ng-model="search.operator" aria-invalid="false" style="">
+                </div>
+                <button class="btn btn-default" ng-click="find()">查询</button>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" style="color: #999999;">
+                  无效客户列表
+                  <button class="btn btn-primary pull-right" ng-click="showReception()">导出客户</button>
+                  <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)"
+                    ng-click="moveAll(pageModel)" disabled="disabled">移动垃圾桶</button>
+                  <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)"
+                    ng-click="recycle(pageModel)">批量回收</button>
+                  <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)"
+                    ng-click="distribution(pageModel)" disabled="disabled">批量分配</button>
+                </div>
+                <div class="panel-body">
+                  <table class="table table-striped table-hover" style="margin-top: 10px; color: #999999;">
+                    <thead class="title">
+                      <tr>
+                        <th class="text-center" style="width:20px">
+                          <span role="button" ng-click="checkAll(pageModel)">
+                            <i class="glyphicon glyphicon-unchecked"
+                              ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                          </span>
+                        </th>
+                        <th class="text-center">序号</th>
+                        <th>客户类型</th>
+                        <th>客户名称</th>
+                        <th>联系人</th>
+                        <th>电话</th>
+                        <th>原业务员</th>
+                        <th>客户状态</th>
+                        <th>意向级别</th>
+                        <th>最近跟进时间</th>
+                        <th>跟进方式</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-if="pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                      </tr>
+                      <tr ng-repeat="item in pageModel.data track by $index" style="color: #333333;">
+                        <td><i role="button" ng-click="checkOne(item, pageModel)"
+                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                            class="glyphicon glyphicon-unchecked"></i></td>
+                        <td class="text-center">{{$index +
+                                                1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.type == '1' ? '个人' :'企业'||'--'}}
+                        </td>
+                        <td>{{item.name||'--'}}</td>
+                        <td>{{item.contactMan||'--'}}</td>
+                        <td>{{item.phone||'--'}}</td>
+                        <td>{{item.operator||"--"}}</td>
+                        <td>{{item.customerStatus==1?'询问':2?'来访':3?'认购':4?'签约':''}}
+                        </td>
+                        <td>{{item.intentionLevel|keyToValue:intentionLevelList:'dicSort':'dicItem'}}
+                        </td>
+                        <td>{{item.latelyFollowTime||'--'}}</td>
+                        <td>{{item.followWay|keyToValue:followWayList:'dicSort':'dicItem'}}
+                        </td>
+                        <td>
+                          <button class="btn btn-oper" ng-click="view(item)">查看</button>
+                          <button class="btn btn-oper" ng-click='distribution(item)'>分配</button>
+                          <button class="btn btn-oper" ng-click='recycle(item)'>回收</button>
+                          <button class="btn btn-oper" ng-click='move(item)'>移至垃圾箱</button>
+                          <button class="btn btn-oper" ng-click='edit(item)'>编辑</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'" class="ng-scope">
+                      <style type="text/css" class="ng-scope">
+                        .pagination>li>span:hover {
+                          background-color: #fff;
+                          cursor: text
+                        }
+                      </style>
+                    </ng-include>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 无效客户  end -->
+
+            <!-- 垃圾箱客户  start -->
+            <div role="tabpanel" class="tab-pane fade" id="bin" ng-controller="binCtrl">
+              <div class="form-inline find_input marT_15">
+                <div class="form-group">
+                 <label class="common_inputTitle">客户类型</label>
+                  <select class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="search.type">
+                    <option value="">--请选择--</option>
+                    <option value="1">个人</option>
+                    <option value="2">企业</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                 <label class="common_inputTitle">客户名称</label>
+                  <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                    ng-model="search.name" aria-invalid="false">
+                </div>
+                <div class="form-group">
+                 <label class="common_inputTitle">客户电话</label>
+                  <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                    ng-model="search.phone" aria-invalid="false" style="">
+                </div>
+                <div class="form-group">
+                 <label class="common_inputTitle">客户状态</label>
+                  <select class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                    ng-model="search.customerStatus">
+                    <option value="">--请选择--</option>
+                    <option value="1">询问</option>
+                    <option value="2">来访</option>
+                    <option value="3">认购</option>
+                    <option value="4">签约</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="common_inputTitle">意向级别</label>
+                  <select class="form-control" type="text" ng-model="search.intentionLevel"
+                    ng-options="o['dicSort'] as o['dicItem'] for o  in intentionLevelList">
+                    >
+                    <option value="">--请选择--</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label style="width: 100px;text-align: right;">最近跟进</label>
+                  <input type="datetime" class="form-control Wdate" ng-model="search.followStartTime" placeholder="开始日期"
+                    onchange=""
+                    onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()||'%y-%M-%d'}&quot;})">
+                  <label style="width: 10px;">-</label>
+                  <input type="datetime" class="form-control Wdate" ng-model="search.followEndTime" placeholder="结束日期"
+                    onchange=""
+                    onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;,maxDate:'%y-%M-%d'})">
+                </div>
+
+                <div class="form-group">
+                 <label class="common_inputTitle">业务员</label>
+                  <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                    ng-model="search.operator" aria-invalid="false" style="">
+                </div>
+                <button class="btn btn-default" ng-click="find()">查询</button>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" style="color: #999999;">
+                  垃圾箱客户列表
+                  <button class="btn btn-primary pull-right" ng-click="showReception()">导出客户</button>
+                  <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)"
+                    ng-click="recycle(pageModel)">批量回收</button>
+
+                </div>
+                <div class="panel-body">
+                  <table class="table table-striped table-hover" style="margin-top: 10px; color: #999999;">
+                    <thead class="title">
+                      <tr>
+                        <th class="text-center" style="width:20px">
+                          <span role="button" ng-click="checkAll(pageModel)">
+                            <i class="glyphicon glyphicon-unchecked"
+                              ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                          </span>
+                        </th>
+                        <th class="text-center">序号</th>
+                        <th>客户类型</th>
+                        <th>客户名称</th>
+                        <th>联系人</th>
+                        <th>电话</th>
+                        <th>原业务员</th>
+                        <th>客户状态</th>
+                        <th>意向级别</th>
+                        <th>最近跟进时间</th>
+                        <th>跟进方式</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-if="pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                      </tr>
+                      <tr ng-repeat="item in pageModel.data track by $index" style="color: #333333;">
+                        <td><i role="button" ng-click="checkOne(item, pageModel)"
+                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                            class="glyphicon glyphicon-unchecked"></i></td>
+                        <td class="text-center">{{$index +
+                                                1+pageModel.pageSize*pageModel.pageIndex}}</td>
+
+                        <td>{{item.type == '1' ? '个人' :'企业'||'--'}}
+                        </td>
+                        <td>{{item.name||'--'}}</td>
+                        <td>{{item.contactMan||'--'}}</td>
+                        <td>{{item.phone||'--'}}</td>
+                        <td>{{item.operator||"--"}}</td>
+                        <td>{{item.customerStatus==1?'询问':2?'来访':3?'认购':4?'签约':''}}
+                        </td>
+                        <td>{{item.intentionLevel|keyToValue:intentionLevelList:'dicSort':'dicItem'}}
+                        </td>
+                        <td>{{item.latelyFollowTime||'--'}}</td>
+                        <td>{{item.followWay|keyToValue:followWayList:'dicSort':'dicItem'}}
+                        </td>
+                        <td>
+                          <button class="btn btn-oper" ng-click="view(item)">查看</button>
+
+                          <button class="btn btn-oper" ng-click='recycle(item)'>回收</button>
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'" class="ng-scope">
+                      <style type="text/css" class="ng-scope">
+                        .pagination>li>span:hover {
+                          background-color: #fff;
+                          cursor: text
+                        }
+                      </style>
+                    </ng-include>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 垃圾箱客户  end -->
+
+            <!-- 丢弃客户  start -->
+            <div role="tabpanel" class="tab-pane fade" id="discarded" ng-controller="discardedCtrl">
+              <div class="form-inline find_input marT_15">
+                <div class="form-group">
+                 <label class="common_inputTitle">客户类型</label>
+                  <select class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="search.type">
+                    <option value="">--请选择--</option>
+                    <option value="1">个人</option>
+                    <option value="2">企业</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                 <label class="common_inputTitle">客户名称</label>
+                  <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                    ng-model="search.name" aria-invalid="false">
+                </div>
+
+                <div class="form-group">
+                 <label class="common_inputTitle">客户电话</label>
+                  <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                    ng-model="search.phone" aria-invalid="false" style="">
+                </div>
+
+                <div class="form-group">
+                 <label class="common_inputTitle">客户状态</label>
+                  <select class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                    ng-model="search.customerStatus">
+                    <option value="">--请选择--</option>
+                    <option value="1">询问</option>
+                    <option value="2">来访</option>
+                    <option value="3">认购</option>
+                    <option value="4">签约</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="common_inputTitle">意向级别</label>
+                  <select class="form-control" type="text" ng-model="search.intentionLevel"
+                    ng-options="o['dicSort'] as o['dicItem'] for o  in intentionLevelList">
+                    >
+                    <option value="">--请选择--</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label style="width: 100px;text-align: right;">最近跟进</label>
+                  <input type="datetime" class="form-control Wdate" ng-model="search.followStartTime" placeholder="开始日期"
+                    onchange=""
+                    onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()||'%y-%M-%d'}&quot;})">
+                  <label style="width: 10px;">-</label>
+                  <input type="datetime" class="form-control Wdate" ng-model="search.followEndTime" placeholder="结束日期"
+                    onchange=""
+                    onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;,maxDate:'%y-%M-%d'})">
+                </div>
+
+                <div class="form-group">
+                 <label class="common_inputTitle">业务员</label>
+                  <input placeholder="请输入" class="form-control ng-pristine ng-valid ng-empty ng-touched" type="text"
+                    ng-model="search.operator" aria-invalid="false" style="">
+                </div>
+                <button class="btn btn-default" ng-click="find()">查询</button>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" style="color: #999999;">
+                  丢弃客户列表
+                  <button class="btn btn-primary pull-right" ng-click="showReception()">导出客户</button>
+
+                  <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)"
+                    ng-click="recycle(pageModel)">批量回收</button>
+
+                </div>
+                <div class="panel-body">
+                  <table class="table table-striped table-hover" style="margin-top: 10px; color: #999999;">
+                    <thead class="title">
+                      <tr>
+                        <th class="text-center" style="width:20px">
+                          <span role="button" ng-click="checkAll(pageModel)">
+                            <i class="glyphicon glyphicon-unchecked"
+                              ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                          </span>
+                        </th>
+                        <th class="text-center">序号</th>
+                        <th>客户类型</th>
+                        <th>客户名称</th>
+                        <th>联系人</th>
+                        <th>电话</th>
+                        <th>原业务员</th>
+                        <th>丢弃原因</th>
+                        <th>丢弃时间</th>
+                        <th>最近跟进时间</th>
+                        <th>操作人</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-if="pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                      </tr>
+                      <tr ng-repeat="item in pageModel.data track by $index" style="color: #333333;">
+                        <td><i role="button" ng-click="checkOne(item, pageModel)"
+                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                            class="glyphicon glyphicon-unchecked"></i></td>
+                        <td class="text-center">{{$index +
+                                                1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.type == '1' ? '个人' :'企业'||'--'}}</td>
+                        <td>{{item.name||'--'}}</td>
+                        <td>{{item.contactMan||'--'}}</td>
+                        <td>{{item.phone||'--'}}</td>
+                        <td>{{item.operator||"--"}}</td>
+                        <td>{{item.recoveryReason}}</td>
+                        <td>{{item.changeTime}}</td>
+                        <td>{{item.latelyFollowTime||'--'}}</td>
+                        <td>{{item.changeOperator}}</td>
+                        <td>
+                          <button class="btn btn-oper" ng-click="view(item)">查看</button>
+                          <button class="btn btn-oper" ng-click='recycle(item)'>回收</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'" class="ng-scope">
+                      <style type="text/css" class="ng-scope">
+                        .pagination>li>span:hover {
+                          background-color: #fff;
+                          cursor: text
+                        }
+                      </style>
+                    </ng-include>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 丢弃客户  end -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 模态框组件 start -->
+  <div id="modalLoading" class="modal fade bs-example-modal-sm" style="margin-top: 200px;">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-body">
+          <label class="common_inputTitle">
+            <i class="fa fa-spinner"></i>数据加载中，请稍候。。。</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<style>
+  .btn-oper {
+    background-color: #fff;
+    border: 1px solid #78c4ec;
+    color: #78c4ec;
+    padding: 3px 10px;
+  }
+</style>

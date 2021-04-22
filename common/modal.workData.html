@@ -1,0 +1,82 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">拓展状态数据录入</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">所属项目：</label>
+						<div class="col-xs-4">
+							<select class="form-control"  name="" >
+								<option value="">--请选择--</option>
+								<option value="">丽岛2046</option>
+								<option value="">丽岛花园</option>
+							</select>
+						</div>
+						<label class="col-xs-2 control-label">月份：</label>
+						<div class="col-xs-2">
+							<select class="form-control"  name="" >
+								<option value="">--请选择--</option>
+								<option value="">2016</option>
+								<option value="">2017</option>
+								<option value="">2018</option>
+							</select>
+						</div>
+						<div class="col-xs-2">
+							<select class="form-control"  name="">
+								<option value="">--请选择--</option>
+								<option value="">01</option>
+								<option value="">02</option>
+								<option value="">03</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">						
+						<label class="col-xs-2 control-label">签订合同：</label>
+						<div class="col-xs-3">
+							<input type="text" class="form-control"/>
+						</div>
+						<div class="col-xs-1 text-center unit">
+							个
+						</div>
+						<label class="col-xs-2 control-label">合同谈判中：</label>
+						<div class="col-xs-3">
+							<input type="text" class="form-control"/>
+						</div>
+						<div class="col-xs-1 text-center unit">
+							个
+						</div>						
+					</div>
+					<div class="form-group">						
+						<label class="col-xs-2 control-label">项目跟进中：</label>
+						<div class="col-xs-3">
+							<input type="text" class="form-control"/>
+						</div>
+						<div class="col-xs-1 text-center unit">
+							个
+						</div>
+						<label class="col-xs-2 control-label">初次洽谈：</label>
+						<div class="col-xs-3">
+							<input type="text" class="form-control"/>
+						</div>
+						<div class="col-xs-1 text-center unit">
+							个
+						</div>					
+					</div>
+					<div class="form-group">						
+						<label class="col-xs-2 control-label">拓展失败：</label>
+						<div class="col-xs-3">
+							<input type="text" class="form-control"/>
+						</div>
+						<div class="col-xs-1 text-center unit">
+							个
+						</div>				
+					</div>
+
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+

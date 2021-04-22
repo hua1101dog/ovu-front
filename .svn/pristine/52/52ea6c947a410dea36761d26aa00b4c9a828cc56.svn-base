@@ -1,0 +1,174 @@
+<div class="processForm">
+    <div class="applicationInfo">
+        <h4>{{processForm.title}}</h4>
+        <div class="msgList">
+            <div class="msg-group clearfix">
+                <p>申请信息</p>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">用户名称</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.applicantName}}">{{processForm.formData.applicantName}}</span>
+                </div>
+                <label class="col-xs-2">申请时间</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss" ng-attr-title="{{processForm.createTime}}">{{processForm.createTime}}</span>
+                </div>
+                <label class="col-xs-2">参会人数</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.countPeople | getCountPeople}}">{{processForm.formData.countPeople | getCountPeople}}</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">预定场地时间</label>
+                <div class="col-xs-6 ellipsiss">
+                    <div>
+                        日期:
+                        <span
+                            ng-attr-title="{{processForm.formData.beginDate}}">{{processForm.formData.beginDate}}</span>
+                        至
+                        <span ng-attr-title="{{processForm.formData.endDate}}">{{processForm.formData.endDate}}</span>
+                        <br />
+                        时间:
+                        <span ng-if="processForm.formData.beginDuration"
+                            ng-attr-title="{{processForm.formData.beginDuration}}">{{processForm.formData.beginDuration}}</span>
+                        至
+                        <span ng-if="processForm.formData.endDuration"
+                            ng-attr-title="{{processForm.formData.endDuration}}">{{processForm.formData.endDuration}}</span>
+                    </div>
+                </div>
+                <label class="col-xs-2">预定费用</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.totalPrice}}">{{processForm.formData.totalPrice | number : 2}}元</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">联系人</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.contactMan}}">{{processForm.formData.contactMan}}</span>
+                </div>
+                <label class="col-xs-2">联系电话</label>
+                <div class="col-xs-6">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.contactPhone}}">{{processForm.formData.contactPhone}}</span>
+                </div>
+            </div>
+            <div class="msg-group msg-group-data clearfix">
+                <label class="col-xs-2">预定资料</label>
+                <div class="col-xs-10 clearfix">
+                    <div ng-repeat="item in processForm.list track by $index">
+                        <span>{{item.attachmentName}}</span><a class="download" href="javascript:;"
+                            ng-click="enclosureDownload(item.url,item.attachmentName)"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <p>实际租赁信息</p>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2 required">实际租赁时间</label>
+                <div class="col-xs-5">
+                    <input type="datetime" id="startTime" class="form-control Wdate" style="width:60%"
+                        ng-if="curProcess.taskDefKey == 'a' && curProcess.taskStatus == 0"
+                        ng-model="search.realStartTime" placeholder="实际租赁开始日期" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endTime\')}'})"
+                        ng-change="timeChange(search.realStartTime,search.realEndTime)">
+                    <input type="text" class="form-control" style="width:80%"
+                        ng-if="curProcess.taskDefKey != 'a' || curProcess.taskStatus != 0"
+                        ng-model="search.realStartTime" readonly>
+                    <select class="form-control" style="width:20%;margin-left:10px;"
+                        ng-if="curProcess.taskDefKey == 'a' && curProcess.taskStatus==0" ng-model="search.startTime"
+                        ng-hide="timeControl" ng-change="hourChange(search.startTime, search.endTime, 1)">
+                        <option value="" disabled>请选择</option>
+                        <option value="{{time}}" ng-repeat="time in yardTimeList track by $index">{{time}}</option>
+                    </select>
+                </div>
+                <div class="col-xs-5">
+                    <input type="datetime" id="endTime" class="form-control Wdate" style="width:60%"
+                        ng-if="curProcess.taskDefKey == 'a' && curProcess.taskStatus == 0" ng-model="search.realEndTime"
+                        placeholder="实际租赁结束日期" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd', minDate:'#F{$dp.$D(\'startTime\')}'})"
+                        ng-change="timeChange(search.realStartTime,search.realEndTime)">
+                    <input type="text" class="form-control" style="width:80%"
+                        ng-if="curProcess.taskDefKey != 'a' || curProcess.taskStatus != 0" ng-model="search.realEndTime"
+                        readonly>
+                    <select class="form-control" style="width:20%;margin-left:10px;"
+                        ng-if="curProcess.taskDefKey == 'a' && curProcess.taskStatus==0" ng-model="search.endTime"
+                        ng-hide="timeControl" ng-change="hourChange(search.startTime, search.endTime, 2)">
+                        <option value="" disabled>请选择</option>
+                        <option value="{{time}}" ng-repeat="time in yardTimeList track by $index">{{time}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <!-- <label class="col-xs-2">实际租赁周期</label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" style="width:80%" ng-model="search.realCycle"
+                                    placeholder="实际租赁周期" readonly>
+                            </div> -->
+                <!-- oninput="if(!(/^([0-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-2])$/.test(this.value))) this.value=''" -->
+                <label class="col-xs-2 required">实际租赁费用</label>
+                <div class="col-xs-10">
+                    <input type="number" class="form-control" ng-pattern="/^[0-9]\d*\.?\d*$/" style="width:80%"
+                        ng-keyup="moneyChange(search.realMoney)" ng-model="search.realMoney" placeholder="只能输入正数且最多两位小数"
+                        ng-readonly="curProcess.taskDefKey != 'a' || curProcess.taskStatus != 0">元
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2 required">会场使用描述</label>
+                <div class="col-xs-10">
+                    <textarea maxlength="100" class="col-xs-10" rows="3" ng-model="search.useDesc" placeholder="会场使用描述"
+                        ng-readonly="curProcess.taskDefKey != 'a' || curProcess.taskStatus != 0"></textarea>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <p>审批信息</p>
+            </div>
+            <div class="msg-group clearfix" ng-repeat="item in processComment track by $index">
+                <label class="col-xs-2">{{item.activityName}}</label>
+                <div class="col-xs-10">
+                    <p
+                        style="width: 100%; text-align:left;padding-left:10px;display:flex;justify-content:space-between;align-items:center;">
+                        <span class="ellipsiss" style="width:45%;" ng-attr-title="{{item.assigneeName}}">{{item.assigneeName}}</span>
+                        <span style="width:45%;">{{item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}} </span>
+                    </p>
+                    <p style="width:100%;">
+                        <span class="ellipsiss" ng-attr-title="{{item.comment}}"
+                            ng-if="item.comment">{{item.comment}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="auditOpinion clearfix" ng-if="curProcess.taskStatus == 0 && curProcess.personId">
+        <label class="col-xs-2 required">审批意见</label>
+        <textarea maxlength="100" class="col-xs-10" rows="5" placeholder="请填写审批意见(必填)"
+            ng-model="search.comment"></textarea>
+    </div>
+    <div class="transferOp">
+        <h4>流转意见</h4>
+        <div class="transferList">
+            <div class="transfer-group" ng-repeat="item in processComment track by $index">
+                <p style="padding-left: 10px;">{{item.activityName}}</p>
+                <p class="ellipsiss" ng-attr-title="{{item.assigneeName}}">{{item.assigneeName}}</p>
+                <p class="clearfix"><span style="color: #008000;width:20%;margin-right:10px;">接收人</span> <span class="ellipsiss" style="width:75%;" ng-attr-title="{{item.receiver}}">{{item.receiver}}</span>
+                </p>
+                <div>
+                    <p>{{item.endTime || item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}}</p>
+                    <p style="color: #008000;">
+                        【{{item.activityName}}】
+                    </p>
+                    <p style="color: #008000;">
+                        <span ng-if="$index===0">已提交</span>
+                        <span class="ellipsiss" ng-attr-title="{{item.comment}}"
+                            ng-if="$index!==0">{{item.comment}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

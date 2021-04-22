@@ -1,0 +1,141 @@
+<div class="x_panel" >
+    <div class="form-inline" >
+        <div class="form-group">
+            <label >工单编号</label>
+            <input type="text"  ng-model="search.ID" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>工单名称</label>
+            <input type="text"  ng-model="search.NAME" class="form-control" />
+        </div>
+      <div class="form-group">
+        <label>工作分类</label>
+        <div class="input-group">
+          <input type="text" class="form-control" readonly="readonly"   ng-model="search.WORKTYPE_NAME" style="width:140px;"/>
+          <span class="input-group-btn">
+                <button  class="btn btn-default" ng-click="chooseWorkType(search)"><i class='fa fa-search'></i></button>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>是否设备任务</label>
+        <select class="form-control" ng-model="search.is_equip"  ng-options="o[0] as o[1] for o in yesNoDict">
+          <option value="">--请选择--</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>维保单位</label>
+        <input type="text" class="form-control " ng-model="search.maintainName" >
+      </div>
+      <!-- <div class="form-group">
+           <label>工单状态</label>
+           <select class="form-control" ng-model="search.STATUS" ng-options="o[0] as o[1] for o in unitStatusDict">
+               <option value="">&#45;&#45;请选择&#45;&#45;</option>
+           </select>
+       </div>-->
+        <!--<div class="form-group">
+            <label class="pl13">已删除</label>
+            <select class="form-control" ng-model="search.DATA_STATUS">
+                <option value="">&#45;&#45;请选择&#45;&#45;</option>
+                <option value="0">是</option>
+                <option value="1">否</option>
+            </select>
+        </div>-->
+    </div>
+    <div class="form-inline" >
+        <div class="form-group">
+            <label class="pl13">发起人</label>
+            <input type="text"  ng-model="search.SOURCE_NAME" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>创建时间</label>
+            <input type="datetime" class="form-control Wdate"  ng-model="search.FROM_DATE"  placeholder="开始日期" readonly
+                   ng-lay-date>
+            <label>-</label>
+            <input type="datetime" class="form-control Wdate"  ng-model="search.TO_DATE"  placeholder="结束日期" readonly
+                   ng-lay-date>
+        </div>
+        <div class="form-group">
+            <label>工单类型</label>
+            <select class="form-control" ng-model="search.WORKUNIT_TYPE" ng-options="o[0] as o[1] for o in workunitTypeDict">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="form-inline" >
+        <div class="form-group">
+            <label class="pl13">执行人</label>
+            <input type="text"  ng-model="search.EXEC_NAME" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>执行时间</label>
+            <input type="datetime" class="form-control Wdate"  ng-model="search.STAR"  placeholder="开始日期" readonly
+                   ng-lay-date>
+            <label>-</label>
+            <input type="datetime" class="form-control Wdate"  ng-model="search.END"  placeholder="结束日期" readonly
+                   ng-lay-date>
+        </div>
+        <div class="form-group">
+            <label>执行异常</label>
+            <select class="form-control" ng-model="search.IS_DELAYED" ng-options="o[0] as o[1] for o in yesNoDict">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <div class="form-group" ng-if="search.curTab=='YGB'">
+            <label>评分</label>
+            <select class="form-control" ng-model="search.score" ng-options="o[0] as o[1] for o in evaluateScoreDict">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <button class="btn btn-default" ng-click="find(1)" >查询</button>
+    </div>
+</div>
+
+<div class="panel panel-default" style="margin-bottom: 0px;">
+    <div class="panel-heading">工单列表</div>
+    <div class="panel-body">
+        <table class="table table-striped table-hover" style="margin-top: 10px;">
+            <thead class="title">
+            <tr>
+                <th class="text-center">NO</th>
+                <th>工单编号</th>
+                <th>工单名称</th>
+                <th>工单类型</th>
+                <th>工作分类</th>
+                <th >位置</th>
+                <th>发起人</th>
+                <th>执行人</th>
+                <th>管理人</th>
+                <th>创建时间</th>
+                <th>计划执行时间</th>
+                <th>工单状态</th>
+                <th>评分</th>
+                <th>督办人</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-if="pageModel.list.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+            <tr ng-repeat="item in pageModel.list" >
+                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                <td>{{item.ID}}</td>
+                <td><a  href='javascript:void(0)' class="btn-link" ng-style="{'text-decoration':item.DATA_STATUS=='0'?'line-through':''}" ng-click='showWorkUnitDetail(item.ID)'>{{item.WORKUNIT_NAME}}</a></td>
+                <td>{{item.WORKUNIT_TYPE|keyToValue:workunitTypeDict}}</td>
+                <td>{{item.WORKTYPE_NAME}}</td>
+                <td>{{item.reportLoc}}</td>
+                <td>{{item.SOURCE_PERSON_NAME}}</td>
+                <td>{{item.EXEC_PERSON_NAME}}</td>
+                <td>{{item.MANAGE_PERSON_NAME}}</td>
+                <td>{{item.CREATE_DATE}}</td>
+                <td>{{item.EXEC_DATE}}</td>
+                <td>{{item.UNIT_STATUS|keyToValue:unitStatusDict}}</td>
+                <td>{{item.EVALUATE_SCORE}}</td>
+                <td>{{item.SUPERVISE_PERSON_NAMES}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="page-footer clearfix">
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+</div>

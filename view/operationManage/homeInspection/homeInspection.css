@@ -1,0 +1,127 @@
+.div-group{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 14px;
+}
+.div-panel{
+    /* width: 86px; */
+    color: #989898;
+    background-color:#fff;
+    border: 1px solid #E6E9ED;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0;
+    margin-right: 15px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.div-active{
+    color: #fff;
+    background-color: #5891eb;
+}
+.btn_search{
+    width: 80px;
+    color: #fff;
+    background-color: #5891eb;
+    margin-top: 3px;
+}
+.label_search{
+    color: #989898;
+    padding: 0 5px 0 8px;
+}
+.status_rent{
+    color: #f7a500;
+}
+.status_sell{
+    color: #ff747d;
+}
+.btn-oper{
+    background-color: #fff;
+    border: 1px solid #78c4ec;
+    color: #78c4ec;
+    padding: 3px 10px;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    height:45px;
+    text-align:left;
+}
+.map {
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    border-radius: 6px;
+    background:#fff;
+    display:none;
+}
+.map h4 {
+    height:60px;
+    line-height:60px;
+    margin:0;
+    border-bottom: 1px solid #e5e5e5;
+    font-size:14px;
+}
+.map h4 span {
+    float:left;
+    width:400px;
+    padding-left: 10px;
+}
+.map h4 a {
+    margin: 12px;
+}
+.setLocation {
+    font-size:20px;
+    padding-top:6px;
+}
+.marT_15{
+    margin-top: 15px;
+    margin-bottom:10px;
+}
+#bookingManage .form-inline>.form-group>input,#bookingManage .form-inline>.form-group>select{
+    width:180px;
+}
+#bookingManage .form-inline>.form-group>label{
+    width:80px;
+    text-align: right;
+}
+#releaseManage .form-inline>.form-group>input,#releaseManage .form-inline>.form-group>select{
+    width:180px;
+}
+.reject-textarea{
+    overflow: hidden;
+    padding: 30px;
+}
+.reject-textarea label{
+    float: left;    
+    margin-right: 20px;
+}
+.reject-textarea textarea{
+    float: left;
+    width: 430px;
+    height: 80px;
+    padding: 6px;
+}
+#releaseManage .tab-content table tbody td>a{
+    display: inline-block;
+    margin-right: 8px;
+    color: #5891eb
+}
+#releaseManage .tab-content table,#releaseManage .tab-content table th,#bookingBox .tab-content .text-center thead th{
+    text-align: left;
+}
+#releaseManage .tab-content table tbody td>a.disabled{
+    cursor: default;
+    color: #ccc;
+}
+.modal-xl {
+	width: 66%;
+	min-width:678px;
+	}

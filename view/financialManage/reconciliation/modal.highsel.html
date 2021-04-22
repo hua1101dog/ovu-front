@@ -1,0 +1,59 @@
+<!-- 		<link rel="stylesheet" type="text/css" href="${ctx}/js/wangEditor.css"/> -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">高级检索</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <form name="form" novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+        <div class="form-group">
+            <label class="col-xs-2 control-label text-left">订单编号：</label>
+            <div class="col-xs-4">
+                <input class="form-control" ng-model="item.billNoOrMid" name="title" type="text">
+            </div>
+            <label class="col-xs-2 control-label text-left" >金额范围：</label>
+            <div class="col-xs-4">
+                <select class="form-control"  ng-model="item.selMoneyRange" ng-options="o.value as o.text for o in moneyRange">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label text-left">支付方式：</label>
+            <div class="col-xs-4">
+                <select class="form-control"  ng-model="item.payType" ng-options="o.data.dicVal as o.data.dicCode for o in payType">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label text-left">支付时间：</label>
+            <div class="col-xs-4">
+                <input type="datetime" class="form-control Wdate" ng-model="item.payDate"
+                       onchange="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label text-left">对账状态：</label>
+            <div class="col-xs-4">
+                <select class="form-control"  ng-model="item.ownVerifyStatus" ng-options="o.data.dicVal as o.data.dicCode for o in VERIFYSTATUS">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label text-left">对账时间：</label>
+            <div class="col-xs-4">
+                <input type="datetime" class="form-control Wdate" ng-model="item.ownVerifyDate"
+                       onchange="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="reset()">重置</button>
+    <button class="btn btn-primary" ng-click="saveMessage(form,item)">确定</button>
+</div>
+<style>
+    .col-xs-1 {
+        padding-right: 0px
+    }
+</style>

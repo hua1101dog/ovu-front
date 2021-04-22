@@ -1,0 +1,49 @@
+	<!--绑定供应商的新增修改弹出框  -->
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancel()">×</button>
+		<h4 class="modal-title">{{item.supplierId?'编辑':'添加'}}供应商</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+		<form name="form" novalidate>
+			<div class="form-group">
+				<label class="col-xs-2 control-label required">供应商名称：</label>
+				<div class="col-xs-4">
+					<input type="text" class="form-control" required ng-model="item.name" name="name" />
+				</div>
+				<label class="col-xs-2 control-label required">供应商类型：</label>
+				<div class="col-xs-4">
+					<select class="form-control" required name="type" ng-model="item.type"  ng-options="o[0] as o[1] for o in supplierDict">
+						<option value="">--请选择--</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label ">电话：</label>
+				<div class="col-xs-4">
+					<input type="text" class="form-control"  ng-model="item.telephone" name="telephone" />
+				</div>
+				<label class="col-xs-2 control-label">传真：</label>
+				<div class="col-xs-4">
+					<input type="text" class="form-control"  ng-model="item.fax" name="fax" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label ">邮件：</label>
+				<div class="col-xs-4">
+					<input type="text" class="form-control" ng-model="item.email" name="email" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label">地址：</label>
+				<div class="col-xs-10">
+					<input type="text" class="form-control"  ng-model="item.address" name="address" />
+				</div>
+			</div>
+
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>
+

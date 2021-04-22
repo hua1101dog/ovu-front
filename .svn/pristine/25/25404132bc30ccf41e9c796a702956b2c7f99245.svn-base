@@ -1,0 +1,94 @@
+<div ng-controller="permissionsCtrl as vm" class="clearfix">
+	<div class="page-title">
+		<div class="title_left">
+			<h3>日志权限设置</h3>
+		</div>
+	</div>
+	<div class="row" ng-if="search.isGroup">
+		<div class="col-xs-12">
+			<label class="control-label">
+				<i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+				<a role="button" ng-click="findPark(search,find)">{{search.parkName?search.parkName:'请选择项目'}} </a>
+			</label>
+		</div>
+	</div>
+	<div class="x_panel">
+		<div class="form-inline">
+			<div class="form-group">
+				<label>员工姓名</label>
+				<input class="form-control" type="text" ng-model="search.deptName" ng-class="{'waiting':loadingExecPerson}"
+                uib-typeahead="o.name as o.name+' ('+o.deptName+')' for o in searchPerson($viewValue,search.parkId)"
+                typeahead-on-select="selectedPerson($item,search)"
+                typeahead-loading="loadingExecPerson" typeahead-wait-ms='300' typeahead-editable=false />
+			</div>
+			<button class="btn btn-default" ng-click="find(1)">查询</button>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			日志权限列表
+			<button class="btn btn-primary pull-right" ng-click="vm.showEditModal()" ng-disabled="!search.parkId">添加权限</button>
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped table-hover"
+				style="margin-top: 10px;">
+				<thead class="title">
+					<tr>
+						<th class="text-center">NO</th>
+						<th>上级领导</th>
+						<th>下属成员</th>
+						<th>创建时间</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+						<td colspan="100" class="text-center">暂无记录</td>
+					</tr>
+					<tr ng-repeat="item in pageModel.data">
+						<td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}</td>
+						<td>{{item.leader}}</td>
+						<td>{{item.member}}</td>
+						<td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+						<td>
+						<a href='javascript:void(0)' ng-click='vm.showEditModal(item.permissionId)' class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+						<a href='javascript:void(0)' ng-click='vm.del(item.permissionId)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="page-footer clearfix">
+				<ng-include src="'/common/pager.html'"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>
+<style type="text/css">
+	.pagination>li>span:hover {
+		background-color: #fff;
+		cursor: text
+	}
+	.ul-persons {
+        list-style: none;
+        float: left;
+        padding: 0px;
+        margin-top: 12px;
+    }
+
+    .ul-persons li {
+        margin: 5px;
+        padding: 5px;
+        float: left;
+    }
+
+    .ul-persons li.item {
+        background-color: #F9F9F9;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+</style>

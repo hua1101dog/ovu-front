@@ -1,0 +1,59 @@
+<div class="modal-header">
+        <h3 class="modal-title">复制页</h3>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <form name="myForm" novalidate>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">模型名称: </label>
+                <div class="col-xs-4">
+                    <input type="text" name="names" class="form-control" ng-model="form.name" required placeholder="请输入模型名称">
+                </div>
+                <span class="col-xs-6" style="color: red" ng-show="myForm.names.$dirty && myForm.names.$invalid">
+                    <span ng-show="myForm.names.$error.required">模型名称是必填的</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">模型标识: </label>
+                <div class="col-xs-4">
+                    <input type="text" name="key" class="form-control" ng-model="form.key" required placeholder="请输入模型标识">
+                </div>
+                <span class="col-xs-6" style="color: red" ng-show="myForm.key.$dirty && myForm.key.$invalid">
+                    <span ng-show="myForm.key.$error.required">模型标识是必填的</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label">模型描述: </label>
+                <div class="col-xs-6">
+                    <textarea type="text" name="description" class="form-control" style="height:150px;resize:vertical" ng-model="form.description" placeholder="请输入模型描述"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">业务子系统: </label>
+                <div class="col-xs-4" ng-if="form.role">
+                    <input type="text" class="form-control" required ng-model="form.role" disabled="form.role">
+                </div>
+                <div class="col-xs-4" ng-if="!form.role">
+                    <select class="form-control" name="categeory" ng-model="modelParameter.test" ng-options="o.projectKey as o.moduleName for o in cateList.categeoryList" required>
+                        <option value=""> --请选择子系统--</option>
+                    </select>
+                </div>
+                <span class="col-xs-2" style="color: red" ng-show="myForm.categeory.$dirty && myForm.categeory.$invalid">
+                    <span ng-show="myForm.categeory.$error.required">业务子系统是必填的</span>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">流程标识</label>
+                <div class="col-xs-4">
+                    <input type="text" name="processId" class="form-control" ng-model="form.processId" required placeholder="请输入流程标识" ng-disabled="!modelParameter.test || form.role">
+                </div>
+                <span class="col-xs-6" style="color: red" ng-show="myForm.processId.$dirty && myForm.processId.$invalid">
+                    <span ng-show="myForm.processId.$error.required">流程标识是必填的</span>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="save()" ng-disabled="!myForm.$valid">确定</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    </div>
+    

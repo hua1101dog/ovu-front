@@ -1,0 +1,20 @@
+
+<div  style="display: -webkit-box;-webkit-box-orient: horizontal;-weblit-box-align:end" >
+                <span style=" margin-right: 30px;word-break: break-all;text-overflow: ellipsis;-webkit-line-clamp: 2;overflow: hidden;height: 36px;display: -webkit-box;-webkit-box-orient: vertical;max-width: 313px;">{{value}}</span>
+                <span class="btn-link detail-link" ng-click="$parent.showXSDetail(value,titles)">详情</span>
+        </div>
+        <style>
+         .detail-link{
+          width: 33px;
+          margin-left: -20px;
+          display: inline-block;
+          margin-top: 17px;
+          /* cursor: pointer; */
+         
+        }
+        .layui-layer-lan .layui-layer-btn a {
+          background: #2e8ded;
+          border: none;
+         }
+        
+        </style>

@@ -1,0 +1,141 @@
+<!-- 项目总览 -->
+<div class="multi-projects" id="angularId" ng-controller="MultiCtrl">
+    <!-- title BEGIN -->
+    <div class="multi-projects-title page-title x_panel">
+        <div class="title_left">
+            <h3>项目总览</h3>
+        </div>
+    </div>
+    <!-- title END -->
+    <!-- content BEGIN -->
+    <div class="multi-projects-content">
+        <!-- 顶部地图 -->
+        <div class="top-banner row">
+            <!-- 地图 -->
+            <div class="col-md-7 col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="map-container" id="map-multi">
+                        </div>
+                        <!-- 高德行政区按钮 -->
+                        <div id="panel" class="scrollbar1">
+                            <ul id="000area-tree">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- park tree -->
+            <div class="col-md-5 col-sm-12 park-tree">
+                <div class="clearfix">
+                    <div class="panel panel-default tree-panel">
+                        <div class="tree-house panel-body tree-body">
+                            <div class="alert" role="alert" ng-show="houseTree.length==0">无楼栋信息</div>
+                            <tree-view node-list="parkTree" config="config"></tree-view>
+                        </div>
+                    </div>
+                    <div class="panel panel-default detail-panel left-b">
+                        <div class="panel-heading">项目详情</div>
+                        <div class="panel-body detail-body">
+                            <div class="proj-list">
+                                <div class="proj-item clearfix b-border" ng-repeat="item in pageModel.data">
+                                    <div class="col-xs-6">项目名称：</div>
+                                    <div class="col-xs-6">{{item.PARK_NAME}}</div>
+                                    <div class="col-xs-6">项目地址：</div>
+                                    <div class="col-xs-6">{{item.ADDRESS}}</div>
+                                    <div class="col-xs-6">建筑面积：</div>
+                                    <div class="col-xs-6">{{item.PARK_AREA}}</div>
+                                    <!-- <div class="col-xs-6">占地面积：</div>
+                                    <div class="col-xs-6">{{item.name}}</div>
+                                    <div class="col-xs-6">容积率：</div>
+                                    <div class="col-xs-6">{{item.name}}</div> -->
+                                    <div class="col-xs-12 text-right">
+                                        <a style="margin: 7px 0;" href="javascript:void(0)" class='btn btn-primary btn-xs' ng-click="singleProject(item)">查看项目详情</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 中间图表 -->
+        <div class="middle-charts row">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        设备运行状态统计
+                    </div>
+                    <div class="panel-body pie-chart">
+                        <div style="height:100%;width:100%;" ui-echarts="pieOption">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        各类系统故障统计
+                    </div>
+                    <div class="panel-body bar-chart">
+                        <div style="height:100%;width:100%;" ui-echarts="barOption">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 底部一堆panels -->
+        <!-- <div class="bottom-panels">
+            <eq-monitor-common></eq-monitor-common>
+        </div> -->
+    </div>
+    <!-- content END -->
+</div>
+
+<style>
+    .pie-chart {
+        height: 300px;
+    }
+
+    .bar-chart {
+        height: 300px;
+    }
+
+    .map-container {
+        height: 500px;
+        margin: -15px;
+    }
+
+    .park-tree .panel {
+        border-radius: 0;
+    }
+
+    .park-tree .tree-panel {
+        width: 40%;
+        float: left;
+    }
+
+    .park-tree .detail-panel {
+        /* min-width: 230px; */
+        width: 60%;
+        float: left;
+    }
+
+    .park-tree .tree-body {
+        height: 510px;
+        overflow: auto;
+    }
+
+    .park-tree .detail-body {
+        height: 470px;
+        overflow: auto;
+    }
+
+    .park-tree .proj-list {
+        min-width: 230px;
+    }
+
+    .left-b {
+        border-left: 15px solid #ddd;
+    }
+</style>

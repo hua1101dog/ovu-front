@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="productDatabase/style/css/custom.css">
+    <link rel="stylesheet" href="propertyCharges/propertyCharge.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="feeCategorySetCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>收费小类管理</h3>
+            </div>
+        </div>
+        <div class="feeCategorySet">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label class="m-r-xs">收费项目名称: </label>
+                        <input type="text" ng-model="search.chargeName" class="form-control ng-valid ng-empty">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">是否启用: </label>
+                        <select style="min-width:180px;" class="form-control" ng-model="search.isUsing">
+                            <option value="">--请选择--</option>
+                            <option ng-repeat="item in enableList track by $index" value={{item.value}}>{{item.name}}</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-default" ng-click="find()">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color: #999999;">
+                    收费小类列表
+                    <button class="btn btn-primary pull-right" ng-click="editFee()">新增</button>
+                </div>
+                <div class="panel-body p-b-none p-t-none">
+                    <table class="table table-striped table-hover m-b-none" style="margin-top: 10px; color: #999999;">
+                        <thead class="title">
+                            <tr>
+                                <th>No.</th>
+                                <th>收费类型名称</th>
+                                <th>收费项目名称</th>
+                                <th>收费项目价格</th>
+                                <th>计费方式</th>
+                                <!-- <th>是否APP线上缴费</th> -->
+                                <th>税率</th>
+                                <th>计费单位</th>
+                                <th>收费方式</th>
+                                <th>是否启用</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data track by $index" style="color: #333333;">
+                                <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td>{{item.parentName}}</td>
+                                <td>{{item.chargeName}}</td>
+                                <td>{{item.price}}</td>
+                                <td>{{item.chargeWay | billMode}}</td>
+                                <!-- <td>{{}}</td> -->
+                                <td>{{item.taxRate}}</td>
+                                <td>{{item.chargeUnit | billUnit}}</td>
+                                <td>{{item.payType | chargeMethod}}</td>
+                                <td>{{item.isUsing === 1 ? '是' : '否'}}</td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='updateUsing(item)' class="btn btn-xs" style="border: 1px solid #5692ea; color: #5692ea;">{{item.isUsing === 1 ? '停用' : '启用'}}</a>
+                                    <a href='javascript:void(0)' ng-if="item.isUsing === 0" ng-click='editFee(item)' class="btn btn-xs" style="border: 1px solid #5692ea; color: #5692ea;">编辑</a>
+                                    <a href='javascript:void(0)' ng-if="item.isUsing === 0" ng-click='cancelFee(item)' class="btn btn-xs" style="border: 1px solid #5692ea; color: #5692ea;">删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'" class="ng-scope">
+                            <style type="text/css" class="ng-scope">
+                                .pagination>li>span:hover {
+                                    background-color: #fff;
+                                    cursor: text
+                                }
+                            </style>
+                        </ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

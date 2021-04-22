@@ -1,0 +1,23 @@
+<div class="leaseDetail">
+    <div class="modal-header">
+        <h4 class="modal-title">租赁合同附件</h4>
+    </div>
+    <div class="modal-body">
+        <label class="required">相关文档：</label>
+        <div>
+            <div style="display: inline-block;"><a class="blue_btn" ng-click="uploadFile()"
+                    ng-disabled="executingContractStatus">上传</a></div>
+            <div style="display: inline-block;">（最多只上传5份.doc、.docx、.pdf、.xls或.xlsx格式的文件）</div>
+            <ul class="workList">
+                <li ng-repeat="file in contactFileList track by $index" style="margin-top: 10px;margin-left:10px;">
+                    <a href="javascript:;"  ng-click="downLoad(file.id)" style="color: #417CDD;">{{file.name}}</a>
+                    <b class="fa fa-close" style="margin-left: 10px;" ng-click="delContactFile($index)"></b>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button class="btn btn-warning" ng-click="save()">确认</button>
+        <button class="btn" ng-click="cancel()">关闭</button>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancel()">×</button>
+		<h4 class="modal-title">账号信息</h4>
+   </div>
+   <div class="modal-body container-fluid form-horizontal">
+		<form name="form" novalidate>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>账号类型：</label></div>
+				<div class="col-md-5"><span>{{ staff.userType==1 ? '个人' :
+								(staff.userType==2 ? '企业' : '员工')}}</span></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>姓名：</label></div>
+				<div class="col-md-5">
+					<span>{{staff.name}}</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>昵称：</label></div>
+				<div class="col-md-5"><span>{{staff.nickname}}</span></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>性别：</label></div>
+				<div class="col-md-5"><span>{{staff.sex?(staff.sex===2?"女":"男"):""}}</span></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>所属企业：</label></div>
+				<div class="col-md-5"><span>{{staff.parentCompany}}</span></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>所属部门：</label></div>
+				<div class="col-md-5"><span>{{staff.deptName}}</span></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>登录账号：</label></div>
+				<div class="col-md-5"><span>{{staff.loginName}}</span></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>联系电话：</label></div>
+				<div class="col-md-5"><span>{{staff.phone}}</span></div>
+			</div>
+		</form>
+	</div>

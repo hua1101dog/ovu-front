@@ -1,0 +1,367 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <div>
+        <span>设备名称：</span><span>{{equipName}}</span><br>
+        <span>设备编号：</span><span>{{equipCode}}</span>
+    </div>
+</div>
+<div class="modal-body">
+    <ul class="equipTab" ng-init="selected=1" style="overflow: hidden">
+        <li ng-class={active:selected==1} ng-click="selected=1;seeInform()"><a href="javascript:;">设备详情</a></li>
+        <li ng-class={active:selected==2} ng-click="selected=2;seeTask()"><a href="javascript:;">工作任务</a></li>
+        <li ng-class={active:selected==3} ng-click="selected=3;seeOrder()"><a href="javascript:;">工单</a></li>
+        <li ng-class={active:selected==4} ng-click="selected=4;historyQuery()"><a href="javascript:;">历史查询</a></li>
+    </ul>
+    <table ng-if="selected==1" class="table equipInform" style="margin-top: 10px;">
+        <tr>
+            <td>项目：{{equipInform.park_name}}</td>
+            <td></td>
+            <td>地址：{{equipInform.name}}</td>
+        </tr>
+        <tr>
+            <td>设备分类：{{equipInform.type_name}}</td>
+            <td>品牌：{{equipInform.brand_name}}</td>
+            <td>设备型号：{{equipInform.mode_name}}</td>
+        </tr>
+        <tr>
+            <td>设备状态：{{equipInform.equip_status|keyToValue:equipStatusDict}}</td>
+            <td>采购成本(元)：{{equipInform.cost_purchase}}</td>
+            <td>位置惯用名：{{equipInform.loc_simple_name}}</td>
+        </tr>
+        <tr>
+            <td>设备惯用名：{{equipInform.equip_simple_name}}</td>
+            <td>图纸位置编号：{{equipInform.dwg_loc}}</td>
+            <td>出厂编号：{{equipInform.produce_serial}}</td>
+        </tr>
+        <tr>
+            <td>供应商编号：{{equipInform.supplier_id}}</td>
+            <td>制造日期：{{equipInform.made_date}}</td>
+            <td>购买日期：{{equipInform.buy_date}}</td>
+        </tr>
+        <tr>
+            <td>验收日期：{{equipInform.accept_date}}</td>
+            <td>接管日期：{{equipInform.takeover_date}}</td>
+            <td>进场日期：{{equipInform.entrance_date}}</td>
+        </tr>
+        <tr>
+            <td>启用日期：{{equipInform.service_date}}</td>
+            <td>移交状态：{{equipInform.transfer_status|keyToValue:yesNoDict}}</td>
+            <td>产地：{{equipInform.origin}}</td>
+        </tr>
+        <tr>
+            <td>生产厂家：{{equipInform.made_company}}</td>
+            <td>折旧类型：{{equipInform.depre_type}}</td>
+            <td>折旧年数：{{equipInform.depre_year}}</td>
+        </tr>
+        <tr>
+            <td>预计寿命：{{equipInform.expct_life}}</td>
+            <td>折旧值：{{equipInform.depre_money}}</td>
+            <td>操作人：{{equipInform.op_people}}</td>
+        </tr>
+        <tr>
+            <td>使用单位：{{equipInform.useDeptName}}</td>
+            <td>出厂日期：{{equipInform.produce_date}}</td>
+            <td>改造单位：{{equipInform.reform_company}}</td>
+        </tr>
+        <tr>
+            <td>注册代码：{{equipInform.regi_code}}</td>
+            <td>安装单位：{{equipInform.install_company}}</td>
+            <td>安装日期：{{equipInform.install_date}}</td>
+        </tr>
+        <tr>
+            <td>维保单位：{{equipInform.maintainOrgName}}</td>
+            <td>维保负责人：{{equipInform.maintain_person}}</td>
+            <td>首保日期：{{equipInform.frist_maintain_date}}</td>
+        </tr>
+        <tr>
+            <td>下次维保日期：{{equipInform.next_maintain_date}}</td>
+            <td>年度维保日期：{{equipInform.year_maintain_date}}</td>
+            <td>建模设备No：{{equipInform.revit_no}}</td>
+        </tr>
+        <tr>
+            <!-- <td>设备监控类型：{{equipInform.equipment_name}}</td> -->
+            <td>建模设备bim号：{{equipInform.bim_id}}</td>
+            <td>经度(x)：{{equipInform.map_lng}}</td>
+        </tr>
+        <tr>
+            <td>纬度(y)：{{equipInform.map_lat}}</td>
+            <td>高德经度：{{equipInform.longitude_}}</td>
+            <td>高德纬度：{{equipInform.latitude_}}</td>
+        </tr>
+    </table>
+    <div ng-if="selected==2">
+        <div class="form-inline x_panel">
+            <div class="form-group">
+                <label>任务名称</label>
+                <input type="text" class="form-control" ng-model="paramSearch.NAME"/>
+            </div>
+            <div class="form-group">
+                <label>工作分类</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" readonly="readonly" ng-model="paramSearch.WORKTYPE_NAME"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="chooseWorkType()"><i class='fa fa-search'></i></button>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>工作事项</label>
+                <select class="form-control" ng-model="paramSearch.WORKITEM_ID"  ng-options="o.id as o.text for o in workItemDict track by o.id">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <button class="btn btn-default pull-right" ng-click="seeTask()">查询</button>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h5>任务列表</h5>
+            </div>
+            <div class="panel-body">
+              <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead class="title">
+                <tr>
+                  <th>NO</th>
+                  <th>任务名称</th>
+                  <th>工作分类</th>
+                  <th>工作事项</th>
+                  <th>起算日期</th>
+                  <th>排程</th>
+                  <th>默认执行人</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                  <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel.data">
+                  <td>{{$index+1}}</td>
+                  <td>{{item.WORKTASK_NAME}}</td>
+                  <td>{{item.WORKTYPE_NAME}}</td>
+                  <td>{{item.WORKITEM_NAME}}</td>
+                  <td>{{item.START_DATE|limitTo:10}}</td>
+                  <td>1次/{{item.EXEC_NUM}}{{item.EXEC_CYCLE}}</td>
+                  <td>{{item.exec_person_name}}</td>
+                </tr>
+                </tbody>
+              </table>
+              <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="selected==3">
+        <div class="form-inline x_panel">
+            <div class="form-group">
+                <label>执行时间</label>
+                <input type="datetime" placeholder="开始时间" readonly class="form-control Wdate execStartDateEQSt" ng-model="search.execStartDate"
+                       onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.execStartDateEQ').last().val()||'%y-%M-%d'}&quot;})">
+                -<input type="datetime" placeholder="结束时间" readonly class="form-control Wdate execStartDateEQ" ng-model="search.execEndDate"
+                        onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.execStartDateEQSt').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+            </div>
+            <div class="form-group">
+                <label>创建时间</label>
+                <input type="datetime" placeholder="开始时间" readonly class="form-control Wdate" ng-model="search.creaStartDate"
+                       onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+                -<input type="datetime" placeholder="结束时间" readonly class="form-control Wdate" ng-model="search.creaEndDate"
+                        onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.Wdate').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+            </div>
+            <div class="form-group">
+                <label>执行人</label>
+                <input type="text" class="form-control" ng-model="paramSearch.execPersonName"/>
+            </div>
+            <div class="form-group">
+                <label>工单状态</label>
+                <select class="form-control" ng-model="paramSearch.unitStatus"
+                        ng-options="o[0] as o[1] for o in unitStatusDict">
+                </select>
+            </div>
+            <button class="btn btn-default pull-right" ng-click="seeOrder()">查询</button>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">历史工单</div>
+            <div class="panel-body">
+              <table class="table table-striped table-hover">
+                <thead class="title">
+                <tr>
+                  <th>工单编号</th>
+                  <th>执行人</th>
+                  <th>协助人</th>
+                  <th>故障详情</th>
+                  <th>执行时间</th>
+                  <th>创建时间</th>
+                  <th>评分</th>
+                  <th>工单状态</th>
+                  <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                  <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel.data">
+                  <td>{{item.workId}}</td>
+                  <td>{{item.execPersonName}}</td>
+                  <td>{{item.assistPersonName}}</td>
+                  <td><a href="javascript:void(0)" class="btn-link" ng-click='showWorkUnitDetail(item.workId,true)'>{{item.description}}</a></td>
+                  <td>{{item.execTime}}</td>
+                  <td>{{item.creaTime}}</td>
+                  <td>{{item.gradeLevel}}</td>
+                  <td>{{item.statusName}}</td>
+                  <td>
+                    <a href='javascript:void(0)' class='btn btn-xs btn-link' ng-click="showReturnVisit(item.workId)">查看回访</a>
+                  </td>
+                </tbody>
+              </table>
+              <div class="page-footer clearfix">
+                <div class="page"  style="font-size:12px;">
+                  <ul class="pagination pull-left" ng-show ="pageModel.totalPage">
+                    <li ><span style="height:31px;">每页
+              <select  style="width:80px;padding:0;border:none" type="number"   ng-model="pageModel.pageSize" ng-change="seeOrder(1)" ng-options="o[0] as o[1] for o in [[10,'&nbsp;&nbsp;&nbsp;10'],[20,'&nbsp;&nbsp;&nbsp;20'],[50,'&nbsp;&nbsp;&nbsp;50'],[100,'&nbsp;&nbsp;&nbsp;100']]">
+              </select>条</span></li>
+                    <li ng-if="$first" role="button" ng-repeat-start="page in pageModel.pages track by $index"  ng-class="{disabled:pageModel.currentPage ==1}" ng-click="pageModel.currentPage >1 && seeOrder(pageModel.currentPage-1)"><a>«</a></li>
+                    <li ng-class="{active:page==pageModel.currentPage}" role="button">
+                      <a ng-if="page>0" ng-click="seeOrder(page)">{{page}}</a>
+                      <span ng-if="!(page>0)" style="border-top:none;border-bottom:none">{{page}}</span>
+                    </li>
+                    <li ng-if="$last" role="button" ng-repeat-end ng-class="{disabled:pageModel.currentPage == pageModel.totalPage}" ng-click="pageModel.currentPage < pageModel.totalPage && seeOrder(pageModel.currentPage+1)"><a>»</a></li>
+                    <li><span>共{{pageModel.totalRecord}}条记录</span></li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="selected==4">
+        <div class="form-inline x_panel">
+            <div class="form-group">
+                <label>参数</label>
+                <select class="form-control" ng-model="paramSearch.paramId"
+                        ng-options="o.paramId as o.name for o in itemArr">
+                    <!--<option value="">&#45;&#45;请选择&#45;&#45;</option>-->
+                </select>
+            </div>
+            <div class="form-group">
+              <label>开始时间</label>
+              <input type="datetime" readonly class="form-control Wdate" ng-model="paramSearch.startDate"
+                     onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+            </div>
+            <div class="form-group">
+              <label>结束时间</label>
+              <input type="datetime" readonly class="form-control Wdate" ng-model="paramSearch.endDate"
+                     onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.Wdate').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+            </div>
+            <div class="form-group">
+                <label>状态</label>
+                <select class="form-control" ng-model="paramSearch.isRegular"
+                        ng-options="o[0] as o[1] for o in isRegular">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <button class="btn btn-default pull-right" style="margin-top: 3px" ng-click="historyQuery()">搜索</button>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">历史查询列表</div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover">
+                  <thead>
+                  <tr>
+                    <th>NO</th>
+                    <th>检测值</th>
+                    <th>检测时间</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                  </tr>
+                  <tr ng-repeat="item in pageModel.data">
+                    <td>{{$index+1}}</td>
+                    <td>{{item.val+item.unit}}</td>
+                    <td>{{item.lastTime}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                  <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="selected==1" class="lastDiv panel panel-default">
+        <div class="panel-heading">
+            <h5 style="margin: 0">参数添加</h5>
+        </div>
+        <div class="addParam panel-body">
+          <div class="clearfix">
+            <input type="text" placeholder="参数名称" class="form-control" ng-model="paramSearch.paramName"
+                   style="width: auto;display: inline-block"/>:
+            <input type="text" placeholder="参数值" class="form-control" ng-model="paramSearch.paramVal"
+                   style="width: auto;display: inline-block"/>
+            <button class="btn btn-default" ng-click="paramAdd()" style="margin-bottom: 4px;">保存</button>
+          </div>
+          <ul>
+            <li class="father" ng-repeat="item in paramAddData">{{item.paramName+':'+item.paramVal}}
+              <img src="/res/img/del.png" style="cursor: pointer;margin-bottom: 4px;" class="element" ng-click="paramDel(item)" alt="">
+            </li>
+          </ul>
+        </div>
+
+    </div>
+    <div ng-if="selected==1" class="lastDiv panel panel-default">
+        <h5 class="panel-heading" style="margin: 0">传感数据</h5>
+        <div class="transData panel-body">
+            <ul>
+                <li ng-repeat="item in sensorData">{{item.name}}：{{item.val+item.unit}}
+                    <button class="btn btn-default" ng-click="historyQuery(item)">查看</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<ng-include src="'/common/modal.worktype.tree.html'"></ng-include>
+<style>
+    .equipTab li {
+        float: left;
+        width: 25%;
+        text-align: center;
+        background-color: #ccc;
+        padding: 5px 0;
+    }
+
+    .equipTab li a {
+        width: 100%;
+        display: block;
+    }
+
+    .equipInform td {
+        padding: 5px 0;
+        width: 33%;
+    }
+
+    .equipTab li.active {
+        background-color: #fff;
+    }
+
+    .addParam li, .transData li {
+        float: left;
+        width: 33.3%;
+        padding: 5px 0;
+    }
+
+    .addParam, .transData {
+        overflow: hidden;
+    }
+    .element{
+      display:none; //元素默认是隐藏的
+    }
+
+    .father:hover .element{
+      display:inline-block ;
+    }
+    table tr th,
+table tr td {
+    text-align: center;
+}
+</style>

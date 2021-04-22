@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<style>
+	input {
+	    width: 85%;
+	    height: 120px;
+	    margin: 10px 0;
+	    border-radius: 60px;
+	    color: #0c0c0c;
+	    background: #a7e2e8bd;
+	    margin-left: 7%;
+	    font-size: 40px;
+	}
+</style>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<input type="button" value="红外（空调）" onclick="uploadSensorData(1)"/>
+		<br />
+		<input type="button" value="门磁" onclick="uploadSensorData(2)"/>
+		<br />
+		<input type="button" value="可燃气体" onclick="uploadSensorData(3)"/>
+		<br />
+		<input type="button" value="烟雾传感器" onclick="uploadSensorData(4)"/>
+		<br />
+		<input type="button" value="水表传感器" onclick="uploadSensorData(5)"/>
+		
+	</body>
+</html>
+<!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
+<script src="lib/jquery-1.8.0.min.js"></script>
+<script>
+var parmas = [
+	//红外（空调
+	{"mac":"004a77012400713b","appeui":"2c26c50124140100",
+	"last_update_time":(new Date()).getTime(),"data":"020100","reserver":"null","data_type":2,"gateways":null},
+	//门磁
+	{"mac":"004a770124005f35","appeui":"2c26c50124194000",
+	"last_update_time":(new Date()).getTime(),"data":"020308","reserver":"null","data_type":2,"gateways":null},
+	//可燃气体：
+	{"mac":"004a7701240104eb","appeui":"2c26c50124110100",
+	"last_update_time":(new Date()).getTime(),"data":"020200","reserver":"null","data_type":2,"gateways":null},
+	//烟雾传感器：
+	{"mac":"004a7701240069cc","appeui":"2c26c50124120100",
+	"last_update_time":(new Date()).getTime(),"data":"020001","reserver":"null","data_type":2,"gateways":null},
+	//水表传感器
+	{"mac":"004a770124006818","appeui":"2c26c50124842008",
+	"last_update_time":(new Date()).getTime(),"data":"fefefefe6897292800000268910c337533334333333333332333fd16",
+	"reserver":"null","data_type":2,"gateways":null}
+];
+//document.domain = "beta.ovuems.com";
+function uploadSensorData(type){
+	var postData = parmas[type-1];
+	postData['last_update_time'] = (new Date()).getTime();
+	$.ajax({
+		type:"post",
+		url:"http://beta.ovuems.com/middleware/api/easylinkin/uploadSensorData",
+		async:true,
+		contentType: "application/json",
+		data : JSON.stringify(postData),
+		dataType: "json",
+		success : function(data){
+			if(data.code == 0){
+				alert("数据发送成功！");
+			}
+		}
+	});
+}
+</script>

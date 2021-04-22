@@ -1,0 +1,183 @@
+<div ng-controller="manageCtrl as vm" class="clearfix">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>日志管理</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">部门列表</div>
+                <div class="x_content">
+                    <div
+                        class="alert"
+                        role="alert"
+                        ng-if="deptTree&&deptTree.length==0"
+                    >
+                        无部门信息
+                    </div>
+                    <!-- <div id="dept_tree"></div> -->
+                    <!-- <tree-view node-list="deptTree" select-node="setDept" config="{'edit':false}"></tree-view> -->
+                    <tree-view-pro
+                        node-list="deptTree"
+                        host="search"
+                        host-text="'deptName'"
+                        host-key="'deptId'"
+                        callback="setDept"
+                        config="{'edit':false}"
+                    ></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>员工姓名</label>
+
+                        <select-person
+                            host="search.user"
+                            dept-id="search.deptId"
+                        ></select-person>
+                    </div>
+
+                    <div class="form-group">
+                        <label>创建时间</label>
+                        <input
+                            style="width: 140px;"
+                            type="datetime"
+                            class="form-control Wdate"
+                            ng-model="search.startTime"
+                            placeholder="开始日期"
+                            onchange=""
+                            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})"
+                        />
+                        <label>-</label>
+                        <input
+                            style="width: 140px;"
+                            type="datetime"
+                            class="form-control Wdate"
+                            ng-model="search.endTime"
+                            placeholder="结束日期"
+                            onchange=""
+                            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.Wdate').first().val()}&quot;,maxDate:'%y-%M-%d'})"
+                        />
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)">
+                        查询
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    日志列表
+                    <button
+                        class="btn btn-primary pull-right"
+                        ng-click="vm.showEditModal()"
+                        ng-disabled="!search.parkId"
+                    >
+                        添加日志
+                    </button>
+                    <!--<button class="btn btn-primary pull-right" ng-click="vm.showLogReport()">添加日志</button>-->
+                </div>
+                <div class="panel-body">
+                    <table
+                        class="table table-striped table-hover"
+                        style="margin-top: 10px;"
+                    >
+                        <thead>
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th>日志标题</th>
+                                <th>提交人</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                ng-if="!pageModel.data  || pageModel.data.length == 0"
+                            >
+                                <td colspan="100" class="text-center">
+                                    暂无记录
+                                </td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data">
+                                <td class="text-center">
+                                    {{$index
+                                    +1+pageModel.pageSize*pageModel.pageIndex}}
+                                </td>
+                                <td>
+                                    <a
+                                        href="javascript:void(0)"
+                                        ng-click="vm.showEditModal(item.worklogId,item.personId)"
+                                        class="btn btn-xs btn-link"
+                                        style="white-space: normal;"
+                                    >
+                                        {{item.name}}
+                                    </a>
+                                </td>
+                                <td>{{item.personName}}</td>
+                                <td>
+                                    {{item.createTime | date:'yyyy-MM-dd
+                                    HH:mm:ss'}}
+                                </td>
+                                <td>
+                                    <a
+                                        href="javascript:void(0)"
+                                        ng-click="vm.showEditModal(item.worklogId)"
+                                        class="btn btn-xs"
+                                    >
+                                        <span class="fa fa-edit"></span
+                                        >查看日志报告
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                        <!-- <page page-model="pageModel"></page> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-include src="'/common/modal.dept.html'"></ng-include>
+</div>
+<style type="text/css">
+    .pagination > li > span:hover {
+        background-color: #fff;
+        cursor: text;
+    }
+    .ul-persons {
+        list-style: none;
+        float: left;
+        padding: 0px;
+        margin-top: 12px;
+    }
+
+    .ul-persons li {
+        margin: 5px;
+        padding: 5px;
+        float: left;
+    }
+
+    .ul-persons li.item {
+        background-color: #f9f9f9;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

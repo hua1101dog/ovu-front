@@ -1,0 +1,57 @@
+
+<div class="panel panel-default" style="margin-bottom: 0;">
+    <div class="model-header" style="line-height: 24px;padding: 15px;border-bottom: 1px solid #e5e5e5;">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 style="color: inherit;" class=“modal-title>选择供应商</h4>
+    </div>
+    <!-- <div class="panel-heading">批量选择
+
+        <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)"
+            ng-click="batchOpt(pageModel, 'send')">批量添加</button>
+ 
+    </div> -->
+
+    <div class="panel-body">
+        <table class="table table-striped table-hover" style="margin-top: 10px;">
+            <thead class="title">
+                <tr>
+                    <th class="text-center">No.</th>
+                    <th class="text-center" style="width:20px">
+                        <span role="button" ng-click="checkAll(pageModel)" tabindex="0">
+                            <i class="glyphicon glyphicon-unchecked"
+                                ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"
+                                style=""></i>
+                        </span>
+                    </th>
+                    <th>供应商</th>
+                    <th>业务类型</th>
+                    <th>联系电话</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!---->
+                <!---->
+                <tr ng-repeat="item in pageModel.data track by $index" class="ng-scope">
+                    <td class="text-center ng-binding">{{$index+1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td><i role="button" ng-click="checkOne(item, pageModel)"
+                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                            class="glyphicon glyphicon-unchecked" tabindex="0" style=""></i></td>
+                    <td class=""><a href="javascript:void(0)" class="btn-link ng-binding" ng-click="showLookModal(item)"
+                            title="自测产品推荐名2">{{item.companyName}}</a></td>
+                    <td class="">{{item.type}}</td>
+                    <td class="">{{item.phone}}</td>
+
+
+                </tr>
+                <!---->
+            </tbody>
+        </table>
+        <div class="page-footer clearfix">
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button class="btn btn-primary" ng-click="save(pageModel)">确定</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</div>

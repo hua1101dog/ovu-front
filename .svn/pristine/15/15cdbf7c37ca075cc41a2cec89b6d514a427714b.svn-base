@@ -1,0 +1,66 @@
+<div ng-controller="dataCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>合同数据项管理</h3>
+        </div>
+    </div>
+    
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>数据项名称</label>
+                <input type="text" class="form-control" style="width:150px" ng-model="search.dataItemName" placeholder="请输入数据项名称" />
+            </div>
+            <div class="form-group">
+                <label>数据项字典</label>
+                <input type="text" class="form-control" style="width:150px" ng-model="search.dataItemCode" placeholder="请输入数据项字典" />
+            </div>
+            <button class="btn btn-default" ng-click="find()">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">数据项列表
+            <button class="btn btn-primary pull-right" ng-disabled="!search.parkId" ng-click="showModal()">新增合同数据项</button>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top:10px">
+                <thead>
+                    <tr>    
+                        <th>NO</th>
+                        <th nowrap="nowrap">数据项名称</th>
+                        <th nowrap="nowrap">数据项字典</th>
+                        <th nowrap="nowrap">数据项类型</th>
+                        <th nowrap="nowrap">是否必填项</th>
+                        <th nowrap="nowrap">描述</th>
+                        <th nowrap="nowrap">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.dataItemName}}</td>
+                        <td>{{item.dataItemCode}}</td>
+                        <td><span ng-if="item.dataItemType == 1">文本型</span><span ng-if="item.dataItemType == 2">日期型</span><span ng-if="item.dataItemType == 3">金额型</span><span ng-if="item.dataItemType == 4">富文本型</span></td>
+                        <td>{{item.isNeed == 1 ? '是' : '否'}}</td>
+                        <td>{{item.remark}}</td>
+                        <td>
+                            <a href="javascript:void(0)" ng-click="showModal(item)" class="btn btn-xs"><span class="fa fa-edit"></span>编辑</a>
+                            <a href="javascript:void(0)" ng-click="del(item)" class="btn btn-xs"><span class="fa fa-trash"></span>删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

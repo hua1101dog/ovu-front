@@ -1,0 +1,89 @@
+<div  ng-controller="insItemCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>巡查项管理</h3>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">巡查项类型 <span  ng-click='addTopNode()' class='btn btn-xs pull-right' ng-if="hasPower('新增')"><span class='fa fa-plus' ></span>根类型</span>
+				</div>
+				<div class="x_content" style="z-index: 1">
+					<div class="alert" role="alert" ng-show="insTreeData.length==0">无巡查项信息</div>
+				
+					<itree-view-pro node-list="insTreeData" host="search" host-text="'text'" host-key="'insItemTypeId'" callback="selectNode"></itree-view-pro>
+
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+			<div class="x_panel" >
+				<div class="x_title">
+					巡查项列表
+					<button ng-disabled="!search.insItemTypeId" style=" margin-top: -9px;" class="btn btn-primary pull-right" ng-click="showModal()" ng-if="hasPower('新增') && isAdd">添加巡查项</button>
+				</div>
+				<table class="table table-striped table-hover" style="margin-top: 10px;">
+					<thead>
+					<tr>
+						<th class="text-center">NO</th>
+						<th nowrap="nowrap">标准图片</th>
+						<th nowrap="nowrap">巡查项</th>
+						<th nowrap="nowrap">巡查内容描述</th>
+						<th nowrap="nowrap">考评类型</th>
+						<th ng-if="hasPower('编辑')" nowrap="nowrap">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-if="!pageModel.data || pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+					<tr ng-repeat="item in pageModel.data" ng-if="!item.edit">
+						<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+						<td style="width: 80px">
+							<div class="photoWraper" ng-click="showPhoto()">
+								<img onerror="javascript:this.src='/res/img/detail.png';"
+									 ng-src="{{processImgUrl(item.imgPath)}}">
+							</div>
+						</td>
+						<td>{{item.name}}</td>
+						<td >
+						<div class="truTd"  ng-bind-html="item.trustHtml" >
+
+						</div></td>
+						<td>{{item.checkType | keyToValue:checkTypeDict}}</td>
+						<td>
+							<a href='javascript:void(0)' ng-click='showModal(item.insItemId)' class='btn btn-xs'  ng-if="hasPower('编辑') && item.permission=='c,u,d'"><span class='fa fa-edit'></span>编辑</a>
+							<a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'  ng-if="hasPower('删除') && item.permission=='c,u,d'"><span class='fa fa-trash'></span>删除</a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+					<ng-include src="'/common/pager.html'"></ng-include>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	  .photoWraper_ins {
+		width: 80px;
+    height: 80px;
+    position: relative;
+    float: left;
+    margin-right: 5px;
+    text-align: center
+    }
+	#house_tree{
+		margin-left: -17px;
+	}
+	   table tr th,
+        table tr td {
+            text-align: left;
+		}
+		.truTd{
+			word-break: break-all; max-width: 200px;
+			overflow: hidden;text-overflow: ellipsis;white-space: nowrap;display: inline-block;vertical-align: bottom;
+		}
+		
+</style>

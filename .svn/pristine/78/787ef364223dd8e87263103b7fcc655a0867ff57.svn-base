@@ -1,0 +1,78 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">执行工单</h4>
+</div>
+<div class="modal-body  container-fluid form-horizontal">
+    <form name="form" novalidate>
+    <div class="row">请按以下步骤完成任务：<button class="btn btn-primary pull-right" ng-click="showRiskLevel()" ng-show="!readOnly">风险等级说明</button></div>
+    <div class="row">
+        <div class="col-xs-9"  id="myPrint" pdf-save-content="idOne">
+            <div class="row" ng-repeat="item in unitdata" style="margin-bottom: 10px">
+                <div id="{{item.id}}">
+                    <span style="font-size: larger">{{item.text}}</span>
+                    <span class="pull-right">是否正常
+                        <label  role="button" style="line-height:32px;margin-right: 15px"><input type="radio" style="margin:0 5px" ng-model="item.status" value="1"  name="status{{item.id}}" ng-disabled="readOnly">是</label>
+                        <label  role="button" style="line-height:32px;"><input type="radio" style="margin:0 5px"  ng-model="item.status" value="2"  name="status{{item.id}}" ng-disabled="readOnly">否</label>
+                    </span>
+                </div>
+                <div style="margin-left: 10px">
+                    <div>
+                        <label>问题说明：</label>
+                        <textarea type="text" class="form-control" ng-model="item.remark"  ng-readonly="readOnly" />
+                    </div>
+                    <div>
+                        <label>风险等级：</label>
+                        <select class="form-control"   ng-model="item.risk_level_id" ng-options="o.id as o.text for o in riskLevelData" ng-disabled="readOnly">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>风险可能产生的后果：</label>
+                        <textarea type="text" class="form-control" ng-model="item.consequences" ng-readonly="readOnly"  />
+                    </div>
+                    <div>
+                        <label>处置方案：</label>
+                        <textarea type="text" class="form-control" ng-model="item.disposal_plan" ng-readonly="readOnly"  />
+                    </div>
+                    <div>
+                        <label>照片：</label>
+                        <div class="">
+                            <div class="photoWraper" ng-repeat="p in item.pics">
+                                <img onerror="javascript:this.src='/res/img/detail.png';"
+                                     ng-click="showPhoto()"
+                                     ng-src="{{processImgUrl(p)}}" >
+                                <a role="button" ng-click="delPhoto(item.pics,p)" ng-show="!readOnly"><i class="glyphicon glyphicon-remove"></i></a>
+                            </div>
+                            <img height="50px" width="50px" src="/res/img/mbs/add.jpg" role="button" ng-show="!readOnly" ng-click="addPhotos(item.pics,3)" title="上传图片">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div style="margin-top: 30px">
+                <div ng-repeat="item in unitdata" class="col-xs-3">
+                    <div ng-click="onFocus(item)" class="focus-item" ng-style="{'background-color':item.status?(item.status==1?'#8cec8c':'red'):''}">{{$index+1}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+<div class="modal-footer" ng-show="!readOnly">
+	<button class="btn btn-info"  pdf-save-button="idOne" pdf-name="电梯承接.pdf">下载</button>
+    <button class="btn btn-info" ng-click="print()">打印</button>
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .row{
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    .focus-item{
+        padding: 10px 20px;
+        border: solid 1px #b5adad;
+        margin-bottom: 5px
+    }
+</style>

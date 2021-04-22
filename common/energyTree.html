@@ -1,0 +1,24 @@
+<ul class="fengTree" ng-if="nodeList.length">
+    <li ng-repeat="node in nodeList" class="clearfix"  ng-hide="node.state.hide">
+        <div class="form-inline " ng-class="{'bg-success':node.state.selected,'bg-danger':node.state.edit}">
+            <i class="icon glyphicon " ng-click="node.state.expanded = !node.state.expanded"
+               ng-style="{visibility:node.nodes.length?'visible':'hidden'}"
+               ng-class="{'glyphicon-minus':node.state.expanded,'glyphicon-plus':!node.state.expanded}"></i>
+               <i class="icon glyphicon " ng-click="check(node,nodeList)" ng-if="config.showCheckbox"
+               ng-class="{'glyphicon-check':node.state.checked,'glyphicon-unchecked':!node.state.checked,'disabled':!node.checked}"></i>
+            <i ng-class="node.icon" ng-if="node.icon"></i>
+            <span role="button" class="text" ng-class="{'highLight':node.state.highLight}" ng-click="$parent.selectNode(node,host)" ng-if="!node.state.edit" ng-attr-title="{{node.text}}">{{node.text|filterEllips:config.edit}}
+              <span class="badge" ng-if="node.cnt >-1">{{node.cnt}}</span>
+            </span>
+           
+
+        </div>
+        <engergytree-view node-list="node.nodes" host="host" config="config" ng-if="node.state.expanded"></engergytree-view>
+    </li>
+</ul>
+<style>
+    .disabled{
+        color:#ccc;
+
+    }
+</style>

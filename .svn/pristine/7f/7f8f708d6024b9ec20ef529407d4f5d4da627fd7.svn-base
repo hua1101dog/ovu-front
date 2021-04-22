@@ -1,0 +1,199 @@
+<div ng-controller="informCtrl">
+    <div style="overflow: hidden">
+        <h5 style="line-height: 40px;float:left;">设备房概览>{{equipName}}</h5>
+        <button class="btn btn-primary" style="margin-top: 5px;float: right;" ng-click="target('equipmentroom/equipOverview','项目概览',false,'','','equipmentroom/equipOverview')">返回</button>
+    </div>
+
+    <div class="row" style="overflow: hidden">
+        <div class="col-md-9 col-sm-12 col-xs-12" style="margin-top: 15px">
+           
+            <div ng-repeat="item in cameraList track by $index" ng-if='cameraList.length>1' ng-class="{'col-md-6 col-sm-6 col-xs-12':cameraList.length==2,'col-md-4 col-sm-4 col-xs-12':cameraList.length==3}" style="margin-top: 15px">
+                <iframe ng-src="{{'/view/video.html?cameraCode='+item.regi_code+'&cameraIndex='+$index}}" style="height: 320px;width:100%;"></iframe>
+            </div>
+            <div ng-if='cameraList.length<=1'>
+                <iframe ng-src="{{'/view/video.html?equipmentId='+equipHouseId}}" style="width: 100%;height: 320px"></iframe>
+            </div>
+
+        </div>
+        <!--<div class="col-md-4 col-sm-12 col-xs-12" style="padding: 0">
+            <div class="col-md-5 col-sm-2 col-xs-2" ng-repeat="item in sensorData" style="border: 1px solid #ccc;height: 110px;margin:0 8px 20px">
+                <div style="overflow: hidden;padding: 8px 2px">
+                    <span style="float:left;">{{item.name}}</span>
+                    <span style="float: right;" ng-class="{red:item.isRegular==2}">{{item.isRegular==1?'正常':'异常'}}</span>
+                </div>
+                <span style="font-size: 30px;display: block;text-align: center" ng-class="{red:item.isRegular==2}">{{item.val+(item.unit==undefined?'':item.unit)}}</span>
+            </div>
+            <div>
+                <a href="javascript:;" class="btn col-md-5 col-sm-4 col-xs-4" style="border: 1px solid #ccc;margin:0 8px" ng-click="seeHistoryVideo()">查看历史视频</a>
+                <a href="javascript:;" class="btn col-md-5 col-sm-4 col-xs-4" style="border: 1px solid #ccc;margin:0 8px" ng-click="seeHistoryData()">查看历史环境数据</a>
+            </div>
+        </div>-->
+        <div class="col-md-3 col-sm-12 col-xs-12" style="margin-top: 15px">
+            <div class="col-md-6 col-sm-6 col-xs-6" ng-repeat="item in sensorData">
+                <div style="border: 1px solid #ccc;height: 90px;margin-bottom: 15px">
+                    <div style="overflow: hidden;margin-bottom: 6px;padding: 2px 4px;">
+                        <span style="float:left;">{{item.name}}</span>
+                        <span style="float: right;" ng-class="{red:item.isRegular==2}">{{item.isRegular==1?'正常':'异常'}}</span>
+                    </div>
+                    <span style="font-size: 19px;display: block;text-align: center" ng-class="{red:item.isRegular==2}">{{item.val+(item.unit==undefined?'':item.unit)}}</span>
+                </div>
+            </div>
+            <div class="clearfix row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <!-- <a href="javascript:;" class="btn" style="border: 1px solid #ccc;margin-top: 10px"
+                       ng-click="seeHistoryVideo()">查看历史视频</a> -->
+                    <!-- 需求变更 去掉查看历史视频按钮 -->
+                    <!-- <a href="javascript:;" class="btn" style="border: 1px solid #ccc;margin-top: 10px" ng-click="playVideo(equipHouseId,'','playback')">查看历史视频</a> -->
+                </div>
+                <a href="javascript:;" class="btn" style="border: 1px solid #ccc;margin-top: 10px" ng-click="seeHistoryData()">查看历史环境数据</a>
+            </div>
+        </div>
+    </div>
+    <h5>设备监测</h5>
+    <div class="form-inline x_panel">
+        <div class="form-group">
+            <label>设备分类</label>
+            <select class="form-control" ng-model="search.equipTypeId" ng-options="o.equipTypeId as o.equipTypeName for o in equipCategory">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>设备状态</label>
+            <select class="form-control" ng-model="search.equipStatus" ng-options="o[0] as o[1] for o in equipStatus">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>监测参数是否正常</label>
+            <select class="form-control" ng-model="search.isRegular" ng-options="o[0] as o[1] for o in isRegular">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <button class="btn btn-default pull-right" style="margin-top: 3px" ng-click="find()">查询</button>
+    </div>
+    <div class="panel panel-default">
+        <div class="row panel-body">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div ng-if="!pageModel.data ||pageModel.data.length == 0">暂无数据</div>
+                <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="item in pageModel.data">
+                    <div style="border: 1px solid #ccc;margin-bottom: 20px;padding: 5px 0;border-radius: 5px">
+                        <div style="height: 60px;border-bottom: 1px solid #ccc;padding: 0 6px;text-align: center;">
+                            <a class="btn-link" href="javascript:;" ng-click="enterInformModal(item)">{{item.equipName}}</a>
+                        </div>
+                        <div class="row" style="overflow: hidden">
+                            <div class="col-md-7 col-sm-7 col-xs-7" style="float:left;height:150px">
+                                <!--<span style="display: block;margin: 30px 0 0 38px">暂无图片</span>-->
+                                <img ng-if="!item.logUrl" src="/res/img/detail.png" alt="" style="width: 93%;height: 150px;">
+                                <img ng-src="{{item.logUrl}}" alt="" style="width: 93%;height: 150px;">
+                            </div>
+                            <div class="col-md-5 col-sm-5 col-xs-5" style="padding: 0;margin-left: -15px;word-break: break-word;overflow:  auto; max-height: 150px">
+                                <ul>
+                                    <li style="padding:2px 0" ng-class="{red:param.isRegular==2}" ng-repeat="param in item.sensorData">{{param.name+':'+param.val+param.unit}}
+                                    </li>
+                                    <li style="padding:2px 0;">设备型号：{{item.modeName?item.modeName:'无'}}</li>
+                                    <li style="padding:2px 0;word-wrap: break-word; width: 110px;">维保负责人:{{item.maintainPerson?item.maintainPerson:'无'}}</li>
+                                    <li style="padding:2px 0;">设备惯用名:{{item.equipSimpleName?item.equipSimpleName:'无'}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer clearfix" style="margin-left: 16px">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div ng-controller="historyOrderCtrl">
+    <div class="form-inline x_panel">
+        <div class="form-group">
+            <label>执行人</label>
+            <!-- <input class="form-control" type="text" ng-model="search.person" ng-class="{'waiting':loadingExecPerson}"
+            ng-change="changeExecPerson(search)" typeahead-min-length=0
+            uib-typeahead="o as o.name+' ('+o.deptName+')' for o in searchPerson($viewValue,null,null)"
+            typeahead-on-select="selectedExecPerson($item,search)"
+            typeahead-loading="loadingExecPerson" typeahead-wait-ms='300' typeahead-editable="false"/> -->
+            <input type="text" class="form-control" ng-model="search.execPersonName" />
+        </div>
+        <div class="form-group">
+            <label>执行时间</label>
+            <input type="datetime" placeholder="开始时间" readonly class="form-control Wdate equipInformSt" ng-model="search.execStartDate"
+                onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.equipInformEn').last().val()||'%y-%M-%d'}&quot;})">
+            -<input type="datetime" placeholder="结束时间" readonly class="form-control Wdate equipInformEn" ng-model="search.execEndDate"
+                onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.equipInformSt').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+        </div>
+        <div class="form-group">
+            <label>创建时间</label>
+            <input type="datetime" placeholder="开始时间" readonly class="form-control Wdate equipInform_1St" ng-model="search.creaStartDate"
+                onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.equipInform_1En').last().val()||'%y-%M-%d'}&quot;})">
+            -<input type="datetime" placeholder="结束时间" readonly class="form-control Wdate equipInform_1En" ng-model="search.creaEndDate"
+                onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.equipInform_1St').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+        </div>
+        <div class="form-group">
+            <label>工单类型</label>
+            <select class="form-control" ng-model="search.workunitType" ng-options="o[0] as o[1] for o in workunitTypeDict">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>工单状态</label>
+            <select class="form-control" ng-model="search.unitStatus" ng-options="o[0] as o[1] for o in unitStatusDict">
+            </select>
+        </div>
+        <button class="btn btn-default pull-right" ng-click="find(1)">查询</button>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">历史工单</div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">工单编号</th>
+                        <th>执行人</th>
+                        <th>协助人</th>
+                        <th>故障详情</th>
+                        <th>执行时间</th>
+                        <th>创建时间</th>
+                        <th>评分</th>
+                        <th>工单状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td>{{item.workId}}</td>
+                        <td>{{item.execPersonName}}</td>
+                        <td>{{item.assistPersonName}}</td>
+                        <td><a href="javascript:void(0)" class="btn-link" ng-click='showWorkUnitDetail(item.workId,true)'>{{item.description}}</a>
+                        </td>
+                        <td>{{item.execTime}}</td>
+                        <td>{{item.creaTime}}</td>
+                        <td>{{item.gradeLevel}}</td>
+                        <td>{{item.statusName}}</td>
+                        <td>
+                            <a href='javascript:void(0)' class='btn btn-xs btn-link' ng-click="showReturnVisit(item.workId)">查看回访</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    table th,
+    table td {
+        text-align: left;
+    }
+
+    .red {
+        color: red;
+    }
+</style>

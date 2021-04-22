@@ -1,0 +1,130 @@
+<div ng-controller="workStationCtrl" class="s-m-m">
+    <div class="w-s-title">
+        <img  style="width: 35px;margin-left: 32px" src="../../image/czt.png" alt="">
+        <span class="w-s-title-t">操作台</span>
+    </div>
+    <div class="w-s-main">
+        <div class="w-s-side" >
+            <div ng-class="{'sel-ed':sel_ed==0}" ng-click="selPage(0)" ng-if="hasPower('操作人员')">
+                <img src="../../image/title_renyuan.png" style="height: 40px" alt="">
+                <span>人员</span>
+            </div>
+            <div ng-class="{'sel-ed':sel_ed==1}" ng-click="selPage(1)"  ng-if="hasPower('操作工单')">
+                <img src="../../image/icon_gd.png" style="height: 40px" alt="">
+                <span>工单</span>
+            </div>
+            <div ng-class="{'sel-ed':sel_ed==2}" ng-click="selPage(2)"  ng-if="hasPower('操作巡检')">
+                <img src="../../image/xucha.png" style="height: 40px" alt="">
+                <span>巡检</span>
+            </div >
+            <div ng-class="{'sel-ed':sel_ed==3}" ng-click="selPage(3)" ng-if="hasPower('操作设备房')">
+                <img src="../../image/sbf.png" style="height: 40px" alt="">
+                <span>设备房</span>
+            </div>
+            <div ng-class="{'sel-ed':sel_ed==4}" ng-click="selPage(4)"  ng-if="hasPower('操作安防')">
+                <img src="../../image/anfang.png" style="height: 40px" alt="">
+                <span>安防</span>
+            </div>
+            <div ng-class="{'sel-ed':sel_ed==5}" ng-click="selPage(5)"  ng-if="hasPower('操作消防')">
+                <img src="../../image/xiaofang.png" style="height: 40px" alt="">
+                <span>消防</span>
+            </div>
+            <!-- <div ng-class="{'sel-ed':sel_ed==6}" ng-click="selPage(6)" ng-if="hasPower('操作出行')">
+                <img src="../../image/car0.png" style="height: 40px" alt="">
+                <span>出行</span>
+            </div> -->
+
+            <div ng-class="{'sel-ed':sel_ed==6}" ng-click="selPage(6)" ng-if="hasPower('操作VIP车位')">
+                <img src="../../image/car0.png" style="height: 40px" alt="">
+                <span>VIP车位</span>
+            </div>
+            <div ng-class="{'sel-ed':sel_ed==7}" ng-click="selPage(7)" ng-if="hasPower('操作设备')">
+                <img src="../../image/eq0.png" style="height: 40px" alt="">
+                <span>设备</span>
+            </div>
+            <div ng-class="{'sel-ed':sel_ed==8}" ng-click="selPage(8)" ng-if="hasPower('操作能源')">
+                <img src="../../image/icon_nh.png" style="height: 40px" alt="">
+                <span>能源</span>
+            </div>
+            <div ng-class="{'sel-ed':sel_ed==9}" ng-click="selPage(9)" ng-if="hasPower('操作人脸')">
+                <img src="../../image/facetrack.png" style="height: 40px" alt="">
+                <span>人脸识别</span>
+            </div>
+            <div ng-class="{'sel-ed':sel_ed==10}" ng-click="selPage(10)" ng-if="hasPower('会议室')">
+                <img src="../../image/meeting.png" style="height: 40px" alt="">
+                <span>会议室管理</span>
+            </div>
+            <div ng-class="{'sel-ed':sel_ed==11}" ng-click="selPage(11)" ng-if="hasPower('电梯')">
+                <img src="../../image/elevator.png" style="height: 40px" alt="">
+                <span>电梯</span>
+            </div>
+            <div ng-class="{'sel-ed':sel_ed==12}" ng-click="selPage(12)" ng-if="hasPower('会议室使用')">
+                <img src="../../image/meetUse.png" style="height: 40px" alt="">
+                <span>会议室使用</span>
+            </div>
+
+        </div>
+        <div class="w-s-right">
+            <div ng-include="pagesrc"></div>
+
+        </div>
+
+    </div>
+</div>
+<style>
+    .w-s-title{
+        width:100%;
+        height:60px;
+        margin-top: 15px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 1px 7px 0px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .w-s-title-t{
+        font-size:24px;
+        font-family:FZZYJW--GB1-0;
+        font-weight:400;
+        color:rgba(51,51,51,1);
+        margin-left: 22px;
+    }
+    .w-s-main{
+        width:100%;
+        display: flex;
+        flex-direction: row;
+        margin-top: 10px;
+    }
+    .w-s-side{
+        width: 130px;
+    }
+    .w-s-right{
+        flex: 1;
+    }
+    .w-s-side>div{
+        width:100px;
+        height:80px;
+        background:#fff;
+        box-shadow:0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+        border-radius:5px;
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size:16px;
+        font-family:MicrosoftYaHei;
+        font-weight:400;
+        color:rgba(153,153,153,1);
+        cursor: pointer;
+    }
+    .sel-ed{
+        background:rgba(220,236,255,1) !important;
+        color: #0078FF !important;
+    }
+    .w-s-side>div:hover{
+        color: #0078FF;
+    }
+
+</style>
+

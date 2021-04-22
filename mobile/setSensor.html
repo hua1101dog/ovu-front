@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<style>
+	input {
+	    width: 85%;
+	    height: 120px;
+	    margin: 10px 0;
+	    border-radius: 60px;
+	    color: #0c0c0c;
+	    background: #a7e2e8bd;
+	    margin-left: 7%;
+	    font-size: 40px;
+	}
+</style>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		
+		<input type="button" value="温湿度传感器" onclick="uploadSensorData()"/>
+		
+	</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+var parmas ={
+"mac":"111111",
+"locationNo":"04201110001CYTD"	,
+"params":
+[{"val": "61", "code": "temperatureValue", "sensorDetectParam": "temperatureValue"}, {"val": "58", "code": "humidity", "sensorDetectParam": "humidity"}]
+}
+	
+
+//document.domain = "beta.ovuems.com";
+function uploadSensorData(type){
+	
+	$.ajax({
+		type:"post",
+		url:"http://40.73.2.218:5678/ovu-pcos/api/uploadSensorData.do",
+		async:true,
+		contentType: "application/json",
+		data : JSON.stringify(parmas),
+		dataType: "json",
+		success : function(data){
+			if(data.code == 0){
+				alert("数据发送成功！");
+			}
+		}
+	});
+}
+</script>

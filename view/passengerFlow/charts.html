@@ -1,0 +1,82 @@
+<div id="angularId" ng-controller="passengerChartsCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>客流量统计</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label class="required">位置:</label>
+                <div style="display:inline-block;width: 200px">
+                    <layer-selector host="search" host-key="'floorId'" host-text="'buildName'" node-list="houseTree"
+                                    leaf-only="true" need="true" callback="selectBuild"></layer-selector>
+                </div>
+                <div style="display:inline-block;">
+					<span ng-repeat="role in cameras" class="mr15" ng-class="{'text-success':role.checked,'text-muted':!role.checked}" role="button"
+                          ng-click="role.checked = !role.checked" >
+					<i class="glyphicon" ng-class="{'glyphicon-check':role.checked,'glyphicon-unchecked':!role.checked}" ></i>{{role.name}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-inline mt7">
+            <div class="form-group">
+                <label>&nbsp;&nbsp;指标:</label>
+                <div class="btn-group">
+                    <label class="btn btn-xs btn-primary uib-radio" ng-model="search.numType" uib-btn-radio="'1'" uncheckable ng-click="showChart()">进入数</label>
+                    <label class="btn btn-xs btn-primary uib-radio" ng-model="search.numType" uib-btn-radio="'2'" uncheckable ng-click="showChart()">离开数</label>
+                    <label class="btn btn-xs btn-primary uib-radio" ng-model="search.numType" uib-btn-radio="'3'" uncheckable ng-click="showChart()">滞留数</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-inline mt7">
+            <div class="form-group">
+                <label class="required">维度:</label>
+                <div class="btn-group">
+                    <label class="btn btn-xs btn-primary uib-radio" ng-model="search.timeType" uib-btn-radio="'hour'" ng-click="onChange()">小时</label>
+                    <label class="btn btn-xs btn-primary uib-radio" ng-model="search.timeType" uib-btn-radio="'day'" ng-click="onChange()">天</label>
+                    <label class="btn btn-xs btn-primary uib-radio" ng-model="search.timeType" uib-btn-radio="'month'" ng-click="onChange()">月</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-inline mt7">
+            <div class="form-group">
+                <label class="required">时间:</label>
+                <div class="form-group" ng-if="search.timeType=='hour'">
+                    <input type="datetime" class="form-control Wdate" name="time" placeholder=""
+                           ng-model="search.time" onchange=""
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"/>
+                </div>
+                <div class="form-group" ng-if="search.timeType=='day'">
+                    <input type="datetime" class="form-control Wdate" name="startTime" placeholder=""
+                           ng-model="search.startTime" onchange=""
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"/>
+                    <span style="padding: 0px 5px">至</span>
+                    <input type="datetime" class="form-control Wdate" name="endTime"
+                           placeholder="" ng-model="search.endTime" onchange=""
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"/>
+                </div>
+                <div class="form-group" ng-if="search.timeType=='month'">
+                    <input type="datetime" class="form-control Wdate" name="time" placeholder=""
+                           ng-model="search.startTime" onchange=""
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})"/>
+                    <span style="padding: 0px 5px">至</span>
+                    <input type="datetime" class="form-control Wdate" name="endTime"
+                           placeholder="" ng-model="search.endTime" onchange=""
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})"/>
+                </div>
+            </div>
+            <button class="btn btn-default" ng-click="showChart()" >查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default" style="margin-bottom: 0px;">
+        <div class="panel-body">
+            <div id="chart" style="height:400px;"></div>
+        </div>
+    </div>
+</div>
+<style>
+    .uib-radio{
+        padding: 0px 10px;
+    }
+</style>

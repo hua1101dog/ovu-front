@@ -1,0 +1,23 @@
+<div id="angularId" ng-controller="paramSetCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>能源参数设置</h3>
+        </div>
+    </div>
+        <div>
+            <uib-tabset active="active" >
+                <uib-tab index="0" heading="密码设置" select="setCurTab('PWD')">
+                    	<div ng-controller="setPwdCtl">
+                    <ng-include src="'./energy/setPassword.html'" ng-if="isLogin"></ng-include>
+                </div>
+                </uib-tab>
+                <uib-tab index="1" heading="余额设置" select="setCurTab('Money')">
+                        <div ng-controller="setBanlanceCtl">
+                    <ng-include src="'./energy/setBalance.html'" ng-if="isLogin"></ng-include>
+                </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+  
+</div>
+

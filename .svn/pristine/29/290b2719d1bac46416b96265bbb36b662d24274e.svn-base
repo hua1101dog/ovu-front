@@ -1,0 +1,241 @@
+<!-- 项目版统计概览 -->
+<div ng-controller="singleOverviewCtrl">
+    <div class="page-title" style="margin-left: 10px">
+        <div class="title_left">
+            <h3>统计概览-{{search.parkName}}</h3>
+        </div>
+    </div>
+    <div class="row margin-10 margin-left-0">
+        <div class="col-sm-2 col-xs-12 p-r-0">
+            <div class="card-border">
+                <div class="font-image">
+                    <img src="../../res/img/stat/img01_03.png" alt="">
+
+                </div>
+                <div class="card-border-bottom text-center">
+                    <h3 class="title">{{total.area || '0'}}
+                        <i class="con">㎡</i>
+                    </h3>
+                    <span class="detail">项目面积</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-xs-12 p-r-0">
+            <div class="card-border">
+                <div class="font-image">
+                    <img src="../../res/img/stat/img_05.png" alt="">
+
+                </div>
+                <div class="card-border-bottom text-center">
+                    <h3 class="title">{{total.equipments || '0'}}
+                        <i class="con">个</i>
+                    </h3>
+                    <span class="detail">项目设备数</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-xs-12 p-r-0">
+            <div class="card-border">
+                <div class="font-image">
+                    <img src="../../res/img/stat/img_07.png" alt="">
+
+                </div>
+                <div class="card-border-bottom text-center">
+                    <h3 class="title">{{total.sennors || '0'}}
+                        <i class="con">个</i>
+                    </h3>
+                    <span class="detail">项目传感器数</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-xs-12 p-r-0">
+            <div class="card-border">
+                <div class="font-image">
+                    <img src="../../res/img/stat/img_09.png" alt="">
+
+                </div>
+                <div class="card-border-bottom text-center">
+                    <h3 class="title">{{total.persons  || '0'}}
+                        <i class="con">人</i>
+                    </h3>
+                    <span class="detail">项目人员数</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-xs-12 p-r-0">
+            <div class="card-border">
+                <div class="font-image">
+                    <img src="../../res/img/stat/img_11.png" alt="">
+
+                </div>
+                <div class="card-border-bottom text-center">
+                    <h3 class="title">30
+                        <i class="con">个</i>
+                    </h3>
+                    <span class="detail">项目标准数</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-xs-12 p-r-0">
+            <div class="card-border">
+                <div class="font-image">
+                    <img src="../../res/img/stat/img_13.png" alt="">
+
+                </div>
+                <div class="card-border-bottom text-center">
+                    <h3 class="title">40
+                        <i class="con">个</i>
+                    </h3>
+                    <span class="detail">项目流程数</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row margin-10 margin-left-0">
+        <div class="col-sm-3 col-xs-12 p-r-0">
+            <div class="card-border text-center">
+                <div class="margin-42">
+                    <h2 class="blue">{{equipmentRange}}</h2>
+                </div>
+                <div class="bottom bgcor-blue">
+                    <span class="bottom-detail white">设备比值(设备数量/项目面积)</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 col-xs-12 p-r-0">
+            <div class="card-border text-center">
+                <div class="margin-42">
+                    <h2 class="green">{{sennorsRange}}</h2>
+                </div>
+                <div class="bottom bgcor-green">
+                    <span class="bottom-detail white">传感器比值(传感器数量/项目面积)</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 col-xs-12 p-r-0">
+            <div class="card-border text-center">
+                <div class="margin-42">
+                    <h2 class="yellow">{{equipmentSennorsRange}}</h2>
+                </div>
+                <div class="bottom bgcor-yellow">
+                    <span class="bottom-detail white">设备&传感器比值</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 col-xs-12 p-r-0">
+            <div class="card-border text-center">
+                <div class="margin-42">
+                    <h2 class="red">{{personsRange}}</h2>
+                </div>
+                <div class="bottom bgcor-red">
+                    <span class="bottom-detail white">人员比值(人员数/项目面积)</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<style>
+    .margin-10 {
+        margin-top: 10px;
+    }
+
+    .card-border {
+        border: 1px solid #ddd;
+        background: #fff;
+    }
+
+    .font-image {
+        height: 60px;
+        margin: 35px 10px;
+
+    }
+
+    .font-image img {
+        display: inline-block;
+        margin-left: 34%;
+    }
+
+    .margin-0 {
+        margin: 0;
+    }
+
+    .margin-left-0 {
+        margin-left: 0;
+    }
+
+    .card-border-bottom {
+        height: 100px
+    }
+
+    .detail {
+
+        font-size: 16px;
+        color: #666666
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .con {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+    }
+
+    .title {
+        font-size: 28px
+    }
+
+    .margin-42 {
+        margin: 42px 0;
+    }
+
+    .bottom {
+        height: 50px
+    }
+
+    .bgcor-blue {
+        background-color: #5574D4
+    }
+
+    .blue {
+        color: #5574D4;
+
+    }
+
+    h2 {
+        font-weight: 700
+    }
+
+    .bottom-detail {
+        line-height: 50px;
+        font-size: 14px
+    }
+
+    .white {
+        color: #fff
+    }
+    .green{
+        color:#58D455
+    }
+    .bgcor-green {
+        background-color: #58D455
+    }
+    .yellow{
+        color:#ECB64E
+    }
+    .bgcor-yellow {
+        background-color: #ECB64E
+    }
+    .red{
+        color:#FF5DA5
+    }
+    .bgcor-red {
+        background-color: #FF5DA5
+    }
+    .p-r-0{
+        padding-left:0px
+    }
+</style>

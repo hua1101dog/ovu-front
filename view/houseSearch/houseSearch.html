@@ -1,0 +1,109 @@
+<div ng-controller="houseSearchCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>房屋查询</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <!-- <div class="col-xs-12" ng-if="search.parkId">
+                <label class="control-label">
+                    {{search.parkName}}
+                </label>
+            </div> -->
+            <div class="x_panel">
+                <div class="x_title">楼栋列表</div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="oriList.length==0">无楼栋信息</div>
+                    <div id="house_tree">
+
+                        <tree-view-pro node-list="houseSearchtreeData" host="search" host-text="'spaceName'" host-key="'spaceId'"
+                            callback="selectNode" config="{'edit':false}"></tree-view-pro>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control" ng-model="search.houseId" name="groundNo"
+                            ng-options="s.id as s.houseCode for s in houseNos" ng-change="houseNoChange()">
+                            <option value="">--房号--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="search.houseNameOrShort" class="form-control" ng-if="selectedIndex==0 || selectedIndex==1 || selectedIndex==2 || selectedIndex==3 || selectedIndex==4 "
+                            placeholder="房屋名称或简称" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="search.ownerName" class="form-control" placeholder="业主姓名"   ng-if="selectedIndex==0 || selectedIndex==1 || selectedIndex==2 || selectedIndex==3 || selectedIndex==4 "/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="search.ownerTel" class="form-control" placeholder="业主手机号"   ng-if="selectedIndex==0 || selectedIndex==1 || selectedIndex==2 || selectedIndex==3 ||selectedIndex==4 "/>
+                    </div>
+                    <button class="btn btn-default" ng-click="findOwn(1)" ng-if="selectedIndex==0">查询</button>
+                </div>
+            </div>
+            <uib-tabset active="active">
+                <uib-tab index="0" heading="业主" select="changeIndex(0)">
+                    <ng-include src="'./houseSearch/ownerInfo/own.html'"></ng-include>
+                </uib-tab>
+                <uib-tab index="1" heading="亲属" select="changeIndex(1)">
+                    <ng-include src="'./houseSearch/ownerInfo/relative.html'"></ng-include>
+                </uib-tab>
+                <uib-tab index="2" heading="租户" select="changeIndex(2)">
+                    <ng-include src="'./houseSearch/ownerInfo/tenant.html'"></ng-include>
+                </uib-tab>
+                <uib-tab index="3" heading="车辆" select="changeIndex(3)">
+                    <ng-include src="'./houseSearch/ownerInfo/car.html'"></ng-include>
+                </uib-tab>
+                <uib-tab index="4" heading="工单" select="changeIndex(4)">
+                    <ng-include src="'./houseSearch/ownerInfo/workunit.html'"></ng-include>
+                </uib-tab>
+                <uib-tab index="5" heading="设备" select="changeIndex(5)">
+                    <ng-include src="'./houseSearch/ownerInfo/equipment.html'"></ng-include>
+				</uib-tab>
+				<uib-tab index="10" heading="备忘录" select="changeIndex(10)">
+						<ng-include src="'./houseSearch/ownerInfo/ownermemo.html'"></ng-include>
+					</uib-tab>
+                <uib-tab index="6" heading="投诉" select="changeIndex(6)">
+                    <ng-include src="'./houseSearch/ownerInfo/complaints.html'"></ng-include>
+                </uib-tab>
+                <uib-tab index="7" heading="邻里" select="changeIndex(7)">
+                    <ng-include src="'./houseSearch/ownerInfo/neighborhood.html'"></ng-include>
+                </uib-tab>
+                <uib-tab index="8" heading="活动" select="changeIndex(8)">
+                    <ng-include src="'./houseSearch/ownerInfo/active.html'"></ng-include>
+                </uib-tab>
+                <uib-tab index="9" heading="满意度" select="changeIndex(9)">
+                    <ng-include src="'./houseSearch/ownerInfo/satisfaction.html'"></ng-include>
+                </uib-tab>
+            </uib-tabset>
+
+        </div>
+    </div>
+</div>
+<style>
+         .detail-link{
+          width: 33px;
+          margin-left: -20px;
+          display: inline-block;
+          margin-top: 17px;
+          cursor: pointer;
+         
+        }
+        .layui-layer-lan .layui-layer-btn a {
+          background: #2e8ded;
+          border: none;
+         }
+         .border-t-0{
+             border-top:0 !important
+         }
+         table tr th,
+        table tr td {
+            text-align: left;
+        }
+      
+      </style>
+

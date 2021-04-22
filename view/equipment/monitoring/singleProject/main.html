@@ -1,0 +1,119 @@
+<!-- 单项目 -->
+<div class="single-project" id="angularId" ng-controller="singleCtrl">
+    <!-- title BEGIN -->
+    <div class="single-project-title page-title x_panel">
+        <div class="title_left">
+            <h3>{{projectName||'(请选择项目)'}}</h3>
+        </div>
+        <div class="title_right">
+            <div class="status-bar pull-left">
+                <div class="normal-green pull-left">
+                    <span class="status-icon status-icon-circle status-icon-success  pull-left"></span>
+                    <span class="text pull-left">设备正常</span>
+                </div>
+                <div class="fault-yellow pull-left">
+                    <span class="status-icon status-icon-circle status-icon-warning  pull-left"></span>
+                    <span class="text pull-left">设备故障</span>
+                </div>
+                <div class="warning-red pull-left">
+                    <span class="status-icon status-icon-circle status-icon-danger  pull-left"></span>
+                    <span class="text pull-left">设备报警</span>
+                </div>
+            </div>
+            <a href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="detail()">查看项目详情</a>
+        </div>
+    </div>
+    <!-- title END -->
+    <!-- content BEGIN -->
+    <div class="single-project-content">
+        <!-- 顶部地图 -->
+        <div class="top-banner row">
+            <!-- 地图 -->
+            <div class="col-md-9 col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="map-container" id="map-single">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 图表 -->
+            <div class="col-md-3 col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        设备统计
+                    </div>
+                    <div class="panel-body pie-chart">
+                        <div style="height:100%;width:100%;" ui-echarts="pieOption1">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        设备运行状态统计
+                    </div>
+                    <div class="panel-body pie-chart">
+                        <div style="height:100%;width:100%;" ui-echarts="pieOption2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 底部一堆panels -->
+        <!-- <div class="bottom-panels">
+            <eq-monitor-common></eq-monitor-common>
+        </div> -->
+    </div>
+    <!-- content END -->
+</div>
+
+<style>
+    .map-container {
+        height: 700px;
+        margin: -15px;
+    }
+    
+    .title_right {
+        float: right;
+    }
+    
+    .pie-chart {
+        height: 300px;
+    }
+    /* 状态显示 */
+    
+    .status-bar {
+        margin-right: 20px;
+    }
+    
+    .status-icon-circle {
+        display: block;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+    
+    .status-icon-success {
+        background-color: #5cb85c;
+    }
+    
+    .status-icon-warning {
+        background-color: #f0ad4e;
+    }
+    
+    .status-icon-danger {
+        background-color: #d9534f;
+    }
+    
+    .status-bar .text {
+        margin-top: 5px;
+    }
+    
+    .status-bar>div {
+        margin: 0 10px;
+    }
+    
+    .status-bar>div>span {
+        margin: 0 5px;
+    }
+</style>

@@ -1,0 +1,41 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">{{item.id?'编辑':'添加'}}域管理员</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="form-group" >
+			<label class="col-xs-4 control-label required">登录名：</label>
+			<div class="col-xs-6">
+				<input type="text" class="form-control" ng-model="item.loginName" name="loginName" ensure_unique="loginName" api='/ovu-base/sys/admin/checkLoginNameMute' id="{{item.id}}"  required
+			   uib-popover="{{form.loginName.$error.required?'登录名不可为空！':(form.loginName.$error.unique?'登录名已被使用':'')}}" popover-placement="top" popover-trigger="mouseenter"
+						/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label required">昵称：</label>
+			<div class="col-xs-6">
+				<input type="text" class="form-control" ng-model="item.nickname" name="nickname" required/>
+			</div>
+		</div>
+		<div class="form-group" ng-if="!item.id">
+			<label class="col-xs-4 control-label required">初始密码：</label>
+			<div class="col-xs-6" uib-popover="6~50 characters!" popover-placement="top" popover-trigger="mouseenter">
+				<input  type="{{passType?'text':'password'}}" ng-model="item.password" name = "password" class="form-control" placeholder="" required ng-minlength="6" ng-maxlength="50"  >
+				<button class="btn btn-default" style="position: absolute;right:17px;top:1px;height:32px;border:none" ng-click="passType = !passType">
+					<i class="glyphicon" ng-class="{'glyphicon-eye-open':!passType,'glyphicon-eye-close':passType}"></i></button>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label">备注：</label>
+			<div class="col-xs-8 mt7">
+				目前，每个域只能配置一个域管理员，拥有域内最高操作权限！
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

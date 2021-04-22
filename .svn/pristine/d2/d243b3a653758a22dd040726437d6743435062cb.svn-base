@@ -1,0 +1,82 @@
+<div ng-controller="appointmentCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>预约管理</h3>
+    
+            </div>
+        </div>
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>预约日期</label>
+                    <select class="form-control" ng-model="search.timeType" ng-options="o.key as o.value for o in DATEOPTIONS">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>确认状态</label>
+                    <select class="form-control" ng-model="search.state" ng-options="o.key as o.value for o in COMFIRMSTATUS">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>预约渠道</label>
+                    <select class="form-control" ng-model="search.bespeakType" ng-options="o.key as o.value for o in RESERVATIONCHANNEL">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <button class="btn btn-default pull-right" ng-click="find(1)">查询</button>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <span style="display:inline-block;margin-top:8px;">预约列表</span>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center" style="width:30px">NO</th>
+                            <th>预约日期</th>
+                            <th>预约渠道</th>
+                            <th>参展人数</th>
+                            <th>是否携带儿童</th>
+                            <th>是否需要讲解员</th>
+                            <th>联系人</th>
+                            <th>联系电话</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data">
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td>{{item.bespeakDate}}</td>
+                            <td>{{item.bespeakType}}</td>
+                            <td>{{item.bespeakPersonNum}}</td>
+                            <td>{{item.hasChilden}}</td>
+                            <td>{{item.hasExpostor}}</td>
+                            <td>{{item.contactsMan}}</td>
+                            <td>{{item.phone}}</td>
+                            <td>
+                                <a href='javascript:void(0)' ng-click='confirmEdit(item)' class='btn btn-xs'
+                                	ng-if="item.state != '1'">
+                                    <span class='fa fa-edit'></span>确认</a>
+                                <a href='javascript:void(0)' class='btn btn-xs'
+                                	ng-if="item.state == '1'" style="cursor: default;">
+                                <span class='fa'></span>已确认</a>
+                                <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'>
+                                    <span class='fa fa-trash'></span>删除</a>
+    
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>

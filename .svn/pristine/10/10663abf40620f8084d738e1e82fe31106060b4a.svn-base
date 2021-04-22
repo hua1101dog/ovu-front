@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="projectSpace/spaceDetail/spaceDetail.css">
+<div class="modal-header" style="border-bottom: none;">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">父空间信息</h4>
+</div>
+<div class="modal-body container-fluid" style="padding-top: 0;margin-top: -10px;">
+    <div class="row">
+        <div class="x_panel">
+            <div class="houseInfo" ng-repeat="item in parentHouseList">
+                <div  class="x_panel" style="padding: 1px">
+                    <div class="form-group form-horizontal col-xs-12">
+                        <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">空间名称：</label>
+                        <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{item.houseName}}</span>
+                        <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">房号：</label>
+                        <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{item.houseCode}}</span>
+                        <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">房屋编号：</label>
+                        <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{item.houseNo}}</span>
+                    </div>
+                    <div class="form-group form-horizontal col-xs-12">
+                        <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">空间位置：</label>
+                        <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{item.stageName}}/{{item.buildName}}/{{item.unitNum}}单元/{{item.groundNum}}楼</span>
+                        <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">空间状态：</label>
+                        <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{item.spaceStatus | spaceStatus}}</span>
+                        <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">空间类别：</label>
+                        <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{item.rmCat | houseType}}</span>
+                    </div>
+                    <div class="form-group form-horizontal col-xs-12">
+                        <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">设备房：</label>
+                        <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{getIsEquip(item.isEmtHouse)}}</span>
+                        <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">房屋朝向：</label>
+                        <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{getHouseDirection(item.aspect)}}</span>
+                        <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">户型：</label>
+                        <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{item.rmStd}}</span>
+                    </div>
+                    <div class="form-group form-horizontal col-xs-12">
+                        <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">建筑面积：</label>
+                        <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{getAreaUnit(item.area) || 0}}</span>
+                        <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">物业面积：</label>
+                        <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{getAreaUnit(item.areaProperty) || 0}}</span>
+                        <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">实测建筑面积：</label>
+                        <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{getAreaUnit(item.areaActual) || 0}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

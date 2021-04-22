@@ -1,0 +1,63 @@
+<!-- 新增转流服务与流媒体服务器配置 -->
+<div class="modal-header">
+        <button type="button" class="close" ng-click="vm.cancel()">×</button>
+        <h4 class="modal-title">{{item.id?'编辑':'添加'}}配置</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">配置编号：</label>
+
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="item.code" readonly="readonly" placeholder="系统自动生成">
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">配置名称：</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="item.name" required name="name" id={{item.id}}
+                    ensure_unique="name" ng-model-options="{ updateOn: 'blur' }" api='/ovu-camera/pcos/videomanagement/mediatransform/isOnly'
+                    required uib-popover="{{form.name.$error.unique?'配置名称已被使用':''}}" popover-placement="top" popover-trigger="mouseenter">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">流媒体服务器名称：</label>
+                <div class="col-xs-9">
+                    <select class="form-control" ng-model="item.mediaId" required ng-options="o.id as o.mediaName for o in mediaList">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">转流服务名称：</label>
+                <div class="col-xs-9">
+                    <select class="form-control" ng-model="item.transformId" required ng-options="o.id as o.transformName for o in transformList">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <label class="col-xs-3 control-label required">配置状态：</label>
+                <div class="col-xs-9">
+                    <select class="form-control" ng-model="item.status" required ng-options="o[0] as o[1] for o in videoTypeDict">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div> -->
+            <div class="form-group">
+                <label class="col-xs-3 control-label">备注：</label>
+                <div class="col-xs-9">
+                    <textarea type="text" style="height:150px;resize:none" class="form-control" ng-model="item.remark" />
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="vm.save(form,item)">确定</button>
+        <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+    </div>

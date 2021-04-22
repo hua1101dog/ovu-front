@@ -1,0 +1,74 @@
+<div ng-controller="parkBlueprintCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>图纸管理</h3>
+        </div>
+    </div>
+   
+    <div class="row">
+    	<!--左侧树-->
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">图纸分类
+                	<a href="javaScript:void(0)" ng-click='addTopNode()' class='btn btn-xs pull-right'>
+                		<span class='fa fa-plus' ></span>一级分类
+                	</a>
+                </div>
+                <div class="x_content" style="z-index: 1;max-height: 486px;overflow: auto;">
+                    <div class="alert" role="alert" ng-show="BlueprintTree.length==0">无分类信息</div>
+                    <div id="house_tree">
+                        <!--<tree-view node-list="treeData" config="config"></tree-view>-->
+                        <tree-view-pro node-list="BlueprintTree" host="item" host-text="'text'" host-key="'id'" callback="selectNode" config="config"></tree-view-pro>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--右侧图片选择区域-->
+        <div class="col-md-9 col-sm-8 col-xs-12">
+        	<div class="x_panel">
+        		<div class="x_title">图纸</div>
+        		<div class="x_content" style="z-index: 1">
+                    <div class="col-xs-12">
+                		<div class="thumbnail" style="height:auto;min-height: 260px;">
+		                    <img ng-if="!item.showImg" id=""
+		                       	 ng-click="showPhoto()"
+		                         alt="" class="userIcon"
+		                         ng-src="{{item.url.indexOf('http')==-1?'/ovu-base/'+item.url:item.url || '/res/img/detail.png'}}"  onerror="javascript:this.src='/res/img/detail.png';"/>
+		                    <iframe ng-if="item.showImg" 
+		                         alt="" width="100%" height="400px"
+		                         ng-src="{{item.url.indexOf('http')==-1?'/ovu-base/'+item.url:item.url || '/res/img/detail.png'}}"  onerror="javascript:this.src='/res/img/detail.png';">
+		                    </iframe>
+	                	</div>
+            		</div>
+            		<div class="col-xs-12">
+            			<span class="btn btn-default height34" ng-click="addPositionPic()"><i
+                            class="glyphicon glyphicon-picture "></i></span>
+                        <span ng-if="item.url"  class="btn btn-default height34" ng-click="saveBtnStatus && save()" 
+                        	ng-class="{'disable':!saveBtnStatus,'able':saveBtnStatus}"><i
+                        class=" ">保存</i></span>
+                        <span ng-if="item.url"  class="btn btn-default height34" ng-click="clear()"><i
+                        class=" ">清除</i></span>
+            		</div>
+            		<div class="col-xs-12">
+            			<p class="text-info">备注：</p>
+            			<p class="text-info">1.仅支持jpg，pdf格式文件。</p>
+            			<p class="text-info">2.上传的图纸需要有轮廓以及房间编号。</p>
+            		</div>
+                </div>
+        	</div>
+        </div>
+    </div>
+</div>
+
+<style>
+	span.disable {
+    	border-color: #cccccc87;
+    	cursor: unset;
+    	color: #ccc;
+	}
+	span.able {
+		border-color: #ccc;
+    	cursor: pointer;
+    	color: black;
+	}
+</style>

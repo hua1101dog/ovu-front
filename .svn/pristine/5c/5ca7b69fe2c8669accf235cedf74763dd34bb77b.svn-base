@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}传感器</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div  class="form-group">
+            <label class="col-xs-2 control-label required text-nowrap">传感器类型：</label>
+            <div class="col-xs-10">
+                <select class="form-control" ng-model="item.sensorTypeCode" ng-disabled="item.type!=2" required ng-options="o.code as o.text for o in sensorTypeEnum">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div>
+        <div  class="form-group">
+            <label class="col-xs-2 control-label required">mac：</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" ng-model="item.mac" required name="mac" id={{item.id}} ng-disabled="item.type!=2"
+                       ensure_unique="mac" ng-model-options="{ updateOn: 'blur' }" api='/middleware/easylinkin/checkUnique_mute'
+                       uib-popover="{{form.mac.$error.unique?'传感器已被使用':''}}" popover-placement="bottom" popover-trigger="mouseenter" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label text-nowrap required">项目编码：</label>
+            <div class="col-xs-10">
+                <input type="text"  required class="form-control" ng-model="item.parkNo" />
+            </div>
+        </div>
+        <div class="form-group" ng-if="item.type==2">
+            <label class="col-xs-2 control-label text-nowrap required">模拟数据频率：</label>
+            <div class="col-xs-10">
+                <input type="number" placeholder="秒" required class="form-control" ng-model="item.intervalSecs" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">位置说明：</label>
+            <div class="col-xs-10">
+                <textarea type="text" style="height:50px;resize:none" class="form-control" ng-model="item.location" />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="vm.save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+</div>

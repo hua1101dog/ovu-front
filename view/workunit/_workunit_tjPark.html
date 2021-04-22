@@ -1,0 +1,100 @@
+<div id="angularId" ng-controller="workunitTjParkCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>工单统计</h3>
+		</div>
+	</div>
+
+    <div class="x_panel" >
+      <div class="form-inline">
+        <div class="form-group">
+          <label>所在部门</label>
+          <div class="input-group ">
+              <tree-selector node-list="searchDeptTree" host="search"
+                             host-key="subDeptId" host-text="'subDeptName'" leaf-only=true tip-text="'请选择部门'"></tree-selector>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>员工姓名</label>
+          <input type="text" class="form-control" name="personName" ng-model="search.personName" />
+        </div>
+        <div class="form-group">
+          <label>执行时间</label>
+          <input type="datetime" class="form-control Wdate"  ng-model="search.startTime"  placeholder="开始日期" onchange=""
+                 onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()}&quot;})">
+          <label>-</label>
+          <input type="datetime" class="form-control Wdate"  ng-model="search.endTime"  placeholder="结束日期" onchange=""
+                 onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.Wdate').first().val()}&quot;})">
+        </div>
+          <button class="btn btn-default" ng-click="find(1)" >查询</button>
+          <button class="btn btn-primary" ng-click="export()" >导出</button>
+      </div>
+    </div>
+
+    <div class="x_panel">
+      <div class="x_content">
+        <table class="table table-hover text-left" id="checkTable">
+          <thead>
+          <tr align="center">
+            <th class="text-center" style="vertical-align: middle" rowspan="2">NO</th>
+            <th  style="vertical-align: middle" rowspan="2">员工姓名</th>
+            <th  style="vertical-align: middle;width: 200px" rowspan="2">部门</th>
+            <th  style="vertical-align: middle" rowspan="2">总完成率</th>
+            <th class="text-center" colspan="7">计划工单</th>
+            <th class="text-center" colspan="9">应急工单</th>
+          </tr>
+          <tr align="center">
+            <th class="text-center">执行工单量</th>
+            <th class="text-center">未接单</th>
+            <th class="text-center">已接单</th>
+            <th class="text-center">已执行</th>
+            <th class="text-center">已评价</th>
+            <th class="text-center">工单完成率</th>
+            <th class="text-center">工单详情</th>
+            <th class="text-center">执行工单量</th>
+            <th class="text-center">发起工单量</th>
+            <th class="text-center">自发单</th>
+            <th class="text-center">未接单</th>
+            <th class="text-center">已接单</th>
+            <th class="text-center">已执行</th>
+            <th class="text-center">已评价</th>
+            <th class="text-center">工单完成率</th>
+            <th class="text-center">工单详情</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-if="pageModel.data.length == 0">
+            <td colspan="100" class="text-center">暂无记录</td>
+          </tr>
+          <tr ng-repeat="item in pageModel.data">
+            <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+            </td>
+            <td>{{item.name}}</td>
+            <td>{{item.deptName}}</td>
+            <td>{{item.zWcl}}</td>
+            <td class="text-center">{{item.jhGdl}}</td>
+            <td class="text-center">{{item.jhWjd}}</td>
+            <td class="text-center">{{item.jhYjd}}</td>
+            <td class="text-center">{{item.jhYzx}}</td>
+            <td class="text-center">{{item.jhYpj}}</td>
+            <td class="text-center">{{item.jhWcl}}</td>
+            <td class="text-center"></td>
+            <td class="text-center">{{item.yjGdl}}</td>
+            <td class="text-center">{{item.yjBsl}}</td>
+            <td class="text-center">{{item.yj_zfl}}</td>
+            <td class="text-center">{{item.yjWjd}}</td>
+            <td class="text-center">{{item.yjYjd}}</td>
+            <td class="text-center">{{item.yjYzx}}</td>
+            <td class="text-center">{{item.yjYpj}}</td>
+            <td class="text-center">{{item.yjWcl}}</td>
+            <td class="text-center"><a href='javascript:void(0)' ng-click='detail(item)' class='btn-link' >查看详情</a></td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="page-footer clearfix">
+          <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+      </div>
+    </div>
+
+</div>

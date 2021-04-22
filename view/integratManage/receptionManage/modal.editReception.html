@@ -1,0 +1,96 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}接待信息</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="x_content" style="max-height:650px;overflow-y: auto;overflow-x: hidden;">
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">接待时间：</label>
+                <div class="col-md-7">
+                    <input type="datetime" class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.deadline" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">来访单位：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" required ng-model="item.unit" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">来访主要领导及其职务：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control"  ng-model="item.visitor" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">人数：</label>
+                <div class="col-md-7">
+                    <input type="number" class="form-control" ng-model="item.num"
+                        ng-pattern="/^[+]{0,1}(\d+)$/" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">接待来源：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-model="item.source" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">陪同领导：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control"  ng-model="item.accompany" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">接待等级：</label>
+                <div class="col-md-7">
+                    <select class="form-control"  ng-model="item.grade">
+                        <option value="">--请选择--</option>
+                        <option value="SSS">SSS</option>
+                        <option value="S">S</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                    </select>
+                </div>
+            </div>
+
+
+            
+            <div class="form-group">
+                <label class="col-md-3 control-label">接待人员：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-model="item.receiver"/>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label ">讲解人员：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-model="item.explainer"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">主要接待情况：</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-model="item.situation"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">备注：</label>
+                <div class="col-md-7">
+                    <textarea ng-model="item.remark" name="remark" class="form-control" rows="2" ></textarea>
+                </div>
+            </div>
+        
+
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

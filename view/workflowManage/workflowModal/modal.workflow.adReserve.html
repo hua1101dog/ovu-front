@@ -1,0 +1,194 @@
+<div class="processForm">
+    <div class="applicationInfo">
+        <h4>{{processForm.title}}</h4>
+        <div class="msgList">
+            <div class="msg-group clearfix">
+                <p>申请信息</p>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">用户名称</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.applicantName}}">{{processForm.formData.applicantName}}</span>
+                </div>
+                <label class="col-xs-2">申请时间</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss" ng-attr-title="{{processForm.createTime}}">{{processForm.createTime}}</span>
+                </div>
+                <label class="col-xs-2">预定广告类型</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.adType | getAdType}}">{{processForm.formData.adType | getAdType}}</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">预定广告时间</label>
+                <div class="col-xs-2">
+                    <div>
+                        <span
+                            ng-attr-title="{{processForm.formData.beginDate}}">{{processForm.formData.beginDate}}</span>
+                        至
+                        <br>
+                        <span ng-attr-title="{{processForm.formData.endDate}}">{{processForm.formData.endDate}}</span>
+                    </div>
+                </div>
+                <label class="col-xs-2">预定周期</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.totalWeek}}">{{processForm.formData.totalWeek}}周</span>
+                </div>
+                <label class="col-xs-2">预定费用</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.totalPrice}}">{{processForm.formData.totalPrice | number : 2}}元</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">订单金额</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.advertisement.reducedPrice}}">{{processForm.formData.advertisement.reducedPrice}}</span>
+                </div>
+                <label class="col-xs-2">订单说明</label>
+                <div class="col-xs-6">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.advertisement.reduceInfo}}">{{processForm.formData.advertisement.reduceInfo}}</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">联系人</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.contactMan}}">{{processForm.formData.contactMan}}</span>
+                </div>
+                <label class="col-xs-2">联系电话</label>
+                <div class="col-xs-6">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{processForm.formData.contactPhone}}">{{processForm.formData.contactPhone}}</span>
+                </div>
+            </div>
+            <div class="msg-group msg-group-data clearfix">
+                <label class="col-xs-2">预定资料</label>
+                <div class="col-xs-10 clearfix">
+                    <div ng-repeat="item in processForm.list track by $index">
+                        <span>{{item.attachmentName}}</span><a class="download" href="javascript:;"
+                            ng-click="enclosureDownload(item.url,item.attachmentName)"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <p>实际租赁信息</p>
+            </div>
+            <div class="msg-group msg-group-upload clearfix" ng-if="curProcess.taskDefKey == 'a' && curProcess.taskStatus == 0">
+                <label class="col-xs-2">上传租赁合同</label>
+                <div class="col-xs-10">
+                    <div style="display: inline-block;padding:5px;">
+                        <a class="blue_btn" ng-click="uploadFile(3)">上传</a>
+                        <div style="display: inline-block;">（只能上传.doc、.docx、.pdf、.xls或.xlsx格式的文件）</div>
+                    </div>
+                    <ul class="workList">
+                        <li ng-repeat="file in rentalFileList track by $index">
+                            <a href="javascript:;"
+                                style="color: #417CDD;cursor:default;">{{file.attachmentName | gshFileName}}</a>
+                            <b class="fa fa-close" ng-click="delContactFile(3,$index)"></b>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="msg-group msg-group-upload clearfix" ng-repeat="item in alreadyFiles track by $index"
+                ng-if="curProcess.taskDefKey != 'a' && item.activityId == 'a' && item.file.length>0">
+                <label class="col-xs-2">租赁合同</label>
+                <div class="col-xs-10">
+                    <ul class="workList" style="max-height:150px;">
+                        <li ng-repeat="file in item.file track by $index">
+                            <span>{{file.attachmentName | gshFileName}}</span><a class="download" href="javascript:;"
+                                ng-click="enclosureDownload(file.url,file.attachmentName)"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2 required">实际租赁时间</label>
+                <div class="col-xs-5">
+                    <input type="datetime" id="startTime" class="form-control Wdate" style="width:80%"
+                        ng-if="curProcess.taskDefKey == 'a' && curProcess.taskStatus == 0"
+                        ng-model="search.realStartTime" placeholder="实际租赁开始日期" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    <input type="text" class="form-control" style="width:80%"
+                        ng-if="curProcess.taskDefKey != 'a' || curProcess.taskStatus != 0"
+                        ng-model="search.realStartTime" readonly>
+                </div>
+                <div class="col-xs-5">
+                    <input type="text" class="form-control" style="width:80%"
+                        oninput="this.value=this.value.replace(/^[0]+[0-9]*$/gi,'');this.value=this.value.replace(/\D/g,'')"
+                        ng-model="search.realCycle" placeholder="实际租赁周期,只能输入大于0的正整数"
+                        ng-readonly="curProcess.taskDefKey != 'a' || curProcess.taskStatus != 0">周
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2 required">实际租赁周期</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" style="width:80%" ng-model="search.realCycle"
+                        placeholder="实际租赁周期" readonly>周
+                </div>
+                <label class="col-xs-2 required">实际租赁费用</label>
+                <div class="col-xs-4">
+                    <input type="number" class="form-control" style="width:80%" ng-keyup="moneyChange(search.realMoney)"
+                        ng-model="search.realMoney" placeholder="只能输入数字且最多两位小数"
+                        ng-readonly="curProcess.taskDefKey != 'a' || curProcess.taskStatus != 0">元
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2 required">广告位使用描述</label>
+                <div class="col-xs-10">
+                    <textarea maxlength="100" class="col-xs-10" rows="3" ng-model="search.useDesc" placeholder="广告位使用描述"
+                        ng-readonly="curProcess.taskDefKey != 'a'|| curProcess.taskStatus != 0"></textarea>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <p>审批信息</p>
+            </div>
+            <div class="msg-group clearfix" ng-repeat="item in processComment track by $index">
+                <label class="col-xs-2">{{item.activityName}}</label>
+                <div class="col-xs-10">
+                    <p
+                        style="width: 100%; text-align:left;padding-left:10px;display:flex;justify-content:space-between;align-items:center;">
+                        <span class="ellipsiss" style="width:45%;" ng-attr-title="{{item.assigneeName}}">{{item.assigneeName}}</span>
+                        <span style="width:45%;">{{item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}} </span>
+                    </p>
+                    <p style="width:100%;">
+                        <span class="ellipsiss" ng-attr-title="{{item.comment}}"
+                            ng-if="item.comment">{{item.comment}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="auditOpinion clearfix" ng-if="curProcess.taskStatus == 0 && curProcess.personId">
+        <label class="col-xs-2 required">审批意见</label>
+        <textarea maxlength="100" class="col-xs-10" rows="5" placeholder="请填写审批意见(必填)"
+            ng-model="search.comment"></textarea>
+    </div>
+    <div class="transferOp">
+        <h4>流转意见</h4>
+        <div class="transferList">
+            <div class="transfer-group" ng-repeat="item in processComment track by $index">
+                <p style="padding-left: 10px;">{{item.activityName}}</p>
+                <p class="ellipsiss" ng-attr-title="{{item.assigneeName}}">{{item.assigneeName}}</p>
+                <p class="clearfix"><span style="color: #008000;width:20%;margin-right:10px;">接收人</span> <span class="ellipsiss" style="width:75%;" ng-attr-title="{{item.receiver}}">{{item.receiver}}</span>
+                </p>
+                <div>
+                    <p>{{item.endTime || item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}}</p>
+                    <p style="color: #008000;">
+                        【{{item.activityName}}】
+                    </p>
+                    <p style="color: #008000;">
+                        <span ng-if="$index===0">已提交</span>
+                        <span class="ellipsiss" ng-attr-title="{{item.comment}}"
+                            ng-if="$index!==0">{{item.comment}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

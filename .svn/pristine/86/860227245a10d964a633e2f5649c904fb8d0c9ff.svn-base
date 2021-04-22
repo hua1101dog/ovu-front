@@ -1,0 +1,79 @@
+<!---维保记录详情弹出框   -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">维保记录详情</h4>
+</div>
+<div class="modal-body container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="key">电梯编号：</span>
+            <span class="value">{{lift.liftCode}}</span>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="key">电梯注册代码：</span>
+            <span class="value">{{lift.registerCode}}</span>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="key">保养类型：</span>
+            <span class="value">{{lift.maintainType}}</span>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="key">计划保养时间：</span>
+            <span class="value">{{lift.createTime}}</span>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="key">保养时间：</span>
+            <span class="value">{{lift.execTime}}</span>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="key">维保工：</span>
+            <span class="value">{{lift.personName}}</span>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>维保项目(内容)</th>
+                <th>维保基本要求</th>
+                <th>结果</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in recordDetailList track by $index">
+                <td>{{$index+1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <!-- <td>{{item.result}}</td> -->
+                <td ng-if="item.result">{{item.result}}</td>
+                <td ng-if="item.photos">
+                        <div class="photoWraper" ng-repeat="p in item.photos track by $index">
+                                <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}" />
+                            </div>
+                </td>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <!--<span>维保记录单：</span>-->
+    <!--<button class="btn btn-info" ng-click="cancel()">预览</button>
+    <button class="btn btn-info" ng-click="cancel()">下载</button>
+    <button class="btn btn-info" ng-click="cancel()">打印</button>-->
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .photoWraper{
+    width: 80px;
+    height:44px;
+    position: relative;
+    float: left;
+    margin-right: 5px;
+    text-align: center;
+    }
+    .photoWraper img{
+     padding: 0 3px;
+    }
+</style>

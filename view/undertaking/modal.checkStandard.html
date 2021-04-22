@@ -1,0 +1,74 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">{{readonly?'查看':'设置'}}查验标准</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<div class="" style="margin-bottom:8px;">
+		<span style="font-size:18px;">查验内容：{{content.name}}</span>
+	</div>
+	<form name="form" novalidate>
+		<div ng-if="content.way==1">
+			<div class="item form-group">
+				<label class="control-label col-xs-2 required">设置盘点项:
+				</label>
+				<div class="col-xs-10">
+				<label class="control-label" ng-repeat="item in attrs">
+				<input type="checkbox" style="margin:0 5px" ng-checked="item.checked" ng-click="clickBox(item)" ng-disabled="readonly" />{{item.name}}
+				</label>
+				</div>
+			</div>
+		</div>
+		<div ng-if="content.way==2">
+			<div ng-repeat="item in list">
+				<div class="form-group" >
+					<label class="col-xs-3 control-label required">查验标准{{$index+1}}：</label>
+					<div class="col-xs-5">
+						<input type="text" class="form-control" ng-model="item.name" name="name" maxlength="20" required ng-readonly="readonly"/>
+					</div>
+					<div class="col-xs-2" ng-if="!readonly">
+						<a class="form-control btn-link" href='javascript:void(0)' ng-click='del(list,item)'>删除</a>
+					</div>
+				</div>
+				<hr/>
+			</div>
+			<div class="row" style="text-align: center"  ng-if="!readonly">
+				<button class="btn btn-success btn-large" ng-click="add()">添加查验标准</button>
+			</div>
+		</div>
+		<div ng-if="content.way==3">
+			<div ng-repeat="item in list">
+				<div class="form-group" >
+					<label class="col-xs-3 control-label required">检测标准{{$index+1}}：</label>
+					<div class="col-xs-5">
+						<input type="text" class="form-control" ng-model="item.name" name="name" maxlength="20" required ng-readonly="readonly"/>
+					</div>
+					<div class="col-xs-2"  ng-if="!readonly">
+						<a class="form-control btn-link" href='javascript:void(0)' ng-click='del(list,item)'>删除</a>
+					</div>
+				</div>
+				<div class="item form-group">
+					<label class="control-label col-xs-3 required">检测参数:
+					</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" ng-model="item.param_key" name="param_key" maxlength="20" placeholder="检测项" required ng-readonly="readonly"/>
+					</div>
+					<div class="col-xs-1">
+						<label class="control-label col-xs-1">:</label>
+					</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" ng-model="item.param_val" name="param_val" maxlength="20" placeholder="标准值" required ng-readonly="readonly"/>
+					</div>
+				</div>
+				<hr/>
+			</div>
+			<div class="row" style="text-align: center" ng-if="!readonly">
+				<button class="btn btn-success btn-large" ng-click="add()">添加检测标准</button>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer"  ng-if="!readonly">
+	<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

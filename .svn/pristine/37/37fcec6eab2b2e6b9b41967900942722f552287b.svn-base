@@ -1,0 +1,53 @@
+<ul class="fengTree" ng-show="nodeList.length">
+        <li ng-repeat="node in nodeList" class="clearfix" ng-hide="node.state.hide">
+            <div class="form-inline " style="margin:2px 0" ng-class="{'bg-success':node.state.selected,'bg-danger':node.state.edit}">
+                <i class="icon glyphicon " ng-click="node.state.expanded = !node.state.expanded"
+                   ng-style="{visibility:node.nodes.length?'visible':'hidden'}"
+                   ng-class="{'glyphicon-minus':node.state.expanded,'glyphicon-plus':!node.state.expanded}"></i>
+                <i class="icon glyphicon " ng-click="check(node,nodeList)" ng-if="config.showCheckbox"
+                   ng-class="{'glyphicon-check':node.state.checked,'glyphicon-unchecked':!node.state.checked}"></i>
+                <div class="arrowDiv" ng-if="config.sort" ng-style="{visibility:nodeList.length>1?'visible':'hidden'}">
+                    <i class="icon glyphicon glyphicon-chevron-up" ng-click="sort(nodeList,node,$index-1)"></i>
+                    <i class="icon glyphicon glyphicon-chevron-down " ng-click="sort(nodeList,node,$index+1)"></i>
+                </div>
+                <i ng-class="node.icon" ng-if="node.icon"></i>
+                <span ng-if="node.state.edit" ng-form name="form">
+                    <input type="text" class="form-control" style="width: 120px" placeholder="名称" ng-model="node.copy.text"
+                           required/>
+                    <!-- <input type="text" class="form-control" style="width: 80px" placeholder="编码" ng-model="node.copy.code" />-->
+                     <i class="icon glyphicon glyphicon-ok" ng-click="save(node,form)"></i>
+                     <i class="icon fa fa-undo" ng-click="undo(node)"></i>
+                </span>
+                <span role="button"  ng-style="{width: node.parentId=='0' ? '150px' : '135px'} " class="text" ng-class="{'highLight':node.state.highLight}" ng-click="$parent.selectNode(node,host)" ng-if="!node.state.edit" ng-attr-title="{{node.text}}">{{node.text|filterEllips:config.edit}}
+                  <span class="badge" ng-if="node.cnt >-1">{{node.cnt}}</span>
+                </span>
+                <span ng-if="!node.state.edit && config.edit" class="edit-span">
+                     <i class="icon glyphicon glyphicon-plus-sign" ng-click="addSon(node)" ng-if="!node.isLeaf"></i>
+                     <i class="icon glyphicon glyphicon-edit" ng-click="editNode(node)"></i>
+                     <i class="icon glyphicon glyphicon-log-in" ng-click="moveNode(node)" ng-if="config.moveOper"></i>
+                     <i class="icon glyphicon glyphicon-trash" ng-click="delNode(node)" ng-if="!(node.nodes && node.nodes.length)"></i>
+                </span>
+                <span ng-if="!node.state.edit && !config.edit && config.set" class="edit-span">
+                     <i class="icon glyphicon glyphicon-edit" ng-click="editNode(node)"></i>
+                </span>
+                <span ng-if="!node.state.edit && config.view" class="edit-span">
+                     <i class="icon glyphicon glyphicon-search" ng-click="editNode(node)"></i>
+                </span>
+                 <div style=" display: inline-block;margin: 0 50px;max-width: 622px;">
+                        <ui-select ng-model="node.selected.value" multiple >
+                            <ui-select-match>
+                                <span ng-bind="$item.name"> </span>
+                               
+                            </ui-select-match>
+                            <ui-select-choices  repeat="item in (personListBlock | filter: $select.search) track by item.id">
+                                <span ng-bind="item.name"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                 
+                      
+                 </div>
+            </div>
+            <block-tree node-list="node.nodes" host="host" config="config" ng-if="node.state.expanded"></block-tree>
+        </li>
+    </ul>
+  

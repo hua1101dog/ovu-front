@@ -1,0 +1,327 @@
+<div class="" ng-controller="firmMainCtrl as vm">
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="">
+            <div class="col-lg-12 col-sm-12 b-b b-2x text-center" ng-show="vm.show == 2">
+                <button class="btn btn-title font-bold">{{vm.title}}</button>
+            </div>
+            <div class="col-lg-12 col-sm-12 b-b b-2x text-center" ng-show="vm.show == 3">
+                <img src="../show/res/img/firm.png" alt="..." class="img-circle m-t" style="height: 60px;">
+                <div style="position: relative">
+                    <button class="btn btn-title font-bold">{{vm.company.companyName || '暂无企业入驻'}}</button>
+                    <span class="spantext" style="position: absolute;top: 50%;transform: translateY(-50%);">{{vm.title}}</span>
+                </div>
+            </div>
+            <!--企业服务中心》企业-->
+            <div ng-show="vm.show == 1">
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <!-- <h4 class="font-bold">入住企业</h4>
+                     <div class="col-lg-12 col-sm-12 text-center m-b-lg">
+                         <h3>{{vm.company.totalCompany}}<span class="text-xs">家</span>
+                         </h3>
+                         <span class="spantext">企业总数</span>
+                     </div>
+                     <div class="col-lg-4 col-sm-4 text-center">
+                         <h3 class="yellow" uib-tooltip="{{(vm.company.totalRegisterCapital/10000).toFixed(0)}}">
+                             <span>{{(vm.company.totalRegisterCapital/10000).toFixed(0)}}</span>
+                             <span class="text-xs">万元</span>
+                         </h3>
+                         <span class="spantext">总注册资金</span>
+                     </div>
+                     <div class="col-lg-4 col-sm-4 text-center ">
+                         <h3 class="blue">{{vm.company.totalEmployer || 0}}<span class="text-xs">人</span>
+                         </h3>
+                         <span class="spantext">员工总数</span>
+                     </div>
+                     <div class="col-lg-4 col-sm-4 text-center m-b-lg">
+                         <h3 class="green">{{vm.company.totalInvest || 0}}<span class="text-xs">万元</span>
+                         </h3>
+                         <span class="spantext">投资额总数</span>
+                     </div>-->
+                    <h4 class="font-bold">产业指标概况</h4>
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-4 text-center">
+                            <h3 class="">
+                                <span>{{comFirm.tradeGeneral.company_totle}}</span>
+                                <span class="text-xs">个</span>
+                            </h3>
+                            <span class="spantext">企业总数</span>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 text-center">
+                            <h3 class="">
+                                <span>{{comFirm.tradeGeneral.double_company}}</span>
+                                <span class="text-xs">个</span>
+                            </h3>
+                            <span class="spantext">双创企业数</span>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 text-center">
+                            <h3 class="">
+                                <span>{{comFirm.tradeGeneral.quoted_company}}</span>
+                                <span class="text-xs">个</span>
+                            </h3>
+                            <span class="spantext">上市企业数</span>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-lg-4 col-sm-4 text-center">
+                            <h3 class="">
+                                <span>{{comFirm.tradeGeneral.office_company}}</span>
+                                <span class="text-xs">个</span>
+                            </h3>
+                            <span class="spantext">办公企业数</span>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 text-center">
+                            <h3 class="">
+                                <span>{{comFirm.tradeGeneral.assort_company}}</span>
+                                <span class="text-xs">个</span>
+                            </h3>
+                            <span class="spantext">配套商家数</span>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 text-center">
+                            <h3 class="">
+                                <span>{{comFirm.tradeGeneral.finance_company}}</span>
+                                <span class="text-xs">个</span>
+                            </h3>
+                            <span class="spantext">金融类企业数</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-4 text-center">
+                            <h3 class="">
+                                <span>{{comFirm.tradeGeneral.amount_invested}}</span>
+                                <span class="text-xs">亿元</span>
+                            </h3>
+                            <span class="spantext">总投资额</span>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 text-center">
+                            <h3 class="">
+                                <span>{{comFirm.tradeGeneral.annual_revenue}}</span>
+                                <span class="text-xs">亿元</span>
+                            </h3>
+                            <span class="spantext">年度产值</span>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                            <h3 class="">
+                                <span>{{comFirm.tradeGeneral.annual_tax}}</span>
+                                <span class="text-xs">亿元</span>
+                            </h3>
+                            <span class="spantext">年度税收</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <!-- <h4 class="font-bold">入住企业规模</h4>
+                     <div class="col-lg-4 col-sm-4 text-center m-b-lg">
+                         <h3>{{vm.company.companySize.smallCompanyNum || 0}}<span class="text-xs">家</span>
+                         </h3>
+                         <span class="spantext">小型企业</span>
+                     </div>
+                     <div class="col-lg-4 col-sm-4 text-center m-b-lg">
+                         <h3>{{vm.company.companySize.mediumCompanyNum || 0}}<span class="text-xs">家</span>
+                         </h3>
+                         <span class="spantext">中型企业</span>
+                     </div>
+                     <div class="col-lg-4 col-sm-4 text-center m-b-lg">
+                         <h3>{{vm.company.companySize.largeCompanyNum || 0}}<span class="text-xs">家</span>
+                         </h3>
+                         <span class="spantext">大型企业</span>
+                     </div>
+                     <div class="col-lg-4 col-sm-4 text-center m-b-lg">
+                         <h3>{{vm.company.companySize.doubleCompanyNum || 0}}<span class="text-xs">家</span>
+                         </h3>
+                         <span class="spantext">双创型企业</span>
+                     </div>
+                     <div class="col-lg-4 col-sm-4 text-center m-b-lg">
+                         <h3>{{vm.company.companySize.hatchCompanyNumEquity || 0 }}<span class="text-xs">家</span>
+                         </h3>
+                         <span class="spantext">孵化型企业</span>
+                     </div>-->
+                    <div class="clearfix">
+                        <h4 class="font-bold fl">产业聚集度变化</h4>
+                        <div class="marginTB10 fr">
+                            <span class="text-xs">本期</span>
+                            <span class="font24">{{comFirm.tradeFocus.annual_focus}}</span>
+                            <span class="text-xs">%</span>
+                            <span class="text-lg red marginL20">
+                          <i class="fa fa-arrow-up " aria-hidden="true"></i>
+                          {{comFirm.tradeFocus.annual_rise}}
+                    </span>
+                            <span class="text-xs red">%</span>
+                        </div>
+                    </div>
+                    <div style="height:200px;" ui-echarts="vm.focusData"></div>
+                    <div class="clearfix">
+                        <h4 class="font-bold fl">就业人数变化</h4>
+                        <div class="marginTB10 fr">
+                            <span class="text-xs">本期</span>
+                            <span class="font24">{{comFirm.tradeObtain.obtain_people}}</span>
+                            <span class="text-xs">人</span>
+                            <span class="text-lg red marginL20">
+                          <i class="fa fa-arrow-up " aria-hidden="true"></i>
+                          {{comFirm.tradeObtain.obtain_rise}}
+                    </span>
+                            <span class="text-xs red">人</span>
+                        </div>
+                    </div>
+                    <div class="m-b-md" style="height:200px;" ui-echarts="vm.employmentData"></div>
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <h4 class="font-bold">行业分类企业数占比</h4>
+                    <div style="height:300px;" ui-echarts="vm.option1">
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <h4 class="font-bold">行业分类面积占比</h4>
+                    <div style="height:300px;" ui-echarts="vm.option2">
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <h4 class="font-bold">上市企业概况</h4>
+                    <div style="height:300px;" ui-echarts="vm.companyData">
+                    </div>
+                </div>
+                <!-- <div class="col-lg-12 col-sm-12 b-b b-2x">
+                     <h4 class="font-bold">企业类型占比</h4>
+                     <div style="height:200px;" ui-echarts="vm.option1">
+                     </div>
+                 </div>
+                 <<div class="col-lg-12 col-sm-12 b-b b-2x">
+                     <h4 class="font-bold">行业分布占比</h4>
+                     <div style="height:200px;"
+                          ui-echarts="vm.option5" >
+                     </div>
+                 </div>
+                 <div class="col-lg-12 col-sm-12 b-b b-2x">
+                     <h4 class="font-bold">企业成立年限占比数</h4>
+                     <div style="height:200px;" ui-echarts="vm.option2">
+                     </div>
+                 </div>
+                 <div class="col-lg-12 col-sm-12 b-b b-2x">
+                     <h4 class="font-bold">产权比例</h4>
+                     <div style="height:200px;" ui-echarts="vm.option3">
+                     </div>
+                 </div>-->
+            </div>
+            <!--第几栋 第几层-->
+            <div ng-show="vm.show == 2">
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">入驻企业</h4>
+                    <div class="col-lg-12 col-sm-12 text-center m-b">
+                        <h3 class="blue">{{vm.company.totalCompany}}<span class="text-xs">家</span>
+                        </h3>
+                        <span class="spantext">企业总数</span>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.company.totalArea}}<span class="text-xs">m<sup>2</sup></span>
+                        </h3>
+                        <span class="spantext">总面积</span>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center ">
+                        <h3 class="blue">{{vm.company.totalEmployer}}<span class="text-xs">人</span>
+                        </h3>
+                        <span class="spantext">办公人数</span>
+                    </div>
+                    <!--<div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.company.totalArea}}<span class="text-xs">万元</span>
+                        </h3>
+                        <span class="spantext">总租金</span>
+                    </div>-->
+                    <div class="col-lg-4 col-sm-4 text-center m-b">
+                        <h3>{{vm.company.totalInvest}}<span class="text-xs">亿元</span>
+                        </h3>
+                        <span class="spantext">投资总额</span>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.company.totalPowerNum}}<span class="text-xs">kwh</span>
+                        </h3>
+                        <span class="spantext">总耗电量</span>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.company.totalWaterNum}}<span class="text-xs">m<sup>3</sup></span>
+                        </h3>
+                        <span class="spantext">总用水量</span>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center m-b">
+                        <h3>{{vm.company.totalEnergy}}<span class="text-xs">kwh</span>
+                        </h3>
+                        <span class="spantext">总能源量</span>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <h4 class="font-bold">产权比例</h4>
+                    <div style="height:200px;" ui-echarts="vm.option4">
+                    </div>
+                </div>
+            </div>
+            <!--具体的工位-->
+            <div ng-show="vm.show == 3">
+                <div class="col-lg-12 col-sm-12">
+                    <h4 class="font-bold">基本信息列表</h4>
+                    <table class="table">
+                        <thead class="title">
+                        <tr>
+                            <th>名称</th>
+                            <th>参数</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>企业名称</td>
+                            <td>{{vm.company.companyName}}</td>
+                        </tr>
+                        <tr>
+                            <td>办公面积</td>
+                            <td>{{vm.company.officeArea}}m<sup>2</sup></td>
+                        </tr>
+                        <tr>
+                            <td>办公人数</td>
+                            <td>{{vm.company.staffCount }}人</td>
+                        </tr>
+                        <tr>
+                            <td>注册资本</td>
+                            <td>{{vm.company.registerCapital }}万</td>
+                        </tr>
+                        <tr>
+                            <td>成立时间</td>
+                            <td>{{vm.company.registTime}}</td>
+                        </tr>
+                        <tr>
+                            <td>员工数量</td>
+                            <td>{{vm.company.staffCount }}人</td>
+                        </tr>
+                        <tr>
+                            <td>产权类型</td>
+                            <td>{{vm.company.propertyRightType}}</td>
+                        </tr>
+                        <tr>
+                            <td>所属行业</td>
+                            <td>{{vm.company.industryOwned}}</td>
+                        </tr>
+                        <tr>
+                            <td>主要产品</td>
+                            <td>{{vm.company.mainProduct}}</td>
+                        </tr>
+                        <!-- <tr>
+                            <td>年租金</td>
+                            <td>{{vm.company.officeArea}}万</td>
+                        </tr>-->
+                      <!--  <tr>
+                            <td>年电费</td>
+                            <td>{{vm.company.yearPower || 0}}元</td>
+                        </tr>
+                        <tr>
+                            <td>年水费</td>
+                            <td>{{vm.company.yearWater || 0}}元</td>
+                        </tr>
+                        <tr>
+                            <td>年能源费</td>
+                            <td>{{vm.company.yearEnergy || 0}}元</td>
+                        </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>

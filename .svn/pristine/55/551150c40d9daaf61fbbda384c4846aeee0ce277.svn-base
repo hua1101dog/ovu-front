@@ -1,0 +1,324 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">新增预定</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="meetingform" novalidate class="ng-pristine ng-invalid ng-invalid-required">
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label required">会议室名称：</label>
+            <div class="col-xs-5">
+                <select class="form-control" required ng-model="orderParam.boardroomId" ng-change="getOrderInfo()"
+                    ng-options="o.id as o.boardroomName for o in meetingList">
+                    <option value="">--请选择会议室名称--</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label required">联系人：</label>
+            <div class="col-xs-5">
+                <i class="icon-search"
+                    style="width: 20px;height: 20px;position: absolute;top: 7px;left: 20px; z-index: 999; background: url(../../../image/search_text.png) no-repeat; background-size: 100% 100%; cursor: pointer;"
+                    ng-click="setName(orderParam.contactMan)"></i>
+                <input type="text" id="focusShow" class="form-control awesomplete" required
+                    ng-change="setName(orderParam.contactMan)" ng-model="orderParam.contactMan" list="mylist"
+                    placeholder="请输入..." style="padding-left: 30px;" autocomplete="off" />
+                <datalist id="mylist">
+                    <option ng-repeat="item in staffList" value="{{item.name}}" ng-click="chooseOp(item)">
+                        {{item.parentCompany}}-{{item.deptName}}</option>
+                </datalist>
+                <!-- <input type="text" class="form-control" required  ng-model="item.sponsor" name="sponsor"  style="cursor: default;"/> -->
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label required">联系电话：</label>
+            <div class="col-xs-5">
+                <input type="text" ng-model="orderParam.contactPhone"
+                    class="form-control contactInfos ng-pristine ng-untouched ng-valid ng-empty" placeholder="请输入..."
+                    required>
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label class="col-xs-4 control-label required">预定日期：</label>
+            <div class="col-xs-5">
+                <input type="text" required ng-change="getOrderInfo()" class="form-control laydate-icon" ng-lay-date
+                    id="date1" min-date={{currentDate}} ng-model="orderParam.orderDate" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label">会议主题：</label>
+            <div class="col-xs-5">
+                <input type="text" ng-model="orderParam.theme"
+                    class="form-control contactInfos ng-pristine ng-untouched ng-valid ng-empty" maxlength="20"
+                    placeholder="请输入会议室主题,最多可输入20字">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">人数：</label>
+            <div class="col-xs-5">
+                <input type="number" ng-model="orderParam.peopleNum"
+                    class="form-control contactInfos ng-pristine ng-untouched ng-valid ng-empty" placeholder="请输入人数">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">会务：</label>
+            <div class="col-xs-5">
+                <label class="checkbox-inline">
+                    <input style="height: 0px;" type="checkbox" name="priceType" id="" ng-model="orderParam.priceType1"
+                        value="1"> <span style="padding: 0 5px;">矿泉水</span>
+                </label>
+                <label class="checkbox-inline">
+                    <input style="height: 0px;" type="checkbox" name="priceType" id="" ng-model="orderParam.priceType2"
+                        value="2"> <span style="padding: 0 5px;">茶水</span>
+                </label>
+                <label class="checkbox-inline">
+                    <input style="height: 0px;" type="checkbox" name="priceType" id="" ng-model="orderParam.priceType3"
+                        value="3"> <span style="padding: 0 5px;">果盘</span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group clearfix" style="height:auto;">
+            <label class="col-xs-4 control-label">备注：</label>
+            <div class="col-xs-5">
+                <textarea style="resize: none;width: 400px;line-height:20px;border:1px solid #bbb;border-radius: 4px;"
+                    rows="6" ng-model="orderParam.remark" cols="70" maxlength="200"
+                    placeholder="请输入备注,最多可输入200字"></textarea>
+            </div>
+        </div>
+        <div class="form-group" ng-if="orderParam.orderDate">
+            <div class="col-xs-12 officeRoomOrdering">
+                <div class="duration">
+                    <ul style="margin-bottom: 0px;" class="top-ul">
+                        <li>8:30</li>
+                        <li>9:00</li>
+                        <li>9:30</li>
+                        <li>10:00</li>
+                        <li>10:30</li>
+                        <li>11:00</li>
+                        <li>11:30</li>
+                        <li>12:00</li>
+                        <li>12:30</li>
+                        <li>13:00</li>
+                        <li>13:30</li>
+                        <li>14:00</li>
+                        <li>14:30</li>
+                        <li>15:00</li>
+                        <li>15:30</li>
+                        <li>16:00</li>
+                        <li>16:30</li>
+                        <li>17:00</li>
+                        <li>17:30</li>
+                        <li>18:00</li>
+                    </ul>
+                    <ul class="choseTime center-ul">
+                        <li ng-repeat="item in centerUlList"></li>
+                    </ul>
+                    <ul class="chooseDuration bottom-ul">
+                        <li ng-class="{'selected': meeting.allTimeCopy['8:30'] == 1,'notSelected': meeting.allTime['8:30'] != 1 && meeting.allTimeCopy['8:30'] != 1, 'timeNow': meeting.allTime['8:30'] == 1}"
+                            ng-click="selectTime(meeting.allTime['8:30'] == 1,{time:'8:30',number:1},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['9:00'] == 1,'notSelected': meeting.allTime['9:00'] != 1 && meeting.allTimeCopy['9:00'] != 1, 'timeNow': meeting.allTime['9:00'] == 1}"
+                            ng-click="selectTime(meeting.allTime['9:00'] == 1,{time:'9:00',number:2},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['9:30'] == 1,'notSelected': meeting.allTime['9:30'] != 1 && meeting.allTimeCopy['9:30'] != 1, 'timeNow': meeting.allTime['9:30'] == 1}"
+                            ng-click="selectTime(meeting.allTime['9:30'] == 1,{time:'9:30',number:3},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['10:00'] == 1,'notSelected': meeting.allTime['10:00'] != 1 && meeting.allTimeCopy['10:00'] != 1, 'timeNow': meeting.allTime['10:00'] == 1}"
+                            ng-click="selectTime(meeting.allTime['10:00'] == 1,{time:'10:00',number:4},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['10:30'] == 1,'notSelected': meeting.allTime['10:30'] != 1 && meeting.allTimeCopy['10:30'] != 1, 'timeNow': meeting.allTime['10:30'] == 1}"
+                            ng-click="selectTime(meeting.allTime['10:30'] == 1,{time:'10:30',number:5},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['11:00'] == 1,'notSelected': meeting.allTime['11:00'] != 1 && meeting.allTimeCopy['11:00'] != 1, 'timeNow': meeting.allTime['11:00'] == 1}"
+                            ng-click="selectTime(meeting.allTime['11:00'] == 1,{time:'11:00',number:6},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['11:30'] == 1,'notSelected': meeting.allTime['11:30'] != 1 && meeting.allTimeCopy['11:30'] != 1, 'timeNow': meeting.allTime['11:30'] == 1}"
+                            ng-click="selectTime(meeting.allTime['11:30'] == 1,{time:'11:30',number:7},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['12:00'] == 1,'notSelected': meeting.allTime['12:00'] != 1 && meeting.allTimeCopy['12:00'] != 1, 'timeNow': meeting.allTime['12:00'] == 1}"
+                            ng-click="selectTime(meeting.allTime['12:00'] == 1,{time:'12:00',number:8},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['12:30'] == 1,'notSelected': meeting.allTime['12:30'] != 1 && meeting.allTimeCopy['12:30'] != 1, 'timeNow': meeting.allTime['12:30'] == 1}"
+                            ng-click="selectTime(meeting.allTime['12:30'] == 1,{time:'12:30',number:9},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['13:00'] == 1,'notSelected': meeting.allTime['13:00'] != 1 && meeting.allTimeCopy['13:00'] != 1, 'timeNow': meeting.allTime['13:00'] == 1}"
+                            ng-click="selectTime(meeting.allTime['13:00'] == 1,{time:'13:00',number:10},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['13:30'] == 1,'notSelected': meeting.allTime['13:30'] != 1 && meeting.allTimeCopy['13:30'] != 1, 'timeNow': meeting.allTime['13:30'] == 1}"
+                            ng-click="selectTime(meeting.allTime['13:30'] == 1,{time:'13:30',number:11},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['14:00'] == 1,'notSelected': meeting.allTime['14:00'] != 1 && meeting.allTimeCopy['14:00'] != 1, 'timeNow': meeting.allTime['14:00'] == 1}"
+                            ng-click="selectTime(meeting.allTime['14:00'] == 1,{time:'14:00',number:12},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['14:30'] == 1,'notSelected': meeting.allTime['14:30'] != 1 && meeting.allTimeCopy['14:30'] != 1, 'timeNow': meeting.allTime['14:30'] == 1}"
+                            ng-click="selectTime(meeting.allTime['14:30'] == 1,{time:'14:30',number:13},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['15:00'] == 1,'notSelected': meeting.allTime['15:00'] != 1 && meeting.allTimeCopy['15:00'] != 1, 'timeNow': meeting.allTime['15:00'] == 1}"
+                            ng-click="selectTime(meeting.allTime['15:00'] == 1,{time:'15:00',number:14},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['15:30'] == 1,'notSelected': meeting.allTime['15:30'] != 1 && meeting.allTimeCopy['15:30'] != 1, 'timeNow': meeting.allTime['15:30'] == 1}"
+                            ng-click="selectTime(meeting.allTime['15:30'] == 1,{time:'15:30',number:15},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['16:00'] == 1,'notSelected': meeting.allTime['16:00'] != 1 && meeting.allTimeCopy['16:00'] != 1, 'timeNow': meeting.allTime['16:00'] == 1}"
+                            ng-click="selectTime(meeting.allTime['16:00'] == 1,{time:'16:00',number:16},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['16:30'] == 1,'notSelected': meeting.allTime['16:30'] != 1 && meeting.allTimeCopy['16:30'] != 1, 'timeNow': meeting.allTime['16:30'] == 1}"
+                            ng-click="selectTime(meeting.allTime['16:30'] == 1,{time:'16:30',number:17},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['17:00'] == 1,'notSelected': meeting.allTime['17:00'] != 1 && meeting.allTimeCopy['17:00'] != 1, 'timeNow': meeting.allTime['17:00'] == 1}"
+                            ng-click="selectTime(meeting.allTime['17:00'] == 1,{time:'17:00',number:18},meeting);"></li>
+                        <li ng-class="{'selected': meeting.allTimeCopy['17:30'] == 1,'notSelected': meeting.allTime['17:30'] != 1 && meeting.allTimeCopy['17:30'] != 1, 'timeNow': meeting.allTime['17:30'] == 1}"
+                            ng-click="selectTime(meeting.allTime['17:30'] == 1,{time:'17:30',number:19},meeting);"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer" style="margin-top:20px;border: none">
+    <button class="btn btn-primary" ng-click="saveOrder(meetingform)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .officeRoomOrdering .duration {
+
+        height: 40px;
+        padding-left: 40px;
+        /*border-left:1px solid #ddd ;
+	border-right:1px solid #ddd ;*/
+    }
+
+    .officeRoomOrdering ul {
+        float: left;
+        height: 40px;
+        /* width: 100%; */
+        border: 1px solid #ddd;
+        /* margin-left: 3%; */
+        /*float: left;*/
+    }
+
+    .officeRoomOrdering ul li {
+        float: left;
+        height: 100%;
+        width: 40px;
+        border-right: 1px solid #ddd;
+        text-align: left;
+        line-height: 38px;
+        background: #fff;
+        cursor: pointer;
+    }
+
+    .officeRoomOrdering ul li:last-child {
+        border: none;
+        width: 40px;
+    }
+
+    /* .choseTime .selected,
+    .chooseDuration .selected {
+        background-color: #1494FF;
+    } */
+
+    .choseTime .timeNow,
+    .chooseDuration .timeNow {
+        background-color: #ccc !important;
+    }
+
+    .choseTime .notSelected,
+    .chooseDuration .notSelected {
+        background-color: #fff;
+    }
+
+    /* .notClick{
+	color:#666 !important;
+	border: 1px solid #dedede !important;
+}
+a.no-btn:hover, button.no-btn:hover, input.no-btn:hover{
+	color:#666 !important;
+	border: 1px solid #dedede;
+	background-color: #fff !important;
+}
+.isHW{
+	color: #1494FF;
+	border: 1px solid #1494FF;
+}
+.notHW{
+	color: rgb(102, 102, 102); 
+	border: 1px solid rgb(221, 221, 221);
+	
+} */
+    .top-ul {
+        margin-bottom: 0px;
+        position: absolute;
+        margin-left: -10px;
+        border: none !important;
+
+    }
+
+    .top-ul li {
+        border: none !important;
+    }
+
+    .center-ul {
+        height: 5px !important;
+        border-top: none !important;
+        margin-top: 40px;
+        position: absolute;
+    }
+
+    .center-ul li {
+        height: 5px !important;
+        line-height: 5px !important;
+    }
+
+    .center-ul li:last-child {
+        border-right: none !important;
+    }
+
+    .bottom-ul {
+        margin-top: 45px;
+        position: absolute;
+    }
+
+    .bottom-ul li:last-child {
+        border-right: none !important;
+    }
+
+    .choseTime .selected,
+    .chooseDuration .selected {
+        background-color: #1494FF;
+    }
+
+    .choseTime .timeNow,
+    .chooseDuration .timeNow {
+        background-color: #ccc !important;
+    }
+
+    .choseTime .notSelected,
+    .chooseDuration .notSelected {
+        background-color: #fff;
+    }
+
+    .notClick {
+        color: #666 !important;
+        border: 1px solid #dedede !important;
+    }
+
+    input.laydate-icon {
+        background: url(../../../image/dateImg.png) no-repeat right 10px center;
+    }
+
+    ul li {
+        outline: none
+    }
+
+    input[type=checkbox]:after {
+        content: "\2714";
+        display: block;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 14px;
+        font-size: 16px;
+        color: #fff;
+        border: 2px solid #9f9f9f;
+        background-color: #fff;
+        box-sizing: border-box;
+        border-radius: 5px;
+        margin-left: -1px;
+        margin-top: -4px;
+    }
+
+    input[type=checkbox]:checked:after {
+        border-color: #1494FF;
+        color: #1494FF;
+        margin-right: 20px;
+    }
+
+</style>

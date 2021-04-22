@@ -1,0 +1,209 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}试卷</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label required">试卷名称：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" required ng-model="item.name" name="name" maxlength="200"/>
+                    </div>
+                    <label class="col-xs-2 control-label required">考试时间：</label>
+                    <div class="col-xs-3 input-group">
+                        <input type="text" class="form-control" required ng-model="item.time" name="time" placeholder="1-120的整数" ng-pattern="/^[1-9]\d*$/" min="1" max="120" required/>
+                        <label class="input-group-addon">分钟</label>
+
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label required">考试要点：</label>
+                    <div class="col-xs-10">
+                        <textarea class="form-control" style="resize: vertical" required ng-model="item.points" name="points" rows="3"  maxlength="500"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--试卷题目 -->
+        <div class="panel panel-default">
+            <div class="panel-heading">试卷题目
+                <button class="btn btn-primary pull-right" ng-click="selectSubject()">增加题目</button>
+            </div>
+            <div class="panel-body">
+                <div class="form-group" >
+                    <div class="row detail" ng-repeat="detail in item.subjectDetail">
+                        <div>
+                            <div class="form-group" style="padding-top: 1px">
+                                <div class="col-xs-2"><span class="tihao">题号：{{$index+1}}</span></div>
+                                <div class="col-xs-7"></div>
+                                <div class="col-xs-1"><span class="leibie">{{detail.type|keyToValue:subjectTypeDict}}</span></div>
+                                <div class="col-xs-2" style="text-align: right">
+                                    <i role="button" ng-hide="$index==0" ng-click="sort($index-1,$index)" class="glyphicon glyphicon-upload" style="font-size: 25px"></i>
+                                    <i role="button" ng-hide="$index==(item.subjectDetail.length-1)" ng-click="sort($index,$index+1)" class="glyphicon glyphicon-download" style="font-size: 25px"></i>
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <label class="col-xs-2 control-label">题目：</label>
+                                <div class="col-xs-10 pt7">
+                                    {{detail.question}}
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="detail.tempImages.length>0">
+                                <label class="col-xs-2 control-label"></label>
+                                <div class="col-xs-10">
+                                    <div class="photoWraper" ng-repeat="p in detail.tempImages track by $index">
+                                        <img width="50" height="50" onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p,100)}}" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--单选题-->
+                            <div class="form-group" ng-if="detail.type==1">
+                                <label class="col-xs-2 control-label">选项：</label>
+                                <div class="col-xs-8 pt7">
+                                    <span ng-repeat="o in detail.optionDetail" style="margin-right: 10px">
+                                        <input type="radio" disabled="disabled" />{{o.option}}.&nbsp;{{o.optionContent}}
+                                    </span>
+                                </div>
+                            </div>
+                            <!--多选题-->
+                            <div class="form-group" ng-if="detail.type==2">
+                                <label class="col-xs-2 control-label">选项：</label>
+                                <div class="col-xs-8 pt7">
+                                    <span ng-repeat="o in detail.optionDetail|orderBy:'option'" style="margin-right: 10px">
+                                        <input type="checkbox" disabled="disabled" />{{o.option}}.&nbsp;{{o.optionContent}}
+                                    </span>
+                                </div>
+                            </div>
+                            <!--判断题-->
+                            <div class="form-group" ng-if="detail.type==3">
+                                <label class="col-xs-2 control-label">选项：</label>
+                                <div class="col-xs-8 pt7">
+                                    <input type="radio" disabled="disabled" />正确
+                                    <span style="margin-right: 10px"></span>
+                                    <input type="radio" disabled="disabled" />错误
+                                </div>
+                            </div>
+                            <!--问答题-->
+                            <div class="form-group" ng-if="detail.type==5">
+                                <label class="col-xs-2 control-label">作答：</label>
+                                <div class="col-xs-8">
+                                    <textarea class="form-control" rows="3" readonly>答：</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label">答案：</label>
+                                <div class="col-xs-8 pt7" style="font-family: monospace;color:red">
+                                    {{detail.answer}}
+                                </div>
+                            </div>
+                            <div>
+                                <span class="pull-right" style="margin-right: 5px">
+                                    <a class="btn-link" href='javascript:void(0)' ng-click='del(detail)'>删除</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--题目类型及分值设定 -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                题目类型及分值设定
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered" style="margin-top: 10px;">
+                    <thead>
+                    <tr>
+                        <th>题目类型</th>
+                        <th>单选题</th>
+                        <th>多选题</th>
+                        <th>判断题</th>
+                        <th>填空题</th>
+                        <th>问答题</th>
+                        <th>统计</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="text-center">数量</td>
+                        <td class="text-center">{{numscore.num.num1}}</td>
+                        <td class="text-center">{{numscore.num.num2}}</td>
+                        <td class="text-center">{{numscore.num.num3}}</td>
+                        <td class="text-center">{{numscore.num.num4}}</td>
+                        <td class="text-center">{{numscore.num.num5}}</td>
+                        <td class="text-center">{{numscore.totalNum}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">设定分值</td>
+                        <td><input type="number" class="form-control" ng-model="numscore.score.score1" ng-change="calcluScore()" ng-pattern="/^[0-9]\d*$/" placeholder="0-100的整数" min="0" max="100" required/></td>
+                        <td><input type="number" class="form-control" ng-model="numscore.score.score2" ng-change="calcluScore()" ng-pattern="/^[0-9]\d*$/" placeholder="0-100的整数" min="0" max="100" required/></td>
+                        <td><input type="number" class="form-control" ng-model="numscore.score.score3" ng-change="calcluScore()" ng-pattern="/^[0-9]\d*$/" placeholder="0-100的整数" min="0" max="100" required/></td>
+                        <td><input type="number" class="form-control" ng-model="numscore.score.score4" ng-change="calcluScore()" ng-pattern="/^[0-9]\d*$/" placeholder="0-100的整数" min="0" max="100" required/></td>
+                        <td><input type="number" class="form-control" ng-model="numscore.score.score5" ng-change="calcluScore()" ng-pattern="/^[0-9]\d*$/" placeholder="0-100的整数" min="0" max="100" required/></td>
+                        <td class="text-center">{{numscore.totalScore}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--考试人群 -->
+        <div class="x_panel">
+            <div class="panel-body">
+                <button class="btn btn-primary " ng-click="selectPerson()">+选择考试人群</button>
+                <div ng-if="item.type==1" class="form-group">
+                    <label class="col-xs-2 control-label required">项目：</label>
+                    <div class="col-xs-10 pt7">
+                        {{item.parkNames}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">部门：</label>
+                    <div class="col-xs-10 pt7">
+                        {{item.deptNames}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">人员：</label>
+                    <div class="col-xs-10 pt7">
+                        {{item.personNames}}
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .tihao{
+        background: lightgray;
+        padding: 3px;
+        border-radius: 5px;
+    }
+    .leibie{
+        background: lightskyblue;
+        padding: 1px;
+        border-radius: 10px;
+    }
+    .row.detail{
+        margin-left: 3px;
+        margin-right: 3px;
+        margin-bottom: 3px;
+        border: 1px solid transparent;
+        border-color: #ddd;
+        border-radius: 3px;
+    }
+    .pt7{
+        padding-top: 7px;
+    }
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

@@ -1,0 +1,97 @@
+<!-- 服务对象页面 -->
+<div class="row m-t-sm">
+	<div class="col-lg-4 col-sm-6 col-xs-12">
+		<div class="x_panel" style="height: 300px;">
+			<div class="x_title">服务项目
+				<div class="pull-right">
+					<b class="font-16">{{vm.index2.project.total | number}}</b>个
+				</div>
+			</div>
+			<div class="x_content" style="z-index: 1;" >
+				<div id="services-chart" 
+					style="height: 250px;width:100%;" 
+					ui-echarts="vm.index2ServiceOption" >
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-4 col-sm-6 col-xs-12">
+		<div class="x_panel" style="height: 300px;">
+			<div class="x_title">服务电梯数
+				<div class="pull-right">
+					<b class="font-16">{{vm.index2.lift.total | number}}</b>台
+				</div>
+			</div>
+			<div class="x_content" style="z-index: 1">
+				<div id="service-elevator-chart" 
+					style="height:250px;width:100%;" 
+					ui-echarts="vm.index2ElevatorOption" >
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-4 col-sm-12 col-xs-12">
+		<div class="x_panel" style=" height:300px; ">
+			<div class="x_title">服务电梯累计运行 </div>
+			<div class="x_content" style="z-index: 1">
+				<div class="col-xs-12 text-center">
+					<span class="font-size-lg red" style="line-height: 200px;font-size:30px;">{{vm.index2.lift.safeRunningDays | number}}</span>
+					<span>天</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div  class="row">
+	<div class="col-sm-4 col-xs-12">
+		<div class="x_panel" style=" height: 500px; ">
+			<div class="x_title">服务项目所在地分布 </div>
+			<div class="x_content" style="z-index: 1">
+				 <table class="table table-bordered table-hover table-condensed ">
+                       <thead>
+                           <tr>
+                               <th>序号</th>
+                               <th>所在地</th>
+                               <th>项目数</th>
+                               <th>电梯数</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <tr ng-repeat="region in vm.index2.regionList track by $index">
+                               <td>{{$index+1}}</td>
+                               <td>{{region.name}}</td>
+                               <td>{{region.projectTotal}}</td>
+                               <td>{{region.liftTotal}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-8 col-xs-12">
+		<div class="x_panel" style="height: 500px;padding:0">
+			<div ui-map="vm.map" style="height:500px; "
+					ui-options="vm.mapOptions" ui-map-cache="allMap"
+					ui-event="{'map-click':'vm.clickMap($event,$params)'}">
+		 	 </div>
+		     <div ng-repeat="marker in vm.markers" 
+		    	ui-map-marker="vm.markers[$index]" 
+		    	ui-event="{'map-mouseover':'vm.mouseoverMaker($event,$params,marker)',
+		    	'map-mouseout':'vm.myInfoWindow.close()'}">
+		     </div>
+		      <div ui-map-info-window="vm.myInfoWindow" style="width:190px">
+			      	<div class="x_title">{{vm.markerData.name}}</div>
+			      	<div class="x_content" style="z-index: 1">
+		           		<div class="row">
+		           			<label class="col-xs-6 control-label ">项目数：</label>
+		           			<label class="col-xs-6 control-label ">{{vm.markerData.projectTotal}}个</label>
+		           		</div>
+		           		<div class="row">
+		           			<label class="col-xs-6 control-label">电梯数：</label>
+		           			<label class="col-xs-6 control-label">{{vm.markerData.liftTotal}}台</label>
+		           		</div>
+					</div>
+		        </div>
+		</div>
+	</div>
+</div>

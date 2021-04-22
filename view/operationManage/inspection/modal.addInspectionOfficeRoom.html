@@ -1,0 +1,221 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="cancel()">×</button>
+  <h4 class="modal-title">{{item.id?'编辑':'添加'}}办公巡检</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+  <form name="form" novalidate>
+    <div class="form-group">
+      <label class="col-md-3 control-label required">分期：</label>
+      <div class="col-md-5">
+        <select class="form-control col-md-2" required ng-model="item.stageId" ng-change="selectStage()">
+          <option value="">--请选择--</option>
+          <option ng-repeat="stage in stageList track by $index" value="{{stage.id}}">{{stage.text}}</option>
+        </select>
+
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-3 control-label required">楼栋：</label>
+      <div class="col-md-5">
+        <select class="form-control col-md-2" required ng-options="build.buildName for build in buildList" required
+          ng-model="build" ng-change="selectBuild(build)">
+          <option value="">--请选择--</option>
+          <!-- <option ng-repeat="build in buildList track by $index" value="{{build}}">{{build.buildName}}
+                    </option>-->
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-3 control-label required">单元：</label>
+      <div class="col-md-5">
+        <select class="form-control col-md-2" required ng-model="item.unitNo" ng-change="selectUnit()">
+          <option value="">--请选择--</option>
+          <option ng-repeat="unit in unitList track by $index" value="{{unit}}">{{unit}}单元</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-3 control-label required">楼层：</label>
+      <div class="col-md-5">
+        <select class="form-control col-md-2" required ng-model="item.groundNo" ng-change="selectGround()">
+          <option value="">--请选择--</option>
+          <option ng-repeat="floor in floorList track by $index" value="{{floor}}">{{floor}}层</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-3 control-label required">房屋：</label>
+      <div class="col-md-5">
+        <select class="form-control col-md-2" required ng-model="item.houseId" ng-change="addValue(item.houseId)">
+          <option value="">--请选择--</option>
+          <option ng-repeat="house in houseList track by $index" value="{{house.id}}">{{house.houseName}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-3 control-label required">业态类型：</label>
+      <div class="col-md-5">
+        <select class="form-control col-md-2" required ng-model="item.businessType">
+          <option value="">--请选择--</option>
+          <option value="3">办公</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-3 control-label required">房屋用途：</label>
+      <div class="col-md-5">
+        <select class="form-control col-md-2" required ng-model="item.housePurpose">
+          <option value="">--请选择--</option>
+          <option value="1">自持自用</option>
+          <option value="2">自持租赁</option>
+          <option value="3">业主自用</option>
+          <option value="4">业主转租</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-3 control-label">租赁单价（元/月）：</label>
+      <div class="col-xs-5">
+        <input type="text" class="form-control" ng-pattern="/^[1-9]\d*\.?\d*$/" ng-model="item.rentUnitPrice"
+          name="longitude" placeholder="仅可填数字" />
+      </div>
+    </div>
+
+
+
+    <div class="form-group">
+      <label class="col-xs-3 control-label ">租赁周期：</label>
+      <div class="col-xs-7 form-inline">
+        <input type="datetime" class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty"
+          ng-model="item.rentStartTime" id="search_date1" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-#{%d+1} 00:00',maxDate:'#F{$dp.$D(\'search_date2\');}'})">
+                                                                            至
+                        <input type="datetime"  class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.rentEndTime" id="search_date2" 
+                        onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'search_date1\');}'})">
+            </div>
+            <span ng-if="item.rentStartTime && item.rentEndTime && item.rentEndTime > item.rentStartTime" style="margin-left: -125px;margin-top: 20px; line-height: 35px; ">共{{getLeaseMonth(item.rentStartTime, item.rentEndTime)}}个月</span>
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label">租赁总价（元）：</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control" ng-pattern="/^[1-9]\d*\.?\d*$/" ng-model="item.rentTotalPrice"  name="longitude" placeholder="仅可填数字" />
+             
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label">合同关联乙方：</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control"  ng-model="item.relationPerson" name="relationPerson" readonly/>
+            </div>
+        </div>
+
+        
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">入驻方：</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control" ng-maxlength="20" ng-model="item.enterName"
+                       name="enterName" readonly required/>
+                 <i class=" glyphicon glyphicon-search" ng-click="openResidents()" style="position: absolute;left:98%;top:8px"></i> 
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">联系方式：</label>
+            <div class="col-xs-5">
+                <input type="text" name="phone" ng-model="item.phone" required
+                       maxLength="20" class="form-control col-md-7 col-xs-12" readonly>
+            </div>
+        </div>
+
+
+
+        <div class="form-group" style="color:red"
+             ng-show="form.enterName.$invalid && form.enterName.$dirty && form.enterName.$error.maxlength">
+            <span class="col-xs-3"></span><span class="col-xs-5" ng-show="form.enterName.$error.maxlength">名称长度限20个字符</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label ">品牌名称：</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control"  ng-model="item.brand" name="brand"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">品牌照片：</label>
+            <label class="col-xs-9 control-label" style="color: red;font-weight: normal;text-align: left;">
+                注：最多只能上传三张图片！
+            </label>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label"></label>
+            <div class="col-xs-9">
+                <div class="photoWraper" ng-repeat="pic in item.brandPics track by $index">
+                    <img onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(pic)}}"/>
+                    <a role="button" ng-click="delPhoto(item.brandPics, pic)"><i class="glyphicon glyphicon-remove"></i></a>
+                </div>
+                <img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(item.brandPics,3)"
+                     title="上传图片">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">空间经度：</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control" ng-pattern="/^[1-9]\d*\.?\d*$/" ng-model="item.longitude"  name="longitude" placeholder="仅可填数字" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">空间纬度：</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control" ng-pattern="/^[1-9]\d*\.?\d*$/" ng-model="item.latitude"  name="latitude" placeholder="仅可填数字" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">巡检时间：</label>
+            <div class="col-xs-7">
+                <input style="width: 140px;" type="datetime" class="form-control Wdate" required ng-model="item.inspectionTime" placeholder="巡检时间" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">巡检照片：</label>
+            <label class="col-xs-9 control-label" style="color: red;font-weight: normal;text-align: left;">
+                注：最多只能上传三张图片！
+            </label>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label"><!-- 上传照片： --></label>
+            <div class="col-xs-9">
+                <div class="photoWraper" ng-repeat="p in item.pics track by $index">
+                    <img onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(p)}}"/>
+                    <a role="button" ng-click="delPhoto(item.pics, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                </div>
+                <img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(item.pics,3)"
+                     title="上传图片">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">备注：</label>
+            <div class="col-xs-5">
+                <textarea cols="30px" class="form-control" ng-model="item.remark" name="remark"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="saveInspection(form,item)" ng-disabled="count==2">保存</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

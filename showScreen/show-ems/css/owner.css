@@ -1,0 +1,130 @@
+body,h1,h2,h3,span,table,form{
+    padding: 0px;
+    margin: 0px;
+}
+body{
+    background-color: #121B2C;
+    padding: 0 50px;
+  
+}
+.main{
+    height: 85%;
+   
+}
+
+.head{
+    width: 100%;
+    height: 15%;
+    
+}
+
+.main .card{
+    height: 25%;
+    margin-top: 70px;
+}
+.head .title{
+ transform: translate(50%);
+   margin-top: 20px;
+   height: 50%;
+   background-color: #1C263F;
+   position: relative;
+   box-shadow: 1px 0px 5px 2px #28445d inset;
+   position: relative;
+   border-radius: 10px;
+
+}
+
+.triangle-s{
+    height: 0;
+    width: 0;
+    border-color:  transparent transparent #131A2C #131A2C ;
+   border-style:solid;
+   border-width: 60px;
+    position: absolute;
+    left: 0;
+ bottom:0 ;
+}
+.triangle-s2{
+    height: 0;
+    width: 0;
+    border-color:  transparent  #131A2C #131A2C transparent;
+   border-style:solid;
+   border-width: 60px;
+    position: absolute;
+    right: 0;
+   bottom:0 
+}
+.head .title h2{
+    text-align: center;
+    line-height: 65px;
+    color: #DDE9FC;
+    font-family: "微软雅黑";
+    
+}
+
+.p-t{
+   padding-top: 50px;
+}
+.del{
+    
+    font-family: "微软雅黑";
+    color: #DDE9FC;
+}
+.ownTol{
+
+height: 120px;
+width:100%;  
+background-color: #1C263F;
+ position: relative;
+box-shadow: 1px 0px 5px 2px #28445d inset;
+border-radius: 3px
+}
+.ownTol .triangle-L{
+    height: 0;
+    width: 0;
+    border-color: #131A2C transparent transparent #131A2C;
+   border-style:solid;
+   border-width: 16px;
+    position: absolute;
+    left: 0;
+    top:0;
+}
+.ownTol .triangle-B{
+    height: 0;
+    width: 0;
+    border-color:  #131A2C transparent transparent #131A2C;
+   border-style:solid;
+   border-width: 16px;
+     position: absolute;
+     right: 0px;
+     bottom: 0px;
+     transform: rotate(180deg);
+}
+
+.ownTol .del{
+    font-size: 20px;
+    text-align: center;
+    font-weight: 700;
+    padding-top: 20px;
+}
+.ownTol .num{
+    text-align: center;
+}
+.ownTol .count{
+    color: #FA442F;
+    font-weight: 700px;
+    font-size: 40px;
+}
+.ownTol .item{
+    color: #FA442F; 
+    font-size: 10px;
+}
+
+.tab{
+    height: 48%;
+    background-color: #171F34;
+    box-shadow: 1px 0px 5px 2px #28445d inset;
+    border-radius: 3px;
+    border: 0px
+    
+}

@@ -1,0 +1,13 @@
+<div class="map-area">
+    <!-- 地图 -->
+    <div class="panel panel-default" style="margin-bottom:0">
+        <div class="panel-body" style="padding:0;">
+            <div ng-if="$ctrl.showGaode">
+                <gaode-map on-icon-click="$ctrl.toIndoor($event)" gaode-data="$ctrl.gaodeData"></gaode-map>
+            </div>
+            <div ng-if="$ctrl.showIndoor">
+                <indoor-map on-back-to-gaode="$ctrl.toGaode($event)" indoor-data="$ctrl.indoorData"></indoor-map>
+            </div>
+        </div>
+    </div>
+</div>

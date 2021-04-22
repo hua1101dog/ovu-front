@@ -1,0 +1,62 @@
+<div>
+    <div class="panel panel-default" style="display: grid;">
+        <div class="panel-heading">工作计划列表
+        
+        </div>
+        <div class="panel-body" style="overflow: auto;">
+            <table class="table table-hover text-left" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th>项目名称</th>
+                        <th>项目工作任务</th>
+                        <th ng-if="curTab=='dsp'">提交说明</th>
+                        <th ng-if="curTab!=='dsp'">审批说明</th>
+                        <th>提交时间</th>
+                        <th>提交人</th>
+                        <th>联系方式</th>
+                        <th ng-if="curTab=='dsp'">操作</th>
+                        <th ng-if="curTab!=='dsp'">审批人</th>
+                        <th ng-if="curTab!=='dsp'">审批时间</th>
+                        <th ng-if="curTab!=='dsp'">审批意见</th>
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">
+                            {{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.parkName}}</td>
+                        <td>{{item.planName}}</td>
+                        <td ng-if="curTab=='dsp'">{{item.comment}}</td>
+                        <td ng-if="curTab!=='dsp'">{{item.remark}}</td>
+                        <td >{{item.submitTime}}</td>
+                        <td >{{item.person.name}}</td>
+                        <td  >{{item.person.phone}}</td>
+                       
+                
+                        <td ng-if="curTab=='dsp'" ><a href='javascript:void(0)' ng-click='showModal(item)'
+                            class='btn btn-xs btn-link'> 审批</a>
+                       </td>
+                       
+                        <td ng-if="curTab!=='dsp'">{{item.approvedPerson.name}}</td>
+                        <td ng-if="curTab!=='dsp'">{{item.updateTime}}</td>
+                       
+                        <td ng-if="curTab!=='dsp'" ><a href='javascript:void(0)' ng-click='showModal(item,true)'
+                            class='btn btn-xs btn-link'> 查看详情</a>
+                           </td>
+                  
+                       
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix" ng-if="pageModel.data && pageModel.data.length">
+                <page-pro page-model="pageModel"></page-pro>
+            </div>
+        </div>
+    </div>
+
+</div>

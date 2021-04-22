@@ -1,0 +1,23 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">商户申请管理</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+	<img src="/view/crowdSource/img/guide.png">
+	<div class="content-div">
+		<p><span class="title-color">店铺名称：</span><span class="demandTitle-color">{{item.name}}</span></p>
+		<p><span class="title-color">店铺介绍：</span><span class="content-color">{{item.introduce}}</span></p>
+		<!--<p><span class="title-color">商品品牌：</span><span class="content-color">{{item.name}}</span></p>-->
+		<!--<p><span class="title-color">商品类型：</span><span class="content-color">{{item.name}}</span></p>-->
+		<p><span class="title-color">商户状态：</span><span class="content-color">{{item.auditStatusName}}</span></p>
+		<p><span class="title-color">联系人 ：</span><span class="content-color">{{item.sellername}}</span></p>
+		<p><span class="title-color">联系电话：</span><span class="content-color">{{item.sellerphone}}</span></p>
+		<!--<p><span class="title-color">电子邮箱：</span><span class="content-color">{{item.sellerphone}}</span></p>-->
+		<p><span class="title-color">商铺LOGO：</span><span class="content-color"><img ng-src="{{item.logoImgUrl}}" ng-click="pimg($event)" width="120px" height="120px"/></span></p>
+		<p><span class="title-color">营业执照副本：</span><span class="content-color"><img ng-src="{{item.licenceImgUrl}}" ng-click="pimg($event)" width="120px" height="120px"/></span></p>
+		<!-- <p><span class="title-color">税务登记证副本：</span><span class="content-color"><img ng-src="{{item.taxImgUrl}}" ng-click="pimg($event)" width="120px" height="120px"/></span></p> -->
+	</div>
+</div>
+
+<!--  查看大图-->
+<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" style="border:5px solid #fff;" src="" /></div></div>

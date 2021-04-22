@@ -1,0 +1,174 @@
+<div class="processForm">
+    <div class="applicationInfo">
+        <h4>【退租申请】业主房屋退租申请</h4>
+        <!-- 退租申请 -->
+        <div class="msgList">
+            <div class="msg-group clearfix">
+                <p>申请信息</p>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">客户名称</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss" ng-attr-title="{{search.customName}}">{{search.customName}}</span>
+                </div>
+                <label class="col-xs-2">联系人</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss" ng-attr-title="{{search.linkman}}">{{search.linkman}}</span>
+                </div>
+                <label class="col-xs-2">联系电话</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss" ng-attr-title="{{search.telephone}}">{{search.telephone}}</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">申请时间</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss" ng-attr-title="{{search.createTime}}">{{search.createTime}}</span>
+                </div>
+                <label class="col-xs-2">租赁房号</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss" ng-attr-title="{{search.rentalHouseNo}}">{{search.rentalHouseNo}}</span>
+                </div>
+                <label class="col-xs-2">租赁面积</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss" ng-attr-title="{{search.rentalHouseArea}}">{{search.rentalHouseArea}}
+                        ㎡</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">租赁期限</label>
+                <div class="col-xs-10">
+                    <span class="ellipsiss" ng-attr-title="{{search.rentalLimitTime}}">{{search.rentalLimitTime}}
+                        月</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2 required">租金情况</label>
+                <div class="col-xs-2">
+                    <select ng-model="search.rentType" ng-disabled="curProcess.taskDefKey != 'a'|| curProcess.taskStatus != 0">
+                        <option value="" disabled="disabled">请选择</option>
+                        <option value="1">自然退租</option>
+                        <option value="2">提前解约</option>
+                    </select>
+                </div>
+                <div class="col-xs-8">
+                    <textarea maxlength="100" class="col-xs-10" rows="3" placeholder="请填写租金情况,限制输入字数100"
+                        ng-model="search.rentDesc" ng-disabled="curProcess.taskDefKey != 'a'|| curProcess.taskStatus != 0"></textarea>
+                </div>
+            </div>
+            <div class="msg-group msg-group-deposit clearfix">
+                <label class="col-xs-2 required">押金情况</label>
+                <div class="col-xs-2">
+                    <div style="border-bottom: 1px solid rgba(0, 0, 0, 0.7);">
+                        <select ng-model="search.depositType" ng-change="depositeChange(1,search.depositType)"
+                            ng-disabled="curProcess.taskDefKey != 'a' || curProcess.taskStatus != 0">
+                            <option value="" disabled="disabled">请选择</option>
+                            <option value="1">有</option>
+                            <option value="2">无</option>
+                        </select>
+                    </div>
+                    <div>
+                        押金抵扣情况
+                    </div>
+                </div>
+                <div class="col-xs-8">
+                    <div style="border-bottom: 1px solid rgba(0, 0, 0, 0.7);">
+                        <textarea maxlength="100" ng-pattern="/^[0-9]\d*\.?\d*$/" class="col-xs-10" rows="1"
+                            placeholder="有押金请输入金额" ng-model="search.depositMoney"
+                            ng-disabled="curProcess.taskDefKey != 'a' || search.depositType !== '1' || curProcess.taskStatus != 0"></textarea>元
+                    </div>
+                    <div>
+                        <div class="col-xs-3"
+                            style="height:75px;line-height:75px;border-right: 1px solid rgba(0, 0, 0, 0.7);">
+                            <select ng-model="search.depositFreeType"
+                                ng-change="depositeChange(2,search.depositFreeType)"
+                                ng-disabled="curProcess.taskDefKey != 'a' || curProcess.taskStatus != 0">
+                                <option value="" disabled="disabled">请选择</option>
+                                <option value="1">有</option>
+                                <option value="2">无</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-9">
+                            <textarea maxlength="100" class="col-xs-10" rows="2" placeholder="如有押金抵扣请说明情况,限制输入字数100"
+                                ng-model="search.depositFreeDesc"
+                                ng-disabled="curProcess.taskDefKey != 'a' || search.depositFreeType !== '1' || curProcess.taskStatus != 0"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="msg-group clearfix" ng-if="curProcess.taskDefKey == 'c' || curProcess.taskStatus == 2">
+                <label class="col-xs-2 required">房屋验收情况</label>
+                <div class="col-xs-10">
+                    <textarea maxlength="100" class="col-xs-10" rows="2" placeholder="请输入房屋验收情况,限制输入字数100"
+                        ng-model="search.houseAcceptanceDesc" ng-disabled="curProcess.taskDefKey != 'c' || curProcess.taskStatus != 0"></textarea>
+                </div>
+            </div>
+            <div class="msg-group msg-group-upload clearfix"
+                ng-if="curProcess.taskDefKey == 'c' || curProcess.taskStatus == 2">
+                <label class="col-xs-2 required">客户签字确认单</label>
+                <div class="col-xs-10">
+                    <div style="display: inline-block;padding:5px;"
+                        ng-if="curProcess.taskDefKey == 'c' && curProcess.taskStatus != 2">
+                        <a class="blue_btn" ng-click="uploadFile(1)">+上传确认单</a>
+                        <div style="display: inline-block;">（只能上传.doc、.docx、.pdf、.xls或.xlsx格式的文件）</div>
+                    </div>
+                    <ul class="workList">
+                        <li ng-repeat="file in contactFileList track by $index">
+                            <a href="javascript:;"
+                                style="color: #417CDD;cursor:default;">{{file.attachmentName | gshFileName}}</a>
+                            <b class="fa fa-close" ng-click="delContactFile(1,$index)"
+                                ng-if="curProcess.taskDefKey == 'c' && curProcess.taskStatus != 2"></b>
+                            <a class="download" href="javascript:;" style="margin-left:10px;"
+                                ng-if="file.url && curProcess.taskStatus == 2"
+                                ng-click="enclosureDownload(file.url,file.attachmentName)"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <p>审批信息</p>
+            </div>
+            <div class="msg-group clearfix" ng-repeat="item in processComment track by $index">
+                <label class="col-xs-2">{{item.activityName}}</label>
+                <div class="col-xs-10">
+                    <p
+                        style="width: 100%; text-align:left;padding-left:10px;display:flex;justify-content:space-between;align-items:center;">
+                        <span class="ellipsiss" style="width:45%;" ng-attr-title="{{item.assigneeName}}">{{item.assigneeName}}</span>
+                        <span style="width:45%;">{{item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}} </span>
+                    </p>
+                    <p style="width:100%;">
+                        <span class="ellipsiss" ng-attr-title="{{item.comment}}"
+                            ng-if="item.comment">{{item.comment}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="auditOpinion clearfix" ng-if="curProcess.taskStatus == 0 && curProcess.personId">
+        <label class="col-xs-2 required">审批意见</label>
+        <textarea maxlength="100" class="col-xs-10" rows="5" placeholder="请填写审批意见(必填)"
+            ng-model="search.comment"></textarea>
+    </div>
+    <div class="transferOp">
+        <h4>流转意见</h4>
+        <div class="transferList">
+            <div class="transfer-group" ng-repeat="item in processComment track by $index">
+                <p style="padding-left: 10px;">{{item.activityName}}</p>
+                <p class="ellipsiss" ng-attr-title="{{item.assigneeName}}">{{item.assigneeName}}</p>
+                <p class="clearfix"><span style="color: #008000;width:20%;margin-right:10px;">接收人</span> <span class="ellipsiss" style="width:75%;" ng-attr-title="{{item.receiver}}">{{item.receiver}}</span>
+                </p>
+                <div>
+                    <p>{{item.endTime || item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}}</p>
+                    <p style="color: #008000;">
+                        【{{item.activityName}}】
+                    </p>
+                    <p style="color: #008000;">
+                        <span ng-if="$index===0">已提交</span>
+                        <span class="ellipsiss" ng-attr-title="{{item.comment}}"
+                            ng-if="$index!==0">{{item.comment}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

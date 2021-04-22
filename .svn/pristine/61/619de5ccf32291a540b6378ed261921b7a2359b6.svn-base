@@ -1,0 +1,97 @@
+<!--人员统计总览页面 -->
+<div class="row m-t-sm">
+	<div class="col-lg-4 col-sm-12 col-xs-12">
+		<div class="x_panel" style="height: 300px;">
+			<div class="x_title">人员统计 </div>
+			<div class="x_content" style="z-index: 1">
+				<div class="col-xs-6 border-line-lg b-r">
+					<div>
+						<span class="font-size-lg">{{vm.index3.companyTotal | number}}</span>
+					</div>
+					<div>运维公司(个)</div>
+				</div>
+				<div class="col-xs-6 border-line-lg ">
+					<div>
+						<span class="font-size-lg">{{vm.index3.total | number}}</span>
+					</div>
+					<div>运维工程师(人)</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-4 col-sm-6 col-xs-12">
+		<div class="x_panel" style="height: 300px;">
+			<div class="x_title">运维工程师年龄结构统计</div>
+			<div class="x_content" >
+				<div id="engineer-age-chart" 
+					style="height:250px;width:100%;" 
+					ui-echarts="vm.index3AgeOption" >
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-4 col-sm-6 col-xs-12">
+		<div class="x_panel" style=" height:300px; ">
+			<div class="x_title">运维工程师签到统计</div>
+			<div class="x_content" style="z-index: 1">
+				<div id="engineer-sign-chart" 
+					style="height:250px;width:100%;" 
+					ui-echarts="vm.index3SignOption" >
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div  class="row">
+	<div class="col-sm-4 col-xs-12">
+		<div class="x_panel" style=" min-height: 500px; ">
+			<div class="x_title">服务之星(月均接单量top10) </div>
+			<div class="x_content" style="z-index: 1">
+				 <table class="table table-bordered table-hover table-condensed ">
+                       <thead>
+                           <tr>
+                               <th>姓名</th>
+                               <th>所属城市</th>
+                               <th>所属公司</th>
+                               <th>月均接单量</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <tr ng-repeat="service in vm.index3.serviceStar track by $index">
+                               <td>{{service.name}}</td>
+                               <td>{{service.cityName}}</td>
+                               <td>{{service.companyName}}</td>
+                               <td>{{service.averageTotal}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-8 col-xs-12">
+		<div class="x_panel" style="height: 500px;padding:0">
+			<div ui-map="vm.map" style="height:500px; "
+					ui-options="vm.mapOptions" ui-map-cache="allMap"
+					ui-event="{'map-click':'vm.clickMap($event,$params)'}">
+		 	 </div>
+		     <div ng-repeat="marker in vm.markers" 
+		    	ui-map-marker="vm.markers[$index]" 
+		    	ui-event="{'map-mouseover':'vm.mouseoverMaker($event,$params,marker)',
+		    	'map-mouseout':'vm.myInfoWindow.close()'}">
+		     </div>
+		      <div ui-map-info-window="vm.myInfoWindow" style="width:190px">
+			      	<div class="x_title">{{vm.markerData.name}}</div>
+			      	<div class="x_content" style="z-index: 1">
+		           		<div class="row" >
+		           			<label class="col-xs-6 control-label">公司数：</label>
+		           			<label class="col-xs-6 control-label">{{vm.markerData.companyTotal}}个</label>
+		           		</div>
+		           		<div class="row">
+		           			<label class="col-xs-6 control-label ">运维人员：</label>
+		           			<label class="col-xs-6 control-label ">{{vm.markerData.personTotal}}人</label>
+		           		</div>
+					</div>
+		        </div>
+		</div>
+	</div>
+</div>

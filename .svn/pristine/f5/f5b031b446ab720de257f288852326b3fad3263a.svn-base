@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">设备选择器</h4>
+</div>
+<div class="modal-body container-fluid">
+	<div class="x_panel" >
+        <div class="form-inline">
+            <div class="form-group">
+                <label>设备编码</label>
+                <input type="text" ng-model="search.deviceId"  class="form-control" />
+            </div>
+             <button class="btn btn-default" ng-click="find(1)" >查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">设备列表</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="table-layout: fixed">
+                <thead>
+                    <tr>
+                        <th style="width:30px" class="text-center">NO</th>
+                        <th style="width:150px">设备编码</th>
+                       
+                        <!-- <th style="width:120px">位置</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data"  ng-class="{'bg-success':item.deviceId ==selDeviceId}" role="button" ng-click="selected(item)">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td style="word-wrap: break-word">{{item.deviceId}}</td>
+                    
+                        <!-- <td>{{item.park_name}} {{item.stage_name}} {{item.floor_name}} {{item.house_name}}</td> -->
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        选中设备：
+        <strong style="margin-right: 15px" class="text-info">{{selDeviceId}}</strong>
+        <br/> 
+       
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save()">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+ table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

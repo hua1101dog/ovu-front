@@ -1,0 +1,515 @@
+<!-- 集团版统计概览 -->
+<div ng-controller="multipleOverviewCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>统计概览</h3>
+        </div>
+    </div>
+    <div class="row margin-20 margin-left-0">
+        <div class="col-sm-6 col-xs-12 p-r-0">
+            <div class="card-border">
+                <div class="row  margin-left-0">
+                    <div class="left col-sm-6 col-xs-12 p-r-0 margin-0">
+                        <div class="left-7 blue">
+                            <h3 class="title">{{zzArea}}
+                                <i class="con">㎡</i>
+                            </h3>
+                            <span class="detail">住宅面积</span>
+                        </div>
+                        <div class="right-3">
+                            <img src="../../res/img/stat/img_03.png" alt="">
+                        </div>
+                    </div>
+                    <div class="right col-sm-6 col-xs-12 p-r-0 margin-0">
+                        <div class="left-7 blue">
+                            <h3 class="title">{{yqArea}}
+                                <i class="con">㎡</i>
+                            </h3>
+                            <span class="detail">园区面积</span>
+                        </div>
+                        <div class="right-3">
+                            <img src="../../res/img/stat/img_03-02.png" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-border-bottom bgcor-blue">
+                    <span class="bottom-detail white">项目总面积：
+                        <span class="num">&nbsp;&nbsp;&nbsp;&nbsp;{{total.parkArea}}
+                            <i class="con">㎡</i>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12 p-r-0">
+            <div class="card-border">
+                <div class="row  margin-left-0">
+                    <div class="left col-sm-6 col-xs-12 p-r-0 margin-0">
+                        <div class="left-7 blue1">
+                            <h3 class="title">{{zzParkCnt}}
+                                <i class="con">个</i>
+                            </h3>
+                            <span class="detail">住宅个数</span>
+                        </div>
+                        <div class="right-3">
+                            <img src="../../res/img/stat/img_03-03.png" alt="">
+                        </div>
+                    </div>
+                    <div class="right col-sm-6 col-xs-12 p-r-0 margin-0">
+                        <div class="left-7 blue1">
+                            <h3 class="title">{{yqParkCnt}}
+                                <i class="con">个</i>
+                            </h3>
+                            <span class="detail">园区个数</span>
+                        </div>
+                        <div class="right-3">
+                            <img src="../../res/img/stat/img_03-04.png" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-border-bottom bgcor-blue1">
+                    <span class="bottom-detail white">项目总个数：
+                        <span class="num">&nbsp;&nbsp;&nbsp;&nbsp;{{total.parkCnt}}
+                            <i class="con">个</i>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row margin-20 margin-left-0">
+        <div class="col-sm-8 col-xs-12 p-r-0">
+            <div>
+                <div class="col-sm-6 col-xs-12 p-r-0">
+                    <div class="card-border">
+                        <div class="row  margin-left-0">
+                            <div class="left col-sm-6 col-xs-12 p-r-0 margin-0">
+                                <div class="left-7 green1 w100">
+                                    <h3 class="title">{{zzEquipmentCnt}}
+                                        <i class="con">个</i>
+                                    </h3>
+                                    <span class="detail">住宅设备数</span>
+                                </div>
+
+                            </div>
+                            <div class="right col-sm-6 col-xs-12 p-r-0 margin-0">
+                                <div class="left-7 green1 w100">
+                                    <h3 class="title">{{yqEquipmentCnt}}
+                                        <i class="con">个</i>
+                                    </h3>
+                                    <span class="detail">园区设备数</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card-border-bottom bgcor-green1">
+                            <span class="bottom-detail white">项目设备总数：
+                                <span class="num">&nbsp;&nbsp;&nbsp;&nbsp;{{total.equipmentCnt}}
+                                    <i class="con">个</i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12 p-r-0">
+                    <div class="card-border">
+                        <div class="row  margin-left-0">
+                            <div class="left col-sm-6 col-xs-12 p-r-0 margin-0">
+                                <div class="left-7 green w100">
+                                    <h3 class="title">{{zzEquipmentRatio}}</h3>
+                                    <span class="detail">住宅设备比值</span>
+                                </div>
+
+                            </div>
+                            <div class="right col-sm-6 col-xs-12 p-r-0 margin-0">
+                                <div class="left-7 green w100">
+                                    <h3 class="title">{{yqEquipmentRatio}}</h3>
+                                    <span class="detail">园区设备比值</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card-border-bottom bgcor-green">
+                            <span class="bottom-detail white">项目设备比值(设备量/项目面积)：
+                                <span class="num">{{total.equipmentRatio}}</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="col-sm-6 col-xs-12 p-r-0 margin-20">
+                    <div class="card-border">
+                        <div class="row  margin-left-0">
+                            <div class="left col-sm-6 col-xs-12 p-r-0 margin-0">
+                                <div class="left-7 popular1 w100">
+                                    <h3 class="title">{{zzSensorsCnt}}
+                                        <i class="con">个</i>
+                                    </h3>
+                                    <span class="detail">住宅传感器数</span>
+                                </div>
+
+                            </div>
+                            <div class="right col-sm-6 col-xs-12 p-r-0 margin-0">
+                                <div class="left-7 popular1 w100">
+                                    <h3 class="title">{{yqSensorsCnt}}
+                                        <i class="con">个</i>
+                                    </h3>
+                                    <span class="detail">园区传感器数</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card-border-bottom bgcor-popular1">
+                            <span class="bottom-detail white">项目传感器总数：
+                                <span class="num">&nbsp;&nbsp;&nbsp;&nbsp;{{total.sensorsCnt}}
+                                    <i class="con">个</i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12 p-r-0 margin-20">
+                    <div class="card-border">
+                        <div class="row  margin-left-0">
+                            <div class="left col-sm-6 col-xs-12 p-r-0 margin-0">
+                                <div class="left-7 popular w100">
+                                    <h3 class="title">{{zzSensorRatio}}</h3>
+                                    <span class="detail">住宅传感器比值</span>
+                                </div>
+
+                            </div>
+                            <div class="right col-sm-6 col-xs-12 p-r-0 margin-0">
+                                <div class="left-7 popular w100">
+                                    <h3 class="title">{{yqSensorRatio}}</h3>
+                                    <span class="detail">园区传感器比值</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card-border-bottom bgcor-popular">
+                            <span class="bottom-detail white">项目传感器比值(传感器量/项目面积)：
+                                <span class="num">{{total.sensorsRatio}}</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-xs-12 p-r-0">
+                <div class="card-border">
+                        <div class="card-border-body row  margin-left-0" style="border-bottom:1px solid #ccc">
+                            <div class="col-sm-12 col-xs-12 p-r-0 margin-0">
+                                <div class="left-7 black w100">
+                                    <h3 class="title">{{zzSensorEquimentRatio}}</h3>
+                                    <span class="detail">住宅设备&传感器比值</span>
+                                </div>
+
+                            </div>
+                            
+                        </div>
+                        <div class="row  margin-left-0" style="padding-top:22px">
+                                <div class="col-sm-12 col-xs-12 p-r-0 margin-0">
+                                    <div class="left-7 black w100">
+                                        <h3 class="title">{{yqSensorEquimentRatio}}</h3>
+                                        <span class="detail">园区设备&传感器比值</span>
+                                    </div>
+    
+                                </div>
+                                
+                            </div>
+                        <div class="card-border-bottom bgcor-black">
+                            <span class="bottom-detail white">项目设备&传感器比值：
+                                <span class="num">{{total.sensorEquimentRatio}} </span>
+                            </span>
+                        </div>
+                    </div>
+        </div>
+    </div>
+    <div class="row margin-20 margin-left-0">
+        <div class="col-sm-12 col-xs-12 p-r-0">
+            <div class="card-border">
+                <div class="row  margin-left-0">
+                    <div class="left col-sm-6 col-xs-12 p-r-0 margin-0">
+                        <div class="left-7 yellow">
+                            <h3 class="title">{{zzPersonsCnt}}
+                                <i class="con">人</i>
+                            </h3>
+                            <span class="detail">住宅人员数</span>
+                        </div>
+                        <div class="right-3">
+                            <img src="../../res/img/stat/img_03-05.png" alt="">
+                        </div>
+                    </div>
+                    <div class="right col-sm-6 col-xs-12 p-r-0 margin-0">
+                        <div class="left-7 yellow">
+                            <h3 class="title">{{yqPersonsCnt}}
+                                <i class="con">人</i>
+                            </h3>
+                            <span class="detail">园区人员数</span>
+                        </div>
+                        <div class="right-3">
+                            <img src="../../res/img/stat/img_03-06.png" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-border-bottom bgcor-yellow">
+                    <span class="bottom-detail white col-sm-6 col-xs-12" >项目人员总数：
+                        <span class="num">&nbsp;&nbsp;&nbsp;&nbsp;{{total.personCnt}}
+                            <i class="con">个</i>
+                        </span>
+                    </span>
+                    <span class="bottom-detail white col-sm-6 col-xs-12">项目人员比值(人员数量/项目面积)：
+                        <span class="num">&nbsp;&nbsp;&nbsp;&nbsp;{{total.personsAreaRatio}}</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    <div class="row margin-20 margin-left-0">
+        <div class="col-sm-6 col-xs-12 p-r-0">
+            <div class="card-border">
+                <div class="row  margin-left-0">
+                    <div class="left col-sm-6 col-xs-12 p-r-0 margin-0">
+                        <div class="left-7 blue">
+                            <h3 class="title">4000
+                                <i class="con">个</i>
+                            </h3>
+                            <span class="detail">住宅标准数</span>
+                        </div>
+                        
+                    </div>
+                    <div class="right col-sm-6 col-xs-12 p-r-0 margin-0">
+                        <div class="left-7 blue">
+                            <h3 class="title">4000
+                                <i class="con">个</i>
+                            </h3>
+                            <span class="detail">园区标准数</span>
+                        </div>
+                       
+                    </div>
+                </div>
+
+                <div class="card-border-bottom bgcor-blue">
+                    <span class="bottom-detail white">项目标准总数：
+                        <span class="num">&nbsp;&nbsp;&nbsp;&nbsp;8000
+                            <i class="con">个</i>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12 p-r-0">
+            <div class="card-border">
+                <div class="row  margin-left-0">
+                    <div class="left col-sm-6 col-xs-12 p-r-0 margin-0">
+                        <div class="left-7 blue1">
+                            <h3 class="title">4000
+                                <i class="con">个</i>
+                            </h3>
+                            <span class="detail">住宅流程数</span>
+                        </div>
+                        
+                    </div>
+                    <div class="right col-sm-6 col-xs-12 p-r-0 margin-0">
+                        <div class="left-7 blue1">
+                            <h3 class="title">4000
+                                <i class="con">个</i>
+                            </h3>
+                            <span class="detail">园区流程数</span>
+                        </div>
+                      
+                    </div>
+                </div>
+
+                <div class="card-border-bottom bgcor-blue1">
+                    <span class="bottom-detail white">项目流程总数：
+                        <span class="num">&nbsp;&nbsp;&nbsp;&nbsp;8000
+                            <i class="con">个</i>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .margin-20 {
+        margin-top: 20px;
+    }
+
+    .card-border {
+        border: 1px solid #ddd;
+        background: #fff;
+    }
+
+    .margin-0 {
+        margin: 0;
+    }
+
+    .margin-left-0 {
+        margin-left: 0;
+    }
+
+    .card-border-body {
+     padding-bottom: 64px;
+     padding-top:10px
+    }
+
+    .card-border-bottom {
+        height: 55px;
+        padding-left: 15px;
+
+    }
+
+    .detail {
+        color: #666666;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .con {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+    }
+
+    .title {
+        font-size: 24px
+    }
+
+    .top {
+        margin: 42px 0;
+    }
+
+    .bottom {
+        height: 50px
+    }
+
+    .bgcor-blue {
+        background-color: #5574D4
+    }
+
+    .blue {
+        color: #5574D4;
+
+    }
+
+    h2 {
+        font-weight: 700
+    }
+
+    .bottom-detail {
+        line-height: 50px;
+        font-size: 14px
+    }
+
+    .white {
+        color: #fff
+    }
+
+    .green {
+        color: #58D455
+    }
+
+    .bgcor-green {
+        background-color: #58D455
+    }
+
+    .yellow {
+        color: #ECB64E
+    }
+
+    .bgcor-yellow {
+        background-color: #ECB64E
+    }
+
+    .red {
+        color: #FF5DA5
+    }
+
+    .bgcor-red {
+        background-color: #FF5DA5
+    }
+
+    .p-r-0 {
+        padding-left: 0px
+    }
+
+    .left {
+        border-right: 1px solid #ccc;
+        padding-bottom: 10px
+    }
+
+
+
+    .left-7 {
+        display: inline-block;
+        padding: 10px 20px;
+        width: 70%;
+    }
+
+    img {
+        vertical-align: bottom;
+    }
+
+    .right-3 {
+        display: inline-block;
+    }
+
+    .num {
+        font-weight: 700;
+        font-size: 20px
+    }
+
+    .blue1 {
+        color: #56BAE3
+    }
+
+    .bgcor-blue1 {
+        background-color: #56BAE3
+    }
+
+    .w100 {
+        width: 100%
+    }
+
+    .green1 {
+        color: #6AAC60
+    }
+
+    .bgcor-green1 {
+        background-color: #6AAC60
+    }
+    .popular1{
+      color: #9D87D3 
+    }
+    .bgcor-popular1{
+        background-color: #9D87D3
+    }
+    .popular{
+      color: #916FE3 
+    }
+    .bgcor-popular{
+        background-color: #916FE3
+    }
+    .row{
+        margin-right: 0
+    }
+    .black{
+        color:#888888
+    }
+    .bgcor-black{
+        background-color: #888888
+    }
+</style>

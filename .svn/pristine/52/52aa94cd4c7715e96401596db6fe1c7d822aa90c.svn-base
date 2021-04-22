@@ -1,0 +1,152 @@
+<style>
+    ul.timeline li {
+        position: relative;
+        border-bottom: 1px solid #e8e8e8;
+        clear: both;
+    }
+
+    .timeline .block {
+        margin: 0 0 0 15px;
+        border-left: 3px solid #e8e8e8;
+        overflow: visible;
+        padding: 10px 15px;
+    }
+
+    .timeline h2.title {
+        position: relative;
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .timeline h2.title:before {
+        content: "";
+        position: absolute;
+        left: -23px;
+        top: 3px;
+        display: block;
+        width: 14px;
+        height: 14px;
+        border: 3px solid #d2d3d2;
+        border-radius: 14px;
+        background: #f9f9f9;
+    }
+
+    .timeline .tag span {
+        display: block;
+        overflow: hidden;
+        width: 100%;
+        white-space: nowrap;
+        text-overflow: ellipsis
+    }
+
+    .timeline a {
+        outline: 0;
+        color: #5A738E;
+    }
+    .jambo_table{
+        margin-bottom: -30px;
+    }
+</style>
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">记录跟进日志</h4>
+</div>
+
+<div class="modal-body">
+    <table class="table table-striped jambo_table bulk_action">
+        <tr>
+            <td>客户名称：{{item.name}}</td>
+        </tr>
+        <tr>
+            <td>所辖项目：{{item.projectNames}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="modal-body container-fluid form-horizontal">
+    <ul class="list-unstyled timeline" style="height:300px; overflow-y:scroll;">
+        <li ng-repeat="element in customerVisitingLogList">
+            <div class="block">
+                <div class="block_content">
+                    <h2 class="title" style="margin-bottom: 10px;">
+                        <a>{{element.visitingTime | date:'yyyy/MM/dd HH:mm:ss'}}&nbsp;&nbsp;&nbsp;{{element.executorName}}</a>
+                    </h2>
+                    <p class="excerpt">
+                        <span style="color: #CCCCCC">被拜访人岗位：</span>{{element.visitedJob}}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span style="color: #CCCCCC">负责人姓名：</span>{{element.visitedName}}
+                    </p>
+                    <p class="excerpt">
+                        <span style="color: #CCCCCC">拜访情况：</span>{{element.remark}}
+                    </p>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">拜访时间：</label>
+            <div class="col-xs-4">
+                <input type="datetime" required class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched"
+                       name="visitingTime" ng-model="customerVisitingLog.visitingTime" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy/MM/dd HH:mm:ss',maxDate:'%y/%M/%d'})"
+                       aria-invalid="false">
+            </div>
+            <label class="col-xs-2 control-label">跟进状态:</label>
+            <div class="col-xs-4">
+                <select class="form-control" ng-model="customerVisitingLog.visitingState" name="visitingState">
+                    <option value="">--请选择--</option>
+                    <option value="1">进行中</option>
+                    <option value="2">已终止</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label required">执行人：</label>
+            <div class="col-sm-10">
+                <div ng-repeat="post in posts" class="form-inline" style="position: relative;margin-bottom: 5px">
+                    <input type="text" class="form-control" style="width: 60%" ng-focus="post.deptFocus=true" ng-blur="post.deptFocus=false" ng-model="post.deptName" name="deptName{{$index}}" readonly required/>
+                    <layer-select node-list="deptTree" host="post" ng-show="post.deptFocus||post.deptHover" ng-mouseover="post.deptHover=true" ng-mouseleave="post.deptHover=false" class="layerSelect" style="left: 15px;top:34px;"></layer-select>
+                    <select class="form-control" required ng-model="post.postId" ng-options="o.id as o.postName for o in post.postList" ng-change="getPersonList(post)">
+                        <option value="">--请选择岗位--</option>
+                    </select>
+                    <select class="form-control" required ng-model="post.person" ng-options="o as o.name for o in post.personList">
+                        <option value="">--请选择人员--</option>
+                    </select>
+                    <button class="btn btn-sm btn-default" ng-click="posts.splice(posts.indexOf(post),1)"><i class="glyphicon glyphicon-minus"></i></button>
+                </div>
+                <button ng-show="posts.length==0" class="btn btn-sm btn-default" ng-click="selectPerson({personId:customerVisitingLog.executorId})"><i class="glyphicon glyphicon-plus"></i>选择人员</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">被拜访人姓名：</label>
+            <div class="col-xs-4">
+                <input type="text" name="visitedName" ng-model="customerVisitingLog.visitedName" required
+                       maxLength="20" class="form-control col-md-7 col-xs-12">
+            </div>
+            <label class="col-xs-2 control-label">被拜访人岗位：</label>
+            <div class="col-xs-4">
+                <input type="text" name="visitedJob" ng-model="customerVisitingLog.visitedJob"
+                       maxLength="80" class="form-control col-md-7 col-xs-12">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">拜访详情：</label>
+            <div class="col-sm-10">
+				<textarea ng-model="customerVisitingLog.remark" name="remark" class="form-control"
+                          rows="5"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <div class="center-block" style="height:30px;">
+        <button class="btn btn-primary" ng-click="save(form, customerVisitingLog)">保存日志</button>
+    </div>
+</div>

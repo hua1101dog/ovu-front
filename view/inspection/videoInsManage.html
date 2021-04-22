@@ -1,0 +1,162 @@
+<div ng-controller="videoInsManageCtrl">
+        <div class="photoDiv" ng-if="curPic.on">
+                <img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute"
+                    ng-click="curPic.on = false"></img>
+                <img class="photo" ng-src="{{curPic.url}}" image-load="wheel()"></img>
+                <!-- <img style="top:30px;right:20px;position:absolute;width:160px" ng-src="{{curPic.url}}"></img> 右上角缩略图 -->
+                <img src="/res/img/navigate-right.png" class="hand" id="next" style="top:50%;right:10%;position:absolute;width:45px" ng-if="isNext"
+                    ng-click="next()"></img>
+                <img src="/res/img/navigate-left.png" class="hand" id="before11" style="top:50%;left:10%;position:absolute;width:45px" ng-if="isBefore"
+                    ng-click="before()"></img>
+
+                <!-- <div class="thumbnail">
+                                <img onerror="javascript:this.src='/res/img/55.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}">
+                            </div> -->
+                            <div  ng-click="chooseBigItem();" ng-if="img.handles!=='1'">
+                                <span class="big_border_icon"></span>
+                                <span class="big_choose_icon fa fa-check" ng-if="img.handles=='2'"></span>
+                             </div>
+
+
+            </div>
+    <div class="page-title">
+        <div class="title_left">
+            <h3>视频巡查处理</h3>
+        </div>
+    </div>
+
+
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>路线</label>
+                <select class="form-control" ng-model="search.insWayIds" ng-options="o.insWayId as o.wayName for o in isnWayList">
+                    <option value="">--请选择路线--</option>
+                </select>
+
+            </div>
+            <div class="form-group">
+                <label>日期</label>
+                <input style="width: 140px;" type="datetime" class="form-control Wdate" ng-model="search.createTime"
+                    onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',isShowClear:false})">
+
+            </div>
+            <button class="btn btn-default" ng-click="find(1)"  ng-disabled="!search.insWayIds">查询</button>
+            <button class="btn btn-default pull-right" ng-click="save()" ng-disabled="checkedList.length == 0">一键保存</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <tbody>
+                    <tr ng-if="!pageModel.data || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="height: 40px;">
+                                            <span style="color: white;background: #0099CC;padding: 8px;border-radius: 5px;">
+                                                {{item.insPointName}}
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div ng-repeat="p in item.newList track by $index" style="display:inline-block;padding: 5px 0px">
+                                                <div style="margin: 3px 40px 5px 0px;">
+                                                    <span>截屏时间：{{item.captureTimes[$index]}}</span>
+                                                </div>
+                                                <div class="photoWraper_2" ng-click="showPhoto(p.img,item.newList)" style="display:inline-block">
+                                                    <img onerror="javascript:this.src='/res/img/detail.png';"  ng-src="{{processImgUrl(p.img)}}" >
+                                                     <div  ng-click="chooseItem(p,item);$event.stopPropagation();" ng-if="p.handles!=='1'">
+                                                        <span class="border_icon"></span>
+                                                        <span class="choose_icon fa fa-check" ng-if="p.handles=='2'"></span>
+                                                     </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<style>
+    .aList a {
+        padding: 3px 25px;
+        float: left;
+        cursor: pointer
+    }
+
+    .aList a+a {
+        border-left: 1px solid slategray !important;
+    }
+
+    .photoWraper_2 {
+        width: 340px;
+        height: 160px;
+        position: relative;
+        float: left;
+        margin-right: 5px;
+        text-align: left;
+    }
+
+    .photoWraper_2 img {
+        width: 100%;
+        max-height: 100%;
+    }
+    .border_icon{
+        position: absolute;
+    border: 2px solid #f9f9f9;
+    width: 20px;
+    height: 20px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    }
+    .choose_icon{
+        color: #26e226;
+    position: absolute;
+    bottom: 6px;
+    font-size: 20px;
+    right: 5px;
+    }
+    table tr th,
+table tr td {
+    text-align: left;
+}
+.big_border_icon{
+    position: absolute;
+    border: 2px solid #efe6e6;
+    width: 50px;
+    height: 50px;
+    right: 20px;
+    bottom: 5px;
+    border-radius: 50%;
+    top: 75%;
+    right: 5%
+    }
+    .big_choose_icon{
+        color: #26e226;
+    position: absolute;
+    bottom: 6px;
+    font-size: 50px;
+    right: 5px;
+    top: 75%;
+    right: 5%;
+    }
+</style>

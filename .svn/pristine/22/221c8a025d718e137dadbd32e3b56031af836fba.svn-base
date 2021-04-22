@@ -1,0 +1,196 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <!-- <h4 class="modal-title">{{isEdit?'编辑':'新增'}}客户</h4> -->
+    <!-- <h4 class="modal-title">{{item.ss}}客户</h4> -->
+    <h4 class="modal-title">房间详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" style="padding-right: 25px">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">房间:</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" ng-model="houseInfo.houseName" name="house_name" readonly>
+            </div>
+           
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">销售状态:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.sale_statusStr" name="sale_status" readonly>
+            </div>
+            <label class="col-xs-2 control-label ">房管局备案号:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.record_number" name="record_number" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">户型:</label>
+            <div class="col-xs-4">
+                <!-- <select class="form-control" ng-model="" >
+                    <option value="">-请选择-</option>
+                </select> -->
+                <input type="text" class="form-control" ng-model="houseInfo.rm_std" name="rm_std" readonly>
+            </div>
+            <label class="col-xs-2 control-label ">房间结构:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.house_structure" name="house_structure" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">景观:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.scenery" name="scenery" readonly>
+            </div>
+            <label class="col-xs-2 control-label ">朝向:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.aspectStr" name="aspect" readonly>
+            </div>
+        </div>
+      <!--  <div class="form-group">
+            <label class="col-xs-2 control-label ">预售建筑面积:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.area_presell" name="area_presell" readonly>
+            </div>
+            <label class="col-xs-2 control-label ">预售套内面积:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.area_presell_su" name="area_presell_su" readonly>
+            </div>
+        </div>-->
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">实测建筑面积:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.area_actual" name="area_actual" readonly>
+            </div>
+            <label class="col-xs-2 control-label ">实测套内面积:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.area_actual_su" name="area_actual_su" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">建筑面积:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.area" name="area" readonly>
+            </div>
+            <label class="col-xs-2 control-label required-title">套内面积:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.area_su" name="area_su" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">面积状态:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.area_statusStr" name="area_status" readonly>
+            </div>
+            <label class="col-xs-2 control-label required-title">产品类型:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.product_type" name="product_type" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">计价方式:</label>
+            <div class="col-xs-4">
+                <!--<select class="form-control" ng-model="houseInfo.standardPricingMannerNew">
+                    <option value="">-请选择-</option>
+                </select>-->
+                <input type="text" class="form-control" ng-model="houseInfo.standardPricingMannerNew" name="standardPricingMannerNew" readonly>
+            </div>
+            <label class="col-xs-2 control-label ">装修标准:</label>
+            <div class="col-xs-4">
+                <!--<select class="form-control" ng-model="houseInfo.decorationStandard">
+                    <option value="">-请选择-</option>
+                </select>-->
+                <input type="text" class="form-control" ng-model="houseInfo.decorationStandard" name="decorationStandard" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">装修单价:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.decorateUnitPrice" name="decorateUnitPrice" readonly> 
+            </div>
+            <label class="col-xs-2 control-label ">装修款:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.decorateTotalPrice" name="decorateTotalPrice" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">是否样板房:</label>
+            <div class="col-xs-4">
+                <label class="radio-inline">
+                    <input type="radio" ng-model="houseInfo.is_model_houses" value="1" name="is_model_houses" disabled> 是
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="houseInfo.is_model_houses" value="0" name="is_model_houses" disabled> 否
+                </label>
+            </div>
+            <label class="col-xs-2 control-label ">是否附属房产:</label>
+            <div class="col-xs-4">
+                <label class="radio-inline">
+                    <input type="radio" ng-model="houseInfo.is_dependent" value="1" name="is_dependent" disabled> 是
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="houseInfo.is_dependent" value="2" name="is_dependent" disabled> 否
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">建筑单价:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.standardAreaUnitPriceNew" name="standardAreaUnitPriceNew" readonly>
+            </div>
+            <label class="col-xs-2 control-label ">套内单价:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.standardAreaSuUnitPriceNew" name="standardAreaSuUnitPriceNew" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">标准总价:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.standardHouseTotalPriceNew" name="standardHouseTotalPriceNew" readonly>
+            </div>
+            <label class="col-xs-2 control-label required-title">租售类型:</label>
+            <div class="col-xs-4">
+                <!--<select class="form-control" ng-model="houseInfo.">
+                    <option value="">-请选择-</option>
+                </select>-->
+                <input type="text" class="form-control" ng-model="houseInfo.rentTypeStr" name="rent_sale_type" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">标准总价(不含税):</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.standardTotalPriceNewWithoutTax" name="standardTotalPriceNewWithoutTax" readonly>
+            </div>
+            <label class="col-xs-2 control-label ">税额:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.tax" name="tax" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">税率:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="houseInfo.taxRate" name="taxRate" readonly>
+            </div>
+            <label class="col-xs-2 control-label ">应税服务目录:</label>
+            <div class="col-xs-4">
+                <!--<select class="form-control" ng-model="houseInfo.taxable_catalog">
+                    <option value="">-请选择-</option>
+                </select>-->
+                <input type="text" class="form-control" ng-model="houseInfo.taxable_catalog" name="taxable_catalog" readonly>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .modal-header {
+        background-color: #337ab7;
+        padding: 10px 15px;
+        color: #ffffff
+    }
+    .required-title{
+        color:rgb(199, 45, 45)
+    }
+</style>

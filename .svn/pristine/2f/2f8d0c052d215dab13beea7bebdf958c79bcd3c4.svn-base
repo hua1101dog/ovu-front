@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">资产授权</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+        <form name="form" novalidate>
+                <div class="form-group" >
+                        <label class="col-xs-3 control-label required">授权开始日期</label>
+                        <div class="col-xs-6">
+                            <input  type="datetime" required class="form-control Wdate" ng-model="item.beginTime" placeholder="开始日期" onchange=""
+                            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d %H-%m-%s'}&quot;})">
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <label class="col-sm-3 control-label required">授权结束日期</label>
+                        <div class="col-xs-6">
+                            <input  type="datetime" required class="form-control Wdate" ng-model="item.deadingTime" placeholder="结束日期" onchange=""
+                             onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('.Wdate').first().val()}&quot;})">
+                        </div>
+                    </div>
+            
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label required">操作人</label>
+                        <div  class="col-xs-6">
+                            <input type="text" class="form-control" required ng-model="item.operationPerson" name="operationPerson" />
+                        </div>
+                       
+                    </div>
+    
+          
+    
+        </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+
+

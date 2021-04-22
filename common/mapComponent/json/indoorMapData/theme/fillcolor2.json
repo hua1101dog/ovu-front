@@ -1,0 +1,201 @@
+{
+  "VERSION": "1.0",
+  "bgColor": {
+    "name":"背景",
+    "fillcolor": "#F1F2F7"
+  },
+
+  "modelStyle": [
+    {
+      "name":"",
+      "sType": "0",
+      "fillcolor": "#F1F7F9",
+      "alpha": 1
+    },
+    {
+      "name":"",
+      "sType": "1000",
+      "height": "5",
+      "fillcolor": "#E5EBEE",
+      "alpha": 1
+    },
+    {
+      "name": "停车位",
+      "sType": "1002",
+      "fillcolor": "#faf8dc",
+      "alpha": "1",
+      "height": "10",
+      "strokecolor": "#faf8dc",
+      "fontSize": "14"
+
+    },
+    {
+      "name": "",
+      "sType": "1001",
+      "fillcolor": "#faf8dc",
+      "alpha": "1",
+      "strokecolor": "#38AEBA",
+      "fontSize": "14"
+    },
+    {
+      "name":"",
+      "sType": "1004",
+      "fillcolor": "#C4E3E7",
+      "alpha": "1",
+      "height": "3",
+      "strokecolor": "#38AEBA",
+      "fontSize": "14"
+
+    },
+    {
+      "name":"",
+      "sType": "1003",
+      "fillcolor": "#C4E3E7",
+      "alpha": "1",
+      "height": "3",
+      "strokecolor": "#38AEBA",
+      "fontSize": "14"
+
+    },
+    {
+      "name": "空白,天井",
+      "sType": "2001",
+      "fillcolor": "#ffffff",
+      "alpha": "1",
+      "height": "2",
+      "strokecolor": "#38AEBA",
+      "fontSize": "1"
+
+    },
+    {
+      "name": "道路",
+      "sType": "2002",
+      "fillcolor": "#B9B9B9",
+      "alpha": "1",
+      "height": "2",
+      "strokecolor": "#38AEBA",
+      "fontSize": "14"
+
+    },
+    {
+      "name": "绿化",
+      "sType": "2003",
+      "fillcolor": "#A2FAB9",
+      "alpha": "1",
+      "height": "2",
+      "strokecolor": "#38AEBA",
+      "fontSize": "14"
+
+    },
+    {
+      "name":"房间地板",
+      "sType": "2004",
+      "fillcolor": "#F8DFCC",
+      "alpha": "1",
+      "height": "2",
+      "strokecolor": "#38AEBA",
+      "fontSize": "14"
+
+    },
+    {
+      "name": "步道",
+      "sType": "2005",
+      "fillcolor": "#DBB46F",
+      "alpha": "1",
+      "height": "2",
+      "strokecolor": "#DBB46F",
+      "fontSize": "14"
+
+    },
+    {
+      "name": "湖",
+      "sType": "2006",
+      "fillcolor": "#50C4F0",
+      "alpha": "1",
+      "height": "2",
+      "strokecolor": "#50C4F0",
+      "fontSize": "14"
+
+    },
+    {
+      "name": "广场",
+      "sType": "2007",
+      "fillcolor": "#FFFCEA",
+      "alpha": "1",
+      "height": "2",
+      "strokecolor": "#FFFCEA",
+      "fontSize": "14"
+
+    },
+    {
+      "name":"办公室地板",
+      "sType": "2008",
+      "fillcolor": "#D3DEE3",
+      "alpha": "1",
+      "height": "1",
+      "strokecolor": "#38AEBA",
+      "fontSize": "14"
+
+    },
+    {
+      "name":"会议室地板",
+      "sType": "2009",
+      "fillcolor": "#DDD0E7",
+      "alpha": "1",
+      "height": "1",
+      "strokecolor": "#38AEBA",
+      "fontSize": "14"
+
+    },
+    {
+      "name":"公共区域地板",
+      "sType": "2010",
+      "fillcolor": "#87CBD2",
+      "alpha": "1",
+      "height": "1",
+      "strokecolor": "#38AEBA",
+      "fontSize": "14"
+
+    },
+    {
+      "sType": "1",
+      "logo": "./0/1.png"
+    },
+    {
+      "sType": "2",
+      "logo": "./0/2.png"
+    },
+    {
+      "sType": "3",
+      "logo": "./0/3.png"
+    },
+    {
+      "sType": "4",
+      "logo": "./0/4.png"
+    },
+    {
+      "sType": "5",
+      "logo": "./0/5.png"
+    },
+    {
+      "sType": "6",
+      "logo": "./0/6.png"
+    },
+    {
+      "sType": "7",
+      "logo": "./0/7.png"
+    },
+    {
+      "sType": "8",
+      "logo": "./0/8.png"
+    },
+    {
+      "sType": "9",
+      "logo": "./0/9.png"
+    },
+    {
+      "sType": "10",
+      "logo": "./0/10.png"
+    }
+  ]
+}

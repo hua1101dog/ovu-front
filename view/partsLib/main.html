@@ -1,0 +1,633 @@
+<!--配件库  -->
+<div class="parts-lib" id="angularId" ng-controller="PartsLibCtrl as vm">
+    <!--title BEGIN-->
+    <div class="page-title x_panel">
+        <div class="title_left">
+            <h3>配件库</h3>
+        </div>
+    </div>
+    <!--title END-->
+    <!--body BEGIN-->
+    <div class="parts-lib-body row clearfix">
+        <div class="col-md-4 col-sm-12 col-xs-12 project-list">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h4>项目列表</h4>
+                </div>
+                <div class="x_content">
+                    <div ng-if="!vm.treeData || vm.treeData.length === 0">
+                        暂无数据
+                    </div>
+                    <div id="house_tree">
+                        <tree-view node-list="vm.treeData" config="config"></tree-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-12 col-xs-12 add-part">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <div class="pull-right">
+                        <span class="btn btn-success" ng-disabled="vm.disabled" ng-click="vm.toAdd()">新增配件</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <td width="200">部位</td>
+                                <td width="200">零件名称</td>
+                                <td width="200">操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!vm.partsList.length">
+                                <td colspan="100" class="text-center">{{vm.treeNotice}}</td>
+                            </tr>
+                            <tr ng-repeat="item in vm.partsList | limitTo: vm.numPerPage: (vm.currentPage - 1) * vm.numPerPage">
+                                <td>{{item.position}}</td>
+                                <td>{{item.partName}}</td>
+                                <td class="clearfix">
+                                    <a href="javascript:void(0)" ng-click="vm.toEdit(item)">
+                                        <i class="icon glyphicon glyphicon-edit"></i>
+                                        <span>编辑</span>
+                                    </a>
+                                    <span class="pipe"></span>
+                                    <a href="javascript:void(0)" ng-click="vm.toDelete(item)">
+                                        <i class="icon glyphicon glyphicon-trash"></i>
+                                        <span>删除</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer clearfix">
+                    <div class="pager-left pull-left">
+                        <span>共{{vm.totalItems}}条记录，当前显示{{vm.currentDisplay}}条</span>
+                    </div>
+                    <div class="pager-right pull-right">
+                        <div class="pull-left num-perpage">
+                            <span>每页</span>
+                            <select ng-model="vm.numPerPage" ng-options="x[0] as x[1] for x in [[20,'20'],[50,'50'],[100,'100']]"></select>
+                            <span>条</span>
+                        </div>
+                        <ul uib-pagination total-items="vm.totalItems" ng-model="vm.currentPage" max-size="vm.maxSize" num-pages="vm.numPages" items-per-page="vm.numPerPage" boundary-links="true" first-text="首页" last-text="最后一页" previous-text="上一页" next-text="下一页" class="pagination-sm pull-left">
+                        </ul>
+                        <div class="to-page pull-left">
+                            <span>到</span>
+                            <select ng-model="vm.currentPage" ng-options="x for x in vm.selectablePages"></select>
+                            <span>页</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--body END-->
+    <!--modal模板 删除确认 BEGIN-->
+    <script type="text/ng-template" id="confirmModalComponent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">系统消息</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            确定要删除这条数据吗？
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">确定</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">取消</button>
+        </div>
+    </script>
+    <!--modal模板 删除确认 END-->
+
+    <!--增加编辑弹出框 BEGIN-->
+    <script type="text/ng-template" id="editModalComponent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">{{$ctrl.title}}</h3>
+        </div>
+        <div class="modal-body container-fluid" id="modal-body">
+            <form name="form" novalidate class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label required">部位：</label>
+                    <div class="col-xs-8">
+                        <input type="text" id="position" class="form-control" required ng-trim="false" auto-focus="true" ng-model="$ctrl.item.position">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label required">零件名称：</label>
+                    <div class="col-xs-8">
+                        <input type="text" id="partName" class="form-control" required ng-trim="false" ng-model="$ctrl.item.partName">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.ok(form)">保存</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">取消</button>
+        </div>
+    </script>
+    <style>
+        .edit-parts .input-groups {
+            display: inline-block;
+        }
+
+        .edit-parts .input-groups .input-group {
+            display: block;
+            margin: 8px 0;
+        }
+
+        .edit-parts .input-groups .input-group.non-empty {
+            position: relative;
+        }
+
+        .edit-parts .input-groups .input-group.non-empty .empty-warning {
+            position: absolute;
+            /*right: -124px;*/
+            top: 5px;
+            color: red;
+        }
+
+        .edit-parts .empty-warning.first {
+            right: -100px;
+        }
+
+        .edit-parts .empty-warning.second {
+            right: -124px;
+        }
+    </style>
+    <!--增加编辑弹出框 END-->
+
+</div>
+
+<style>
+    .show-cell {
+        display: table-cell;
+    }
+
+    .hide-cell {
+        display: none;
+    }
+
+    .project-list .x_content {
+        height: 575px;
+        min-width: 360px;
+        overflow: auto;
+    }
+
+    .add-part .panel-body {
+        height: 530px;
+        overflow: auto;
+    }
+
+    .add-part .panel-body table {
+        min-width: 650px;
+    }
+
+    .add-part table tr th,
+    .add-part table tr td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .add-part table td a {
+        padding: 0 10px 0 12px;
+    }
+
+    .add-part .pipe {
+        border-right: 2px solid #5A738E;
+    }
+
+    .add-part .add-sign {
+        font-size: 30px;
+        vertical-align: middle;
+    }
+    /* 分页 start */
+
+    .panel-footer .pager-right>ul {
+        margin: 10px auto;
+    }
+
+    .panel-footer .pager-left {
+        margin: 15px auto;
+    }
+
+    .panel-footer .to-page {
+        margin: 15px;
+    }
+
+    .panel-footer .to-page select {
+        width: 45px;
+    }
+
+    .panel-footer .num-perpage {
+        margin: 15px;
+    }
+    /* 分页end */
+</style>
+
+<script>
+    (function(doc, angular) {
+
+        doc.title = "配件库";
+        angular.module('angularApp')
+
+        .controller('PartsLibCtrl', ['$scope', '$http', '$uibModal', '$log', 'fac', function($scope, $http, $uibModal, $log, fac) {
+            var vm = this;
+
+            //项目id
+            vm.projectId = null;
+
+            // 获取项目列表
+            $http.get('/ovu-base/system/park/tree.do')
+
+            .success(function(data) {
+                // console.log(data);
+                vm.treeData = data;
+            });
+            // tree-view 配置 不需要编辑 排序 不能配置给 vm
+            $scope.config = {
+                edit: false,
+                sort: false
+            };
+            // 列表点击事件
+            $scope.selectNode = function(node) {
+                if ($scope.curNode != node) {
+                    $scope.curNode && $scope.curNode.state && ($scope.curNode.state.selected = false);
+                }
+                node.state = node.state || {};
+                node.state.selected = !node.state.selected;
+                if (node.state.selected) {
+                    $scope.curNode = node;
+                    // $scope.find(1);
+                    // 刷新配件列表
+                    vm.projectId = node.parkId;
+                    console.log('projectId=>' + vm.projectId);
+                    getPartsList(node.parkId);
+                } else {
+                    delete $scope.curNode;
+                }
+
+            };
+            // 刚加载页面没有数据
+            // getPartsList();
+            vm.treeNotice = '请选择项目';
+            vm.disabled = true;
+
+            // 分页初始化
+            vm.totalItems = 0;
+            vm.currentDisplay = 0;
+
+            // 根据id 获取配件列表
+            function getPartsList(id) {
+                $http.get('/ovu-pcos/pcos/parts/getList.do?projectId=' + id)
+
+                .success(function(obj) {
+                    // console.log(obj);
+                    var data = obj.data.map(function(v) {
+                        return {
+                            position: v.position,
+                            partName: v.partsName,
+                            id: v.partsId
+                        }
+                    });
+                    // 查询到空数组[] 就提示暂无数据
+                    vm.disabled = false;
+                    if (data.length === 0) {
+                        vm.treeNotice = '暂无数据';
+                    }
+                    vm.partsList = data;
+                    //共多少数据
+                    vm.totalItems = vm.partsList.length;
+                    var pages = Math.ceil(vm.totalItems / vm.numPerPage);
+                    vm.selectablePages = getSelectPages(pages, 1);
+                });
+            }
+
+
+            // 编辑前的备份数据
+            var itemBak = null;
+            viewArr = ['position', 'partName', 'id'];
+
+            // 新增配件
+            vm.toAdd = function() {
+                // 打开模态框
+                var newItem = {};
+                viewArr.forEach(function(v) {
+                    newItem[v] = '';
+                });
+                var p = openEditModal(newItem, vm.partsList, true);
+                p.then(function(item) {
+                    console.log(item);
+                    // 保存数据
+                    saveItem(item, vm.partsList);
+                }, function(item) {
+                    // 取消
+                    cancelItem(item, vm.partsList);
+                });
+            };
+            // 编辑
+            vm.toEdit = function(item) {
+                // 先备份数据
+                itemBak = {};
+                viewArr.forEach(function(v) {
+                    itemBak[v] = item[v];
+                });
+                // 打开模态框
+                var p = openEditModal(item, vm.partsList);
+                p.then(function(item) {
+                    console.log(item);
+                    // 保存数据
+                    saveItem(item, vm.partsList);
+                }, function() {
+                    // 取消
+                    cancelItem(item, vm.partsList);
+                });
+            };
+            // 删除
+            vm.toDelete = function(item) {
+                // openComponentModal 返回一个异步结果 promise
+                var p = openConfirmModal();
+                p.then(function() {
+                    // 点击确认 resolve
+
+                    // 发送post请求修改数据
+                    console.log('delete数据');
+
+                    deleteItem(vm.partsList, item);
+                }, function() {
+                    // 取消
+                    $log.info('modal-component dismissed at: ' + new Date());
+                });
+
+            };
+
+            // 确定删除模态框
+            function openConfirmModal() {
+                var modal = $uibModal.open({
+                    animation: true,
+                    component: 'confirmModalComponent',
+                    size: 'md'
+                });
+                // 返回一个promise
+                return modal.result;
+            };
+
+            // 编辑模态框
+            function openEditModal(item, list, isNewAdd) {
+                var modal = $uibModal.open({
+                    animation: true,
+                    component: 'editModalComponent',
+                    size: 'md',
+                    resolve: {
+                        item: function() {
+                            // 给item 添加一个索引 用来标识
+                            var index;
+                            list.some(function(v, i) {
+                                if (v === item) {
+                                    index = i;
+                                    return true;
+                                }
+                            });
+                            item.index = index;
+                            // 新增  list 里不要增加数据 不然 显示 一个空行
+                            if (index === undefined) {
+                                item.index = list.length;
+                            }
+                            return item;
+                        },
+                        title: function() {
+                            if (isNewAdd) {
+                                return '新增配件';
+                            }
+                            return '编辑配件';
+                        }
+                    }
+                });
+                // 返回一个promise
+                return modal.result;
+            }
+
+            // 保存数据
+            function saveItem(item, list) {
+                // trim 数据
+                for (var key in item) {
+                    var value = item[key];
+                    if (angular.isString(value)) {
+                        item[key] = value.trim();
+                    }
+                }
+                // 判断客户名称 customName 字段是否为空
+                if (item.customName === '') {
+                    // alert('客户名称不能为空');
+                    return;
+                }
+                // 判断数据是否真的发生了变化
+                var itemViewObj = {};
+                viewArr.forEach(function(v) {
+                    itemViewObj[v] = item[v];
+                });
+                if (angular.equals(itemBak, itemViewObj)) {
+                    // console.log('数据没有变化');
+                    return;
+                }
+                // 保存数据
+                console.log('post 数据 增加/修改');
+                console.log(itemViewObj);
+
+                var item = {
+                    "projectId": vm.projectId,
+                    "partsId": itemViewObj.id,
+                    "partsName": itemViewObj.partName,
+                    "position": itemViewObj.position
+                };
+
+                // console.log(item);
+                $http.post('/ovu-pcos/pcos/parts/edit.do', item, fac.postConfig)
+
+                .success(function(result) {
+                    // console.log('1111111111111111111111');
+                    // console.log(result);
+                    if (!result.success) {
+                        console.log(result.msg);
+                    } else {
+                        console.log('操作成功');
+
+                        // list.splice(item.index, 1, itemViewObj);
+                        itemBak = null;
+                        getPartsList(vm.projectId);
+                    }
+                });
+
+            }
+            // 取消操作
+            function cancelItem(item, list) {
+                if (itemBak) {
+                    list.splice(item.index, 1, itemBak);
+                } else {
+                    list.splice(item.index, 1);
+                }
+            }
+
+            // 删除数据
+            function deleteItem(list, item) {
+                var deleteIndex;
+                //获取要删除的item的索引
+                list.some(function(v, i) {
+                    if (v === item) {
+                        deleteIndex = i;
+                        return true;
+                    }
+                });
+                // 根据索引删除该条目数据
+                if (deleteIndex !== undefined) {
+                    console.log('post 数据 增加/修改');
+                    $http.post('/ovu-pcos/pcos/parts/delete.do', {
+                        "partsId": item.id
+                    }, fac.postConfig)
+
+                    .success(function(result) {
+                        console.log(result);
+                        if (!result.success) {
+                            console.log(result.msg);
+                        } else {
+                            console.log('操作成功');
+                            list.splice(deleteIndex, 1);
+                        }
+                    });
+                }
+            }
+
+            // 分页
+            // 共多少条数据
+            // vm.totalItems = vm.partsList.length;
+            // 当前页码
+            vm.currentPage = 1;
+
+            vm.setPage = function(pageNo) {
+                vm.currentPage = pageNo;
+            };
+
+            vm.pageChanged = function() {
+                $log.log('Page changed to: ' + vm.currentPage);
+            };
+            // 最多显示多少页 5 -> 1 2 3 4 5
+            vm.maxSize = 6;
+            // 每页显示多少条数据
+            vm.numPerPage = 20;
+            // 得到select 可选的页码数组
+            function getSelectPages(numPages, gap) {
+                var arr = [];
+                var num = Math.floor(numPages / gap);
+                for (var i = 0; i < num; i++) {
+                    arr.push(gap * (i + 1));
+                }
+                return arr;
+            }
+            // 监听 currentPage 绑定到界面
+            $scope.$watch('vm.currentPage * vm.totalItems * vm.numPerPage', function(newV) {
+                var from = (vm.currentPage - 1) * vm.numPerPage + 1;
+                var to = vm.currentPage * vm.numPerPage > vm.totalItems ? vm.totalItems : vm.currentPage * vm.numPerPage;
+                if (parseInt(to) === 0) {
+                    vm.currentDisplay = '0';
+                } else if (parseInt(from) === parseInt(to)) {
+                    vm.currentDisplay = '第' + from;
+                } else {
+                    vm.currentDisplay = from + '-' + to;
+                }
+            });
+
+        }])
+
+
+        // 自动获取焦点
+        .directive('autoFocus', ['$timeout', function($timeout) {
+            return function(scope, elem, attrs) {
+                scope.$watch(attrs.autoFocus, function(newV) {
+                    if (newV) {
+                        $timeout(function() {
+                            elem[0].focus();
+                        }, 0, false);
+                    }
+                })
+            }
+        }]);
+
+        var invokes = angular.module('angularApp')
+            ._invokeQueue
+            .map(function(v) {
+                return v[2][0];
+            });
+
+        var loaded = invokes.some(function(v) {
+            return v === 'confirmModalComponent';
+        });
+        if (loaded) {
+            angular.bootstrap(doc.getElementById("angularId"), ['angularApp']);
+            return;
+        }
+
+        var app = angular.module('angularApp');
+        app.component('confirmModalComponent', {
+            templateUrl: 'confirmModalComponent.html',
+            bindings: {
+                close: '&',
+                dismiss: '&'
+            },
+            controller: function() {
+                var $ctrl = this;
+                $ctrl.ok = function() {
+                    $ctrl.close({
+                        $value: ''
+                    });
+                };
+                $ctrl.cancel = function() {
+                    $ctrl.dismiss({
+                        $value: 'cancel'
+                    });
+                };
+            }
+        })
+
+        app.component('editModalComponent', {
+            templateUrl: 'editModalComponent.html',
+            bindings: {
+                close: '&',
+                dismiss: '&',
+                resolve: '<'
+            },
+            controller: function() {
+                var $ctrl = this;
+                $ctrl.$onInit = function() {
+                    // 深拷贝 防止模态框变化引起table同步变化
+                    $ctrl.item = angular.copy($ctrl.resolve.item);
+                    $ctrl.title = $ctrl.resolve.title;
+                };
+                $ctrl.ok = function(form) {
+                    debugger
+                    form.$setSubmitted(true);
+                    if (!form.$valid) {
+                        return;
+                    }
+                    // 客户名称非空验证
+                    if ($ctrl.item.position.trim() !== '' && $ctrl.item.partName.trim() !== '') {
+                        $ctrl.close({
+                            $value: $ctrl.item
+                        });
+                    } else {
+                        // trim 数据
+                        $ctrl.item.position = $ctrl.item.position.trim();
+                        $ctrl.item.partName = $ctrl.item.partName.trim()
+                    }
+                };
+                $ctrl.cancel = function() {
+                    $ctrl.dismiss({
+                        $value: $ctrl.item
+                    });
+                };
+            }
+        })
+
+
+        angular.bootstrap(doc.getElementById("angularId"), ['angularApp']);
+    })(document, angular)
+</script>

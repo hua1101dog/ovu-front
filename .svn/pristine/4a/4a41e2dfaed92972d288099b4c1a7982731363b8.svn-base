@@ -1,0 +1,127 @@
+<div ng-controller="recordHtmlCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>备案详情</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-md-6 col-sm-12 col-xs-12" ng-bind-html="content"></div>
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <form class="form form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-xs-4">合同分类:</label>
+                    <p class="col-xs-8 mt8">{{inform.classifyName}}</p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4">合同模版:</label>
+                    <p class="col-xs-8 mt8">{{inform.templetName}}</p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4">合同名称:</label>
+                    <p class="col-xs-8 mt8">{{inform.compactName}}</p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4">合同金额:</label>
+                    <p class="col-xs-8 mt8">{{inform.compactMoney}}</p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4">到期时间:</label>
+                    <p class="col-xs-8 mt8">{{inform.expirationTime}}</p>
+                </div>
+
+
+                <div class="form-group" ng-repeat="item in itemList">
+                    <label class="control-label col-xs-4">{{item.dataItemName}}：</label>
+                    <p class="col-xs-8 mt8">{{item.dataItemCode}}</p>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label col-xs-4">是否独立合同:</label>
+                    <p class="col-xs-8 mt8">{{inform.isParent==1?'是':'否'}}</p>
+                </div>
+                <div class="form-group" ng-if="inform.isParent!=1">
+                    <label class="control-label col-xs-4">父合同名称:</label>
+                    <p class="col-xs-8 mt8">{{inform.parentName}}</p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4">是否开启提醒:</label>
+                    <p class="col-xs-8 mt8">{{inform.isWarning==0?'否':'是'}}</p>
+                </div>
+
+
+                <div class="form-group" ng-if="inform.isWarning!=0">
+                    <label class="control-label col-xs-4">提醒方式:</label>
+                    <p class="col-xs-8 mt8">{{remind.warnType == 1 ? "定时提醒" : "间隔提醒"}}</p>
+                </div>
+                <div class="form-group" ng-if="inform.isWarning!=0">
+                    <label class="control-label col-xs-4">开始日期:</label>
+                    <p class="col-xs-8 mt8">{{remind.warnStartDay}}</p>
+                </div>
+                <div class="form-group" ng-if="inform.isWarning!=0">
+                    <label class="control-label col-xs-4">结束日期:</label>
+                    <p class="col-xs-8 mt8">{{remind.warnEndDay}}</p>
+                </div>
+                <div class="form-group" ng-if="inform.isWarning!=0">
+                    <label class="control-label col-xs-4">间隔天数:</label>
+                    <p class="col-xs-8 mt8">{{remind.spaceDay}}</p>
+                </div>
+                <div class="form-group" ng-if="inform.isWarning!=0">
+                    <label class="control-label col-xs-4">提醒内容:</label>
+                    <p class="col-xs-8 mt8">{{remind.warnContent}}</p>
+                </div>
+
+
+
+                <!-- <div class="form-group">
+                    <label class="control-label col-xs-4">退回流程:</label>
+                    <div class="col-xs-4 mt8">
+                        <select class="form-control" ng-model="search.flowId" ng-options="o.id as o.stepName for o in stepList">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4">退回意见:</label>
+                    <textarea class="col-xs-8 mt8" ng-model="search.passDetail" rows="3" cols="10"></textarea>
+                </div> -->
+                <div class="form-group pull-right">
+                    <button class="btn btn-primary" ng-click="examPass()">备案</button>
+                    <button class="btn btn-warning" ng-click="back()" style="margin-right:30px;">返回</button>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+    <!-- <div class="row" style="text-align:right;margin-top:20px">
+
+    </div> -->
+</div>
+<style>
+    .mt8 {
+        margin-top: 8px;
+    }
+    
+    [ng-bind-html] {
+        overflow: auto;
+    }
+    
+    [ng-bind-html] table {
+        border-top: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+    }
+    
+    [ng-bind-html] table th {
+        border-right: 1px solid #ccc;
+        padding: 3px 5px;
+        border-bottom: 2px solid #ccc;
+        text-align: center;
+    }
+    
+    [ng-bind-html] table td {
+        border-bottom: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        padding: 3px 5px;
+    }
+</style>

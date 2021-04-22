@@ -1,0 +1,69 @@
+<!-- 报装申请查询 -->
+<div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <input type="text" ng-model="search.params" style="width:200px" class="form-control" placeholder="报装房号" />
+                <button class="btn btn-default" ng-click="find(1)">查询</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="panel panel-default" style="display: grid;">
+        <div class="panel-heading">报装申请列表
+        </div>
+        <div class="panel-body" style="overflow: scroll;">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <!-- <th class="text-center" style="width:20px">
+                            <span role="button" ng-click="checkAll(pageModel)">
+                                <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                            </span>
+                        </th> -->
+                        <th  nowrap="nowrap">报装房号</th>
+                        <th  nowrap="nowrap">业主姓名</th>
+                        <th  nowrap="nowrap">业主电话</th>
+                        <th  nowrap="nowrap">装修公司名称</th>
+                        <th  nowrap="nowrap">施工方负责人姓名</th>
+                        <th  nowrap="nowrap">施工方负责人电话</th>
+                        <th  nowrap="nowrap">报装项目</th>
+                        <th  nowrap="nowrap">报装证件</th>
+                        <th  nowrap="nowrap">审核状态</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <!-- <td>
+                            <i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                class="glyphicon"></i>
+                        </td> -->
+                        <td>{{item.roomName}}</td>
+                        <td>{{item.ownerName}}</td>
+                        <td>{{item.ownerTel}}</td>
+                        <td>{{item.decorationCompany}}</td>
+                        <td>{{item.workerName}}</td>
+                        <td>{{item.workerTel}}</td>
+                        <td>{{item.decorationName.split(',').join(', ')||'暂无数据'}}</td>
+                        <td>
+                            <a href="javascript:void(0)" ng-click="showReportCertif(item)">
+                                <span>查看详情</span>
+                            </a>
+                        </td>
+                        <td>{{item.applyStatus=="1" ? "已通过":"未通过"}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <page-pro page-model="pageModel"></page-pro>
+            </div>
+        </div>
+    </div>
+</div>

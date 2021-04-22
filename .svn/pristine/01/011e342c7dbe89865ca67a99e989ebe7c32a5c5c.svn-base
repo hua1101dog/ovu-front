@@ -1,0 +1,21 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">预览题目</h4>
+   </div>
+   <div class="modal-body container-fluid form-horizontal ng-scope">
+	<form name="form" novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+		<div class="form-group" style="margin-left:5%;">
+			<h4>{{item.title}}</h4>
+			<div>
+				<div class="input-group">
+					<label class="{{item.questionType}}" ng-repeat="option in item.optionItems">
+						<input type="{{item.questionType}}"  name="question_type" value="{{option.position}}"> {{option.content}}
+					</label>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" ng-click="cancel()">关 闭</button>
+</div>

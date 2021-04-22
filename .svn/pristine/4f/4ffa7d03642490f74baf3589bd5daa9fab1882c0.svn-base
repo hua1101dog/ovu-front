@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'新增'}}标签</h4>
+
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate style="padding-left: 15px;">
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label required" style="padding-right: 0px">标签名称：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.name" required
+                       style="cursor: default;"/>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="saveItem(form,item)">保存</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

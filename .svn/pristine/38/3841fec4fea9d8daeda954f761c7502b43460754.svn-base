@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <button class="close" type="button" ng-click="$ctrl.cancel()">×</button>
+    <h4 class="modal-title" id="modal-title">{{$ctrl.title}}</h4>
+</div>
+<div class="modal-body edit-contact text-center" id="modal-body">
+    <form name="editForm" novalidate="" style="margin:0">
+        <div class="form-group clearfix">
+            <label for="matterName" class="col-sm-3 control-label required text-right">标准名称：</label>
+            <div class="col-sm-9">
+                <input type="text" id="matterName" class="form-control" required ng-trim="false" auto-focus="true" ng-model="$ctrl.item.matterName">
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label for="materCotent" class="col-sm-3 control-label required text-right">标准内容：</label>
+            <div class="col-sm-9">
+                <!-- <textarea type="text" rows="15" class="form-control" required ng-model="$ctrl.item.matterCotent" /> -->
+                <div ng-class="{'warning-red': $ctrl.contentInvalid}">
+                    <todo-mvc todos="$ctrl.item.matterCotent"></todo-mvc>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok(editForm)">确定</button>
+    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">取消</button>
+</div>
+
+<style>
+    .warning-red {
+        border: 1px solid rgba(255, 0, 0, 0.59);
+        -moz-box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+        -webkit-box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+        box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+    }
+</style>

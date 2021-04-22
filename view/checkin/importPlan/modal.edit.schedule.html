@@ -1,0 +1,71 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" >×</button>
+    <h4 class="modal-title">修改班次</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+
+    <form name="form" style="padding: 0 20px" novalidate>
+      
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">是否上班：</label>
+            <div class="col-xs-8 " style="padding-left: 0px">
+                <label role="button" style="line-height:32px;margin-right: 15px">
+                    <input type="radio" style="margin:0 5px" ng-model="item.isRest" value=1 required
+                       >是</label>
+                <label role="button" style="line-height:32px;">
+                    <input type="radio" style="margin:0 5px" ng-model="item.isRest" value=2 required
+                       >否</label>
+            </div>
+        </div>
+          
+            <div class="form-group" ng-if="item.isRest=='1'">
+                <label class="col-xs-3 control-label required">选择班次：</label>
+                <div class="col-xs-8" style="padding-left: 0px">
+                    <select class="form-control" ng-model="item.arrangeRuleId" required ng-options="o.id as o.scheduleName for o in classList">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+           
+    </form>
+</div>
+<div class="modal-footer" >
+    <button class="btn btn-primary" style="margin: 0 10px" ng-click="confirm(form)">确定</button>
+    <button class="btn btn-warning" style="margin: 0 10px" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .inline_block {
+        display: inline-block
+    }
+
+    .pro_Line {
+        height: 1px;
+        width: 22%;
+        border: 1px dashed #ccc;
+        vertical-align: middle
+    }
+
+    .pro_border {
+        margin: 20px;
+        width: 40px;
+        height: 40px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        vertical-align: middle
+    }
+
+    .font_num {
+        text-align: center;
+        width: 40px;
+        line-height: 40px;
+        font-size: 14px;
+    }
+
+    .font_detail {
+        margin-top: 5px;
+    margin-left: -24px;
+    text-align: center;
+    width: 96px;
+    }
+
+</style>

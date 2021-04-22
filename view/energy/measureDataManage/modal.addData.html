@@ -1,0 +1,53 @@
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{isEdit?'编辑':'新增'}}数据</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate ng-show="!isEdit">
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">自动读取数据：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" ng-model="item.originalValue"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">自动读取数据时间：</label>
+            <div class="col-xs-8">
+                <input type="datetime" class="form-control Wdate" readonly onchange="" ng-model="item.originalTime" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d'})">
+            </div>
+        </div>
+    </form>
+    <form name="form" novalidate ng-show="isEdit">
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">自动读取数据：</label>
+            <div class="col-xs-8">
+                <input type="text" readonly class="form-control" ng-model="item.originalValue"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">自动读取数据时间：</label>
+            <div class="col-xs-8">
+                <input type="datetime" readonly class="form-control Wdate" ng-model="item.originalTime">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">手动修改数据：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" ng-model="item.modifyValue"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">手动修改时间：</label>
+            <div class="col-xs-8">
+                <input type="datetime" readonly class="form-control Wdate" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d'})" ng-model="item.modifyTime">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save()">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

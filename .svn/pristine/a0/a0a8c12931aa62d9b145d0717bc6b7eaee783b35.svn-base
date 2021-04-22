@@ -1,0 +1,89 @@
+<div ng-controller="partnershipcontentCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>入伙内容管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" class="form-control" style="width:150px" ng-model="search.residentName" placeholder="请输入业主名称" />
+                        <input type="text" class="form-control" style="width:150px" ng-model="search.mobile" placeholder="请输入业主电话" />
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="search.status" ng-options="o[0] as o[1] for o in msg">
+                             <option value="">--全部--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-default" ng-click="find()">查询</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span style="display:inline-block;margin-top:7px;">业主信息列表</span>
+                    <button class="btn btn-default pull-right" ng-if="showBtn" style="margin-top:0;" ng-disabled="!hasChecked(pageModel)" ng-click="refuseAll()">批量拒绝</button>
+                    <button class="btn btn-primary pull-right" ng-if="showBtn" style="margin-top:0;" ng-disabled="!hasChecked(pageModel)" ng-click="passAll()">批量通过</button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top:10px">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                                <th>业主姓名</th>
+                                <th>性别</th>
+                                <th>身份证号</th>
+                                <th>园内住址</th>
+                                <th>建筑面积</th>
+                                <th>工作单位</th>
+                                <th>联系电话</th>
+                                <th>紧急联系人电话</th>
+                                <th>业主照片</th>
+                                <th>审核状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data || pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data">
+                                <td><i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                        class="glyphicon"></i></td>
+                                <td>{{item.residentName}}</td>
+                                <td><span ng-if="item.sex != 0">男</span><span ng-if="item.sex == 0">女</span></td>
+                                <td>{{item.idCard}}</td>
+                                <td>{{item.address}}</td>
+                                <td>{{item.coveredArea}}</td>
+                                <td>{{item.workUnit}}</td>
+                                <td>{{item.mobile}}</td>
+                                <td>{{item.contactPhone}}</td>
+                                <td><img ng-src="{{item.residentImg}}" style="width:30px;height:30px;" alt=""></td>
+                                <td><span ng-if="item.status == 0">待审核</span><span ng-if="item.status == 1">已通过</span><span ng-if="item.status == 2">已拒绝</span></td>
+                                <td>
+                                    <a href="javascript:void(0)" ng-if="item.status == 0" ng-click="showModal(item)" class="btn-link">审核</a>
+                                    <a href="javascript:void(0)" ng-click="checkModal(item)" ng-if="item.status == 1" class="btn-link">查看详情</a>
+                                    <a href="javascript:void(0)" ng-click="checkModal(item)" ng-if="item.status == 2" class="btn-link">查看详情</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>
+<script src="/view/join/partnershipcontentService.js"></script>

@@ -1,0 +1,83 @@
+    
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>上架编号</label>
+                    <input type="text" class="form-control" ng-model="search.shelvesNo" />
+                </div>
+                <div class="form-group">
+                    <label>书籍作者</label>
+                    <input type="text" class="form-control" ng-model="search.author" />
+                </div>
+                <div class="form-group" ng-if="level=='1'">
+                    <label>书籍类型</label>
+                    <select class="form-control"ng-model="search.assetCategoryId" ng-options="o.id as o.assetName for o in secondList">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                        <label>登记日期</label>
+                        <input  type="datetime" required class="form-control Wdate" ng-model="item.registerTime" placeholder="登记日期" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d %H-%m-%s'})">
+                    </div>
+                <button class="btn btn-default pull-right" ng-click="find(1)">查询</button>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <span style="display:inline-block;margin-top:8px;">信息列表</span>
+                <button class="btn btn-primary pull-right" style="margin-top: 0" ng-click="importExcel()" ng-if="hasNode && level=='1'">导入</button>
+                <button class="btn btn-primary pull-right" style="margin-top: 0" ng-click="exportExcel(2)" ng-if="level=='1'">导出模板</button>
+                <button class="btn btn-primary pull-right" ng-if="hasNode" style="margin-top: 0" ng-click="showEditModal()" ng-disabled="!search.deptId">新增书籍</button>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width:30px">NO</th>
+                            <th>资产类别</th>
+                            <th>资产编号</th>
+                            <th>上架编号</th>
+                            <th>登记日期</th>
+                            <th>书籍作者</th>
+                            <th>书籍名称</th>
+                            <th>书籍数量</th>
+                            <th>期数</th>
+                            <th>备注信息</th>
+                            <th>是否正常</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data">
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td>{{item.assetCategoryName}}</td>
+                            <td><span  uib-tooltip={{item.assetNo}}  tooltip-placement="auto top" class="content">{{item.assetNo}}</span></td> 
+                            <td>{{item.shelvesNo}}</td>
+                            <td>{{item.registerTime}}</td>
+                            <td>{{item.author}}</td>
+                            <td>{{item.bookName}}</td>
+                            <td>{{item.number}}</td>
+                            <td>{{item.bookNo}}</td>
+                            <td>{{item.remarks}}</td>
+                            <td>{{item.normal=='1'?'正常':'异常'}}</td>
+                            <td  style="width: 30px">
+                                <a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'>
+                                    <span class='fa fa-edit'></span>编辑</a>
+                                <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'>
+                                    <span class='fa fa-trash'></span>删除</a>
+    
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+  
+  

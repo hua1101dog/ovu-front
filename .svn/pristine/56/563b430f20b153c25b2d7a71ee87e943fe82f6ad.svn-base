@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>客流统计</title>
+    <link rel="stylesheet" href="reportManage/style/report.css">
+    <style>
+        .passflow {
+            color: #f30;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="angularId" ng-controller="turnoverInfoCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>客流统计</h3>
+            </div>
+        </div>
+        <div>
+            <div class="x_panel">
+                <div class="form-inline find_input marT_15">
+                    <!-- <div class="form-group">
+                        <a class='btn btn-success btn-sm' ng-click='chooseBuild()'>
+                            <span class='glyphicon glyphicon-plus'></span>选择楼栋</a>
+                    </div>
+                    <div class="form-group">
+                        <label>楼栋:</label>
+                        <div class="input-group">
+                            <ul class="ul-persons">
+                                <li class="item" ng-repeat="p in parkList">{{p.parkName}}
+                                    <a ng-click="delpark(parks,p)">
+                                        <i class='fa fa-remove'></i>
+                                    </a>
+                                </li>
+                                <li ng-if="parkList.length >= 3 && !show"><a style="color: #2A60FF;"
+                                        ng-click="getmore()">更多 <i class="fa fa-angle-double-right"></i></a></li>
+                                <li ng-if="show"><a style="color: #2A60FF;" ng-click="getless()">收起 <i
+                                            class="fa fa-angle-double-left"></i></a></li>
+                            </ul>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label>选择日期</label>
+<<<<<<< .mine
+                        <input style="width: 180px;" type="datetime" class="form-control Wdate"
+                            ng-model="search.startDate" placeholder="开始日期" onchange="" id="choseTime"
+                            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',isShowClear:false})"
+                            required>
+||||||| .r29630
+                        <input style="width: 180px;" type="datetime" class="form-control Wdate"  ng-model="search.startTime" placeholder="开始日期" onchange="" id="choseTime"
+                            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d',isShowClear:false})"
+                        required>
+=======
+                        <input style="width: 180px;" type="datetime" class="form-control Wdate"  ng-model="search.startDate" placeholder="开始日期" onchange="" id="choseTime"
+                            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',isShowClear:false})"
+                        required>
+>>>>>>> .r30048
+                        <label>-</label>
+
+<<<<<<< .mine
+                        <input style="width:180px;" type="datetime" class="form-control Wdate" ng-model="search.endDate"
+                            placeholder="结束日期" onchange=""
+                            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'choseTime\')}',maxDate:'%y-%M-%d',isShowClear:false})"
+||||||| .r29630
+                        <input style="width:180px;" type="datetime" class="form-control Wdate"  ng-model="search.endTime" placeholder="结束日期" onchange=""
+                            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'choseTime\')}',maxDate:'%y-%M-%d',isShowClear:false})"
+=======
+                        <input style="width:180px;" type="datetime" class="form-control Wdate"  ng-model="search.endDate" placeholder="结束日期" onchange=""
+                            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'choseTime\')}',maxDate:'%y-%M-%d',isShowClear:false})"
+>>>>>>> .r30048
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <!-- <span>进出次数</span>
+                        <span style="font-weight:bold;margin-left:5px ">17</span>
+                        <span>进出人数</span>
+                        <span style="font-weight:bold;margin-left:5px ">17</span>
+                        <span>进出员工</span>
+                        <span style="font-weight:bold;margin-left:5px ">17</span> -->
+                        <label class="control-label">
+                            <b class="passflow">*</b>
+                            统计类型：</label>
+                        <!-- <select class="form-control" ng-model="search.statisticalType"> -->
+                        <select class="form-control" ng-init="params.type='0'" ng-model="params.type">
+                            <option value="0">进出次数统计</option>
+                            <option value="1">进出人数统计</option>
+                            <option value="2">进出员工统计</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" ng-click="searchInfo()">查询</button>
+                        <button class="btn btn-warning" ng-click="exportToTable()">导出</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body" style="overflow-x: scroll;overflow-y: hidden;">
+                <table class="table text-left">
+                    <thead>
+                        <tr>
+                            <th>
+                                位置
+                            </th>
+                            <th>
+                                摄像头个数
+                            </th>
+                            <th>
+                                00:00-01:00
+                            </th>
+                            <th>
+                                01:00-02:00
+                            </th>
+                            <th>
+                                02:00-03:00
+                            </th>
+                            <th>
+                                03:00-04:00
+                            </th>
+                            <th>
+                                04:00-05:00
+                            </th>
+                            <th>
+                                05:00-06:00
+                            </th>
+                            <th>
+                                06:00-07:00
+                            </th>
+                            <th>
+                                07:00-08:00
+                            </th>
+                            <th>
+                                08:00-09:00
+                            </th>
+                            <th>
+                                10:00-11:00
+                            </th>
+                            <th>
+                                11:00-12:00
+                            </th>
+                            <th>
+                                12:00-13:00
+                            </th>
+                            <th>
+                                13:00-14:00
+                            </th>
+                            <th>
+                                14:00-15:00
+                            </th>
+                            <th>
+                                15:00-16:00
+                            </th>
+                            <th>
+                                16:00-17:00
+                            </th>
+                            <th>
+                                17:00-18:00
+                            </th>
+                            <th>
+                                18:00-19:00
+                            </th>
+                            <th>
+                                19:00-20:00
+                            </th>
+                            <th>
+                                20:00-21:00
+                            </th>
+                            <th>
+                                21:00-22:00
+                            </th>
+                            <th>
+                                22:00-23:00
+                            </th>
+                            <th>
+                                23:00-00:00
+                            </th>
+                            <th>合计</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!trafficStatistics||trafficStatistics.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat='item in trafficStatistics' ng-if='!trafficStatistics.length == 0'>
+                            <td>
+                                {{item.name}}
+                            </td>
+                            <td>
+                                {{item.equipTotal}}
+                            </td>
+                            <td>{{item.t1}}</td>
+                            <td>{{item.t2}}</td>
+                            <td>{{item.t3}}</td>
+                            <td>{{item.t4}}</td>
+                            <td>{{item.t5}}</td>
+                            <td>{{item.t6}}</td>
+                            <td>{{item.t7}}</td>
+                            <td>{{item.t8}}</td>
+                            <td>{{item.t9}}</td>
+                            <td>{{item.t10}}</td>
+                            <td>{{item.t11}}</td>
+                            <td>{{item.t12}}</td>
+                            <td>{{item.t13}}</td>
+                            <td>{{item.t14}}</td>
+                            <td>{{item.t15}}</td>
+                            <td>{{item.t16}}</td>
+                            <td>{{item.t17}}</td>
+                            <td>{{item.t18}}</td>
+                            <td>{{item.t19}}</td>
+                            <td>{{item.t20}}</td>
+                            <td>{{item.t21}}</td>
+                            <td>{{item.t22}}</td>
+                            <td>{{item.t23}}</td>
+                            <td>{{item.total}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

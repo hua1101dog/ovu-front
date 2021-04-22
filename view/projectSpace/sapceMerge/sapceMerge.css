@@ -1,0 +1,10 @@
+label.control-label{
+	padding-left:0;
+	padding-right:0;
+}
+.houseInfo {
+	border-bottom:1px solid #ddd;
+}
+.houseInfo:last-child {
+	border-bottom:none;
+}

@@ -1,0 +1,120 @@
+<div class="restaurant padding20 bgc">
+    <div class="clearfix">
+        <h3 class="fl font-bold margin0">全派餐厅</h3>
+        <button class="fr btn btn-default" ng-click="$ctrl.goback()">返回上级</button>
+    </div>
+    <div class="enviroment row m-t-md">
+        <div class="col-lg-3 col-sm-3">
+            <img src="/show/res/img/mating/canting1.png" alt="">
+            <p>全派餐饮门口</p>
+        </div>
+        <div class="col-lg-3 col-sm-3">
+            <img src="/show/res/img/mating/canting1.png" alt="">
+            <p>全派餐饮就餐环境</p>
+        </div>
+        <div class="col-lg-3 col-sm-3">
+            <img src="/show/res/img/mating/canting1.png" alt="">
+            <p>全派餐饮档口</p>
+        </div>
+        <div class="col-lg-3 col-sm-3">
+            <img src="/show/res/img/mating/canting1.png" alt="">
+            <p>全派餐饮vip包间</p>
+        </div>
+    </div>
+    <h5>菜单</h5>
+    <div class="food">
+        <div>
+            <img src="/show/res/img/mating/reganmian.png" alt="">
+            <p class="clearfix"><span class="fl">金牌热干面</span><span class="fr">￥2.00</span></p>
+        </div>
+        <div>
+            <img src="/show/res/img/mating/reganmian.png" alt="">
+            <p class="clearfix"><span class="fl">金牌热干面</span><span class="fr">￥2.00</span></p>
+        </div>
+        <div>
+            <img src="/show/res/img/mating/reganmian.png" alt="">
+            <p class="clearfix"><span class="fl">金牌热干面</span><span class="fr">￥2.00</span></p>
+        </div>
+        <div>
+            <img src="/show/res/img/mating/reganmian.png" alt="">
+            <p class="clearfix"><span class="fl">金牌热干面</span><span class="fr">￥2.00</span></p>
+        </div>
+        <div>
+            <img src="/show/res/img/mating/reganmian.png" alt="">
+            <p class="clearfix"><span class="fl">金牌热干面</span><span class="fr">￥2.00</span></p>
+        </div>
+        <div>
+            <img src="/show/res/img/mating/reganmian.png" alt="">
+            <p class="clearfix"><span class="fl">金牌热干面</span><span class="fr">￥2.00</span></p>
+        </div>
+        <div>
+            <img src="/show/res/img/mating/reganmian.png" alt="">
+            <p class="clearfix"><span class="fl">金牌热干面</span><span class="fr">￥2.00</span></p>
+        </div>
+        <div>
+            <img src="/show/res/img/mating/reganmian.png" alt="">
+            <p class="clearfix"><span class="fl">金牌热干面</span><span class="fr">￥2.00</span></p>
+        </div>
+        <div>
+            <img src="/show/res/img/mating/reganmian.png" alt="">
+            <p class="clearfix"><span class="fl">金牌热干面</span><span class="fr">￥2.00</span></p>
+        </div>
+        <div>
+            <img src="/show/res/img/mating/reganmian.png" alt="">
+            <p class="clearfix"><span class="fl">金牌热干面</span><span class="fr">￥2.00</span></p>
+        </div>
+    </div>
+</div>
+<style>
+    .enviroment>div {
+        position: relative;
+    }
+
+    .enviroment>div>img {
+        width: 100%;
+    }
+
+    .enviroment>div>p {
+        width: 90%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        color: white;
+        font-size: 12px;
+        background-color: rgba(0, 0, 0, 0.4);
+        margin: 0;
+        margin-left: 15px;
+        padding-left: 6px;
+    }
+
+    .food {
+        background-color: white;
+        padding: 20px 0;
+        text-align: center;
+    }
+
+    .food>div {
+        width: 19%;
+        position: relative;
+        padding: 0 10px;
+        display: inline-block;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+    }
+
+    .food>div>img {
+        width: 100%;
+    }
+
+    .food>div>p {
+        width: 91%;
+        position: absolute;
+        bottom: 0;
+        left: 10px;
+        color: white;
+        font-size: 12px;
+        background-color: rgba(0, 0, 0, 0.4);
+        margin: 0;
+        padding-left: 6px;
+    }
+</style>

@@ -1,0 +1,120 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">设置计算公式</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="item form-group">
+			<label class="control-label col-md-2 col-sm-2 col-xs-12" required style="text-align:center">计算公式:
+			</label>
+			<div class="col-md-9 col-sm-9 col-xs-12">
+				<input type="text" name="name" ng-model="item.formulaText" readonly required class="form-control" />
+			</div>
+			<div class="col-md-1 col-sm-1 col-xs-12" style="margin-left: -20px">
+				<button class="btn" ng-click="clear()">清空</button>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">公式配置:{{item.nodeName}}
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12" style="margin-top: 20px;">
+				<div class="x_panel">
+					<div class="x_title">分组配置</div>
+					<div class="x_content" style="overflow: auto">
+						<!-- <tree-view node-list="analysisGroup"  config="config"></tree-view> -->
+						<tree-filter node-list="analysisGroup"></tree-filter>
+						<tree-view node-list="analysisGroup" check-callback="check"
+						config="config"></tree-view>
+					</div>
+				</div>
+			</div>
+
+			<!-- <div class="col-md-1 col-sm-1 col-xs-12" style="margin-top: 20px;width:4%;font-size: 32px">
+					<span class="fa  fa-long-arrow-right arrow green"></span>
+			</div>
+            <div class="col-md-2 col-sm-2 col-xs-12" style="margin-top: 20px;">
+				<div class="x_panel" style="overflow: auto">
+					<div class="x_title">自定义配置</div>
+
+					<ul ng-repeat="ac in analysisDefined" style="padding:5px;" >
+						<li class="btn btn-sm mr15 btn-success"  role="button">
+							<i class="glyphicon" ng-class="{'glyphicon-check':ac.checked,'glyphicon-unchecked':!ac.checked}"  ng-click="checkVariable(ac)"></i>{{ac.text}}
+							<i class="icon glyphicon glyphicon-edit" ng-click="edit(ac)"></i>
+							<i class="icon glyphicon glyphicon-trash" ng-click="delNode(ac)"></i>
+							
+						
+						</li>
+					</ul>
+					
+				</div>
+			</div> -->
+			<!-- <div class="col-md-1 col-sm-1 col-xs-12" style="margin-top: 20px;width:4%;font-size: 32px">
+					<span class="fa  fa-long-arrow-left arrow green"></span>
+			</div> -->
+			<div class="col-md-3 col-sm-3 col-xs-12" style="margin-top: 20px;">
+				<div class="x_panel">
+					<div class="x_title">层级配置</div>
+					<div class="x_content" style="overflow: auto">
+						<!-- <tree-view node-list="analysisLevel"  config="config"></tree-view> -->
+						<tree-filter node-list="analysisLevel"></tree-filter>
+						<tree-view node-list="analysisLevel" check-callback="check"
+						config="config"></tree-view>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12" style="margin-top: 20px;">
+				<div class="x_panel">
+					<div class="x_title">异常情况表配置</div>
+					<div class="x_content" style="overflow: auto">
+						<!-- <tree-view node-list="analysisCalculate"  config="config"></tree-view> -->
+						<ul class="fengTree" ng-if="analysisCalculate.length">
+							<li ng-repeat="node in analysisCalculate" class="clearfix">
+								<div class="form-inline " ng-class="{'bg-success':node.state.selected,'bg-danger':node.state.edit}">
+									<i class="icon glyphicon " ng-click="node.state.expanded = !node.state.expanded"
+									   ng-style="{visibility:node.nodes.length?'visible':'hidden'}"
+									   ng-class="{'glyphicon-minus':node.state.expanded,'glyphicon-plus':!node.state.expanded}"></i>
+									<i class="icon glyphicon " ng-click="checkError(node)" ng-if="config.showCheckbox"
+									   ng-class="{'glyphicon-check':node.state.checked,'glyphicon-unchecked':!node.state.checked}"></i>
+									
+									<i ng-class="node.icon" ng-if="node.icon"></i>
+									
+									<span role="button" class="text" ng-click="$parent.selectNode(node)" ng-if="!node.state.edit" ng-attr-title="{{node.text}}">{{node.text|filterEllips:config.edit}}
+									  <span class="badge" ng-if="node.cnt >-1">{{node.cnt}}</span>
+									</span>
+									
+						
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12" style="margin-top: 20px;">
+				<div>
+					<div style="text-align: center;padding: 10px 10px">
+						<button style="width: 50px" class="btn btn-primary btn-large" ng-click="clickOper(1)">+</button>
+					</div>
+					<div style="text-align: center;padding: 10px 10px">
+						<button style="width: 50px" class="btn btn-primary btn-large" ng-click="clickOper(2)">-</button>
+					</div>
+					<div style="text-align: center;padding: 10px 10px">
+						<button style="width: 50px" class="btn btn-primary btn-large" ng-click="clickOper(3)">×</button>
+					</div>
+					<div style="text-align: center;padding: 10px 10px">
+						<button style="width: 50px" class="btn btn-primary btn-large" ng-click="clickOper(4)">÷</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+	.green{
+		color:#65CB00
+	}
+</style>

@@ -1,0 +1,142 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">新增供款明细</h4>
+</div>
+<div class="btngroup">
+    <button class="btn btn-primary" ng-click="save(form,detailed)"><span class="btnImage save"></span>保存</button>
+    <!--<button class="btn btn-primary" ng-click="save(form,detailed)"><span class="btnImage saveAndClose"></span>保存&关闭</button>-->
+    <button class="btn btn-primary" ng-click="cancel()"><span class="btnImage close"></span>关闭</button>
+</div>
+<div class="modal-body container-fluid form-horizontal" style="padding-right: 30px">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">序号:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="detailed.orderNum" name="saleStatus" readonly>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">款项类型:</label>
+            <div class="col-xs-4">
+                <select class="form-control text-center" required name="amountType" ng-model="detailed.amountType" required
+                        ng-options="o['dicVal'] as o['dicItem'] for o in saleFinanceAmountTypeList">
+                        <option value="">请选择</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label required-title">款项名称:</label>
+            <div class="col-xs-4">
+                <select class="form-control text-center" required name="amountName" ng-model="detailed.amountName" required
+                ng-options="o['dicVal'] as o['dicItem'] for o in saleFinanceAmountNameList">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">付款期限:</label>
+            <div class="col-xs-4">
+                <input type="datetime" class="form-control Wdate" ng-model="detailed.paymentPeriod" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" required>
+            </div>
+            <label class="col-xs-2 control-label required-title">金额:</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                    ng-model="detailed.amount" ng-change="changeAmountRmb(detailed)" required>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">币种:</label>
+            <div class="col-xs-4">
+                <select class="form-control" ng-model="detailed.currency"  ng-change="currencyChange(detailed)"
+                    ng-options="o['dicVal'] as o['dicItem'] for o in saleFinanceCurrencyList">
+                </select>
+            </div>
+            <label class="col-xs-2 control-label required-title">汇率:</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"  ng-model="detailed.exchangeRate" readonly>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">折人民币金额:</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control" ng-model="detailed.amountRmb" readonly>
+            </div>
+            <label class="col-xs-2 control-label ">折人民币余额:</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                    ng-model="detailed.leftAmountRmb" ng-change="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">备注:</label>
+            <div class="col-xs-10">
+                <textarea ng-model="detailed.remark" name="remark" class="form-control" rows="4" maxlength="300"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<style>
+   .modal-md {
+        width: 800px;
+    }
+    .modal-header {
+        background-color: #337ab7;
+        padding: 10px 15px;
+        color: #ffffff
+    }
+
+    .btngroup {
+        margin-top: 1px;
+        padding: 2px;
+        background-color: #337ab7
+    }
+
+    .btngroup>.btn {
+        background-color: #e2f1084f;
+        height: 34px;
+        line-height: 22px;
+        padding: 6px 12px;
+    }
+
+    .required-title {
+        color: rgb(199, 45, 45)
+    }
+
+    span.btnImage {
+        display: block;
+        float: left;
+        margin-top: 3px;
+        height: 16px;
+        width: 20px;
+        margin-right: 2px;
+        padding-left: 0px;
+        background-repeat: no-repeat;
+        font-size: 14px;
+
+    }
+
+    span.save {
+        background-image: url("../../../image/icon_save.png");
+    }
+
+    span.saveAndClose {
+        background-image: url("../../../image/icon_closeSave.png");
+    }
+
+    span.approve {
+        background-image: url("../../../image/icon_start.png");
+    }
+
+    span.close {
+        background-image: url("../../../image/icon_close.png");
+    }
+
+    .col-xs-1 {
+        padding-right: 0px
+    }
+</style>

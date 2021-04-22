@@ -1,0 +1,17 @@
+﻿<style type="text/css">
+	.pagination>li>span:hover{background-color: #fff;cursor:text}
+</style>
+<div class="page"  style="font-size:12px;height:70px;">
+	<ul class="pagination pull-left" ng-show ="personPageModel.pageTotal">
+		<li ><span style="height:31px;">每页
+		  <select  style="width:80px;padding:0;border:none" type="number"   ng-model="personPageModel.pageSize" ng-change="searchCustomers1(1)" ng-options="o[0] as o[1] for o in [[10,'&nbsp;&nbsp;&nbsp;10'],[20,'&nbsp;&nbsp;&nbsp;20'],[50,'&nbsp;&nbsp;&nbsp;50'],[100,'&nbsp;&nbsp;&nbsp;100'],[200,'&nbsp;&nbsp;&nbsp;200']]">
+		  </select>条</span></li>
+		<li ng-if="$first" role="button" ng-repeat-start="page in personPageModel.pages track by $index"  ng-class="{disabled:personPageModel.currentPage ==1}" ng-click="personPageModel.currentPage >1 && searchCustomers1(personPageModel.currentPage-1)"><a>«</a></li>
+		<li ng-class="{active:page==personPageModel.currentPage}" role="button">
+			<a ng-if="page>0" ng-click="searchCustomers1(page)">{{page}}</a>
+			<span ng-if="!(page>0)" style="border-top:none;border-bottom:none">{{page}}</span>
+		</li>
+		<li ng-if="$last" role="button" ng-repeat-end ng-class="{disabled:personPageModel.currentPage == personPageModel.pageTotal}" ng-click="personPageModel.currentPage < personPageModel.pageTotal && searchCustomers1(personPageModel.currentPage+1)"><a>»</a></li>
+		<li><span>共{{personPageModel.totalCount}}条记录</span></li>
+	</ul>
+</div>

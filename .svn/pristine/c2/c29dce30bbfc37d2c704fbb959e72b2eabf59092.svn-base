@@ -1,0 +1,77 @@
+<div class="big-screen">
+    <div class="left-map" ng-class="{'big-screen-p-r': $ctrl.showRight}">
+        <map-area gaode-data="$ctrl.gaodeData" park-no="$ctrl.parkNo" indoor-data="$ctrl.indoorData"></map-area>
+    </div>
+    <a href="javascript:;" class="collapse-btn btn btn-default" ng-class="{'collapse-btn-p-r': $ctrl.showRight }" ng-click="$ctrl.showRight = !$ctrl.showRight;">
+        <div ng-show="$ctrl.showRight">
+            <div>收</div>
+            <div>起</div>
+            <div style="padding-left:5px">》</div>
+        </div>
+        <div ng-show="!$ctrl.showRight">
+            <div>展</div>
+            <div>开</div>
+            <div style="padding-right:5px">《</div>
+        </div>
+    </a>
+    <div class="right-panel" ng-show="$ctrl.showRight">
+        <info-panel>
+            <div ng-transclude></div>
+        </info-panel>
+    </div>
+</div>
+
+<style>
+    .big-screen {
+        height: 100%;
+        position: relative;
+        /* padding-right: 350px; */
+    }
+    
+    .big-screen-p-r {
+        padding-right: 350px;
+    }
+    
+    .big-screen .left-map {
+        width: 100%;
+        /* 全屏调整 */
+        /* height: 800px; */
+        height: 100%;
+        /* border: 1px solid green; */
+    }
+    
+    .big-screen .collapse-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0;
+        padding: 10px 5px;
+        color: #2A60FF;
+        border-radius: 0px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        border-right: none;
+    }
+    
+    .big-screen .collapse-btn:hover,
+    .big-screen .collapse-btn:focus {
+        background-color: transparent;
+        color: #2A60FF;
+        border-right: none;
+    }
+    
+    .big-screen .collapse-btn.collapse-btn-p-r {
+        right: 350px;
+    }
+    
+    .big-screen .right-panel {
+        width: 350px;
+        /* border: 2px solid red; */
+        /* 全屏调整 */
+        /* height: 800px; */
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+</style>

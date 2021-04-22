@@ -1,0 +1,159 @@
+<!--设置巡查点弹出框  -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">设置巡查点</h4>
+</div>
+<div class="modal-body container-fluid">
+    <div class="panel panel-default">
+            <div class="panel-body">
+                <h5>巡查项：{{insItemName}}<h5>
+                        <h5>巡查内容：{{description}}</h5>
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h5>选择巡查点:</h5>
+        </div>
+    </div>
+
+
+    <form class="form" novalidate>
+        <div class="form-inline">
+            <div class="form-group">
+                <label>巡查点类型</label>
+                <select class="form-control" ng-model="search.type" ng-options="o[0] as o[1] for o in pointTypeDict">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>巡查点名称</label>
+                <input type="text" ng-model="search.name" class="form-control" />
+            </div>
+
+            <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+    </form>
+    <div class="panel panel-default" style="margin-top:10px">
+        <div class="panel-heading">
+            巡查点列表
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+                                <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                        <th>巡查点名称</th>
+                        <th>巡查点类型</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td><i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                class="glyphicon"></i></td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.type | keyToValue: pointTypeDict}}</td>
+                        <td>
+                            <a href='javascript:void(0)' ng-click='showLocation(item)' class='btn btn-xs'><span class='fa fa-location-arrow'></span>查看位置</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h5>设置巡查点巡查时间:</h5>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <form name="form">
+            <div class="panel-body">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center">巡查点名称</th>
+                            <th class="text-center">巡查时间</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr ng-if="!patrolTimeList  || patrolTimeList.length == 0">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                        <tr ng-repeat="item in patrolTimeList track by $index">
+                            <td>{{item.name}}</td>
+                            <td>
+                                <div>
+                                    每日
+                                    <!-- <input type="datetime"  class="form-control Wdate time" ng-model="item.beginData1" onchange=""  wdate-picker>
+                                    <input type="datetime" class="form-control Wdate time" ng-model="item.beginData2" onchange=""  wdate-picker>
+                                   <input type="datetime"  class="form-control Wdate time" ng-model="item.beginData3" onchange=""  wdate-picker>
+                                   <input type="datetime"  class="form-control Wdate time" ng-model="item.beginData4" onchange=""  wdate-picker>
+                                   <input type="datetime"  class="form-control Wdate time" ng-model="item.beginData5" onchange=""  wdate-picker> -->
+                                   <input type="text" readonly ng-model="item.timeFrom"
+                                   class="form-control time"  ng-lay-range="">
+                                </div>
+                            </td>
+                            <td>
+                                <a href='javascript:void(0)' ng-click='copyTime(item)' ng-if="$index==0" class='btn btn-xs'><span class='fa fa-copy'></span>复制</a>
+                                <a href='javascript:void(0)' ng-click='delTodoItem(item)' class='btn btn-xs'>
+                                    <span class='fa fa-trash'></span>删除
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+      /* .time {
+        display: inline-block;
+        width: 15%;
+        height: 30px;
+        padding: 6px 24px;
+        font-size: 20px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    } */
+    table tr th,
+        table tr td {
+            text-align: center;
+        }
+        .layui-laydate-content>.layui-laydate-list {
+	            padding-bottom: 0px;
+	            overflow: hidden;
+	        }
+	        .layui-laydate-content>.layui-laydate-list>li{
+	            width:50%
+	        }
+ 
+			.merge-box .scrollbox .merge-list {
+			    padding-bottom: 5px;
+			}
+</style>

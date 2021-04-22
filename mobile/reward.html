@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=2,user-scalable=yes" />
+  <title>中电光谷服务手册</title>
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="lib/swiper.min.css">
+
+  <!-- Demo styles -->
+  <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color:#000;
+      margin: 0;
+      padding: 0;
+    }
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+    .width100{
+        width: 100%;
+    }
+    .height100{
+        height: 100%;
+    }
+    @media screen and (orientation: portrait){
+        img{
+            max-height: 100%;
+            max-width: 100%;
+        }
+        .swiper-slide:nth-child(2){
+            background:white;
+            color:white;}
+        .swiper-slide img{
+            transform:translateX(-200px);
+            opacity:0;
+            transition:all .4s;}
+        .ani-slide img{
+            transform:translateX(0);
+            opacity:1;
+        }
+    }
+    @media screen and (orientation: landscape){
+        img{
+           width: 100%;
+           height: 100%;
+        }
+    }
+   #content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    #innerContent{
+        position: absolute;
+        left: 0;
+        top: 0;
+        border: none;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 1800;
+    }
+  </style>
+</head>
+<body>
+  <!-- Swiper -->
+  <div class="swiper-container" id="content">
+    <div class="swiper-wrapper width100 height100" id="innerContent">
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_1.png"/></div>
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_2.png"/></div>
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_3.png"/></div>
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_4.png"/></div>
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_5.png"/></div>
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_6.png"/></div>
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_7.png"/></div>
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_8.png"/></div>
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_9.png"/></div>
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_10.png"/></div>
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_11.png"/></div>
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_12.png"/></div>
+      <div class="swiper-slide width100 height100"><img src="img/reward/img_13.png"/></div>
+    </div>
+  </div>
+
+  <script src="lib/swiper.min.js"></script>
+
+  <script>
+   
+   var swiper;
+   
+    function changeFrameHeight() {
+            var ifm = document.getElementById("innerContent");
+            ifm.height = document.documentElement.clientHeight;
+
+        }
+
+        window.onresize = function () {
+            changeFrameHeight();
+
+        }
+        // 利用 CSS3 旋转 对根容器逆时针旋转 90 度
+        var detectOrient = function () {
+            var width = document.documentElement.clientWidth,
+                height = document.documentElement.clientHeight,
+                $wrapper = document.getElementById("content"),
+                style = "";
+            if (width >= height) { // 横屏
+                style += "width:" + width + "px;";  // 注意旋转后的宽高切换
+                style += "height:" + height + "px;";
+                style += "-webkit-transform: rotate(0); transform: rotate(0);";
+                style += "-webkit-transform-origin: 0 0;";
+                style += "transform-origin: 0 0;";
+                
+                if(swiper){
+                    swiper.destroy(true,true);
+                }
+                swiper = new Swiper('.swiper-container');
+            }
+            else { // 竖屏
+                style += "width:" + height + "px;";
+                style += "height:" + width + "px;";
+                style += "-webkit-transform: rotate(90deg); transform: rotate(90deg);";
+                // 注意旋转中点的处理
+                style += "-webkit-transform-origin: " + width / 2 + "px " + width / 2 + "px;";
+                style += "transform-origin: " + width / 2 + "px " + width / 2 + "px;";
+                
+                if(swiper){
+                    swiper.destroy(true,true);
+                }
+                //swiper.changeDirection('vertical');
+                swiper = new Swiper('.swiper-container',{
+                    direction : 'vertical',
+                    followFinger : false,
+                    speed:800,
+                    mousewheel: true,
+                    on:{
+                        init:function(swiper){
+                            slide=this.slides.eq(0);
+                            slide.addClass('ani-slide');
+                        },
+                        transitionStart: function(){
+                            for(i=0;i<this.slides.length;i++){
+                                slide=this.slides.eq(i);
+                                slide.removeClass('ani-slide');
+                            }
+                        },
+                        transitionEnd: function(){
+                            slide=this.slides.eq(this.activeIndex);
+                            slide.addClass('ani-slide');
+                            
+                        },
+                    }
+                });
+            }
+            $wrapper.style.cssText = style;
+        }
+        window.onresize = detectOrient;
+        detectOrient();
+  </script>
+</body>
+</html>

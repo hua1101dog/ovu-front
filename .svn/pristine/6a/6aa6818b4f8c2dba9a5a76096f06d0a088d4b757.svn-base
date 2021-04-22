@@ -1,0 +1,96 @@
+<div ng-controller="sensorCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>传感器台帐</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <!--<a ng-click='expandAll(sensorTypeTree)' role="button" class='btn-link' title="展开与收缩"><i class="glyphicon" ng-class="{'glyphicon-resize-small':sensorTypeTree.expanded,'glyphicon-resize-full':!sensorTypeTree.expanded}" ></i></a>-->
+                    传感器型号
+                    <!--<a  ng-click='addTopNode()' role="button" class='btn-link pull-right'><i class='fa fa-plus' ></i>型号</a>-->
+                </div>
+                <div class="x_content yuan-tree" style="z-index: 1;margin-left: -35px">
+                    <div class="alert" role="alert" ng-show="!sensorTypeTree">传感器型号</div>
+                    <tree-sensor node-list="sensorTypeTree"></tree-sensor>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group" ng-if="search.isGroup">
+                        <label style="padding-left:0px;">项目</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" readonly="readonly" style="min-width: 200px" ng-model="search.parkName" />
+                            <span class="input-group-btn">
+								<button  class="btn btn-default" ng-click="findPark(search)"><i class='fa fa-map-marker'></i></button>
+							 </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>传感器编码</label>
+                        <input type="text" ng-model="search.mac" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>传感器名称</label>
+                        <input type="text" ng-model="search.NAME" class="form-control" />
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">传感器列表
+                    <!-- <button class="btn btn-danger pull-right"  ng-disabled="!hasChecked(pageModel)" ng-click="delAll()" >批量删除</button>
+                        <button class="btn btn-primary pull-right" ng-click="showEditModal()" >添加传感器</button>-->
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                                <th>传感器编码</th>
+                                <th>传感器名称</th>
+                                <th>型号</th>
+                                <th>位置</th>
+                                <th style="width:160px">更新时间</th>
+                                <th style="width:50px">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data" ng-if="!item.edit">
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+                                <td>{{item.mac}}</td>
+                                <td><a href='javascript:void(0)' class="btn-link" ng-click='showSensorDetail(item.id)'>{{item.name}}</a></td>
+                                <td>{{item.type_name}}</td>
+                                <td>{{item.park_name}} {{item.stage_name}} {{item.floor_name}} {{item.house_name}}</td>
+                                <td>{{item.last_time|date : 'yyyy/MM/dd HH:mm:ss'}}</td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+                                    <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs' ng-show="config.edit"><span class='fa fa-trash'></span>删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<style>
+    #house_tree {
+        margin-left: -17px;
+    }
+</style>

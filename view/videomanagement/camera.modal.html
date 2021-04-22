@@ -1,0 +1,150 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}摄像机</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">摄像机名称：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.name" required>
+            </div>
+
+            <label class="col-xs-2 control-label required">摄像机编码：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.code" required name="code" id={{item.id}}
+                       ensure_unique="code" ng-model-options="{ updateOn: 'blur' }" api='/ovu-camera/pcos/videomanagement/camerinfo/checkUnique_mute'
+                       uib-popover="{{form.code.$error.unique?'摄像机编码已被使用':''}}" popover-placement="bottom" popover-trigger="mouseenter" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">摄像机型号：</label>
+            <div class="col-xs-4">
+                <select class="form-control" ng-model="item.cameraModel" required ng-options="o.id as o.text for o in rtspDict">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label required">摄像机状态：</label>
+            <div class="col-xs-4">
+                <select class="form-control" ng-model="item.cameraStatus" required ng-options="o[0] as o[1] for o in videoTypeDict">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">摄像机IP：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.ip" required>
+            </div>
+
+            <label class="col-xs-2 control-label ">摄像机视频源频道：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.channel" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">局域网：</label>
+            <div class="col-xs-4">
+                <layer-selector host="item" host-key="'lanId'" host-text="'lanName'" node-list="lanTree" leaf-only="true"></layer-selector>
+            </div>
+            <label class="col-xs-2 control-label required">推七牛云：</label>
+            <div class="col-xs-4 mt7">
+                <input ng-model="item.isPushYun" type="checkbox" ng-true-value=1 ng-false-value=2>
+            </div>
+        </div>
+    <!--<div class="form-group">长乐路
+            <label class="col-xs-2 control-label">摄像机位置：</label>
+            <house-selector class="col-xs-7" form-bean="item" is-required=false></house-selector>
+        </div>
+        -->
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">详细位置：</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" ng-model="item.position">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">备注：</label>
+            <div class="col-xs-9">
+                <textarea type="text" style="height:50px;resize:none" class="form-control" ng-model="item.remarks" />
+            </div>
+        </div>
+        <uib-tabset>
+            <uib-tab  heading="视频直连" >
+                <div class="form-group mt7">
+                    <label class="col-xs-2 control-label" >摄像头用户：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control"  ng-model="item.cameraUser" >
+                    </div>
+                    <label class="col-xs-2 control-label" >摄像头密码：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control"  ng-model="item.cameraPasswd">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label" >摄像机ip地址：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control"  ng-model="item.ip" >
+                    </div>
+                    <label class="col-xs-2 control-label" ng-class="{'required':item.tranformHardwares.length}">摄像机ip端口：</label>
+                    <div class="col-xs-4">
+                        <input type="number" class="form-control"  ng-model="item.port">
+                    </div>
+                </div>
+                <div class="form-group" ng-if=" item.cameraModel== 'dh_dvr'">
+                    <label class="col-xs-2 control-label" >channel：</label>
+                    <div class="col-xs-4">
+                        <input type="number" class="form-control"  ng-model="item.channel" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label ">直连url：</label>
+                    <div class="col-xs-10">
+                        <span class="form-control" style="border: none" >{{curRtspUrl}}</span>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab  heading="监控服务器转接">
+                <div class="form-group mt7">
+                    <label class="col-sm-2 control-label required">监控服务器：</label>
+                    <div class="col-sm-10">
+                        <div ng-repeat="hardware in item.imosHardwares" class="form-inline" style="position: relative;margin-bottom: 5px">
+                            <select class="form-control" required ng-model="hardware.id" ng-options="o.id as o.name+' <本地ip：'+o.localIp+'>' for o in imosHardwareList|notIn:item.imosHardwares:hardware">
+                                <option value="">--请选择--</option>
+                            </select>
+                            <button class="btn btn-sm btn-default" ng-click="item.imosHardwares.splice(item.imosHardwares.indexOf(hardware),1)"><i class="glyphicon glyphicon-minus"></i></button>
+                        </div>
+                        <button class="btn btn-sm btn-default" ng-click="item.imosHardwares.push({})"><i class="glyphicon glyphicon-plus" ></i>监控服务器</button>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab  heading="绑定车位" ng-if="item.cameraModel=='zs'">
+               <!--  <div class="mt7">
+                     <label class="col-sm-2 control-label required">添加车位：</label>
+                  <button class="btn btn-sm btn-default" ng-click="addItem()"><i class="glyphicon glyphicon-plus" ></i>添加车位：</button>
+                 </div>-->
+                <div ng-repeat="one in item.zenithParkSpaces">
+                    <div class="form-group mt7">
+                    <label class="col-xs-1 text-nowrap control-label required"  >序号：</label>
+                    <div class="col-xs-1">
+                        <input type="text" class="form-control"  ng-model="one.frameId" required>
+                    </div>
+                    <label class="col-xs-1  text-nowrap control-label " >名称：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control"  ng-model="one.frameName" >
+                    </div>
+                    <label class="col-xs-2 text-nowrap control-label required" >空间编码：</label>
+                    <div class="col-xs-3">
+                        <input type="text" class="form-control" required ng-model="one.houseNo">
+                    </div>
+                  <!--  <button class="btn btn-sm btn-default" ng-click="item.zenithParkSpaces.splice(item.zenithParkSpaces.indexOf(one),1)"><i class="glyphicon glyphicon-minus"></i></button>-->
+                    </div>
+               </div>
+            </uib-tab>
+        </uib-tabset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="vm.save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+</div>

@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>定价变更</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="rentPriceCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>定价变更</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default resolvePrice_m">
+                <div class="resolve_nav">
+                    <span>楼栋：</span>
+                    <ul class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#AAA" role="tab" data-toggle="tab" aria-expanded="true">A1</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#BBB" role="tab" data-toggle="tab" aria-expanded="false">A2</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#CCC" role="tab" data-toggle="tab" aria-expanded="false">A3</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="tab-content resolve_box panel-body" style="padding-top:0">
+                    <div id="AAA" class="tab-pane fade active in">
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th>房间号</th>
+                                    <th>101</th>
+                                    <th>102</th>
+                                    <th>103</th>
+                                    <th>104</th>
+                                    <th>105</th>
+                                    <th>106</th>
+                                    <th>107</th>
+                                    <th>108</th>
+                                    <th>109</th>
+                                    <th>110</th>
+                                    <th>111</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>计租面积（m
+                                        <sup>2</sup>）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>单价（元/月/m
+                                        <sup>2</sup>）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>标准年租金（万元）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>递增率</td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th>房间号</th>
+                                    <th>101</th>
+                                    <th>102</th>
+                                    <th>103</th>
+                                    <th>104</th>
+                                    <th>105</th>
+                                    <th>106</th>
+                                    <th>107</th>
+                                    <th>108</th>
+                                    <th>109</th>
+                                    <th>110</th>
+                                    <th>111</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>计租面积（m
+                                        <sup>2</sup>）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>单价（元/月/m
+                                        <sup>2</sup>）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>标准年租金（万元）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>递增率</td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th>房间号</th>
+                                    <th>101</th>
+                                    <th>102</th>
+                                    <th>103</th>
+                                    <th>104</th>
+                                    <th>105</th>
+                                    <th>106</th>
+                                    <th>107</th>
+                                    <th>108</th>
+                                    <th>109</th>
+                                    <th>110</th>
+                                    <th>111</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>计租面积（m
+                                        <sup>2</sup>）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>单价（元/月/m
+                                        <sup>2</sup>）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>标准年租金（万元）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>递增率</td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th>房间号</th>
+                                    <th>101</th>
+                                    <th>102</th>
+                                    <th>103</th>
+                                    <th>104</th>
+                                    <th>105</th>
+                                    <th>106</th>
+                                    <th>107</th>
+                                    <th>108</th>
+                                    <th>109</th>
+                                    <th>110</th>
+                                    <th>111</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>计租面积（m
+                                        <sup>2</sup>）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>单价（元/月/m
+                                        <sup>2</sup>）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>标准年租金（万元）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>递增率</td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="BBB" class="tab-pane fade">
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th>房间号</th>
+                                    <th>101</th>
+                                    <th>102</th>
+                                    <th>103</th>
+                                    <th>104</th>
+                                    <th>105</th>
+                                    <th>106</th>
+                                    <th>107</th>
+                                    <th>108</th>
+                                    <th>109</th>
+                                    <th>110</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>计租面积（m
+                                        <sup>2</sup>）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>单价（元/月/m
+                                        <sup>2</sup>）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>标准年租金（万元）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>递增率</td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="CCC" class="tab-pane fade">
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th>房间号</th>
+                                    <th>101</th>
+                                    <th>102</th>
+                                    <th>103</th>
+                                    <th>104</th>
+                                    <th>105</th>
+                                    <th>106</th>
+                                    <th>107</th>
+                                    <th>108</th>
+                                    <th>109</th>
+                                    <th>110</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>计租面积（m
+                                        <sup>2</sup>）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>单价（元/月/m
+                                        <sup>2</sup>）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>标准年租金（万元）</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                    <td>120</td>
+                                </tr>
+                                <tr>
+                                    <td>递增率</td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="">一年3%</option>
+                                            <option value="">一年4%</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <ul class="resolve_list">
+                    <li>
+                        <label>项目区域：</label>
+                        <span>合肥金融港</span>
+                    </li>
+                    <li>
+                        <label>项目编码：</label>
+                        <span>V1.0</span>
+                    </li>
+                    <li>
+                        <label>总计租面积：</label>
+                        <span>800 ㎡</span>
+                    </li>
+                    <li>
+                        <label>计划年租金：</label>
+                        <span>780 万元</span>
+                    </li>
+                    <li>
+                        <label>标准年租金：</label>
+                        <input class="form-control" type="text" value="800" readonly>
+                        <span>万元</span>
+                    </li>
+                </ul>
+                <div class="btn_m"> 
+                    <button class="btn btn-primary">确定并提交</button>
+                    <button class="btn btn-warning">取消</button>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,331 @@
+.page-title{
+    background-color: white;
+    border-bottom: 1px solid rgb(206, 203, 203)
+}
+ul {
+    margin: 0;
+    padding: 0;
+}
+.clear{
+    clear: both;
+}
+table th,table td{
+    text-align: center!important;
+}
+table.table tr td a.btn{
+    border:1px solid #5692ea;
+    color:#5692ea;
+}
+.rent_m {
+    margin: 20px;
+}
+
+.rentBox {
+    background-color: #fff;
+    /* border: #DEDEDE 1px solid; */
+    padding: 0;
+}
+
+.rentBox h3 {
+    color: #618ED6;
+    font-size: 16px;
+    height: 55px;
+    line-height: 55px;
+    border-bottom: 1px solid #DEDEDE;
+    padding: 0 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.approve_m .tab-content ul.examList li {
+    border-bottom: 1px solid #DEDEDE;
+    height: 50px;
+    line-height: 50px;
+    color: #333;
+    overflow: hidden;
+    padding: 0 18px;
+}
+.approve_m .tab-content ul.examList li:last-child{
+    border-bottom: none;
+}
+.approve_m .tab-content{
+    border: #DEDEDE 1px solid;
+    border-top: none;
+}
+
+.approve_m .tab-content ul.examList li p {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 70%;
+    float: left;
+}
+
+.approve_m .tab-content ul.examList li span {
+    text-align: right;
+    width: 25%;
+    float: right;
+}
+
+.rentResources_m {
+    margin-bottom: 15px;
+}
+
+.rentResources_m ul {
+    overflow: hidden;
+
+}
+
+.rentResources_m ul li {
+    width: 33%;
+    float: left;
+    padding: 12px 18px;
+    text-align: center
+}
+
+.rentResources_m ul li span {
+    font-size: 26px;
+    line-height: 50px;
+}
+
+.rentResources_m ul li h6 {
+    font-size: 14px;
+    color: #666;
+}
+
+.col_blue {
+    color: #618ED6;
+}
+
+.col_red {
+    color: #F64D57;
+}
+
+.col_grey {
+    color: #999999;
+}
+
+.renterea_m ul {
+    padding: 15px;
+}
+
+.renterea_m ul li {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.renterea_m ul li span {
+    font-size: 26px;
+
+}
+
+.renterea_m ul li h6 {
+    color: #666666;
+    font-size: 14px;
+}
+
+/* 新增合同 */
+.addAgreement_b{
+    background-color: white; 
+    margin-top:15px;
+    border:1px solid rgb(206, 203, 203);
+
+}
+.newStep_m{
+    padding: 20px 8%;
+
+    border-bottom: 1px solid rgb(206, 203, 203);
+    overflow: hidden;
+    text-align: center
+}
+.newStep_m a{
+    float: left;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+    border-radius: 17.5px;
+    text-align: center;
+    border:1px solid #bebdbd;
+    color: #bebdbd;
+
+}
+.newStep_m  label{
+    float: left;
+    height: 35px;
+    line-height: 35px;
+    font-size: 16px;
+    margin: 0 10px;
+    color:#999999;
+    font-weight:200;
+}
+.newStep_m a.act{
+    color: #f6f2f2;
+    background-color: #1d8cf3;;
+}
+.newStep_m label.act{
+    color: #333;
+    font-weight:700;
+}
+.newStep_m span{
+    float: left;
+    width: 260px;
+    border-top: 1px solid rgb(231, 234, 236);
+    margin-top: 19px;
+}
+.baseMsg>div.classTitle{
+    padding: 0px 40px;
+    height:50px;
+    line-height: 50px;
+    margin:0px 15px;
+    border-bottom: 1px solid  rgb(231, 234, 236);
+    font-size: 16px;
+    font-weight:700;
+    color: #333;
+
+}
+.baseMsg>div.classTitle>a.btn-color1{
+    float: right;
+    color:rgb(0, 174, 255);
+    font-size: 14px;
+    margin-top: 20px;
+    margin-right:5%
+}
+
+.stepContent_m>form>div ul li{
+    width: 30%
+}
+.stepContent_m>form>div.baseMsg>div.customer-top{
+    margin-top: 20px;
+    padding-left: 55px;   
+ }
+
+ 
+ .stepContent_m>form>div.baseMsg>div>ul>li{
+    font-size: 14px;
+    float: left;
+}
+.stepContent_m>form>div.baseMsg>div>ul>li>label{
+    
+    margin-right: 15px;
+    min-width: 120px;
+    height: 34px;
+    line-height: 34px;
+    font-weight:300;
+    color: #333;
+
+}
+.stepContent_m>form>div.baseMsg>div>ul>li>span{
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 500px;
+}
+.blue_btn{
+    display: block;
+    height: 34px;
+    line-height: 30px;
+    background-color: #1d8cf3;
+    border-radius: 4px;
+    width: 70%;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.stepContent_m>form>div ul li .form-control{
+    width:70%;
+}
+.stepContent_m>form>div ul li div.input_box{
+    margin-bottom: 30px
+}
+.stepContent_m>form>div ul li div.radio_box{
+    margin-bottom: 30px;
+    width:75%;
+    border: 1px solid rgb(206, 203, 203);
+    height:34px
+}
+.baseMsg{
+    overflow: hidden;
+}
+.stepContent_m>form>div.confirmcContract>div.selStatistics{
+    margin-bottom:30px;
+    background: rgba(135,206,250,0.2);
+    height:30px;
+    line-height: 30px;
+    border:1px solid rgba(0,225,255,0.5);
+    font-family: 'Microsoft YaHei', Arial, SimSun;
+    font-size: 12px;
+    padding-left: 10px
+ 
+}
+.stepContent_m>form>div.confirmcContract{
+    margin-top:20px;
+    width: 550px;
+    margin-left: 25%
+}
+.stepContent_m>form>div.confirmcContract div.form-group .control-label{
+    color: #333;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.panel table th,.panel table td{
+    text-align: center;
+}
+
+.next_back,.submitBtn_m{
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+.next_back .blue_btn{
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    width: 90px;
+    font-size: 16px;
+}
+.blue_btn:hover{
+    color: #fff;
+}
+.next_back .blue_btn:first-child{
+    margin-right: 30px;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+    border-bottom-color: #ddd!important;
+}
+
+.title_left h3{
+    float: left;
+}
+.table .btn{
+    border:1px solid #5692ea;color:#5692ea;
+}
+.table .btn.btn_disable{
+    border:1px solid #999999;color:#999999;
+}
+.form-control[disabled]{
+    background-color: rgb(238, 238, 238)!important; 
+    border: 1px solid rgb(204, 204, 204)!important;
+}
+.requiredRed{
+    border: 1px solid rgba(255, 0, 0, 0.59)!important;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.59)!important;
+}
+@media screen and (max-width: 1366px) {
+    .newStep_m span{
+        width:45px;
+    }
+    .stepContent_m>form>div>ul>li>span{
+        width: 350px;
+    }
+    .baseMsg>ul>li>div{
+        width: 350px;
+    }
+}
+

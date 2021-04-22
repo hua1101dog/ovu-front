@@ -1,0 +1,28 @@
+<style>
+    table thead th {
+        text-align: center;
+    }
+</style>
+<table class="table">
+    <thead>
+        <tr class="text-center">
+            <th>执行环节</th>
+            <th>执行人</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>提交意见</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="!circulationPageModel">
+            <td colspan="100" class="text-center">暂无记录</td>
+        </tr>
+        <tr class="text-center" ng-repeat="item in circulationPageModel track by $index">
+            <td>{{item.activityName}}</td>
+            <td>{{item.assigneeName}}</td>
+            <td>{{item.startTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{item.endTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>{{item.comment}}</td>
+        </tr>
+    </tbody>
+</table>

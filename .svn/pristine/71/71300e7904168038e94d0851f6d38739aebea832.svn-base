@@ -1,0 +1,209 @@
+
+<!--门户地图首页-->
+<div class="container-fluid main" ng-cloak>
+
+    <!--标题-->
+    <div class="row title">中电光谷智慧设施设备运维中心</div>
+
+    <!--左侧边栏-->
+    <div class="left-banner">
+        <h4 class="left-title">运营指标</h4>
+        <div class="panel-custmer">
+            <div style="margin-top: 30px;">
+                <p>
+                    <span class="panel-number">8</span>
+                    <span class="panel-small">个</span>
+                </p>
+                <p class="panel-mytitle">城市布局</p>
+            </div>
+            <div>
+                <p>
+                    <span class="panel-number">72</span>
+                    <span class=" panel-small">个</span>
+                </p>
+                <p class="panel-mytitle">项目数量</p>
+            </div>
+            <div>
+                <p>
+                    <span class="panel-number">4000</span>
+                    <span class="panel-small">万方</span>
+                </p>
+                <p class="panel-mytitle">服务面积</p>
+            </div>
+        </div>
+    </div>
+
+    <!--中间的地图部分-->
+    <div class="mid-pic">
+        <div class="mid-title">
+            <div style="padding-top:3%">
+                <p>省:&nbsp;
+                    <span class="province" ng-repeat="provinceItem in mapData" ng-click="changeProvince($index,provinceItem)">
+                            {{provinceItem.province}}
+                        </span>
+                </p>
+            </div>
+            <div>
+                <p>市:&nbsp;
+                    <span class="city" ng-repeat="cityItem in cityDate.city"  ng-click="changeCity($index,cityItem)">
+                            {{cityItem.name}}
+                        </span>
+                </p>
+            </div>
+        </div>
+        <div id="china-map" style="height: 84%;" ></div>
+        <div id="city-map" style="height: 84%;display: none;" ></div>
+        <div ng-click="small()" id="small-map" style="position:absolute;height:25%;width:25%;left:0;bottom:0"></div>
+    </div>
+
+    <!--右侧边栏-->
+    <div class="right-banner">
+        <h4 class="right-title">服务指标</h4>
+        <div class="panel-custmer">
+
+            <div style="margin-top: 30px;">
+                <p>
+                    <span class="panel-number">513</span>
+                    <span class=" panel-small">个</span>
+                </p>
+                <div class="panel-mytitle">设备房</div>
+            </div>
+            <div>
+                <p>
+                    <span class="panel-number">144350</span>
+                    <span class=" panel-small">个</span>
+                </p>
+                <div class="panel-mytitle">服务设备</div>
+            </div>
+            <div>
+                <p>
+                    <span class="panel-number">158</span>
+                    <span class=" panel-small">人</span>
+                </p>
+                <div class="panel-mytitle">运维人员</div>
+            </div>
+            <div>
+                <p>
+                    <span class="panel-number">211168</span>
+                    <span class=" panel-small">条</span>
+                </p>
+                <div class="panel-mytitle">设备工单</div>
+            </div>
+            <div>
+                <p>
+                    <span class="panel-number">487</span>
+                    <span class=" panel-small">天</span>
+                </p>
+                <div class="panel-mytitle">安全运营天数</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style type="text/css">
+    .main{
+        height: 100%;
+        background-color: #131A2C;
+        position: relative;
+    }
+    /*标题-样式*/
+    .title{
+        background: url("res/img/protal/bg-h1.png") no-repeat center top;
+        letter-spacing: 2px;
+        height: 15%;
+        line-height:90px;
+        color: #fff;
+        font-weight:bold;
+        text-shadow: 0px 0px 20px #2464B2;
+        font-size: 30px;
+        text-align: center;
+    }
+    /*左边信息-样式*/
+    .left-banner{
+        overflow: hidden;
+        padding-top: 30px;
+        position: absolute;
+        height: 85%;
+        bottom: 0;
+        left: 0;
+        width: 20%;
+        background-color: #131A2C;
+    }
+    .left-title,.right-title{
+        font-size: 20px;
+        font-weight:bold;
+        color: #AED2FF;
+        letter-spacing: 2px;
+        height: 80px;
+        text-shadow: 0px 0px 10px #2464B2;
+        line-height: 80px;
+        text-align: center;
+        background: url("res/img/protal/bg-h2.png") no-repeat center center;
+    }
+    /*右边信息-样式*/
+    .right-banner{
+        overflow: hidden;
+        padding-top: 30px;
+        box-sizing: border-box;
+        position: absolute;
+        height: 85%;
+        bottom: 0;
+        height: 85%;
+        right: 0;
+        width: 20%;
+        background-color: #131A2C;
+    }
+    .panel-custmer{
+        padding-bottom: 100%;
+        background: linear-gradient(to top,rgba(255,255,255,0.03),rgba(255,255,255,0));
+        padding-left: 25%;
+    }
+    .panel-mytitle{
+        font-size: 18px;
+        color: #32579E;
+    }
+    .panel-custmer div{
+        margin-bottom: 30px;
+    }
+    .panel-custmer p{
+        margin: 0;
+    }
+    .panel-number{
+        color: #AED2FF;
+        font-size: 30px;
+        font-weight: bolder;
+    }
+    .panel-small{
+        color: #AED2FF;
+        font-size: 14px;
+    }
+    /*中间地图-样式*/
+    .mid-pic{
+        width: 56%;
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        font-weight: bold;
+        transform: translateX(-50%);
+        height: 85%;
+        margin:30px 0 0;
+        border: 1px solid #36638A;
+    }
+    .mid-title{
+        padding: 0 25%;
+        height: 16%;
+    }
+    .mid-title div span{
+        cursor: pointer;
+    }
+    .mid-title div{
+        padding-left:20%;
+        height: 50%;
+        font-size: 14px;
+        color: #3E599E;
+    }
+    /*#china-map canvas{*/
+    /*z-index: 10;*/
+    /*}*/
+</style>

@@ -1,0 +1,58 @@
+<div ng-controller="dailylogCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>工作日志</h3>
+		</div>
+	</div>
+	<div class="x_panel" >
+		<div class="form-inline">
+			<div class="form-group">
+				<label>记录日期</label>
+				<input type="datetime" class="form-control Wdate" name="FROM_DATE" placeholder="开始日期" ng-model="search.FROM_DATE" onchange=""
+					   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
+				<label>-</label>
+				<input type="datetime" class="form-control Wdate" name="TO_DATE" placeholder="结束日期" ng-model="search.TO_DATE" onchange=""
+					   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" />
+			</div>
+			<button class="btn btn-default" ng-click="find()" >查询</button>
+		</div>
+	</div>
+	<div class="panel panel-default" style="margin-bottom: 0px;">
+		<div class="panel-heading">日志列表
+			<button class="btn btn-primary pull-right" ng-click="showEditModal()" >填写日志</button>
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped table-hover" style="margin-top: 10px;">
+				<thead class="title">
+				<tr>
+					<th class="text-center">NO</th>
+					<th >标题</th>
+					<th >提交人</th>
+					<th >记录日期</th>
+					<th >创建时间</th>
+					<th >操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+				<tr ng-repeat="item in pageModel.data">
+					<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+					<td><a href='javascript:void(0)' class="btn-link" ng-click='showEditModal(item,true)'>{{item.TITLE}}</a></td>
+					<td>{{item.SUBMIT_NAME}}</td>
+					<td>{{item.RECORD_DATE}}</td>
+					<td>{{item.CREATE_TIME}}</td>
+					<td>
+						<div ng-show="{{item.self}}">
+							<a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-edit'></span>修改</a>
+							<a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+						</div>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			<div class="page-footer clearfix">
+				<ng-include src="'/common/pager.html'"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,72 @@
+<div ng-controller="variableCtl" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>设置计算变量</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">支出类型
+                    <a ng-click='addTopNode()' role="button" class='btn-link pull-right'><i class='fa fa-plus'></i>一级类型</a>
+                </div>
+                <div class="x_content">
+                    <div class="alert" role="alert" ng-show="treeData_variable.length==0">无类型信息</div>
+                 
+                    <tree-view-pro node-list="treeData_variable" host="search" host-text="'parentName'" host-key="'parentId'" callback="selectNode" config="config"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="panel panel-default">
+                <div class="panel-heading">计算变量列表
+                    <button class="btn btn-danger pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="delAll()">批量删除</button>
+                    <button class="btn btn-success pull-right" ng-click="editPost()">新增变量</button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                            <th>变量名称</th>
+                            <th>单位</th>
+                            <th>默认值</th>
+                            <th>计算公式</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="pageModel.list.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                        <tr ng-repeat="item in pageModel.list" >
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.unit}}</td>
+                            <td>{{item.value}}</td>
+                            <td>{{item.formula_text}}</td>
+                            <td>
+                                <a href='javascript:void(0)' ng-click='editPost(item)'  class='btn btn-xs' ><span class='fa fa-edit'></span>编辑</a>
+                                <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+   
+	table tr th,
+	table tr td {
+		text-align: left;
+	}
+</style>

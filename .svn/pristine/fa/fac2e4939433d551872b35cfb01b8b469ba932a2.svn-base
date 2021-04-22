@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{saveItem.id?'编辑':'添加'}}字典类型</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="col-xs-11">
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">字典类型名：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" required ng-model="saveItem.dicName" name="dicName"/>
+                </div>
+                <label class="col-xs-2 control-label required">字典类型：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" required ng-disabled="saveItem.id" required ng-model="saveItem.dicType" name="dicType"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">父字典类型：</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" disabled ng-model="saveItem.parentDicType" name="parentDicType" required/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,saveItem)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+
+<style>
+    .form-control[disabled] {
+        background-color: #c7c5c552;
+        cursor: auto;
+    }
+</style>

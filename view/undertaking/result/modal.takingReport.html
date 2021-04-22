@@ -1,0 +1,14 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">承接日志</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<div><h4>{{item.oper_time}}</h4></div>
+	<div><h3>问题描述：{{item.remark}}</h3></div>
+	<div>
+		<span class="text-muted">操作人：{{item.user_name}}</span>
+		<span class="text-muted" style="padding-left: 30px">审核结果：{{item.result}}
+		</span>
+	</div>
+</div>
+

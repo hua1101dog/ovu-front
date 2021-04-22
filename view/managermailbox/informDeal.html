@@ -1,0 +1,103 @@
+<div ng-controller="informDealCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>信息处理</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>反馈时间：</label>
+                <input type="datetime" placeholder="开始时间" readonly class="form-control Wdate informDealSt" ng-model="search.startTime"
+                       onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.informDealEn').last().val()||'%y-%M-%d'}&quot;})">
+                -<input type="datetime" placeholder="结束时间" readonly class="form-control Wdate informDealEn" ng-model="search.endTime"
+                        onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.informDealSt').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+            </div>
+            <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <span style="display:inline-block;margin-top:8px;">邮箱信息列表</span>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                <tr>
+                    <th>NO</th>
+                    <th nowrap="nowrap">主题</th>
+                    <th nowrap="nowrap">反馈时间</th>
+                    <th nowrap="nowrap">反馈人</th>
+                    <th nowrap="nowrap">项目</th>
+                    <th nowrap="nowrap">部门</th>
+                    <th nowrap="nowrap">反馈内容</th>
+                    <th nowrap="nowrap">反馈照片</th>
+                    <th nowrap="nowrap">状态</th>
+                    <th nowrap="nowrap">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel.data">
+                    <td>{{$index+1}}</td>
+                    <td>{{item.title}}</td>
+                    <td>{{item.createTime}}</td>
+                    <td>{{item.personName}}</td>
+                    <td>{{item.parkName}}</td>
+                    <td>{{item.deptName}}</td>
+                    <td>{{item.content}}</td>
+                    <td style="width: 20%;">
+                        <ul style="margin: 0">
+                            <li ng-repeat="picItem in item.images" style="display: inline-block;">
+                                <img ng-src="{{picItem}}" ng-click="showPhoto(picItem)" alt="" style="width: 50px;padding: 5px 10px;vertical-align: middle">
+                            </li>
+                        </ul>
+                    </td>
+                    <td>{{item.isEnd==0?'未处理':'已处理'}}</td>
+                    <td>
+                        <a href='javascript:void(0)' ng-click='showExam(item)' class='btn btn-xs' ng-if="item.isEnd==0"><span class='fa fa-edit'></span>批复</a>
+                        <a href='javascript:void(0)' ng-click='dealOpinion(item)' class='btn btn-xs'><span class='fa fa-file-o '></span>处理意见</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .ul-persons {
+        list-style: none;
+        float: left;
+        padding: 0px;
+        margin-top: 12px;
+    }
+
+    .ul-persons li {
+        margin: 5px;
+        padding: 5px;
+        float: left;
+    }
+
+    .ul-persons li.item {
+        background-color: #F9F9F9;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>
+

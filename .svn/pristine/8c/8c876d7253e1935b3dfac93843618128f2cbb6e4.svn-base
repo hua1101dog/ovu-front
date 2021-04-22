@@ -1,0 +1,86 @@
+<div class="leaseDetail">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel($event)">×</button>
+        <h4 class="modal-title">租赁空间和租期详情</h4>
+    </div>
+    <form name="leaseDetailForm" novalidate>
+        <div class="eachSetting" ng-repeat="item in rentalList track by $index">
+            <h5>{{item.stageName+'>'+item.buildName+'>'+item.houseName}}</h5>
+            <ul>
+                <li style="width: 100%;">
+                    <label>合同租期：</label>
+                    <input type="datetime" id="lease{{$index}}0"
+                        class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                        ng-model="startTimes[$index]" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" ng-disabled="true">
+                    <span class="label_search" style="margin:0 8px 0 0 ;width:auto;">至</span>
+                    <input type="datetime" id="lease{{$index}}1"
+                        class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                        ng-model="endTimes[$index]" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                        ng-disabled="true">
+                    <span
+                        ng-show="startTimes[$index]&&endTimes[$index]&&(startTimes[$index]<endTimes[$index])">共{{totalTimes[$index]}}个月</span>
+                </li>
+                <li style="width: 100%;">
+                    <label>进场时间：</label>
+                    <input type="datetime" class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                        onchange="" ng-model="approachTimes[$index]"
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" ng-disabled="true">
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="modal-footer" style="text-align: center;">
+        <button class="btn" ng-click="cancel()">关闭</button>
+    </div>
+</div>
+<style>
+    .modal-dialog {
+        width: 1200px !important;
+    }
+
+    .leaseDetail>form {
+        max-height: 700px;
+        overflow-y: scroll;
+    }
+
+    .leaseDetail>form>div {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .leaseDetail>form>div>h5 {
+        padding: 20px;
+    }
+
+    .leaseDetail>form>div>ul>li {
+        font-size: 14px;
+        color: #999999;
+        overflow: hidden;
+        margin-bottom: 20px;
+        line-height: 34px;
+    }
+
+    .leaseDetail>form>div>ul>li>label {
+        float: left;
+        margin-right: 15px;
+        min-width: 120px;
+        height: 34px;
+        line-height: 34px;
+        text-align: right;
+    }
+
+    .leaseDetail>form>div>ul>li>input {
+        width: 175px;
+        float: left;
+        margin-right: 8px;
+    }
+
+    .leaseDetail>form>div>ul>li>span {
+        float: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+</style>

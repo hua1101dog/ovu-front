@@ -1,0 +1,427 @@
+<!--新增修改弹出框  -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()">×</button>
+    <h4 class="modal-title">{{vm.title ? vm.title :'添加月报'}}</h4>
+</div>
+<div class="modal-body container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 15px">
+            <h5>工单统计</h5>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12" style="height: 250px; overflow: auto;">
+                    <div class="form-inline" style="margin-bottom: 10px">
+                        <table class="table table-hover table-bordered">
+                            <thead class="title">
+                                <tr>
+                                    <th>部门</th>
+                                    <th>类型</th>
+                                    <th>待处理</th>
+                                    <th>已关闭</th>
+                                    <th>总数</th>
+                                    <th>完成率</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-if="!vm.workUnitTotal  || vm.workUnitTotal.length == 0">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr ng-repeat="i in vm.workUnitTotal track by $index">
+                                    <td>
+                                        <span>{{i.deptName || '暂无部门'}}</span>
+                                    </td>
+                                    <td>
+                                        <p>计划工单</p>
+                                        <p>应急工单</p>
+                                        <p>自发工单</p>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            <a href="javascript:void(0)" class="depactive" ng-click="find(1,1,0,i.deptId)">{{i.planNoFinsh || "0"}}条</a>
+                                        </p>
+                                        <p>
+                                            <a href="javascript:void(0)" class="depactive" ng-click="find(1,2,0,i.deptId)">{{i.emergencyNoFinsh || "0"}}条</a>
+                                        </p>
+                                        <p>
+                                            <a href="javascript:void(0)" class="depactive" ng-click="find(1,3,0,i.deptId)">{{i.sourceNoFinsh || "0"}}条</a>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            <a href="javascript:void(0)" class="depactive" ng-click="find(1,1,8,i.deptId)">{{i.planFinsh || "0"}}条</a>
+                                        </p>
+                                        <p>
+                                            <a href="javascript:void(0)" class="depactive" ng-click="find(1,2,8,i.deptId)">{{i.emergencyFinsh || "0"}}条</a>
+                                        </p>
+                                        <p>
+                                            <a href="javascript:void(0)" class="depactive" ng-click="find(1,3,8,i.deptId)">{{i.sourceFinsh || "0"}}条</a>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            <a href="javascript:void(0)" class="depactive" ng-click="find(1,1,9,i.deptId)">{{i.planTotal || "0"}}条</a>
+                                        </p>
+                                        <p>
+                                            <a href="javascript:void(0)" class="depactive" ng-click="find(1,2,9,i.deptId)">{{i.emergencyTotal || "0"}}条</a>
+                                        </p>
+                                        <p>
+                                            <a href="javascript:void(0)" class="depactive" ng-click="find(1,3,9,i.deptId)">{{i.sourceTotal || "0"}}条</a>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p>{{i.planFinishRate || "0%"}}</p>
+                                        <p>{{i.emergencyFinishRate || "0%"}}</p>
+                                        <p>{{i.sourceFinishRate || "0%"}}</p>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="page-footer clearfix">
+                        <div class="page-footer clearfix">
+                            <div class="page" style="font-size:12px;">
+                                <ul class="pagination pull-left" ng-show="(vm.workUnitTotal.data.length !==0)  && vm.workUnitTotal.pageTotal">
+                                    <li>
+                                        <span style="height:29px;">每页
+                                            <select style="width:50px;padding:0;border:none" type="number" ng-model="vm.workUnitTotal.pageSize" ng-change="findWorkUnit(1)"
+                                                ng-options="o[0] as o[1] for o in [[2,'&nbsp;&nbsp;&nbsp;2'],[4,'&nbsp;&nbsp;&nbsp;4'],[10,'&nbsp;&nbsp;&nbsp;10'],[20,'&nbsp;&nbsp;&nbsp;20']]">
+                                            </select>条</span>
+                                    </li>
+                                    <li ng-if="$first" role="button" ng-repeat-start="page in vm.workUnitTotal.pages track by $index" ng-class="{disabled:vm.workUnitTotal.currentPage ==1}"
+                                        ng-click="vm.workUnitTotal.currentPage >1 && findWorkUnit(vm.workUnitTotal.currentPage-1)">
+                                        <a>«</a>
+                                    </li>
+                                    <li ng-class="{active:page==vm.workUnitTotal.currentPage}" role="button">
+                                        <a ng-if="page>0" ng-click="findWorkUnit(page)">{{page}}</a>
+                                        <span ng-if="!(page>0)" style="border-top:none;border-bottom:none">{{page}}</span>
+                                    </li>
+                                    <li ng-if="$last" role="button" ng-repeat-end ng-class="{disabled:vm.workUnitTotal.currentPage == vm.workUnitTotal.pageTotal}"
+                                        ng-click="vm.workUnitTotal.currentPage < vm.workUnitTotal.pageTotal && findWorkUnit(vm.workUnitTotal.currentPage+1)">
+                                        <a>»</a>
+                                    </li>
+                                    <li>
+                                        <span>共{{vm.workUnitTotal.totalCount}}条记录</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 form-horizontal" style="height: 250px; overflow: auto;">
+
+                    <div class="form-group" style="margin-left:5px">
+
+                        <div class="col-sm-10 col-xs-9">
+                            <table class="table table-condensed table-hover">
+                                <thead class="title">
+                                    <tr>
+                                        <th>工单类型</th>
+                                        <th>执行人</th>
+                                        <th>开始时间</th>
+                                        <th>工单状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="item in pageModel.data">
+                                        <td>{{item.workunitType =="1" ? "计划":(item.eventType=="9"?"自发":"应急")}}</td>
+
+                                        <td>{{item.sourcePerson}}</td>
+                                        <td>{{item.createDate}}</td>
+                                        <td>{{item.unitStatusName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'"></ng-include>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin: 15px 0;">
+            <h5>员工工作情况:</h5>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12" style="height: 250px; overflow: auto;">
+                    <div class="form-inline" style="margin-bottom: 10px">
+                        <div class="form-group">
+                            <input type="text" placeholder="请输入员工姓名" class="form-control" ng-model="search.personName" />
+                            <button class="btn btn-default" ng-click="vm.find(1)">查询</button>
+                            <div ng-repeat="item in vm.personLists">
+                                <ul ng-repeat="i in item.nodes">
+                                    <li class="title" ng-if="i.persons.length!=0">
+                                        <a href="javascript:void(0)" ng-click="vm.deptTotal(i.did,i.text)" class="depactive">{{i.text}}</a>
+                                    </li>
+                                    <ul class="dep clearfix">
+                                        <li class="pList" ng-repeat="v in i.persons">
+                                            <a href="javascript:void(0)"  class="content active" uib-tooltip="{{v.personName}}({{v.postName}})" tooltip-class="ttClass"  ng-click="vm.workrRecord(v.personId,null)">
+                                                {{v.personName}}
+                                                <span>(</span>{{v.postName}}
+                                                <span>)</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 form-horizontal" ng-show="vm.workrRecordList">
+                    <div class="x_title">工作记录详情</div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label ">本月完成：</label>
+                        <span class="line-33"> 应急工单
+                            <span>(</span>{{vm.workrRecordList.emergencyFinsh || "0"}}
+                            <span>条)</span>计划工单
+                            <span>(</span>{{vm.workrRecordList.planFinsh || "0"}}
+                            <span>条)
+                            </span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label ">本月未完成：</label>
+                        <span class="line-33"> 应急工单
+                            <span>(</span>{{vm.workrRecordList.emergencyNoFinsh || "0"}}
+                            <span>条)</span>计划工单
+                            <span>(</span>{{vm.workrRecordList.planNoFinsh || "0"}}
+                            <span>条)
+                            </span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">巡检工单：</label>
+                        <span class="line-33"> 已完成
+                            <span>(</span>{{vm.workrRecordList.allFinsh || "0"}}
+                            <span>条)</span>未完成
+                            <span>(</span>{{vm.workrRecordList.allNoFinsh || "0"}}
+                            <span>条)
+                            </span>
+                        </span>
+                    </div>
+                    <button class="btn btn-primary" ng-click="vm.showLogModal(vm.personId)" ng-show="vm.personId">查看工作日志</button>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 form-horizontal" ng-show="vm.deptTotalList">
+                    <div class="x_title">
+                        <h4>
+                            <b>{{vm.deptTotalList.deptName}}</b>
+                        </h4>
+                    </div>
+                    <div class="deptTotal">
+                            <span> 部门编制人员：{{vm.deptTotalList.personSize || "0"}}人</span>
+                        </div>
+                        <div class="deptTotal">
+                            <span>部门工作日志：{{vm.deptTotalList.logSize || "0"}}篇</span>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin: 15px 0;"> 
+            <h5>本月总结及下月安排:
+                <span ng-hide="vm.isEdit">
+                    <button class="btn btn-primary" ng-click="vm.addTodoItem()" ng-hide="vm.show">添加待办事项</button>
+                    <a class="btn btn-primary" href="javascript:void(0)" ng-click="vm.batchDelTodoItem()" aria-label="Delete" ng-hide="vm.show">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </a>
+                </span>
+            </h5>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <form name="form">
+            <div class="panel-body">
+                <table class="table table-condensed table-hover">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center" style="width:20px">
+                                <span role="button" ng-click="vm.planListchecked=!vm.planListchecked;checkAllList(vm.planList,vm.planListchecked)">
+                                    <i class="glyphicon" ng-if="!vm.show" ng-class="{'glyphicon-check':vm.planListchecked,'glyphicon-unchecked':!vm.planListchecked}">
+                                    </i>
+                                </span>
+                            </th>
+                            <th class="text-center">待办事项标题</th>
+                            <th class="text-center">待办事项内容</th>
+                            <th>创建时间</th>
+                            <th ng-hide="vm.show">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr ng-repeat="item in vm.planList">
+                            <td>
+                                <i role="button" ng-if="!vm.show" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                    class="glyphicon"></i>
+                            </td>
+                            <td>
+                                <div>
+                                    <textarea type="text" placeholder="最多可输入32位字符"  style="resize:none;" class="form-control input-sm" ng-model="item.jobTitle" required ng-readonly="vm.show"
+                                        maxlength="32" > 
+                                         </textarea>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <textarea type="text"  maxlength="500" style="resize:none;" class="form-control input-sm" ng-model="item.jobContent" ng-readonly="vm.show">
+                                        </textarea>
+                                </div>
+                            </td>
+                            <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td ng-hide="vm.show">
+
+                                <a href='javascript:void(0)' ng-click='vm.delTodoItem(item)' class='btn btn-xs'>
+                                    <span class='fa fa-trash'></span>删除
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin: 15px 0;">
+            <h5 ng-if="vm.lightspotList.length!=0">本月工作亮点:</h5>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default" ng-if="vm.lightspotList.length!=0">
+        <div class="panel-body">
+            <div ng-repeat="item in vm.lightspotList">
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <label class="col-xs-2 control-label" style="line-height: 34px">亮点{{$index-0+1}}：</label>
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control" ng-model="item.lightspotTitle" ng-readonly="true" maxlength="32" oninput="if(value.length>32)value=value.slice(0,32)">
+                    </div>
+                </div>
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <label class="col-xs-2 control-label" style="line-height: 34px">内容：</label>
+                    <div class="col-xs-10">
+                        <textarea type="text" style="resize:none;" class="form-control" ng-model="item.lightspotContent" ng-readonly="true" maxlength="500"
+                            >
+                                </textarea>
+                    </div>
+                </div>
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <label class="col-xs-2 control-label">照片：</label>
+                    <div class="photoWraper" style="margin-left:14px" ng-repeat="p in item.imgPaths track by $index">
+                        <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}" />
+                    </div>
+                    <hr align=left width=100% color=#ccc SIZE=3 noShade height=2px>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="vm.save(form)" ng-hide="vm.isEdit" ng-if="!vm.show">确定</button>
+    <button class="btn btn-warning" ng-click="vm.cancel()" ng-if="!vm.show">取消</button>
+</div>
+<style>
+    .panel-default {
+        margin-bottom: 0;
+    }
+
+    .x_title.active,
+    td.active {
+        color: blue;
+
+    }
+
+    .dep {
+        margin-top: 10px;
+
+    }
+
+    .pList {
+        line-height: 16px;
+        width: 33.33%;
+        float: left;
+    }
+
+    .title {
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 20px;
+        margin: 9px;
+    }
+
+    .dep .people {
+        width: 100%;
+        display: block;
+        float: left;
+        text-align: center;
+        padding: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+    }
+
+    .dep .people:hover {
+        display: block;
+        width: 100%;
+        overflow: auto;
+        white-space: normal;
+    }
+
+    .active {
+        color: blue;
+    }
+
+    .depactive {
+        color: #3498DB
+    }
+
+    .deptTotal {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 60px
+    }
+
+    .line-33 {
+        line-height: 33px
+    }
+
+    .max-w2 {
+        max-width: 20px;
+        word-wrap: break-word;
+    }
+    .content{
+     max-width: 110px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	display: inline-block;
+    padding: 5px;
+    }
+    .ttClass{
+       margin-left:20px
+   }
+</style>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html id="mainFrame">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <title>OVU-智慧运营平台</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="bookmark" href="/favicon.ico" />
+
+    <link href="/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/res/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- iconfont -->
+    <link rel="stylesheet" href="/showXW/res/fonts/iconfont.css">
+    <link href="/showXW/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/res/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <link href="/js/angular.css" rel="stylesheet">
+    <!-- 引入fengMap css -->
+    <link rel="stylesheet" href="/showXW/res/indoor-data/feng-css/style.css">
+
+</head>
+
+<body ng-app="app">
+
+    <div class="" ui-view style="height:100%;" ng-controller="AppCtrl"></div>
+    <!--提示框-->
+   <!-- <div style="position: absolute;  bottom: 50px;  right: 0;z-index: 10">
+        <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.style || 'warning')" close="closeAlert($index)" dismiss-on-timeout="10000" style="min-width:450px;">{{alert.msg}}
+        </div>
+    </div>-->
+</body>
+<script type="text/javascript" src="/res/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+<script src="/res/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=6e6a649a349261a1802609e86aaba209"></script>
+<script type="text/javascript" src="//webapi.amap.com/ui/1.0/main.js"></script>
+<script src="/res/gentelella/vendors/echarts/dist/echarts.min.js"></script>
+
+<script src="/res/gentelella/vendors/validator/validator.js"></script>
+<script src="/res/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="/res/gentelella/vendors/starrr/dist/starrr.js"></script>
+<script type="text/javascript" src="/res/js/layer/layer.js"></script>
+<script src="/res/gentelella/vendors/moment/min/moment.min.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/angular.js"></script>
+<script src="../view/liftReport/statement/dailyMaintenance/angular-animate.min.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/angular-locale_zh-cn.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/ocLazyLoad.min.js"></script>
+<script type="text/javascript" src="/res/js/wheelzoom-feng.js"></script>
+<script type="text/javascript" src="/res/js/common.js"></script>
+<!--视频播放  -->
+<script type="text/javascript" src="/view/playVedio/swfobject.js"></script>
+<script type="text/javascript" src="/showXW/js/config.js"></script>
+<script type="text/javascript" src="/showXW/js/config.router.js"></script>
+<script type="text/javascript" src="/showXW/js/appCtrl.js"></script>
+<script type="text/javascript" src="/showXW/js/customDirective.js"></script>
+<script type="text/javascript" src="/showXW/js/customComponent.js"></script>
+<!--<script type="text/javascript" src="/js/filter.js"></script>-->
+
+<!--添加fengMap.min.js  -->
+<!-- <script src="/showXW/res/indoor-data/lib/fengmap.min.js"></script> -->
+<script type="text/javascript" src="/res/js/wheelzoom-feng.js"></script>
+<!--星网地图-->
+<!-- <script src="/showXW/res/indoor-data/lib/AirocovMap.js"></script> -->
+<script src="/showXW/res/indoor-data/lib/AirocovMap.js"></script>
+
+<!-- double 公共服务 -->
+<script type="text/javascript" src="/showXW/js/globalServise.js"></script>
+<!-- 右侧接口服务 -->
+<script type="text/javascript" src="/showXW/js/http.service.js"></script>
+
+</html>

@@ -1,0 +1,544 @@
+<link rel="stylesheet" href="dataCollection/companyDatabase/companyIndex.css">
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">查看详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <ul class="companyTab" style="float: left;" id="companyTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#background" data-toggle="tab">企业背景</a>
+        </li><br>
+        <li><a href="#development" data-toggle="tab">企业发展</a></li><br>
+        <li><a href="#information" data-toggle="tab">经营信息</a></li>
+    </ul>
+    <div style="float: left;width: 90%;margin-left: 20px" class="tab-content">
+        <div class="tab-pane fade in active" id="background">
+            <div  class="backgroundTab">
+                <ul id="backgroundTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#background1" data-toggle="tab">基本信息</a>
+                    </li>
+                    <li><a href="#background2" data-toggle="tab">主要人员</a></li>
+                    <li><a href="#background3" data-toggle="tab">股东信息</a></li>
+                    <li><a href="#background4" data-toggle="tab">关联关系</a></li>
+                    <li><a href="#background5" data-toggle="tab">对外投资</a></li>
+                    <li><a href="#background6" data-toggle="tab">变更记录</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="background1"  ng-controller="background1">
+                        <form name="form" novalidate>
+					        <div class="form-group">
+					            <label class="col-md-2 control-label">公司名称:</label>
+					            <span class="col-md-7" style="padding-top:8px;">{{item.name}}</span>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-md-2 control-label">英文名称:</label>
+					            <span class="col-md-7" style="padding-top:8px;">{{item.englishName}}</span>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-md-2 control-label">公司行业:</label>
+					            <span class="col-md-7" style="padding-top:8px;">{{item.industryName}}</span>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-md-2 control-label">公司地址:</label>
+					            <span class="col-md-7" style="padding-top:8px;">{{item.registrationAddress}}</span>
+					        </div>
+					        <div class="form-group">
+					           <label class="col-md-2 control-label">企业组织架构:</label>
+					           <button class="btn btn-info" ng-click="showCorStr()">查看详情</button>
+					        </div>
+					        <div class="panel panel-default" style="margin-top: 10px;">
+					            <div class="panel-heading" style="color:#999999;">
+					                公司工商信息
+					            </div>
+					            <div class="panel-body">
+					                <div class="form-group">
+					                    <label class="col-md-2 control-label">工商注册号:</label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.registrationNumber}}</span>
+					                    <label class="col-md-2 control-label">纳税人识别号:</label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.taxpayerNumber}}</span>
+					                </div>
+					                <div class="form-group">
+					                    <label class="col-md-2 control-label" style="padding-left:0px;width: 131px;">统一社会信用代码:</label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.creditCode}}</span>
+					                    <label class="col-md-2 control-label">成立日期:</label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.registeredDate | date:"yyyy-MM-dd"}}</span>
+					                </div>
+					                <div class="form-group">
+					                    <label class="col-md-2 control-label">组织机构代码:</label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.organizationCode}}</span>
+					                    <label class="col-md-2 control-label">经营期限:</label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.businessTerm}}</span>
+					                </div>
+					                <div class="form-group">
+					                    <label class="col-md-2 control-label">企业类型:</label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.companyType | convertCompanyType}}</span>
+					                    <label class="col-md-2 control-label">登记机关: </label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.registerDepartment}}</span>
+					                </div>
+					                <div class="form-group">
+					                    <label class="col-md-2 control-label">经营状态:</label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.companyStatus | convertCompanyStatus}}</span>
+					                    <label class="col-md-2 control-label">注册地址:</label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.registrationAddress}}</span>
+					                </div>
+					                <div class="form-group">
+					                    <label class="col-md-2 control-label">注册资本:</label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.registeredMoney}}(万元)</span>
+					                    <label class="col-md-2 control-label">法人代表: </label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.corporate}}</span>
+					                </div>
+					                <div class="form-group">
+					                    <label class="col-md-2 control-label">核准日期:</label>
+					                    <span class="col-md-3" style="padding-top:8px;">{{item.approvalDate | date:"yyyy-MM-dd"}}</span>
+					                </div>
+					                <div class="form-group">
+					                    <label class="col-md-2 control-label">经营范围:</label>
+					                    <span class="col-md-10" style="padding-top:8px;">{{item.businessScope}}</span>
+					                </div>
+					            </div>
+					        </div>
+				        </form>
+                    </div>
+                    <div class="tab-pane fade" id="background2" ng-controller="background2">
+                        <table class="table table-striped table-hover">
+			                <thead class="title">
+			                    <tr class="text-center">
+			                        <th class="text-center">序号</th>
+			                        <th class="text-center">姓名</th>
+			                        <th class="text-center">联系方式</th>
+			                        <th class="text-center">职位</th>
+			                        <th class="text-center">部门</th>
+			                    </tr>
+			                </thead>
+			                <tbody>
+			                <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+			                <tr ng-repeat="stuff in pageModel.data" class="ng-scope">
+			                    <td class="text-center ng-binding">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+			                    <td class="text-center">{{stuff.name}}</td>
+			                    <td class="text-center">{{stuff.mobile}}</td>
+			                    <td class="text-center">{{stuff.positionName}}</td>
+			                    <td class="text-center">{{stuff.departmentName}}</td>
+			                </tr>
+			                </tbody>
+			            </table>
+			            <!--分页-->
+			            <div class="page-footer clearfix">
+			                <ng-include src="'/common/pager.html'" class="ng-scope">
+			                    <style type="text/css" class="ng-scope">
+			                        .pagination>li>span:hover{background-color: #fff;cursor:text}
+			                    </style>
+			                </ng-include>
+			            </div>
+                    </div>
+                    <div class="tab-pane fade" id="background3" ng-controller="background3">
+                        <table class="table table-striped table-hover" >
+                            <thead class="title">
+                                <tr class="text-center">
+                                    <th class="text-center">序号</th>
+                                    <th class="text-center">姓名</th>
+                                    <th class="text-center">出资比例</th>
+                                    <th class="text-center">认缴出资</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+	                            <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+	                            <tr ng-repeat="shareholder in pageModel.data" class="ng-scope">
+	                                <td class="text-center ng-binding">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+	                                <td class="text-center">{{shareholder.name}}</td>
+	                                <td class="text-center">{{shareholder.rate}}%</td>
+	                                <td class="text-center">{{shareholder.contribution}}万元</td>
+	                            </tr>
+                            </tbody>
+                        </table>
+                        <!--分页-->
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover{background-color: #fff;cursor:text}
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="background4" ng-controller="background4">
+	                    <div class="form-group" style="margin-left: 0px;margin-top: 12px;">
+			                <label>所属关系: </label>
+			                <select ng-model="search.ownership" style="width: 130px;display: inline-block;" class="form-control ng-pristine ng-untouched ng-valid ng-empty" id="searchKey">
+			                    <option value="" class="">---请选择---</option>
+			                    <option value="0">分公司</option>
+			                    <option value="1">子公司</option>
+			                    <option value="2">办事处</option>
+			                    <option value="3">研发中心</option>
+			                </select>
+			            <button style="margin-top:0px;margin-left: 0px;" class="btn btn-default" ng-click="find()">查询</button>
+			            </div>
+                        <table class="table table-striped table-hover" >
+			                <thead class="title">
+			                    <tr class="text-center">
+			                        <th class="text-center">序号</th>
+			                        <th class="text-center">企业名称</th>
+			                        <th class="text-center">企业类型</th>
+			                        <th class="text-center">法人</th>
+			                        <th class="text-center">注册资本</th>
+			                        <th class="text-center">注册时间</th>
+			                        <th class="text-center">企业状态</th>
+			                        <th class="text-center">出资比例</th>
+			                        <th class="text-center">所属关系</th>
+			                    </tr>
+			                </thead>
+			                <tbody>
+				                <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+				                <tr ng-repeat="company in pageModel.data" class="ng-scope">
+				                    <td class="text-center ng-binding">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+				                    <td class="text-center">{{company.name}}</td>
+				                    <td class="text-center">{{company.companyType | convertCompanyType}}</td>
+				                    <td class="text-center">{{company.corporate}}</td>
+				                    <td class="text-center">{{company.registeredMoney}}(万元)</td>
+				                    <td class="text-center">{{company.registeredDate| date:"yyyy-MM-dd"}}</td>
+				                    <td class="text-center">{{company.companyStatus | convertCompanyStatus}}</td>
+				                    <td class="text-center">{{company.rate}}%</td>
+				                    <td class="text-center">{{company.ownership | convertOwnership}}</td>
+				                </tr>
+			                </tbody>
+			            </table>
+			            <!--分页-->
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover{background-color: #fff;cursor:text}
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="background5" ng-controller="background5">
+                        <table class="table table-striped table-hover" >
+                            <thead class="title">
+                                <tr class="text-center">
+                                    <th class="text-center">序号</th>
+                                    <th class="text-center">被投资企业名称</th>
+                                    <th class="text-center">被投资法定代表人</th>
+                                    <th class="text-center">注册资本</th>
+                                    <th class="text-center">投资数额</th>
+                                    <th class="text-center">投资占比</th>
+                                    <th class="text-center">注册时间</th>
+                                    <th class="text-center">状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                <tr ng-repeat="investmentAbroad in pageModel.data" class="ng-scope">
+                                    <td class="text-center ng-binding">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <td class="text-center">{{investmentAbroad.name}}</td>
+                                    <td class="text-center">{{investmentAbroad.corporate}}</td>
+                                    <td class="text-center">{{investmentAbroad.registeredMoney}}(万元人名币)</td>
+                                    <td class="text-center">{{investmentAbroad.investmentMount}}(万元人名币)</td>
+                                    <td class="text-center">{{investmentAbroad.investmentRate}}%</td>
+                                    <td class="text-center">{{investmentAbroad.registeredDate| date:"yyyy-MM-dd"}}</td>
+                                    <td class="text-center">{{investmentAbroad.companyStatus | convertCompanyStatus}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--分页-->
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover{background-color: #fff;cursor:text}
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="background6" ng-controller="background6" >
+                       <div style="overflow-x:scroll;overflow-y:hidden;">
+                        <table class="table table-striped table-hover" style="width:1300px;">
+                            <thead class="title">
+                                <tr>
+                                    <th class="col-md-1 text-center">序号</th>
+                                    <th class="col-md-1 text-center">变更时间</th>
+                                    <th class="col-md-2 text-center">变更项目</th>
+                                    <th class="col-md-4 text-center">变更前</th>
+                                    <th class="col-md-4 text-center">变更后</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                <tr ng-repeat="changeHis in pageModel.data" class="ng-scope">
+                                    <td class="text-center ng-binding">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <td class="text-center">{{changeHis.changeTime| date:"yyyy-MM-dd"}}</td>
+                                    <td class="text-center">{{changeHis.changeItem}}</td>
+                                    <td class="text-center">{{changeHis.changeBefore}}</td>
+                                    <td class="text-center">{{changeHis.changeAfter}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <!--分页-->
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover{background-color: #fff;cursor:text}
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" class="development" id="development">
+            <div class="developmentTab">
+                <ul id="developmentTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#development1" data-toggle="tab">融资历史</a>
+                    </li>
+                    <li><a href="#development2" data-toggle="tab">企业服务</a></li>
+                    <li><a href="#development3" data-toggle="tab">投资事件</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="development1" ng-controller="development1">
+                        <div style="overflow-x:scroll;overflow-y:hidden;">
+                        <table class="table table-striped table-hover" style="width:900px;">
+                            <thead class="title">
+                                <tr class="text-center">
+                                    <th class="col-md-1 text-center">序号</th>
+                                    <th class="col-md-2 text-center">时间</th>
+                                    <th class="col-md-1 text-center">轮次</th>
+                                    <th class="col-md-1 text-center">估值</th>
+                                    <th class="col-md-2 text-center">金额</th>
+                                    <th class="col-md-1 text-center">比例</th>
+                                    <th class="col-md-2 text-center">投资方</th>
+                                    <th class="col-md-2 text-center">新闻来源</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                <tr ng-repeat="financing in pageModel.data" class="ng-scope">
+                                    <td class="text-center ng-binding">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <td class="text-center">{{financing.financingTime | date:"yyyy-MM-dd"}}</td>
+                                    <td class="text-center">{{financing.financingRounds}}</td>
+                                    <td class="text-center">{{financing.valuation}}</td>
+                                    <td class="text-center">{{financing.money}}</td>
+                                    <td class="text-center">{{financing.rate}}</td>
+                                    <td class="text-center">{{financing.investor}}</td>
+                                    <td class="text-center">{{financing.source}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <!--分页-->
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover{background-color: #fff;cursor:text}
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="development2" ng-controller="development2">
+                         <table class="table table-striped table-hover" >
+                            <thead class="title">
+                                <tr class="text-center">
+                                    <th class="col-md-1 text-center">序号</th>
+                                   <!--  <th class="text-center">图标</th> -->
+                                    <th class="col-md-4 text-center">业务名称</th>
+                                    <th class="col-md-3 text-center">行业</th>
+                                    <th class="col-md-4 text-center">业务简介</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                <tr ng-repeat="business in pageModel.data" class="ng-scope">
+                                    <td class="text-center ng-binding">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <!-- <td class="text-center">{{business.photo}}</td> -->
+                                    <td class="text-center">{{business.businessName}}</td>
+                                    <td class="text-center">{{business.industry}}</td>
+                                    <td class="text-center">{{business.profile}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--分页-->
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover{background-color: #fff;cursor:text}
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="development3" ng-controller="development3">
+                        <div style="overflow-x:scroll;overflow-y:hidden;">
+                        <table class="table table-striped table-hover" style="width:1000px;">
+                            <thead class="title">
+                                <tr class="text-center">
+                                    <th class="text-center">序号</th>
+                                    <th class="text-center">时间</th>
+                                    <th class="text-center">轮次</th>
+                                    <th class="text-center">金额</th>
+                                    <th class="text-center">投资方</th>
+                                    <!-- <th class="col-md-1 text-center">产品图标</th> -->
+                                    <th class="text-center">产品名称</th>
+                                    <th class="text-center">地区</th>
+                                    <th class="text-center">行业</th>
+                                    <th class="text-center">业务</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                <tr ng-repeat="investment in pageModel.data" class="ng-scope">
+                                    <td class="text-center ng-binding">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <td class="text-center">{{investment.investmentTime | date:"yyyy-MM-dd"}}</td>
+                                    <td class="text-center">{{investment.rounds}}</td>
+                                    <td class="text-center">{{investment.investmentAmount}}</td>
+                                    <td class="text-center">{{investment.investor}}</td>
+                                    <!-- <td class="text-center">{{investment.productIcon}}</td> -->
+                                    <td class="text-center">{{investment.productName}}</td>
+                                    <td class="text-center">{{investment.area}}</td>
+                                    <td class="text-center">{{investment.industry}}</td>
+                                    <td class="text-center">{{investment.business}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <!--分页-->
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover{background-color: #fff;cursor:text}
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" class="information" id="information">
+            <div class="informationTab">
+                <ul id="informationTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#information1" data-toggle="tab">招投标</a>
+                    </li>
+                    <li><a href="#information2" data-toggle="tab">招聘</a></li>
+                    <li><a href="#information3" data-toggle="tab">产品信息</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="information1" ng-controller="information1">
+                        <table class="table table-striped table-hover" >
+                            <thead class="title">
+                                <tr class="text-center">
+                                    <th class="col-md-1 text-center">序号</th>
+                                    <th class="col-md-2 text-center">发布时间</th>
+                                    <th class="col-md-6 text-center">标题</th>
+                                    <th class="col-md-3 text-center">采购人</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                <tr ng-repeat="bid in pageModel.data" class="ng-scope">
+                                    <td class="text-center ng-binding">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <td class="text-center">{{bid.pubishDate | date:"yyyy-MM-dd"}}</td>
+                                    <td class="text-center">{{bid.title}}</td>
+                                    <td class="text-center">{{bid.procurement}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--分页-->
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover{background-color: #fff;cursor:text}
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="information2" ng-controller="information2">
+                        <div style="overflow-x:scroll;overflow-y:hidden;">
+                        <table class="table table-striped table-hover" style="width:900px;">
+                            <thead class="title">
+                                <tr class="text-center">
+                                    <th class="col-md-1 text-center">序号</th>
+                                    <th class="col-md-2 text-center">发布时间</th>
+                                    <th class="col-md-2 text-center">招聘职位</th>
+                                    <th class="col-md-2 text-center">薪资</th>
+                                    <th class="col-md-1 text-center">工作经验</th>
+                                    <th class="col-md-2 text-center">招聘人数</th>
+                                    <th class="col-md-2 text-center">所在城市</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                <tr ng-repeat="recruit in pageModel.data" class="ng-scope">
+                                    <td class="text-center ng-binding">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <td class="text-center">{{recruit.beginTime | date:"yyyy-MM-dd"}}</td>
+                                    <td class="text-center">{{recruit.position}}</td>
+                                    <td class="text-center">{{recruit.salary}}</td>
+                                    <td class="text-center">{{recruit.workExperience}}</td>
+                                    <td class="text-center">{{recruit.number}}</td>
+                                    <td class="text-center">{{recruit.city}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <!--分页-->
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover{background-color: #fff;cursor:text}
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="information3" ng-controller="information3">
+                        <table class="table table-striped table-hover" >
+                            <thead class="title">
+                                <tr class="text-center">
+                                    <th class="col-md-1 text-center">序号</th>
+                                    <!-- <th class="text-center">图标</th> -->
+                                    <th class="col-md-5 text-center">产品名称</th>
+                                    <th class="col-md-2 text-center">产品简称</th>
+                                    <th class="col-md-2 text-center">产品分类</th>
+                                    <th class="col-md-2 text-center">领域</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                <tr ng-repeat="product in pageModel.data" class="ng-scope">
+                                    <td class="text-center ng-binding">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <!-- <td class="text-center">{{product.productIcon}}</td> -->
+                                    <td class="text-center">{{product.productName}}</td>
+                                    <td class="text-center">{{product.abbreviation}}</td>
+                                    <td class="text-center">{{product.productType}}</td>
+                                    <td class="text-center">{{product.domain}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--分页-->
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover{background-color: #fff;cursor:text}
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()">关 闭</button>
+</div>
+<script>
+    $(function () {
+         // 初始化显示的选项卡及样式
+        $('#companyTab li:eq(0) a').tab('show');
+        $('#backgroundTab li:eq(0) a').tab('show');
+        $('#informationTab li:eq(0) a').tab('show');
+        $('#developmentTab li:eq(0) a').tab('show');
+        $('.companyTab li:eq(0)').addClass('addUnderline');
+
+         // 点击显示的选项卡样式
+        $('.companyTab li').click(function () {
+            $('.companyTab li').removeClass('addUnderline');
+            $(this).addClass('addUnderline');
+        })
+    });
+</script>

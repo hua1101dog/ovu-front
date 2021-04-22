@@ -1,0 +1,143 @@
+<div ng-controller="taskCtl">
+	<div class="page-title">
+		<div class="title_left">
+			<h3>工作任务</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-12">
+			<div class="x_panel" style="padding-right: 0;padding-left: 0">
+				<div class="x_title">
+					<a ng-click='expandAll(planWorkTypeTree)' role="button" class='btn-link' title="展开与收缩">
+						<i class="glyphicon"
+							ng-class="{'glyphicon-resize-small':planWorkTypeTree.expanded,'glyphicon-resize-full':!planWorkTypeTree.expanded}"></i></a>
+					工作分类与事项
+				</div>
+				<div class="x_content" style="z-index: 1;max-height:780px;overflow-y: auto">
+					<div class="alert" role="alert" ng-show="!planWorkTypeTree">无工作分类</div>
+					<div>
+						<tree-view-pro node-list="planWorkTypeTree" host="search" host-text="'text'" host-key="'key'"
+							callback="selectNode" clean="clean" config="config"></tree-view-pro>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+			<div class="x_panel">
+				<div class="form-inline">
+					<div class="form-group">
+						<label>任务名称</label>
+						<input type="text" ng-model="search.NAME" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>周期</label>
+						<select class="form-control" ng-model="search.exeCycle" ng-options="o for o in periodDict">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>是否设备任务</label>
+						<select class="form-control" ng-model="search.is_equip"
+							ng-options="o[0] as o[1] for o in yesNoDict">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>是否已冻结</label>
+						<select class="form-control" ng-model="search.is_frozen"
+							ng-options="o[0] as o[1] for o in yesNoDict">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+					<button class="btn btn-default" ng-click="find(1)">查询</button>
+				</div>
+			</div>
+			<div class="panel panel-default" style="display: grid;">
+				<div class="panel-heading">任务列表
+					<button class="btn btn-primary pull-right" ng-if="hasPower('新增')"
+						ng-click="showEditModal()">添加任务</button>
+					<button class="btn btn-success pull-right" ng-if="hasPower('生成工单')"
+						ng-disabled="!hasChecked(pageModel)" ng-click="geneModal()">生成工单</button>
+					<button class="btn btn-info pull-right" ng-if="hasPower('设置执行人')"
+						ng-disabled="!hasChecked(pageModel)" ng-click="distributeModal()">批量设置执行人</button>
+					<button class="btn btn-danger pull-right" ng-if="hasPower('删除')"
+						ng-disabled="!hasChecked(pageModel)" ng-click="delAll()">批量删除</button>
+					<button class="btn btn-warning pull-right" ng-if="hasPower('冻结')"
+						ng-disabled="!hasChecked(pageModel)" ng-click="frozeAll()">批量冻结</button>
+				</div>
+				<div class="panel-body" style="overflow: auto;">
+					<table class="table table-hover text-left" style="margin-top: 10px;">
+						<thead>
+							<tr>
+								<th class="text-center">NO</th>
+								<th class="text-center" style="width:20px"><span role="button"
+										ng-click="checkAll(pageModel)">
+										<i class="glyphicon"
+											ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+								</th>
+								<th>任务编码</th>
+								<th>任务名称</th>
+								<th>工作分类</th>
+								<th>工作事项</th>
+								<th>设备</th>
+								<th>位置</th>
+								<th>起算日期</th>
+								<th>排程</th>
+								<th>默认执行人</th>
+								<th>冻结状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="pageModel.data.length == 0">
+								<td colspan="100" class="text-center">暂无记录</td>
+							</tr>
+							<tr ng-repeat="item in pageModel.data">
+								<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+								<td><i role="button" ng-click="checkOne(item)"
+										ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+										class="glyphicon"></i></td>
+								<td style="word-wrap: break-word">{{item.WORKTASK_NO}}</td>
+								<td style="max-width:200px">{{item.WORKTASK_NAME}}</td>
+								<td>{{item.WORKTYPE_NAME}}</td>
+								<td>{{item.WORKITEM_NAME}}</td>
+								<td style="min-width: 120px;">{{item.equipment_name}}</td>
+								<td style="min-width: 120px;">{{item.worktask_address}}</td>
+								<td>{{item.START_DATE|limitTo:10}}</td>
+								<td>1次/{{item.EXEC_NUM}}{{item.EXEC_CYCLE}}</td>
+								<td>{{item.exec_person_name}}</td>
+								<td>{{item.is_frozen==1?'已冻结':''}}</td>
+								<td style="min-width: 120px;">
+									<a href='javascript:void(0)' ng-if="hasPower('编辑')" ng-click='showEditModal(item)'
+										class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+									<a href='javascript:void(0)' ng-if="hasPower('删除')" ng-click='del(item)'
+										class='btn btn-xs text-danger'><span class='fa fa-trash'></span>删除</a>
+									<a href='javascript:void(0)' ng-if="hasPower('冻结')" ng-click='frozeOrUnfroze(item)'
+										class='btn btn-xs text-warning'>
+										<span class='fa'
+											ng-class="{'fa-lock':item.is_frozen!=1,'fa-unlock':item.is_frozen==1}"></span>
+										{{item.is_frozen==1?'解冻':'冻结'}}</a>
+									<a href='javascript:void(0)' ng-click='showWorkunitsModal(item)'
+										class="btn btn-xs text-success"><span class='fa fa-search'></span>工单</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="page-footer clearfix">
+						<ng-include src="'/common/pager.html'"></ng-include>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="/view/print/jQuery.print.js"></script>
+<script src="/res/js/angular-html2pdf/html2canvas.min.js"></script>
+<script src="/res/js/angular-html2pdf/jspdf.min.js"></script>
+
+<style>
+	table tr th,
+	table tr td {
+		text-align: left;
+	}
+</style>

@@ -1,0 +1,54 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+    ×
+    </button>
+    <h4 class="modal-title">活动报名名单</h4>
+</div>
+<div class="modal-body">
+     <div class="row">
+          <table class="table" id="selectTable">
+            <thead>
+                <tr>
+                    <th class="text-center">NO</th>
+                    <th style="text-align:center;">姓名</th>
+                    <th style="text-align:center;">手机</th>
+                    <th style="text-align:center;">邮箱</th>
+                    <!-- <th style="text-align:center;">公司</th>
+                    <th style="text-align:center;">部门</th>
+                    <th style="text-align:center;">职位</th> -->
+                </tr>
+                <tr id="tableloading" class="hide">
+                    <th colspan="5">
+                        <div class="alert" role="alert">加载中...</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="rows">
+                <tr ng-if="!pageModel.data || pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                <tr ng-repeat="item in pageModel.data" class="ng-scope">
+                    <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td style="text-align:center;">{{item.name | limitTo:6}}{{item.name.length>6?'...':''}}</td>
+                    <td style="text-align:center;">{{item.mobile}}</td>
+                    <td style="text-align:center;">{{item.email}}</td>
+                    <!-- <td style="text-align:center;">{{item.company | limitTo:6}}{{item.company.length>6?'...':''}}</td>
+                    <td style="text-align:center;" ng-if="!item.department">-</td>
+                    <td style="text-align:center;" ng-if="item.department">{{item.department}}</td>
+                    <td style="text-align:center;">{{item.job}}</td> -->
+                </tr>
+                <tr id="toolbarTr">
+                    <td colspan="5"></td>
+                </tr>
+            </tbody>
+          </table>
+          <div class="page-footer clearfix">
+              <ng-include src="'/common/pager.html'" class="ng-scope">
+                  <style type="text/css" class="ng-scope">
+                      .pagination>li>span:hover{background-color: #fff;cursor:text}
+                  </style>
+              </ng-include>
+          </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">关 闭</button>
+ </div>

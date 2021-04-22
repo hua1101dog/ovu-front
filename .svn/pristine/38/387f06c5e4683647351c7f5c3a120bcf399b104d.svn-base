@@ -1,0 +1,24 @@
+<div class="map-container" map-full-page id="map-indoor" style="height: 400px;">
+    <div id="canvas"></div>
+</div>
+<style>
+    #map-indoor {
+    position: relative;
+    }
+    .map-container{
+    	height:400px !important;
+    }
+    #xwMap {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    }
+
+    #xwMap button.goback {
+        position: absolute;
+        z-index: 1;
+        right: 10px;
+        top: 10px;
+    }
+</style>

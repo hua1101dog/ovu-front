@@ -1,0 +1,1 @@
+window.AirocovMap = require("./control/airocovMap");

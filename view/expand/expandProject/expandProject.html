@@ -1,0 +1,185 @@
+<div ng-controller="expandProjectCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>拓展立项</h3>
+        </div>
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                    <label class="control-label"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <!-- 查询条件star -->
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" ng-model="search.projectName" class="form-control" placeholder="请输入项目名称"/>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="search.type"
+                                ng-options="o[0] as o[1] for o in yetaiDict">
+                            <option value="" selected>选择项目类型</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="search.projectType"
+                                ng-options="o[0] as o[1] for o in exp_projectTypeDict">
+                            <option value="" selected>选择物业类型</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-if="search.projectState == 1">
+                        <input type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched" placeholder="起始时间" ng-model="search.startTime" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" aria-invalid="false">
+                    </div>
+                    <div class="form-group" ng-if="search.projectState == 1">
+                        <span> - </span>
+                    </div>
+                    <div class="form-group" ng-if="search.projectState == 1">
+                        <input type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched" placeholder="结束时间" ng-model="search.endTime" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})" aria-invalid="false">
+                    </div>
+                    <button class="btn btn-success" ng-click="find()">查询</button>
+                </div>
+            </div>
+            <!-- 查询条件end -->
+        </div>
+
+        <div class=" col-md-2 " style="margin-bottom:8px;">
+            <a style="font-size:18px;">|&nbsp;项目列表</a>
+        </div>
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#tab_content1" id="check-tab" role="tab"
+                                   ng-click="switchTab(0)"
+                                   data-toggle="tab" aria-expanded="true">未立项</a>
+                            </li>
+                            <li role="presentation" class="">
+                                <a href="#tab_content2" role="tab" id="checked-tab"
+                                   ng-click="switchTab(1)"
+                                   data-toggle="tab" aria-expanded="false">已立项</a>
+                            </li>
+                        </ul>
+
+                        <div id="myTabContent" class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
+                                 aria-labelledby="check-tab">
+                                <table class="table table-hover text-left" id="checkTable">
+                                    <thead>
+                                    <tr align="left">
+                                        <th class="text-center">NO</th>
+                                        <th>项目名称</th>
+                                        <th>项目类型</th>
+                                        <th>占地面积</th>
+                                        <th>项目地址</th>
+                                        <th>物业类型</th>
+                                        <th>联系客户</th>
+                                        <th>联系方式</th>
+                                        <th>开发单位</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-if="pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="item in pageModel.data">
+                                        <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+                                        </td>
+                                        <td>{{item.projectName}}</td>
+                                        <td>{{item.type|keyToValue:yetaiDict}}</td>
+                                        <td>{{item.buildingArea}}</td>
+                                        <td>{{item.projectAddress}}</td>
+                                        <td>{{item.projectType|keyToValue:exp_projectTypeDict}}</td>
+                                        <td>{{item.contact}}</td>
+                                        <td>{{item.phone}}</td>
+                                        <td>{{item.developCompany}}</td>
+                                        <td>
+                                            <a class="btn btn-xs" ng-click="check(item.id)"><span
+                                                    class="fa fa-flag"></span> 立项</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="page-footer clearfix">
+                                    <ng-include src="'/common/pager.html'"></ng-include>
+                                </div>
+                            </div>
+
+                            <!--已立项-->
+                            <div role="tabpanel" class="tab-pane fade" id="tab_content2"
+                                 aria-labelledby="checked-tab">
+                                <table class="table table-hover text-left" id="checkedTable">
+                                    <thead>
+                                    <tr align="left">
+                                        <th class="text-center">NO</th>
+                                        <th nowrap="nowrap">项目名称</th>
+                                        <th nowrap="nowrap">项目类型</th>
+                                        <th nowrap="nowrap">建筑面积(平方米)</th>
+                                        <th nowrap="nowrap">项目地址</th>
+                                        <th nowrap="nowrap">开发单位</th>
+                                        <th  nowrap="nowrap">物业类型</th>
+                                        <th nowrap="nowrap">联系人</th>
+                                        <th nowrap="nowrap">联系方式</th>
+                                        <th nowrap="nowrap">合作意向</th>
+                                        <th nowrap="nowrap">项目跟进情况</th>
+                                        <th nowrap="nowrap">立项日期</th>
+                                        <th nowrap="nowrap">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-if="pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="item in pageModel.data">
+                                        <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+                                        </td>
+                                        <td>{{item.projectName}}</td>
+                                        <td>{{item.type|keyToValue:yetaiDict}}</td>
+                                        <td>{{item.buildingArea}}</td>
+                                        <td>{{item.projectAddress}}</td>
+                                        <td>{{item.developCompany}}</td>
+                                        <td>{{item.projectType|keyToValue:exp_projectTypeDict}}</td>
+                                        <td>{{item.contact}}</td>
+                                        <td>{{item.phone}}</td>
+                                        <td>{{item.propertyManagement|keyToValue:propertyManagement_options}}</td>
+                                        <td>{{item.followupState|keyToValue:followUpState_options}}</td>
+                                        <td>{{item.projectTime}}</td>
+                                        <td>
+                                            <a class="btn btn-xs" ng-click="visitingModal(item.id)"><span
+                                                    class="fa fa-file-text-o"></span> 跟进日志</a>
+                                            <a class="btn btn-xs" ng-click="editstate(item.id)"><span
+                                                    class="fa fa-edit"></span> 编辑状态</a>
+                                            <a ng-show="item.reportState==1" class="btn btn-xs" ng-click="catreport(item.id)"><span
+                                                    class="fa fa-eye"></span> 查看报价单</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="page-footer clearfix">
+                                    <ng-include src="'/common/pager.html'"></ng-include>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+table tr th,
+    table tr td {
+        text-align: left;
+    }
+
+</style>
+

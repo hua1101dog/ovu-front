@@ -1,0 +1,256 @@
+<div ng-controller="measureCategoryManageCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <!-- <button class="btn btn-primary" ng-click="backPage()" style="margin: 0 10px 10px 15px;">返回</button> -->
+            <h3>计量分类分项管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <!-- <div class="col-xs-12">
+            <label class="control-label">
+                <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+                <a role="button" ng-click="findPark(search,init)">{{search.parkName?search.parkName:'请选择项目'}} </a>
+            </label>
+        </div> -->
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">计量分类信息
+                </div>
+                <div class="x_content" style="z-index: 1;overflow: auto">
+                    <!-- <div ng-click="clickMainMenu()">一级菜单</div>
+                    <div ng-click="clickSubMenu()">二级菜单</div>-->
+                    <div class="alert" role="alert" ng-show="treeData.length==0">无分类信息</div>
+                        <tree-view-pro node-list="treeData" host="search" host-text="'text'" host-key="'id'" callback="selectNode" config="{'edit':false}"></tree-view-pro>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel" style="padding:0px;border:0">
+                <div style="margin-top:20px">
+                    <div class="form-group clearfix">
+                        <h4 style="display: inline-block;margin-left:10px" ng-if="msg.classifyId && !isshow">修改分类</h4>
+                        <h4 style="display: inline-block;margin-left:10px" ng-if="msg.itemId">修改分项</h4>
+                        <button class="btn btn-primary pull-right" ng-click="addFenXiang()" ng-disabled="isshow" ng-if="msg.classifyId">新增分项</button>
+
+                    </div>
+                    <form name="form"  novalidate>
+                    <div ng-if="!isshow">
+                        <div class="form-group clearfix">
+                            <label class="col-xs-2 control-label required">分类名称：</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" required ng-model="msg.name" />
+                            </div>
+                        </div>
+                        <div class="form-group clearfix" style="display: block">
+                            <label class="col-xs-2 control-label required">计量单位选择：</label>
+                            <div class="col-xs-8">
+                                <select class="form-control" required ng-model="msg.unit" ng-options="o[0] as o[1] for o in measureUnit">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix" style="display: block">
+                            <label class="col-xs-2 control-label">时间段设置项：</label>
+                            <div class="col-xs-8" ng-if="msg.classifyId">
+                                <div class="inline-block">
+                                        <a class="btn btn-primary" href="javascript:void(0)" ng-click="addTimerSet()"
+                                        aria-label="Add">
+                                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                                <div class="inline-block">
+                                        <a class="info" href="javascript:void(0)" ng-click="getTimeInfo()">
+                                                <i class="fa fa-info-circle" aria-hidden="true" style="margin-right: 5px;"></i>说明</i>
+                                            </a>
+                                </div>
+                                   <div class="inline-block" style="vertical-align:bottom;margin-left:5px" ng-if="isTimeInfo">
+                                        <span>用于配置不同时间段对应数据关联关系<br>
+                                            例如：8:00-18:00，对应数据名称为：峰值</span>
+                                            <a class="get" href="javascript:void(0)" ng-click="closeTimeInfo()" ng-if="isTimeInfo">
+                                                   了解
+                                                </a>
+                                   </div>
+                                   
+                                  
+
+                             
+                            </div>
+                        </div>
+                        <div ng-show="formShow">
+
+                            <div class="panel-body" ng-show="TimeList.length!==0">
+                                <table class="table table-condensed table-hover" style="width:80%">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width:60%">时间段</th>
+                                            <th class="text-center" style="width:30%">对应数据名称</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in TimeList">
+                                            <td class="text-center">
+                                                <div>
+                                                    <!-- <input type="time" ng-model="item.beginData" class="time" /><span style="padding:0 10px">至</span><input type="time" ng-model="item.endData" class="time"> -->
+                                                    <input type="datetime" id="d4331" class="form-control Wdate time"
+                                                        ng-model="item.beginData" onchange="" onclick="javascript:WdatePicker({dateFmt:'HH:mm'})"
+                                                        required>
+                                                    <span>-</span>
+
+                                                    <input type="datetime" class="form-control Wdate time mes" ng-model="item.endData"
+                                                        onchange="" onclick="javascript:WdatePicker({dateFmt:'HH:mm',minDate:&quot;#F{$('.mes').first().val()}&quot;})"
+                                                        required>
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <input type="text" class="form-control input-sm" style="font-size:20px;"
+                                                        ng-model="item.policyName" required>
+
+                                                </div>
+                                            </td>
+                                            <td>
+
+                                                <a href='javascript:void(0)' ng-click='delTimeItem(item)' class='btn btn-xs'>
+                                                    <span class='fa fa-trash'></span>删除
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        <div class="form-group clearfix" style="display: block">
+                            <label class="col-xs-2 control-label">数据段设置项：</label>
+                            <div class="col-xs-8" ng-if="msg.classifyId">
+                              
+                                    <div class="inline-block">
+                                    <a class="btn btn-primary" href="javascript:void(0)" ng-click="addDataSet()"
+                                        aria-label="Add">
+                                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                                <div class="inline-block">
+                                        <a class="info" href="javascript:void(0)" ng-click="getDataInfo()">
+                                                <i class="fa fa-info-circle" aria-hidden="true" style="margin-right: 5px;"></i>说明</i>
+                                            </a>
+                                </div>
+                                   <div class="inline-block" style="vertical-align:bottom;margin-left:5px" ng-if="isDataInfo">
+                                        <span>用于配置不同数据段对应数据关联关系<br>
+                                            例如：15-200，对应数据名称为：第一阶段用水</span>
+                                            <a class="get" href="javascript:void(0)" ng-click="closeDataInfo()" ng-if="isDataInfo">
+                                                   了解
+                                                </a>
+                                   </div>
+                             
+
+                            </div>
+                        </div>
+                        <div ng-show="formShow">
+                            <div class="panel-body" ng-show="dataList.length!==0">
+                                <table class="table table-condensed table-hover" style="width:80%">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width:60%">数据范围</th>
+                                            <th class="text-center" style="width:30%">对应数据名称</th>
+                                            <th ng-hide="vm.show">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in dataList">
+                                            <td class="text-center">
+                                                <div>
+                                                    <input type="number" required ng-model="item.beginData" class="time" min=0 />
+                                                    <span style="padding:0 10px">至</span>
+                                                    <input type="number" required ng-model="item.endData" class="time" min=0 />
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <input type="text" required class="form-control input-sm" style="font-size:20px;"
+                                                        ng-model="item.policyName" ng-disabled="vm.show">
+
+                                                </div>
+                                            </td>
+                                            <td>
+
+                                                <a href='javascript:void(0)' ng-click='delDataItem(item)' class='btn btn-xs'>
+                                                    <span class='fa fa-trash'></span>删除
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="isshow">
+                        <div class="form-group clearfix">
+                            <label class="col-xs-2 control-label required">分项名称：</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" required ng-model="msg.name" />
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-xs-2 control-label">分项描述：</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" ng-model="msg.description" />
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                    <div style="text-align: center" ng-if="msg.classifyId || msg.itemId">
+                        <button class="btn btn-primary" ng-click="save(form,form1)" style="margin: 0 10px">保存</button>
+                        <button class="btn btn-primary" ng-click="del()" style="margin: 0 10px" ng-if="show">删除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .time {
+            display: inline-block;
+            width: 30%;
+            height: 30px;
+            padding: 6px 24px;
+            font-size: 20px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+
+        table tr th,
+        table tr td {
+            text-align: center;
+        }
+
+        .info {
+            margin-left: 30px;
+            padding: 5px 10px;
+            color: #fff;
+            background-color: #CCCCCC;
+            border-radius: 5px
+        }
+        .get{
+            margin-left: 5px;
+            padding: 5px 10px;
+            color: #fff;
+            background-color: #00CC33;
+            border-radius: 5px
+        }
+        .inline-block{
+            display: inline-block
+        }
+    </style>

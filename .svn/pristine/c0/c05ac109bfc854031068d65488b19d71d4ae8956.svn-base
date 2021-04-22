@@ -1,0 +1,101 @@
+<!-- 视频巡查报告 -->
+<style type="text/css">
+    .aList {
+        padding: 5px 0
+    }
+
+    .aList a {
+        padding: 3px 25px;
+        float: left;
+        cursor: pointer
+    }
+
+    .aList a+a {
+        border-left: 1px solid slategray !important;
+    }
+</style>
+
+<div ng-controller="videoReportCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>| 视频巡查报告</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <!-- <input type="text" class="form-control" ng-model="search.createtime" placeholder="巡查时间" /> -->
+                <label>巡查时间</label>
+                <input style="width: 140px;" type="datetime" class="form-control Wdate" ng-model="search.time"
+                    placeholder="巡查时间" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',isShowClear:false})">
+
+            </div>
+            <div class="form-group">
+                <label>选择路线</label>
+                <select class="form-control" ng-model="search.insWayId"
+                    ng-options="o.insWayId as o.wayName for o in insWayList">
+                    <option value=""> --请选择--</option>
+                </select>
+            </div>
+            <button class="btn btn-default" ng-click="find(1)" ng-disabled="!search.insWayId">查询</button>
+            <button class="btn btn-primary pull-right" ng-click="exportFile()"
+                ng-disabled="!search.insWayId">导出</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">巡查结果比对
+         
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th>巡查点名称</th>
+                        <th>巡查项</th>
+                        <th>巡查结果</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel || pageModel.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel">
+                        <td>{{$index-0 +1}}</td>
+                        <td>{{item.insPointName}}</td>
+                        <td ng-bind-html="item.insItemName"></td>
+                        <td style="width: 300px">
+                            <div class="photoWraper_1" ng-click="showPictures(v.imgPaths)"
+                                ng-repeat="v in item.resultList">
+                                <img onerror="javascript:this.src='/res/img/detail.png';"
+                                    style="width: 100px;height: 100px"
+                                    ng-src="{{processImgUrl(v.imgPaths.split(',')[0])}}"">
+                                            <span>{{v.createTime}}<br>{{v.feedback}}</span>
+                                            </div>
+                                    </td>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class=" page-footer clearfix">
+                                <ng-include src="'/common/pager.html'"></ng-include>
+                            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+    .photoWraper_1 {
+        width: 136px;
+        height: 100%;
+        text-align: left;
+        display: inline-block
+    }
+
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

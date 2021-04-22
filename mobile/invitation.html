@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html style="height:100%">
+
+<head>
+    <title>i+创意大赛在线报名</title>
+    <meta charset="utf-8">
+    <meta name="description" content="i+创意大赛在线报名">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <link href="/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .mainBg{
+            background: url("img/beijing.png");
+            background-repeat: repeat;
+            background-position: center 0;
+            -webkit-background-size: cover;
+            background-size: 100% 100%;;
+            min-height: 330px;
+            
+
+      }
+      .headerBg{
+        background: url("img/rectangular.png");
+            background-repeat: no-repeat;
+            background-position: center 0;
+            -webkit-background-size: cover;
+            background-size: 100% 100%;;
+            min-height: 60px;
+      }
+      .element{
+        width: 100%;
+    height: 100%;
+    font-size: 1.3em;
+    cursor: default;
+    border-left: 1px solid #dcd7d7;
+    margin-left: 20px;
+    font-weight: 700;
+      }
+
+ .text-center{
+     text-align: center
+ }
+.form-horizontal .form-group {
+    margin: 0;
+
+}
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    z-index: 999;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+#modelDiv {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top:0;
+        left:0;
+        background: silver;
+        opacity:0.8;
+        z-index: 99;
+    }
+    #model {
+        width: 200px;
+    height: 100px;
+    background: #fff;
+    border-radius: 10px;
+
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    z-index: 99;
+    transform: translate(-48%,-50%);
+    bottom: 2em
+    }
+    label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    color: #060606;
+    font-weight: normal
+}
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #dcd7d7;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: 2em;
+    padding: 3px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.title{
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #1E59A7
+}
+.content{
+    color: #BFC1C1;
+    font-size:0.7em
+}
+
+    </style>
+</head> 
+
+<body class="mainBg" >
+    <div id="app" class="container-fluid">
+            <!-- 这个是用来遮罩的 -->
+<div id="modelDiv" v-show="isCompelate">
+</div>
+<!-- 这个是用来展示弹框内容的 -->
+<div id="model" v-show="isCompelate">
+   <div style="font-size: 1.3em;font-weight: 700;text-align: center;padding: 15px;">{{msg}} </div>
+   <div style="background: rgb(132, 184, 230);text-align: center; height: 45px;    line-height: 45px;border-radius: 0px 0px 10px 10px" @click="isCompelate=false">关闭</div>
+  
+</div>
+<head>
+    <div style="margin-top: 1em">
+        <img src="img/logo_bm.png" alt="" style="width: 70%;height: 70%">
+    </div>
+    <div class="headerBg text-center title" style="margin-top:1.6em">
+      <div style="padding-top: 0.5em;"><span>2019中国电子'i+'大赛</span></div>
+       <div> <span>基于PK生态体系网络安全应用创新大赛</span></div>
+    </div>
+    <div class="text-center content">
+        <div style="padding-top: 1em"><span>五大赛区，三大支撑，多维度奖励机制,</span></div>
+        <div> <span>为自主可控网络安全创新推波助澜</span></div>
+    </div>
+</head>
+        <section id="wrapper">
+            <div style="width: 100%; height: 100%">
+                <div class="element">
+                    <span style="display: block;margin-bottom: 0px;color: #333; padding: 17px 0px 0px 17px;">在线报名</span>
+                    <span style="display: block;margin-bottom: 0px;color:#d4d4d6;padding: 0px 0px 6px 17px;  font-size: 12px;">Online
+                        Registration</span>
+                </div>
+
+                <HR align=left width=80% color=#dcd7d7 SIZE=1 style="margin:0px">
+                <div class="element">
+                    <form class="form-horizontal" style="padding: 10px 0px 0px 10px" name="form" novalidate>
+                        <div class="form-group" style=" margin-bottom: 0.1em">
+                            <label class="col-xs-4 control-label" style="padding:0px;font-size: 0.8em;
+                             line-height: 28px;" >项目名称</label>
+                            <div class="col-xs-7" style="padding-left:0">
+                                <input type="text" class="form-control" placeholder="项目名称"   @blur.prevent="blurElem" name="projectName"  required v-model="item.projectName">
+
+                            </div>
+                          <!-- <div class="col-xs-4 control-label">
+                                <span  style="color:red;text-align:center;font-size: 1.2rem" v-show="isProjectName && (!item.projectName)">请输入项目名称</span>
+                          </div> -->
+                        </div>
+                        <div class="form-group" style=" margin-bottom: 0.1em">
+                            <label class="col-xs-4 control-label" style="padding:0px;font-size: 0.8em;line-height: 28px;">公司名称</label>
+                            <div class="col-xs-7
+                            " style="padding-left:0">
+                                <input type="text" class="form-control" placeholder="公司名称" @blur.prevent="blurElem" required v-model="item.company">
+
+                            </div>
+                            <!-- <span class="col-xs-12 control-label" style="color:red;text-align:center;font-size: 1.2rem" v-show="isCompany  && (!item.company) ">请输入公司名称</span> -->
+                        </div>
+                        <div class="form-group" style=" margin-bottom: 0.1em">
+                            <label class="col-xs-4 control-label" style="padding:0px;font-size: 0.8em;line-height: 28px;">联系人</label>
+                            <div class="col-xs-7" style="padding-left:0">
+                                <input type="text" class="form-control" placeholder="姓名" @blur.prevent="blurElem" required v-model="item.name">
+
+                            </div>
+                            <!-- <span class="col-xs-12 control-label" style="color:red;text-align:center;font-size: 1.2rem" v-show="isName  && (!item.name)">请输入联系人</span> -->
+
+                        </div>
+                        <div class="form-group" style=" margin-bottom: 0.1em">
+                            <label class="col-xs-4 control-label" style="padding:0px;font-size: 0.8em;line-height: 28px;">联系电话</label>
+                            <div class="col-xs-7" style="padding-left:0">
+                                <!-- <input type="number" maxlength="11" pattern="[0-9]\d*" name="tel" oninput="if(value.length>11)value=value.slice(0,11)"  class="form-control" placeholder="手机号码" @blur.prevent="blurElem" required v-model="item.tel"> -->
+                                <input id="id"  type="tel"  maxlength="11"  pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11);value=value.replace(/[^\d]/g,'')"  class="form-control" placeholder="手机号码" @blur.prevent="blurElem" required v-model="item.tel"/>
+                            </div>
+                            <!-- <span class="col-xs-12 control-label" style="color:red;text-align:center;font-size: 1.2rem" v-show="isTel && (!item.tel)">请输入联系电话</span> -->
+
+                        </div>
+                        <div class="form-group" style=" margin-bottom: 0.1em">
+                            <label class="col-xs-4 control-label" style="padding:0px;font-size: 0.8em;line-height: 28px;">项目介绍</label>
+                            <div class="col-xs-7" style="padding-left:0">
+                                <textarea maxlength="300" class="form-control" required placeholder="最多可输入300字符" oninput="if(value.length>300)value=value.slice(0,300)" @blur.prevent="blurElem" tyle="resize:none" v-model="item.message">
+                            </textarea>
+                            <!-- <span class="col-xs-12 control-label" style="color:red;text-align:center;font-size: 1.2rem" v-show="isMessage && (!item.message)">请填写项目介绍</span> -->
+
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top:5px">
+                            <label class="col-xs-4 control-label" style="padding:0px;font-size: 0.8em;line-height: 28px;">所属行业</label>
+                            <div class="col-xs-7" style="padding-left:0">
+                                <select class="form-control"  v-model="item.industry" required @change="blurElem">
+                                    
+                                    <option v-for="(i,index) in category"  :value="i.value">{{ i.name }}</option>
+
+                                </select>
+
+                            </div>
+                            <!-- <span class="col-xs-12 control-label" style="color:red;text-align:center;font-size: 1.2rem" v-show="isIndustry && (!item.industry)">请选择行业</span> -->
+
+                        </div>
+                        <div class="form-group" style=" margin-bottom: 0.1em">
+                            <label class="col-xs-4 control-label" style="padding:0px;font-size: 0.8em;line-height: 28px;">赛区选择</label>
+                            <div class="col-xs-7" style="padding-left:0">
+                                <select class="form-control"  v-model="item.zone" required @change="blurElem" style="background-color:#fff">
+                                        <option v-for="(i,index) in zoneCategory"  :value="i.value">{{ i.name }}</option>
+
+                                </select>
+
+                            </div>
+                            <!-- <span class="col-xs-12 control-label" style="color:red;text-align:center;font-size: 1.2rem" v-show="isZone && (!item.zone)">请选择赛区</span> -->
+
+                        </div>
+                        <div class="form-group" style=" margin-bottom: 0.1em">
+                            <label class="col-xs-4 control-label" style="padding:0px;font-size: 0.8em;line-height: 28px;">参赛所需支持</label>
+                            <div class="col-xs-7" style="padding-left:0">
+                                <select  class="form-control selectpicker show-tick" multiple 
+                                    data-live-search="false"  required v-model="item.surpportNeeds" @change="blurElem">
+                                    <option v-for="(i,index) in supportList"  :value="i.value">{{ i.name }}</option>
+                                </select>
+
+                            </div>
+                            <!-- <span class="col-xs-12 control-label" style="color:red;text-align:center;font-size: 1.2rem" v-show="isSurpportNeeds && (!item.surpportNeeds)">请选择所需支持</span> -->
+
+                        </div>
+                        <!-- <span class="col-xs-12 control-label" style="color:red;    margin-top: .5em;text-align:center;font-size: 1.2rem" v-show="isget">请填写数据</span> -->
+
+                        <button  type="button" class="btn btn-primary" style="margin-left:40% ;margin-top: 1em;" @click="save(form)">提交</button>
+
+
+                     
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+
+<!-- 引入 Vue -->
+<script src="lib/vue.min.js"></script>
+<!-- 引入 Vueresource.http -->
+<script src="lib/vue-resource.min.js"></script>
+
+<script>
+   
+    var vm = new Vue({
+        el: '#app',
+        data: {
+             msg:'',
+             isCompelate:false,
+             item:{surpportNeeds:'',zone:'',industry:''},
+             category:[
+                 {
+                    value:'',
+                    name:'请选择行业类型'
+                 }
+                , 
+             {
+                 value:'1',
+                 name:'自主可控硬件'
+             },
+             {
+                 value:'2',
+                 name:'软件应用'
+             },
+             {
+                 value:'3',
+                 name:'网络安全'
+             },
+             {
+                 value:'4',
+                 name:'电子信息'
+             },
+             {
+                 value:'5',
+                 name:'集成电路'
+             },
+             {
+                 value:'6',
+                 name:'其他'
+             },
+            
+             ],
+             zoneCategory:[
+                 {
+                    value:'',
+                    name:'请选择赛区'
+                 }
+                , 
+             {
+                 value:'1',
+                 name:'华中'
+             },
+             {
+                 value:'2',
+                 name:'华东'
+             },
+             {
+                 value:'3',
+                 name:'华南'
+             },
+             {
+                 value:'4',
+                 name:'华西'
+             },
+             {
+                 value:'5',
+                 name:'华北'
+             },
+            
+             ],
+             supportList:[
+             {
+                 value:'1',
+                 name:'资金'
+             },
+             {
+                 value:'2',
+                 name:'技术'
+             },
+             {
+                 value:'3',
+                 name:'业务'
+             },
+             {
+                 value:'4',
+                 name:'人才'
+             }
+            
+             ]
+        },
+        methods: {
+            blurElem:function(e){
+                if(e.target.type=="tel"){
+                      if(e.target.value.length<11){
+                        this.isCompelate=true ;
+                    this.msg="电话长度需为11位"  
+                      }
+                }else{
+                    setTimeout(function(){
+                    window.scrollTo(0, 0)
+                },100)
+                }
+              
+            },
+            save: function () {  
+                   
+                if(!this.item.projectName){
+                    this.isCompelate=true ;
+                    this.msg="请填写项目名称"
+                    return
+                
+                }
+                if(!this.item.company){
+                    this.isCompelate=true ;
+                    this.msg="请填写公司名称"
+                    return
+                
+                }
+               
+                if(!this.item.name){
+                   
+                    this.isCompelate=true ;
+                    this.msg="请填写姓名"
+                    return
+                }
+               
+                if(!this.item.tel){
+                    this.isCompelate=true ;
+                    this.msg="请填写电话"
+                    return
+                
+                }
+                if(this.item.tel && this.item.tel.length<11){
+                    this.isCompelate=true ;
+                    this.msg="电话长度需为11位"
+                    return
+                
+                }
+                if(!this.item.message){
+                    this.isCompelate=true ;
+                    this.msg="请填写项目介绍"
+                    return
+                
+                }
+                if(!this.item.industry){
+                    this.isCompelate=true ;
+                    this.msg="请选择行业"
+                    return
+                
+                }
+                if(!this.item.zone){
+                    this.isCompelate=true ;
+                    this.msg="请选择赛区"
+                    return
+                
+                }
+                if(!this.item.surpportNeeds){
+                    this.isCompelate=true ;
+                    this.msg="请选择所需支持"
+                    return
+                
+                }
+                if( Array.isArray(this.item.surpportNeeds)){
+                    this.item.surpportNeeds=this.item.surpportNeeds.join(',')
+                }
+                
+               
+                this.$http.post('/ovu-gallery/api/publish/apply/save.do',this.item).then(function (response) {
+                if (response.body.code=='0') {
+                    this.isCompelate=true 
+                    this.msg="感谢您的参与";
+                    this.item={surpportNeeds:'',zone:'',industry:''}
+                    vm.item.surpportNeeds = []
+                }else{
+                    this.isCompelate=true ;
+                    this.msg=response.body.msg
+                }
+            })
+            },
+
+        },
+
+
+    })
+</script>
+
+</html>

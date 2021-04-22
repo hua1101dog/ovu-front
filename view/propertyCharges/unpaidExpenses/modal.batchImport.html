@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h3 class="modal-title">批量导入</h3>
+</div>
+<div class="modal-body form-horizontal">
+    <form name="batchForm" class="batchForm" novalidate>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">相关文档：</label>
+            <div class="col-xs-9">
+                <div style="display: inline-block;"><a class="btn btn-primary" ng-click="uploadFile()">上传</a></div>
+                <div style="display: inline-block;">（最多只上传5份.xls或.xlsx格式的文件）</div>
+                <ul class="workList">
+                    <li ng-repeat="file in fileList track by $index">
+                        <a href="{{file.url}}" style="color: #417CDD;">{{file.name}}</a>
+                        <b class="fa fa-close" ng-click="delContactFile($index)"></b>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-success btn-lg" ng-click="save(batchForm)">确认</button>
+    <button class="btn btn-danger btn-lg" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .batchForm>.form-group .workList {
+        color: #417CDD;
+        text-decoration: underline;
+        line-height: 30px;
+        font-size: 14px;
+    }
+
+    .batchForm>.form-group .workList {
+        cursor: pointer;
+    }
+</style>

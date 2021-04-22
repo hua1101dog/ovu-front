@@ -1,0 +1,20 @@
+<!--选择巡查项弹出框  -->
+<div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">设置路线名称</h4>
+    </div>
+    <div class="modal-body container-fluid">
+            <form name="form" novalidate class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label required">路线名：</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" required ng-model="item.wayName"  />
+                        </div>
+                    </div>
+                </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="save(form)">确定</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+  

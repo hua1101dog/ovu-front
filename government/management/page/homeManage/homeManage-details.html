@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-lg-12 col-sm-12">
+        <ol class="breadcrumb">
+            <li ng-repeat="ti in vm.titles">{{ti}}</li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-sm-12  col-xs-12">
+        <div class="ueditor" config="config" ng-model="vm.item.content" ready="ready"></div>
+    </div>
+</div>
+<style>
+    .edui-default .edui-editor{
+        border: 0px;
+        box-shadow:none;
+    }
+    .edui-editor-toolbarbox{
+        display: none;
+    }
+    
+</style>

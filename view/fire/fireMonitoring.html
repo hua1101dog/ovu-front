@@ -1,0 +1,61 @@
+<div ng-controller="fireMonitoringCtl as vm">
+		<div class="page-title">
+		<button class="btn btn-default pull-right" style="margin-top: 5px" ng-click="goBack()">返回上级</button>
+	</div>
+	<div class="row">
+
+		<div class="panel panel-default" style="position: relative;">
+
+			<div class="panel-body" style="padding: 5px;">
+
+				<div ui-map="vm.map" style="height: 700px;" ui-options="vm.mapOptions" ui-map-cache="allMap" ui-event="{'map-click':'vm.clickMap($event,$params)'}">
+				</div>
+				<div ng-repeat="marker in vm.markers track by $index" ui-map-marker="vm.markers[$index]" ui-event="{'map-click':'vm.clickMaker($event,$params,marker)'}">
+				</div>
+				<div ui-map-info-window="vm.myInfoWindow" style="width:400px">
+					<div ng-show="vm.markerData.workunitId">
+						<div class="x_title">{{vm.markerData.name}}</div>
+						<div class="x_content" style="z-index: 1">
+							<div class="row" ng-if="vm.markerData.isVideo">
+								<div class="col-xs-12">
+									<!-- <play-video id="fireVideo" device-id="vm.markerData.isVideo" width="400"></play-video> -->
+									<iframe ng-src="{{'/view/video.html?equipmentId='+vm.markerData.isVideo}}" style="width: 100%;height: 320px"></iframe>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 text-right">
+									<button ng-show="vm.markerData.isVideo" class="btn btn-warning" ng-click="vm.falseAlarmHandle(vm.markerData.workunitId)">误报</button>
+									<button class="btn btn-primary" ng-click="vm.messagePush(vm.markerData.workunitId)">消息推送</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div ng-show="!vm.markerData.workunitId">
+						<div class="x_title">姓名：{{vm.markerData.name}}({{vm.markerData.deptName}})</div>
+						<div class="x_content" style="z-index: 1">
+							<div class="row">
+								<!-- <label class="col-xs-6 control-label ">电话：</label>
+								   <label class="col-xs-6 control-label ">{{vm.markerData.phone}}</label> -->
+								<label class="col-xs-6 control-label ">时间：{{vm.markerData.positionTime}}</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="x_panel" style=" height: 400px;position: absolute;right:0;top: 0;width: 300px;overflow:auto">
+				<div class="x_title">执行人动态</div>
+				<div class="x_content" style="z-index: 1">
+					<div class="col-xs-12" ng-repeat="item in vm.list track by $index">
+						<span style="vertical-align: middle;">{{item}}</span>
+						<a href="javascript:void(0)" class="btn btn-sm btn-link" ng-if="item.indexOf('已解决') != -1" ng-click="vm.showDetail()">查看处理详情 </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <script type="text/ng-template" id="myPopoverTemplate.html">
+        <div>{{vm.message.content}}</div>
+        <button class="btn btn-default">查看推送消息状态</button>
+    </script>-->
+</div>

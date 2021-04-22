@@ -1,0 +1,123 @@
+<div ng-controller="costProjectCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>项目报价管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <!-- 查询条件star -->
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" ng-model="search.name" class="form-control" placeholder="请输入项目名称" />
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="search.equip_type"
+                            ng-options="o[0] as o[1] for o in yetaiDict">
+                            <option value="" selected>选择项目类型</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="search.personType"
+                            ng-options="o[0] as o[1] for o in exp_projectTypeDict">
+                            <option value="" selected>选择物业类型</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="search.STATUS"
+                            ng-options="o[0] as o[1] for o in reportStates">
+                            <option value="" selected>选择审核状态</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-success" ng-click="find()">查询</button>
+                </div>
+            </div>
+            <!-- 查询条件end -->
+        </div>
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="panel-heading">项目报价列表
+
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover text-left" id="checkTable">
+                        <thead>
+                            <tr align="left">
+                                <th class="text-center">NO</th>
+                                <th nowrap="nowrap">项目名称</th>
+                                <th nowrap="nowrap">项目类型</th>
+                                <th nowrap="nowrap">建筑面积(平方米)</th>
+                                <th nowrap="nowrap">项目地址</th>
+                                <th nowrap="nowrap">开发单位</th>
+                                <th nowrap="nowrap">物业类型</th>
+                                <th nowrap="nowrap">联系人</th>
+                                <th nowrap="nowrap">联系方式</th>
+                                <th nowrap="nowrap">审核状态</th>
+                                <th nowrap="nowrap">原因/备注</th>
+                                <th nowrap="nowrap">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data">
+                                <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+                                </td>
+                                <td>{{item.project_name}}</td>
+                                <td>{{item.type|keyToValue:yetaiDict}}</td>
+                                <td>{{item.building_area}}</td>
+                                <td>{{item.project_address}}</td>
+                                <td>
+                                    {{item.developCompany}}
+                                </td>
+                                <td>
+                                    {{item.project_type|keyToValue:exp_projectTypeDict}}
+                                </td>
+                                <td>{{item.contact}}</td>
+                                <td>{{item.phone}}</td>
+                                <td>
+                                    <div ng-if="item.report_state==2" style="color: red">
+                                        审核不通过
+                                    </div>
+                                    <div ng-if="item.report_state==1" style="color: green">
+                                        审核通过
+                                    </div>
+                                    <div ng-if="item.report_state==0" style="color: blue">
+                                        待审核
+                                    </div>
+                                </td>
+                                <td>{{item.report_desc}}</td>
+                                <td>
+                                    <a ng-if="item.report_state!=1" class="btn btn-xs" ng-click="modify(item.id)"><span
+                                            class='fa fa-edit'></span>编辑</a>
+                                    <a ng-if="item.report_state==0" class="btn btn-xs"
+                                        ng-click="edit(item.id,true)"><span class='fa fa-edit'></span>审核</a>
+                                    <a ng-if="item.report_state==0" class="btn btn-xs" ng-click="delCost(item.id)"><span
+                                            class='fa fa-trash'></span>删除</a>
+                                    <a ng-if="item.report_state!=0" class="btn btn-xs"
+                                        ng-click="edit(item.id,false)"><span class='fa fa-eye'></span>查看报价单</a>
+                                    <a ng-if="item.report_state==0" class="btn btn-xs"
+                                        ng-click="showHisCost(item.id)"><span class='fa fa-eye'></span>历史报价</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+   
+	table tr th,
+	table tr td {
+		text-align: left;
+	}
+</style>

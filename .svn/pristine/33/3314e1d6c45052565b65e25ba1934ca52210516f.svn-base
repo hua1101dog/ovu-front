@@ -1,0 +1,66 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close" ng-click="cancel()">
+        <span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">车辆进出详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="panel panel-primary">
+        <div class="panel-heading">车场信息</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-6">车场名称：{{item.parklotName}}</div>
+                <div class="col-xs-6">车位数：{{item.totalSpaceNum||""}}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">地址：{{item.address||""}}</div>
+                <div class="col-xs-6">备注：{{item.remark}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">车辆信息</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-6">识别车牌号：{{item.carNo}}</div>
+                <div class="col-xs-6">车主姓名：{{item.name}}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">车主联系电话：{{item.phone}}</div>
+                <div class="col-xs-6">车辆类型：{{item.carType|keyToValue:parklotCarTypeDict}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">停车信息</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-6">车辆状态：{{item.carStatus||""}}</div>
+                <div class="col-xs-6">进出时间：{{item.inTime}}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">进出地点：{{item.inPlace}}</div>
+                <div class="col-xs-6">车牌类型：{{item.carCardType|keyToValue:parklotCarCardTypeDict}}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">放行原因：{{item.passWay|keyToValue:parklotPasswayDict}}</div>
+                <div class="col-xs-6">备注：{{item.remark}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">进出图片</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <img onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="$parent.showPhoto()"
+                         ng-src="{{item.img||'/res/img/detail.png'}}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

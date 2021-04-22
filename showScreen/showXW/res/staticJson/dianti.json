@@ -1,0 +1,30 @@
+{
+    "success":"true",
+    "datas":{
+    // 园区电梯概览
+    "general_view":{
+    "totle":0,
+    "normal":0,
+    "abnormal":0,
+    "safety":0
+    },
+    // 园区电梯工单 
+    "work_order":[
+    { "name": "www", "value": 12 }, 
+    { "name": "hhhh", "value": 9 }
+    ],
+    // 电梯列表
+    "tableList":[
+    {
+    // 电梯名称：
+    "name":"xxx",
+    // 电梯分类：
+    "type_name":"xxx",
+    // 设备编码：
+    "equip_code":"xxx",
+    // 下次维保日期：
+    "next_maintain_date":"xxx"
+    }
+    ]
+    }
+    }

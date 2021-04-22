@@ -1,0 +1,74 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'新增'}}资产</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <!-- <label class="col-xs-2 control-label required">资产分类</label>
+            <div class="col-xs-4">
+                <select class="form-control" required name="assetCategoryNameOne" ng-model="item.assetCategoryNameOne"
+                    ng-options="o.assetName as o.assetName for o in parentList" ng-change="getclass()">
+                    <option value="">--请选择--</option>
+                </select>
+
+            </div> -->
+            <label class="col-xs-2 control-label required">资产类型</label>
+            <div class="col-xs-4">
+                <select class="form-control" required name="assetCategoryId" ng-model="item.assetCategoryId" ng-options="o.id as o.assetName for o in secondList">
+                    <option value="">--请选择--</option>
+                </select>
+
+            </div>
+            <label class="col-xs-2 control-label required">资产名称</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" required ng-model="item.name" name="name" />
+            </div>
+            
+        </div>
+        <div class="form-group">
+               
+            <label class="col-xs-2 control-label required">数量</label>
+            <div class="col-xs-4">
+                <input type="text" min="0" required ng-pattern="/^\+?[1-9][0-9]*$/" class="form-control" ng-model="item.assetNumber"
+                    name="assetNumber" />
+            </div>
+            <label class="col-xs-2 control-label required">金额</label>
+                <div class="col-xs-4">
+                    <input type="text" min="0" required class="form-control" placeholder="保留2位小数" ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
+                        ng-model="item.price" name="price" />
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">存放地点</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" required ng-model="item.storageLocation" name="storageLocation" />
+            </div>
+            <label class="col-xs-2 control-label required">保管人</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" required ng-model="item.custodian" name="cusodian" />
+            </div>
+
+        </div>
+        <div class="form-group">
+             
+            <label class="col-xs-2 control-label required">购入日期</label>
+            <div class="col-xs-4">
+                <input type="datetime" required class="form-control Wdate" ng-model="item.buyTime" placeholder="购入日期"
+                    onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d %H:%m:%s'})">
+            </div>
+            <label class="col-xs-2 control-label">备注信息</label>
+            <div class="col-xs-4">
+                <textarea class="form-control" ng-model="item.remarks"></textarea>
+            </div>
+        </div>
+       
+
+
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

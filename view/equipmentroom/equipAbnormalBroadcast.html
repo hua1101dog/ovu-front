@@ -1,0 +1,41 @@
+<div ng-controller="abnormalBroadcastCtrl">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>设备房异常播报</h3>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">异常列表</div>
+      <div class="panel-body">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th>序号</th>
+            <th>播报时间</th>
+            <th>设备房名称</th>
+            <th>播报内容</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-if="!data||data.length==0"><td colspan="100" class="text-center">暂无记录</td></tr>
+          <tr ng-repeat="item in data">
+            <td>{{$index+1}}</td>
+            <td>{{item.reportTime}}</td>
+            <td>{{item.equipHouseName}}</td>
+            <td>{{item.reportText}}</td>
+            <td>
+              <a href='javascript:void(0)' class='btn btn-xs btn-link' ng-click="goEquipInform(item)">进入设备房</a>
+            </td>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+<style>
+    table tr th,table tr td {
+        text-align: left;
+    }
+</style>

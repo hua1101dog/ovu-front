@@ -1,0 +1,210 @@
+<div>
+    <div class="title_top">
+        <div class="title-text">会议室使用>></div>
+    </div>
+
+    <div class="main-content" ng-controller="meetUseCtrl">
+        <div class="x_panel" style="padding: 20px;padding-bottom: 0px;">
+            <div class="form-inline" style="margin-left:20px;margin-bottom: 25px">
+                <div class="form-group">
+                    <input type="text" class="form-control laydate-icon" placeholder="预定日期" style="width: 176px"
+                        ng-lay-date id="date1" ng-model="search.orderDate">
+                </div>
+                <button class="btn btn-default btn-search" style="margin-left: 5px" ng-click="find(search.orderDate)">查询</button>
+            </div>
+            <!-- 会议室使用情况 -->
+            <div class="m-tb">
+                <div class="m-t-h-i">
+                    <span class="t-h-0">会议室</span>
+                    <span class="t-h-1">投影</span>
+                    <span class="t-h-2">9:00</span>
+                    <span class="t-h-2">10:00</span>
+                    <span class="t-h-2">11:00</span>
+                    <span class="t-h-2">12:00</span>
+                    <span class="t-h-2">13:00</span>
+                    <span class="t-h-2">14:00</span>
+                    <span class="t-h-2">15:00</span>
+                    <span class="t-h-2">16:00</span>
+                    <span class="t-h-2">17:00</span>
+                    <span class="t-h-2">18:00</span>
+                </div>
+                <div class="m-t-h-i0" ng-repeat="item in meeting_data track by $index">
+                    <span class="t-h-00">{{item.roomName.replace('1号楼','')}}</span>
+                    <span class="t-h-10 s-b-0">{{item.hasShadow?'有':'无'}}</span>
+                    <span class="t-h-20"></span>
+                    <span class="t-h-20"></span>
+                    <span class="t-h-20"></span>
+                    <span class="t-h-20"></span>
+                    <span class="t-h-20"></span>
+                    <span class="t-h-20"></span>
+                    <span class="t-h-20"></span>
+                    <span class="t-h-20"></span>
+                    <span class="t-h-20"></span>
+                    <span class="t-h-20" style="margin-right: 0"></span>
+                    <div class="m-t-cover" ng-repeat="_item in item.roomReserveList"
+                        ng-style="{left:216+((_item.beginDuration==0?1:_item.beginDuration)-1)*45+'px',width:(_item.endDuration-(_item.beginDuration==0?1:_item.beginDuration))*45+'px'}">
+                          <div style="font-size: 12px"  ng-class="{true:'red',false:'blue'}[_item.isHasConference==1]"  
+                          ng-attr-title="{{_item.deptName?(_item.isHasConference==1?(_item.deptName+'(有会务)'):_item.deptName):(_item.isHasConference==1?'已预订(有会务)':'已预订')}}">{{_item.deptName?(_item.isHasConference==1?(_item.deptName+'(有会务)'):_item.deptName):(_item.isHasConference==1?'已预订(有会务)':'已预订')}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .title-text {
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        padding-left: 20px;
+        background: rgba(226, 240, 255, 1);
+        border-radius: 6px 6px 0px 0px;
+        font-size: 18px;
+        font-family: MicrosoftYaHei-Bold;
+        font-weight: bold;
+        color: rgba(0, 120, 255, 1)
+    }
+
+    .main-content {
+        width: 100%;
+        background: #FFFFFF;
+
+    }
+
+    .btn-default {
+        background-color: #0078FF;
+        color: #FEFEFE
+    }
+
+    .form-group {
+        margin-bottom: 15px
+    }
+
+    .btn-warning {
+        margin-left: 30px
+    }
+
+    input.laydate-icon {
+        background: url(../../../image/dateImg.png) no-repeat right 10px center;
+    }
+
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+
+
+    .m-tb {
+        margin-left: 20px;
+        margin-top: 12px;
+
+    }
+
+    .m-t-h-i0 {
+        width: 1116px;
+        height: 44px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 18px;
+        font-weight: 400;
+        /* color: rgba(166, 199, 255, 1); */
+        color: #000;
+        margin-bottom: 2px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .m-t-h-i {
+        width: 1116px;
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 400;
+        /* color: rgba(166, 199, 255, 1); */
+        color: #000;
+        margin-bottom: 2px;
+    }
+
+    .m-t-h-i0>span {
+        text-align: center;
+        height: 100%;
+        /* background: linear-gradient(0deg, rgba(10, 26, 51, .8) 0%, rgba(10, 31, 65, .8) 100%); */
+        background: rgba(226, 240, 255, 0.5);
+        line-height: 44px;
+        font-size: 16px;
+        color: #666;
+    }
+
+    .m-t-h-i>span {
+        font-size: 18px;
+        text-align: center;
+        height: 100%;
+        /* background: linear-gradient(0deg, rgba(10, 26, 51, .8) 0%, rgba(10, 31, 65, .8) 100%); */
+        background: rgba(226, 240, 255, 0.5);
+        line-height: 50px;
+        font-weight: 700;
+        color: rgba(0,0,0,0.8);
+    }
+
+    .m-t-cover {
+        position: absolute;
+        height: 44px;
+        top: 0;
+        box-sizing: border-box;
+        padding: 0 1px;
+    }
+
+    .m-t-cover>div {
+        width: 100%;
+        /* background: linear-gradient(0deg, rgba(7, 157, 120, .8) 0%, rgba(19, 215, 180, .8) 100%); */
+        background: #0078FF;
+        height: 44px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 1);
+        text-align: center;
+        line-height: 44px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .t-h-0 {
+        width: 144px;
+    }
+
+    .t-h-00 {
+        width: 143px;
+        margin-right: 1px;
+
+    }
+
+    .t-h-10 {
+        width: 70px;
+        margin: 0 1px;
+    }
+
+    .t-h-1 {
+        width: 72px;
+    }
+
+    .t-h-2 {
+        flex: 1;
+    }
+
+    .t-h-20 {
+        flex: 1;
+        margin: 0 1px;
+    }
+.red{
+  background-color: red !important;
+}
+.blue{
+  background: #0078FF !important;
+}
+</style>

@@ -1,0 +1,106 @@
+<div class="modal-add-edit-map">
+    <div class="modal-header">
+        <h4>{{$ctrl.title}}</h4>
+    </div>
+    <div class="modal-body" style="min-height:500px">
+
+        <form name="form" novalidate class="form-horizontal">
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">地图名称：</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" required ng-model="$ctrl.item.mapName" name="mapName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">地图类型：</label>
+                <div class="col-xs-8">
+                    <select class="form-control" ng-model="$ctrl.item.mapType" ng-options="o[0] as o[1] for o in [[1,'园区'],[2,'分期'],[3,'楼栋'],[4,'单元'],[5,'楼层'],[6,'房屋']]">
+							<option value="">--请选择--</option>
+						</select>
+                </div>
+            </div>
+            <div class="form-group" ng-if="$ctrl.item.mapType >= 1">
+                <label class="col-xs-3 control-label required">园区：</label>
+                <div class="col-xs-8">
+                    <div class="input-group">
+                        <!--<input type="text" class="form-control" readonly="readonly" placeholder="请选择园区" ng-click="$ctrl.openParkModal($ctrl.item)" name="parkName" required ng-model="$ctrl.item.parkName" />-->
+                        <input type="text" class="form-control" readonly="readonly" placeholder="请选择园区" ng-click="$ctrl.findPark($ctrl.item,$ctrl.callback)" name="parkName" required ng-model="$ctrl.item.parkName" />
+                            <span class="input-group-btn">
+                                <button  class="btn btn-default" ng-click="$ctrl.findPark($ctrl.item,$ctrl.callback)">
+                                    <i class='fa fa-search'></i>
+                                </button>
+						                </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-if="$ctrl.item.mapType > 1">
+                <label class="col-xs-3 control-label required">期号：</label>
+                <div class="col-xs-8">
+                    <select class="form-control" ng-model="$ctrl.item.STAGE" ng-options="o as o.stageName for o in $ctrl.houseTree"
+							required
+							uib-tooltip="{{$ctrl.item.STAGE.stageName}}">
+						<option value="">--期--</option>
+					</select>
+                </div>
+            </div>
+            <div class="form-group" ng-if="$ctrl.item.mapType > 2">
+                <label class="col-xs-3 control-label required">楼栋号：</label>
+                <div class="col-xs-8">
+                    <select class="form-control" ng-model="$ctrl.item.FLOOR"
+                        ng-change="$ctrl.geneUnit($ctrl.item.FLOOR)" ng-options="o as o.floorName for o in $ctrl.item.STAGE.nodes"
+                        required
+                        uib-tooltip="{{item.FLOOR.floorName}}">
+                        <option value="">--栋--</option>
+                    </select>
+                </div>    
+            </div>
+            <div class="form-group" ng-if="$ctrl.item.mapType > 3">
+                <label class="col-xs-3 control-label required">单元号：</label>
+                <div class="col-xs-8">
+                    <select class="form-control" ng-model="$ctrl.item.unitNo"
+                            uib-tooltip="{{$ctrl.item.unitNo+'单元'}}"
+                            ng-change="$ctrl.geneGround($ctrl.item.FLOOR)" ng-options="o.unit_no as o.unit_no+'单元' for o in $ctrl.item.FLOOR.unitList" required>
+                        <option value="">--单元--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" ng-if="$ctrl.item.mapType > 4">
+                <label class="col-xs-3 control-label required">楼层号：</label>
+                <div class="col-xs-8">
+                    <select class="form-control" ng-model="$ctrl.item.groundNo"
+							 uib-tooltip="{{$ctrl.item.groundNo+'楼'}}"
+							ng-change="$ctrl.getHouseList($ctrl.item.FLOOR)" ng-options="o.ground_no as o.ground_no+'楼' for o in $ctrl.item.FLOOR.groundList" required>
+						<option value="">--楼--</option>
+					</select>
+                </div>
+            </div>
+            <div class="form-group" ng-if="$ctrl.item.mapType > 5">
+                <label class="col-xs-3 control-label required">房屋号：</label>
+                <div class="col-xs-8">
+                    <select class="form-control" ng-model="$ctrl.item.houseId"  uib-tooltip="{{$ctrl.item.houseName}}"
+							ng-change="$ctrl.changeHouse()"
+							ng-options="o.ID as o.HOUSE_NAME for o in $ctrl.item.FLOOR.houseList" required>
+						<option value="">--房号--</option>
+					</select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">地图文件：</label>
+                <div class="col-xs-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="mapUrl" readOnly required ng-model="$ctrl.item.mapUrl">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="$ctrl.addFile($ctrl.item,'mapUrl','name')">选择地图</button>
+				                </span>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer clearfix text-center">
+        <button class="btn btn-default" ng-click="$ctrl.cancel()">取消</button>
+        <button class="btn btn-primary" style="margin-left:50px" ng-click="$ctrl.ok(form)">确定</button>
+    </div>
+</div>

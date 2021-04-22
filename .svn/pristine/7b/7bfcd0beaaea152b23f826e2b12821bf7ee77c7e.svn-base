@@ -1,0 +1,1324 @@
+<style>
+	* {
+		padding: 0;
+		margin: 0;
+	}
+
+	.margin-0 {
+		margin: 0;
+	}
+
+	.margin-b10 {
+		padding-bottom: 10px;
+	}
+
+	.card-border {
+		border: 1px solid #ddd;
+		background: #fff;
+	}
+
+	.margin-10 {
+		margin-top: 10px;
+	}
+
+	.border-r10 {
+		border-radius: 10px;
+	}
+
+	.title {
+		height: 30px;
+		margin: 10px;
+		border-bottom: 1px solid #ddd;
+	}
+
+	.common_footer {
+		text-align: center;
+		border-top: 1px solid #ddd;
+		line-height: 40px;
+	}
+
+	.red {
+		color: red;
+	}
+
+	.green {
+		color: green;
+	}
+
+	.border-line {
+		border-right: 1px solid #ddd;
+		margin: 10px 0;
+		text-align: center;
+		line-height: 80px;
+	}
+
+	.person {
+		text-align: center;
+		line-height: 100px;
+	}
+
+	.person span {
+		font-weight: 700;
+	}
+
+	.work_top {
+		text-align: center;
+		height: 70px;
+		line-height: 70px;
+	}
+
+	.common-size {
+		font-size: 18px;
+		font-weight: 700;
+	}
+
+	.work_main {
+		text-align: center;
+		height: 80px;
+	}
+
+	/*单个项目*/
+
+	.top-star {
+		line-height: 100px;
+	}
+
+	.star_icon {
+		display: inline-block;
+		width: 45px;
+		height: 55px;
+		vertical-align: middle;
+		margin-top: -20px;
+		margin-right: 20px;
+		background: url(img/u394.png) no-repeat;
+		background-size: 100% 100%;
+	}
+
+	.pro_nav {
+		width: 100%;
+		height: 50px;
+	}
+
+	.pro_nav ul {
+		width: 100%;
+		height: 50px;
+		border-bottom: 1px solid #ddd;
+	}
+
+	.pro_nav ul li {
+		list-style: none;
+		float: left;
+		width: 100px;
+		height: 50px;
+		border: 1px solid #ddd;
+		text-align: center;
+		line-height: 50px;
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+
+	}
+
+	.pro_active {
+		color: #23527c;
+		border-bottom: 1px solid #F7F7F7 !important;
+	}
+
+	.pro_nav ul li:not(:last-child) {
+		border-right: none;
+	}
+
+	.common_width {
+		width: 50%;
+		height: 210px;
+		float: left;
+	}
+
+	.common_width ul {
+		width: 100%;
+		height: 105px;
+	}
+
+	.common_width ul li {
+		height: 40px;
+		list-style: none;
+		text-align: center;
+	}
+
+	.common_width ul.last_ul {
+		height: 70px;
+	}
+
+	.common_width ul.last_ul li {
+		height: 20px;
+		list-style: none;
+		text-align: center;
+	}
+
+	.count_wrap {
+		height: 50%;
+		text-align: center;
+	}
+
+	.count {
+		width: 50%;
+		height: 50%;
+	}
+
+	@media (min-width: 768px) {
+		.col-zd-5 {
+			float: left;
+			width: 20%;
+		}
+	}
+
+	.padding-20 {
+		padding: 20px;
+	}
+
+	.d_title {
+		width: 100%;
+		height: 100%;
+		border-radius: 5px;
+		display: -webkit-flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.w50 {
+		width: 50%;
+	}
+
+	.h50 {
+		height: 50%;
+	}
+
+	.h100 {
+		height: 100%;
+	}
+
+	.count_p {
+		width: 100%;
+		height: 50%;
+	}
+
+	.bt {
+		border-bottom: 1px solid #ddd;
+	}
+
+	.count_p span {
+		display: inline-block;
+		padding-top: 25px;
+	}
+
+	.title_l {
+		height: 50px;
+		margin: 10px;
+		border-bottom: 1px solid #ddd;
+	}
+
+	.title_l h5 {
+		line-height: 40px;
+	}
+
+	.top10 {
+		box-sizing: border-box;
+		padding: 0 10px;
+
+	}
+
+	.work_title {
+		height: 40px;
+		padding-left: 10px;
+	}
+
+	.work_title h4 {
+		font-size: 16px!important;
+		line-height: 40px;
+		margin: 0;
+	}
+
+	.lg-50 {
+		line-height: 50px;
+	}
+
+	.equipment_analysis ul {
+		height: 80px;
+		list-style: none;
+		margin-bottom: 0;
+	}
+
+	.equipment_analysis ul li {
+		height: 80px;
+		float: left;
+		border: 1px solid #ddd;
+		width: 11.11111%;
+		background: #fff;
+	}
+
+	/*.equipment_analysis ul li:not(:last-child) {
+	border-right: none;
+}*/
+
+	.lg-40 {
+		line-height: 40px;
+	}
+
+	.paddiing-b10 {
+		padding-bottom: 10px;
+	}
+
+	a.active {
+		color: #337ab7;
+		!important;
+	}
+
+	.proinfo {
+		height: 70px;
+		margin: 10px;
+		border-bottom: 1px solid #ddd;
+	}
+
+	.proinfo ul li {
+		list-style: none;
+		line-height: 30px;
+
+	}
+    .proinfo ul{
+		height: 70px;
+        overflow: auto;
+	}
+	.proinfo ul li span {
+		margin-right: 100px;
+	}
+
+	.promore {
+		height: 230px;
+		position: relative;
+	}
+
+	.promore ul {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 40%;
+		height: 230px;
+        overflow: auto;
+	}
+
+	.promore ul li {
+		list-style: none;
+		margin-left: 10px;
+		line-height: 30px;
+		/* width: 80%; */
+	}
+</style>
+<div id="angularId" ng-controller="multipleProStatctrl">
+	<div class="x_panel">
+		<h4>项目总览</h4>
+	</div>
+	<div class="pro_nav">
+		<ul class="clearfix">
+			<!-- <li ng-class="{pro_active:index==1}" ng-click="tabChange(1)">资产分析</li> -->
+			<!-- <li ng-class="{pro_active:index==2}" ng-click="tabChange(2)">人员分析</li>
+			<li ng-class="{pro_active:index==3}" ng-click="tabChange(3)">工作分析</li>
+			<li ng-class="{pro_active:index==4}" ng-click="tabChange(4)">设备分析</li> -->
+			<li ng-class="{pro_active:index==2}" ng-click="tabChange(2)">工作分析</li>
+			<li ng-class="{pro_active:index==3}" ng-click="tabChange(3)">人员分析</li>
+			<li ng-class="{pro_active:index==4}" ng-click="tabChange(4)">设备分析</li>
+		</ul>
+	</div>
+	<!--  	<div class="asset_analysis" ng-show="index==1">
+		<div class="row margin-10">
+			<div class=" col-sm-6 col-xs-12">
+				<div class="card-border border-r10" style="height: 100px">
+					<div class="col-xs-4 border-line"><span>本年度总收入</span></div>
+					<div class="col-xs-8 person common-size"><span class="red">{{data.allIncome | number}}元</span>
+					</div>
+				</div>
+			</div>
+			<div class=" col-sm-6 col-xs-12">
+				<div class="card-border border-r10" style="height: 100px">
+					<div class="col-xs-4 border-line"><span>本年度总支出</span></div>
+					<div class="col-xs-8 person common-size"><span class="green">{{data.allOut | number}}元</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-10">
+			<div class=" col-sm-4 col-xs-12">
+				<div class="card-border" style="height: 260px">
+					<div class="title">
+						<h5 class="pull-left margin-0">收入执行率</h5>
+						<div class="pull-right">
+							<a href="javascript:;" ng-click="inratecm()"  ng-class="{'active':inrate=='cm'}">本月</a>|
+							<a href="javascript:;" ng-click="inratecs()" ng-class="{'active':inrate=='cs'}">本季</a>|
+							<a href="javascript:;" ng-click="inratecy()" ng-class="{'active':inrate=='cy'}">本年</a>
+						</div>
+					</div>
+					<div id="income" style="height: 210px;" class="common_width">
+						
+					</div>
+					<div class="common_width">
+						<ul>
+							<li>{{incomeCopy[1].name}}：</li>
+							<li class="red">{{incomeCopy[1].value | number}}元</li>
+						</ul>
+						<ul>
+							<li>{{incomeCopy[0].name}}：</li>
+							<li class="red">{{incomeCopy[0].value | number}}元</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class=" col-sm-4 col-xs-12">
+				<div class="card-border" style="height: 260px">
+					<div class="title">
+						<h5 class="pull-left margin-0">支出执行率</h5>
+						<div class="pull-right">
+							<a href="javascript:;" ng-click="outratecm()"  ng-class="{'active':outrate=='cm'}">本月</a>|
+							<a href="javascript:;" ng-click="outratecs()" ng-class="{'active':outrate=='cs'}">本季</a>|
+							<a href="javascript:;" ng-click="outratecy()" ng-class="{'active':outrate=='cy'}">本年</a>
+						</div>
+					</div>
+					<div id="out" style="height: 210px;" class="common_width">
+						
+					</div>
+					<div class="common_width">
+						<ul>
+							<li>{{outCopy[1].name}}：</li>
+							<li class="green">{{outCopy[1].value | number}}元</li>
+						</ul>
+						<ul>
+							<li>{{outCopy[0].name}}：</li>
+							<li class="green">{{outCopy[0].value | number}}元</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class=" col-sm-4 col-xs-12">
+				<div class="card-border" style="height: 260px">
+					<div class="title">
+						<h5 class="pull-left margin-0">物业收缴率</h5>
+						<div class="pull-right">
+							<a href="javascript:;" ng-click="sratecm()"  ng-class="{'active':srate=='cm'}">本月</a>|
+							<a href="javascript:;" ng-click="sratecs()" ng-class="{'active':srate=='cs'}">本季</a>|
+							<a href="javascript:;" ng-click="sratecy()" ng-class="{'active':srate=='cy'}">本年</a>
+						</div>
+					</div>
+					<div id="property" style="height: 210px;" class="common_width">
+						
+					</div>
+					<div class="common_width">
+						<ul class="last_ul">
+							<li>{{propertyCopy[1].name}}：</li>
+							<li class="red">{{propertyCopy[1].value | number}}元</li>
+						</ul>
+						<ul class="last_ul">
+							<li>{{propertyCopy[0].name}}：</li>
+							<li class="red">{{propertyCopy[0].value | number}}元</li>
+						</ul>
+						<ul class="last_ul">
+							<li>{{propertyCopy[2].name}}：</li>
+							<li class="red">{{propertyCopy[2].value | number}}元</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-10">
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border" >
+					<div class="title">
+						<h5 class="pull-left margin-0">收入执行率排名TOP5</h5>
+						<div class="pull-right">
+							<a href="javascript:;">最优</a>|
+							<a href="javascript:;">最差</a>									
+						</div>
+					</div>
+					<div class="top10">
+							<table class="table">
+							  <thead>
+							    <tr>
+							      <th>项目名称</th>
+							      <th>类型</th>
+							      <th>收入执行率</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr>
+							      <td><span class="circle circle-top3">1</span>创意天地</td>
+							      <td>园区</td>
+							      <td>100%</td>
+							    </tr>
+							     <tr>
+							      <td><span class="circle circle-top3">2</span>软件园</td>
+							      <td>园区</td>
+							      <td>100%</td>
+							    </tr>
+							   <tr>
+							      <td><span class="circle circle-top3">3</span>金融港</td>
+							      <td>住宅</td>
+							      <td>100%</td>
+							    </tr>
+							    <tr>
+							      <td><span class="circle circle-top3">4</span>丽岛</td>
+							      <td>住宅</td>
+							      <td>100%</td>
+							    </tr>
+							    <tr>
+							      <td><span class="circle circle-top3">5</span>丽岛</td>
+							      <td>园区</td>
+							      <td>100%</td>
+							    </tr>									   
+							  </tbody>
+							</table>
+					</div>
+				</div>
+			</div>	
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border" >
+					<div class="title">
+						<h5 class="pull-left margin-0">支出执行率排名TOP5</h5>
+						<div class="pull-right">
+							<a href="javascript:;">最优</a>|
+							<a href="javascript:;">最差</a>									
+						</div>
+					</div>
+					<div class="top10">
+							<table class="table">
+							  <thead>
+							    <tr>
+							      <th>项目名称</th>
+							      <th>类型</th>
+							      <th>收入执行率</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr>
+							      <td><span class="circle circle-top3">1</span>创意天地</td>
+							      <td>园区</td>
+							      <td>100%</td>
+							    </tr>
+							     <tr>
+							      <td><span class="circle circle-top3">2</span>软件园</td>
+							      <td>园区</td>
+							      <td>100%</td>
+							    </tr>
+							   <tr>
+							      <td><span class="circle circle-top3">3</span>金融港</td>
+							      <td>住宅</td>
+							      <td>100%</td>
+							    </tr>
+							    <tr>
+							      <td><span class="circle circle-top3">4</span>丽岛</td>
+							      <td>住宅</td>
+							      <td>100%</td>
+							    </tr>
+							    <tr>
+							      <td><span class="circle circle-top3">5</span>丽岛</td>
+							      <td>园区</td>
+							      <td>100%</td>
+							    </tr>									   
+							  </tbody>
+							</table>
+					</div>
+				</div>
+			</div>	
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border" >
+					<div class="title">
+						<h5 class="pull-left margin-0">物业费收缴率排名TOP5</h5>
+						<div class="pull-right">
+							<a href="javascript:;">最优</a>|
+							<a href="javascript:;">最差</a>									
+						</div>
+					</div>
+					<div class="top10">
+							<table class="table">
+							  <thead>
+							    <tr>
+							      <th>项目名称</th>
+							      <th>类型</th>
+							      <th>收入执行率</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr>
+							      <td><span class="circle circle-top3">1</span>创意天地</td>
+							      <td>园区</td>
+							      <td>100%</td>
+							    </tr>
+							     <tr>
+							      <td><span class="circle circle-top3">2</span>软件园</td>
+							      <td>园区</td>
+							      <td>100%</td>
+							    </tr>
+							   <tr>
+							      <td><span class="circle circle-top3">3</span>金融港</td>
+							      <td>住宅</td>
+							      <td>100%</td>
+							    </tr>
+							    <tr>
+							      <td><span class="circle circle-top3">4</span>丽岛</td>
+							      <td>住宅</td>
+							      <td>100%</td>
+							    </tr>
+							    <tr>
+							      <td><span class="circle circle-top3">5</span>丽岛</td>
+							      <td>园区</td>
+							      <td>100%</td>
+							    </tr>									   
+							  </tbody>
+							</table>
+					</div>
+				</div>
+			</div>	
+		</div>
+		<div class="row margin-10">
+			<div class=" col-sm-6 col-xs-12">
+				<div class="card-border" style="height: 300px">
+					<div class="title">
+						<h5>各项收入情况统计</h5>
+					</div>
+					<div id="income_situation" style="height: 250px;">
+						
+					</div>
+				</div>
+			</div>
+			<div class=" col-sm-6 col-xs-12">
+				<div class="card-border" style="height: 300px">
+					<div class="title">
+						<h5>各项支出情况统计</h5>
+					</div>
+					<div id="out_situation" style="height: 250px;">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-10">
+			<div class=" col-sm-5 col-xs-12">
+				<div class="card-border" style="height: 260px">
+					<div class="title">
+						<h5 class="pull-left margin-0">经营型资产盈利状况</h5>
+						<div class="pull-right">
+							<a href="javascript:;" ng-click="profitinfocm()"  ng-class="{'active':profitinfo=='cm'}">本月</a>|
+							<a href="javascript:;" ng-click="profitinfocs()" ng-class="{'active':profitinfo=='cs'}">本季</a>|
+							<a href="javascript:;" ng-click="profitinfocy()" ng-class="{'active':profitinfo=='cy'}">本年</a>
+						</div>
+					</div>
+					<div id="profit" style="height: 210px;">
+						
+					</div>
+				</div>
+			</div>
+			<div class=" col-sm-2 col-xs-12">
+				<div class="card-border" style="height: 260px">
+					<div class="title">
+						<h5 class="pull-left margin-0">经营型资产统计</h5>
+					</div>
+					<div id="" style="height: 210px;">
+						<div class="count_wrap">
+							<div class="count_wrap ">总计</div>
+							<div class="count_wrap common-size">{{ENTITY_AMOUNT}}位</div>
+						</div>
+						<div class="count_wrap">
+							<div class="pull-left count" style="height: 100%;">
+								<div class="count_wrap">占用</div>
+								<div class="red count_wrap common-size">{{ENTITY_AMOUNT_USAGE}}位</div>
+							</div>
+							<div class="pull-right count" style="height: 100%;">
+								<div class="count_wrap">空闲</div>
+								<div class="green count_wrap common-size">{{ENTITY_AMOUNT_FREE}}位</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class=" col-sm-5 col-xs-12">
+				<div class="card-border" style="height: 260px">
+					<div class="title">
+						<h5 class="pull-left margin-0">各项支出情况统计</h5>
+					</div>
+					<div id="out_status" style="height: 210px;">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-10 paddiing-b10">
+			<div class=" col-sm-6 col-xs-12">
+				<div class="card-border" style="height: 300px">
+					<div class="title">
+						<h5>执行率年度趋势图</h5>
+					</div>
+					<div id="implement" style="height: 250px;">
+						
+					</div>
+				</div>
+			</div>
+			<div class=" col-sm-6 col-xs-12">
+				<div class="card-border" style="height: 300px">
+					<div class="title">
+						<h5>催缴情况趋势图</h5>
+					</div>
+					<div id="call" style="height: 250px;">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>-->
+	<div class="work_analysis" ng-show="index==2">
+		<div class="row margin-10">
+			<div class="col-sm-12 col-xs-12">
+				<div class="card-border work_title">
+					<h4>工单统计</h4>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-10">
+			<div class="col-sm-3 col-xs-12">
+				<div class="card-border border-r10" style="height: 100px;">
+					<div class="h50 text-center lg-50">
+						<span>工单总数 </span>
+					</div>
+					<div class="h50 text-center lg-50">
+						<span class="red common-size">{{work.WORKUNIT_COUNT_ALL}}条</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3 col-xs-12">
+				<div class="card-border border-r10" style="height: 100px;">
+					<div class="h50 text-center lg-50">
+						<span>计划工单</span>
+					</div>
+					<div class="h50 text-center lg-50">
+						<span class="red common-size">{{work.WORKUNIT_JH_COUNT}}条</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3 col-xs-12">
+				<div class="card-border border-r10" style="height: 100px;">
+					<div class="h50 text-center lg-50">
+						<span>应急工单</span>
+					</div>
+					<div class="h50 text-center lg-50">
+						<span class="red common-size">{{work.WORKUNIT_YJ_COUNT}}条</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3 col-xs-12">
+				<div class="card-border border-r10" style="height: 100px;">
+					<div class="h50 text-center lg-50">
+						<span>异常工单</span>
+					</div>
+					<div class="h50 text-center lg-50">
+						<span class="green common-size">{{work.SUPERVISE_ORDER}}条</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row margin-10">
+			<div class="col-sm-8 col-xs-12">
+				<div class="card-border" style="height:400px;" id="container2">
+
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12 ">
+				<div class="card-border" style="height:400px;">
+					<div class="title">
+						<h5 class="pull-left margin-0">项目详情</h5>
+
+					</div>
+					<div class="proinfo">
+						<ul>
+							<li>项目名称：{{prodetail.PARK_NAME}}</li>
+							<li>项目地址：{{prodetail.PARK_ADDRESS}}</li>
+							<li>
+								<!-- <span>项目主任：{{prodetail.DIRECTOR}}</span> -->
+							</li>
+
+						</ul>
+					</div>
+					<div class="promore clearfix">
+						<div class="pull-left h100" style="border-right:  1px solid #ddd;width: 40%;">
+							<ul>
+								<li ng-if="workDep.length == 0" class="text-center">部门暂无数据</li>
+								<li ng-repeat="item in workDep">{{item.NAME + ":" + item.VALUE + "人"}}</li>
+							</ul>
+						</div>
+						<div id="proOrder" class="pull-left h100" style="width: 60%;">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-10">
+			<div class="col-sm-12 col-xs-12">
+				<div class="card-border" style="height:100px;">
+					<div class="title">
+						<h5 class="pull-left margin-0">统计</h5>
+
+					</div>
+					<div style="height: 50px;padding-left:10px;">
+						<form class="form" novalidate>
+							<div class="form-inline">
+								<div class="form-group">
+									<input type="datetime" class="form-control Wdate" required name="startTime" ng-model="startTime" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+									<label>-</label>
+									<input type="datetime" class="form-control Wdate" required name="endTime" ng-model="endTime" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.Wdate').first().val()}&quot;})">
+								</div>
+								<button class="btn btn-default" ng-click="workStat()">统计</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-10">
+			<div class="col-sm-6 col-xs-12">
+				<div class="card-border" style="height:470px;overflow:auto">
+					<div class="title">
+						<h5 class="pull-left margin-0">工单完成率统计TOP10</h5>
+						<!-- <div class="pull-right">								
+							<a href="javascript:;">更多</a>									
+						</div> -->
+					</div>
+					<div id="" class="top10">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>NO</th>
+									<th>项目名称</th>
+									<th>类型</th>
+									<th>完成率</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-if="parkFinishRate.length == 0">
+									<td colspan="100" class="text-center">暂无记录</td>
+								</tr>
+								<tr ng-repeat="item in parkFinishRate">
+									<td>{{$index+1}}</td>
+									<td>{{item.PARK_NAME}}</td>
+									<td>{{item.PARK_TYPE}}</td>
+									<td>{{item.FINISH_RATE}}%</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-xs-12">
+				<div class="card-border" style="height:470px;overflow:auto">
+					<div class="title">
+						<h5 class="pull-left margin-0">工单完成数量统计TOP10</h5>
+						<div class="pull-right">
+							<a href="javascript:;" ng-click="PersonBest()" ng-class="{'active':isPersonBest=='pb'}">最优</a>|
+							<a href="javascript:;" ng-click="PersonWorst()" ng-class="{'active':isPersonBest=='pw'}">最差</a>
+						</div>
+					</div>
+					<div id="" class="top10">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>NO</th>
+									<th>项目名称</th>
+									<th>类型</th>
+									<th>完成数量</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-if="personFinishRate.length == 0">
+									<td colspan="100" class="text-center">暂无记录</td>
+								</tr>
+								<tr ng-repeat="item in personFinishRate">
+									<td>{{$index+1}}</td>
+									<td>{{item.PARK_NAME}}</td>
+									<td>{{item.PARK_TYPE}}</td>
+									<td>{{item.FINISH_COUNT}}条</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="col-sm-4 col-xs-12">
+				<div class="card-border">
+					<div class="title">
+						<h5 class="pull-left margin-0">业主投诉处理及时率TOP10</h5>
+						<div class="pull-right">								
+							<a href="javascript:;">更多</a>									
+						</div>
+					</div>
+					<div id="" class="top10">
+							<table class="table">
+							  <thead>
+							    <tr>
+							      <th>项目名称</th>
+							      <th>类型</th>
+							      <th>及时率</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr>
+							      <td><span class="circle circle-top3">1</span>创意天地</td>
+							      <td>园区</td>
+							      <td>100%</td>
+							    </tr>
+							     <tr>
+							      <td><span class="circle circle-top3">2</span>软件园</td>
+							      <td>园区</td>
+							      <td>98%</td>
+							    </tr>
+							   <tr>
+							      <td><span class="circle circle-top3">3</span>金融港</td>
+							      <td>园区</td>
+							      <td>96%</td>
+							    </tr>
+							    <tr>
+							      <td><span class="circle"></span>丽岛2046</td>
+							      <td>住宅</td>
+							      <td>80%</td>
+							    </tr>							   
+							  </tbody>
+							</table>
+					</div>
+				</div>
+			</div> -->
+		</div>
+		<div class="row margin-10">
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border" style="350px;">
+					<div class="title">
+						<h5 class="pull-left margin-0">工单状态统计</h5>
+
+					</div>
+					<div id="worktype" style="height: 300px;">
+
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-8 col-xs-12">
+				<div class="card-border" style="350px;">
+					<div class="title">
+						<h5 class="pull-left margin-0">各项目工单统计</h5>
+
+					</div>
+					<div id="dpworkuit" style="height: 300px;">
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-10 paddiing-b10">
+			<div class="col-sm-5 col-xs-12">
+				<div class="card-border">
+					<div class="title">
+						<h5 class="pull-left margin-0">工单分类统计</h5>
+
+					</div>
+					<div id="workunits" style="height: 380px;">
+
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border">
+					<div class="title">
+						<h5 class="pull-left margin-0">工单完成率</h5>
+						<!-- <div class="pull-right">								
+							<a href="javascript:;">本月</a>|
+							<a href="javascript:;">本季</a>|
+							<a href="javascript:;">本年</a>
+						</div> -->
+					</div>
+					<div id="workordercp" style="height: 380px;">
+
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3 col-xs-12">
+				<div class="card-border">
+					<div class="title">
+						<h5 class="pull-left margin-0">工单好评率</h5>
+					</div>
+					<div id="praise" style="height: 380px;">
+
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="person_analysis" ng-show="index==3">
+		<div class="row margin-10">
+			<div class="col-sm-8 col-xs-12">
+				<div class="card-border" style="height:400px;" id="container1">
+
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12 ">
+				<div class="card-border" style="height:400px;">
+					<div class="title">
+						<h5 class="pull-left margin-0">项目详情</h5>
+					</div>
+					<div class="proinfo">
+						<ul>
+							<li>项目名称：{{personDetail.PARK_NAME}}</li>
+							<li>项目地址：{{personDetail.PARK_ADDRESS}}</li>
+							<li>
+								<!-- <span>项目主任：{{personDetail.DIRECTOR}}</span> -->
+							</li>
+						</ul>
+					</div>
+					<div class="promore clearfix">
+						<div class="pull-left h100" style="border-right:  1px solid #ddd;width: 40%;">
+							<ul>
+								<li ng-if="personDep.length == 0" class="text-center">部门暂无数据</li>
+								<li ng-repeat="item in personDep">{{item.NAME + ":" + item.VALUE + "人"}}</li>
+							</ul>
+						</div>
+						<div id="properson" class="pull-left h100" style="width: 60%;">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-10">
+			<div class="col-sm-12 col-xs-12">
+				<div class="card-border" style="100px;">
+					<div class="title">
+						<h5 class="pull-left margin-0">统计</h5>
+
+					</div>
+					<div style="height: 50px;padding-left:10px;">
+						<form class="form" novalidate>
+							<div class="form-inline">
+								<div class="form-group">
+									<input type="datetime" class="form-control Wdate" required name="startTime" ng-model="startTime" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+									<label>-</label>
+									<input type="datetime" class="form-control Wdate" required name="endTime" ng-model="endTime" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.Wdate').first().val()}&quot;})">
+								</div>
+								<button class="btn btn-default" ng-click="stat()">统计</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-10">
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border" style="250px;">
+					<div class="title">
+						<h5 class="pull-left margin-0">员工签到异常统计</h5>
+
+					</div>
+					<div id="abnormal" style="height: 200px;">
+
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border" style="250px;">
+					<div class="title">
+						<h5 class="pull-left margin-0">员工异动统计</h5>
+
+					</div>
+					<div id="transaction" style="height: 200px;">
+
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border" style="250px;">
+					<div class="title">
+						<h5 class="pull-left margin-0">员工离职率</h5>
+
+					</div>
+					<div id="quit" style="height: 200px;">
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-10 paddiing-b10">
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border" style="height:470px;overflow:auto">
+					<div class="title">
+						<h5 class="pull-left margin-0">报事数量TOP10</h5>
+					</div>
+					<div id="" class="top10">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>NO</th>
+									<th>项目名</th>
+									<th>类型</th>
+									<th>报事工单条数</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-if="projectReport.length == 0">
+									<td colspan="100" class="text-center">暂无记录</td>
+								</tr>
+								<tr ng-repeat="item in projectReport">
+									<td>{{$index+1}}</td>
+									<td>{{item.PARK_NAME}}</td>
+									<td>{{item.PARK_TYPE}}</td>
+									<td>{{item.VALUE}}条</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border" style="height:470px;overflow:auto">
+					<div class="title">
+						<h5 class="pull-left margin-0">接单数量统计TOP10</h5>
+
+					</div>
+					<div id="" class="top10">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>NO</th>
+									<th>项目名</th>
+									<th>类型</th>
+									<th>处理工单数</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-if="projectAccept.length == 0">
+									<td colspan="100" class="text-center">暂无记录</td>
+								</tr>
+								<tr ng-repeat="item in projectAccept">
+									<td>{{$index+1}}</td>
+									<td>{{item.PARK_NAME}}</td>
+									<td>{{item.PARK_TYPE}}</td>
+									<td>{{item.VALUE}}条</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border" style="height:470px;overflow:auto">
+					<div class="title">
+						<h5 class="pull-left margin-0">出勤率统计TOP10</h5>
+					</div>
+					<div id="" class="top10">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>NO</th>
+									<th>项目名</th>
+									<th>类型</th>
+									<th>出勤率</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-if="projectOnduty.length == 0">
+									<td colspan="100" class="text-center">暂无记录</td>
+								</tr>
+								<tr ng-repeat="item in projectOnduty">
+									<td>{{$index+1}}</td>
+									<td>{{item.PARK_NAME}}</td>
+									<td>{{item.PARK_TYPE}}</td>
+									<td>{{item.VALUE}}%</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="equipment_analysis" ng-show="index==4">
+		<div class="row margin-10">
+			<div class="col-sm-12 col-xs-12">
+				<ul class="clearfix" ng-if="equipData.DEVICE_AMOUNT_STAT  && equipData.DEVICE_AMOUNT_STAT.length !== 0">
+					<li ng-repeat="item in equipData.DEVICE_AMOUNT_STAT">
+						<div class="h50 text-center lg-40">
+							<span>{{item.NAME}}</span>
+						</div>
+						<div class="h50 text-center lg-40">
+							<span>{{item.VALUE}}台</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- <div class="row margin-10">
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border">
+					<div class="title">
+						<h5 class="pull-left margin-0">各类设备品牌故障率最高排名</h5>
+						<div class="pull-right">								
+							<a href="javascript:;">更多</a>								
+					</div>
+					</div>
+					<div id="" class="top10">
+							<table class="table">
+							  <thead>
+							    <tr>
+							      <th>NO</th>
+							      <th>品牌名称</th>
+							      <th>设备类型</th>
+							      <th>故障率</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr ng-if="equipData.DEVICE_BRAND_ERROR_RATE_DESC.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+							    <tr ng-repeat="item in equipData.DEVICE_BRAND_ERROR_RATE_DESC">
+							      <th>{{$index+1}}</th>
+							      <td>{{item.name}}</td>
+							      <td>{{item.device_type}}</td>
+							      <td>{{item.error_rate}}%</td>
+							    </tr>	
+							  </tbody>
+							</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border">
+					<div class="title">
+						<h5 class="pull-left margin-0">各类设备品牌故障率最低排名</h5>
+						<div class="pull-right">								
+							<a href="javascript:;">更多</a>								
+					</div>
+					</div>
+					<div id="" class="top10">
+							<table class="table">
+							  <thead>
+							    <tr>
+							      <th>NO</th>
+							      <th>品牌名称</th>
+							      <th>设备类型</th>
+							      <th>故障率</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							  	<tr ng-if="equipData.DEVICE_BRAND_ERROR_RATE_ASC.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+							    <tr ng-repeat="item in equipData.DEVICE_BRAND_ERROR_RATE_ASC">
+							      <td>{{$index+1}}</td>
+							      <td>{{item.name}}</td>
+							      <td>{{item.device_type}}</td>
+							      <td>{{item.error_rate}}%</td>
+							    </tr>
+							  </tbody>
+							</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border">
+					<div class="title">
+						<h5 class="pull-left margin-0">各类设备工单排名</h5>
+						<div class="pull-right">								
+							<a href="javascript:;">更多</a>								
+					</div>
+					</div>
+					<div id="" class="top10">
+							<table class="table">
+							  <thead>
+							    <tr>
+							      <th>NO</th>
+							      <th>品牌名称</th>
+							      <th>设备类型</th>
+							      <th>工单数</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr ng-if="equipData.DEVICE_BRAND_ORDER_RATE_DESC.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+							    <tr ng-repeat="item in equipData.DEVICE_BRAND_ORDER_RATE_DESC">
+							      <td>{{$index+1}}</td>
+							      <td>{{item.name}}</td>
+							      <td>{{item.device_type}}</td>
+							      <td>{{item.error_rate}}条</td>
+							    </tr>
+							  </tbody>
+							</table>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<!-- <div class="row margin-10">
+			<div class="col-sm-12 col-xs-12">
+				<div class="card-border" style="100px;">
+					<div class="title">
+						<h5 class="pull-left margin-0">统计</h5>
+						
+					</div>
+					<div style="height: 50px;padding-left:10px;" >
+					   <div class="form-inline">
+						<div class="form-group">						
+								<input type="datetime" class="form-control Wdate" required name="START_TIME" ng-model="START_TIME_E"  onchange=""
+									   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">														
+								<label>-</label>												
+								<input type="datetime" class="form-control Wdate" required name="END_TIME" ng-model="END_TIME_E"  onchange=""
+									   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">						
+						</div>
+						<button class="btn btn-default" ng-click="equipStat()">统计</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<div class="row margin-10">
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border">
+					<div class="title">
+						<h5 class="pull-left margin-0">设备运行状态统计</h5>
+
+					</div>
+					<div id="equipment" style="height: 250px;">
+
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-8 col-xs-12">
+				<div class="card-border">
+					<div class="title">
+						<h5 class="pull-left margin-0">各类设备故障统计</h5>
+
+					</div>
+					<div id="fault" style="height: 250px;">
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-10 paddiing-b10">
+			<div class="col-sm-4 col-xs-12">
+				<div class="card-border">
+					<div class="title">
+						<h5 class="pull-left margin-0">设备工单统计</h5>
+
+					</div>
+					<div id="workorder" style="height: 300px;">
+
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-8 col-xs-12">
+				<div class="card-border">
+					<div class="title">
+						<h5 class="pull-left margin-0">各类设备完好率统计</h5>
+
+					</div>
+					<div id="intact" style="height: 300px;">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

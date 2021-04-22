@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>定价管理</title>
+     <link rel="stylesheet" href="projectSpace/pricingManage/priceIndex.css">
+</head>
+<body>
+<div id="angularId" ng-controller="fixPriceCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>定价管理</h3>
+		</div>
+	</div>
+	
+			
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label class="label-search">分期</label>
+                <select class="form-control" ng-model="STAGE" ng-change="changeStage(STAGE)" ng-options="o.stageName for o in stageList" style="width: 140px;margin-right: 40px;">
+                    <option value="">-请选择-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-search">楼栋</label>
+                <select class="form-control" ng-model="FLOOR" ng-change="changeFloor(FLOOR)" ng-options="o.buildName for o in floorList" style="width: 140px;margin-right: 40px;">
+                    <option value="">-请选择-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-search">单元</label>
+                <select class="form-control" ng-model="UNIT" ng-change="changeUnit(UNIT)" ng-options="o.unitName for o in unitList" style="width: 140px;margin-right: 40px;">
+                    <option value="">-请选择-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-search">楼层</label>
+                <select class="form-control" ng-model="GROUND" ng-change="changeGround(GROUND)" ng-options=" o.floorName+'楼' for o in groundList" style="width: 140px;margin-right: 40px;">
+                    <option value="">-请选择-</option>
+                </select>
+            </div>
+            <button class="btn btn-default pull-right btn-search" ng-click="find()">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead class="title">
+                    <tr>
+                        <th style="text-align:center">分期</th>
+                        <th style="text-align:center">楼栋</th>
+                        <th style="text-align:center">单元</th>
+                        <th style="text-align:center">楼层</th>
+                        <th style="text-align:center">房间</th>
+                        <th style="text-align:center">房间类型</th>
+                        <th style="text-align:center">面积(m<sup>2</sup>)</th>
+                        <th style="text-align:center">单价(元/m<sup>2</sup>)</th>
+                        <th style="text-align:center">状态</th>
+                        <th style="text-align:center">操作</th>
+                    </tr>
+                </thead>
+               <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                    <tr ng-repeat="item in pageModel.data" ng-if="!item.edit">
+                        <td class="text-center">{{item.stageName}}</td>
+                        <td class="text-center">{{item.buildName}}</td>
+                        <td class="text-center">{{item.unitNum}}</td>
+                        <td class="text-center">{{item.groundNum}}</td>
+                        <td class="text-center">{{item.houseName}}</td>
+                        <td class="text-center">{{item.houseTypeName}}</td>
+                        <td class="text-center">{{item.area}}</td>
+                        <td class="text-center">{{item.salePrice}}</td>
+                        <td class="text-center">{{item.salePriceStatus ==0 || item.salePriceStatus==null?'待定价':(item.salePriceStatus ==1?'已定价':'已发布')}}</td>
+                        <td class="text-center">
+                            <button class="btn btn-oper" ng-if="item.salePriceStatus!=2" ng-click='showFixModal(item,"add")'>定价</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'" class="ng-scope">
+                    <style type="text/css" class="ng-scope">
+                        .pagination > li > span:hover {
+                            background-color: #fff;
+                            cursor: text
+                        }
+                    </style>
+                </ng-include>
+            </div>
+        </div>    
+    </div>
+</div>
+</body>
+</html>

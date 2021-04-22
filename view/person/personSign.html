@@ -1,0 +1,89 @@
+<div id="angularId" ng-controller="personSignCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>签到统计</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">部门列表</div>
+                <div class="x_content">
+                    <div class="alert" role="alert" ng-show="oriList.length==0">无部门信息</div>
+                    <div id="dept_tree"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="datetime" class="form-control Wdate" ng-model="search.date" placeholder="日期" onchange="" readonly onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                        <input type="text" ng-model="search.name" placeholder="请输入姓名" class="form-control" />
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)">查询</button>
+                </div>
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>到岗状态</th>
+                            <th>签到时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.list">
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td>{{item.NAME}}</td>
+                            <td>{{item.SEX}}</td>
+                            <td>{{item.fromTime?"到岗":"旷工"}}</td>
+                            <td>{{item.fromTime|timePart}}{{(item.fromTime&&item.toTime!=item.fromTime)?"-":""}}{{item.toTime!=item.fromTime?item.toTime:""|timePart}}</td>
+                            <td>
+                                <a href='javascript:void(0)' ng-click='showDetailModal(item)' ng-show="item.fromTime" class='btn btn-xs'><span class='fa fa-info-circle'></span>签到详情</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/ng-template" id="signDetail.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancel()">×</button>
+            <h4 class="modal-title">签到日志</h4>
+        </div>
+        <div class="modal-body">
+            <table class="table table-striped table-hover">
+                <thead class="title">
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th>姓名</th>
+                        <th>签到时间</th>
+                        <th>签到地址</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="list.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in list">
+                        <td class="text-center">{{$index + 1}}</td>
+                        <td>{{item.NAME}}</td>
+                        <td>{{item.SIGN_TIME|timePart}}</td>
+                        <td>{{item.ADDRESS}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </script>
+    <ng-include src="'/common/modal.dept.html'"></ng-include>
+</div>

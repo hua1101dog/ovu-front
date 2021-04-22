@@ -1,0 +1,38 @@
+<div class="modal-header" style="border-bottom: none;">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">入驻空间</h4>
+</div>
+
+<div class="panel panel-default" style="margin-bottom: 0px">
+    <div class="panel-body" style="padding: 6px">
+        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+            <thead class="title">
+            <tr class="text-center">
+                <th class="text-center">NO</th>
+                <th>分期/楼栋</th>
+                <th>单元</th>
+                <th>楼层/房屋</th>
+                <th>建筑面积（㎡）</th>
+                <th>产权所属</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+            <tr ng-repeat="item in pageModel.data" style="color:#333333;">
+                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                <td class="">{{item.stageName||"--"}}/{{item.buildName||"--"}}</td>
+                <td class="">{{(item.unitNum || item.unitNum==0)?item.unitNum+'单元':"--"}}</td>
+                <td class="">{{item.groundNum?item.groundNum+'层':"--"}}/{{item.houseName||"--"}}</td>
+                <td class="">{{item.area||"--"}}</td>
+                <td class="">{{item.ownerName||"--"}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="page-footer clearfix">
+        <ng-include src="'/common/pager.html'"></ng-include>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn" ng-click="cancel()">关闭</button>
+</div>

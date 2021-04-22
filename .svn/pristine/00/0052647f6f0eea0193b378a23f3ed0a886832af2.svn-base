@@ -1,0 +1,474 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">客户信息</h4>
+</div>
+<div class="btngroup">
+    <button class="btn btn-primary" ng-click="save(formdata,customerInfo,false)"><span
+            class="btnImage save"></span>保存</button>
+    <button class="btn btn-primary" ng-click="save(formdata,customerInfo,true)"><span
+            class="btnImage saveAndClose"></span>保存&关闭</button>
+    <button class="btn btn-primary" ng-click="cancel()"><span class="btnImage close"></span>关闭</button>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="leftTab">
+        <!-- <div>主要信息</div>
+        <div>信息修改日志</div> -->
+        <ul>
+            <li ng-click="curIndex=1" ng-class="{'selColor':curIndex==1}">主要信息</li>
+            <li ng-click="curIndex=2" ng-class="{'selColor':curIndex==2}">信息修改日志</li>
+        </ul>
+    </div>
+    <div class="rightTab">
+        <div class="tabcontent1" ng-show="curIndex==1">
+            <form name="formdata" novalidate>
+                <uib-tabset>
+                    <uib-tab heading="基本资料">
+
+                        <div class="form-group">
+                            <label class="col-xs-1 control-label ">客户类型:</label>
+                            <div class="col-xs-5">
+                                <label class="radio-inline ">
+                                    <input type="radio" ng-change='radioChange(customerInfo.type)' ng-model="customerInfo.type" value="2" name="isHighTech">企业
+                                </label>
+                                <label class="radio-inline ">
+                                    <input type="radio" ng-change='radioChange(customerInfo.type)' ng-model="customerInfo.type" value="1" name="isHighTech">个人
+                                </label>
+                            </div>
+                            <label class="col-xs-1 control-label">意向项目<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <select class="form-control text-center"  ng-model="customerInfo.stageId"
+                                        ng-options="o['stageId'] as o.parkName+o.stageName for o  in projectSelectList" required>
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        <!-- 选择企业时 -->
+                        <div class="form-group" ng-if='customerInfo.type==2'>
+                            <label class="col-xs-1 control-label">企业名称<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" required ng-model="customerInfo.name"
+                                    name="businessLicense" />
+                            </div>
+                            <label class="col-xs-1 control-label">手机号码<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <input type="text" ng-blur='phoneBlur(customerInfo.phone)' required class="form-control" ng-model="customerInfo.phone"
+                                    name="businessLicense" ng-pattern="/^0?(13[0-9]|14[5-9]|15[012356789]|166|17[0135678]|18[0-9]|19[89])[0-9]{8}$/" />
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if='customerInfo.type==2'>
+                            <label class="col-xs-1 control-label">联系人<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" ng-model="customerInfo.contactMan" required />
+                            </div>
+                            <label class="col-xs-1 control-label">联系人职务<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <input type="text" required class="form-control" ng-model="customerInfo.contactJob"
+                                    name="businessLicense" />
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if='customerInfo.type==2'>
+                            <label class="col-xs-1 control-label ">父行业领域<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <select class="form-control text-center"   ng-model="fatherIndustry"
+                                ng-change='fatherIndustryChange(fatherIndustry)' required
+                                        ng-options="o['industryCode'] as o['industryName'] for o  in industryList" >
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                            <label class="col-xs-1 control-label ">行业领域<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <select class="form-control text-center"  ng-model="customerInfo.industry"
+                                        ng-options="o['industryCode'] as o['industryName'] for o  in sonList" required>
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-if='customerInfo.type==2'>
+                            <label class="col-xs-1 control-label">企业法人:</label>
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" ng-model="customerInfo.legal"
+                                    name="businessLicense" />
+                            </div>
+                            <label class="col-xs-1 control-label">需求面积: </label>
+                            <div class="col-xs-5">
+                                <input type="number" min=0 class="form-control" ng-model="customerInfo.needArea"
+                                    name="businessLicense" />
+                            </div>
+
+                        </div>
+                        <!-- 选择个人时展示 -->
+                        <div class="form-group" ng-if='customerInfo.type==1'>
+                            <label class="col-xs-1 control-label">客户姓名<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" required ng-model="customerInfo.name"
+                                    name="businessLicense" />
+                            </div>
+                            <label class="col-xs-1 control-label">手机号码<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <input type="text" ng-blur='phoneBlur(customerInfo.phone)' required class="form-control" ng-model="customerInfo.phone"
+                                    name="businessLicense" ng-pattern="/^0?(13[0-9]|14[5-9]|15[012356789]|166|17[0135678]|18[0-9]|19[89])[0-9]{8}$/" />
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if='customerInfo.type==1'>
+                            <label class="col-xs-1 control-label ">客户性别<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <label class="radio-inline ">
+                                    <input type="radio" required ng-change='radioChange(customerInfo.type)' ng-model="customerInfo.gender" value="1" >男
+                                </label>
+                                <label class="radio-inline ">
+                                    <input type="radio" required ng-change='radioChange(customerInfo.type)' ng-model="customerInfo.gender" value="2" >女
+                                </label>
+                            </div>
+                            <label class="col-xs-1 control-label">年龄段:</label>
+                            <div class="col-xs-5">
+                                <select class="form-control text-center"  ng-model="customerInfo.ageGroup"
+                                ng-change='fatherIndustryChange(fatherIndustry)' 
+                                        ng-options="o['dicVal'] as o['dicItem'] for o  in dictionary.AGE_GROUP" >
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!-- <label class="col-xs-1 control-label ">跟进方式<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <select class="form-control text-center" required  name="talentsType" ng-model="customerInfo.followWay"
+                                        ng-options="o['dicVal'] as o['dicItem'] for o  in dictionary.FOLLOW_TYPE">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div> -->
+                            <label class="col-xs-1 control-label ">意向级别<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <select class="form-control text-center" required  name="talentsType" ng-model="customerInfo.intentionLevel"
+                                        ng-options="o['dicVal'] as o['dicItem'] for o  in dictionary.PURPOSE_LEVEL">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                            <label class="col-xs-1 control-label ">购买用途 :</label>
+                            <div class="col-xs-5">
+                                <select class="form-control text-center"  name="talentsType" ng-model="customerInfo.buyPurpose"
+                                        ng-options="o['dicVal'] as o['dicItem'] for o  in dictionary.BUY_USE">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <!-- <label class="col-xs-1 control-label ">下次跟进<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-5">
+                                <input type="datetime" class="form-control" ng-model="customerInfo.nextTime"
+                                    name="businessLicense" required ng-lay-date min-date="tody" />
+                            </div> -->
+                            <!-- <label class="col-xs-1 control-label ">购买用途 :</label>
+                            <div class="col-xs-5">
+                                <select class="form-control text-center"  name="talentsType" ng-model="customerInfo.buyPurpose"
+                                        ng-options="o['dicVal'] as o['dicItem'] for o  in dictionary.BUY_USE">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div> -->
+                        </div>
+
+                        <!-- <div class="form-group">
+                            <label class="col-xs-1 control-label">跟进内容<span style="color:red;">*</span> :</label>
+                            <div class="col-xs-11">
+                                <textarea ng-model="customerInfo.followContent" required  class="form-control"
+                                    rows="3" maxlength="200"></textarea>
+                            </div>
+                        </div> -->
+
+                    </uib-tab>
+                    <uib-tab heading="联系人">
+                        <div class="contact_t">
+                            <table class="table table-striped table-hover" style="margin-bottom: 0px; ">
+                                <thead class="title">
+                                    <tr>
+                                        <th style="text-align: center;width: 50px;">序号</th>
+                                        <th style="text-align: center;">联系人姓名</th>
+                                        <th style="text-align: center;">联系人类型</th>
+                                        <th style="text-align: center;">岗位</th>
+                                        <th style="text-align: center;">电话1</th>
+                                        <th style="text-align: center;">电话2</th>
+                                        <th style="text-align: center;">邮箱</th>
+                                        <th style="text-align: center;">QQ</th>
+                                        <th style="text-align: center;">出生日期</th>
+                                        <th style="text-align: center;">籍贯</th>
+                                        <th style="text-align: center;">教育背景</th>
+                                        <th style="text-align: center;">备注(加入组织、背景...)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- ng-repeat="step in item.steps" -->
+                                    <tr ng-repeat="icontact in contactList">
+                                        <td class="text-center">{{$index+1}}</td>
+                                        <td style="padding:1px"><input type="text" class="form-control text-center"
+                                                name="contactName{{$index}}" ng-model="icontact.contactName" /></td>
+                                        <td style="padding:1px">
+                                            <select class="form-control text-center"  name="contactType{{$index}}" ng-model="icontact.contactType"
+                                                    ng-options="o['dicVal'] as o['dicItem'] for o  in dictionary.CONTACT_TYPE">
+                                                <option value="">--请选择--</option>
+                                            </select>
+                                        </td>
+                                        <td style="padding:1px"><input type="text" class="form-control text-center"
+                                                name="station{{$index}}" ng-model="icontact.station" /></td>
+                                        <td style="padding:1px"><input type="text" class="form-control text-center"
+                                                name="phone1{{$index}}" ng-model="icontact.phone1"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" />
+                                        </td>
+                                        <td style="padding:1px"><input type="text" class="form-control text-center"
+                                                name="phone2{{$index}}" ng-model="icontact.phone2"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" />
+                                        </td>
+                                        <td style="padding:1px"><input type="text" class="form-control text-center"
+                                                name="mailAddr{{$index}}" ng-model="icontact.mailAddr"
+                                                ng-pattern="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" />
+                                        </td>
+                                        <td style="padding:1px"><input type="text" class="form-control text-center"
+                                                name="QQ{{$index}}" ng-model="icontact.QQ"
+                                                ng-pattern="/^[1-9]\d{4,9}$/" />
+                                        </td>
+                                        <td style="padding:1px"><input type="datetime" class="form-control Wdate"
+                                                ng-model="icontact.birthDate" onchange=""
+                                                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                                        </td>
+                                        <td style="padding:1px"><input type="text" class="form-control text-center"
+                                                name="nativePlace{{$index}}" ng-model="icontact.nativePlace" /></td>
+                                        <td style="padding:1px">
+                                            <select class="form-control text-center"  name="educationalBg{{$index}}" ng-model="icontact.educationalBg"
+                                                    ng-options="o['dicVal'] as o['dicItem'] for o  in dictionary.EDUCATIONAL_BG">
+                                                <option value="">--请选择--</option>
+                                            </select>
+                                        </td>
+                                        <td style="padding:1px"><input type="text" class="form-control text-center"
+                                                name="remark{{$index}}" ng-model="icontact.remark" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </uib-tab>
+                    <uib-tab heading="属性">
+                        <div class=" form-group">
+                            <label class="col-xs-1 control-label ">创建人:</label>
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" ng-model="customerInfo.createbyName" name="createby"
+                                    readonly />
+                            </div>
+                            <label class="col-xs-1 control-label ">创建时间:</label>
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" ng-model="customerInfo.creationTime"
+                                    name="creationTime" readonly />
+                            </div>
+
+                        </div>
+                        <div class=" form-group">
+                            <label class="col-xs-1 control-label ">修改人:</label>
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" ng-model="customerInfo.lastUpdateByName"
+                                    name="lastUpdateBy" readonly />
+                            </div>
+                            <label class="col-xs-1 control-label ">修改时间:</label>
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" ng-model="customerInfo.lastUpdateTime"
+                                    name="lastUpdateTime" readonly />
+                            </div>
+
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </form>
+        </div>
+        <div class="tabcontent2" ng-show="curIndex==2">
+            <div class="table-title">信息修改日志列表</div>
+            <table class="table table-striped table-hover">
+                <thead class="title">
+                    <tr>
+                        <th style="width:10%;text-align:center">序号</th>
+                        <th style="width:50%;text-align:center">修改记录</th>
+                        <th style="width:20%;text-align:center">修改人</th>
+                        <th style="width:20%;text-align:center">制定日期</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data" >
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td class="text-center">{{item.description}}</td>
+                        <td class="text-center">{{item.username}}</td>
+                        <td class="text-center">{{item.createDate}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .modal-header {
+        background-color: #337ab7;
+        padding: 10px 15px;
+        color: #ffffff
+    }
+
+    .modal-body {
+        background-color: #F7F7F7
+    }
+
+    .btngroup {
+        margin-top: 1px;
+        padding: 2px;
+        background-color: #337ab7
+    }
+
+    .btngroup>.btn {
+        background-color: #e2f1084f;
+        height: 34px;
+        line-height: 22px;
+        padding: 6px 12px;
+    }
+
+    .required-title {
+        color: rgb(199, 45, 45)
+    }
+
+    span.btnImage {
+        display: block;
+        float: left;
+        margin-top: 3px;
+        height: 16px;
+        width: 20px;
+        margin-right: 2px;
+        padding-left: 0px;
+        background-repeat: no-repeat;
+        font-size: 14px;
+
+    }
+
+    span.save {
+        background-image: url("../../../image/icon_save.png");
+    }
+
+    span.saveAndClose {
+        background-image: url("../../../image/icon_closeSave.png");
+    }
+
+    span.close {
+        background-image: url("../../../image/icon_close.png");
+    }
+
+    .col-xs-1 {
+        padding-right: 0px;
+        padding-left: 5px;
+        width: 12%
+    }
+
+    .col-xs-5 {
+        width: 38%
+    }
+
+    .col-xs-3 {
+
+        width: 21.33%
+    }
+
+    .col-xs-11 {
+        width: 88%
+    }
+
+    .modal-lg {
+        width: 1000px;
+    }
+
+    .leftTab {
+        width: 12.5%;
+        float: left;
+        min-height: 500px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #E6E9ED;
+        margin-bottom: 20px;
+
+    }
+
+    .leftTab ul li {
+        height: 34px;
+        line-height: 34px;
+        color: #337ab7;
+        font-size: 16px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .leftTab ul li:hover {
+        background-color: #dff0d8;
+    }
+
+    .leftTab ul li.selColor {
+        background-color: #dff0d8;
+    }
+
+    .rightTab {
+        float: left;
+        width: 86%;
+        margin-left: 10px;
+        border: 1px solid #E6E9ED;
+        background-color: #fff;
+        margin-bottom: 20px;
+        min-height: 500px;
+    }
+
+    .tab-pane {
+        padding: 10px
+    }
+
+    .tabcontent2>div.table-title {
+        padding: 5px 15px;
+        font-size: 15px;
+        color: #fff;
+        background-color: #337ab7;
+        font-weight: 700
+    }
+
+    .tabcontent2 .title {
+        background-color: #f5f5f5;
+        border: 1px solid #ddd;
+
+    }
+
+    .tabcontent2>.table>thead>tr>th {
+        border-bottom: none;
+        line-height: 30px
+    }
+
+    .tabcontent2>.table-striped>tbody>tr:nth-of-type(odd) {
+        background-color: #fff
+    }
+
+    .roomlist {
+        height: 35px;
+        line-height: 35px;
+        font-size: 14px;
+        margin-top: 0px 15px;
+        background-color: #337ab7;
+        color: white
+    }
+
+    .roomlist>.btn {
+        background-color: #e2f1084f;
+    }
+
+    .contact_t {
+        overflow-x: scroll;
+        width: 100%
+    }
+
+    .contact_t>.table {
+        table-layout: fixed;
+    }
+
+    .contact_t>.table>thead>tr>th {
+        width: 150px
+    }
+</style>

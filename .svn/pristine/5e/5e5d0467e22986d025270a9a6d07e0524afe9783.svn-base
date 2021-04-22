@@ -1,0 +1,63 @@
+<div class="modal-header">
+        <button type="button" class="close" ng-click="vm.cancel()">×</button>
+        <h4 class="modal-title">{{item.id?'编辑':'添加'}}硬盘录像机</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">硬盘录像机编码：</label>
+
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="item.nvrCode" readonly="readonly" placeholder="系统自动生成">
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">硬盘录像机名称：</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="item.nvrName" required  name="name" id={{item.id}}
+                    ensure_unique="name" ng-model-options="{ updateOn: 'blur' }" api='/ovu-camera/pcos/videomanagement/nvr/isOnly'
+                    required uib-popover="{{form.name.$error.unique?'硬盘录像机名称已被使用':''}}" popover-placement="top" popover-trigger="mouseenter">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">设备型号：</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="item.nvrType">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">硬盘录像机ip地址：</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="item.nvrIp" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label ">硬盘录像机端口：</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="item.nvrPort">
+                </div>
+            </div>
+
+             <!-- <div class="form-group">
+                <label class="col-xs-3 control-label required">设备状态：</label>
+                <div class="col-xs-9">
+                        <select class="form-control" ng-model="item.nvrStatus" required ng-options="o[0] as o[1] for o in videoTypeDict">
+                                <option value="">--请选择--</option>
+                        </select>
+                </div>
+            </div> -->
+            <div class="form-group">
+                <label class="col-xs-3 control-label">备注：</label>
+                <div class="col-xs-9">
+                    <textarea type="text" style="height:150px;resize:none" class="form-control" ng-model="item.remarks" />
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="vm.save(form,item)">确定</button>
+        <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+    </div>

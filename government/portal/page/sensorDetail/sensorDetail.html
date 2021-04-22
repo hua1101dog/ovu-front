@@ -1,0 +1,241 @@
+<!--设备查询-->
+<div class="page-title">
+    <div class="title_left">
+        <button class="btn btn-default" ui-sref="app.home">返回</button>
+        |
+        <span class="h4">设备查询</span>
+    </div>
+</div>
+<div class="row home">
+    <div class="col-lg-12 col-sm-12">
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label style="padding-left:5px;">注册代码</label>
+                    <input type="text" ng-model="vm.search.regiCode" placeholder="注册代码" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label style="padding-left:5px;">维保单位名称</label>
+                    <input type="text" ng-model="vm.search.maintainName" placeholder="名称" class="form-control"/>
+                </div>
+                <button class="btn btn-default pull-right" ng-click="vm.find(vm.search)">查询</button>
+            </div>
+        </div>
+        <div class="panel panel-default ">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">设备名称:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.name}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">编码:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">
+                            <span class="word-wrap-break">{{vm.sensor.equip_code}}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">项目:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.park_name}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">地址:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.stage_name}} {{vm.sensor.floor_name}} {{vm.sensor.house_name}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">设备分类:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.type_name}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">品牌:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.brand_name}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">设备型号:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.mode_name}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">设备状态:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.equip_status|keyToValue:equipStatusDict}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">采购成本(元):</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.cost_purchase}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">位置惯用名:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.loc_simple_name}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">设备惯用名:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.equip_simple_name}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">图纸位置编号:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.dwg_loc}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">出厂编号:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.produce_serial}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">供应商编号:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.supplier_id}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">制造日期:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.made_date}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">购买日期:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.buy_date}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">验收日期:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.accept_date}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">接管日期:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.takeover_date}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">进场日期:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.entrance_date}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">启用日期:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.service_date}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">移交状态:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.transfer_status|keyToValue:yesNoDict}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">产地:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.origin}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">生产厂家:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.made_company}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">折旧类型:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.depre_type}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">折旧年数:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.depre_year}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">预计寿命:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.expct_life}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">折旧值:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.depre_money}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">操作人:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.op_people}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">使用单位:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.use_company}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">出厂日期:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.produce_date}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">改造单位:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.reform_company}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">注册代码:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.regi_code}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">安装单位:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.install_company}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">安装日期:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.install_date}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">维保单位:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.maintain_name}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">维保负责人:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.maintain_person}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">首保日期:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.frist_maintain_date}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">下次维保日期:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.next_maintain_date}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">年度维保日期:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.year_maintain_date}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">建模设备No:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.revit_no}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">设备监控类型:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.equipment_name}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">备注:</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{vm.sensor.comment}}</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

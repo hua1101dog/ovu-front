@@ -1,0 +1,87 @@
+<div class="" ng-controller="loraMainCtl as vm" style="height:100%;">
+    <big-screen  gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="right-panel">
+            <!--项目传感器情况-->
+            <div class="showArea">
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">项目传感器概况</h4>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightData.total}}</h3>
+                        <div>传感器总数</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightData.regular_num}}</h3>
+                        <div>正常</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                        <h3>{{vm.rightData.total - vm.rightData.regular_num}}</h3>
+                        <div class="red">异常</div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 b-b b-2x fixed-height">
+                    <h4 class="font-bold">传感器类型列表</h4>
+                    <div class="content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>类型</th>
+                                    <th>总数</th>
+                                    <th>正常</th>
+                                    <th>异常</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="!vm.typelistData.length">
+                                    <td>该楼栋暂无传感器</td>
+                                </tr>
+                                <tr ng-repeat="item in vm.typelistData">
+                                    <td>{{item.equip_type_name}}</td>
+                                    <td>{{item.total}}</td>
+                                    <td>{{item.regular_num}}</td>
+                                    <td>{{-(-item.broken_num - item.fail_num)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 fixed-height">
+                    <h4 class="font-bold">传感器异常列表</h4>
+                    <div class="content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>名称</th>
+                                    <!-- <th>位置</th> -->
+                                    <!-- <th>时间</th> -->
+                                    <th>值</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="!vm.alarmlistData.length">
+                                    <td>该楼栋暂无报警传感器</td>
+                                </tr>
+                                <tr ng-repeat="item in vm.alarmlistData">
+                                    <td>{{item.name}}</td>
+                                    <!-- <td>642</td> -->
+                                    <!-- <td>{{'暂无时间字段'}}</td> -->
+                                    <td>{{item.param_name}}:{{item.val}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>
+<style>
+    .right-panel .showArea {
+        height: 100%;
+    }
+    
+    .right-panel .showArea .fixed-height {
+        height: 350px;
+        overflow: auto;
+    }
+</style>

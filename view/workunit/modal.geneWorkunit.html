@@ -1,0 +1,35 @@
+<div class="modal-header">
+	<h4 class="modal-title">生成工单</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="form-group" >
+			<label class="col-xs-3 control-label">任务列表：</label>
+			<div class="col-xs-9">
+				<ol style="padding-left: 15px">
+					<li ng-repeat="task in taskList">
+						{{ task.WORKTASK_NAME }}&nbsp;&nbsp;<strong class="text-danger">{{task.result}}</strong>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div class="form-group" >
+			<label class="col-xs-3 control-label required">起始时间：</label>
+			<div class="col-xs-6">
+				<input type="datetime" class="form-control Wdate" required ng-model="item.STAR"  onchange=""
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'/*,minDate:'%y-%M-%d'*/,maxDate:&quot;#F{$('.modal-body .Wdate').last().val()}&quot;})">
+			</div>
+		</div>
+		<div class="form-group" >
+			<label class="col-sm-3 control-label required">截止时间：</label>
+			<div class="col-xs-6">
+				<input type="text" class="form-control Wdate" required ng-model="item.END"  onchange=""
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('.modal-body .Wdate').first().val()}&quot;})">
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" type="button" ng-click="save(form,item)">确定</button>
+	<button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+</div>

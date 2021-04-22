@@ -1,0 +1,147 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'查看':'新增'}}付款方式</h4>
+</div>
+<div class="btngroup">
+    <button class="btn btn-primary" ng-click="save(form,true)"><span class="btnImage save"></span>保存</button>
+    <button class="btn btn-primary" ng-click="cancel()"><span class="btnImage close"></span>关闭</button>
+</div>
+<div class="modal-body container-fluid form-horizontal" style="padding-bottom: 30px;padding-right: 40px">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">项目名称:</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" ng-model="projectName" name="projectName" ng-if="item.id" readonly>
+                <tree-selector ng-class="{'not-valid':!payment.id}" node-list="paymentTree" host="payment"
+                    host-key="'id'" host-text="'text'" callback="setStage" tip-text="'请选择项目'" ng-if="!item.id"></tree-selector>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">楼栋名称:</label>
+            <div class="col-xs-10">
+                <button class="btn btn-primary" ng-click="openBuildModal()" ng-disabled="isSelBuild" ng-if="!item.id">选择楼栋</button>
+                <!-- <a class="blue_btn" ng-click="openRentHouseModal(rentHouses,baseMsg.id)">添加空间</a> -->
+                <ul class="rentSpaceList">
+                    <li ng-repeat="build in buildList track by $index">
+                        {{build.buildName}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">付款方式名称:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="paymentInfo.name" name="name">
+            </div>
+            <label class="col-xs-2 control-label required-title">折 扣(%):</label>
+            <div class="col-xs-4">
+                <input type="number" class="form-control"
+                    ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="100"
+                    ng-model="paymentInfo.discount" ng-change="">
+
+            </div>
+        </div>
+        <!-- <div class="form-group">
+            <label class="col-xs-2 control-label " style="padding-left: 0px">生效日期:</label>
+            <div class="col-xs-4">
+                <input type="datetime" class="form-control Wdate" ng-model="effectDate" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+            </div>
+
+            <label class="col-xs-2 control-label ">失效日期:</label>
+            <div class="col-xs-4">
+                <input type="datetime" class="form-control Wdate" ng-model="executeDate" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label class="col-xs-2 control-label required-title">选择贷款:</label>
+            <div class="col-xs-4">
+                <label class="radio-inline col-xs-3">
+                    <input type="radio" ng-model="paymentInfo.isLoans" value="0" name="" required>不需要
+                </label>
+                <label class="radio-inline col-xs-3">
+                    <input type="radio" ng-model="paymentInfo.isLoans" value="1" name="" required>需要
+                </label>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">按揭银行:</label>
+            <div class="col-xs-4">
+                <label class="radio-inline col-xs-3">
+                    <input type="radio" ng-model="paymentInfo.isMortgageBank" value="1" name="">是
+                </label>
+                <label class="radio-inline col-xs-3">
+                    <input type="radio" ng-model="paymentInfo.isMortgageBank" value="0" name="">否
+                </label>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">公积金银行:</label>
+            <div class="col-xs-4">
+                <label class="radio-inline col-xs-3">
+                    <input type="radio" ng-model="paymentInfo.isProvidentFund" value="1" name="">是
+                </label>
+                <label class="radio-inline col-xs-3">
+                    <input type="radio" ng-model="paymentInfo.isProvidentFund" value="0" name="">否
+                </label>
+            </div>
+        </div>
+    </form>
+
+</div>
+<style>
+    .modal-header {
+        background-color: #337ab7;
+        padding: 10px 15px;
+        color: #ffffff
+    }
+
+    .btngroup {
+        margin-top: 1px;
+        padding: 2px;
+        background-color: #337ab7
+    }
+
+    .btngroup>.btn {
+        background-color: #e2f1084f;
+        height: 34px;
+        line-height: 22px;
+        padding: 6px 12px;
+    }
+
+    .required-title {
+        color: rgb(199, 45, 45)
+    }
+
+    span.btnImage {
+        display: block;
+        float: left;
+        margin-top: 3px;
+        height: 16px;
+        width: 20px;
+        margin-right: 2px;
+        padding-left: 0px;
+        background-repeat: no-repeat;
+        font-size: 14px;
+    }
+
+    span.save {
+        background-image: url("../../../image/icon_save.png");
+    }
+
+    span.saveAndClose {
+        background-image: url("../../../image/icon_closeSave.png");
+    }
+
+    span.close {
+        background-image: url("../../../image/icon_close.png");
+    }
+
+    .col-xs-2,
+    .col-xs-3 {
+        padding-right: 0px
+    }
+</style>

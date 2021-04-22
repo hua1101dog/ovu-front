@@ -1,0 +1,70 @@
+<div id="angularId" ng-controller="checkItemContentCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>查验内容管理</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">查验项列表
+				</div>
+				<div class="x_content">
+					<div class="alert" role="alert" ng-show="treeData.length==0">无查验项信息</div>
+					<!--<tree-view node-list="treeData"></tree-view>-->
+                    <tree-view-pro node-list="treeData" host="search" host-text="'parentName'" host-key="'parentId'" callback="selectNode" config="{edit:false}"></tree-view-pro>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+			<div class="x_panel" >
+				<div class="form-inline">
+					<div class="form-group">
+						<label>查验内容</label>
+						<input type="text" ng-model="search.name" class="form-control" />
+					</div>
+					<button class="btn btn-default" ng-click="find(1)" >查询</button>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">查验内容列表
+					<button class="btn btn-success pull-right" ng-disabled="curNode.item_type!=2" ng-click="editPost()">新增</button>
+				</div>
+				<div class="panel-body">
+					<table class="table table-striped table-hover" style="margin-top: 10px;">
+						<thead class="title">
+						<tr>
+							<th class="text-center">NO</th>
+							<th>编号</th>
+							<th>查验内容</th>
+							<th>查验方式</th>
+							<th>标准</th>
+							<th>创建时间</th>
+							<th>操作</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-if="pageModel.list.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+						<tr ng-repeat="item in pageModel.list" >
+							<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+							<td>{{item.code}}</td>
+							<td>{{item.name}}</td>
+							<td>{{item.way|keyToValue:checkwaysDict}}</td>
+							<td><a class="btn-link" href='javascript:void(0)' ng-click='setStandard(item,true)' ng-if="item.way!=1">查看标准</a></td>
+							<td>{{item.create_time}}</td>
+							<td>
+								<a href='javascript:void(0)' ng-click='setStandard(item,false)'  class='btn btn-xs' ng-if="item.way!=1"><span class='fa fa-edit'></span>设置标准</a>
+								<a href='javascript:void(0)' ng-click='editPost(item)'  class='btn btn-xs' ><span class='fa fa-edit'></span>编辑</a>
+								<a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					<div class="page-footer clearfix">
+						<ng-include src="'/common/pager.html'"></ng-include>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

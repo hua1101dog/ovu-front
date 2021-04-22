@@ -1,0 +1,81 @@
+<!--运营指标体系》能耗指标-->
+<div>
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="col-lg-12 col-sm-12 b-b b-2x">
+            <h4 class="font-bold">耗电指标概况</h4>
+            <div class="clearfix m-b-md">
+                <div class="col-lg-4 col-sm-4 text-center m-b padding-5">
+                    <h3 class="font15" style="margin-top: 15px;margin-bottom: 15px;">{{opeEnergy.energy_electric.annual_electric}}
+                    </h3>
+                    <span class="spantext">全年累计耗电量</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b padding-5">
+                    <h3 class="">{{opeEnergy.energy_electric.month_electric | toInteger}}<span class="text-xs">{{opeEnergy.energy_electric.month_electric | toIntegerWan}}kWh</span>
+                    </h3>
+                    <span class="spantext">本月耗电量</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b padding-5">
+                    <div class="marginTB10">
+                        <h3 class="green"> 
+                            <i class="fa" ng-class="{true : 'fa-arrow-up',false:'fa-arrow-down' }[opeEnergy.energy_electric.month_compare > 0]" aria-hidden="true" ></i>
+                            {{opeEnergy.energy_electric.month_compare | number:1 | toAbs}}
+                            <span class="text-xs green">%</span></h3>
+                    </div>
+                    <span class="spantext">环比上月</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 b-b b-2x">
+            <h4 class="font-bold">用水指标概况</h4>
+            <div class="clearfix m-b-md">
+                <div class="col-lg-4 col-sm-4 text-center m-b padding-5">
+                    <h3 class="font15" style="margin-top: 15px;margin-bottom: 15px;">{{opeEnergy.energy_water.annual_water}}
+                    </h3>
+                    <span class="spantext">全年累计用水量</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b padding-5">
+                    <h3 class="">{{opeEnergy.energy_water.month_water | toInteger}}<span class="text-xs">{{opeEnergy.energy_water.month_water | toIntegerWan}}吨</span>
+                    </h3>
+                    <span class="spantext">本月用水量</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b padding-5">
+                    <div class="marginTB10">
+                        <h3 class="green"> 
+                                <i class="fa" ng-class="{true : 'fa-arrow-up',false:'fa-arrow-down' }[opeEnergy.energy_water.month_compare > 0]" aria-hidden="true" ></i>
+                            {{opeEnergy.energy_water.month_compare  | number:1 | toAbs}}<span class="text-xs green">%</span></h3>
+                    </div>
+                    <span class="spantext">环比上月</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12">
+            <h4 class="font-bold">能源指标概况</h4>
+            <div class="clearfix m-b-md">
+                <div class="col-lg-4 col-sm-4 text-center m-b padding-5">
+                    <h3 class="font15" style="margin-top: 15px;margin-bottom: 15px;">{{opeEnergy.energy_totle.annual_totle}}
+                    </h3>
+                    <span class="spantext">全年累计能源量</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b padding-5">
+                    <h3 class="">{{opeEnergy.energy_totle.month_totle | toInteger}}<span class="text-xs">{{opeEnergy.energy_totle.month_totle | toIntegerWan}}kWh</span>
+                    </h3>
+                    <span class="spantext">本月能源量</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b padding-5">
+                    <div class="marginTB10">
+                        <h3 class="green"> 
+                                <i class="fa" ng-class="{true : 'fa-arrow-up',false:'fa-arrow-down' }[opeEnergy.energy_totle.month_compare > 0]" aria-hidden="true" ></i>
+                            {{opeEnergy.energy_totle.month_compare | number:1 | toAbs}}<span class="text-xs green">%</span></h3>
+                    </div>
+                    <span class="spantext">环比上月</span>
+                </div>
+            </div>
+        </div>
+    </big-screen>
+</div>
+
+<style>
+    .padding-5 {
+        padding: 0 0px;
+    }
+</style>

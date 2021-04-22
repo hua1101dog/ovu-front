@@ -1,0 +1,49 @@
+<div ng-controller="contractUnapprovedCtrl" ng-cloak>
+    <div class="page-title">
+        <div class="title_left">
+            <h3>未审批合同</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label for="" class="control-label">合同名称:</label>
+                    <input type="text" class="form-control">
+                </div>
+                <button class="btn btn-success" ng-click="find(1)">查询</button>
+                <button class="btn btn-primary" ng-click="contractAdd()">新建合同审批</button>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead class="title">
+                        <tr class="text-center">
+                            <th>合同名称</th>
+                            <th>合同类型</th>
+                            <th>合同描述</th>
+                            <th>操作</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!pageModel.list || pageModel.list.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr class="text-center" ng-repeat="item in pageModel.list track by $index">
+                            <td>{{item.contractName}}</td>
+                            <td>{{item.type}}</td>
+                            <td>{{item.description}}</td>
+                            <td>
+                                <a class="btn btn-success" href="javascript:;" ng-click="initiateProcess(item)">发起流程</a>
+                                <a class="btn btn-primary" href="javascript:;" ng-if="false" ng-click="contractEdit(item)">编辑</a>
+                                <a class="btn btn-danger" href="javascript:;" ng-if="false" ng-click="contractCancel(item.id)">删除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

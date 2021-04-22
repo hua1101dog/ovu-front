@@ -1,0 +1,97 @@
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancel()">×</button>
+		<h4 class="modal-title">账号分配</h4>
+   </div>
+   <div class="modal-body container-fluid form-horizontal">
+		<form name="form" novalidate>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>账号类型：</label></div>
+				<div class="col-md-5"><span>企业</span></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>企业名称：</label></div>
+				<div class="col-md-5"><span >{{item.NAME}}</span></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>法人代表：</label></div>
+				<div class="col-md-5"><span>{{item.CORPORATE_REPRESENTATIVE}}</span></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>企业类型：</label></div>
+				<div class="col-md-5">
+					<span ng-if=" item.ENTERPRISE_NATURE_ID == 1">合资</span>
+					<span ng-if=" item.ENTERPRISE_NATURE_ID == 2">国企</span>
+					<span ng-if=" item.ENTERPRISE_NATURE_ID == 3">民营</span>
+					<span ng-if=" item.ENTERPRISE_NATURE_ID == 4">外企代表处</span>
+					<span ng-if=" item.ENTERPRISE_NATURE_ID == 5">政府机关</span>
+					<span ng-if=" item.ENTERPRISE_NATURE_ID == 6">事业单位</span>
+                    <span ng-if=" item.ENTERPRISE_NATURE_ID == 7">上市公司</span>
+                    <span ng-if=" item.ENTERPRISE_NATURE_ID == 8">创业公司</span>
+                    <span ng-if=" item.ENTERPRISE_NATURE_ID == 9">外资(欧美)</span>
+                    <span ng-if=" item.ENTERPRISE_NATURE_ID == 10">外资(非欧美)</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>企业人数：</label></div>
+				<div class="col-md-5"><span>{{item.staff_count}}人</span></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>经营地址：</label></div>
+				<div class="col-md-5">{{item.RUN_ADDR}}</span></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>联系人：</label></div>
+				<div class="col-md-5"><span>{{item.LINKMAN}}</span></div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3" align="right"><label>联系方式：</label></div>
+				<div class="col-md-5"><span>{{item.MOBILE}}</span></div>
+			</div>
+			<div ng-if=" item.ALLOWED == 1||item.ALLOWED == 2" class="form-group">
+				<div class="col-md-3" align="right"><label>登录密码：</label></div>
+				<div class="col-md-5"><span>已有密码</span></div>
+			</div>
+			<div ng-if=" item.ALLOWED == 0||!item.ALLOWED " class="form-group">
+				<label class="col-md-3 control-label">登录密码：</label>
+				<div class="col-md-4">
+					<input type="password" class="form-control" ng-model="item.PASSWORD" placeholder="默认密码"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label">分配管家：</label>
+				<div class="col-md-4">
+					<select class="form-control" ng-model="item.myParkSteward">
+						<option value="">--请选择--</option>
+						<option ng-repeat="ps in item.allParkSteward" value="{{ps.id}}">{{ps.personName}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label">产权空间：</label>
+					<div class="col-md-4">
+							<ol class="" style="padding:8px 0 0 10px;margin-bottom:0;">
+								<li ng-repeat="house1 in houses1">
+									{{house1.fullPath}}
+								</li>
+							</ol>
+							<button class="btn btn-sm btn-default pull-left" ng-click="openSeleHouseModal(houses1,1,item)"><i class="glyphicon glyphicon-pencil"></i>选择房屋</button>
+					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label">租赁空间：</label>
+					<div class="col-md-4">
+							<ol class="" style="padding:8px 0 0 10px;margin-bottom:0;">
+								<li ng-repeat="house2 in houses2">
+									{{house2.fullPath}}
+								</li>
+							</ol>
+							<button class="btn btn-sm btn-default pull-left" ng-click="openSeleHouseModal(houses2,2,item)"><i class="glyphicon glyphicon-pencil"></i>选择房屋</button>
+					</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save(form, item)">确定</button>
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>
+

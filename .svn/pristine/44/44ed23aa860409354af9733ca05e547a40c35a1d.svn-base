@@ -1,0 +1,75 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+	×
+	</button>
+	<h4 class="modal-title">分类选择器</h4>
+</div>
+<div class="modal-body">
+	 <div class="row">
+		 <div class="col-md-12 col-sm-12 col-xs-12">
+		     <form class="form-horizontal form-label-left ng-pristine ng-valid" id="searchName">
+				<div class="input-group col-md-12" style="margin-top:0px positon:relative">  
+			       <input class="form-control" placeholder="分类名称筛选" name="searchTxt" id="searchTxt" type="text">  
+		            <span class="input-group-btn">  
+		               <a href="javascript:void(0)" class="btn btn-info btn-sm" style="padding:7px 10px;" ng-click="find(1);"><span class="glyphicon glyphicon-search"></span>查询</a> 
+		            </span>  
+				</div>  
+		     </form>
+		     <table class="table" id="selectTable">
+				<thead>
+					<tr>
+						<th class="text-center">NO.</th>
+						<th>分类名称</th>
+						<th>上级分类</th>
+						<th>操作</th>
+					</tr>
+					<tr id="tableloading" class="hide">
+						<th colspan="5">
+							<div class="alert" role="alert">加载中...</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody id="rows">
+					<tr ng-if="!pageModel.data || pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+					<tr ng-repeat="item in pageModel.data" class="ng-scope">
+						<td class="text-center ng-binding">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+						<td class="ng-binding" did="{{item.id}}">{{item.serviceName}}</td>
+	                    <td class="ng-binding">{{item.parentName ? item.parentName : "无"}}</td>
+	                    <td>
+							<a href="javascript:void(0);" class="btn btn-success btn-sm" id="{{item.id}}" ng-disabled="item.disabled" style="padding:0px 4px;" ng-click="addSortingItem(item, false)">
+								<span class="glyphicon glyphicon-plus" ng-if="!item.disabled">添加</span>
+								<span class="glyphicon" ng-if="item.disabled">已添加</span>
+							</a>
+						</td>
+					</tr>
+					<tr id="toolbarTr">
+						<td colspan="5"></td>
+					</tr>
+				</tbody>
+			  </table>
+			  <div class="page-footer clearfix" style="margin-left:8%;margin-top:-20px;">
+				<ng-include src="'/common/pager.html'" class="ng-scope">
+					<style type="text/css" class="ng-scope">
+						.pagination>li>span:hover{background-color: #fff;cursor:text}
+					</style>
+				</ng-include>
+			  </div>
+			  
+			 <div class="form-group" style="margin-top:15px; positon:relative">  
+			     <div class="control-label col-md-3 col-sm-3 col-xs-12">您已选择:</div>
+				 <div class="col-md-9 col-sm-9 col-xs-12">
+					<div class="input-group">
+						<ul id="person" class="list-inline ul-persons">
+							<li class="item" ng-repeat="sr in initServiceRanges" sortingId="{{sr.sortingId}}" sortingName="{{sr.sortingName}}">{{sr.sortingName}}<a href="javascript:void(0);" ng-click="initRemove(sr);"><i class='fa fa-remove'></i></a></li>
+						</ul>
+					</div>
+				 </div>									
+			 </div> 
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary edit" ng-click="checkSorting();">确定</button> 
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">取消</button>
+ </div>
+ 

@@ -1,0 +1,134 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{opr}}通知</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required text-left">标题：</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" required ng-model="item.TITLE" name="TITLE" maxlength="100"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">上传图片：</label>
+            <div class="col-xs-9">
+                <div class="photoWraper" ng-repeat="p in item.pics track by $index">
+                    <img onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(p)}}" />
+                    <a role="button" ng-click="delPhoto(item.pics,p)"><i class="glyphicon glyphicon-remove"></i></a>
+                </div>
+                <img height="60px" width="60px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(item.pics,3)" title="上传图片">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">附件：</label>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <span class="input-group-btn;">
+                        <button class="btn btn-default" type="button" ng-click="addLimitFiles2(fileList,'path','name',accecptFile,3)">选择上传文件</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-7">
+                <div class="mt7" ng-repeat="item in fileList track by $index">
+                    <span class="fileName">
+                        <i class='fa fa-file-o' style="margin-right: 3px"></i>
+                        <a target="_blank" class="btn-link" href="{{item.path}}">{{item.name}}</a>
+                        <a ng-click="delFile(fileList,item)" class="f-r">
+                            <i class='fa fa-remove'></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">内容：</label>
+            <div class="col-xs-9">
+                <div style="position: relative;margin: 5px">
+                    <div type="text/html" style="margin:auto;height:300px;width:100%;"
+                         ng-model="item.CONTENT"
+                         meta-umeditor
+                         meta-umeditor-config='config'
+                         meta-umeditor-placeholder="" required>
+                    </div>
+                </div>
+             </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">发放人群：</label>
+            <div class="col-xs-9">
+                <label  role="button" style="line-height:32px;margin-right: 15px"><input type="radio" style="margin:0 5px" ng-model="item.targetType" value="2"  ng-change="clearDept(item)" name="targetType" >选择分组</label>
+                <label  role="button" style="line-height:32px;"><input type="radio" style="margin:0 5px"  ng-model="item.targetType" value="1"  ng-change="clearDept(item)" name="targetType" >选择人员</label>
+            </div>
+        </div>
+        <div ng-if="item.targetType==2">
+            <div class="form-group">
+                <label  class="col-xs-2 control-label "></label>
+            <div  class="col-xs-5">
+                <!-- <layer-selector host="search" host-key="'deptId'"  callback="selectType" host-text="'nodeText'"
+                    node-list="deptTree"></layer-selector> -->
+                    <tree-selector   node-list="filteredDeptTree" need=true  ng-class="{'not-valid':!item.DEPT_NOS}" host="item" callback="selectType" host-key="'DEPT_NOS'" host-text="'nodeText'" leaf-only=false tip-text="'请选择组织架构'"></tree-selector>
+            </div>
+            <div class="col-xs-4">
+                <!-- <div class="input-group">
+                    <input type="text" class="form-control" placeholder="选择分组"  ng-model="item.PERSON_NAMES" name="PERSON_NAMES" />
+                    <span class="input-group-btn">
+                                    <button  class="btn btn-default" ng-click="choosePerson(item)"><i class='fa fa-search'></i></button>
+                                </span>
+                </div> -->
+                <select class="form-control" ng-model="item.targetGroupId"  ng-click="chooseGroup()" ng-options="o.id as o.text for o in groudList" placeholder="选择分组">
+					<option value="">&#45;&#45;请选择&#45;&#45;</option>
+				</select>
+            </div>
+            </div>
+        </div>
+         <div ng-if="item.targetType==1">
+            <div class="form-group">
+                <div class="col-xs-2 control-label "></div>
+                <div class="col-xs-5">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="选择部门"  ng-model="item.DEPT_NAMES" name="DEPT_NAMES" />
+                        <span class="input-group-btn">
+                                        <span  class="btn btn-default" ng-click="chooseDept(parks)"><i class='fa fa-search'></i></span>
+                                    </span>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="选择人员"  ng-model="item.PERSON_NAMES" name="PERSON_NAMES" />
+                        <span class="input-group-btn">
+                                        <span  class="btn btn-default" ng-click="choosePerson(item)"><i class='fa fa-search'></i></span>
+                                    </span>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="center-block" style="height:30px;">
+        <button class="btn btn-primary" ng-click="save(form,item)">保存</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+
+</div>
+
+<style>
+    .fileName{
+        border: 1px dotted;
+        border-color: green;
+        padding: 3px;
+    }
+    .edui-container{
+        width: 100% !important;
+        margin:0 0 10px;
+    }
+    .edui-body-container{
+        width: 100% !important;
+    }
+    .control-label{
+        padding-left: 0!important;}
+</style>

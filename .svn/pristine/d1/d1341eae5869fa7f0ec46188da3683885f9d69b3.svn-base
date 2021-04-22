@@ -1,0 +1,103 @@
+<!--运营指标体系》双创指标-->
+<div>
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="">
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">双创空间</h4>
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <h3>{{opeTwoAb.sc_space.totle_space | toInteger}}<span class="text-xs">{{opeTwoAb.sc_space.totle_space | toIntegerWan}}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">创客空间总面积</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center m-b-md">
+                    <h3>{{opeTwoAb.sc_space.open_space | toInteger}}<span class="text-xs">{{opeTwoAb.sc_space.open_space | toIntegerWan}}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">开放式办公区面积</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center ">
+                    <h3>{{opeTwoAb.sc_space.independent_space | toInteger}}<span class="text-xs">{{opeTwoAb.sc_space.independent_space | toIntegerWan}}m<sup>2</sup></span>
+                    </h3>
+                    <span class="spantext">独立办公室面积</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center m-b-md">
+                    <h3>{{opeTwoAb.sc_space.totle_station}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">工位总数</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <h3>{{opeTwoAb.sc_space.open_station}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">开放式工位数</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center m-b-md">
+                    <h3>{{opeTwoAb.sc_space.independent_station}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">独立办公室数</span>
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">双创企业</h4>
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <h3>{{opeTwoAb.sc_enterprise.current}}<span class="text-xs">家</span>
+                    </h3>
+                    <span class="spantext">本期入驻企业</span>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center m-b-md">
+                    <h3>{{opeTwoAb.sc_enterprise.totle}}<span class="text-xs">家</span>
+                    </h3>
+                    <span class="spantext">累计服务双创企业数</span>
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">双创价值</h4>
+                <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                    <h3 class="font15">{{opeTwoAb.sc_value.totle}}
+                    </h3>
+                    <span class="spantext">总投资额</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3 class="font15">{{opeTwoAb.sc_value.annual_value}}
+                    </h3>
+                    <span class="spantext">年度产值</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                    <h3 class="font15">{{opeTwoAb.sc_value.annual_tax}}
+                    </h3>
+                    <span class="spantext">年度税收</span>
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">双创配套设施</h4>
+                <div class="col-lg-12 col-sm-12">
+                    <div class="col-lg-6 col-sm-6 text-center">
+                        <h3>{{opeTwoAb.sc_installation.meeting_room}}<span class="text-xs">个</span>
+                        </h3>
+                        <span class="spantext">会议室数</span>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-center">
+                        <h3>{{opeTwoAb.sc_installation.meeting_content}}<span class="text-xs">人</span>
+                        </h3>
+                        <span class="spantext">会议室容纳人数</span>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 m-b-md">
+                    <div class="col-lg-6 col-sm-6 text-center">
+                        <h3>{{opeTwoAb.sc_installation.activities_filed}}<span class="text-xs">个</span>
+                        </h3>
+                        <span class="spantext">活动场地数</span>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-center">
+                        <h3>{{opeTwoAb.sc_installation.activity__people}}<span class="text-xs">人</span>
+                        </h3>
+                        <span class="spantext">活动场地容纳人数</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12">
+                <h4 class="font-bold">行业分类企业数占比</h4>
+                <div style="height:200px;" ui-echarts="vm.categoryData">
+                </div>
+            </div>
+        </div>
+    </big-screen>
+</div>

@@ -1,0 +1,42 @@
+<style type="text/css">
+  .pl13{
+    padding-left:13px;
+
+  }
+  .aList {padding:5px 0}
+  .aList a{padding: 3px 25px;float:left}
+  .aList a + a{border-left:1px solid slategray!important;}
+</style>
+<div>
+  <div class="page-title">
+    <div class="title_left">
+      <h3>工单查询</h3>
+    </div>
+  </div>
+  <uib-tabset active="active" >
+    <uib-tab index="0" heading="待处理" select="setCurTab('DCL')">
+      <div ng-controller="allDclCtl">
+        <div class="aList clearfix" >
+          <a href="javascript:;" ng-click="(search.operateType ='1')&&find(1)" ng-class="{'btn-link':search.operateType =='1'}">全部</a>
+          <a href="javascript:;" ng-click="(search.operateType ='11')&&find(1)" ng-class="{'btn-link':search.operateType =='11'}">待派单</a>
+          <a href="javascript:;" ng-click="(search.operateType ='21')&&find(1)" ng-class="{'btn-link':search.operateType =='21'}">待接单</a>
+          <a href="javascript:;" ng-click="(search.operateType ='22')&&find(1)" ng-class="{'btn-link':search.operateType =='22'}">待执行</a>
+          <a href="javascript:;" ng-click="(search.operateType ='31')&&find(1)" ng-class="{'btn-link':search.operateType =='31'}">待评价</a>
+          <a href="javascript:;" ng-click="(search.operateType ='41')&&find(1)" ng-class="{'btn-link':search.operateType =='41'}">待督办</a>
+        </div>
+        <ng-include src="'../management/page/workManage/workManage_table.html'" ></ng-include>
+      </div>
+    </uib-tab>
+    <uib-tab index="1" heading="已关闭" select="setCurTab('YGB')" >
+      <div ng-controller="allYgbCtl">
+        <ng-include src="'../management/page/workManage/workManage_table.html'" ></ng-include>
+      </div>
+    </uib-tab>
+    <!--<uib-tab index="2" heading="未派发计划工单" select="setCurTab('PLAN')" >
+            <div ng-controller="allPlanCtl">
+                <ng-include src="'./workunit/workunit_pool_table.html'" ></ng-include>
+            </div>
+        </uib-tab>-->
+  </uib-tabset>
+  <ng-include src="'/common/modal.worktype.tree.html'"></ng-include>
+</div>

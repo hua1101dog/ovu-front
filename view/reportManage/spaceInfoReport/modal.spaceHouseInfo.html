@@ -1,0 +1,38 @@
+<div class="modal-header" style="border:0px">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+        ×
+    </button>
+    <h4 class="modal-title">空间拆合信息</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" style="margin-bottom:20px">
+    <table class="table" style="margin-top: 10px;color:#999999;">
+        <thead class="title">
+        <tr class="text-center">
+            <th class="text-center">NO</th>
+            <th>房间名称</th>
+            <th>变更操作</th>
+            <th>变更后名称</th>
+            <th>房号</th>
+            <th>产权所属</th>
+            <th>房间状态</th>
+            <th>入驻方</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-if="items.length == 0">
+            <td colspan="100" class="text-center">暂无记录</td>
+        </tr>
+        <tr ng-repeat="item in items" style="color:#333333;">
+            <td class="text-center">{{$index + 1}}</td>
+            <td class="">{{item.houseName}}</td>
+            <td class="">{{item.action}}</td>
+            <td class="">{{item.afterChangeHouseName}}</td>
+            <td class="">{{item.houseCode}}</td>
+            <td class="">{{item.owner||"--"}}</td>
+            <td class="">{{item.status}}</td>
+            <td class="">{{item.tanent}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

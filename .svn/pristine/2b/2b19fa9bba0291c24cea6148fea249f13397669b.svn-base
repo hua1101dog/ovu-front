@@ -1,0 +1,616 @@
+<div class="xw-map-container">
+    <div style="width: 50px;height: 100px;position: absolute;bottom: 20px;left: 20px;">
+        <div id="2d" style="width: 48px;height: 48px;line-height: 50px;text-align: center;cursor:pointer;background: -moz-linear-gradient(top, #D6D6D6, #F5F5F5);background: -webkit-gradient(linear, 0 0, 0 bottom, from(#D6D6D6), to(#F5F5F5));background: -o-linear-gradient(top, #D6D6D6, #F5F5F5);">2D</div>
+        <div id="3d" style="width: 48px;height: 48px;line-height: 50px;text-align: center;cursor:pointer;background: -moz-linear-gradient(top, #D6D6D6, #F5F5F5);background: -webkit-gradient(linear, 0 0, 0 bottom, from(#D6D6D6), to(#F5F5F5));background: -o-linear-gradient(top, #D6D6D6, #F5F5F5);">3D</div>
+    </div>
+    <div style="width: 200px;height: 100px;position: absolute;right: 20px;bottom: 0px;">
+        <img src="../lib/xwMap/image/12.png" alt="" style="width: 100%;" />
+    </div>
+    <div class="Mask" style="display: none;">
+        <div style="width: 100%;height: 100%;position: absolute;background-color: black;opacity: .5;"></div>
+        <div class="Mask-div">
+            <div class="nameshow"></div>
+            <div class="onload">进入楼栋</div>
+            <hr />
+            <div class="infoshow">
+                <div class="relativeId">
+                    <div>模块编号：</div>
+                    <div></div>
+                </div>
+                <div class="modelName">
+                    <div>模块名称：</div>
+                    <div></div>
+                </div>
+                <div class="modelHeight">
+                    <div>模块高度：</div>
+                    <div></div>
+                </div>
+                <div class="modelinfo">
+                    <div>模块备注：</div>
+                    <div></div>
+                </div>
+            </div>
+            <hr />
+            <div class="Button">
+                <div class="revise">修改</div>
+                <div class="model-close">关闭</div>
+            </div>
+        </div>
+    </div>
+
+    <!--设备的弹出信息窗-->
+    <div id="infowindow">
+        <div style="width:200px;height:140px;border-radius:10px;box-shadow: 0px 0px 5px #868686;background-color: #fff;">
+            <div class="info_close">x</div>
+            <div class="info_name">设备名称 </div>
+            <div class="scrollbar">
+                <div class="info_tag"></div>
+            </div>
+            <div class="info_submit">
+                修改
+            </div>
+        </div>
+        <div id="triangle-down2"></div>
+        <div id="triangle-down" style="margin: 0 auto;"></div>
+    </div>
+    <!--添加新设备的按钮-->
+    <div class="clickcontroll">添加设备</div>
+    <div class="addmod3" style="display: none;">
+        <div class="title3">修改设备</div>
+        <div class="infos_close" style="color:#1CCE95;">x</div>
+        <div style="width:240px;margin:0 auto;">
+            <select name="" id="select1" style="width:220px;">
+                <option value="0">请选择设备</option>
+            </select>
+        </div>
+        <!-- <div id="mapname3"><input type="text" placeholder="设备名称" /></div> -->
+        <div id="mapx2">
+            <div>设备x坐标：</div>
+            <input type="text" placeholder="设备x坐标" disabled="disabled" /></div>
+        <div id="mapy2">
+            <div>设备x坐标：</div>
+            <input type="text" placeholder="设备y坐标" disabled="disabled" /></div>
+        <div id="mapz2">
+            <div>设备x坐标：</div>
+            <input type="text" placeholder="设备z坐标" disabled="disabled" /></div>
+        <!-- <div id="mapinfo3"><textarea name="" rows="" cols="" placeholder="设备信息"></textarea></div> -->
+        <div style="width: 240px;height:40px;margin: 0 auto;position:relative;overflow-x:auto;overoverflow-y:hidden;" class="mod_img1_change">
+            <ul style="margin:0 auto;position:absolute;">
+                <li ytype="36"><img src="/ovu-pcos/lib/xwMap/image/36.png" alt="" /></li>
+                <li ytype="37"><img src="/ovu-pcos/lib/xwMap/image/37.png" alt="" /></li>
+                <li ytype="38"><img src="/ovu-pcos/lib/xwMap/image/38.png" alt="" /></li>
+                <li ytype="37"><img src="/ovu-pcos/lib/xwMap/image/37.png" alt="" /></li>
+                <li ytype="38"><img src="/ovu-pcos/lib/xwMap/image/38.png" alt="" /></li>
+                <li ytype="37"><img src="/ovu-pcos/lib/xwMap/image/37.png" alt="" /></li>
+                <li ytype="38"><img src="/ovu-pcos/lib/xwMap/image/38.png" alt="" /></li>
+            </ul>
+        </div>
+        <div class="submit3" style="width:50%;float:left;">
+            <div>提交</div>
+        </div>
+        <div class="delete" style="width:50%;float:left;">
+            <div>删除</div>
+        </div>
+    </div>
+
+    <!--显示楼层  -->
+    <div id="mapchange" style="display: none;">
+
+    </div>
+
+
+    <div class="addmod" style="display: none;">
+        <div class="title">设置地图信息</div>
+        <div class="infos_close" style="color:#4BAAE0;">x</div>
+        <div style="width:240px;margin:0 auto;">
+            <select name="" id="select" style="width:220px;">
+                <option value="0">请选择楼栋编码</option>
+            </select>
+        </div>
+        <div id="relativeId">
+            <div>模块编号：</div>
+            <input type="text" placeholder="模块id" disabled="disabled" /></div>
+        <div id="mapname">
+            <div>模块名称：</div>
+            <input type="text" placeholder="模块名称" />
+        </div>
+        <div id="mapheight">
+            <div>模块高度：</div>
+            <input type="text" placeholder="模块高度" />
+        </div>
+        </hr>
+        <div style=" width: 80%;height: 30px;margin: 0 auto; margin-top: 10px;line-height: 30px;">备注信息：</div>
+        <div id="mapinfo"><textarea name="" rows="" cols="" placeholder="模块信息"></textarea></div>
+        <ul class="ul1" style="display:none;">
+            <li ytype="1">未出售</li>
+            <li ytype="2">已出租</li>
+            <li ytype="3">已出售</li>
+        </ul>
+        <div class="submit">
+            <div>提交</div>
+        </div>
+    </div>
+
+    <div id="map" style="height: 600px"></div>
+
+    <!-- 返回全局地图按钮 -->
+    <div class="back-to-park " id="backToPark" style="width:100px;height:40px;position:absolute;right:240px;top:50px;line-height:40px;border-radius:20px;text-align:center;background-color:rgb(75, 170, 224);color:white;cursor:pointer;display:none">返回园区</div>
+
+</div>
+
+<style>
+    .xw-map-container .ul1 {
+        width: 235px;
+        margin: 0 auto;
+        padding: 0px;
+        height: 30px;
+        list-style: none;
+        margin-top: 10px;
+    }
+    
+    .xw-map-container .ul1>li {
+        width: 70px;
+        margin: 0 4px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        float: left;
+        font-size: 12px;
+        cursor: pointer;
+        border-radius: 20px;
+    }
+    
+    .xw-map-container .ul1>li:nth-child(1) {
+        border: 1px solid #FFB700;
+    }
+    
+    .xw-map-container .ul1>li:nth-child(2) {
+        border: 1px solid #5DCE0A;
+    }
+    
+    .xw-map-container .ul1>li:nth-child(3) {
+        border: 1px solid #FC4B58;
+    }
+    
+    .xw-map-container {
+        position: relative;
+    }
+    
+    .xw-map-container .addmod,
+    .xw-map-container .addmod3 {
+        width: 300px;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        right: -300px;
+        background-color: #fff;
+        box-shadow: -2px 0px 5px #868686;
+        z-index: 100;
+    }
+    
+    .xw-map-container .title,
+    .xw-map-container .title3 {
+        text-align: center;
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+        margin-bottom: 10px;
+        font-size: 20px;
+        color: #fff;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    
+    .xw-map-container .title {
+        background-color: #4BAAE0;
+    }
+    
+    .xw-map-container .title3 {
+        background-color: #1CCE95;
+    }
+    
+    #mapname,
+    #mapheight,
+    #relativeId,
+    #mapname3,
+    #mapx2,
+    #mapz2,
+    #mapy2 {
+        width: 80%;
+        height: 36px;
+        margin: 0 auto;
+        margin-top: 10px;
+    }
+    
+    #mapname>input,
+    #mapheight>input,
+    #relativeId>input,
+    #mapname3>input,
+    #mapz2>input,
+    #mapy2>input,
+    #mapx2>input {
+        width: 160px;
+        height: 30px;
+        border-radius: 20px;
+        padding: 0 10px;
+        font-size: 16px;
+        letter-spacing: 1px;
+        float: left;
+    }
+    
+    #mapname>div,
+    #mapheight>div,
+    #relativeId>div,
+    #mapname3>div,
+    #mapz2>div,
+    #mapy2>div,
+    #mapx2>div {
+        float: left;
+        width: 70px;
+        height: 30px;
+        line-height: 30px;
+    }
+    
+    #mapname>input,
+    #mapheight>input,
+    #relativeId>input,
+    {
+        border: 1px solid #4BAAE0;
+    }
+    
+    #mapname3>input,
+    #mapz2>input,
+    #mapy2>input,
+    #mapx2>input {
+        border: 1px solid #1CCE95;
+    }
+    
+    #mapinfo,
+    #mapinfo3 {
+        width: 80%;
+        height: 35%;
+        margin: 0px auto;
+    }
+    
+    #mapinfo>textarea,
+    #mapinfo3>textarea {
+        width: 220px;
+        height: 90%;
+        border-radius: 20px;
+        padding: 10px 10px;
+        line-height: 24px;
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+    
+    #mapinfo>textarea {
+        border: 1px solid #4BAAE0;
+    }
+    
+    #mapinfo3>textarea {
+        border: 1px solid #1CCE95;
+    }
+    
+    .xw-map-container .submit,
+    .xw-map-container .submit3,
+    .xw-map-container .delete,
+    .xw-map-container .model-close {
+        width: 100%;
+        height: 30px;
+        margin-top: 20px;
+    }
+    
+    .xw-map-container .submit>div,
+    .xw-map-container .submit3>div,
+    .xw-map-container .delete>div,
+    .xw-map-container .model-close>div {
+        width: 80px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        margin: 0 auto;
+        cursor: pointer;
+        border-radius: 15px;
+        color: #fff;
+    }
+    
+    .xw-map-container .submit>div {
+        background-color: #4BAAE0
+    }
+    
+    .xw-map-container .submit3>div,
+    .xw-map-container .delete>div,
+    .xw-map-container .model-close>div {
+        background-color: #1CCE95
+    }
+    
+    #mapchange {
+        width: 60px;
+        position: absolute;
+        height: 400px;
+        overflow: auto;
+        top: 10px;
+        left: 10px
+    }
+    
+    #mapchange>div {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        cursor: pointer;
+        border-radius: 15px;
+        box-shadow: 2px 2px 5px #868686;
+        margin: 5px 0;
+        background-color: #fff;
+    }
+    
+    .xw-map-container hr {
+        margin: 0 auto;
+        padding: 0;
+        width: 80%;
+    }
+    
+    .xw-map-container .Mask {
+        z-index: 99;
+    }
+    
+    .xw-map-container .Mask .nameshow {
+        width: 100%;
+        height: 60px;
+        text-align: center;
+        line-height: 60px;
+        color: #fff;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        font-weight: bold;
+        font-size: 20px;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+        background-color: #4BAAE0;
+    }
+    
+    .xw-map-container .Mask .infoshow {
+        width: 400px;
+        height: 160px;
+        border-radius: 5px;
+        margin: 10px auto;
+        line-height: 30px;
+        letter-spacing: 1px
+    }
+    
+    .xw-map-container .Mask .infoshow>div {
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+    }
+    
+    .xw-map-container .Mask .infoshow>div>div {
+        float: left;
+    }
+    
+    .xw-map-container .Mask .infoshow>div>div:nth-child(1) {
+        font-weight: bold;
+        font-size: 15px;
+    }
+    
+    .xw-map-container .Mask img {
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+        margin: 30px auto;
+        line-height: 30px;
+        float: left;
+        border: 1px solid #bfbfbf;
+    }
+    
+    .xw-map-container .Mask .Button {
+        width: 100%;
+        height: 45px;
+        margin: 0 auto;
+        margin-top: 10px;
+    }
+    
+    .xw-map-container .Mask .Button>div {
+        width: 30%;
+        height: 45px;
+        margin: 0 10%;
+        text-align: center;
+        line-height: 45px;
+        cursor: pointer;
+        border-radius: 5px;
+        float: left;
+        color: #fff;
+        border-radius: 22.5px;
+        background-color: #4BAAE0;
+    }
+    
+    .xw-map-container .Mask-div {
+        width: 500px;
+        height: 330px;
+        background-color: #fff;
+        position: absolute;
+        bottom: 40px;
+        border-radius: 20px;
+        z-index: 100;
+    }
+    
+    .xw-map-container .onload {
+        position: absolute;
+        width: 100px;
+        height: 40px;
+        background-color: #fff;
+        border-radius: 20px;
+        bottom: 310px;
+        text-align: center;
+        line-height: 40px;
+        cursor: pointer;
+        top: 10px;
+        right: 20px;
+        color: #4BAAE0;
+    }
+    /*滚动条样式*/
+    
+    .xw-map-container .clickcontroll {
+        width: 150px;
+        height: 45px;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        text-align: center;
+        line-height: 45px;
+        background-color: #1CCE95;
+        border-radius: 22.5px;
+        color: #fff;
+        cursor: pointer;
+    }
+    
+    .xw-map-container .infos_close {
+        width: 25px;
+        height: 25px;
+        border-radius: 12.5px;
+        background-color: #fff;
+        position: absolute;
+        top: 12.5px;
+        right: 20px;
+        text-align: center;
+        line-height: 22px;
+        cursor: pointer;
+    }
+    /*滚动条样式*/
+    
+    .xw-map-container .scrollbar::-webkit-scrollbar {
+        width: 10px;
+        height: 16px;
+        background-color: #f5f5f5;
+    }
+    
+    .xw-map-container .scrollbar::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+        border-radius: 10px;
+        background-color: #E5FCF5;
+    }
+    
+    .xw-map-container .scrollbar::-webkit-scrollbar-thumb {
+        height: 20px;
+        border-radius: 10px;
+        background-color: #1CCE95;
+    }
+    /*三角形*/
+    
+    #triangle-down {
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 20px solid #FFF;
+        border-width: 20px;
+        border-color: rgb(255, 255, 255) transparent transparent;
+        position: absolute;
+        left: 80px;
+    }
+    
+    #triangle-down2 {
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 22px solid #FFF;
+        border-width: 22px;
+        border-color: #D3D3D3 transparent transparent;
+        position: absolute;
+        left: 78px;
+    }
+    /*信息窗*/
+    
+    #infowindow {
+        position: absolute;
+        top: 20px;
+        left: 100px;
+        display: none;
+    }
+    
+    .xw-map-container .info_close {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+        background-color: #fff;
+        text-align: center;
+        line-height: 17px;
+        color: #1CCE95;
+        cursor: pointer;
+    }
+    
+    .xw-map-container .info_name {
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: #1CCE95;
+        color: #fff;
+        font-weight: bold;
+        font-size: 16px;
+    }
+    
+    .xw-map-container .scrollbar {
+        height: 50%;
+        margin-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 14px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        position: relative;
+        margin-right: 3px;
+    }
+    
+    .xw-map-container .info_submit {
+        width: 60px;
+        height: 25px;
+        border-radius: 12.5px;
+        background-color: #1CCE95;
+        color: #fff;
+        text-align: center;
+        line-height: 25px;
+        margin: 0 auto;
+        margin-top: 7px;
+        cursor: pointer;
+        font-size: 15px;
+    }
+    
+    .xw-map-container .mod_img1>ul,
+    .xw-map-container .mod_img1_change>ul {
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    .xw-map-container .mod_img1>ul>li,
+    .xw-map-container .mod_img1_change>ul>li {
+        list-style: none;
+        width: 30px;
+        height: 30px;
+        float: left;
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 15px;
+    }
+    
+    .xw-map-container .mod_img1>ul>li>img,
+    .xw-map-container .mod_img1_change>ul>li>img {
+        width: 100%;
+    }
+    
+    .xw-map-container #mapchange>.floor-active {
+        background-color: rgb(75, 170, 224);
+        color: rgb(255, 255, 255);
+    }
+    
+    .xw-map-container .not-allow-empty {
+        border: 1px solid red;
+    }
+</style>

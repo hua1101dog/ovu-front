@@ -1,0 +1,60 @@
+<style>
+.list {
+	border:1px solid #ccc;
+	max-height:180px;
+	overflow-y:scroll;
+}
+.list li{
+	list-style:none;
+	height:36px;
+	line-height:36px;
+	padding:0 12px;
+	cursor:pointer;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.list li:hover {
+	 background-color:#ccc;
+}
+</style>
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">{{ids.type==1?"租":"售"}}</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<div class="form-group">
+		<label class="col-sm-3 control-label">客户类型：</label>
+		<div class="col-md-8">
+			<select class="form-control" ng-model="userType" ng-change="changeClassify()">
+				<option value="">--请选择--</option>
+				<option value="company">企业</option>
+				<option value="personal">个人</option>
+			</select>							
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">客户：</label>
+		<div class="col-sm-8">
+				<div class="input-group">
+					<input type="text" class="form-control" ng-model="name" readonly="readonly" placeholder="请选择客户">			
+					<span class="input-group-btn">
+						<button class="btn btn-default" ng-click="expand()" style="margin-right: 0px;"><i class="fa fa-search"></i></button>
+				  	</span>
+				</div>
+				<ul class="list" ng-if="isList">
+					<li ng-repeat="item in listData" ng-click="choiceName(item)" title="{{item.nAME}}">{{item.nAME}}</li>				
+				</ul>		
+		</div>	
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">姓名：</label>
+		<div class="col-sm-8">
+			<input type="text" class="form-control" ng-model="belongUser">					
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="rentSave()">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

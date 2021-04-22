@@ -1,0 +1,86 @@
+<div id="angularId" ng-controller="energyAllocationanalysisCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>能源分析配置</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="col-xs-12" ng-if="search.isGroup">
+                <label class="control-label">
+                    <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+                    <a role="button" ng-click="findPark(search,init)">{{search.parkName?search.parkName:'请选择项目'}} </a>
+                </label>
+            </div>
+            <div class="energy_panel" style="clear:both">
+                <ul ng-init="search.pointType=1"  class="picType">
+                    <li ng-repeat="item in classifyList" ng-class='{actives: search.pointType==item.type}' ng-click="checkTypes(item)">{{item.name}}</li>
+                 
+                 
+                </ul>
+            </div>
+            <div class="x_panel" style="clear:both">
+
+                <div class="x_title">{{search.classifyType=='1' ? '能耗分组' : (search.classifyType=='2' ? '能耗层级分类' : '计算类型')}}
+
+                    <a ng-click='addTopNode()' role="button" class='btn-link pull-right'>
+                        <i class='fa fa-plus'></i>{{search.classifyType=='1' ? '一级分组' : (search.classifyType=='2' ? '一级分类' : '新增类型')}}</a>
+                </div>
+                <div class="x_content" style="overflow: auto">
+                    <div class="alert" role="alert" ng-if="treeData.length==0">{{search.classifyType=='1' ? '无分组信息' : (search.classifyType=='2' ? '无分类信息' : '无类型信息')}}</div>
+                    <!-- <tree-view node-list="treeData" config='config'></tree-view> -->
+                    <tree-view-pro ng-if="treeData.length>0" node-list="treeData" host="search" host-text="'text'" host-key="'nodeId'" callback="selectNode" config="config"></tree-view-pro>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <uib-tabset active="active">
+                <uib-tab index="0" heading="分组配置" select="changeIndex(0)">
+                    <ng-include src="'./energy/energyAllocationanalysis/energyanalysis.html'"></ng-include>
+                </uib-tab>
+                <uib-tab index="1" heading="层级配置" select="changeIndex(1)">
+                    <ng-include src="'./energy/energyAllocationanalysis/layeredConfiguration.html'"></ng-include>
+                </uib-tab>
+                <uib-tab index="2" heading="异常情况表配置" select="changeIndex(2)">
+                    <ng-include src="'./energy/energyAllocationanalysis/abnormalSituation.html'"></ng-include>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>
+<style>
+    .actives {
+        background-color: #62c3ff;
+    }
+    .picType {
+        float: right;
+        margin: 0px;
+    }
+    .picType li {
+        display: inline-block;
+        cursor: pointer;
+    }
+    .energy_panel{
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: -10px 10px;
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #E6E9ED;
+    -webkit-column-break-inside: avoid;
+    -moz-column-break-inside: avoid;
+    column-break-inside: avoid;
+    opacity: 1;
+    transition: all .2s ease; 
+    }
+    .energy_panel ul{
+        width:100%;
+    }
+    .energy_panel ul li{
+        width: 31%;
+        text-align: center;
+        padding: 6px;
+    }
+</style>

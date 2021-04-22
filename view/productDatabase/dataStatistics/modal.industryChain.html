@@ -1,0 +1,34 @@
+<div controller="industryChainCtrl" ng-init="vm.getIndustryChainList();">
+	<div class="info-title">
+		<button type="button" class="close" ng-click="vm.cancel()">×</button>
+		<span>{{vm.chainSupplyName}}产品链</span>
+	</div>
+	<div class="container-fluid">
+		<div class="x_content" style="max-height: 420px; overflow: auto;">
+			<div class="panel-body popup-table">
+				<table class="table table-striped table-hover"
+					style="margin-top: 10px; color: #999999;">
+					<thead class="title">
+						<tr>
+							<th class="text-center no-common">序号</th>
+							<th>产品链名称</th>
+							<th>产品链位置</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="vm.chainList.length == 0">
+							<td colspan="3" class="text-center">暂无记录</td>
+						</tr>
+						<tr ng-repeat="item in vm.chainList track by $index"
+							style="color: #333333;">
+							<td class="text-center no-common">{{$index+1}}</td>
+							<td><span>{{item.industryCategoryName}}</span></td>
+							<td><span>{{item.relationStatus|keyToValue:relationStatusList}}</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

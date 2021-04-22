@@ -1,0 +1,114 @@
+<form name="detailForm" class="fixedRentDetail">
+    <div class="modal-header">
+        <h4 class="modal-title" ng-if="detailData.type == 1">固定租金详细设置</h4>
+        <h4 class="modal-title" ng-if="detailData.type == 2 || detailData.type == 3">免租期详细设置</h4>
+    </div>
+    <!-- 固定资金详细设置 -->
+    <div class="modal-body" ng-if="detailData.type == 1">
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label class="required">计费单位</label>
+                    <select class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="detailData.unitStatus" required ng-disabled="true">
+                        <option value="">--请选择--</option>
+                        <option value="{{x.id}}" ng-repeat="x in unitStatus track by $index">{{x.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#999999;">
+                固定租金约定<span>(合同租期: {{detailData.leaseStart}}至{{detailData.leaseEnd}})</span>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                        <tr>
+                            <th>序号</th>
+                            <th>租赁资源</th>
+                            <th>固定租金单价</th>
+                            <th>可出租面积</th>
+                            <th>固定租金</th>
+                            <th>固定租金(不含税)</th>
+                            <th>税额</th>
+                            <th>税率(%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr ng-if="pageModel.data.length ==0||!pageModel.data">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr> -->
+                        <tr style="color:#333333;" ng-repeat="item in fixedRentSpaces track by $index">
+                            <td style="width:50px;">{{$index+1}}</td>
+                            <td>{{item.houseName}}</td>
+                            <td style="width: 150px;">
+                                <input type="number" step="0.01" class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.unitPrice" ng-keyup="fixPriceChange(item.unitPrice, $index, 1)" oninput="this.value=this.value.replace(/^[0]+[0-9]*$/gi,'')" required ng-disabled="!item.disabledStatus && executingContractStatus">
+                            </td>
+                            <td>{{item.area}}</td>
+                            <td style="width: 150px;">
+                                <input type="number" step="0.01" class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.totalPrice" ng-keyup="fixPriceChange(item.totalPrice ,$index, 2)" oninput="this.value=this.value.replace(/^[0]+[0-9]*$/gi,'')" required ng-disabled="!item.disabledStatus && executingContractStatus">
+                            </td>
+                            <td>{{item.rentPrice | number:2}}</td>
+                            <td>{{item.taxPrice | number:2}}</td>
+                            <td>{{item.taxRate}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 免租期详细设置 -->
+    <div class="modal-body" ng-if="detailData.type == 2 || detailData.type == 3">
+        <!-- 免租期约定详细设置 -->
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#999999;">
+                免租期约定详细设置
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                        <tr>
+                            <th>序号</th>
+                            <th>是否免租</th>
+                            <th>租赁资源</th>
+                            <th>免租起始日期</th>
+                            <th>免租截止日期</th>
+                            <th>免租天数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="color:#333333;" ng-repeat="item in freeRentSpaces track by $index">
+                            <td style="width:50px;">{{$index+1}}</td>
+                            <td>
+                                <!-- <div class="checkbox"> -->
+                                <label>
+                                    <input type="checkbox" ng-model="item.isFree" ng-click="checkBox(item.isFree)">
+                                </label>
+                                <!-- </div> -->
+                            </td>
+                            <td>{{item.houseName}}</td>
+                            <td style="width: 200px;">
+                                <input type="datetime" class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                                    ng-model="freeRentStartTimes[$index]" wdate-picker ng-change="freeRentTimeChange(freeRentStartTimes[$index],'{{freeRentStartTimes[$index]}}', freeRentEndTimes[$index], '{{freeRentEndTimes[$index]}}', $index, 1)">
+                            </td>
+                            <td style="width: 200px;">
+                                <input type="datetime" class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                                    ng-model="freeRentEndTimes[$index]" wdate-picker ng-change="freeRentTimeChange(freeRentStartTimes[$index],'{{freeRentStartTimes[$index]}}', freeRentEndTimes[$index], '{{freeRentEndTimes[$index]}}', $index, 2)">
+                            </td>
+                            <td>{{freeTotalDays[$index] || 0}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button class="btn btn-warning" ng-click="save(detailForm)">确认</button>
+        <button class="btn" ng-click="cancel()">关闭</button>
+    </div>
+</form>
+<style>
+    .modal-dialog.modal-lg {
+        width: 1500px !important;
+    }
+</style>

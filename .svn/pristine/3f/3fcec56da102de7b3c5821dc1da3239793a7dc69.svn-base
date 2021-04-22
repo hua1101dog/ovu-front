@@ -1,0 +1,85 @@
+	<!--错误处理弹出框  -->
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancel()">×</button>
+		<h4 class="modal-title">误报处理</h4>
+    </div>
+    <div class="modal-body container-fluid">
+		<form name="form" novalidate class="form-horizontal">
+				<div class="form-group">
+						<label class="col-sm-3 col-xs-3 control-label required">类型：</label>
+						<div class="col-sm-7  col-xs-7">
+						
+								<input type="text" class="form-control" readonly required  value="误报">
+								
+							
+						</div>
+					</div>
+			<div class="form-group">
+				<label class="col-sm-3 col-xs-3 control-label required">执行人：</label>
+				<div class="col-sm-7  col-xs-7">
+					<div class="input-group">
+						<input type="text" class="form-control" readonly required ng-model="item.execPersonName">
+						<span class="input-group-btn">
+							<a  class="btn btn-default" ng-click="chooseExecutePerson()"><i class="fa fa-search"></i></a>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 col-xs-3 control-label">配合人：</label>
+				<div class="col-sm-7 col-xs-7">
+					<div class="input-group">
+						<input type="text" class="form-control" readonly  ng-model="item.coopPersonName">
+						<span class="input-group-btn">
+							<a  class="btn btn-default" ng-click="chooseOtherPerson()"><i class="fa fa-search"></i></a>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 col-xs-3 control-label required">详情：</label>
+				<div class="col-sm-7 col-xs-7">
+					<textarea type="text" class="form-control" 
+						required ng-model="item.detail" name="description" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 col-xs-3 control-label required">原因：</label>
+				<div class="col-sm-7 col-xs-7">
+					<textarea type="text" class="form-control"
+							  required ng-model="item.reason" name="description" />
+				</div>
+			</div>
+			<!-- <div class="form-group">
+				<label class="col-sm-3 col-xs-3 control-label required">处理时间：</label>
+				<div class="col-sm-7 col-xs-7">
+						<input type="text"  type="datetime"  class="form-control Wdate" ng-model="item.finishTime" onchange=""
+							   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+							   required/>
+				</div>
+			</div> -->
+			<div class="form-group">
+				<label class="col-xs-3 control-label required">证明图片：</label>
+				<div class="col-xs-8">
+					<div class="thumbnail" style="height: auto;">
+						<img onerror="javascript:this.src='/res/img/upload.jpg';"
+							 ng-click="showPhoto()"
+							 ng-src="{{processImgUrl(item.imgPaths)}}">
+						<div class="caption">
+							<p>
+								<button class="btn btn-warning height34" ng-click="clearPhoto(item,'imgPaths')"><i
+										class="glyphicon glyphicon-remove"></i></button>
+								<button class="btn btn-default height34" ng-click="addPhoto(item,'imgPaths')"><i
+										class="glyphicon glyphicon-picture "></i></button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>
+

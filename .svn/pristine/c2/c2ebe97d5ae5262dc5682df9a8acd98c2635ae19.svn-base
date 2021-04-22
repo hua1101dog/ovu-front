@@ -1,0 +1,167 @@
+<div ng-controller="singVideoCtrl as vm">
+	<div class="page-title">
+		<div class="title_left">
+			<h4>{{vm.location}}</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-9 col-sm-9 col-xl-9">
+			<!-- <play-video id="video2" device-id="vm.equipmentId" height="530"
+				url="vm.historyUrl"></play-video> -->
+				<iframe ng-src="{{'/view/video.html?equipmentId='+vm.equipmentId}}" style="width: 100%;height: 530px"></iframe>
+		</div>
+		<div class="col-lg-3 col-sm-3 col-xl-3">
+			<div class="col-sm-12 col-xl-12">
+				<button class="btn btn-default btn-sm" style="width: 100%"
+					ng-click="vm.historyUrl = ''">实时监控</button>
+			</div>
+			<div class="col-sm-12 col-xl-12">
+				<div class="x_panel"
+					style="height: 490px; margin-top: 10px; overflow: auto;">
+					<div class="x_title">历史视频</div>
+					<div class="x_content" style="z-index: 1;">
+						<div class="list-group">
+							<input class="form-control" placeholder="请输入时间搜索" ng-model="q" />
+							<a href="javascript:;;" ng-click="vm.clickHistory(item.screenUrl)"
+								type="button" class="list-group-item"
+								ng-repeat="item in vm.historyList | filter:{screenTime:q} as results">{{item.screenTime}}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-6 col-sm-6 col-xl-6">
+			<div class="x_panel" style=" height: 300px;overflow: auto ">
+				<div class="x_title">传感器清单 </div>
+				<div class="x_content" style="z-index: 1">
+					<table class="table table-bordered table-hover table-condensed ">
+                       <thead>
+                           <tr>
+                               <th>传感器编号</th>
+                               <th>传感器名称</th>
+                               <th>传感器参数</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <tr ng-repeat="item in vm.sensorList">
+                               <td>{{item.number}}</td>
+                               <td>{{item.name}}</td>
+                               <td>{{item.param}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+                  <!--  <div class="page-footer clearfix" style="bottom: 0;position: absolute;">
+						<ng-include src="'/common/pager.html'"></ng-include>
+					</div> -->
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 col-sm-6 col-xl-6">
+			<div class="x_panel" style=" height: 300px; ">
+				<div class="x_title">消防事件统计 </div>
+				<div class="x_content" style="z-index: 1">
+					<div class="col-lg-12 col-sm-12">
+						<div id="work-chart"
+							style="height:250px;"
+							ui-echarts="vm.eventOption" >
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="row">
+		<div class="col-lg-12 col-sm-12 col-xl-12">
+			<div class="x_panel" style=" height: 300px; ">
+				<div class="x_title">消防事件列表 </div>
+				<div class="x_content" style="z-index: 1">
+					<table class="table table-hover  ">
+                       <thead>
+                           <tr>
+                               <th>时间</th>
+                               <th>消防事件类型</th>
+                               <th>消防事件原因</th>
+                               <th>处理人</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <tr ng-repeat="item in pageModel.data track by $index">
+                               <td>{{item.time}}</td>
+                               <td>{{item.type}}</td>
+                               <td>{{item.reason}}</td>
+                               <td>{{item.execPersonName}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+                   <div class="page-footer clearfix" >
+						<ng-include src="'/common/pager.html'"></ng-include>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<style>
+.m-t-sm {
+	margin-top: 10px;
+}
+
+.m-t {
+	margin-top: 15px;
+}
+
+.m-t-md {
+	margin-top: 20px;
+}
+
+.m-t-lg {
+	margin-top: 30px;
+}
+
+.m-n {
+	margin: 0 !important;
+}
+
+.b {
+	border: 1px solid #ddd;
+	background: #fff;
+}
+
+.b-n {
+	border: 1px solid #ddd;
+}
+
+.border-r10 {
+	border-radius: 10px;
+}
+
+.b-b {
+	border-bottom: 1px solid #dee5e7;
+}
+
+.amap-touch-toolbar .amap-zoomcontrol {
+	bottom: 10px;
+}
+
+.line {
+	width: 100%;
+	height: 2px;
+	margin: 10px 0;
+	font-size: 0;
+	overflow: hidden;
+}
+
+.line-xs {
+	margin: 0;
+}
+
+.line-lg {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+</style>

@@ -1,0 +1,54 @@
+
+<div class="modal-header">
+	<button type="button" class="close" ng-click="vm.cancel()">×</button>
+	<h4 class="modal-title">{{vm.operationType == 'add'?'新增':'修改'}}产品</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" ng-init="parentIndustryList();">
+	<div class="x_content" style="max-height: 650px; overflow: auto;">
+		<form name="form" novalidate>
+			<div class="form-group">
+				<label class="col-md-3 control-label required">行业类型:</label>
+				<div class="col-md-7 p-l-none">
+					<!-- <select class="form-control" required
+						ng-model="vm.enterprise.industryCode">
+						<option value="">-- 请选择 --</option>
+						<option ng-repeat="item in industryList" value={{item.industryCode}}>{{item.industryName}}</option>
+					</select> -->
+					<div class="col-md-6 p-r-none">
+            		 <select class="form-control" required ng-model="vm.enterprise.industryParentCode"  ng-change = "getIndustryList(vm.enterprise.industryParentCode,'select')" >
+	                    <option value="">--请选择--</option>
+	                    <option ng-repeat="industry in parentIndustryList" value="{{industry.industryCode}}">{{industry.industryName}}</option>
+	                </select>
+	                </div>
+	                <div class="col-md-6 p-l-none p-r-none">
+		                <select class="form-control" required ng-model="vm.enterprise.industryCode" ng-change="vm.getProductList(vm.enterprise.industryCode)">
+	                        <option value="">--请选择--</option>  
+	                       	<option ng-repeat="item in industryList" value="{{item.industryCode}}">{{item.industryName}}</option>                                            
+	                    </select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label required">产品名称:</label>
+				<div class="col-md-7">
+					<input type="text" class="form-control awesomplete" required
+						ng-model="vm.enterprise.industryProductName"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label required">产品链位置:</label>
+				<div class="col-md-7">
+					<select class="form-control" required
+						ng-model="vm.enterprise.relationStatus">
+						<option value="">--请选择--</option>
+						<option ng-repeat="item in relationStatusList" value={{item[0]}}>{{item[1]}}</option>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="vm.save(form,vm.enterprise)">确定</button>
+	<button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+</div>

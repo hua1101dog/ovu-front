@@ -1,0 +1,83 @@
+<h4 class="text-lg font-bold">平台运营管理</h4>
+<div class="row">
+    <div class="col-lg-12 col-sm-12">
+        <div class="panel panel-default" style="position: relative;">
+            <div class="panel-body" style="padding: 5px;">
+                <div ui-map="vm.map" style="height: 700px;"
+                     ui-options="vm.mapOptions" ui-map-cache="allMap"
+                     ui-event="{'map-click':'vm.clickMap($event,$params)'}">
+                </div>
+            </div>
+            <div class="x_panel" style=" height: 150px;position: absolute;right:0;top: 0;width: 250px;">
+                <div class="x_title">运行状态</div>
+                <div class="x_content row " style="z-index: 1">
+                    <div class="col-sm-12 col-xs-12" ng-repeat="running in vm.runningList track by $index">
+                        <label class="col-sm-6 col-xs-12 control-label">{{running.name}}:</label>
+                        <p class="col-sm-4 col-xs-12">{{running.value}}台</p>
+                    </div>
+                </div>
+            </div>
+            <div class="x_panel" style=" height: 150px;position: absolute;left:0;top: 0;width: 250px;">
+                <div class="x_title">运营数据</div>
+                <div class="x_content row " style="z-index: 1">
+                    <div class="col-sm-12 col-xs-12" ng-repeat="platform in vm.platformList track by $index">
+                        <label class="col-sm-6 col-xs-12 control-label">{{platform.name}}:</label>
+                        <p class="col-sm-6 col-xs-12">
+                            {{platform.value}}
+                            <span ng-show="platform.name.indexOf('单位') != -1">家</span>
+                            <span ng-show="platform.name.indexOf('人员') != -1">个</span>
+                            <span ng-show="platform.name.indexOf('数量') != -1">台</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="x_panel" style=" height: 250px;position: absolute;left:0;top: 170px;width: 250px;overflow: auto;">
+                <div class="x_title">品牌分布</div>
+                <div class="x_content row " style="z-index: 1">
+                    <!-- <div class="col-sm-12 col-xs-12" ng-repeat="brand in vm.brandList | orderBy:'-brand.value' | limitTo : vm.numN"> -->
+                            <div class="col-sm-12 col-xs-12" ng-repeat="brand in vm.brandList  | limitTo : vm.numN">
+                        <label class="col-sm-6 col-xs-12">{{brand.name}}:</label>
+                        <p class="col-sm-4 col-xs-12">{{brand.value}}</p>
+                    </div>
+                    <div ng-if=" vm.brandList.length>=vm.numN">
+                        <a  class="more" ng-click="vm.getmoreN()">{{vm.infoN}}</a>
+                            
+                     </div>
+                </div>
+            </div>
+            <div class="x_panel" style=" height: 250px;position: absolute;left:0;bottom: 0px;width: 250px;overflow: auto; z-index: 1000;">
+                <div class="x_title">地区分布</div>
+                <div class="x_content row " style="z-index: 1">
+                    <div class="col-sm-12 col-xs-12" ng-repeat="region in vm.regionList | limitTo : vm.numW">
+                        <label class="col-sm-6 col-xs-12">{{region.region}}:</label>
+                        <p class="col-sm-4 col-xs-12">{{region.amount}}台</p>
+                    </div>
+                    <div ng-if=" vm.regionList.length>=vm.numW">
+                       <a  class="more" ng-click="vm.getmoreW()">{{vm.infoW}}</a>
+                           
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .amap-marker-label {
+        font-size: 13px;
+        border: 1px solid orange;
+        background: #fff;
+        border-radius: 10px 0 0 0;
+        color: #690441;
+    }
+    .more{
+        text-align: center;
+        color: #2A60FF;
+        display: inline-block;
+        height: 30px;
+        width: 100%;
+        cursor: pointer;
+        font-size: 20px;
+        padding-top: 10px;
+
+    }
+</style>

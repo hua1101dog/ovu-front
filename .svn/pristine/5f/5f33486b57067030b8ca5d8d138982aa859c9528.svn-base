@@ -1,0 +1,28 @@
+{
+    "success":"true",
+    "datas":{
+        "oper_indicators":[
+            {"name":"摄像头","value":76},
+            {"name":"水表","value":14},
+            {"name":"道闸","value":6},
+            {"name":"门禁","value":3},
+            {"name":"能源表","value":14},
+            {"name":"电梯","value":30},
+            {"name":"其他","value":20}
+        ],
+        "oper_order":[
+            {"name":"应急工单","value":299},
+            {"name":"计划工单","value":1952}
+        ],
+        "oper_parking":{
+            "totle":1761,
+            "up_parking":41,
+            "bottom_parking":1720
+        },
+        "oper_manage":[
+            {"name":"已售停车位","value":532},
+            {"name":"地上可经营停车位","value":41},
+            {"name":"地下可经营停车位","value":1188}
+        ]
+    }
+}

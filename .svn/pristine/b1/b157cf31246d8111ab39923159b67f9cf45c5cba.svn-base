@@ -1,0 +1,82 @@
+<div ng-controller="roleCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>子系统角色管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5" >
+            <div class="panel panel-default ">
+                <div class="panel-heading">角色列表
+
+                </div>
+                <div class="panel-body">
+                    <table class="table ">
+                        <thead class="title">
+                        <tr>
+                            <th class="text-center">子系统名称</th>
+                            <th style="width:20px" class="text-center">NO</th>
+                            <th>角色名称</th>
+                            <th style="width:100px">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="role.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                        <tr ng-repeat="module in moduleList" >
+                            <td class="text-center">{{module.name}}
+                                <div>
+                                    <a href='javascript:void(0)' ng-click='addRole(module)' class='btn btn-link btn-xs'><span class='fa fa-plus'></span>添加角色</a>
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <table class="table table-striped table-hover" style="margin-bottom: 0">
+                                    <tr ng-repeat="role in module.roles"  ng-class="{'info':curRole== role}" ng-form name="form" novalidate>
+                                        <td class="text-center" style="width:20px">{{$index + 1}}</td>
+                                        <td><a href='javascript:void(0)' ng-show="!role.edit" class="btn-link" ng-click='showRoleMenu(role)'>{{role.name}}</a>
+                                            <input type="text" class="form-control" ng-show="role.edit" ng-model="role.copy.name" required name="name">
+                                        </td>
+                                        <td style="width:50px">
+                                            <div ng-show="!role.edit">
+                                                <a href='javascript:void(0)' ng-click='editRole(role)' class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+                                                <a href='javascript:void(0)' ng-click='del(module,role)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+                                            </div>
+                                            <div ng-show="role.edit">
+                                                <a href='javascript:void(0)' ng-click="save(role,form)" class='btn btn-xs text-primary'><span class='fa fa-save'></span>保存</a>
+                                                <a href='javascript:void(0)' ng-click="cancel(module,role)" class='btn btn-xs text-danger'><span class='fa fa-undo'></span>取消</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <a ng-click='expandAll(menuTree)' role="button" class='btn-link' title="展开与收缩"><i class="glyphicon" ng-class="{'glyphicon-resize-small':menuTree.expanded,'glyphicon-resize-full':!menuTree.expanded}" ></i></a>
+                    子系统菜单（当前角色：{{curRole.name}} --{{curRole.edit?'可编辑':'只读'}}）
+                </div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="menuTree.length==0">无子系统菜单</div>
+                    <tree-menu-edit node-list="menuTree" config="menuConfig"></tree-menu-edit>
+                </div>
+                <layer-select id="resourceSelector" node-list="resourceTree" select-method="selectResource" ng-hide="!curCopy"  class="layerSelect hide" style="left: 15px;top:inherit;" ></layer-select>
+            </div>
+            <div class="x_panel">
+                <div class="x_title">
+                    <a ng-click='expandAll(menuTree)' role="button" class='btn-link' title="展开与收缩"><i class="glyphicon" ng-class="{'glyphicon-resize-small':menuTree.expanded,'glyphicon-resize-full':!menuTree.expanded}" ></i></a>
+                    app按钮（当前角色：{{curRole.name}} --{{curRole.edit?'可编辑':'只读'}}）
+                </div>
+                <div class="x_content" style="z-index: 1">
+                     <span ng-repeat="ac in curRole.appRes" class="mr15" ng-class="{'text-success':ac.checked,'text-muted':!ac.checked}" role="button"
+                           ng-click="checkAppOperation(menuConfig,ac)" >
+                         <i class="glyphicon" ng-class="{'glyphicon-check':ac.checked,'glyphicon-unchecked':!ac.checked}" ></i>{{ac.name}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<!-- 工单查询 -->
+<div ng-controller="workunitCtrl">
+    <div class="col-md-12 col-sm-12 col-xs-12" style="padding-top:1px">
+        <!-- <uib-tabset active="active">
+            <uib-tab index="0" heading="报事查询">
+                <ng-include src="'./houseSearch/ownerInfo/workunit/workunitEmergen.html'"  select="changeWorkUnit(1)"></ng-include>
+            </uib-tab>
+            <uib-tab index="1" heading="报装申请查询">
+                <ng-include src="'./houseSearch/ownerInfo/workunit/reportRequest.html'"  select="changeWorkUnit(2)"></ng-include>
+            </uib-tab>
+            <uib-tab index="2" heading="工单查询">
+                <ng-include src="'./houseSearch/ownerInfo/workunit/workunitPool.html'"  select="changeWorkUnit(3)"></ng-include>
+            </uib-tab>
+        </uib-tabset> -->
+        <div class="aList clearfix" >
+            <span  ng-click="changeWorkUnit(1)" ng-class="{'btn-link_ac':workUnitIndex =='1'}">报事查询</span>
+            <span  ng-click="changeWorkUnit(2)" ng-class="{'btn-link_ac':workUnitIndex =='2'}">报装申请查询</span>
+            <span  ng-click="changeWorkUnit(3)" ng-class="{'btn-link_ac':workUnitIndex =='3'}">工单查询</span>
+           
+          </div>
+          <div ng-if="workUnitIndex =='1'">
+            <ng-include src="'./houseSearch/ownerInfo/workunit/workunitEmergen.html'"  select="changeWorkUnit(1)"></ng-include>
+          </div>
+          <div ng-if="workUnitIndex =='2'">
+            <ng-include src="'./houseSearch/ownerInfo/workunit/reportRequest.html'"  select="changeWorkUnit(2)"></ng-include>
+          </div>
+          <div ng-if="workUnitIndex =='3'">
+            <ng-include src="'./houseSearch/ownerInfo/workunit/workunitPool.html'"  select="changeWorkUnit(3)"></ng-include>
+          </div>
+
+
+    </div>
+    
+
+</div>
+<style>
+.pl13{
+    padding-left:13px;
+
+  }
+  .aList {padding:5px 0}
+  .aList span{
+      float:left; color: #337ab7;margin-right: 2px;
+    line-height: 1.42857143;
+    padding: 10px 15px;
+    outline: none;
+    display: inline-block;
+    border-radius: 4px 4px 0 0;}
+    .btn-link_ac{
+        color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+    }
+ 
+
+</style>

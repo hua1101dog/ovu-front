@@ -1,0 +1,14 @@
+
+
+<div class="input-group" style="white-space: nowrap;width: 100%">
+    <input type="text" placeholder="{{tipText}}" class="form-control" style="float:none"  ng-focus="state.focus=true"
+           ng-blur="state.focus=false" ng-required="need" ng-model="host[hostText]"/>
+    <div ng-show="state.focus||state.hover"
+         style="left: 0px;top:48px;z-index: 4; margin-bottom:5px;background-color: white; position:absolute;border-radius: 4px;min-width: 100%;border:1px solid gray;overflow-y: auto;
+                          min-height: 200px;  max-height: 600px;" ng-mouseover="state.hover=true" ng-mouseleave="state.hover=false">
+        <tree-view node-list="nodeList" host="host"  config="{'edit':false}"></tree-view>
+    </div>
+    <span class="input-group-btn" ng-hide="isHide">
+         <button class="btn btn-default" ng-click="clear(host)"  style="height: 34px" ><i class='fa fa-close'></i></button>
+    </span>
+</div>

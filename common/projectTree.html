@@ -1,0 +1,19 @@
+<ul class="fengTree">
+    <li ng-repeat="node in nodeList" class="clearfix" ng-hide="node.state.hide" aria-hidden="false">
+        <div class="form-inline " ng-class="{'bg-success':node.state.selected}">
+            <!-- <i class="icon glyphicon " ng-click="$parent.expendNode(node);node.state.expanded = !node.state.expanded;"
+               ng-style="{visibility:node.showAdd?'visible':'hidden'}"
+               ng-class="{'glyphicon-minus':node.state.expanded,'glyphicon-plus':!node.state.expanded}"></i> -->
+               <i class="icon glyphicon" 
+                ng-click="$parent.expendNode(node);"
+                ng-style="{visibility:node.showAdd?'visible':'hidden'}"
+                ng-class="{'glyphicon-minus':node.state.expanded,'glyphicon-plus':!node.state.expanded}"></i>
+            <i ng-class="node.icon" ng-if="node.icon"></i>
+            <span role="button" class="text" ng-class="{'highLight':node.state.highLight}"
+                ng-click="$parent.selectNode(node,host)" ng-attr-title="{{node.text}}">{{node.text|filterEllips:false}}
+                <span class="badge" ng-if="node.cnt >-1">{{node.cnt}}</span>
+            </span>
+        </div>
+        <tree-project node-list="node.nodes" host="host" config="config" ng-if="node.state.expanded"></tree-project>
+    </li>
+</ul>

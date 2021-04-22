@@ -1,0 +1,81 @@
+<!-- 同期对比 -->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close" ng-click="cancel()">
+        <span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">同期对比</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="item form-group">
+            <label class="control-label col-sm-2 col-xs-12 required">城市位置:
+            </label>
+            <div class="col-sm-10">
+                <select class="form-control" ng-model="search.city" ng-change="selectCity(search.city)"
+                        ng-options="o[0] as o[1] for o in cities">
+                    <option value="" selected>选择城市</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="item form-group">
+            <label class="control-label col-sm-2 col-xs-12 required">选择车场:
+            </label>
+            <div class="col-sm-10">
+                <select class="form-control" ng-model="selectedParklot"
+                        ng-options="o as o.parklotName for o in parklots">
+                    <option value="" selected>选择车场</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="item form-group">
+            <label class="control-label col-sm-2 col-xs-12 required">统计周期:
+            </label>
+            <div class="col-sm-4">
+                <input type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched"
+                       ng-model="search.startDay" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'MM-dd'})"
+                       aria-invalid="false">
+            </div>
+            <div class="col-sm-1" style="text-align: center">
+                <p style="line-height: 35px">至</p>
+            </div>
+            <div class="col-sm-4">
+                <input type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched"
+                       ng-model="search.endDay" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'MM-dd'})"
+                       aria-invalid="false">
+            </div>
+        </div>
+
+        <div class="item form-group">
+            <label class="control-label col-sm-2 col-xs-12 required">年份选择:
+            </label>
+            <div class="col-sm-4">
+                <input type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched"
+                       ng-model="search.startYear" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy',maxDate:'%y'})"
+                       aria-invalid="false">
+            </div>
+            <div class="col-sm-1" style="text-align: center">
+                <p style="line-height: 35px">至</p>
+            </div>
+            <div class="col-sm-4">
+                <input type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched"
+                       ng-model="search.endYear" onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy',maxDate:'%y'})"
+                       aria-invalid="false">
+            </div>
+        </div>
+
+        <div class="item from-group">
+            <div style="float: right">
+                <button type="button" class="btn btn-primary edit" ng-click="doSearch(search)">确定</button>
+                <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+

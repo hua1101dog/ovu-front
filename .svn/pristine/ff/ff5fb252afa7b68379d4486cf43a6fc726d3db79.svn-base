@@ -1,0 +1,121 @@
+<div ng-controller="checkQueryCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>签到查询</h3>
+            <!-- <div ng-if="search.isGroup">
+                <label class="control-label"><i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i><a role="button" ng-click="findPark(search,callback)">{{search.parkName?search.parkName:'请选择项目'}} </a></label>
+            </div> -->
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-md-3 col-sm-4 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">部门列表</div>
+                        <div class="x_content">
+                            <div class="alert" role="alert" ng-if="deptTree && deptTree.length==0">无部门信息</div>
+                            <!-- <tree-view node-list="deptTree" select-node="setDept" config="{'edit':false}"></tree-view> -->
+                            <tree-view-pro node-list="deptTree" host="search" host-text="'deptName'" host-key="'deptId'" callback="setDept" config="{'edit':false}"></tree-view-pro>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+                        <div class="x_panel">
+                                <div class="form-inline">
+                                    <!-- <div class="input-group">
+                                        <input type="text" class="form-control" readonly="readonly" placeholder="请选择部门" ng-model="search.PARENT_NAME" name="PARENT_NAME">
+                                        <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="findParentDept()"><i class='fa fa-search'></i></button>
+                                            </span>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label>日期</label>
+                                        <!-- <input type="datetime" class="form-control Wdate" placeholder="输入开始时间" style="display: inline-block;width: auto" ng-model="search.startTime"
+                                            onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"> -->
+                                            <input type="datetime" class="form-control Wdate checkQuery" id="d4331" placeholder="输入开始时间" style="display: inline-block;width: auto" ng-model="search.startTime"
+                                            onchange=""  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                                            <span>-</span>
+                                            <input type="datetime" class="form-control Wdate" isShowClear placeholder="输入结束时间" style="display: inline-block;width: auto" ng-model="search.endTime"
+                                            onchange=""  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.checkQuery').first().val()}&quot;,maxDate:&quot;#F{$dp.$D(\'d4331\',{d:31}) ||'%y-%M-%d'}&quot;})">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>员工名称</label>
+                                        <!-- <input type="text" class="form-control" placeholder="输入员工名称" ng-model="search.userName" /> -->
+                                        <input class="form-control" type="text" ng-model="search.user"
+                                        ng-class="{'waiting':loadingPerson}"
+                                        ng-change="changeExecPerson(search)"
+                                        uib-typeahead="o as o.name+' ('+o.deptName+')' for o in searchPerson($viewValue,null,search.deptId)"
+                                        typeahead-on-select="selectPerson($item,search)"
+                                        typeahead-loading="loadingPerson" typeahead-min-length=0 typeahead-wait-ms='300'
+                                        typeahead-editable="false"/>
+                                    </div>
+                                    <!-- <div class="form-group">
+                                        <label>出勤状况</label>
+                                        <select class="form-control" ng-model="search.itemId"  ng-options="o.itemId as o.name for o in fenXiangList">
+                                            <option value="">&#45;&#45;请选择&#45;&#45;</option>
+                                        </select>
+                                    </div>-->
+                                    <button class="btn btn-default" ng-click="find(1)">查询</button>
+                                    <button class="btn btn-default" ng-click="export()">导出</button>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">签到查询列表</div>
+                                <div class="panel-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" rowspan="2" style="width:20px;vertical-align: middle;"><span role="button" ng-click="checkAll(pageModel)">
+                                                        <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                                                <th rowspan="2" style="vertical-align:middle">员工姓名</th>
+                                                <th rowspan="2" style="vertical-align:middle">工作日期</th>
+                                                <th rowspan="2" style="vertical-align:middle">部门</th>
+                                                <th colspan="2">首次签到 </th>
+                                                <th colspan="2">末次签到</th>
+                                                <th rowspan="2" style="vertical-align:middle">签到明细</th>
+                                            </tr>
+                                            <tr>
+                                                <th>签到时间</th>
+                                                <th>签到地点</th>
+                                                <th>签到时间</th>
+                                                <th>签到地点</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                                                <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr>
+                                            <tr ng-repeat="item in pageModel.data">
+                                                <td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                                        class="glyphicon"></i></td>
+                                                <td>{{item.userName}}</td>
+                                                <td>{{item.dates}}</td>
+                                                <td>{{item.deptName}}</td>
+                                                <td>{{item.firstTime}}</td>
+                                                <td>{{item.firstAddress}}</td>
+                                                <td>{{item.lastTime}}</td>
+                                                <td>{{item.lastAddress}}</td>
+                                                <td>
+                                                    <a href='javascript:void(0)' class='btn btn-xs' ng-click="seeInfo(item)">查看详情</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="page-footer clearfix">
+                                        <ng-include src="'/common/pager.html'"></ng-include>
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-include src="'/common/modal.dept.html'"></ng-include>
+                </div>
+    </div>
+
+</div>
+
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

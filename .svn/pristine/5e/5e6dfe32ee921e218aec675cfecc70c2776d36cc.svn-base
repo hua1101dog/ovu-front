@@ -1,0 +1,53 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">装修申请服务详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <div class="bookingDetail">
+        <!-- <p>
+            <span>客户名称：</span>
+            <span>{{detail.companyName}}</span>
+        </p> -->
+        <p>
+            <span>服务单号</span>
+            <span>{{detail.orderSn}}</span>
+        </p>
+        <p>
+            <span>装修项目：</span>
+            <span>{{detail.decorationName}}</span>
+        </p>
+        <p>
+            <span>联系人：</span>
+            <span>{{detail.linkMan}}</span>
+        </p>
+        <p>
+            <span>联系方式：</span>
+            <span>{{detail.linkPhone}}</span>
+        </p>
+        <p>
+            <span>提交时间：</span>
+            <span>{{detail.submitTime}}</span>
+        </p>
+        <p>
+            <span>服务状态：</span>
+            <span>{{detail.applyStatus | propertyStatus2}}</span>
+        </p>
+        
+    </div>
+</div>
+<style>
+    .bookingDetail {
+        margin: 0 auto;
+    }
+
+    .bookingDetail p span:first-child {
+        display: inline-block;
+        width: 90px;
+        color: #999;
+    }
+
+    .bookingDetail p span:last-child {
+        display: inline-block;
+        color: #070707;
+    }
+</style>

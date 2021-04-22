@@ -1,0 +1,111 @@
+<div ng-controller="doorRecordCtl">
+	<div class="page-title">
+		<div class="title_left">
+			<h3>开门记录</h3>
+		</div>
+	</div>
+
+		<div class="x_panel">
+			<div class="form-inline">
+				<div class="form-group">
+					<label>开门人姓名</label>
+					<input type="text" class="form-control" ng-model="search.openerName" />
+				</div>
+				<div class="form-group">
+					<label>开门设备名称</label>
+					<input type="text" class="form-control" ng-model="search.openerEquipName" />
+				</div>
+				<div class="form-group">
+					<label>开门位置</label>
+					<input type="text" class="form-control" ng-model="search.openerPlace" />
+				</div>
+				<div class="form-group col-xs-8">
+					<label>房屋</label>
+		            <select class="form-control"  name="STAGE"  ng-model="STAGE" style="max-width:200px" ng-options="o as o.text for o in treeData">
+                    <option value="">--期--</option>
+	                </select>
+	                <select class="form-control mr15"  name="BUILD"  ng-model="BUILD" style="max-width:170px" ng-options="o as o.text for o in STAGE.nodes track by o.id" >
+	                    <option value="">--栋--</option>
+	                </select>
+	                <select class="form-control mr15"  name="UNIT"  ng-model="UNIT" style="max-width:170px" 
+	                	ng-options="o as o.text for o in BUILD.nodes track by o.id">
+	                    <option value="">--单元--</option>
+	                </select>
+	                <select class="form-control mr15"  name="FLOOR"  ng-model="FLOOR" style="max-width:170px" 
+	                	ng-options="o as o.text for o in UNIT.nodes track by o.id" ng-change="selectFloor()">
+	                    <option value="">--楼层--</option>
+                    </select>
+                    <select class="form-control mr15"  name="HOUSE" ng-model="HOUSE" style="max-width:170px" 
+		            	ng-options="o as o.houseName for o in HOUSES track by o.id" >
+		                <option value="">--房屋--</option>
+		            </select>
+		        </div>
+
+				<button class="btn btn-default pull-right" ng-click="find(1)">查询</button>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">开门记录列表
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped table-hover" style="margin-top: 10px;">
+					<thead>
+						<tr>
+							<th class="text-center">NO</th>
+							<th nowrap="nowrap">开门截图</th>
+							<th nowrap="nowrap">开门人姓名</th>
+							<th nowrap="nowrap">开门设备名称</th>
+							<th nowrap="nowrap">开门位置</th>
+							<th nowrap="nowrap">开门时间</th>
+							<th nowrap="nowrap">开门方式</th>
+							<th nowrap="nowrap">开门人类型</th>
+							<th nowrap="nowrap">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+							<td colspan="100" class="text-center">暂无记录</td>
+						</tr>
+						<tr ng-repeat="item in pageModel.data">
+							<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+							<td>
+								<div class="photoWraper" ng-click="showPhoto()">
+									<img onerror="javascript:this.src='/res/img/detail.png';" ng-src="{{processImgUrl(item.imagePaths)}}">
+								</div>
+							</td>
+							<td>{{item.openerName}}</td>
+							<td>{{item.openerEquipName}}</td>
+							<td>{{item.openerPlace}}</td>
+							<td>{{item.openerOpenTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+							<td>{{item.openerOpenType}}</td>
+							<td>{{item.openerType}}</td>
+							<th style="vertical-align: middle;">
+								<a href='javascript:void(0)' ng-click='playVideo(item.equipmentId)' class='btn btn-xs'>
+									<span class='fa fa-camera'></span>视频监控</a>
+								<!-- 需求变更，查看图片变成查看点播 -->
+								<!-- <a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><i class='fa fa-search'></i>查看图片</a> -->
+								<!-- <a href='javascript:void(0)' ng-click='playVideo(item.equipmentId,"","playback")' class='btn btn-xs'><i class='fa fa-search'></i>查看点播</a> -->
+								<a href='javascript:void(0)' ng-click='showPlayback(item)' class='btn btn-xs'>
+									<i class='fa fa-search'></i>查看点播</a>
+
+							</th>
+						</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+					<ng-include src="'/common/pager.html'"></ng-include>
+				</div>
+			</div>
+		</div>
+
+
+</div>
+<style>
+	.form-group{
+		margin: 5px 0;
+	}
+	table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

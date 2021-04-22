@@ -1,0 +1,841 @@
+    <!-- 
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+     -->
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .topbar {
+            position: absolute;
+            top: 2%;
+            left: 2%;
+        }
+        
+        .topbar button {
+            margin-left: 5px;
+        }
+        
+        #table-container {
+            
+            height: 300px;
+            overflow: auto;
+        }
+        #table-container table{
+        	min-width: 300px;
+        }
+        #table-container table th,
+        #table-container table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        .viewmode-group.btn-group-vertical {
+            position: absolute;
+            left: 2%;
+            bottom: 20%;
+        }
+        /*树  */
+        
+        .map2D {
+           min-height: 860px;
+        }
+        
+        .map2D>div{
+        	min-height: 860px;
+        }
+        
+        .map2D .panel-body {
+            height: 450px;
+        }
+    </style>
+
+    <style>
+        .box{ animation: change 1s  ease-in  infinite ; font-size: 6px; color:#f00; font-weight: bold}
+        @keyframes change {
+            0%{ text-shadow: 0 0 4px #f00}
+            50%{ text-shadow: 0 0 40px #f00}
+            100%{ text-shadow: 0 0 4px #f00}
+        }
+    </style>
+
+    <div id="angularId" class="map2D" ng-controller="validateCtrl">
+		<div class="col-md-9 col-sm-9 col-xs-9">
+			<div id="fengMap"></div>
+	        <!-- 顶部工具条 -->
+	        <div class="topbar">
+	            <button class="btn btn-default pull-left" data-id="170000">视频监控</button>
+	            <!-- 
+	            <button class="btn btn-default pull-left" data-id="150000">门禁管理</button>
+	            <button class="btn btn-default pull-left" data-id="160000">防盗报警</button>
+	            <button class="btn btn-default pull-left" data-id="180000">电子巡更</button>
+	             -->
+			<div class="type pull-left">
+				<span class="type-1">已租赁</span>
+				<span class="type-2">未租赁</span>
+				<span class="type-3">已定</span>
+			</div>
+			
+			<style>
+				.topbar .type {
+					margin-left: 20px;
+					margin-top: 7px;
+				}
+
+				.topbar .type>span {
+					margin: 10px 10px;
+				}
+
+				.topbar .type>span::before {
+					content: '';
+					display: inline-block;
+					width: 20px;
+					height: 20px;
+					vertical-align: middle;
+					margin-right: 10px;
+				}
+
+				.topbar .type>span.type-1::before {
+					background-color: red;
+				}
+
+				.topbar .type>span.type-2::before {
+					background-color: yellow;
+				}
+
+				.topbar .type>span.type-3::before {
+					background-color: white;
+				}
+			</style>	             
+	        </div>
+	        <!-- 视角按钮组  -->
+	        <div class="viewmode-group btn-group-vertical" data-toggle="buttons">
+	            <button class="btn btn-default">2D</button>
+	            <button class="btn btn-default btn-primary">3D</button>
+	        </div>
+		</div>
+        
+		<div class="col-md-3 col-sm-3 col-xs-3">
+			<!--tree  -->
+	        <div class="panel panel-default">
+	            <div class="panel-heading">
+	                <div class="panel-title">
+	                    <h4>设备列表</h4>
+	                </div>
+	            </div>
+	            
+	            <!--
+	            <table class="table table-hover" id="table">
+	                <thead>
+	                    <tr>
+	                        <th></th>
+	                        <th>设备ID</th>
+	                        <th>模型id</th>  
+	                        <th>模型名称</th>
+	                        <th>楼层</th>
+	                        <!--<th>x</th>
+	                        <th>y</th>
+	                        <th>z</th>
+	                    </tr>
+	                </thead>
+	                <tbody id="table-body">
+	                </tbody>
+	            </table>	            
+	            -->
+	             
+	            <div class="panel-body" style="overflow: auto;">
+	                <div id="tree-house">
+	                    <div ng-if="!equipTypeTree || equipTypeTree === 0">
+	                                                                                      暂无数据 
+	                    </div>
+	                    <tree-equip node-list="equipTypeTree"></tree-equip>
+	                </div>
+	            </div>
+	             
+	        </div>
+	        
+	        <!--搜索出来的数据显示在table-->
+	        <div id="table-container" class="panel panel-default">
+	            <!-- 
+	            <div class="title">
+	                <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+	            </div>
+	             -->
+	            <div class="panel-heading">
+	                <div class="panel-title">
+	                    <h4>事件列表</h4>
+	                </div>
+	            </div>	            
+	            <table class="table table-hover" id="table1">
+	                <thead>
+	                    <tr>
+	                        <th></th>
+	                        <th>事件ID</th>
+	                        <th>事件名称</th>
+	                        <!--
+	                        <th>操作</th>
+	                        <th>楼层id</th>
+	                        <th>x</th>
+	                        <th>y</th>
+	                        <th>z</th>
+	                         -->
+	                    </tr>
+	                </thead>
+	                <tbody id="table-body1">
+	                </tbody>
+	            </table>
+	        </div>
+		</div>
+	        
+
+    </div>
+      
+    <!--  
+    <script src="lib/jquery-2.1.4.min.js"></script>
+     -->  
+    <script src="../lib/fengmap.min.js"></script>
+    <!-- 
+    <script src="lib/bootstrap.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+     -->
+    <script>
+       
+        var app = angular.module('angularApp');
+        app.controller('validateCtrl', ['$scope', '$http', '$rootScope','$interval', function($scope, $http, $rootScope,$interval) {
+
+            var app = angular.module('myApp', []);
+            document.title = '2D/3D切换V' + fengmap.VERSION;
+            
+            //定义全局map变量
+            var map;
+            var fmapID = 'ovuhlw';
+            var groupLayer;
+            var searchAnalyser;
+            var defaultGroupID = 1; //默认显示楼层
+            var res  = [];
+            var res1 = [];
+            var groupControl;
+    		var polygonLayer = null;          
+    		
+    		var newThindId = "";
+            	
+                map = new fengmap.FMMap({
+                    //渲染dom
+                    container: document.getElementById('fengMap'),
+                    //地图数据位置
+                    mapServerURL: '../data/' + fmapID,
+                    //主题数据位置
+                    mapThemeURL: '../data/theme/',
+                    //设置主题
+                    defaultThemeName: '2001',
+                    // 默认比例尺级别设置为20级	
+                    defaultMapScaleLevel: 22,
+                    //开启2维，3维切换的动画显示
+                    viewModeAnimateMode: true,
+                    //开发者申请应用下web服务的key
+                    key: '7e7845016c9c7fb97e603a8a35e8697e',
+                    //开发者申请应用名称
+                    appName: 'OVU',
+                });
+                
+                $scope.config={edit:false,sort:false};
+
+                map.openMapById(fmapID);
+                var oTable_container = document.querySelector('#table-container');
+                var aBtn = document.querySelectorAll('.btn');
+                aBtn[1].onclick = function() {
+                    map.viewMode = fengmap.FMViewMode.MODE_2D;
+                    this.classList.add('btn-primary');
+                    aBtn[2].classList.remove('btn-primary');
+                };
+
+                aBtn[2].onclick = function() {
+                    map.viewMode = fengmap.FMViewMode.MODE_3D;
+                    this.classList.add('btn-primary');
+                    aBtn[1].classList.remove('btn-primary');
+                };
+
+
+                aBtn[0].onclick = function() {
+                    removeMarkers();
+                    var id = this.attributes["data-id"].nodeValue;
+                    removeAllTop();
+                    findTypeId("1");
+                    remov_class();
+                    this.classList.add('btn-primary');
+                };
+                
+                
+    			function addCircleMaker(gid,x,y) {
+    				debugger;
+    				var group = map.getFMGroup(gid);
+    				
+    				if (group == undefined) return;
+    				
+    				//创建PolygonMarkerLayer
+    				if (!polygonLayer) {
+    					polygonLayer = new fengmap.FMPolygonMarkerLayer();
+    					group.addLayer(polygonLayer);
+    				} else {
+    					polygonLayer.removeAll();
+    					group.addLayer(polygonLayer);
+    				}
+    				var circleMaker = new fengmap.FMPolygonMarker({
+    					//设置颜色
+    					color: '#3CF9DF',
+    					//设置透明度
+    					alpha: .3,
+    					//设置边框线的宽度
+    					lineWidth: 3,
+    					//设置高度
+    					height: 6,
+    					points: {
+    						//设置为圆形
+    						type: 'circle',
+    						//设置此形状的中心坐标
+    						center: {
+    							x: x,
+    							y: y
+    						},
+    						//设置半径
+    						radius: 3,
+    						//设置段数，默认为40段
+    						segments: 40,
+    					}
+    				});
+    				polygonLayer.addMarker(circleMaker);
+    			};
+                
+                $scope.selectNode= function (node) {
+                    if($scope.curNode != node){
+                        $scope.curNode && $scope.curNode.state &&($scope.curNode.state.selected = false);
+                    }
+                    node.state = node.state||{};
+                    node.state.selected = !node.state.selected;
+                    if(node.state.selected){
+                        $scope.curNode = node;
+                        removeAllTop();
+                        
+                        if ($scope.curNode.is_equip != undefined && $scope.curNode.is_equip == true && $scope.curNode.map_lat != undefined && $scope.curNode.map_lat !=""   && $scope.curNode.map_lng != undefined && $scope.curNode.map_lng != "") {
+                        	
+            				if (polygonLayer) {
+            					polygonLayer.removeAll();
+            				} 
+                        	
+                        	console.info($scope.curNode.map_lat);
+                        	console.info($scope.curNode.map_lng);
+                        	
+                        var coord = {
+                                //设置弹框的x轴
+                                x: parseFloat($scope.curNode.map_lat),
+                                //设置弹框的y轴
+                                y: parseFloat($scope.curNode.map_lng),
+                                
+                                z: parseFloat(1),
+                                
+                                groupID: parseInt($scope.curNode.ground_num)
+                            };
+                            moveTo(coord); //定位跳转
+                        
+                        //map.storeSelect(model, true, false);
+
+                        //debugger;   
+
+                        
+                        
+                        //信息框控件大小配置
+                        var ctlOpt = new fengmap.controlOptions({
+                            mapCoord: {
+                                //设置弹框的x轴
+                                x: parseFloat($scope.curNode.map_lat),
+                                //设置弹框的y轴
+                                y: parseFloat($scope.curNode.map_lng),
+
+                                //z: parseFloat(1),
+                                //设置弹框位于的楼层
+                                groupID: parseInt($scope.curNode.ground_num)
+                            },
+                            //设置弹框的宽度
+                            width: 200,
+                            //设置弹框的高度
+                            height: 100,
+                            marginTop: 0,
+                            init2D:false,
+                            //设置弹框的内容
+                            content: $scope.curNode.text //'<a target="_bank" href="#">'+name+'</a>' 
+                        });
+                        
+                        //addCircleMaker(parseInt($scope.curNode.ground_num),parseFloat($scope.curNode.map_lat),parseFloat($scope.curNode.map_lat));
+                        //添加弹框到地图上
+                        var popMarker = new fengmap.FMPopInfoWindow(map, ctlOpt);
+                    }
+                        
+                    }else{
+                        delete $scope.curNode;
+                    }
+                    
+                    
+                }
+                
+                    
+                //應急事件的處理
+                function showThingByNew(model){
+                	if(newThindId==""){
+                		newThindId = model.workunit_id;
+                	}else if(newThindId != model.workunit_id){
+						
+						if(isNaN(parseFloat(model.map_lat))||isNaN(parseFloat(model.map_lng))||isNaN(parseInt(model.ground_num))) return;
+						
+                        removeAllTop();
+						var coord = {
+							x : parseFloat(model.map_lat),
+							y : parseFloat(model.map_lng),
+							z : 0,
+							groupID : parseInt(model.ground_num)
+						};
+						moveTo(coord); //定位跳转
+
+						map
+								.storeSelect(
+										model,
+										true,
+										false);
+
+						//debugger;   
+                        addCircleMaker(parseInt(model.ground_num),parseFloat(model.map_lat),parseFloat(model.map_lng));
+						//信息框控件大小配置
+						var ctlOpt = new fengmap.controlOptions(
+								{
+									mapCoord : {
+										//设置弹框的x轴
+										x : parseFloat(model.map_lat),
+										//设置弹框的y轴
+										y : parseFloat(model.map_lng),
+
+										z : parseFloat(0),
+										//设置弹框位于的楼层
+										groupID : parseInt(model.ground_num)
+									},
+									//设置弹框的宽度
+									width : 200,
+									//设置弹框的高度
+									height : 100,
+									marginTop : 10,
+									//设置弹框的内容
+									content : '<a class="box">異常事件</a><br>'+model.workunit_name
+								});
+
+						var popMarker = new fengmap.FMPopInfoWindow(
+								map,
+								ctlOpt);
+                		
+                		newThindId = model.workunit_id;
+                	}
+                	
+                }
+                
+                    
+                function fingthing(){
+                	//debugger;
+                    $http.get("/ovu-pcos/pcos/equipment/listexceptions.do?parkId=af98a32c9b4d490297cadc2d85faf797")
+                    .success(function(results){
+                    	var models = results;
+                    	     res1  = results;
+                             //debugger;
+                    	     if (models != null && models.length > 0) {
+                                 filldata1(models);
+                                 oTable_container.style.display = 'block';
+                             } else {
+                                 oTable_container.style.display = 'none';
+                             }
+                    })
+                    .error(function(){
+                     alert("出错")
+                    });
+                	
+                }
+                
+                fingthing();
+                //定时器代码
+                /*
+				var timer = $interval(function () {
+					fingthing();
+				}, 3000);
+				timer.then(success, error, notify);
+
+				function success() {
+					console.log("done");
+				}
+
+				function error() {
+					console.log("error");
+				}
+
+				function notify() {
+					console.log("每次都更新");
+				}
+				*/
+
+                function findTypeId(typeId) {
+                    $http.get("/ovu-pcos/pcos/equipment/list2dequipment.do?parkId=af98a32c9b4d490297cadc2d85faf797")
+                    .success(function(results){
+                    	//debugger;
+                    	$scope.equipTypeTree = results;
+                    	//debugger;
+                    	parseJson(results);
+                    })
+                    .error(function(){
+                     alert("出错")
+                    });
+                }
+
+                function moveTo(coord) {
+                    map.visibleGroupIDs = [coord.groupID];
+                    map.focusGroupID = coord.groupID;
+                    map.moveTo(coord);
+                };
+
+					function parseJson(results) {
+							for (var i in results) {
+								i = parseInt(i);
+								var model = results[i];
+
+								if (model.is_equip != undefined && model.is_equip == true && model.map_lat != undefined && model.map_lat !=""   && model.map_lng != undefined && model.map_lng != "") {
+									    //
+									    console.info(model.pname);
+									    console.info(model.text);
+			                        	console.info(model.map_lat);
+			                        	console.info(model.map_lng);
+									    //debugger;
+										addMarkers(model.ground_num,
+												   model.map_lat,
+												   model.map_lng,
+												   model.pname,
+												   model.text);
+								}
+								
+								if(model.nodes != undefined){
+									parseJson(model.nodes);
+								}		
+										
+							}
+						}
+
+												function filldata1(data) {
+                                                    //debugger;
+													var oTable = document
+															.querySelector('#table1');
+													var oTableBody = document
+															.querySelector('#table-body1');
+
+													var aTr = oTable
+															.getElementsByTagName('tr');
+													oTableBody.innerHTML = '';
+													var tr = '';
+													for (var i=0;i<data.length;i++) {
+														i = parseInt(i);
+														var model = data[i];
+
+														if (i % 2 == 0) {
+															tr += '<tr class="active"><td>'
+																	+ (i + 1)
+																	+ '</td><td>'
+																	+ model.workunit_id
+																	+ '</td><td>'
+																	+ (!model.workunit_name ? "空"
+																			: model.workunit_name)
+																	+ '</td></tr>';
+														} else {
+															tr += '<tr class="bg-success"><td>'
+																	+ (i + 1)
+																	+ '</td><td>'
+																	+ model.workunit_id
+																	+ '</td><td>'
+																	+ (!model.workunit_name ? "空"
+																			: model.workunit_name)
+																	+ '</td></tr>';
+														}
+
+													}
+													oTableBody.innerHTML = tr;
+
+													for (var i = 0; i < aTr.length; i++) {
+														(function(i) {
+															aTr[i].onclick = function() {
+																var index = i;
+																if (index <= 0)
+																	return;
+
+																var model = res1[index - 1];
+																
+																if(isNaN(parseFloat(model.map_lat))||isNaN(parseFloat(model.map_lng))||isNaN(parseInt(model.ground_num))) return;
+																
+                                                                removeAllTop();
+																var coord = {
+																	x : parseFloat(model.map_lat),
+																	y : parseFloat(model.map_lng),
+																	z : 0,
+																	groupID : parseInt(model.ground_num)
+																};
+																moveTo(coord); //定位跳转
+
+																map
+																		.storeSelect(
+																				model,
+																				true,
+																				false);
+
+																//debugger;   
+                                                                addCircleMaker(parseInt(model.ground_num),parseFloat(model.map_lat),parseFloat(model.map_lng));
+																//信息框控件大小配置
+																var ctlOpt = new fengmap.controlOptions(
+																		{
+																			mapCoord : {
+																				//设置弹框的x轴
+																				x : parseFloat(model.map_lat),
+																				//设置弹框的y轴
+																				y : parseFloat(model.map_lng),
+
+																				z : parseFloat(0),
+																				//设置弹框位于的楼层
+																				groupID : parseInt(model.ground_num)
+																			},
+																			//设置弹框的宽度
+																			width : 200,
+																			//设置弹框的高度
+																			height : 100,
+																			marginTop : 10,
+																			//设置弹框的内容
+																			content : '<a class="box">異常事件</a><br>'+model.workunit_name
+																		//'<a target="_bank" href="#">'+name+'</a>' 
+																		});
+
+																//添加弹框到地图上
+																var popMarker = new fengmap.FMPopInfoWindow(
+																		map,
+																		ctlOpt);
+
+																//debugger;
+															}
+														})(i);
+													}
+
+												}
+
+												function removeAllTop() {
+													var a = map.mapView.container_;
+													var b = a.children;
+													var len = b.length;
+													if (len <= 3)
+														return;
+													for (var i = 0; i < len - 3; i++) {
+														a.removeChild(b[2])
+													}
+												}
+												
+
+
+												//添加Marker,额外添加一个参数图片类型
+												function addMarkers(gid, X, Y,
+														imageType,name) {
+
+													debugger;
+													var group = map
+															.getFMGroup(gid);
+                                                    if(group!=undefined){
+                                                    	
+                                                    debugger;
+													//返回当前层中第一个imageMarkerLayer,如果没有，则自动创建
+													var layer = group
+															.getOrCreateLayer('imageMarker');
+
+													var imageUrl = '';
+
+													switch (imageType) {
+													case "显示屏": //hollow. u needn't change this color. because i will make a hole on the model in the final version.
+														imageUrl = '../image/xsp.png';
+														break;
+													case "机箱": //closed area
+														imageUrl = '../image/jx.png';
+														break;
+													case "摄像头": //empty shop
+														imageUrl = '../image/sxt.png';
+														break;
+													case "4": //empty shop
+														imageUrl = '../image/jkp.png';
+														break;
+													case "5": //empty shop
+														imageUrl = '../image/yp.png';
+														break;
+													case "6": //empty shop
+														imageUrl = '../image/dy.png';
+														break;
+													case "传感器": //empty shop
+													    if(name.indexOf("温湿")>-1){
+															imageUrl = '../image/wsd.png';													    	
+													    }else if(name.indexOf("红外")>-1){
+															imageUrl = '../image/hwx.png';													    	
+													    }else{
+															imageUrl = '../image/mc.png';													    	
+													    }
+														break;
+													case "8": //empty shop
+														imageUrl = '../image/hwx.png';
+														break;
+													default:
+														imageUrl = '../image/mc.png';
+														break;
+													}
+
+													var im = new fengmap.FMImageMarker(
+															{
+																//id:1,
+																x : X,
+																y : Y,
+																z : 1,
+																url : imageUrl,
+																size : 32,
+																callback : function() {
+																	im
+																			.alwaysShow();
+																}
+															});
+													layer.addMarker(im);
+                                                    }
+												};
+
+												function removeMarkers() {
+													//获取多楼层Marker
+													map
+															.callAllLayersByAlias(
+																	'imageMarker',
+																	function(
+																			layer) {
+																		layer
+																				.removeAll();
+																	});
+												}
+												;
+
+												//var oTitle = document.querySelectorAll('.title')[0];
+												//oTitle.onclick = function() {
+												//    oTable_container.style.display = 'none';
+												//};
+
+												function remov_class() {
+													for (var i = 0; i < 4; i++) {
+														aBtn[i].classList
+																.remove('btn-primary');
+													}
+
+												}
+
+												
+		
+												
+												var ctlOpt = new fengmap.controlOptions(
+														{
+															//默认在右下角
+															position : fengmap.controlPositon.RIGHT_BOTTOM,
+															//默认显示楼层的个数
+															showBtnCount : 2,
+															//位置x,y的偏移量
+															offset : {
+																x : 20,
+																y : 150
+															}
+														});
+
+												
+												//点击事件
+												map.on('mapClickNode',function(event) {
+													var model = event;
+													//var d;
+													switch (event.nodeType) {
+													case fengmap.FMNodeType.IMAGE_MARKER:
+
+														//判断是否为摄像头
+														debugger;
+														console.info(model);
+														
+														if(model.url.indexOf('sxt.png')>-1){
+															$sope.showVideo = true;
+														}
+														
+														break;
+
+							
+													}
+												});												
+												
+												map
+														.on(
+																'loadComplete',
+																function() {
+																	//创建楼层(按钮型)，创建时请在地图加载后(loadComplete回调)创建。
+																	//不带单/双层楼层控制按钮,初始时只有1个按钮,点击后可弹出其他楼层按钮
+																	groupControl = new fengmap.buttonGroupsControl(
+																			map,
+																			ctlOpt);
+ 
+																	//楼层控件是否可点击，默认为true
+																	groupControl.enableExpand = true;
+                                                                    //debugger;
+																	//保持多层和楼层切换一致
+																	
+																	debugger;
+    				                                                if (polygonLayer) {
+    					                                                   polygonLayer.removeAll();
+    				                                                }	
+																	
+    																var request = {
+    																		types: ['model'],
+    																		typeID: ['200200']
+    																};
+
+    																fengmap.MapUtil.search(map, 1, request, function (result) {
+    																	debugger;
+
+    																	for (var i = 0; i < result.length; i++) {
+    																		var model = result[i];
+
+    																		console.info(model.FID);
+    																		console.info(model.name);
+    																		console.info(model.typeID);
+
+    																		if (i % 3 == 1) {
+    																			model.setColor("red")
+    																		}
+
+    																		if (i % 3 == 2) {
+    																			model.setColor("yellow")
+    																		}
+
+    																		if (i % 3 == 0) {
+    																			model.setColor("white");
+    																		}
+
+    																	}
+
+    																	//var models = result;    
+    																});
+    																
+    																
+   																
+																	
+																	groupControl
+																			.onChange(function(
+																					groups,
+																					allLayer) {
+																				//groups 表示当前要切换的楼层ID数组,
+																				//allLayer表示当前楼层是单层状态还是多层状态。
+																				removeAllTop();
+																				
+			    											    				if (polygonLayer) {
+			    											    					polygonLayer.removeAll();
+			    											    				} 
+																			});
+																});
+
+											} ]);
+
+					angular.bootstrap(document.getElementById("angularId"),
+							[ 'angularApp' ]);
+				</script>

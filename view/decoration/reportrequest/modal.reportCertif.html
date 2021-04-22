@@ -1,0 +1,57 @@
+<div class="modal-header">
+    <button class="close" type="button" ng-click="$ctrl.cancel()">×</button>
+    <h5 class="modal-title" id="modal-title">查看报装证件</h5>
+</div>
+<div class="modal-body" id="modal-body">
+    <h5 ng-if="!$ctrl.certifList.length" class="text-center" style="margin: 50px;">
+        该报装请求没有报装证件
+    </h5>
+    <div class="row" ng-if="$ctrl.certifList.length">
+        <div class="col-xs-4 col-lg-4">
+            <div class="pic-list list-group">
+                <a href="javascript:;" class="list-group-item btn-link" ng-class="{'active':item.active}" ng-repeat="item in $ctrl.certifList" ng-click="$ctrl.clickPicTitle(item, $ctrl.certifList)">
+                    {{item[0]}}
+                </a>
+            </div>
+        </div>
+        <div class="col-xs-8 col-lg-8" style="border-left: 1px solid #bbb;">
+            <div style="height: 400px;line-height:400px;">
+                <!--<img style="max-height: 100%;max-width: 100%" alt="" ng-click="$ctrl.showPhoto()" ng-src="{{$ctrl.imgUrl}}" onerror="javascript:this.src='/res/img/detail.png';" />-->
+                
+                <!--方案变更，展示多张图片-->
+                <div class=" fullImage">
+                	<img style="max-height: 100%;max-width: 100%;position: relative;" alt="" ng-click="$ctrl.showPhoto()" ng-src="{{$ctrl.imgUrlsActive}}" onerror="javascript:this.src='/res/img/detail.png';" />
+                </div>
+                <hr class="hLine"/>
+                <div class="photoWraper myPhotoWraper" ng-repeat="item in $ctrl.imgUrls track by $index">
+                	<img style="max-height: 100%;max-width: 100%" alt="" ng-click="$ctrl.switchImage(this)" ng-src="{{item}}" onerror="javascript:this.src='/res/img/detail.png';" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+	.fullImage {
+		width:360px;
+		height:320px;
+		margin-bottom: 10px;
+		line-height: 0px;
+	}
+	.hLine {
+		width:90%;
+		border: 0.5px solid #bbbbbb;
+	}
+	.fullImage img{
+		line-height: 0px;
+	}
+	.myPhotoWraper {
+		width:50px !important;
+		height:50px !important;
+		line-height:0px;
+		margin-bottom:5px ;
+		margin-top: 10px;
+		border: 1px solid #dddddd;
+	}
+</style>
+

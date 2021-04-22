@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="productDatabase/style/css/custom.css">
+    <link rel="stylesheet" href="propertyCharges/propertyCharge.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="ownerHouseChargeSetCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>房屋信息管理</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">楼栋列表
+                        <!-- <a href="javaScript:void(0)" ng-click='addTopNode()' class='btn btn-xs pull-right'><span
+                                class='fa fa-plus'></span>分期</a> -->
+                    </div>
+                    <div class="x_content" style="z-index: 1">
+                        <div class="alert" role="alert" ng-show="oriList.length==0">无楼栋信息</div>
+                        <div id="house_tree">
+                            <tree-view node-list="treeData" config="config"></tree-view>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+                <div class="ownerHouseChargeSet">
+                    <div class="x_panel">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>单元号</label>
+                                <input type="text" class="form-control" ng-model="search.unitNo" placeholder="单元号如00" />
+                            </div>
+                            <div class="form-group">
+                                <label>楼层号</label>
+                                <input type="text" class="form-control" ng-model="search.groundNo" placeholder="楼层号如000" />
+                            </div>
+                            <div class="form-group">
+                                <label>空间编码</label>
+                                <input type="text" class="form-control" ng-model="search.houseNo" placeholder="空间编码" />
+                            </div>
+                            <div class="form-group">
+                                <label>空间名称</label>
+                                <input type="text" class="form-control" ng-model="search.houseName" placeholder="空间名称" />
+                            </div>
+                        </div>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>户规划用途</label>
+                                <select style="width: 180px;" class="form-control" ng-model="search.housePlanPurposes">
+                                    <option value="">-请选择-</option>
+                                    <option value="1">办公</option>
+                                    <option value="2">商业</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>空间类别</label>
+                                <select style="width: 180px;" class="form-control" ng-model="search.rmCats" ng-change="changeHouseType()"
+                                    ng-options="o.id as o.dicItem for o in houseType" style="width: 140px;">
+                                    <option value="">-请选择-</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>空间来源</label>
+                                <select style="width: 180px;" class="form-control" ng-model="search.isBase">
+                                    <option value="">-请选择-</option>
+                                    <option value="1">基础空间</option>
+                                    <option value="0">拆合空间</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-default" ng-click="find()">查询</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="color: #999999;">
+                            房屋信息列表
+                            <button class="btn btn-primary pull-right" ng-click="addHouse()">批量设置房屋收费项目</button>
+                        </div>
+                        <div class="panel-body" style="overflow: auto">
+                            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                                <thead class="title">
+                                    <tr>
+                                        <th class="text-center">No.</th>
+                                        <th style="text-align:center">期/楼栋/单元/楼层</th>
+                                        <th style="text-align:center">空间名称</th>
+                                        <th style="text-align:center">空间编码</th>
+                                        <th style="text-align:center">户规划用途</th>
+                                        <th style="text-align:center">空间类别</th>
+                                        <th style="text-align:center">空间状态</th>
+                                        <th style="text-align:center">空间面积(m<sup>2</sup>)</th>
+                                        <th style="text-align:center">空间来源</th>
+                                        <th style="text-align:center">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="item in pageModel.data">
+                                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                        <td class="text-center">{{item.stageName}}/{{item.buildName}}/{{item.unitNo+'单元'+item.groundNo+'层'}}</td>
+                                        <td class="text-center">{{item.houseName}}</td>
+                                        <td class="text-center">{{item.houseNo}}</td>
+                                        <td class="text-center">{{item.housePlanPurposes|housePlanPurposesType}}</td>
+                                        <td class="text-center">{{item.rmCat|rmCatType}}</td>
+                                        <td class="text-center">{{item.spaceStatus|spaceType}}</td>
+                                        <td class="text-center">{{item.area}}</td>
+                                        <td class="text-center">
+                                            <span ng-show="item.isBase==null || item.isBase==1">基础空间</span>
+                                            <span ng-show="item.isBase==0">拆合空间</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <a href="javascript:void(0)" ng-click="editHouse(item)" class="btn btn-xs"
+                                                style="border: 1px solid #5692ea; color: #5692ea;">设置房屋收费项目</a>
+                                            <a href="javascript:void(0)" ng-click="houseCList(item)" class="btn btn-xs"
+                                                style="border: 1px solid #5692ea; color: #5692ea;">收费项目</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="page-footer clearfix">
+                                <ng-include src="'/common/pager.html'"></ng-include>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

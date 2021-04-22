@@ -1,0 +1,122 @@
+<div class="modal-header" >
+    <button type="button" class="close" ng-click="$dismiss()">×</button>
+    <h4>投诉详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" id="coplainDetail">
+
+    <form name="form" style="padding: 0 20px" novalidate>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label ">投诉人姓名</label>
+                    <div class="col-xs-9">
+                        <div class="mt7">
+                            {{item.personName}}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label ">投诉人电话</label>
+                    <div class="col-xs-9">
+                        <div class="mt7">
+                            {{item.personPhone}}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label ">投诉日期</label>
+                    <div class="col-xs-9">
+                        <div class="mt7">
+                            {{item.createTime}}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label ">投诉内容</label>
+                    <div class="col-xs-9">
+                        <div class="mt7">
+                            {{item.content}}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+          <div class="btn-group" >
+            <label class="btn btn-primary " ng-class="{'replyed':item.status==1}">
+                已回复
+            </label>
+            <label class="btn btn-primary" ng-class="{'replyed':item.status==0}">
+                未回复
+            </label>
+           
+          </div>
+          <ul class="layui-timeline" style="margin-top: 10px;" ng-if="item.replyList && item.replyList.length">
+            <li class="layui-timeline-item" ng-repeat="rep in item.replyList">
+                <i class="layui-icon layui-timeline-axis"></i>
+              <div class="layui-timeline-content layui-text">
+                <div class="layui-timeline-title inline_block">{{rep.replyTime}} </div>
+                <div class="x_panel inline_block " style="width: 500px;vertical-align: text-top;margin-left: 20px;border-radius: 5px;background: #F2F2F2;">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label ">回复人</label>
+                        <div class="col-xs-8">
+                            <div class="mt7">
+                                {{rep.replyPersonName}}（{{rep.replyPersonDept}}）
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label ">回复内容</label>
+                        <div class="col-xs-8">
+                            <div class="mt7">
+                                {{rep.replyContent}}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </li>
+          
+          </ul>
+          <a href="javascript:void(0)" class="btn-link" style="text-decoration: underline;margin-top: 15px;display: block;" ng-click="showContent()" ng-if="hasPower('回复') && item.status==1">点击此处再次回复</a>
+          <a href="javascript:void(0)" class="btn-link" style="text-decoration: underline;margin-top: 15px;display: block;" ng-click="showContent()" ng-if="hasPower('回复') && item.status==0" >点击此处进行回复</a>
+        <div class="form-group" style="margin-top: 20px" ng-if="showContentBox">
+            <label class="col-xs-2 control-label required">回复内容</label>
+            <div class="col-xs-9" style="padding-left: 0px">
+                <textarea type="text" cols="6" required style="resize:none" class="form-control" maxlength="200"
+                    ng-model="item.replyContent" placeholder="最多可输入200字"></textarea>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" style="margin: 0 10px" ng-click="save(form,item)" ng-if="hasPower('回复')">回复</button>
+    <button class="btn btn-warning" style="margin: 0 10px" ng-click="cancel()">取消</button>
+</div>
+<style>
+   #coplainDetail .btn-primary{
+    
+     background-color: rgba(215, 215, 215, 1) ; 
+     border-color:rgba(215, 215, 215, 1) ;
+     cursor: auto;
+     color: black;
+    }
+    #coplainDetail .replyed{
+     background-color: rgba(0, 204, 102, 1);
+     border-color: rgba(0, 204, 102, 1);
+    
+    }
+    #coplainDetail .unreply{
+        background-color: rgba(255, 0, 0, 1) !important;
+        border-color:rgba(255, 0, 0, 1) ;
+    }
+    .inline_block{
+        display: inline-block;
+    }
+    #coplainDetail .layui-timeline-item:before{
+        left: 4px;
+    }
+</style>

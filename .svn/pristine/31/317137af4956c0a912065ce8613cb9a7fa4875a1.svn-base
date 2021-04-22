@@ -1,0 +1,159 @@
+<!--巡查点管理的新增修改弹出框  -->
+<div class="photoDiv" ng-if="curPic.on">
+		<img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute" ng-click="curPic.on = false"></img>
+		<img class="photo" ng-src="{{curPic.url}}" image-load="wheel()"></img>
+		<img style="top:30px;right:20px;position:absolute;width:160px" ng-src="{{curPic.url}}"></img>
+		<img src="/res/img/navigate-right.png" class="hand"  style="top:50%;right:10%;position:absolute;width:45px" ng-click="next()"></img>
+		<img src="/res/img/navigate-left.png" class="hand" style="top:50%;left:10%;position:absolute;width:45px" ng-click="before()"></img>
+
+		<!-- <div class="thumbnail">
+				<img onerror="javascript:this.src='/res/img/55.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}">
+			</div> -->
+	
+	
+	</div>
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">视频截图</h4>
+</div>
+<div class="modal-body container-fluid">
+	<div class="row">
+		<div class="col-sm-2" style="padding-right:0;">
+			<div class="x_panel" style="border-right: 0;">
+				<div class="x_title">巡查点
+				</div>
+				<div class="x_content" style="z-index: 1;height:600px;padding: 0;">
+					<div class="list-group">
+						<a href="#" class="list-group-item b-none ellipsis" ng-repeat="item in pointList track by $index" ng-class="{active: (selectedPoint == {{$index}})}"
+						 ng-click="clickOnePoint(item,$index)" uib-tooltip="{{item.insPointName}}">
+							{{item.insPointName}}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-2" style="padding-right:0;">
+			<div class="x_panel" style="border-right: 0;">
+				<div class="x_title">截屏时间:{{ins.createTime.split(' ')[0]}}
+				</div>
+				<div class="x_content" style="z-index: 1;height:600px;padding: 0; overflow:auto">
+					<div ng-repeat="p in ins.itemImgPath track by $index">
+							
+						<div class="thumbnail">
+							<img onerror="javascript:this.src='/res/img/55.png';" ng-click="showPhoto(processImgUrl(p),ins.itemImgPath)" ng-src="{{processImgUrl(p)}}">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-2" style="padding-right:0;">
+			<div class="x_panel" style="border-right: 0;">
+				<div class="x_title">巡查项
+				</div>
+				<div class="x_content" style="z-index: 1;height:600px;padding: 0;">
+					<div class="list-group">
+						<a href="#" class="list-group-item b-none ellipsis" ng-repeat="item in insItemList track by $index" ng-class="{active: (selectedListItem == {{$index}})}"
+						 ng-click="clickOneIns(item,$index)" uib-tooltip="{{item.name}}">
+							<i class="glyphicon glyphicon-ok-circle a-icon" ng-if="item.isOk"></i> {{item.name}}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6" style="padding-left:0;">
+			<div class="x_panel">
+				<div class="x_title">
+					评价
+				</div>
+				<div class="x_content" style="z-index: 1;height:600px;">
+					<form name="form" novalidate class="form-horizontal">
+						<div class="form-group">
+							<label class="col-xs-4 control-label ">巡查类型：</label>
+							<div class="col-xs-8">
+								<label class=" control-label " ng-bind="ins.insItemTypeName"></label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-4 control-label ">标准描述：</label>
+							<div class="col-xs-8">
+								<label class=" control-label " ng-bind="ins.description"></label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-4 control-label">标准图片：</label>
+							<div class="col-xs-8">
+								<div class="thumbnail" style="height: auto;">
+									<img ng-click="showPhoto()" style="height: 280px;" onerror="javascript:this.src='/res/img/detail.png';" ng-src="{{processImgUrl(ins.imgPath)}}">
+								</div>
+							</div>
+						</div>
+						<div class="form-group" ng-if="ins.checkType == 1">
+							<label class="col-xs-4 control-label required">是否达标：</label>
+							<div class="col-xs-8">
+								<label class="radio-inline">
+									<input type="radio" ng-model="$parent.ins.score" value="1">是
+								</label>
+								<label class="radio-inline">
+									<input type="radio" ng-model="$parent.ins.score" value="0">否
+								</label>
+							</div>
+						</div>
+						<div class="form-group" ng-if="ins.checkType == 2">
+							<label class="col-xs-4 control-label required">评分：</label>
+							<div class="col-xs-8 radio-inline">
+								<span uib-rating ng-model="$parent.ins.score" on-hover="hoveringOver(value)" on-leave="$parent.overStar = null" read-only="true"
+								 aria-labelledby="default-rating">
+								</span>
+								<!--<span class="label"
+									ng-class="{'label-warning': $parent.percent<30, 'label-info': $parent.percent>=30 && $parent.percent<70, 'label-success': $parent.percent>=70}"
+									ng-show="$parent.overStar">{{percent}}
+								</span>-->
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-4 control-label required">巡查意见：</label>
+							<div class="col-xs-8" style="height: 100px;">
+								<textarea type="text" class="form-control" style="resize:none" rows="4" required ng-model="ins.feedback" name="feedback" readonly/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-4 control-label"></label>
+							<div class=" col-xs-8">
+								<!--  <button type="submit" class="btn btn-primary" ng-click="save(form)">保存</button> -->
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<!-- <button class="btn btn-primary" ng-click="save(form,item)">确定</button> -->
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style type="text/css">
+	.thumbnail {
+		height: auto;
+	}
+
+	.list-group-item.active,
+	.list-group-item.active:focus,
+	.list-group-item.active:hover {
+		background-color: #337ab7;
+		border-color: #337ab7;
+	}
+
+	.b-none {
+		border-left: 0;
+		border-right: 0;
+	}
+
+	.a-icon {
+		float: right;
+		color: #0ce496;
+		width: 1.28571429em;
+		text-align: center;
+	}
+</style>

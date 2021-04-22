@@ -1,0 +1,149 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.type == 1 ? "编辑" : "查看"}}疫情信息</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <!-- <div class="form-group">
+            <label class="col-xs-5 control-label">账号类型：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.userType == '1' ? '个人' : pageModel.userType == '3' ? '员工' : '微信游客'}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-5 control-label">企业名称：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.companyName}}</span>
+        </div> -->
+        <div class="form-group">
+            <label class="col-xs-5 control-label">园区：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.parkName}}</span>
+        </div>
+
+		<div class="form-group">
+            <label class="col-xs-5 control-label">用户姓名：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.userName}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">工号：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.jobCode}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">楼栋：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="pageModel.buildName" name=""  style="cursor: default;" readonly/>
+            </div>
+            <button class="btn btn-warning" ng-if="item.type == 1 && item.isShowEdit" ng-click="showExit()">确认</button> 
+            <button class="btn btn-primary" ng-if="item.type == 1" ng-click="showEdit()">{{!item.isShowEdit ? "修改" : "取消"}}</button> 
+        </div>
+
+        <div class="form-group" ng-if="item.isShowEdit">
+            <label class="col-md-5 control-label ">选择楼栋   ：</label>
+            <div class="col-md-3" style="padding: 0 5px;margin-left: 10px;">
+                <select class="form-control col-md-3"  ng-model="item.stageId"  ng-change="selectStage()" >
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="stage in stageList track by $index"  value="{{stage.id}}">{{stage.text}}</option>
+                </select>
+            </div>
+            <div class="col-md-3" style="padding: 0 5px;">				
+                <select class="form-control col-md-3"  ng-model="item.buildId" ng-change="selectBuild(item.buildId)"  >
+                        <option value="">--请选择--</option>
+                    <option ng-repeat="build in buildList track by $index" value="{{build.id}}">{{build.buildName}}</option>
+                </select>
+            </div>
+        </div>
+        <!-- <div class="form-group">
+            <label class="col-md-5 control-label required">楼栋：</label>
+            <div class="col-md-5">				
+                <select class="form-control col-md-2"  ng-model="item.buildId" ng-change="selectBuild()"  >
+                        <option value="">--请选择--</option>
+                    <option ng-repeat="build in buildList track by $index" value="{{build.id}}">{{build.buildName}}</option>
+                </select>
+            </div>
+        </div> -->
+
+        <div class="form-group">
+            <label class="col-xs-5 control-label">报告日期：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.regDate}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">联系电话：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.phone}}</span>
+        </div>
+        <!-- <div class="form-group">
+            <label class="col-xs-5 control-label">是否离汉：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.hasLeaveWh == '1' ? '是' : '否'}}</span>
+        </div> -->
+        <div class="form-group" ng-if="!item.isHB">
+            <label class="col-xs-5 control-label">春节假期是否到过湖北：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.hasReachEpidemic == '1' ? '是' : '否'}}</span>
+        </div>
+        <!-- <div class="form-group" ng-if="pageModel.hasLeaveWh == 1">
+            <label class="col-xs-5 control-label">假期到访地点：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.goAddress||"--"}}</span>
+        </div> -->
+        <div class="form-group" ng-if = "!item.isHB">
+            <label class="col-xs-5 control-label">出行交通工具：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.tripModel == "1" ? "自驾" : pageModel.tripModel == "2" ? "火车" : pageModel.tripModel == "3" ? "飞机" : pageModel.tripModel == "4" ? "长途汽车":"--"}}</span>
+        </div>
+        <div class="form-group"  ng-if = "!item.isHB">
+            <label class="col-xs-5 control-label">车牌号、列车车次、航班号：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.tripNo||"--"}}</span>
+        </div>
+        <div class="form-group"  ng-if = "!item.isHB">
+            <label class="col-xs-5 control-label">出行时间：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.leaveDate||"--"}}</span>
+        </div>
+        <!-- <div class="form-group" >
+            <label class="col-xs-5 control-label">离汉时间：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.leaveDate||"--"}}</span>
+        </div>
+        <div class="form-group" >
+            <label class="col-xs-5 control-label">返汉时间：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.returnDate||'--'}}</span>
+        </div> -->
+        <div class="form-group">
+            <label class="col-xs-5 control-label">今日体温(上午)：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.temperature || "--"}}℃</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">今日体温(下午)：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.afternoonTemp || "--"}}℃</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">是否有发烧、咳嗽、乏力现象：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.isDebuff == '1' ? '是' : '否'}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">是否接触过确诊或疑似病例：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.hasCloseContact == '1' ? '是' : '否'}}</span>
+            <!-- <span class="col-xs-7 control-label" style="text-align: left;">--</span> -->
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">开始居家隔离时间：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.lastLeaveDate || "--"}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">至今居家隔离天数：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{getDaysBetween(pageModel.lastLeaveDate)}}天</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">同住家庭成员总数(包含自己)：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.familyNum || "--"}}人</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">亲属是否有发烧、咳嗽、乏力现象：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.hasRelativeSick == '1' ? '是' : '否'}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">亲属是否接触过确诊或疑似病例：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.hasRelativeCloseContact  == '1' ? '是' : '否'}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-5 control-label">备注：</label>
+            <span class="col-xs-7 control-label" style="text-align: left;">{{pageModel.epidemicBack || "--"}}</span>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-warning" style="float: right;" ng-click="cancel()">关闭</button>
+    <button class="btn btn-primary" ng-if="item.type == 1"  style="float: right;" ng-click="save(item)">保存</button>  
+</div>

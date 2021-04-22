@@ -1,0 +1,70 @@
+<!-- 分页组件 BEGIN-->
+<div class="decoration-pagination">
+    <!-- <div class="pager-left pull-left" ng-class="{'mg-0':vm.simple}">
+        <span>共{{vm.totalCount}}条记录，当前显示{{vm.currentDisplay}}条</span>
+    </div> -->
+    <div class="pager-right pull-left">
+        <div class="pull-left num-perpage" ng-class="{'mg-left-0':vm.simple}">
+            <span>每页</span>
+            <select class="pager-select" ng-model="vm.numPerPage" ng-change="vm.selectChange()" ng-options="x[0] as x[1] for x in [[10,'10'],[20,'20'],[50,'50'],[100,'100']]"></select>
+            <span>条</span>
+        </div>
+        <ul uib-pagination total-items="vm.totalCount" ng-model="vm.currentPage" max-size="vm.maxSize" num-pages="" items-per-page="vm.numPerPage" ng-change="vm.pageChanged()" boundary-links="true" direction-links="false" boundary-link-numbers="true" first-text="«"
+            last-text="»" class="pagination-sm pull-left">
+        </ul>
+        <div class="to-page pull-left">
+            <span>共{{vm.totalCount}}条记录</span>
+        </div>
+        <!-- <div class="to-page pull-left" ng-if="!vm.simple">
+             <span>到</span>
+            <select class="pager-select" ng-model="vm.currentPage" ng-change="vm.pageChanged()" ng-options="x for x in vm.selectablePages"></select>
+            <span>页</span> 
+        </div> -->
+    </div>
+    <style>
+        .pager-select {
+            /* height: 25px; */
+            width: 80px;
+            border: none;
+            padding: 0 15px;
+        }
+        
+        .pager-left {
+            height: 30px;
+            line-height: 30px;
+            margin: 0 15px;
+            color: #777;
+        }
+        
+        .pager-right>ul {
+            margin: 0;
+        }
+        
+        .pager-right .num-perpage,
+        .pager-right .to-page {
+            height: 30px;
+            margin: 0 -1px;
+            color: #777;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            /* margin-left: -1px; */
+            line-height: 1.42857143;
+            color: #337ab7;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+        
+        .mg-0 {
+            margin: 0;
+        }
+        
+        .pager-right .mg-left-0 {
+            margin-left: 0;
+        }
+    </style>
+</div>
+<!-- 分页组件 END-->

@@ -1,0 +1,11 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">位置</h4>
+</div>
+<div class="modal-body" min-height="500px">
+   <indoor-map-park map-lng="map_lng" map-lat="map_lat" un-click="unclick"></indoor-map-park>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)" ng-if="!unclick">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

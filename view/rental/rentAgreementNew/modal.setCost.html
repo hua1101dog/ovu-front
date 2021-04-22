@@ -1,0 +1,202 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">费用设置</h4>
+</div>
+<div ng-if="view==false" class="modal-body container-fluid form-horizontal">
+    <!--固定单价-->
+    <form name="fixedPriceForm" novalidate>
+	    <div ng-if="expenditure.payType=='11'" class="form-inline" >
+	        <ul style="float: left;margin-left: 10px">
+	            <li style="margin-top: 10px">
+	                <div class="form-group">
+	                    <label style="text-align: right;margin-right: 15px;width: 130px;float: left;">费用名称：</label>
+	                    <input class="form-control" type="text" readonly ng-model="expenditure.name"/>
+	                </div>
+	            </li>
+	            <li style="margin-top: 10px">
+	                <div class="form-group">
+	                    <label class="required" style="text-align: right;margin-right: 15px;width: 130px;float: left;">价格：</label>
+	                    <input required class="form-control" type="number"
+	                           ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                           max = "999999999.99" 
+	                           ng-model="expenditure.amountStandard"><span> 元/月</span>
+	                </div>
+	            </li>
+	            <li style="margin-top: 10px">
+	                <div class="form-group">
+	                    <label style="text-align: right;margin-right: 15px;width: 130px;float: left;">备注：</label>
+	                    <textarea class="form-control" type="text" style="width: 350px;height: 100px;resize:none" 
+	                              ng-model="expenditure.remark"> </textarea>
+	                </div>
+	            </li>
+	            <li  ng-if="view==null || view!=true" style="margin-top: 10px;float: left;margin-left: 243px;">
+                    <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="cancel()">关闭
+                    </button>
+	                <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="save(fixedPriceForm)">保存</button>
+	            </li>
+	        </ul>
+	    </div>
+	</form>
+    <!--固定抽成-->
+    <form name="fixedExtractionForm" novalidate>
+	    <div ng-if="expenditure.payType=='2'" class="form-inline">
+	        <ul style="float: left;margin-left: 10px">
+	            <li style="margin-top: 10px">
+	                <div class="form-group">
+	                    <label style="text-align: right;margin-right: 15px;width: 130px;float: left;">费用名称：</label>
+	                    <input class="form-control" type="text" readonly ng-model="expenditure.name"/>
+	                </div>
+	            </li>
+	            <li style="margin-top: 10px">
+	                <div class="form-group">
+	                    <label  class="required" style="text-align: right;margin-right: 15px;width: 130px;float: left;">抽成金额：</label>
+	                    <input required class="form-control" type="number"
+	                           ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                           max = "999999999.99" 
+	                           ng-model="expenditure.amountStandard"><span> 元/月</span>
+	                </div>
+	            </li>
+	            <li style="margin-top: 10px">
+	                <div class="form-group">
+	                    <label style="text-align: right;margin-right: 15px;width: 130px;float: left;">备注：</label>
+	                    <textarea class="form-control" type="text" style="width: 350px;height: 100px;resize:none"
+	                              ng-model="expenditure.remark"></textarea>
+	                </div>
+	            </li>
+	            <li  ng-if="view==null || view!=true" style="margin-top: 10px;float: left;margin-left: 243px;">
+                    <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="cancel()">关闭</button>
+	                <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="save(fixedExtractionForm)">保存</button>
+	            </li>
+	        </ul>
+	    </div>
+	</form>
+    <!--比例抽成-->
+    <form name="proportExtractionForm" novalidate>
+	    <div ng-if="expenditure.payType=='3'" class="form-inline">
+	        <ul style="float: left;margin-left: 10px">
+	            <li style="margin-top: 10px">
+	                <div class="form-group">
+	                    <label style="text-align: right;margin-right: 15px;width: 130px;float: left;">费用名称：</label>
+	                    <input class="form-control" type="text" readonly ng-model="expenditure.name"/>
+	                </div>
+	            </li>
+	            <li style="margin-top: 10px">
+	                <div class="form-group">
+	                    <label  class="required" style="text-align: right;margin-right: 15px;width: 130px;float: left;">营业额：</label>
+	                    <input required class="form-control" type="number"
+	                           ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+	                           max = "999999999.99" 
+	                           ng-model="expenditure.proportion"><span> %</span>
+	                </div>
+	            </li>
+	            <li style="margin-top: 10px">
+	                <div class="form-group">
+	                    <label style="text-align: right;margin-right: 15px;width: 130px;float: left;">备注：</label>
+	                    <textarea class="form-control" type="text" style="width: 350px;height: 100px;resize:none"
+	                              ng-model="expenditure.remark"></textarea>
+	                </div>
+	            </li>
+	            <li ng-if="view==null || view!=true" style="margin-top: 10px">
+                    <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="cancel()">关闭</button>
+	                <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="save(proportExtractionForm)">保存</button>
+	            </li>
+	        </ul>
+	    </div>
+    </form>
+</div>
+
+<div ng-if="view==true" class="modal-body container-fluid form-horizontal" >
+    <!--固定单价-->
+    <div ng-if="expenditure.payType=='11'" class="form-inline" >
+        <ul style="float: left;margin-left: 10px">
+            <li style="margin-top: 10px">
+                <div class="form-group">
+                    <label style="text-align: right;margin-right: 15px;width: 130px;float: left;">费用名称：</label>
+                    <input class="form-control" type="text" readonly ng-model="expenditure.name" disabled/>
+                </div>
+            </li>
+            <li style="margin-top: 10px">
+                <div class="form-group">
+                    <label  class="required" style="text-align: right;margin-right: 15px;width: 130px;float: left;">价格：</label>
+                    <input required class="form-control" type="number"
+                           ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                           ng-model="expenditure.amountStandard" readonly><span> 元/月</span>
+                </div>
+            </li>
+            <li style="margin-top: 10px">
+                <div class="form-group">
+                    <label style="text-align: right;margin-right: 15px;width: 130px;float: left;">备注：</label>
+                    <textarea class="form-control" type="text" style="width: 350px;height: 100px;resize:none"
+                              ng-model="expenditure.remark" readonly></textarea>
+                </div>
+            </li>
+            <li  ng-if="view==null || view!=true" style="margin-top: 10px;float: left;margin-left: 243px;">
+                <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="cancel()">关闭</button>
+                <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="save()">保存</button>
+            </li>
+        </ul>
+    </div>
+    <!--固定抽成-->
+    <div ng-if="expenditure.payType=='2'" class="form-inline">
+        <ul style="float: left;margin-left: 10px">
+            <li style="margin-top: 10px">
+                <div class="form-group">
+                    <label style="text-align: right;margin-right: 15px;width: 130px;float: left;">费用名称：</label>
+                    <input class="form-control" type="text" readonly ng-model="expenditure.name"/>
+                </div>
+            </li>
+            <li style="margin-top: 10px">
+                <div class="form-group">
+                    <label  class="required" style="text-align: right;margin-right: 15px;width: 130px;float: left;">抽成金额：</label>
+                    <input required class="form-control" type="number"
+                           ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                           ng-model="expenditure.amountStandard" readonly><span> 元/月</span>
+                </div>
+            </li>
+            <li style="margin-top: 10px">
+                <div class="form-group">
+                    <label style="text-align: right;margin-right: 15px;width: 130px;float: left;">备注：</label>
+                    <textarea class="form-control" type="text" style="width: 350px;height: 100px;resize:none"
+                              ng-model="expenditure.remark" readonly></textarea>
+                </div>
+            </li>
+            <li  ng-if="view==null || view!=true" style="margin-top: 10px;float: left;margin-left: 243px;">
+                <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="cancel()">关闭</button>
+                <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="save()">保存</button>
+            </li>
+        </ul>
+    </div>
+    <!--比例抽成-->
+    <div ng-if="expenditure.payType=='3'" class="form-inline">
+        <ul style="float: left;margin-left: 10px">
+            <li style="margin-top: 10px">
+                <div class="form-group">
+                    <label style="text-align: right;margin-right: 15px;width: 130px;float: left;">费用名称：</label>
+                    <input class="form-control" type="text" readonly ng-model="expenditure.name"/>
+                </div>
+            </li>
+            <li style="margin-top: 10px">
+                <div class="form-group">
+                    <label  class="required" style="text-align: right;margin-right: 15px;width: 130px;float: left;">营业额：</label>
+                    <input required class="form-control" type="number"
+                           ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                           ng-model="expenditure.proportion" readonly><span> %</span>
+                </div>
+            </li>
+            <li style="margin-top: 10px">
+                <div class="form-group">
+                    <label style="text-align: right;margin-right: 15px;width: 130px;float: left;">备注：</label>
+                    <textarea class="form-control" type="text" style="width: 350px;height: 100px;resize:none"
+                              ng-model="expenditure.remark" readonly></textarea>
+                </div>
+            </li>
+            <li ng-if="view==null || view!=true" style="margin-top: 10px">
+                <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="cancel()">关闭</button>
+                <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="save()">保存</button>
+            </li>
+        </ul>
+    </div>
+</div>
+<div ng-if="view==true" class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()">确认</button>
+</div>

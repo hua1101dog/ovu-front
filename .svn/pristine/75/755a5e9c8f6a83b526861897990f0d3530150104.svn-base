@@ -1,0 +1,120 @@
+<div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">巡查内容及标准</h4>
+    </div>
+    <div class="modal-body container-fluid" ng-if='content.length!==0'>
+            <div class="x_panel" style="margin-top:10px">
+                    <ul id="sortableOptions" class="step-items" ng-modal="data">
+                        <li ng-repeat="item in content  track by $index" style="margin-bottom:10px">
+                               <div style="width:15%;float: left;">
+                                    <span class="left-content">{{item.name}}</span>
+                               </div>
+                                <div  style="width:85%;float: left;">
+                                        <i class="layui-icons step-item-heads">{{$index-0+1}}</i>
+                                        <span class="step-item-main-titles">内容描述：</span>
+                                    <p class="description">{{item.description}}</p><hr style=" width:80%"  />
+                                </div>
+                            
+                        </li>
+                    </ul>
+                </div>
+    </div>
+    <div class="modal-body container-fluid" ng-if='content.length==0 ||!content'>
+        <div class="x_panel" style="margin-top:10px">
+              <p>暂无内容</p>
+              
+            </div>
+</div>
+   
+    <style type="text/css">
+    
+    .b-none {
+        border-left: 0;
+        border-right: 0;
+    }
+
+    .a-icon {
+        float: right;
+        color: #0ce496;
+        width: 1.28571429em;
+        text-align: center;
+    }
+
+    .userDiv {
+        text-align: center;
+        padding: 6px;
+    }
+
+    .userDiv label {
+        margin-top: 5px;
+        padding: 0 6px;
+        border-radius: 6px 6px;
+    }
+
+    .icon-item {
+        width: 10%;
+        float: left;
+        text-align: center
+    }
+
+    .layui-icons {
+        font-family: layui-icon !important;
+        font-size: 16px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .step-items {
+        line-height: 26px;
+        position: relative;
+        background: #ffffff;
+        float: left;
+        width: 100%
+    }
+
+
+    .step-item-heads {
+        position: relative;
+        display: inline-block;
+        height: 26px;
+        width: 26px;
+        text-align: center;
+        vertical-align: top;
+        color: #ffffff;
+        border: 1px solid #009DD9;
+        border-radius: 50%;
+        background: #009DD9;
+    }
+
+    .icon-item li:first-child .step-item-heads {
+        background: #009900;
+        border: 1px solid #009900;
+    }
+
+    .icon-item li:last-child .step-item-heads {
+        background: #FF0000;
+        border: 1px solid #FF0000;
+    }
+
+    .step-item-main-titles {
+        color: #555555;
+    margin-left: 5px;
+    font-size: 14px;
+    width: 100px;
+    display: inline-block;
+    text-align: center
+    }
+    .description{
+        margin-left: 15%;
+        color: rgb(153, 153, 153);
+    }
+  .left-content{
+    width: 100px;
+    display: inline-flex;
+    text-align: center;
+    display: inline-block;
+    font-size: 14px
+  }
+    </style>
+    

@@ -1,0 +1,83 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+		×
+	</button>
+	<h4 class="modal-title">用户选择器</h4>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<form class="form-horizontal form-label-left ng-pristine ng-valid" id="searchName">
+				<div class="input-group col-md-12" style="margin-top:0px ;positon:relative">
+					<input  placeholder="请输入用户名称" 
+					class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+					id="NAME" ng-model="search.nickname" type="text"
+					style="width: 200px">
+					<select style="width: 200px;margin-left:15px" class="form-control" ng-model="search.userType"  ng-options="o.value as o.text for o in userType">
+						<option value="">--请选择账户类型--</option>
+					</select>
+					<span class="input-group-btn">
+						<a href="#" class="btn btn-info btn-sm" style="padding:7px 10px;" ng-click="query();">
+							<span class="glyphicon glyphicon-search"></span>查询
+						</a>
+					</span>
+				</div>
+			</form>
+			<table class="table table-condensed" id="selectTable">
+				<thead>
+					<tr>
+						<th>用户名称</th>
+						<th>操作</th>
+					</tr>
+					<tr class="loading hide">
+						<th colspan="3">
+							<div class="alert" role="alert">加载中...</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody id="rows">
+					<tr ng-if="pageModel.data.length == 0 || !pageModel.data">
+						<td colspan="100" class="text-center">暂无记录</td>
+					</tr>
+					<tr ng-repeat="item in pageModel.data" class="ng-scope">
+						<td>{{item.nickname||item.loginName}}</td>
+						<td>
+							<a href="javascript:void(0);" class="btn btn-success btn-sm" id="{{item.id}}" ng-disabled="{{item.disabled}}"
+							 style="padding:0px 4px;" ng-click="addPersonItem(item, true)">
+								<span class="glyphicon glyphicon-plus" ng-show="{{!item.disabled}}">添加</span>
+								<span class="glyphicon" ng-show="{{item.disabled}}">已添加</span>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="page-footer clearfix" style="margin-left:8%;margin-top:-20px;">
+				<ng-include src="'/common/pager.html'" class="ng-scope">
+					<style type="text/css" class="ng-scope">
+						.pagination>li>span:hover {
+							background-color: #fff;
+							cursor: text
+						}
+					</style>
+				</ng-include>
+			</div>
+			<div class="form-group" style="margin-top:15px; positon:relative">
+				<div class="control-label col-md-2 col-sm-2 col-xs-12" 
+				style="text-align: right;line-height: 40px;">您已选择:</div>
+				<div class="col-md-10 col-sm-10 col-xs-12">
+					<div class="input-group">
+						<ul id="person" class="list-inline ul-persons">
+							<li class="item" ng-repeat="cus in customers" 
+							personId="{{cus.id}}" personName="{{cus.nickname}}">{{cus.nickname}}<a
+								 href="javascript:void(0);" ng-click="initRemove(cus);"><i class='fa fa-remove'></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary edit" ng-click="checkPerson();">确定</button>
+	<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">取消</button>
+</div>

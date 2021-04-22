@@ -1,0 +1,195 @@
+<div ng-controller="ownerCtrl">
+	<div class="page-title" >
+		<div class="title_left">
+			<h3>业主信息管理</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">楼栋列表</div>
+				<div class="x_content">
+					<div class="alert" role="alert" ng-show="oriList.length==0">无楼栋信息</div>
+					<div id="house_tree"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+			<div class="x_panel" >
+				<div class="form-inline">
+					<div class="form-group">
+						<label>单元码</label>
+						<input type="text" class="form-control" style="width: 100px" ng-model="search.unitNo" placeholder="单元号" ng-if="!unitList"/>
+						<select class="form-control" ng-model="search.unitNo" ng-change="geneSearchGround()" ng-options="o.unit_no as o.unit_no+'单元' for o in unitList" ng-if="unitList">
+							<option value="">--单元--</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>楼层码</label>
+						<input type="text" class="form-control" style="width: 100px" ng-model="search.groundNo" placeholder="楼层" ng-if="!groundList" />
+						<select class="form-control" ng-model="search.groundNo"  ng-options="o.ground_no as o.ground_no+'楼' for o in groundList" ng-if="groundList">
+							<option value="">--楼层--</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>房屋名称</label>
+						<input type="text" ng-model="search.houseName"  placeholder="房屋名称" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>业主姓名</label>
+						<input type="text" ng-model="search.name"  placeholder="业主姓名" class="form-control" />
+					</div>
+					<!--<div class="form-group">
+						<input type="datetime" class="form-control Wdate"  ng-model="search.START_DATE"  placeholder="开始日期(入住)" onchange=""
+							   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+						<label>-</label>
+						<input type="datetime" class="form-control Wdate"  ng-model="search.END_DATE"  placeholder="结束日期(入住)" onchange=""
+							   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.Wdate').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+					</div>-->
+					<button class="btn btn-default" ng-click="find(1)" >查询</button>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">业主列表
+					<button class="btn btn-danger pull-right"  ng-disabled="!hasChecked(pageModel)" ng-click="delAll()" >批量删除</button>
+					<button class="btn btn-success pull-right" ng-click="showEditModal()" >新增</button>
+				</div>
+				<div class="panel-body">
+					<table class="table table-striped table-hover" style="margin-top: 10px;">
+						<thead class="title">
+						<tr>
+							<th class="text-center">NO</th>
+							<th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+							<th style="width:120px">姓名</th>
+							<th style="width:140px">电话</th>
+							<th style="min-width:140px">房屋名称</th>
+							<th style="width:196px">身份证号</th>
+							<th style="width:120px">入住日期</th>
+							<th>操作</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+						<tr ng-repeat-start="item in pageModel.data" ng-if="!item.edit">
+							<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+							<td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+							<td>{{item.NAME}}</td>
+							<td>{{item.PHONE}}</td>
+							<td>{{item.HOUSE_NAME}}</td>
+							<td>{{item.ID_NUMBER}}</td>
+							<td>{{item.MOVEIN_DATE}}</td>
+							<td>
+<!--
+								<a href='javascript:void(0)' ng-click='expand(item)' class='btn btn-xs'><span class='fa' ng-class="{'fa-angle-double-down':!item.expanded,'fa-angle-double-up':item.expanded}"></span>{{item.expanded?'收起':'展开'}}</a>
+-->
+								<a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs' ng-show="config.edit"><span class='fa fa-edit' ></span>编辑</a>
+								<a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs' ng-show="config.edit"><span class='fa fa-trash'></span>删除</a>
+							</td>
+						</tr>
+						<tr ng-repeat-end ng-if="item.expanded">
+							<td></td>
+							<td colspan="6">
+								<table class="table table-bordered" style="margin-top: 10px;">
+									<thead class="title">
+									<tr>
+										<th style="width:50px" class="text-center">NO</th>
+										<th style="width:120px">亲属姓名</th>
+										<th style="width:140px">亲属电话</th>
+										<th>关系</th>
+										<th style="width:120px">帐号</th>
+										<th style="width:120px">注册日期</th>
+										<th ng-show="config.edit">操作</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-if="item.relatives.length == 0"><td colspan="100" class="text-center">暂未登记亲属</td></tr>
+									<tr ng-repeat-start="re in item.relatives" ng-if="!re.edit">
+										<td class="text-center">{{$index + 1}}</td>
+										<td ng-class="{'bg-success':re.VALID,'bg-danger':!re.VALID}">{{re.NAME}}</td>
+										<td>{{re.PHONE}}</td>
+										<td>{{re.RELATION}}</td>
+										<td>{{re.ACCOUNT}}</td>
+										<td>{{re.REGISTER_DATE}}</td>
+										<td ng-show="config.edit">
+											<a href='javascript:void(0)' ng-click='editRelative(re)' class='btn btn-xs hidden'><span class='fa fa-edit'></span>编辑</a>
+											<a href='javascript:void(0)' ng-click='delRelative(item,re)' class='btn btn-xs text-warning hidden'><span class='fa fa-trash'></span>删除</a>
+											<a href='javascript:void(0)' ng-click='banRelative(re)' class='btn btn-xs text-danger'><span class='fa' ng-class="{'fa-ban':re.VALID,'fa-hand-peace-o':!re.VALID}"></span>{{re.VALID?'禁用':'启用'}}</a>
+										</td>
+									</tr>
+									<tr ng-repeat-end ng-if="re.edit" ng-form name="form" novalidate>
+										<td class="text-center">{{$index + 1}}</td>
+										<td><input type="text" class="form-control" required name="NAME" ng-model="re.copy.NAME" /></td>
+										<td><input type="text" class="form-control" required name="PHONE" ng-model="re.copy.PHONE" /></td>
+										<td><input type="text" class="form-control" required name="RELATION" ng-model="re.copy.RELATION" /></td>
+										<td><input type="text" class="form-control" required name="ACCOUNT" ng-model="re.copy.ACCOUNT" /></td>
+										<td>{{re.copy.REGISTER_DATE}}</td>
+										<td >
+											<a href='javascript:void(0)' ng-click="saveRelative(form,re)" class='btn btn-xs text-primary'><span class='fa fa-save'></span>保存</a>
+											<a href='javascript:void(0)' ng-click="cancelRelative(item,re)" class='btn btn-xs text-danger'><span class='fa fa-undo'></span>取消</a>
+										</td>
+									</tr>
+
+									<tr><td colspan="100" class="text-center" ng-show="config.edit">
+										<a href='javascript:void(0)' ng-click='addRelative(item)' class='btn btn-xs text-primary hidden'><span class='fa fa-plus'></span>添加亲属</a>
+									</td></tr>
+									</tbody>
+								</table>
+
+								<table class="table table-bordered" style="margin-top: 10px;">
+									<thead class="title">
+									<tr>
+										<th style="width:50px" class="text-center">NO</th>
+										<th style="width:120px">租户姓名</th>
+										<th style="width:140px">租户电话</th>
+										<th>身份证</th>
+										<th style="width:120px">账号</th>
+										<th style="width:120px">注册日期</th>
+										<th ng-show="config.edit">操作</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-if="item.tenants.length == 0"><td colspan="100" class="text-center">暂未登记租户</td></tr>
+									<tr ng-repeat-start="te in item.tenants" ng-if="!te.edit">
+										<td class="text-center">{{$index + 1}}</td>
+										<td ng-class="{'bg-success':te.VALID,'bg-danger':!te.VALID}">{{te.NAME}}</td>
+										<td>{{te.PHONE}}</td>
+										<td>{{te.ID_NUMBER}}</td>
+										<td>{{te.ACCOUNT}}</td>
+										<td>{{te.REGISTER_DATE}}</td>
+										<td ng-show="config.edit">
+											<a href='javascript:void(0)' ng-click='editTenant(te)' class='btn btn-xs hidden'><span class='fa fa-edit'></span>编辑</a>
+											<a href='javascript:void(0)' ng-click='delTenant(item,te)' class='btn btn-xs text-warning hidden'><span class='fa fa-trash'></span>删除</a>
+											<a href='javascript:void(0)' ng-click='banTenant(te)' class='btn btn-xs text-danger'><span class='fa' ng-class="{'fa-ban':te.VALID,'fa-hand-peace-o':!te.VALID}"></span>{{te.VALID?'禁用':'启用'}}</a>
+										</td>
+									</tr>
+									<tr ng-repeat-end ng-if="te.edit" ng-form name="form" novalidate>
+										<td class="text-center">{{$index + 1}}</td>
+										<td><input type="text" class="form-control" required name="NAME" ng-model="te.copy.NAME" /></td>
+										<td><input type="text" class="form-control" required name="PHONE" ng-model="te.copy.PHONE" /></td>
+										<td><input type="text" class="form-control" required name="ID_NUMBER" ng-model="te.copy.ID_NUMBER" /></td>
+										<td><input type="text" class="form-control" required name="ACCOUNT" ng-model="te.copy.ACCOUNT" /></td>
+										<td>{{te.copy.REGISTER_DATE}}</td>
+										<td>
+											<a href='javascript:void(0)' ng-click="saveTenant(form,te)" class='btn btn-xs text-primary'><span class='fa fa-save'></span>保存</a>
+											<a href='javascript:void(0)' ng-click="cancelTenant(item,te)" class='btn btn-xs text-danger'><span class='fa fa-undo'></span>取消</a>
+										</td>
+									</tr>
+
+									<tr><td colspan="100" class="text-center" ng-show="config.edit">
+										<a href='javascript:void(0)' ng-click='addTenant(item)' class='btn btn-xs text-primary hidden'><span class='fa fa-plus'></span>添加租户</a>
+									</td></tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					<div class="page-footer clearfix">
+						<ng-include src="'/common/pager.html'"></ng-include>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>合同管理</title>
+</head>
+
+<body>
+    <div id="angularId" ng-controller="contractManageCtrl">
+        <div class="page-title" style="height:55px">
+            <div class="title_left">
+                <h3>合同管理</h3>
+            </div>
+        </div>
+        <div style="width: 250px;line-height: 60px;float: left;" ng-hide="projectTree.length==0">
+            <tree-sel-project ng-class="{'not-valid':!$root.project.id}" node-list="projectTree" host="$root.project"
+                host-key="'id'" host-text="'text'" callback="setProject" tip-text="'请选择项目'"></tree-sel-project>
+        </div>
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>房间:</label>
+                    <input class="form-control" type="text" ng-model="search.houseName" />
+                </div>
+                <div class="form-group">
+                    <label>房屋名称:</label>
+                    <input class="form-control" type="text" ng-model="search.spaceName" />
+                </div>
+                <div class="form-group">
+                    <label>客户名称:</label>
+                    <input class="form-control" type="text" ng-model="search.customName" />
+                </div>
+                <div class="form-group">
+                    <label>合同状态:</label>
+                    <select class="form-control" ng-model="search.contractType" ng-change="find(1)" style="width: 180px;">
+                        <option value="">请选择</option>
+                        <option value="2">待提交</option>
+                        <option value="3">审批中</option>
+                        <option value="4">已签约</option>
+                        <option value="5">已驳回</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>是否生效:</label>
+                    <select class="form-control" ng-model="search.haveEffective" ng-change="find(1)" style="width: 180px;">
+                        <option value="1">已生效</option>
+                        <option value="0">已作废</option>
+                    </select>
+                </div>
+                <button class="btn btn-default" ng-click="find(1)">查询</button>
+            </div>
+
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading" style="font-size: 14px">房间列表
+                <button class="btn btn-danger pull-right" ng-disabled="!hasChecked(pageModel)"
+                    ng-click="batchCancelContract()">批量作废</button>
+                <button class="btn btn-primary pull-right" ng-click="addContract()">新增</button>
+            </div>
+            <div class="panel-body" style=" overflow-x: auto;">
+                <div class="selStatistics">
+                    <i class="fa fa-lg fa-info-circle btn-color1" aria-hidden="true"></i>
+                    <span> 已选择 </span><span class="btn-color1">{{selCount}}</span> 项&nbsp;&nbsp;
+                </div>
+                <div id="table_cont" ng-style="{'width':width}">
+                    <table class="table table-striped col-md-12 col-sm-12  table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center" style="width:20px">
+                                    <span role="button" ng-click="checkAll()">
+                                        <i class="glyphicon"
+                                            ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                                    </span>
+                                </th>
+                                <th style="width:30px;text-align:center">序号</th>
+                                <th style="text-align:left"><div style="min-width: 150px">房间</div></th>
+                                <th style="text-align:left">房屋名称</th>
+                                <th style="text-align:left">客户名称</th>
+                                <th style="text-align:left">签署日期</th>
+                                <th style="text-align:left">合同编号</th>
+                                <th style="text-align:left">合同总价</th>
+                                <th style="text-align:left">现标准总价(不含税)</th>
+                                <th style="text-align:left">税额</th>
+                                <th style="text-align:left">税率（%）</th>
+                                <th style="text-align:left">付款方式</th>
+                                <th style="text-align:left">业务员</th>
+                                <th style="text-align:left">合同状态</th>
+                                <th style="text-align:left">销售状态</th>
+                                <th style="text-align:left">是否生效</th>
+                                <th style="text-align:left">审核员</th>
+                                <th style="text-align:center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data">
+                                <td class="text-center">
+                                    <i role="button" ng-click="checkOne(item)"
+                                        ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                        class="glyphicon"></i>
+                                </td>
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td style="text-align:left">{{item.houseName}}</td>
+                                <td style="text-align:left">
+                                    {{item.spaceName||'--'}}
+                                </td>
+                                <td style="text-align:left">{{item.customName}}</td>
+                                <td style="text-align:left">{{item.contractSignDate}}</td>
+                                <td style="text-align:left">{{item.signContractNo}}</td>
+                                <td style="text-align:left">{{item.contractPriceTax}}</td>
+                                <td style="text-align:left">{{item.contractPrice}}</td>
+                                <td style="text-align:left">{{item.amountTax}}</td>
+                                <td style="text-align:left">{{item.taxRate}}</td>
+                                <td style="text-align:left">{{item.paymentName}}</td>
+                                <td style="text-align:left">{{item.businessManager}}</td>
+                                <td style="text-align:left">{{item.contractType | getContractType}}</td>
+                                <td style="text-align:left">{{item.saleStatus}}</td>
+                                <td style="text-align:left">{{item.haveEffective == 1 ? '已生效' : '已作废'}}</td>
+                                <td style="text-align:left">{{item.verifyPersonName}}</td>
+                                <td class="text-center">
+                                    <a href='javascript:void(0)' ng-click='showContractDetail(item)'
+                                        class='btn btn-xs btn-color1'>查看 </a>
+                                    <a href='javascript:void(0)' ng-if="item.haveEffective==1" ng-click='cancelContract(item.id)'
+                                        class='btn btn-xs btn-color2'>作废 </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<style>
+    div.selStatistics {
+
+        background: rgba(135, 206, 250, 0.2);
+        height: 40px;
+        line-height: 40px;
+        border: 1px solid rgba(0, 225, 255, 0.5);
+        font-family: 'Microsoft YaHei', Arial, SimSun;
+        font-size: 14px;
+        padding-left: 10px
+    }
+
+    .btn-color1 {
+        color: rgb(0, 174, 255);
+    }
+
+    .panel-body>.table>thead.title {
+        background-color: #f5f5f5;
+        border: 1px solid #ddd;
+
+    }
+
+    .panel-body>.table>thead>tr>th {
+        border-bottom: none;
+        line-height: 40px
+    }
+
+    .x_panel {
+        padding: 15px
+    }
+
+    .btn-color2 {
+        color: rgb(207, 48, 48);
+    }
+</style>
+
+</html>

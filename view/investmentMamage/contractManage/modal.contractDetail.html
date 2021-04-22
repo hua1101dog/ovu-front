@@ -1,0 +1,151 @@
+<div class="modal-header" style="border-bottom: none;">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">合同详情</h4>
+</div>
+
+<div class="modal-body container-fluid" style="padding: 15px;">
+    <div class="x_panel" style="padding-bottom:0px;">
+
+
+        <div class="form-group form-horizontal col-xs-12">
+            <label class="col-xs-1 control-label label-width1">乙方姓名：</label>
+            <span class="col-xs-3  label-width2">{{contractInfo.secondPartyName}}</span>
+            <label class="col-xs-1 control-label label-width1">联系电话：</label>
+            <span class="col-xs-3  label-width2">{{contractInfo.secondPartyPhone}}</span>
+        </div>
+        <div class="form-group form-horizontal col-xs-12">
+            <label class="col-xs-1 control-label label-width1">甲方姓名：</label>
+            <span class="col-xs-3  label-width2">{{contractInfo.firstPartyName}}</span>
+            <label class="col-xs-1 control-label label-width1">营业执照：</label>
+            <span class="col-xs-3  label-width2">{{contractInfo.firstPartyLicense}}</span>
+        </div>
+
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body" >
+            <div class="form-group form-horizontal col-xs-12 label-top">
+                合同内容
+            </div>
+            <div class="form-group form-horizontal col-xs-12">
+                <label class="col-xs-1 control-label label-width1">合同编号：</label>
+                <span class=" col-xs-3 label-width2">{{contractInfo.contractCode}}</span>
+                <label class="col-xs-1 control-label label-width1">合同备案号：</label>
+                <span class="col-xs-3 label-width2">{{contractInfo.recordNumber}}</span>
+            </div>
+            <div class="form-group form-horizontal col-xs-12"
+                style="border-bottom: 1px solid #e5e5e5 ;padding-bottom: 15px">
+                <label class="col-xs-1 control-label label-width1">总价：</label>
+                <span class="col-xs-3  label-width2">{{contractInfo.contractAmount|number:2}} (元)</span>
+                <label class="col-xs-1 control-label label-width1">税额：</label>
+                <span class="col-xs-3  label-width2">{{contractInfo.rateAmount|number:2}} (元)</span>
+                <label class="col-xs-1 control-label label-width1">税率：</label>
+                <span class="col-xs-3  label-width2">{{contractInfo.rate+'%'}}</span>
+            </div>
+            <div class="form-group form-horizontal col-xs-12">
+                <label class="col-xs-1 control-label label-title">房间详情</label>
+            </div>
+            <div class="form-group form-horizontal col-xs-12">
+                <label class="col-xs-1 control-label label-width1">房间名称：</label>
+                <span class=" col-xs-3 label-width2">{{houseInfo.stageName+'>'+houseInfo.buildName+'>'+houseInfo.houseName}}</span>
+                <label class="col-xs-1 control-label label-width1">建筑面积：</label>
+                <span class="col-xs-3 label-width2">{{houseInfo.area}} (m<sup>2</sup>)</span>
+                <label class="col-xs-1 control-label label-width1">套内面积：</label>
+                <span class="col-xs-3 label-width2">{{houseInfo.areaSu}} (m<sup>2</sup>)</span>
+
+            </div>
+            <div class="form-group form-horizontal col-xs-12">
+                <label class="col-xs-1 control-label label-width1">建筑单价：</label>
+                <span class="col-xs-3  label-width2">{{houseInfo.price|number:2}} (元/m<sup>2</sup>)</span>
+                <label class="col-xs-1 control-label label-width1">套内单价：</label>
+                <span class="col-xs-3  label-width2">{{houseInfo.priceSu?(houseInfo.priceSu|number:2):'--'}} <span ng-if="houseInfo.priceSu">(元/m<sup>2</sup>)</span></span>
+                <label class="col-xs-1 control-label label-width1">房屋总价：</label>
+                <span class="col-xs-3  label-width2">{{houseInfo.houseAmount|number:2}} (元)</span>
+            </div>
+            <div class="form-group form-horizontal col-xs-12">
+                <label class="col-xs-1 control-label label-width1">签署日期：</label>
+                <span class="col-xs-3  label-width2">{{contractInfo.signDate}}</span>
+                <label class="col-xs-1 control-label label-width1">生效日期：</label>
+                <span class="col-xs-3  label-width2">{{contractInfo.effectDate}}</span>
+                <label class="col-xs-1 control-label label-width1">付款方式：</label>
+                <span class="col-xs-3  label-width2">{{contractInfo.payMethod==1?'全款':'按揭'}}</span>
+            </div>
+            <div class="form-group form-horizontal col-xs-12"
+                style="border-bottom: 1px solid #e5e5e5;padding-bottom: 15px ">
+                <label class="col-xs-1 control-label label-width1">交房日期：</label>
+                <span class="col-xs-3  label-width2">{{contractInfo.handoverDate}}</span>
+                <label class="col-xs-1 control-label label-width1">置业顾问：</label>
+                <span class="col-xs-3  label-width2">{{contractInfo.consultant}}</span>
+            </div>
+            <div class="form-group form-horizontal col-xs-12" ng-if="contractInfo.payMethod==2">
+
+                <label class="col-xs-1 control-label label-title" >分期详情</label>
+            </div>
+            <div class="form-group form-horizontal col-xs-12" ng-if="contractInfo.payMethod==2">
+                <label class="col-xs-1 control-label label-width1">首付款：</label>
+                <span class="col-xs-3  label-width2">{{contractInfo.downPayment|number:2}} (元)</span>
+                <label class="col-xs-1 control-label label-width1">首付日期：</label>
+                <span class="col-xs-3  label-width2">{{contractInfo.downPaymentDate}}</span>
+            </div>
+            <div class="form-group form-horizontal col-xs-12"
+                style="border-bottom: 1px solid #e5e5e5;padding-bottom: 15px " ng-if="contractInfo.payMethod==2">
+                <label class="col-xs-1 control-label label-width1">尾款：</label>
+                <span class="col-xs-3  label-width2">{{contractInfo.balancePayment|number:2}} (元)</span>
+                <label class="col-xs-1 control-label label-width1">尾款日期：</label>
+                <span class="col-xs-3  label-width2">{{contractInfo.balancePaymentDate}}</span>
+            </div>
+            <div class="form-group form-horizontal col-xs-12">
+                <label class="col-xs-1 control-label label-title">装修详情</label>
+            </div>
+            <div class="form-group form-horizontal col-xs-12">
+                <label class="col-xs-1 control-label label-width1">装修单价：</label>
+                <span class="col-xs-3  label-width2" >{{houseInfo.decorationPrice?(houseInfo.decorationPrice|number:2):'--'}} <span ng-if="houseInfo.decorationPrice">(元/m<sup>2</sup>)</span></span>
+                <label class="col-xs-1 control-label label-width1">装修总价：</label>
+                <span class="col-xs-3  label-width2">{{houseInfo.decorationAmount?((houseInfo.decorationAmount|number:2)+'(元)'):'--'}} </span>
+                <label class="col-xs-1 control-label label-width1" style="width: 10%">是否并入合同：</label>
+                <span class="col-xs-3  label-width2" style="width: 20%">{{houseInfo.isDecorationMerge?'是':'否'}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" style="border:0">
+    <!-- <button class="btn btn-warning" ng-click="save()">确认</button> -->
+    <button class="btn" ng-click="cancel()">关闭</button>
+</div>
+<style>
+    .label-width1 {
+        font-size: 14px;
+        color: #333;
+        padding-left: 0;
+        padding-right: 0;
+        font-weight: 400;
+    }
+
+    .label-width2 {
+        font-size: 14px;
+        padding-top:7px;
+        padding-left: 5px;
+    }
+
+    .label-top {
+        border-bottom:
+            1px solid #e5e5e5;
+        padding-bottom: 15px;
+        font-size: 16px;
+        font-weight: 700;
+        font-family: 'Microsoft YaHei', Arial, SimSun;
+    }
+
+    .label-title {
+        font-size: 14px;
+    }
+
+    .modal-lg {
+        width: 1200px;
+    }
+   /* .col-xs-1{
+       width: 11%;
+   }
+   .col-xs-3{
+       width: 22%;
+   } */
+</style>

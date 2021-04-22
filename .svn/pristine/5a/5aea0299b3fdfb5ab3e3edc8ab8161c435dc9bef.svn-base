@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>租赁资源管理</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="rentResourceDetailCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>租赁资源详情</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="x_panel">
+                <ul class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#baseDetail" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">基本信息</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#companyDetail" id="tab2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">合作信息</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <!-- 基本信息 -->
+                    <div role="tabpanel" class="tab-pane fade active in" id="baseDetail">
+                        <ul class="basaMsg_ul">
+                            <li>
+                                <label>分期：</label>
+                                <span>一期</span>
+                            </li>
+                            <li>
+                                <label>楼栋：</label>
+                                <span>#10</span>
+                            </li>
+                            <li>
+                                <label>楼层：</label>
+                                <span>29</span>
+                            </li>
+                            <li>
+                                <label>房间号：</label>
+                                <span>1f-2903</span>
+                            </li>
+                            <li>
+                                <label>计租面积：</label>
+                                <span>102</span>
+                            </li>
+                            <li>
+                                <label>租赁状态：</label>
+                                <span>已租</span>
+                            </li>
+                            <li>
+                                <label>开始时间：</label>
+                                <span>2011.11.11</span>
+                            </li>
+                            <li>
+                                <label>结束时间：</label>
+                                <span>2013.11.11</span>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <!--  合作信息 -->
+                    <div role="tabpanel" class="tab-pane fade" id="companyDetail">
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th class="text-center">NO</th>
+                                    <th>合同编号</th>
+                                    <th>租户类型</th>
+                                    <th>商户名称</th>
+                                    <th>计租面积</th>
+                                    <th>计租开始日期</th>
+                                    <th>计租结束日期</th>
+                                    <th>租期（月）</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr> -->
+                                <tr style="color:#333333;">
+                                    <!-- <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td> -->
+                                    <td>01</td>
+                                    <td>企业</td>
+                                    <td>光谷联合</td>
+                                    <td>99</td>
+                                    <td>66</td>
+                                    <td>2011.11.11</td>
+                                    <td>2013.11.11</td>
+                                    <td>24</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <%@ include file="/common/modal.industry.tree.jsp" %> -->
+</body>
+
+</html>

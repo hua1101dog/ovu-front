@@ -1,0 +1,61 @@
+<div class="modal-header" style="border-bottom: none;">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">费项</h4>
+</div>
+
+<div class="modal-body container-fluid" style="padding-top: 0;margin-top: -10px;">
+
+    <div class="" style="border: none;">
+        <div class="tab-content">
+            <div style="height:270px; overflow:scroll;">
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                    <tr>
+                        <th class="text-center" style="width:20px"><span role="button"
+                                                                         ng-click="checkAll(expendituretem)">
+									<i class="glyphicon glyphicon-unchecked"
+                                       ng-class="{'glyphicon-check':expendituretem.checked,'glyphicon-unchecked':!expendituretem.checked}"></i></span>
+                        </th>
+                        <th class="text-center">No.</th>
+                        <th>费项名称</th>
+                        <th>费项类别</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!expendituretem.data || expendituretem.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr style="color:#333333;cursor: pointer;" ng-repeat="x in expendituretem.data"
+                        ng-click="selectExpenditure($event,x)">
+                        <td>
+                            <i ng-if="x.name!='租金'" role="button" ng-click="checkOne(x,$event)"
+                               ng-class="{'glyphicon-check':x.checked,'glyphicon-unchecked':!x.checked}"
+                               class="glyphicon">
+                            </i>
+                            <i ng-if="x.name=='租金'" role="button" readonly
+                               ng-class="{'glyphicon-check':true}"
+                               class="glyphicon">
+                            </i>
+                        </td>
+                        <td class="text-center">{{$index+1}}</td>
+                        <td>{{x.name}}</td>
+                        <td>
+                            <!--01:租金模式, 02:租金类, 03:管理费类, 04:其他类, 05:押金类-->
+                            <span ng-if="x.category=='01'">租金模式</span>
+                            <span ng-if="x.category=='02'">租金类</span>
+                            <span ng-if="x.category=='03'">管理费类</span>
+                            <span ng-if="x.category=='04'">其他类</span>
+                            <span ng-if="x.category=='05'">押金类</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="save(expendituretem)">确认</button>
+    <button class="btn" ng-click="cancel()">关闭</button>
+</div>

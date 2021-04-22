@@ -1,0 +1,26 @@
+<script type="text/ng-template" id="commonMap.html">
+<div class="x_panel" style="height: 500px;padding:0">
+	<div ui-map="vm.map" style="height:500px; "
+			ui-options="vm.mapOptions" ui-map-cache="allMap"
+			ui-event="{'map-click':'vm.clickMap($event,$params)'}">
+ 	 </div>
+     <div ng-repeat="marker in vm.markers" 
+    	ui-map-marker="vm.markers[$index]" 
+    	ui-event="{'map-mouseover':'vm.mouseoverMaker($event,$params,marker)',
+    	'map-mouseout':'vm.myInfoWindow.close()'}">
+     </div>
+      <div ui-map-info-window="vm.myInfoWindow" style="width:190px">
+	      	<div class="x_title">{{vm.markerData.name}}</div>
+	      	<div class="x_content" style="z-index: 1">
+           		<div class="row" ng-show="vm.index == 0 || vm.index == 1 || vm.index == 2">
+           			<label class="col-xs-6 control-label">电梯数：</label>
+           			<label class="col-xs-6 control-label">{{vm.markerData.liftTotal}}台</label>
+           		</div>
+           		<div class="row" ng-show="vm.index == 0 || vm.index == 2">
+           			<label class="col-xs-6 control-label ">项目数：</label>
+           			<label class="col-xs-6 control-label ">{{vm.markerData.projectTotal}}台</label>
+           		</div>
+			</div>
+        </div>
+</div>
+</script>

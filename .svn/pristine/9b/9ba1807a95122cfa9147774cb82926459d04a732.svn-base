@@ -1,0 +1,155 @@
+<!-- 硬件服务器设备管理 -->
+<div ng-controller="hardwareCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>硬件服务器设备管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <a ng-click='expandAll(lanTree)' role="button" class='btn-link' title="展开与收缩"><i class="glyphicon" ng-class="{'glyphicon-resize-small':lanTree.expanded,'glyphicon-resize-full':!lanTree.expanded}" ></i></a>网络
+                    <a ng-click='editNode()' role="button" class='btn-link pull-right'><i class='fa fa-plus' ></i>网络</a>
+                </div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="!lanTree">未配置</div>
+                    <div>
+                        <tree-view  node-list="lanTree" config="lanConfig" ></tree-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>编号</label>
+                        <input type="text" ng-model="search.code" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>名称</label>
+                        <input type="text" ng-model="search.name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>视频监控服务</label>
+                        <select class="form-control" ng-model="search.hasImos" >
+                            <option value="">--请选择--</option>
+                            <option value=1>包含</option>
+                            <option value=0>不包含</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>转流服务</label>
+                        <select class="form-control" ng-model="search.hasMedia" >
+                            <option value="">--请选择--</option>
+                            <option value=1>包含</option>
+                            <option value=0>不包含</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>流媒体服务</label>
+                        <select class="form-control" ng-model="search.hasTransform" >
+                            <option value="">--请选择--</option>
+                            <option value=1>包含</option>
+                            <option value=0>不包含</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-default" ng-click="find(1)">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    硬件服务器设备列表
+                    <button class="btn btn-primary pull-right" ng-click="showEditModal()">添加硬件服务器</button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover">
+                        <thead class="title">
+                        <tr>
+                            <th rowspan="2" class="text-center">NO</th>
+                            <th rowspan="2">编号</th>
+                            <th rowspan="2">名称</th>
+                            <th rowspan="2">网络</th>
+                            <th rowspan="2">ip地址</th>
+                            <th rowspan="2">teamViewer</th>
+                            <th colspan="3" style="padding-top: 0">安装服务</th>
+                            <th rowspan="2" style="width: 50px">操作</th>
+                        </tr>
+                        <tr>
+                            <th style="width:145px;"> 服务类型&编码</th>
+                            <th style="width:94px;">开放端口</th>
+                            <th style="width:60px;">状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data">
+                            <td  class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td >{{item.hardwareNo}}</td>
+                            <td >{{item.name}}</td>
+                            <td>{{item.lanId|keyToValue:flatLanTree:'lanId':'name'}}</td>
+                            <td >
+                                内网：{{item.localIp?item.localIp:'无'}}<br />
+                                外网：{{item.ip?item.ip:'无'}}
+                            </td>
+                            <td >
+                                账号：{{item.teamViewerId}}<br />
+                                密码：{{item.teamViewerPassword}}
+                            </td>
+                            <td colspan="3">
+                                <table class="table " style="margin-bottom: 0">
+                                    <tr ng-repeat="e in item.imosList">
+                                        <td style="width:145px;">视频监视服务{{e.imosCode}}</td>
+                                        <td style="width:94px;" class="text-center">{{e.imosPort}}</td>
+                                        <td style="width:60px;" class="text-center"></td>
+                                    </tr>
+                                    <tr ng-repeat="e in item.transformList">
+                                        <td style="width:145px;">转流服务{{e.transformNo}}</td>
+                                        <td style="width:94px;" class="text-center"></td>
+                                        <td style="width:60px;padding: 0px;font-size:26px;white-space: nowrap" class="text-center">
+                                            <i class='glyphicon' ng-class="{'glyphicon-ok-circle text-success':e.transformStatus ==0,'glyphicon-exclamation-sign text-danger':e.transformStatus ==1}"/>
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="e in item.mediaList">
+                                        <td style="width:145px;" media-detect ip='item.ip||item.localIp' media="e">流媒体服务{{e.mediaNo}} </td>
+                                        <td style="width:94px;" class="text-center">{{e.httpPort}}</td>
+                                        <td style="width:60px;padding:0px;font-size:26px" class="text-center">
+                                            <i class='glyphicon' ng-class="{'glyphicon-ok-circle text-success':e.mediaStatus ==0,'glyphicon-exclamation-sign text-danger':e.mediaStatus ==1}"/>
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="e in item.proxyList">
+                                        <td style="width:145px;"> 内网代理{{e.proxyCode}} </td>
+                                        <td style="width:94px;" class="text-center"></td>
+                                        <td style="width:60px;padding:0px;font-size:26px" class="text-center">
+                                            <i class='glyphicon' ng-class="{'glyphicon-ok-circle text-success':e.status ==1,'glyphicon-exclamation-sign text-danger':e.status ==2}"/>
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="e in item.miSdkList">
+                                        <td style="width:145px;" >小米sdk </td>
+                                        <td>{{e.port}}</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td >
+                                <a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'>
+                                    <span class='fa fa-edit'></span>编辑</a>
+                                <a href='javascript:void(0)' ng-click='del(item.id)' class='btn btn-xs'>
+                                    <span class='fa fa-trash'></span>删除</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

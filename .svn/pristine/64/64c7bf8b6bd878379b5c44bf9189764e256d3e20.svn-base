@@ -1,0 +1,275 @@
+<div ng-controller="wayCtrl">
+    <div class="page-title" style="height:34px">
+        <div class="title_left">
+            <h3>巡查路线</h3>
+        </div>
+    </div>
+  
+    <div class="row" style="padding:15px">
+        <div class="col-md-5 col-sm-5 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                    <div class="x_panel">
+                            <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>选择部门:</label>
+                                        <div style="display:inline-block;">
+                                       
+                                                <tree-selector   style="width: 300px;" node-list="childTree" host="search"  callback="selectNode" host-key="'deptId1'" host-text="'nodeText'" leaf-only=false tip-text="'请选择部门'"></tree-selector>
+                                        </div>
+                                    </div>
+            
+                                </div>
+                    </div>
+                <div class="x_title">岗位列表</div>
+                <div class="alert" role="alert" ng-if="postTree && postTree.length==0">无岗位信息</div>
+                <div class="x_content" style="height: 200px;overflow: auto;">
+                        <tree-view-pro node-list="postTree" host="search" host-text="'postName'" host-key="'postId'"
+                        callback="selectPost" config="{'edit':false}"></tree-view-pro>
+                </div>
+            </div>
+           <div class="x_panel">
+                <div class="x_panel">
+                        <div class="x_title">
+                            <span style="font-size:18px">巡查路线详情</span>                           
+                            <button class="btn btn-primary" ng-click="edit()" style="margin-top:-5px;margin-left:15px;margin-right: 5px" ng-disabled="isEdit" ng-if=" !flag">添加路线</button>
+                            <button class="btn btn-primary" ng-click="save()" style="margin-top:-5px;margin-left: 0px"
+                            ng-disabled="!isEdit" ng-if="isEdit && !flag">完成 </button>
+                        </div>
+                        <div class="x_content" style="height: 128px;overflow: auto;">
+                            <table class="table" style="margin-top: -10px;">
+                                <tbody>
+                                    <tr ng-if="isnWayList.length== 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="item in isnWayList">
+                                        <td>
+                                          <span ng-if="!item.isEdit" class="btn-link"  ng-click="getWay(item.insWayId,item.wayName,item.postId)">  {{item.wayName}}</span>
+                                          <input ng-if="item.isEdit" class="input_isEdit" ng-model="item.wayName" />
+                                        </td>
+                                        <td>
+                                            <a href='javascript:void(0)' class="btn-link" ng-click='del(item.insWayId)'>删除 |
+                                            </a>
+                                            <a href='javascript:void(0)' class="btn-link" ng-if="!item.isEdit" ng-click='editName2(item);'>编辑
+                                                </a>
+                                                <a href='javascript:void(0)' class="btn-link" ng-if="item.isEdit" ng-click='save(true,item)'>完成
+                                                    </a>
+                                            
+        
+                                        </td>
+        
+        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="x_panel" style="height: 227px;overflow: auto;">
+                            <ul class="icon-item">
+                                <li ng-repeat="item in selecedPoints  track by $index" style="height: 40px;line-height: 30px;">
+                                    <i class="layui-icon step-item-head">{{$index-0+1}}</i>
+                                </li>
+                            </ul>
+                            <ul ng-drop="true"  style="margin-top:3px;margin-left: 40px;" ng-drop-success="dropComplete($index,$data,$event)">
+                                <li style="height: 40px;line-height: 30px;" ng-repeat="item in selecedPoints  track by $index" >
+                                <div style="cursor: drag;width: calc(100% - 80px);" ng-drag="true"  class="inline_block"
+                                ng-drag-data="item">
+                                <span class="step-item-main-title content_way" uib-tooltip="{{item.name}}" tooltip-placement="bottom-left">{{item.name}}</span>
+                                <button class="btn btn-sm btn-default pull-right" >拖拽</button>
+                                </div>
+                                   
+                                    <button class="btn btn-sm btn-default " style="vertical-align: top;"
+                                        ng-click="delItem(item,$event)">删除</button>
+                                   
+                                </li>
+                            </ul>
+                        </div>
+           </div>
+        </div>
+        <div class="col-md-7 col-sm-7 col-xs-12" style="padding:0 0 0 15px">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="输入巡查点名称" ng-model="search.name">
+                    </div>
+                    <button class="btn btn-default" ng-click="find()">查询</button>
+
+                </div>
+
+            </div>
+            <div class="x_panel" style="padding:5px;">
+                <div id="mainMap" ui-map="mainMap" style="height:726px; " ui-options="mainMapOptions"
+                    ui-map-cache="mainMap" ui-event="{'map-click':'clickMap($event,$params)'}">
+                </div>
+
+                <div ng-repeat="marker in mainMarkers track by $index" ui-map-marker="mainMarkers[$index]"
+                    ui-event="{'map-click':'clickMarker($event,$params,marker)'}">
+                </div>
+                <div ng-repeat="polyline in polylines track by $index" ui-map-polyline="polyline"
+                    ui-event="{'map-click':'clickPolyline($event,$params,polyline)'}">
+                </div>
+
+
+                <div ng-if="floorIshow" style="position: absolute;bottom: 30px;max-height: 200px;overflow: auto">
+                    <div class="list-group">
+                        <a href="javascript:void(0)" class="list-group-item  b-none ellipsis"
+                            ng-class="{active: (selectedFloor == {{$index}})}"
+                            ng-repeat="floor in floorList  track by $index" ng-click="getPointList(floor,$index)">
+                            {{floor.floorName}}
+                        </a>
+                    </div>
+                </div>
+                <div ui-map-info-window="myInfoWindow">
+                    <div class="list-group">
+                        <a href="javascript:void(0)" class="list-group-item  b-none ellipsis"
+                            ng-class="{active: (selectPoint == {{$index}})}"
+                            ng-repeat="item in pointList  track by $index" ng-click="getPoint(item,$index)">
+                            {{item.name}}
+                        </a>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="panel panel-default" style="height:  100px;">
+                <div class="panel-body">
+                    <p>图示：</p>
+                    <p>
+                        <span style="margin:0 50px"><img src="/res/img/inspection/u779.png" />室外点位</span>
+                        <span><img src="/res/img/inspection/u787.png" />室内点位</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</div>
+<style>
+    .amap-touch-toolbar .amap-zoomcontrol {
+        bottom: 10px;
+    }
+
+    .b-none {
+        border-left: 0;
+        border-right: 0;
+    }
+
+    .a-icon {
+        float: right;
+        color: #0ce496;
+        width: 1.28571429em;
+        text-align: center;
+    }
+
+    .userDiv {
+        text-align: center;
+        padding: 6px;
+    }
+
+    .userDiv label {
+        margin-top: 5px;
+        padding: 0 6px;
+        border-radius: 6px 6px;
+    }
+
+    .icon-item {
+        width: 10%;
+        float: left;
+        text-align: center
+    }
+
+    .layui-icon {
+        font-family: layui-icon !important;
+        font-size: 16px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .step-item {
+        line-height: 26px;
+        position: relative;
+        background: #ffffff;
+        float: left;
+        width: 90%
+    }
+
+
+    .step-item-head {
+        position: relative;
+        display: inline-block;
+        /* line-height: 30px; */
+        width: 30px;
+        text-align: center;
+        vertical-align: top;
+        color: #ffffff;
+        border: 1px solid #009DD9;
+        border-radius: 50%;
+        background: #009DD9;
+    }
+
+    .icon-item li:first-child .step-item-head {
+        background: #009900;
+        border: 1px solid #009900;
+    }
+
+    .icon-item li:last-child .step-item-head {
+        background: #FF0000;
+        border: 1px solid #FF0000;
+    }
+
+    .step-item-main-title {
+        color: #555555;
+        margin-left: 40px;
+        font-size: 14px
+    }
+
+    .btn-group-sm>.btn,
+    .btn-sm {
+        /* padding: 2px 8px; */
+        font-size: 12px;
+        line-height: 14px;
+        border-radius: 3px;
+        width: 47px;
+        height: 26px;
+    }
+    .input_isEdit{
+        display: block;
+    height: 27px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.content_way {
+        max-width: 135px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        /* line-height: 30px; */
+    }
+    .amap-marker-label {
+    position: absolute;
+    z-index: 2;
+    border: 1px solid blue;
+    background-color: white;
+    white-space: nowrap;
+    cursor: default;
+    padding: 3px;
+    font-size: 10px;
+    line-height: 10px;
+}
+</style>

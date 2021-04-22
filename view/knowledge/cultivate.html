@@ -1,0 +1,86 @@
+<!-- 在线培训 -->
+<div ng-controller="cultivateCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>培训课件库管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">知识体系分类
+                </div>
+                <div class="x_content" style="z-index: 1;max-height: 700px; overflow: auto">
+                    <div class="alert" role="alert" ng-if="treeClass && treeClass.length==0">无信息</div>
+                    <tree-view-pro node-list="treeClass"  callback="selectNode" config="config" host="search" host-text="'cultivateName'"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" ng-model="search.text" class="form-control" placeholder="课件名称" />
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)">查询</button>
+                   
+                    
+                </div>
+            </div>
+               
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                            课件列表
+                            <button class="btn pull-right" ng-click="provideModal()" ng-disabled="!hasChecked(pageModel)">发放课件</button>
+                            <button class="btn btn-danger pull-right" ng-click="allDelModal()" ng-disabled="!hasChecked(pageModel)">批量删除</button>
+                            <button class="btn btn-success pull-right" ng-click="showEditModal()"  ng-disabled="treeClass.length==0">新增</button>
+                    </div>
+                    <div class="panel-body" style="padding: 0px;">
+                        <table class="table table-striped table-hover" style="margin-top: 10px;">
+                            <thead>
+                                <tr>
+                                    <!-- <th class="text-center">NO</th> -->
+                                    <th class="text-center" style="width:20px"><span role="button"
+                                            ng-click="checkAll(pageModel)">
+                                            <i class="glyphicon"
+                                                ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                                    </th>
+                                    <th>类型</th>
+                                    <th>课件名称</th>
+                                    <th>发放次数</th>
+                                    <th>创建人</th>
+                                    <th>创建日期</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr ng-repeat="item in pageModel.data">                                        
+                                    <!-- <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td> -->
+                                    <td><i role="button" ng-click="checkOne(item)"
+                                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                            class="glyphicon"></i></td>
+                                    <td>{{item.hierarchyClassificationName}}</td>
+                                    <td style="white-space:normal; word-break:break-all;text-align: left;">{{item.text}}</td>
+                                    <td>{{item.count}}</td>
+                                    <td>{{item.creatorName}}</td>
+                                    <td>{{item.createTime}}</td>
+                                    <td>
+                                        <a href='javascript:void(0)' ng-click="showEditModal(item,true)" class='btn btn-xs'><span class='fa fa-eye'></span>查看详情</a>
+                                        <a href='javascript:void(0)' ng-click='showEditModal(item)'  class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+                                        <a href='javascript:void(0)' ng-click='del(item)'  class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'"></ng-include>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

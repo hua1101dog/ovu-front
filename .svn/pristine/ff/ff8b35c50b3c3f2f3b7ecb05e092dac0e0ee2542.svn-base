@@ -1,0 +1,100 @@
+<style>
+    .div-group{
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .div-panel{
+         /* width: 86px; */
+        color: #989898;
+        background-color:#fff;
+        border: 1px solid #E6E9ED;
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 0;
+        /*margin-right: 15px;*/
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border-radius: 4px;
+     }
+     .div-active{
+        color: #fff;
+        background-color: #5891eb;
+     }
+     </style>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+        ×
+        </button>
+        <h4 class="modal-title">用电账单详情</h4>
+    </div>
+    <div class="modal-body">
+         <div class="row">
+             <div class="col-md-12 col-sm-12 col-xs-12">
+             <!-- 
+                 <form class="form-horizontal form-label-left" ng-if="search.currentType != 'year'">
+                    <div class="input-group col-md-12" style="margin-left:35%;">  
+                        <label class="control-label">统计类型：</label>
+                        <div class="div-group">
+                            <div class="div-panel div-active" ng-class=" {'div-active': currentType=='month'}" ng-click="setCurrentType('month')">月</div>
+                            <div class="div-panel" ng-class=" {'div-active': currentType=='day'}" ng-click="setCurrentType('day')">日</div>
+                        </div>  
+                    </div> 
+                 </form>
+                  -->
+                 <table class="table" id="selectTable">
+                     <thead>
+                        <tr>
+                            <th class="text-center">No.</th>
+                            <th>表号</th>
+                            <th>账单日期</th>
+                            <th>起码</th>
+                            <th>止码</th>
+                            <th>倍率</th>
+                            <th>用量（KWh）</th>
+                            <th>单价（元）</th>
+                            <th>实际总费用（元）</th>
+                        </tr>
+                        <tr id="tableloading" class="hide">
+                            <th colspan="9">
+                                <div class="alert" role="alert">加载中...</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="rows">
+                        <tr ng-if="!pageModel.data || pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                        <tr ng-repeat="item in pageModel.data" class="ng-scope">
+                            <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td>{{item.electricityMeterid}}</td>
+                            <td>{{item.startTime + " ~ " + item.endTime}}</td>
+                            <td>{{item.preFlow}}</td>
+                            <!-- <td>{{(item.flow * item.price) | number:2}}</td> -->
+                            <td>{{item.nowFlow}}</td>
+                            <td>{{item.times}}</td>
+                            <td>{{item.electricityUse}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.totalCost}}</td>
+                        </tr>
+                        <tr id="toolbarTr">
+                            <td colspan="9"></td>
+                        </tr>
+                    </tbody>
+                  </table>
+                  <div class="page-footer clearfix" style="margin-left:8%;margin-top:-20px;">
+                    <ng-include src="'/common/pager.html'" class="ng-scope">
+                        <style type="text/css" class="ng-scope">
+                            .pagination>li>span:hover{background-color: #fff;cursor:text}
+                        </style>
+                    </ng-include>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">关  闭</button>
+     </div>

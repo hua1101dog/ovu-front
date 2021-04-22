@@ -1,0 +1,47 @@
+<div ng-controller="staffQueryCtrl" style="position: relative;">
+    <table class="table table-striped table-hover" style="margin-top: 10px;">
+        <thead class="title">
+            <tr>
+                <th class="text-center">NO.</th>
+                <th>姓名</th>
+                <th>识别照片</th>
+                <th>工号</th>
+                <th>联系电话</th>
+                <th>职务</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody class="table_tbody_box">
+            <tr ng-if="staffList.length == 0">
+                <td colspan="100" class="text-center">暂无数据</td>
+            </tr>
+            <tr ng-repeat="item in staffList" class="ng-scope">
+                <td class="text-center">{{$index + 1}}</td>
+                <td class="">{{item.name}}</td>
+                <td class=""> <img class="tableImg" ng-src="{{item.avatarPhoto}}" ng-click="showBigImg(item.avatarPhoto)" alt=""> </td>
+                <td class="">{{item.job_number}}</td>
+                <td class="">{{item.phone}}</td>
+                <td class="">{{item.title}}</td>
+                <td class="clearfix">
+                    <a href="javascript:void(0)" ng-click="toRefresh(item)">
+                        查看详情
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-include src="'/common/pager3.html'" class="ng-scope">
+        <style type="text/css" class="ng-scope">
+            .pagination>li>span:hover {
+                background-color: #fff;
+                cursor: text
+            }
+        </style>
+    </ng-include>
+</div>
+<style>
+ .tableImg{
+     height: 50px;
+     width: 50px;
+ }
+</style>

@@ -1,0 +1,211 @@
+<div id="angularId" ng-controller="takingTwiceReportCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>二次承接报告</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-12">
+			<div class="form-group">
+				<label class="control-label">
+					<i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+					<a role="button" ng-click="selectProject()">{{search.projectName?search.projectName:'请选择项目'}} </a></label>
+			</div>
+			<div class="x_panel">
+				<div class="x_title">承接类型
+				</div>
+				<div class="x_content">
+					<table class="table table-responsive" style="table-layout: fixed">
+						<tbody>
+						<tr ng-repeat="item in list" ng-class="{'bg-primary':item.id == typeId}" role="button" ng-click="clicktr(item)">
+							<td>{{item.text}}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+			<div class="col-xs-12">
+				<div class="col-xs-4">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<span>盘点清单结果统计</span>
+						</div>
+						<div class="panel-body">
+							<div id="stockChart" style="height:85px;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<span>查验清单结果统计</span>
+						</div>
+						<div class="panel-body">
+							<div id="watchChart" style="height:85px;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<span>检测清单结果统计</span>
+						</div>
+						<div class="panel-body">
+							<div id="checkChart" style="height:85px;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="x_panel">
+				<div class="x_content">
+					<div class="" role="tabpanel" data-example-id="togglable-tabs">
+						<ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+							<li role="presentation" class="active">
+								<a href="#tab_content1" role="tab" id="tab1"
+								   ng-click="switchTab(1)"
+								   data-toggle="tab" aria-expanded="true">盘点清单</a>
+							</li>
+							<li role="presentation" class="">
+								<a href="#tab_content2" role="tab" id="tab2"
+								   ng-click="switchTab(2)"
+								   data-toggle="tab" aria-expanded="false">查验清单</a>
+							</li>
+							<li role="presentation" class="">
+								<a href="#tab_content3" role="tab" id="tab3"
+								   ng-click="switchTab(3)"
+								   data-toggle="tab" aria-expanded="false">检测清单</a>
+							</li>
+						</ul>
+						<!--盘点清单-->
+						<div id="myTabContent" class="tab-content">
+							<div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
+								 aria-labelledby="tab1">
+								<table class="table table-hover text-left" id="checkTable">
+									<thead>
+									<tr align="left">
+										<th class="text-center">NO</th>
+										<th>移交位置</th>
+										<th>查验项</th>
+										<th>查验内容</th>
+										<th>品牌</th>
+										<th>数量</th>
+										<th>是否相符</th>
+										<th>承接日志</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-if="pageModel.data.length == 0">
+										<td colspan="100" class="text-center">暂无记录</td>
+									</tr>
+									<tr ng-repeat="item in pageModel.data">
+										<td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+										</td>
+										<td>{{item.area}}</td>
+										<td>{{item.item_name}}</td>
+										<td>{{item.content}}</td>
+										<td>{{item.brand}}</td>
+										<td>{{item.num}}</td>
+										<td>{{item.has_problem|keyToValue:yesNoDict}}</td>
+										<td>
+											<a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-search'></span>查看日志</a>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+								<div class="page-footer clearfix">
+									<ng-include src="'/common/pager.html'"></ng-include>
+								</div>
+							</div>
+							<!--查验清单-->
+							<div role="tabpanel" class="tab-pane fade" id="tab_content2"
+								 aria-labelledby="tab2">
+								<table class="table table-hover text-left">
+									<thead>
+									<tr align="left">
+										<th class="text-center">NO</th>
+										<th>移交位置</th>
+										<th>查验项</th>
+										<th>查验内容</th>
+										<th>标准</th>
+										<th>是否存在问题</th>
+										<th>承接日志</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-if="pageModel.data.length == 0">
+										<td colspan="100" class="text-center">暂无记录</td>
+									</tr>
+									<tr ng-repeat="item in pageModel.data">
+										<td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+										</td>
+										<td>{{item.area}}</td>
+										<td>{{item.item_name}}</td>
+										<td>{{item.content}}</td>
+										<td>
+                                            <ul>
+                                                <li ng-repeat="s in item.standards">{{$index+1}}:{{s.name}} {{s.param_key}}:{{s.param_val}}</li>
+                                            </ul>
+										</td>
+										<td>{{item.has_problem|keyToValue:yesNoDict}}</td>
+										<td>
+											<a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-search'></span>查看日志</a>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+								<div class="page-footer clearfix">
+									<ng-include src="'/common/pager.html'"></ng-include>
+								</div>
+							</div>
+							<!--检测清单-->
+							<div role="tabpanel" class="tab-pane fade" id="tab_content3"
+								 aria-labelledby="tab3">
+								<table class="table table-hover text-left">
+									<thead>
+									<tr align="left">
+										<th class="text-center">NO</th>
+										<th>移交位置</th>
+										<th>查验项</th>
+										<th>查验内容</th>
+										<th>标准</th>
+										<th>检测值</th>
+										<th>是否存在问题</th>
+										<th>承接日志</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr ng-if="pageModel.data.length == 0">
+										<td colspan="100" class="text-center">暂无记录</td>
+									</tr>
+									<tr ng-repeat="item in pageModel.data">
+										<td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+										</td>
+										<td>{{item.area}}</td>
+										<td>{{item.item_name}}</td>
+										<td>{{item.content}}</td>
+										<td>
+                                            <ul>
+                                                <li ng-repeat="s in item.standards">{{$index+1}}:{{s.name}} {{s.param_key}}:{{s.param_val}}</li>
+                                            </ul>
+										</td>
+										<td>{{item.check_val}}</td>
+										<td>{{item.has_problem|keyToValue:yesNoDict}}</td>
+										<td>
+											<a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-search'></span>查看日志</a>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+								<div class="page-footer clearfix">
+									<ng-include src="'/common/pager.html'"></ng-include>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

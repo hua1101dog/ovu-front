@@ -1,0 +1,25 @@
+<div>
+    <table class="table-bordered" style="width: 500px;margin: 20px auto">
+        <tr>
+            <td>导入总数</td>
+            <td>{{item.totalNum}}</td>
+        </tr>
+        <tr>
+            <td>成功条数</td>
+            <td>{{item.succNum}}</td>
+        </tr>
+        <tr>
+            <td>失败条数</td>
+            <td>{{item.failNum}}</td>
+        </tr>
+    </table>
+    <div style="text-align: center;margin: 20px">
+        <button class="btn btn-default" ng-if="item.failNum!=0" ng-click="download()">下载失败文件</button>
+        <button class="btn btn-default" ng-click="cancel()">取消</button>
+    </div>
+</div>
+<style>
+    table tr td {
+        padding: 10px 0;
+    }
+</style>

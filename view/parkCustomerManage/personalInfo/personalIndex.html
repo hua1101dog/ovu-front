@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息管理</title>
+</head>
+<body>
+<div id="angularId" ng-controller="personalContr" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>个人信息管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="x_panel" >
+            <div class="form-inline" >
+                <div class="form-group">
+                    <label>客户名称</label>
+                    <input type="text" ng-model="search.NAME_LI" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>账号</label>
+                    <input type="text" ng-model="search.PHONE_EQ" class="form-control" placeholder='手机号'/>
+                </div>          
+                <div class="form-group">
+                    <label>账号状态</label>
+                    <select class="form-control" ng-model="SEARCH_ALLOWED">
+                        <option value="">---不限---</option>
+                        <option value="0">未分配</option>
+                        <option value="1">已分配</option>                      
+                    </select>
+                </div>
+        
+                <button class="btn btn-default" ng-click="find(1)" >查询</button>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#999999;">
+                个人信息列表
+                <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="showEditModal()" >新增个人</button>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center">NO.</th>             
+                            <th>客户名称</th>
+                            <th>性别</th>
+                            <th>手机号</th>
+                            <th>邮箱</th>
+                            <th>所属行业</th>
+                            <th>职位</th>                 
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                    <tr ng-repeat="item in pageModel.data" style="color:#333333;">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <!-- <td>{{item.CUS_TYPE | convertCusType}}</td> -->
+                        <td>{{item.NAME}}</td>
+                        <td>{{item.SEX | sexFilter}}</td>
+                        <td>{{item.PHONE}}</td>
+                        <td>{{item.EMAIL}}</td>
+                        <td>{{item.industryName}}</td>
+                        <td>{{item.belongProfession}}</td>                  
+                        <td>
+                            <a href='javascript:void(0)'  ng-if="item.isAlloted == 0" title="分配账号" ng-click="showAccountAssign(item)" class='btn btn-xs' style="color:blue;"><span class='fa fa-user'></span>分配账号</a>
+                            <a href='javascript:void(0)'  ng-if="item.isAlloted == 1" title="已分配账号"  ng-click="showAccountAssign(item)" class='btn btn-xs' style="color:gray;width: 70px;text-align: left;" ><span class='fa fa-user'></span>已分配</a>
+                           <a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs' style="border:1px solid #5692ea;color:#5692ea;"><span></span>编辑</a>
+                            <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs' style="border:1px solid #5692ea;color:#5692ea;"><span></span>删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'" class="ng-scope">
+                    <style type="text/css" class="ng-scope">
+                        .pagination>li>span:hover{background-color: #fff;cursor:text}
+                    </style>
+                </ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <%@ include file="/common/modal.industry.tree.jsp" %> -->
+</body>
+</html>

@@ -1,0 +1,210 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{!item.id?'新增':'修改'}}权限</h4>
+</div>
+<div class="modal-body container-fluid">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">总经理</div>
+                <div class="panel-body" style="overflow: auto;">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <!-- <label>员工姓名</label> -->
+                            <input type="text" ng-model="searchMainManager.gmName" placeholder="输入姓名" class="form-control" />
+                        </div>
+                        <button class="btn btn-default" ng-click="findMainManager(1)">查询</button>
+
+                    </div>
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>姓名</th>
+                                <th>岗位</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModelMainManager.data.length == 0">
+                                <td colspan="100" >暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModelMainManager.data" ng-click="checkPost(item)">
+                                <td>{{$index + 1}}</td>
+                                <td>{{item.gmName}}</td>
+                                <td>{{item.postName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <div class="page" style="font-size:12px;">
+                            <ul class="pagination pull-left" ng-show="pageModelMainManager.totalPage">
+                                <li>
+                                    <span style="height:31px;">每页
+                                        <select style="width:80px;padding:0;border:none" type="number" ng-model="pageModelMainManager.pageSize" ng-change="findMainManager(1)"
+                                            ng-options="o[0] as o[1] for o in [[10,'&nbsp;&nbsp;&nbsp;10'],[20,'&nbsp;&nbsp;&nbsp;20'],[50,'&nbsp;&nbsp;&nbsp;50'],[100,'&nbsp;&nbsp;&nbsp;100']]">
+                                        </select>条</span>
+                                </li>
+                                <li ng-if="$first" role="button" ng-repeat-start="page in pageModelMainManager.pages track by $index" ng-class="{disabled:pageModelMainManager.currentPage ==1}"
+                                    ng-click="pageModelMainManager.currentPage >1 && findMainManager(pageModelMainManager.currentPage-1)">
+                                    <a>«</a>
+                                </li>
+                                <li ng-class="{active:page==pageModelMainManager.currentPage}" role="button">
+                                    <a ng-if="page>0" ng-click="findMainManager(page)">{{page}}</a>
+                                    <span ng-if="!(page>0)" style="border-top:none;border-bottom:none">{{page}}</span>
+                                </li>
+                                <li ng-if="$last" role="button" ng-repeat-end ng-class="{disabled:pageModelMainManager.currentPage == pageModelMainManager.totalPage}"
+                                    ng-click="pageModelMainManager.currentPage < pageModelMainManager.totalPage && findMainManager(pageModelMainManager.currentPage+1)">
+                                    <a>»</a>
+                                </li>
+                                <li>
+                                    <span>共{{pageModelMainManager.totalRecord}}条记录</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- <button class="btn btn-primary pull-right" ng-click="vm.setPerson(2)">确定</button> -->
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form name="form" novalidate class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label required">领导：</label>
+                            <span style="margin-top: 7px;font-weight: 700;display: inline-block">{{gmItem.gmName}}</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">经理</div>
+                <div class="panel-body" style="overflow: auto;">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <!-- <label>员工姓名</label> -->
+                            <input type="text" ng-model="searchManager.mName" placeholder="输入姓名" class="form-control" />
+                        </div>
+                        <button class="btn btn-default" ng-click="findManager(1)">查询</button>
+                    </div>
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th style="width:20px">
+                                    <span role="button" ng-click="checkAll(pageModelManager)">
+                                        <i class="glyphicon" ng-class="{'glyphicon-check':pageModelManager.checked,'glyphicon-unchecked':!pageModelManager.checked}"></i>
+                                    </span>
+                                </th>
+                                <th>姓名</th>
+                                <th>岗位</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModelManager.data.length == 0">
+                                <td colspan="100">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModelManager.data">
+                                <td>{{$index + 1}}</td>
+                                <td>
+                                    <i role="button" ng-click="checkSonPost(item,pageModelManager)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                        class="glyphicon"></i>
+                                </td>
+                                <td>{{item.mName}}</td>
+                                <td>{{item.postName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <div class="page" style="font-size:12px;">
+                            <ul class="pagination pull-left" ng-show="pageModelManager.totalPage">
+                                <li>
+                                    <span style="height:31px;">每页
+                                        <select style="width:80px;padding:0;border:none" type="number" ng-model="pageModelManager.pageSize" ng-change="findManager(1)"
+                                            ng-options="o[0] as o[1] for o in [[10,'&nbsp;&nbsp;&nbsp;10'],[20,'&nbsp;&nbsp;&nbsp;20'],[50,'&nbsp;&nbsp;&nbsp;50'],[100,'&nbsp;&nbsp;&nbsp;100']]">
+                                        </select>条</span>
+                                </li>
+                                <li ng-if="$first" role="button" ng-repeat-start="page in pageModelManager.pages track by $index" ng-class="{disabled:pageModelManager.currentPage ==1}"
+                                    ng-click="pageModelManager.currentPage >1 && findManager(pageModelManager.currentPage-1)">
+                                    <a>«</a>
+                                </li>
+                                <li ng-class="{active:page==pageModelManager.currentPage}" role="button">
+                                    <a ng-if="page>0" ng-click="findManager(page)">{{page}}</a>
+                                    <span ng-if="!(page>0)" style="border-top:none;border-bottom:none">{{page}}</span>
+                                </li>
+                                <li ng-if="$last" role="button" ng-repeat-end ng-class="{disabled:pageModelManager.currentPage == pageModelManager.totalPage}"
+                                    ng-click="pageModelManager.currentPage < pageModelManager.totalPage && findManager(pageModelManager.currentPage+1)">
+                                    <a>»</a>
+                                </li>
+                                <li>
+                                    <span>共{{pageModelManager.totalRecord}}条记录</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- <button class="btn btn-primary pull-right" ng-click="vm.setPerson(2)">确定</button> -->
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form name="form" novalidate class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label required">组员：</label>
+                            <div class="col-xs-8">
+                                <div class="input-group">
+                                    <ul id="person2" class="ul-persons">
+                                        <li class="item" ng-repeat="p in managerList">{{p.mName}}
+                                            <a ng-click="del(managerList,p)">
+                                                <i class='fa fa-remove'></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save()">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+     table tr th,
+    table tr td {
+        text-align: center;
+    }
+    .pagination>li>span:hover {
+        background-color: #fff;
+        cursor: text
+    }
+
+    .ul-persons {
+        list-style: none;
+        float: left;
+        padding: 0px;
+    }
+
+    .ul-persons li {
+        margin: 5px;
+        padding: 5px;
+        float: left;
+    }
+
+    .ul-persons li.item {
+        background-color: #F9F9F9;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+</style>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>租金分解</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="rentResolveCtrl">
+        <div class="page-title">
+            <div>
+                <h3 style="float: left;">{{editStatus?"定价变更":"租金分解"}}</h3>
+                <!-- 色板 -->
+                <ul class="statusColor_m">
+                    <li>
+                        <!-- 灰色 -->
+                        <span>不能分解</span>
+                        <p class="status_grey"></p>
+                    </li>
+                    <li>
+                        <!-- 白色 -->
+                        <span>待分解</span>
+                        <p class="status_white"></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="">
+            <div class="panel panel-default resolvePrice_m">
+                <div class="resolve_nav">
+                    <span style="width:auto">楼栋：</span>
+                    <ul class="nav nav-tabs">
+                        <li ng-click="selBuliding(x)" ng-class="{'active':currentBulid.id===x.id}" ng-repeat="x in rentalHousesMsg.floorList">
+                            <a>{{x.buildName}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content resolve_box panel-body" style="padding-top:0">
+                    <div ng-show="currentBulid.id===bulid[0][0].buildId" class="tab-pane active" ng-repeat="bulid in houseList"  style="overflow: scroll;height:640px;">
+                        <div ng-repeat="floor in bulid track by $index" ng-style="width">
+                            <div class="table_model">
+                                <ul>
+                                    <li>单元-楼层-房号</li>
+                                    <li>计租面积（m<sup>2</sup>）</li>
+                                    <li>单价（元/月/m<sup>2</sup>） </li>
+                                    <li>标准年租金（万元）</li>
+                                </ul>
+                                <ul ng-repeat="house in floor track by $index" ng-class="{'status0':itemId===house.validProjectId,'status1':itemId!=house.validProjectId}">
+                                    <li>{{house.unitNo+"-"+house.groundNo+"-"+house.houseCode}}</li>
+                                    <li>{{house.area||"&nbsp;"}}</li>
+                                    <li>
+                                        <input ng-model="house.validRentPrice" class="form-control" type="number" placeholder="请输入定价" 
+                                        ng-keyup="saveHousePrice(house,house.id,house.validRentPrice,house.area);selectTotle()"
+                                        ng-class="{'requiredRed':house.requiredFlag}"
+                                        ng-disabled="(itemId!=house.validProjectId)" 
+                                        ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                                        max = "99999999.99">
+                                    </li>
+                                    <!--  ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" -->
+                                    <li><span ng-show="house.validRentPrice">{{house.area*house.validRentPrice*12/10000|number:2}}</span><span ng-show="!house.validRentPrice">&nbsp;</span></li>
+                                </ul>                                                
+                            </div>
+                            <div> </div>
+                        </div>
+
+                    </div>
+                </div>
+                <ul class="resolve_list">
+                    <li>
+                        <label>项目区域：</label>
+                        <span>{{rentalHousesMsg.project.stageName}}</span>
+                    </li>
+                    <li>
+                        <label>项目编码：</label>
+                        <span>{{rentalHousesMsg.project.code}}</span>
+                    </li>
+                    <li>
+                        <label>总计租面积：</label>
+                        <span>{{rentalHousesMsg.project.plannedRentalArea}}</span><span>（m<sup>2</sup>）</span>
+                    </li>
+                    <li>
+                        <label>计划年租金：</label>
+                        <span>{{rentalHousesMsg.project.plannedAnnualRent|number:2}}</span><span>万元</span>
+                    </li>
+                    <li>
+                        <label>实际总租面积：</label>
+                        <span>{{rentalHousesMsg.project.actualRentalArea}}</span><span>（m<sup>2</sup>）</span>
+                    </li>
+                    <li>
+                        <label>标准年租金：</label>
+                        <span>{{actualRentalPrice|number:2}}</span><span>万元</span>
+                    </li>
+                </ul>
+                <div class="btn_m">
+                    <button class="btn btn-primary" ng-click="saveAll(1)" style="margin-right: 5px">提交</button>
+                    <button class="btn btn-warning" ng-click="saveAll(0)">保存</button>
+                    <button class="btn" ng-click="back()">返回</button>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

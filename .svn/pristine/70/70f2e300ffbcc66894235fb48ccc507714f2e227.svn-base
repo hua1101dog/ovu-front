@@ -1,0 +1,65 @@
+<div ng-controller="customerFollowCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>客户跟进管理</h3>
+		</div>
+	</div>
+	<div class="x_panel" >
+		<div class="form-inline">
+			<div class="form-group">
+				<label>客户名称:</label>
+				<input type="text" class="form-control" name="name" ng-model="search.name" />
+			</div>
+			<button class="btn btn-default" ng-click="find()" >查询</button>
+		</div>
+	</div>
+	<div class="panel panel-default" style="margin-bottom: 0px;">
+		<div class="panel-body">
+			<table class="table table-striped table-hover" style="margin-top: 10px;">
+				<thead>
+				<tr>
+					<th class="text-center">NO</th>
+					<th nowrap="nowrap">客户名称</th>
+					<th nowrap="nowrap">所辖项目</th>
+					<th nowrap="nowrap">联系方式</th>
+					<th nowrap="nowrap">主联系人</th>
+					<th nowrap="nowrap">主联系人职位</th>
+					<th nowrap="nowrap">上次跟进时间</th>
+					<th nowrap="nowrap">上次问题描述</th>
+					<th nowrap="nowrap">状态</th>
+					<th nowrap="nowrap">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+				<tr ng-repeat="item in pageModel.data">
+					<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+					<td>{{item.name}}</td>
+					<td>{{item.projectNames}}</td>
+					<td>{{item.contactMobile}}</td>
+					<td>{{item.contactName}}</td>
+					<td>{{item.contactPosition}}</td>
+					<td>{{item.lastVisitingTime | date:'yyyy/MM/dd HH:mm:ss'}}</td>
+					<td>{{item.lastVisitingLog}}</td>
+					<td ng-if="item == null || item.lastVisitingState == null">{{''}}</td>
+					<td ng-if="item.lastVisitingState == 1">{{'进行中'}}</td>
+					<td ng-if="item.lastVisitingState == 2">{{'已终止'}}</td>
+					<td>
+						<a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-edit'></span>跟进日志</a>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			<div class="page-footer clearfix">
+				<ng-include src="'/common/pager.html'"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+   
+	table tr th,
+	table tr td {
+		text-align: left;
+	}
+</style>

@@ -1,0 +1,106 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">查看车辆登记详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <div class="bookingDetail">
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">日期：</label>
+            <span class="col-xs-8 s_content">{{item.date}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">园区：</label>
+            <span class="col-xs-8 s_content">{{item.parkName}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">车牌号码：</label>
+            <span class="col-xs-8 s_content">{{item.carNumber}}</span>
+        </div>
+
+        <b></b>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">车内人员信息：</label>
+        </div>
+        <!-- <h3>车内人员信息：</h3> -->
+        <div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label">车主姓名：</label>
+                <span class="col-xs-8 s_content">{{item.personList[0].name||"--"}}</span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label ">车主工作单位：</label>
+                <span class="col-xs-8 s_content">{{item.personList[0].unit||"--"}}</span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label ">车主办公地址：</label>
+                <span class="col-xs-8 s_content">{{item.personList[0].address||"--"}}</span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label ">车主体温：</label>
+                <span
+                    class="col-xs-8 s_content">{{item.personList[0].temperature||"--"}}℃</span>
+            </div>
+        </div>
+        <div ng-repeat = "x in item.personList.slice(1)">
+            <div class="form-group">
+                <label class="col-xs-4 control-label">车内人员{{$index + 1}}姓名：</label>
+                <span class="col-xs-8 s_content">{{x.name||"--"}}</span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label ">车内人员{{$index + 1}}工作单位：</label>
+                <span class="col-xs-8 s_content">{{x.unit||"--"}}</span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label ">车内人员{{$index + 1}}办公地址：</label>
+                <span class="col-xs-8 s_content">{{x.address||"--"}}</span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label ">车内人员{{$index + 1}}体温：</label>
+                <span
+                    class="col-xs-8 s_content">{{x.temperature||"--"}}℃</span>
+            </div>
+        </div>
+        <b></b>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">操作者：</label>
+            <span class="col-xs-8 s_content">{{item.operatorName}}</span>
+        </div>
+        <b></b>
+    </div>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-warning" style="float: right;" ng-click="cancel()">关闭</button>
+</div>
+<style>
+    .bookingDetail {
+        margin: 0 60px;
+        margin-right: 0px;
+    }
+
+    /* .bookingDetail p span:first-child{
+            display: inline-block;
+            width: 110px;
+            color: #999;
+            float:left;
+        }
+        .bookingDetail p span:last-child{
+            display: inline-block;
+            color: #070707;
+            width: 320px;
+    } */
+
+    .bookingDetail b {
+        display: block;
+        widows: 100%;
+        border-bottom: 1px dashed #ccc;
+        margin-bottom: 4px;
+    }
+
+    .bookingDetail .form-group span.s_content {
+        font-size: 14px;
+        padding-left: 0px;
+        padding-top: 7px;
+    }
+
+</style>

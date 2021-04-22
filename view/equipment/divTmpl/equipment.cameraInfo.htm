@@ -1,0 +1,48 @@
+<!--<div class="form-group" style="padding-top:12px;">
+    <label class="col-xs-2 control-label required">摄像机ip地址：</label>
+    <div class="col-xs-4">
+        <input type="text" class="form-control" ng-model="item.cameraInfo.ip" required>
+    </div>
+    <label class="col-xs-2 control-label ">摄像机ip端口：</label>
+    <div class="col-xs-4">
+        <input type="text" class="form-control" ng-model="item.cameraInfo.port">
+    </div>
+</div>-->
+<div class="form-group" style="margin-top: 12px">
+    <label class="col-xs-2 control-label required">NVR名称：</label>
+    <div class="col-xs-4">
+        <select class="form-control" ng-model="item.cameraInfo.nvrId" required ng-options="o.id as o.nvrName for o in nvrList">
+            <option value="">--请选择--</option>
+        </select>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-xs-2 control-label required">监控服务名称：</label>
+    <div class="col-xs-4">
+        <select class="form-control" ng-model="item.cameraInfo.imosId" required ng-options="o.id as o.imosName for o in imosList">
+            <option value="">--请选择--</option>
+        </select>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-xs-2 control-label required">编码：</label>
+    <div class="col-xs-4">
+        <input type="text" class="form-control" ng-model="item.cameraInfo.code" required>
+    </div>
+    <!--<label class="col-xs-2 control-label required">图片：</label>
+    <div class="col-xs-4">
+        <div class="thumbnail" style="height: auto;">
+            <img onerror="javascript:this.src='/res/img/upload.jpg';"
+                 ng-click="showPhoto()"
+                 ng-src="{{processImgUrl(item.cameraInfo.image)}}">
+            <div class="caption">
+                <p>
+                    <button class="btn btn-warning height34" ng-click="clearPhoto(item.cameraInfo,'image')"><i
+                        class="glyphicon glyphicon-remove"></i></button>
+                    <button class="btn btn-default height34" ng-click="addPhoto(item.cameraInfo,'image')"><i
+                        class="glyphicon glyphicon-picture "></i></button>
+                </p>
+            </div>
+        </div>
+    </div>-->
+</div>

@@ -1,0 +1,37 @@
+<!--<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">传感器监测历史记录</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<div class="row" style="padding-top:12px;">
+
+	</div>
+</div>-->
+
+<div class="panel panel-default " style="margin-bottom: 0px">
+	<div class="panel-heading">检测参数：<strong>{{search.name}}</strong>
+		<button type="button" class="close" ng-click="cancel()">×</button>
+	</div>
+	<div class="panel-body">
+		<table class="table table-striped table-hover" >
+			<thead class="title">
+			<tr>
+				<th class="text-center">NO</th>
+				<th >检测值</th>
+				<th >检测时间</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">未配置检测参数</td></tr>
+			<tr ng-repeat="item in pageModel.data">
+				<td class="text-center">{{$index + 1}}</td>
+				<td>{{item.val}}{{(item.val_type==1 && item.val!=undefined)?item.unit:''}}</td>
+				<td>{{item.last_time| date : 'yyyy/MM/dd HH:mm:ss'}}</td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="page-footer clearfix">
+			<ng-include src="'/common/pager.html'"></ng-include>
+		</div>
+	</div>
+</div>

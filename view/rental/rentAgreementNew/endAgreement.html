@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>终止合同</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div ng-controller="endAgreementCtrl">
+        <div class="title_left">
+            <h3>终止合同</h3>
+        </div>
+        <div class="examAgreement x_panel">
+            <!-- 基本信息 -->
+            <ul class="ul_list">
+                <li>
+                    <label for="">租户名称：</label>
+                    <p>{{contractMsg.secondPartyName}}</p>
+                </li>
+                <li>
+                    <label for="">合同名称：</label>
+                    <p>{{contractMsg.name}}</p>
+                </li>
+                <li>
+                    <label for="">合同编号：</label>
+                    <p>{{contractMsg.code}}</p>
+                </li>
+                <li>
+                    <label for="">合同面积（m²）：</label>
+                    <p>{{contractMsg.contractArea}}</p>
+                </li>
+                <li>
+                    <label for="">甲方：</label>
+                    <p>{{contractMsg.firstPartyName}}</p>
+                </li>
+                <li>
+                    <label for="">乙方：</label>
+                    <p>{{contractMsg.secondPartyName}}</p>
+                </li>
+
+                <li>
+                    <label for="">租金模式：</label>
+                    <p>{{contractMsg.rentalModal|rentalModal}}</p>
+                </li>
+
+                <li>
+                    <label for="">合同租期：</label>
+                    <p>
+                        <span>{{contractMsg.leaseStart | date : 'yyyy-MM-dd'}}</span>
+                        <span ng-if="contractMsg.leaseStart != null"> 至</span>
+                        <span>{{contractMsg.leaseEnd | date : 'yyyy-MM-dd'}}</span>
+                        <span ng-if="contractMsg.leaseStart != null">共{{contractMsg.leaseMonth}}个月</span>
+                    </p>
+                </li>
+                <!-- <li>
+                    <label for="">支付方式：</label>
+                    <p>{{contractMsg.payType|payType}}</p>
+                </li> -->
+                <!-- <li>
+                    <label for="">履约保证金：</label>
+                    <p>{{contractMsg.deposit|number:2}}</p>
+                </li> -->
+                <li>
+                    <label for="">相关文档：</label>
+                    <ul>
+                        <li ng-repeat="file in contractMsg.contractFileList"><a href="{{file.url}}">{{file.name}}</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <label for="">租赁空间：</label>
+                    <!-- <p>武汉创意天地-一期-高层办公-11号楼1至2层</p> -->
+                    <ul style="float: left;">
+                        <li ng-repeat="x in contractMsg.rentalContractHouseInfos">{{x.stageName?x.stageName+'-'+x.buildName+'-'+x.houseName:x.houseName}}</li>
+                    </ul>
+                </li>
+                <li>
+                    <label for="">应收金额（元）：</label>
+                    <p>{{receivableAmount|number:2}}</p>
+                </li>
+                <li>
+                    <label for="">已收金额（元）：</label>
+                    <p>{{receiveAmount|number:2}}</p>
+                </li>
+                <li>
+                    <label for="">减免金额（元）：</label>
+                    <p>{{reliefAmount|number:2}}</p>
+                </li>
+                <li>
+                    <label for="">未收金额（元）：</label>
+                    <p>{{unReceiveAmount|number:2}}</p>
+                </li>
+            </ul>
+            <!-- 固定租金 -->
+            <div class="panel panel-default">
+                <h4 class="table_title">固定租金</h4>
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                        <tr class="">
+                            <th>序号</th>
+                            <th>收费项目</th>
+                            <!-- <th>是否按首期</th> -->
+                            <!-- <th>首期金额</th> -->
+                            <th>费项金额</th>
+                            <th>付款日期</th>
+                            <th>计费标准</th>
+                            <th>费用类别</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr style="color:#333333;" ng-repeat="x in pageModel.data">
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td>{{x.expenditureName}}</td>
+                            <!-- <td>
+                                        <span ng-if="x.firstPrice==null || x.firstPrice=='' || x.firstPrice==0">否</span>
+                                        <span ng-if="x.firstPrice>0.00">是</span>
+                                    </td>
+                                    <td>
+                                        <span>{{x.firstPrice|number:2}}</span>
+                                    </td> -->
+                            <td>
+                                <span>{{x.totalPrice|number:2}}</span>
+                            </td>
+                            <td>
+                                <span ng-if="x.payDateStart && x.payDateEnd">{{x.payDateStart
+                                    | date : 'yyyy-MM-dd'}}至{{x.payDateEnd | date : 'yyyy-MM-dd'}}</span>
+                                <span ng-if="!x.payDateStart || !x.payDateEnd">--</span>
+                            </td>
+                            <td>
+                                {{x.billingRates | billRate}}
+                                <!-- <span ng-if="x.billingRates===1">一次性收费</span>
+                                <span ng-if="x.billingRates===2">周期性收费</span>
+                                <span ng-if="x.billingRates===3">计量表收费</span>
+                                <span ng-if="x.billingRates===4">单位：日/㎡</span>
+                                <span ng-if="x.billingRates===5">单位：月/㎡</span>
+                                <span ng-if="x.billingRates===6">单位：季度/㎡</span>
+                                <span ng-if="x.billingRates===7">单位：年/㎡</span> -->
+                            </td>
+                            <td>
+                                <span ng-if="x.category==='01'">租金类</span>
+                                <span ng-if="x.category==='02'">管理费类</span>
+                                <span ng-if="x.category==='03'">其他类</span>
+                                <span ng-if="x.category==='04'">押金类</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'" class="ng-scope" ng-if="pageModel.data.length != 0">
+                        <style type="text/css" class="ng-scope">
+                            .pagination>li>span:hover {
+                                background-color: #fff;
+                                cursor: text
+                            }
+                        </style>
+                    </ng-include>
+                </div>
+            </div>
+            <!-- 审批 -->
+            <form name="form" novalidate>
+                <ul class="ul_list">
+                    <li>
+                        <label class="required">终止原因：</label>
+                        <select style="width: 180px;" class="form-control" required ng-model="suspendReason">
+                            <option value="乙方违约" selected>乙方违约</option>
+                            <option value="甲方违约">甲方违约</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label class="required">终止日期：</label>
+                        <input style="width: 180px;" type="datetime" class="form-control inline-block Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                            onchange="" ng-model="suspendDate" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                            required>
+                    </li>
+                    <li>
+                        <label class="required">费用截止时间：</label>
+                        <input style="width: 180px;" type="datetime" class="form-control inline-block Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                            onchange="" ng-model="costEndTime" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                            required>
+                    </li>
+                    <li>
+                        <label class="required">计划撤场日期：</label>
+                        <input style="width: 180px;" type="datetime" class="form-control inline-block Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                            onchange="" ng-model="planOutTime" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                            required>
+                    </li>
+                    <li>
+                        <label>违约金额：</label>
+                        <input type="number" style="width: auto;" class="form-control" ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                            ng-model="breakContractPrice">
+                    </li>
+                    <li>
+                        <label>扣款金额：</label>
+                        <input type="number" class="form-control" style="width: auto;" ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                            ng-model="deductionPrice">
+                    </li>
+                    <li>
+                        <label>经办人：</label>
+                        <span ng-model="agent">{{agent}}</span>
+                    </li>
+                    <li class="inline_li">
+                        <label>备注：</label>
+                        <textarea ng-model="breakContractRemark" id="" cols="30" rows="5" class="form-control"
+                            maxlength="100" placeholder="最多输入100个字符"></textarea>
+                    </li>
+                </ul>
+                <div class="submitBtn_m">
+                    <a ng-click="submit(form)" class="btn btn-primary" style="line-height: 27px" href="javascript:void(0)">终止</a>
+                    <a ng-click="cancle()" class="btn btn-default" style="line-height: 27px" href="javascript:void(0)">取消</a>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+</body>
+
+</html>

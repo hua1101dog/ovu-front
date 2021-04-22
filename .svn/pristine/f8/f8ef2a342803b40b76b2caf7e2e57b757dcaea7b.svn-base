@@ -1,0 +1,11 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{mp3.fileName}}</h4>
+</div>
+    <div class="modal-body container-fluid form-horizontal">
+        <audio ng-src="{{mp3.filePath}}" controls="controls" style="width: 100%;">
+		</audio>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>

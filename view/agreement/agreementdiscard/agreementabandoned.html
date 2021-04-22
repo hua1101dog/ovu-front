@@ -1,0 +1,119 @@
+<div ng-controller="abandonedCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>合同{{search.compactStatus==4?'查阅':'废弃'}}</h3>
+            <!-- <h3 ng-if="search.compactStatus == 4">{{item.title}}</h3>
+            <h3 ng-if="search.compactStatus != 4">{{item.ss}}</h3> -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="x_panel">
+            <!--startprint-->
+            <div id="mainContent" class="col-md-6" ng-bind-html="content"></div>
+            <!--endprint-->
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="modal-body container-fluid form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">合同分类:</label>
+                        <p class="col-xs-8 mt8">{{inform.classifyName}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">合同模版:</label>
+                        <p class="col-xs-8 mt8">{{inform.templetName}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">合同名称:</label>
+                        <p class="col-xs-8 mt8">{{inform.compactName}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">合同金额:</label>
+                        <p class="col-xs-8 mt8">{{inform.compactMoney}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">到期时间:</label>
+                        <p class="col-xs-8 mt8">{{inform.expirationTime}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">是否独立合同:</label>
+                        <p class="col-xs-8 mt8">{{inform.isParent==0?'否':'是'}}</p>
+                    </div>
+                    <div class="form-group" ng-if="inform.isParent==0">
+                        <label class="control-label col-xs-4">父合同名称：</label>
+                        <p class="col-xs-8 mt8">{{inform.parentName}}</p>
+                    </div>
+                    <div class="form-group" ng-repeat="item in itemList">
+                        <label class="control-label col-xs-4">{{item.dataItemName}}：</label>
+                        <div class="col-xs-8 mt8" ng-bind-html="item.compactInfoData"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">是否开启提醒:</label>
+                        <p class="col-xs-8 mt8">{{inform.isWarning==0?'否':'是'}}</p>
+                    </div>
+
+                    <!-- 新需求 20180316 begin -->
+                    <div class="form-group" ng-if="inform.isWarning!=0">
+                        <label class="control-label col-xs-4">提醒方式:</label>
+                        <p class="col-xs-8 mt8">{{remind.warnType == 1 ? "定时提醒" : "间隔提醒"}}</p>
+                    </div>
+                    <div class="form-group" ng-if="inform.isWarning!=0">
+                        <label class="control-label col-xs-4">开始日期:</label>
+                        <p class="col-xs-8 mt8">{{remind.warnStartDay}}</p>
+                    </div>
+                    <div class="form-group" ng-if="inform.isWarning!=0">
+                        <label class="control-label col-xs-4">结束日期:</label>
+                        <p class="col-xs-8 mt8">{{remind.warnEndDay}}</p>
+                    </div>
+                    <div class="form-group" ng-if="inform.isWarning!=0">
+                        <label class="control-label col-xs-4">间隔天数:</label>
+                        <p class="col-xs-8 mt8">{{remind.spaceDay}}</p>
+                    </div>
+                    <div class="form-group" ng-if="inform.isWarning!=0">
+                        <label class="control-label col-xs-4">提醒内容:</label>
+                        <p class="col-xs-8 mt8">{{remind.warnContent}}</p>
+                    </div>
+                    <!--新需求 end  -->
+
+                </div>
+                <div class="pull-right">
+                    <button ng-if="search.compactStatus==4" ng-click="printpage()" class="btn btn-primary">打印</button>
+                    <button ng-if="search.compactStatus!=4" ng-click="useless()" class="btn btn-primary">废弃</button>
+                    <button class="btn btn-warning" ng-click="back()">返回</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+    
+    .mt8 {
+        margin-top: 8px;
+    }
+    
+    [ng-bind-html="content"] {
+        overflow: auto;
+    }
+    
+    [ng-bind-html="content"] table {
+        border-top: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+    }
+    
+    [ng-bind-html="content"] table th {
+        border-right: 1px solid #ccc;
+        padding: 3px 5px;
+        border-bottom: 2px solid #ccc;
+        text-align: center;
+    }
+    
+    [ng-bind-html="content"] table td {
+        border-bottom: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        padding: 3px 5px;
+    }
+</style>

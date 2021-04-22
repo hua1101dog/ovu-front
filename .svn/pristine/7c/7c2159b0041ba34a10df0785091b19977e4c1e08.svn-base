@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>the5fire m3u8 test</title>
+<script src="swfobject.js"></script>
+</head>
+<body style="margin: 0;">
+<script type="text/javascript" src="/ovu-pcos/res/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+<style type="text/css">
+    /* .container{
+        float: left;
+    } */
+
+</style>
+<!-- <div>
+    <span id="currentTime"></span>
+    <span></span>
+    <span id="duration"></span>
+</div> -->
+<div class="container">
+    <div id="player-container" style="z-index: 8000">
+    </div>
+    <img src="/ovu-pcos/res/img/refuse.png" id="image" class="hand" style="top:0;right:0;position:absolute;z-index:100002;"></img>
+</div>
+<!-- 
+<button id="play-pause">pause or play</button>
+<button onclick="playClear()">clear</button>
+ -->
+<script>
+
+function onCurrentTimeChange(time, playerId){
+    document.getElementById("currentTime").innerHTML = time;        
+}
+
+function onBufferingChange(time, playerId){
+    document.getElementById("duration").innerHTML = time;   
+}    
+
+function completeFunc(time, playerId) {
+    //var player = document.getElementById(playerId);
+    console.log('瀹屾垚锛侊紒')
+}
+
+function onJavaScriptBridgeCreated(){  
+    var player = document.getElementById('player-container');  
+    // Add event listeners that will update the 
+    player.addEventListener("currentTimeChange", "onCurrentTimeChange");
+    player.addEventListener("bufferingChange", "onBufferingChange");
+    player.addEventListener("complete", "completeFunc");
+
+    document.getElementById("play-pause").onclick = function(){
+        var state = player.getState();
+        if (state == "ready" || state == "paused") {
+            player.play2();
+        }
+        else if (state == "playing") {
+                player.pause();
+        }
+        return false;
+    };
+}
+
+function playClear(){
+    console.log('iiiii')
+    play("")
+}
+
+function play(url){
+    var flashvars = {
+        //瑙嗛婧�
+        src: escape(url),
+        //鎺у埗鏉¤嚜鍔ㄩ殣钘�
+        controlBarAutoHide: true,
+        //鎺у埗鏉′綅缃�
+        controlBarPosition: "bottom",
+        //娴佺被鍨�
+        streamType : "vod",
+        //鑷姩鎾斁
+        autoPlay: true,
+        verbose : true,
+        bufferingOverlay: true,
+        //m3u8杞崲鎻掍欢
+        plugin_m3u8: "HLSProviderOSMF.swf",
+        javascriptCallbackFunction: "onJavaScriptBridgeCreated"
+    };
+
+    var params = {
+        quality : "high",
+        allowFullScreen: true,
+        allowScriptAccess: "always",
+        bgcolor: "#000000",
+        wmode: 'opaque'
+    };
+
+    var attrs = {
+        id:"player-container",
+        name: "player-container",  
+        align: "middle" 
+    };
+
+
+
+    swfobject.embedSWF(
+        // url to SMP player
+        "StrobeMediaPlayback.swf",
+        // div id where player will be place
+        "player-container",
+        // width, height
+        "500", "400",
+        // minimum flash player version required
+        "10.2",
+        // other parameters
+        null, flashvars, params, attrs
+    );
+
+}
+ function getQueryString(name) {  
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");  
+    var r = window.location.search.substr(1).match(reg);  
+    if (r != null) return unescape(r[2]);  
+    return null;  
+}  
+var deviceId = getQueryString("id");
+
+play("http://116.205.13.37:2020/34020000001320000002/live/34020000001320000002.m3u8");
+//play("http://192.168.1.200:2020/34020000001320000002/live/local_34020000001320000002.m3u8");
+// $.get("/ovu-pcos/system/video/live.do?equipmentId="+deviceId, function(data) {
+// 	//debugger
+// 	play("http://192.168.1.200:2020/34020000001320000002/live/local_34020000001320000002.m3u8");
+//     //play("http://116.205.13.37:2020/34020000001320000002/live/34020000001320000002.m3u8");
+          
+// });
+
+
+</script>
+</body>
+</html>

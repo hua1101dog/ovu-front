@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title"  ng-show="!item.isView">客户回收</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <form name="form" novalidate class="ng-pristine ng-invalid ng-invalid-required">
+        <div class="form-group" >
+            <label class="col-xs-10 control-label text-center" style="color:red;">您选择的一个客户将被回收为公共客户，可以在公共客户中重新分配给置业顾问跟进</label>
+        </div>
+        <div class="form-group" >
+            <label class="col-xs-3 control-label required text-left" >回收原因</label>
+            <div class="col-xs-9">
+                <textarea type="text" style="height:150px;resize:vertical;cursor: default;"
+                class="form-control" required ng-model="search.recoveryReason"  name="recoveryReason"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" ng-show="!item.isView">
+    <button class="btn btn-primary" ng-click="saveNews(search)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .modal-dialog {
+    width: 1000px;
+}
+</style>
+
+

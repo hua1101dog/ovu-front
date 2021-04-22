@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="investmentMamage/contractManage/contract.css">
+    <title>新增合同</title>
+</head>
+
+<body>
+    <div id="angularId" ng-controller="addContractCtrl" style="background-color:rgb(245, 243, 243);">
+        <div class="page-title">
+            <div class="title_left" s>
+                <h3>新增合同</h3>
+            </div>
+        </div>
+
+        <div class="addAgreement_b">
+            <div class="newStep_m">
+                <a ng-class="{'act':currentStep===1}">1</a><label ng-class="{'act':currentStep===1}">基本资料</label>
+                <span></span>
+                <a ng-class="{'act':currentStep===2}">2</a><label ng-class="{'act':currentStep===2}">签约条件</label>
+                <span></span>
+                <a ng-class="{'act':currentStep===3}">3</a><label ng-class="{'act':currentStep===3}">确认合同</label>
+            </div>
+            <div class="stepContent_m">
+
+                <!-- 基本资料 -->
+                <form name="baseMsgForm"  ng-show="currentStep===1">
+                    <div class="baseMsg">
+                        <div class="classTitle">客户</div>
+                        <div class="customer-top">
+                            <ul>
+                                <li>
+                                    <label>客户名称</label>
+                                </li>
+                                <li>
+                                    <label>房间名称</label>
+                                </li>
+                                <li>
+                                    <label>房屋总价</label>
+                                </li>
+                                <li>
+                                    <div class="input_box">
+                                        <a class="blue_btn" ng-click="selectCustomer()">{{baseMsg.secondPartyName?baseMsg.secondPartyName:'选择客户'}}</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input_box">
+                                        <a class="blue_btn"
+                                            ng-click="openRentHouseModal()">{{baseMsg.houseName?baseMsg.houseName:'选择房间'}}</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input_box">
+                                        <input required type="number" class="form-control" placeholder="请输入房屋总价"
+                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                                            max="999999999.99" ng-model="baseMsg.houseAmount" ng-change="calculatedMoney()">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="baseMsg">
+                        <div class="classTitle" ng-init="open1=true">
+                            <span>房间资料</span>
+                            <a href='javascript:void(0)' ng-click="open1=!open1" class='btn btn-xs btn-color1'>{{open1?'收起':'展开'}}</a>
+                        </div>
+                        <div class="customer-top" ng-show="open1">
+                            <ul>
+                                <li>
+                                    <label>建筑面积( m<sup>2</sup> )</label>
+                                </li>
+                                <li>
+                                    <label>套内面积( m<sup>2</sup> )</label>
+                                </li>
+                                <li>
+                                    <label>建筑单价( 元/m<sup>2</sup> )</label>
+                                </li>
+
+                                <li>
+                                    <div class="input_box">
+                                        <input required type="text" class="form-control" placeholder="建筑面积"
+                                            ng-model="baseMsg.area" readonly='true'>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input_box">
+                                        <input  type="text" class="form-control" placeholder="套内面积"
+                                            ng-model="baseMsg.areaSu" readonly='true'>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input_box">
+                                        <input  type="text" class="form-control" placeholder="建筑单价自动计算"
+                                            ng-model="baseMsg.areaMoney" readonly='true'>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label>套内单价( 元/m<sup>2</sup> )</label>
+                                </li>
+                                <li>
+                                    <label>税率（%）</label>
+                                </li>
+                                <li><label></label></li>
+                                <li>
+                                    <div class="input_box">
+                                        <input  type="text" class="form-control" placeholder="套内单价自动计算"
+                                            ng-model="baseMsg.areaSuMoney" readonly='true'>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input_box">
+                                        <input required type="number" class="form-control" placeholder="请输入税率"
+                                            ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                                            max="99" ng-model="baseMsg.rate">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="baseMsg">
+                        <div class="classTitle" ng-init="open2=true">
+                            <span>装修选择</span>
+                            <a href='javascript:void(0)' ng-click="open2=!open2" class='btn btn-xs btn-color1'>{{open2?'收起':'展开'}}</a>
+                        </div>
+                        <div class="customer-top" ng-show="open2">
+                            <ul>
+                                <li>
+                                    <label>装修单价( 元/m<sup>2</sup> )</label>
+                                </li>
+                                <li>
+                                    <label>装修总价( 元 ）</label>
+                                </li>
+                                <li>
+                                    <label>是否并入合同</label>
+                                </li>
+
+                                <li>
+                                    <div class="input_box">
+                                        <input  type="number" class="form-control" placeholder="请输入装修单价"
+                                            ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                                            max="999999999.99" ng-model="baseMsg.decorationPrice"  ng-change="calculatedDecorate()">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input_box">
+                                        <input  type="text" class="form-control" placeholder="装修总价自动计算"
+                                            ng-model="baseMsg.decorateCount" readonly='true'>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="radio_box">
+                                            <label class="radio-inline" style="margin: 6px 20%">
+                                                    <input type="radio"   ng-click="checkType(1)"  name="decorationMerge" value="1">是
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio"  ng-click="checkType(0)"  name="decorationMerge" value="0" checked >否
+                                                </label>
+                                            </label>
+                                        <!-- <label role="button" style="margin: 6px 20%">
+                                            <input type="radio" style="margin:0 5px" ng-model="baseMsg.decoration_type"  value="1" name="decoration_type">
+                                            <span style="color:#333">是</span>
+                                        </label>
+                                        <label role="button" style="margin-right: 20%">
+                                            <input type="radio" style="margin:0 5px" ng-model="baseMsg.decoration_type" value="0" name="decoration_type"   >
+                                            <span>否</span>
+                                        </label> -->
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="next_back">
+                        <a ng-click="nextStep(baseMsgForm)"  class="blue_btn">下一步</a>
+                    </div>
+                </form>
+                <!-- 签约条件 -->
+                <form name="conditionForm"  ng-show="currentStep===2">
+                    <div class="baseMsg">
+                        <div class="classTitle">
+                            <span>合同资料</span>
+                        </div>
+                        <div class="customer-top">
+                            <ul>
+                                <li>
+                                    <label>合同编号</label>
+                                </li>
+                                <li>
+                                    <label>总价( 元 )</label>
+                                </li>
+                                <li>
+                                    <label>总价（不含税）( 元 )</label>
+                                </li>
+
+                                <li>
+                                    <div class="input_box">
+                                        <input required type="text" class="form-control" placeholder="请输入合同编号"
+                                            ng-model="baseMsg.contractCode" >
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input_box">
+                                        <input required type="number" class="form-control" placeholder="总价自动计算"
+                                            ng-model="baseMsg.totalPrice" readonly='true'>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input_box">
+                                        <input required type="text" class="form-control" placeholder="总价（不含税）自动计算"
+                                            ng-model="baseMsg.priceNoRate" readonly='true'>
+                                    </div>
+                                </li>
+                                <li><label>税额( 元 )</label></li>
+                                <li> <label>税率（%）</label></li>
+                                <li><label>交房日期</label></li>
+                                <li>
+                                    <div class="input_box">
+                                        <input required type="text" class="form-control" placeholder="税额自动计算"
+                                            ng-model="baseMsg.ratePrice" readonly='true'>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input_box">
+                                        <input required type="number" class="form-control" placeholder="税率自动计算"
+                                            max="100" readonly='true' ng-model="baseMsg.rate">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input_box">
+                                        <input type="datetime" required class="form-control Wdate" ng-model="baseMsg.handoverDate"
+                                            placeholder="请选择交房日期" onchange=""
+                                            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+
+                                    </div>
+                                </li>
+                                <li style="width: 100%"><label>合同备案号</label></li>
+                                <li>
+                                    <div class="input_box">
+                                        <input type="text" required class="form-control" placeholder="请输入合同备案号" readonly='true'
+                                            ng-model="baseMsg.recordNumber">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="next_back">
+                        <a ng-click="backStep()" class="blue_btn">上一步</a>
+                        <a ng-click="nextStep(conditionForm)" class="blue_btn">下一步</a>
+                    </div>
+                </form>
+                <!-- 确认合同 -->
+                <form name="confirmForm" class="form-horizontal" ng-show="currentStep===3">
+                    <div class="confirmcContract" ng-init="open3=true" style="width: 550px">
+                        <div class="selStatistics" ng-show='open3==true'>
+                            <i class="fa fa-lg fa-info-circle btn-color1" aria-hidden="true"
+                                style="color:rgb(0, 174, 255);"></i>
+                            <span> 确认完成后，将生成合同 </span>
+                            <a href='javascript:void(0)' ng-click='open3=!open3' class='btn '
+                                style="padding-top: 5px;float: right">X</a>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="owner">甲方:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" value="武汉光谷联合集团有限公司"
+                                    name="ownerName" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="owner">乙方:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" ng-model="baseMsg.secondPartyName"
+                                    name="ownerName" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="owner">房间名称:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" ng-model="baseMsg.houseName"
+                                    name="ownerName" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="owner">合同编号:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" ng-model="baseMsg.contractCode"
+                                    name="ownerName" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="owner">总价( 元 ):</label>
+                            <div class="col-sm-8">
+                                <span  style="font-weight: 400;font-size: 22px">{{baseMsg.totalPrice| number:2}}</span><b style="color: rgb(83, 81, 81)">（{{baseMsg.totalPrice|toTransUpper}}）</b>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="owner">签署日期:</label>
+                            <div class="col-sm-8">
+                                <input type="datetime" required class="form-control Wdate moneyDate" ng-model="baseMsg.signDate"
+                                    placeholder="请选择签署日期" onchange=""
+                                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="owner">生效天数:</label>
+                            <div class="col-sm-4" style="width:150px;padding-right:0;">
+                                    <select class="form-control" required ng-model="baseMsg.selDay">
+                                            <option value="">-请选择-</option>
+                                            <option value="0">当天</option>
+                                            <option value="1">自定义天数</option>
+                                    </select>
+                                
+                            </div>
+                            <div class="col-sm-4" ng-if="baseMsg.selDay==1" style="width:213px;padding-right:0;padding-left:0">
+                                    <label class=" control-label" style="width:30px">于</label>
+                                    <input   style="width:115px;display:inline-block" required type="number" class="form-control" ng-pattern="/^[1-9]\d*$/" max="9999999"
+                                    ng-model="baseMsg.effectDay" >
+                                    <label class=" control-label" >天后生效</label>
+                            </div>
+                           
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="owner">置业顾问:</label>
+                            <div class="col-sm-8">
+                                <input type="text"  required class="form-control" ng-model="baseMsg.consultant"
+                                    name="consultant" placeholder="请输入置业顾问" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">付款方式:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" required ng-model="baseMsg.payMethod">
+                                    <option value="">-请选择-</option>
+                                    <option value="1">全款</option>
+                                    <option value="2">按揭</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div ng-if="baseMsg.payMethod==2">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="owner">首款金额:</label>
+                                <div class="col-sm-8">
+                                    <input  type="number" class="form-control" placeholder="请输入首款金额"
+                                        ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                                        ng-model="baseMsg.downPayment" ng-change="calcuBalancePayment()">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="owner">首款日期:</label>
+                                <div class="col-sm-8">
+                                    <input type="datetime" class="form-control Wdate firstMoney"
+                                        ng-model="baseMsg.downPaymentDate" placeholder="请选择首款截止收款日" onchange=""
+                                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()}&quot,minDate:&quot;#F{$('.moneyDate').first().val()}&quot;})">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="owner">尾款金额:</label>
+                                <div class="col-sm-8">
+                                    <input  type="text" class="form-control" placeholder="尾款金额自动计算"
+                                     disabled="disabled" ng-model="baseMsg.balancePayment">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="owner">尾款日期:</label>
+                                <div class="col-sm-8">
+                                    <input type="datetime" class="form-control Wdate" ng-model="baseMsg.balancePaymentDate"
+                                        placeholder="请选择尾款截止首款日" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.firstMoney').first().val()}&quot;})">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="next_back">
+                        <a ng-click="backStep()"  class="blue_btn">上一步</a>
+                        <a ng-click="save(confirmForm)" class="blue_btn" >保存</a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- <%@ include file="/common/modal.industry.tree.jsp" %> -->
+</body>
+
+</html>

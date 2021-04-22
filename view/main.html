@@ -1,0 +1,338 @@
+    <!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" id="mainFrame">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-control" content="no-cache,must-revalidate">
+        <meta http-equiv="Cache" content="no-cache">
+        <title>OVU-智慧运营平台</title>
+
+        <!--   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+           <link rel="shortcut icon" href="/favicon.ico" />
+           <link rel="bookmark" href="/favicon.ico" />-->
+        <link href="/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <!-- <link href="/view/main.css" rel="stylesheet" type="text/css" /> -->
+        <script>
+            var now = new Date().getTime();
+            document.write('<link href="/view/main.css?t=' + Date.now() + '" rel="stylesheet" type="text/css"/>');
+    </script>
+        <!-- <link href="/js/angular.css" rel="stylesheet"> -->
+        <script>
+            var now = new Date().getTime();
+            document.write('<link href="/js/angular.css?t=' + Date.now() + '" rel="stylesheet" type="text/css"/>');
+    </script>
+        <link href="/res/js/jquery-address/css/jquery-address.css" rel="stylesheet">
+        <link href="/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+        <link href="/res/js/angular-ui-select/select.min.css" rel="stylesheet">
+        <link href="/res/js/select2/select2.min.css" rel="stylesheet">
+        <link href="/res/js/autocomplete/awesomplete.css" rel="stylesheet">
+    
+        <!-- <link href="/res/js/layui/css/layui.css" rel="stylesheet"> -->
+        <script>
+            var now = new Date().getTime();
+            document.write('<link href="/res/js/layui/css/layui.css?t=' + Date.now() + '" rel="stylesheet" type="text/css"/>');
+    </script>
+       
+
+
+    </head>
+
+    <body ng-app="angularApp" ng-controller="mainController" ng-cloak>
+        <!--<ng-include src="'/common/modal.dept.html'"></ng-include>
+            <ng-include src="'/common/modal.worktype.tree.html'"></ng-include>-->
+        <div class="photoDiv" ng-if="curPic.on">
+            <img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute"
+                ng-click="curPic.on = false"></img>
+            <img class="photo" ng-src="{{curPic.url}}" image-load="wheel()"></img>
+        </div>
+        <!--头部begin-->
+        <div class="header box-shadow clearfix">
+            <div class="pull-left">
+                <!-- brand -->
+                <a href="#/" class="navbar-brand" style="padding:0;border-right: 1px solid #e7e7e7">
+                    <img style="height: 60px;width: 230px;"
+                        ng-src="{{(domain.logoUrl||'http://image.ovuems.com/LOGO.png')}}">
+                </a>
+                <!-- / brand -->
+            </div>
+            <a class="parkSelect" role="button" ng-click="toggleCollapse()">
+                <i class="glyphicon glyphicon-menu-hamburger"
+                    style="font-size: 24px;line-height:60px;margin-right:5px"></i>
+            </a>
+            <!-- 如果为工作流隐藏选择器 -->
+            <div style="width: 250px;margin-left:15px;line-height: 60px;float: left;"
+                ng-hide="$root.global||filteredDeptTree.length==0">
+                <tree-selector ng-class="{'not-valid':!$root.dept.id}" node-list="filteredDeptTree" host="$root.dept"
+                    host-key="'id'" host-text="'deptName'" callback="setDept" tip-text="'请选择部门'"></tree-selector>
+            </div>
+           
+
+            <div class="pull-right account msg-top" uib-dropdown auto-close="always">
+                <a href="javascript:void(0)" class="bella" uib-dropdown-toggle><i class="fa fa-bell fa-lg"></i></a>
+                <span class="badge active" style="background-color: #e36159;" ng-click="goToWorkUnit()">{{todoCount}}</span>
+            </div>
+            <div class="pull-right account" uib-dropdown auto-close="always">
+                <a href="javascript:void(0)" uib-dropdown-toggle>
+                    <span class="thumb-sm avatar pull-right">
+                        <img onerror="javascript:this.src='/res/img/userIcon.png';" style="height: 40px"
+                            ng-src="{{processImgUrl(user.userIcon,40)}}" />
+                        <i class="on md b-white bottom"></i>
+                    </span> {{user.nickname}} <b class="caret"></b></a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" style="margin: 2px -13px 0">
+                    <!--  暂时注释掉对登录账号的操作功能，等合并后直接拉物业的代码 -->
+                    <li role="menuitem"><a href="javascript:;;" ng-click="showinfo(user)">个人信息</a></li>
+                    <li role="menuitem"><a href="javascript:;;" ng-click="changePwd(user)">修改密码</a></li>
+                    <li class="divider"></li>
+                    <li role="menuitem"><a href="javascript:;" ng-click="logout()"><i
+                                class="fa fa-sign-out pull-right"></i>退出</a></li>
+                </ul>
+            </div>
+        </div>
+        <!--头部end-->
+        <div style="display: table ;   padding-top: 60px;width: 100%;height: 100%">
+            <div style="display: table-row">
+                <div style="display: table-cell;vertical-align:top;" class=" bg-black"
+                    ng-class="{'leftDiv_collapse':menuConfig.collapse,'leftDiv':!menuConfig.collapse}" id="menuDiv">
+                    <p class="text-center"
+                        ng-style="{width:(!menuConfig.collapse)?'230px':'',height:curModule?'30px':'0px'}"
+                        style="background-color: #53cebe;color: #1a2e4e;font-size: 16px;line-height: 30px;margin-bottom: 0;">
+                        {{curModule.name}}</p>
+                    <ul class="topMenu" style="margin-bottom:0px;">
+                        <li style="position: relative;">
+                            <a href="javascript:void(0);" alt="" class="form-inline "
+                                ng-click="showMenuList = !showMenuList">
+                                <i class="fa  fa-cube" style="color: #53cebe"></i>
+                                <span class="menu_text" ng-if="!menuConfig.collapse">菜单总览</span>
+                                <span class="pull-right " ng-if="!menuConfig.collapse" style="margin-right: 20px">
+                                    <i class="fa fa-fw fa-angle-right " style="color: #53cebe"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <tree-menu class="topMenu" node-list="menus" config="menuConfig"></tree-menu>
+                </div>
+                <!--ng-style="{'padding-left':menuConfig.collapse?'63px':'250px'}"-->
+                <div style="display: table-cell;position: relative;background: #F7F7F7;padding-bottom: 50px">
+                    <menu-list-search class="menuSearch" often-used-list="oftenUsedList" menu-list="menus"
+                        show-menu-list="showMenuList" ng-show="showMenuList"></menu-list-search>
+
+                    <uib-tabset active="$root.pages.active">
+                        <uib-tab ng-repeat="page in pages" select="selectPage(page)" index="page.url"
+                            ng-if="!page.hide">
+                            <uib-tab-heading>{{page.text}}
+                                <button class="close tabClose" ng-click="closePage(page,$event)">&times;</button>
+                            </uib-tab-heading>
+                            <!-- <div class="view_body" ng-include="page.url" ng-if="page.url==$root.pages.active"></div> -->
+                            <div class="view_body" ng-include="page.url"></div>
+                        </uib-tab>
+                    </uib-tabset>
+
+                    <div class="navbar navbar-default footer" role="navigation">
+                        <div class="pull-right">
+                            <span ng-if="!curModule">OVU-智慧运营平台</span>
+                            <div ng-if="curModule">
+                                <a ng-click="showModuleVersionInfo(curModule.id)"
+                                    href="javascript:;;">{{curModule.name}} {{curModule.currVersion}}</a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="position: fixed;  bottom: 50px;  right: 0;z-index: 10">
+            <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.style || 'warning')"
+                close="closeAlert($index)" dismiss-on-timeout="10000" style="min-width:450px;">{{alert.msg}}</div>
+        </div>
+        <div style="position: fixed;  bottom: 20px;  right: 25px;z-index: 10;" ng-show="isEnergy">
+            <div
+                style=" font-size: 14px;border: 1px solid rgb(255,255,255,0.87);padding: 10px 20px;background: rgb(232, 226, 226, 0.87);border-radius: 10px">
+                <i class="fa fa-exclamation-triangle text-danger"
+                    style="margin-right: 10px"></i><strong>当前报警数:</strong><em
+                    style="font-style: normal;color: red;padding: 0 5px">{{alarmCnt}}</em> <a href="javascript:;;"
+                    style="color: #337ab7; margin-left: 8px" ng-click="goCall()">前往查看</a>
+            </div>
+        </div>
+        <!-- <div class="view_body hide" id="ajaxBody"></div>-->
+    </body>
+    <script type="text/javascript" src="/res/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="/res/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/res/js/treeview/bootstrap-treeview.js"></script>
+    <!-- <script type="text/javascript" src="//webapi.amap.com/maps?v=1.3&key=6e6a649a349261a1802609e86aaba209&plugin=AMap.CitySearch,AMap.Geocoder,AMap.Autocomplete,AMap.PlaceSearch,AMap.Walking,AMap.DistrictLayer"></script>-->
+    <!-- <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=6e6a649a349261a1802609e86aaba209"></script> -->
+    <!--<script type="text/javascript" src="//webapi.amap.com/ui/1.0/main.js"></script>-->
+    <script type="text/javascript"
+        src="http://webapi.amap.com/maps?v=1.4.10&key=6e6a649a349261a1802609e86aaba209&plugin=AMap.CitySearch,AMap.Geocoder,AMap.Autocomplete,AMap.PlaceSearch,AMap.Walking,AMap.DistrictLayer,AMap.MouseTool">
+    </script>
+    <script type="text/javascript" src="//webapi.amap.com/ui/1.0/main.js"></script>
+    <script src="/res/gentelella/vendors/echarts/dist/echarts.min.js"></script>
+    <script src="/res/gentelella/vendors/validator/validator.js"></script>
+    <script type="text/javascript" src="/res/js/sockjs.min.js"></script>
+    <script src="/res/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!--兼容以前项目需要的东西 -->
+    <script src="/res/js/utils.js"></script>
+    <!--<script src="/res/js/jquery-confirm.min.js"></script>-->
+
+    <script src="/res/gentelella/vendors/starrr/dist/starrr.js"></script>
+    <script src="/res/gentelella/vendors/dropzone/dist/min/dropzone.min.js"></script>
+    <script type="text/javascript" src="/res/js/jquery-address/js/jquery-address.js"></script>
+
+    <script type="text/javascript" src="/res/js/layer/layer.js"></script>
+    <script src="/government/lib/laydate/laydate.js"></script>
+    <script src="/res/gentelella/vendors/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="/res/js/datepicker97/WdatePicker.js"></script>
+    <script type="text/javascript" src="/res/js/ajaxfileupload.js"></script>
+    <script src="/res/js/jQuery.print.js"></script>
+    <script src="/res/js/angular-html2pdf/html2canvas.min.js"></script>
+    <script src="/res/js/angular-html2pdf/jspdf.min.js"></script>
+    <script src="/res/js/redips-table.js"></script>
+    <script type="text/javascript" src="/res/js/angular1.5.11/angular.min.js"></script>
+    <script type="text/javascript" src="/res/js/angular1.5.11/angular-locale_zh-cn.js"></script>
+    <!-- <script type="text/javascript" src="/res/js/angular1.5.11/ui-bootstrap-tpls.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/res/js/angular1.5.11/ui-bootstrap-tpls.js?t=" + Date.now() + "'><\/script>");</script>
+    <script type="text/javascript" src="/res/js/angular1.5.11/ocLazyLoad.min.js"></script>
+    <script type="text/javascript" src="/res/js/angular1.5.11/clickoutside.directive.js"></script>
+    <script type="text/javascript" src="/res/js/wheelzoom-feng.js"></script>
+    <script type="text/javascript" src="/res/js/common.js"></script>
+    <script type="text/javascript" src="/umeditor/third-party/template.min.js"></script>
+    <script type="text/javascript" src="/umeditor/umeditor.config.js"></script>
+    <script type="text/javascript" src="/umeditor/umeditor.min.js"></script>
+    <script type="text/javascript" src="/umeditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" src="/umeditor/meta.umeditor.js"></script>
+    <script type="text/javascript" src="/government/lib/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" src="/government/lib/ueditor/ueditor.all.min.js"></script>
+    <script type="text/javascript" src="/government/lib/ueditor/angular-ueditor.js"></script>
+    <script type="text/javascript" src="/res/js/angular1.5.11/angular-ui-router.min.js"></script>
+    <script src="/res/js/wangEditor/wangEditor.min.js"></script>
+    <script src="../view/liftReport/statement/dailyMaintenance/angular-animate.min.js"></script>
+    <script src="../view/liftReport/statement/dailyMaintenance/angular-aria.min.js"></script>
+    <script src="../view/liftReport/statement/dailyMaintenance/angular-sanitize.min.js"></script>
+    <script src="../view/liftReport/statement/dailyMaintenance/angular-material.min.js"></script>
+    <script src="../view/liftReport/statement/dailyMaintenance/angular-material-calendar.js"></script>
+    <script src="/res/js/angular-ui-select/select.js"></script>
+    <!-- select2 -->
+    <script src="/res/js/select2/select2.full.min.js"></script>
+    <script src="/res/js/autocomplete/awesomplete.js"></script>
+    <script src="/res/js/autocomplete/awesomplete.min.js"></script>
+    <!-- 截屏组件 -->
+    <!-- <script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script> -->
+    <!-- 拖拽组件 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+    <script src="/res/js/ngDraggable.js"></script>
+    <script src="/res/js/sortable.js"></script>
+    <script>
+        var app = angular.module("angularApp", ['ui.router', 'ngSanitize', 'ui.bootstrap',
+            'oc.lazyLoad', 'angular-click-outside', "ngMaterial","ui.sortable",
+            "materialCalendar", "ui.select", "ng.ueditor", 'ngDraggable', 'meta.umeditor'
+        ]);
+    </script>
+    <!-- <script type="text/javascript" src="/js/filter.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/js/filter.js?t=" + Date.now() + "'><\/script>");</script>
+    <!-- <script type="text/javascript" src="/js/controller.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/js/controller.js?t=" + Date.now() + "'><\/script>");</script>
+    <!-- <script type="text/javascript" src="/view/mainController.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/view/mainController.js?t=" + Date.now() + "'><\/script>");</script>
+    <!-- <script type="text/javascript" src="/js/directive.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/js/directive.js?t=" + Date.now() + "'><\/script>");</script>
+    <!-- <script type="text/javascript" src="/js/customComponent.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/js/customComponent.js?t=" + Date.now() + "'><\/script>");</script>
+    <!-- 详情页 -->
+    <!-- <script src="/view/equipment/equipmentListCtrl.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/view/equipment/equipmentListCtrl.js?t=" + Date.now() + "'><\/script>");</script>
+    <script type="text/javascript" src="/res/js/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/res/js/easyui/treegrid-dnd.js"></script>
+
+    <script type="text/javascript" src="/res/js/mapUtils/ovu3DMap.js"></script>
+    <script type="text/javascript" src="/res/js/mapUtils/ovuMap.js"></script>
+    <script type="text/javascript" src="/res/xwMap/AirocovMap.min2.js"></script>
+    <script type="text/javascript" src="/res/xwMap/ovuMap.min.js"></script>
+    <script type="text/javascript" src="/res/js/layui/layui.js"></script>
+    <!-- 人脸识别 begin-->
+    <!-- <script type="text/javascript" src="/view/face/track/lib/AirocovMap0827.min.js"></script> -->
+    <!-- <script type="text/javascript" src="/view/face/track/js/bigScreenComponent.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/view/face/track/js/bigScreenComponent.js?t=" + Date.now() + "'><\/script>");</script>
+
+    <!-- 人脸识别 end-->
+    <!-- <script type="text/javascript" src="/common/mapComponent/js/mapComponent.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/common/mapComponent/js/mapComponent.js?t=" + Date.now() + "'><\/script>");</script>
+       <script>document.write("<script type='text/javascript' src='/common/mapComponent/js/MapStopComponent.js?t=" + Date.now() + "'><\/script>");</script>
+          <script>document.write("<script type='text/javascript' src='/common/mapComponent/js/ruleMapComponent.js?t=" + Date.now() + "'><\/script>");</script>
+             <script>document.write("<script type='text/javascript' src='/common/mapComponent/js/pedestrianComponent.js?t=" + Date.now() + "'><\/script>");</script>
+    <script>document.write("<script type='text/javascript' src='/common/mapComponent/js/trackMapComponent.js?t=" + Date.now() + "'><\/script>");</script>
+    
+    
+    <script type="text/ng-template" id="selectPersonTemplate.html">
+        <div class="custom-popup-wrapper"
+             ng-style="{top: position().top+'px', left: position().left+'px'}"
+             style="display: block;position: absolute;background-color: #F9F9F9;z-index: 4"
+             ng-show="isOpen() && !moveInProgress"
+             aria-hidden="{{!isOpen()}}">
+            <ul class="dropdown-menu" role="listbox">
+                <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
+                    ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+                    <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+                </li>
+            </ul>
+            <page page-model="$parent.pageModel" find="$parent.selectPage"></page>
+
+
+            <!--<div class="page"  style="font-size:12px;">
+                <ul class="pagination pull-left" ng-show ="$parent.pageModel.totalPage">
+                    <li ng-if="$first" role="button" ng-repeat-start="page in $parent.$parent.pageModel.pages track by $index"  ng-class="{disabled:$parent.$parent.pageModel.currentPage ==1}" ng-click="$parent.$parent.pageModel.currentPage >1 && $parent.$parent.find($parent.$parent.pageModel.currentPage-1)"><a>«</a></li>
+                    <li ng-class="{active:page==$parent.$parent.pageModel.currentPage}" role="button">
+                        <a ng-if="page>0" ng-click="$parent.$parent.find(page)">{{page}}</a>
+                        <span ng-if="!(page>0)" style="border-top:none;border-bottom:none">{{page}}</span>
+                    </li>
+                    <li ng-if="$last" role="button" ng-repeat-end ng-class="{disabled:$parent.$parent.pageModel.currentPage == $parent.$parent.pageModel.totalPage}" ng-click="$parent.$parent.pageModel.currentPage < $parent.$parent.pageModel.totalPage && $parent.$parent.find($parent.$parent.pageModel.currentPage+1)"><a>»</a></li>
+                    <li><span>共{{$parent.$parent.pageModel.totalRecord}}条记录</span></li>
+                </ul>
+            </div> -->
+
+
+        </div>
+    </script>
+
+    <style type="text/css">
+        .uib-tab .tabClose {
+            visibility: hidden;
+            top: 0px;
+            right: 0px;
+            position: absolute;
+        }
+
+        .uib-tab:hover .tabClose {
+            visibility: visible;
+        }
+
+        .header>.msg-top>.bella {
+            display: block;
+    font-size: 13px;
+    color: #848484;
+    outline: 0;
+
+        }
+
+     .header>.msg-top>.badge {
+    position: absolute;
+    top: 15px;
+    /* right: 7px; */
+    font-size: 10px;
+    line-height: 10px;
+    padding: 3px 5px;
+    display: none;
+    background-color: #23b7e5;
+    color: #fff;
+    left: 50%;
+    transform: translate(-50%,0px);
+}
+
+        .header>.msg-top>.badge.active {
+            display: block;
+        }
+    </style>
+
+    </html>

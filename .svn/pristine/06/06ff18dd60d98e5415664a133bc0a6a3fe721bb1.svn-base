@@ -1,0 +1,350 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close" ng-click="cancel()">
+    <span aria-hidden="true">&times;</span></button>
+  <h4 class="modal-title">项目审核</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+  <div class="modal-header">
+    <h4 class="modal-title">|&nbsp;待审信息</h4>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr class="info">
+          <th class="column-title">项</th>
+          <th class="column-title">初始值</th>
+          <th class="column-title">变更后</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-if="item.projectName!=checkProject.projectName">
+          <td>项目名称:</td>
+          <td>{{item.projectName}}</td>
+          <td>{{checkProject.projectName}}</td>
+        </tr>
+        <tr ng-if="item.type!=checkProject.type">
+          <td>项目类型:</td>
+          <td>
+            {{item.type|keyToValue:yetaiDict}}
+          </td>
+          <td>
+            {{checkProject.type|keyToValue:yetaiDict}}
+          </td>
+        </tr>
+        <tr ng-if="item.buildingArea!=checkProject.buildingArea">
+          <td>建筑面积:</td>
+          <td>{{item.buildingArea}}</td>
+          <td>{{checkProject.buildingArea}}</td>
+        </tr>
+        <tr ng-if="item.projectAddress!=checkProject.projectAddress">
+          <td>项目地址:</td>
+          <td>{{item.projectAddress}}</td>
+          <td>{{checkProject.projectAddress}}</td>
+        </tr>
+        <tr ng-if="item.developCompany!=checkProject.developCompany">
+          <td>开发单位:</td>
+          <td>{{item.developCompany}}</td>
+          <td>{{checkProject.developCompany}}</td>
+        </tr>
+        <tr ng-if="item.contact!=checkProject.contact">
+          <td>联系人:</td>
+          <td>{{item.contact}}</td>
+          <td>{{checkProject.contact}}</td>
+        </tr>
+        <tr ng-if="item.phone!=checkProject.phone">
+          <td>联系方式:</td>
+          <td>{{item.phone}}</td>
+          <td>{{checkProject.phone}}</td>
+        </tr>
+        <tr ng-if="item.hasOwnPropertyCompany!=checkProject.hasOwnPropertyCompany">
+          <td>有无物业入住:</td>
+          <td>
+            {{item.hasOwnPropertyCompany|keyToValue:exp_hasOwnPropertyCompany}}
+          </td>
+          <td>
+            {{checkProject.hasOwnPropertyCompany|keyToValue:exp_hasOwnPropertyCompany}}
+          </td>
+        </tr>
+        <tr ng-if="item.nowPropertyCompany!=checkProject.nowPropertyCompany">
+          <td>当前物业单位:</td>
+          <td>{{item.nowPropertyCompany}}</td>
+          <td>{{checkProject.nowPropertyCompany}}</td>
+        </tr>
+        <tr ng-if="item.heightBuildingPay!=checkProject.heightBuildingPay">
+          <td>物业管理费收取标准:高层</td>
+          <td>{{item.heightBuildingPay}}</td>
+          <td>{{checkProject.heightBuildingPay}}</td>
+        </tr>
+        <tr ng-if="item.foreignHousePay!=checkProject.foreignHousePay">
+          <td>物业管理费收取标准:洋房</td>
+          <td>{{item.foreignHousePay}}</td>
+          <td>{{checkProject.foreignHousePay}}</td>
+        </tr>
+
+        <tr ng-if="item.sellProxyCompanyName!=checkProject.sellProxyCompanyName">
+          <td>销售代理公司名称</td>
+          <td>{{item.sellProxyCompanyName}}</td>
+          <td>{{checkProject.sellProxyCompanyName}}</td>
+        </tr>
+        <tr ng-if="item.buildingDesignCompanyName!=checkProject.buildingDesignCompanyName">
+          <td>建筑设计公司名称</td>
+          <td>{{item.buildingDesignCompanyName}}</td>
+          <td>{{checkProject.buildingDesignCompanyName}}</td>
+        </tr>
+        <tr ng-if="item.gardenDesignCompanyName!=checkProject.gardenDesignCompanyName">
+          <td>园林设计公司名称</td>
+          <td>{{item.gardenDesignCompanyName}}</td>
+          <td>{{checkProject.gardenDesignCompanyName}}</td>
+        </tr>
+        <tr ng-if="item.propertyCompany!=checkProject.propertyCompany">
+          <td>物业公司名称</td>
+          <td>{{item.propertyCompany}}</td>
+          <td>{{checkProject.propertyCompany}}</td>
+        </tr>
+        <tr ng-if="item.propertyCompanyDetail!=checkProject.propertyCompanyDetail">
+          <td>物业公司简介</td>
+          <td>{{item.propertyCompanyDetail}}</td>
+          <td>{{checkProject.propertyCompanyDetail}}</td>
+        </tr>
+        <tr ng-if="item.projectType!=checkProject.projectType">
+          <td>物业类型</td>
+          <td>{{item.projectType|keyToValue:exp_projectTypeDict}}</td>
+          <td>{{checkProject.projectType|keyToValue:exp_projectTypeDict}}</td>
+        </tr>
+        <tr ng-if="item.expectedSellPrice!=checkProject.expectedSellPrice">
+          <td>预计售价</td>
+          <td>{{item.expectedSellPrice}}</td>
+          <td>{{checkProject.expectedSellPrice}}</td>
+        </tr>
+        <tr ng-if="item.positionGrade!=checkProject.positionGrade">
+          <td>定位档次</td>
+          <td>{{item.positionGrade|keyToValue:exp_positionGradeDict}}</td>
+          <td>{{checkProject.positionGrade|keyToValue:exp_positionGradeDict}}</td>
+        </tr>
+        <tr ng-if="item.coverArea!=checkProject.coverArea">
+          <td>占地面积(m<sup>2</sup>)</td>
+          <td>{{item.coverArea}}</td>
+          <td>{{checkProject.coverArea}}</td>
+        </tr>
+        <tr ng-if="item.capacityRate!=checkProject.capacityRate">
+          <td>容积率</td>
+          <td>{{item.capacityRate}}</td>
+          <td>{{checkProject.capacityRate}}</td>
+        </tr>
+        <tr ng-if="item.greenCoverrate!=checkProject.greenCoverrate">
+          <td>绿化率</td>
+          <td>{{item.greenCoverrate}}</td>
+          <td>{{checkProject.greenCoverrate}}</td>
+        </tr>
+        <tr ng-if="item.greenCoverArea!=checkProject.greenCoverArea">
+          <td>绿化面积(m<sup>2</sup>)</td>
+          <td>{{item.greenCoverArea}}</td>
+          <td>{{checkProject.greenCoverArea}}</td>
+        </tr>
+        <tr ng-if="item.totalBuildingArea!=checkProject.totalBuildingArea">
+          <td>总建筑面积(m<sup>2</sup>)</td>
+          <td>{{item.totalBuildingArea}}</td>
+          <td>{{checkProject.totalBuildingArea}}</td>
+        </tr>
+        <tr ng-if="item.startBuilding!=checkProject.startBuilding">
+          <td>开工时间</td>
+          <td>{{item.startBuilding}}</td>
+          <td>{{checkProject.startBuilding}}</td>
+        </tr>
+        <tr ng-if="item.endBuilding!=checkProject.endBuilding">
+          <td>竣工时间</td>
+          <td>{{item.endBuilding}}</td>
+          <td>{{checkProject.endBuilding}}</td>
+        </tr>
+        <tr ng-if="item.openDate!=checkProject.openDate">
+          <td>开盘时间</td>
+          <td>{{item.openDate}}</td>
+          <td>{{checkProject.openDate}}</td>
+        </tr>
+        <tr ng-if="item.joinDate!=checkProject.joinDate">
+          <td>入伙时间</td>
+          <td>{{item.joinDate}}</td>
+          <td>{{checkProject.joinDate}}</td>
+        </tr>
+        <tr ng-if="item.providePaper!=checkProject.providePaper">
+          <td>提供图纸</td>
+          <td>{{item.providePaper|checkboxKeyToValue:providePaperList}}</td>
+          <td>{{checkProject.providePaper|checkboxKeyToValue:providePaperList}}</td>
+        </tr>
+        <tr ng-if="item.homeArea!=checkProject.homeArea">
+          <td>住宅面积(m<sup>2</sup>)</td>
+          <td>{{item.homeArea}}</td>
+          <td>{{checkProject.homeArea}}</td>
+        </tr>
+        <tr ng-if="item.homeNumbers!=checkProject.homeNumbers">
+          <td>户数</td>
+          <td>{{item.homeNumbers}}</td>
+          <td>{{checkProject.homeNumbers}}</td>
+        </tr>
+        <tr ng-if="item.writingBuilding!=checkProject.writingBuilding">
+          <td>写字楼</td>
+          <td>{{item.writingBuilding}}</td>
+          <td>{{checkProject.writingBuilding}}</td>
+        </tr>
+        <tr ng-if="item.businessArea!=checkProject.businessArea">
+          <td>商业面积</td>
+          <td>{{item.businessArea}}</td>
+          <td>{{checkProject.businessArea}}</td>
+        </tr>
+        <tr ng-if="item.club!=checkProject.club">
+          <td>会所(m<sup>2</sup>)</td>
+          <td>{{item.club}}</td>
+          <td>{{checkProject.club}}</td>
+        </tr>
+        <tr ng-if="item.functionSetting!=checkProject.functionSetting">
+          <td>功能配置</td>
+          <td>{{item.functionSetting}}</td>
+          <td>{{checkProject.functionSetting}}</td>
+        </tr>
+        <tr ng-if="item.parkingSpace!=checkProject.parkingSpace">
+          <td>停车位</td>
+          <td>{{item.parkingSpace}}</td>
+          <td>{{checkProject.parkingSpace}}</td>
+        </tr>
+        <tr ng-if="item.intelligentFacilities!=checkProject.intelligentFacilities">
+          <td>智能化设施</td>
+          <td>{{item.intelligentFacilities|checkboxKeyToValue:intelligentFacilitiesList}}</td>
+          <td>{{checkProject.intelligentFacilities|checkboxKeyToValue:intelligentFacilitiesList}}</td>
+        </tr>
+        <tr ng-if="item.totalDistributeCapacity!=checkProject.totalDistributeCapacity">
+          <td>配电总容量</td>
+          <td>{{item.totalDistributeCapacity}}</td>
+          <td>{{checkProject.totalDistributeCapacity}}</td>
+        </tr>
+        <tr ng-if="item.elevatorBrand!=checkProject.elevatorBrand">
+          <td>电梯品牌</td>
+          <td>{{item.elevatorBrand|keyToValue:exp_elevatorBrand}}</td>
+          <td>{{checkProject.elevatorBrand|keyToValue:exp_elevatorBrand}}</td>
+        </tr>
+        <tr ng-if="item.elevatorNumbers!=checkProject.elevatorNumbers">
+          <td>电梯数量（部）</td>
+          <td>{{item.elevatorNumbers}}</td>
+          <td>{{checkProject.elevatorNumbers}}</td>
+        </tr>
+        <tr ng-if="item.elevatorTotalIp!=checkProject.elevatorTotalIp">
+          <td>电梯总功率</td>
+          <td>{{item.elevatorTotalIp}}</td>
+          <td>{{checkProject.elevatorTotalIp}}</td>
+        </tr>
+        <tr ng-if="item.centralAir!=checkProject.centralAir">
+          <td>中央空调</td>
+          <td>{{item.centralAir|keyToValue:exp_centralAir}}</td>
+          <td>{{checkProject.centralAir|keyToValue:exp_centralAir}}</td>
+        </tr>
+        <tr ng-if="item.waterPump!=checkProject.waterPump">
+          <td>水泵</td>
+          <td>{{item.waterPump}}</td>
+          <td>{{checkProject.waterPump}}</td>
+        </tr>
+        <tr ng-if="item.alternator!=checkProject.alternator">
+          <td>发电机</td>
+          <td>{{item.alternator}}</td>
+          <td>{{checkProject.alternator}}</td>
+        </tr>
+        <tr ng-if="item.commonLights!=checkProject.commonLights">
+          <td>公共照明</td>
+          <td>{{item.commonLights}}</td>
+          <td>{{checkProject.commonLights}}</td>
+        </tr>
+        <tr ng-if="item.garbageTransferStation!=checkProject.garbageTransferStation">
+          <td>垃圾中转站</td>
+          <td>{{item.garbageTransferStation}}</td>
+          <td>{{checkProject.garbageTransferStation}}</td>
+        </tr>
+        <tr ng-if="item.coalGas!=checkProject.coalGas">
+          <td>煤气</td>
+          <td>{{item.coalGas|keyToValue:exp_coalGas}}</td>
+          <td>{{checkProject.coalGas|keyToValue:exp_coalGas}}</td>
+        </tr>
+        <tr ng-if="item.localChargeStandardWater!=checkProject.localChargeStandardWater">
+          <td>水费</td>
+          <td>{{item.localChargeStandardWater}}</td>
+          <td>{{checkProject.localChargeStandardWater}}</td>
+        </tr>
+        <tr ng-if="item.localChargeStandardEnergy!=checkProject.localChargeStandardEnergy">
+          <td>电费</td>
+          <td>{{item.localChargeStandardEnergy}}</td>
+          <td>{{checkProject.localChargeStandardEnergy}}</td>
+        </tr>
+        <tr ng-if="item.localChargeStandardManage!=checkProject.localChargeStandardManage">
+          <td>管理费</td>
+          <td>{{item.localChargeStandardManage}}</td>
+          <td>{{checkProject.localChargeStandardManage}}</td>
+        </tr>
+        <tr ng-if="item.localChargeStandardAir!=checkProject.localChargeStandardAir">
+          <td>中央空调费</td>
+          <td>{{item.localChargeStandardAir}}</td>
+          <td>{{checkProject.localChargeStandardAir}}</td>
+        </tr>
+        <tr ng-if="item.isCommonWaterSpend!=checkProject.isCommonWaterSpend">
+          <td>公共水费是否摊销</td>
+          <td>{{item.isCommonWaterSpend|keyToValue:exp_isCommonWaterSpend}}</td>
+          <td>{{checkProject.isCommonWaterSpend|keyToValue:exp_isCommonWaterSpend}}</td>
+        </tr>
+        <tr ng-if="item.commonWaterSpend!=checkProject.commonWaterSpend">
+          <td>水收费(元/m<sup>3</sup>)</td>
+          <td>{{item.commonWaterSpend}}</td>
+          <td>{{checkProject.commonWaterSpend}}</td>
+        </tr>
+        <tr ng-if="item.commonEnergySpend!=checkProject.commonEnergySpend">
+          <td>电收费(元/kw)</td>
+          <td>{{item.commonEnergySpend}}</td>
+          <td>{{checkProject.commonEnergySpend}}</td>
+        </tr>
+        <tr ng-if="item.localPersonSalaryStandard!=checkProject.localPersonSalaryStandard">
+          <td>本地人员工资水平</td>
+          <td>{{item.localPersonSalaryStandard}}</td>
+          <td>{{checkProject.localPersonSalaryStandard}}</td>
+        </tr>
+        <tr ng-if="item.propertyManagement!=checkProject.propertyManagement">
+          <td>委托物业管理方式</td>
+          <td>{{item.propertyManagement|keyToValue:exp_propertyManagement}}</td>
+          <td>{{checkProject.propertyManagement|keyToValue:exp_propertyManagement}}</td>
+        </tr>
+        <tr ng-if="item.needStayPerson!=checkProject.needStayPerson">
+          <td>需要常驻的顾问人员（针对顾问方式）</td>
+          <td>{{item.needStayPerson}}</td>
+          <td>{{checkProject.needStayPerson}}</td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-header">
+    <h4 class="modal-title">|&nbsp;审核结果</h4>
+  </div>
+  <div class="modal-body">
+    <form name="form" class="form-horizontal" novalidate>
+      <div class="form-group">
+        <label class="col-sm-2 control-label required">是否通过:</label>
+        <div class="col-sm-10" style="text-align:left">
+          <label class="radio-inline">
+            <input type="radio" required name="checkState" id="checkState1" value="1"
+                   ng-model="checkdata.checkState"> 是
+          </label>
+          <label class="radio-inline">
+            <input type="radio" required name="checkState" id="checkState2" value="2"
+                   ng-model="checkdata.checkState"> 否
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label required">备注/原因:</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" name="remarks" required ng-model="checkdata.remarks" rows="3"></textarea>
+        </div>
+      </div>
+    </form>
+    <div style="text-align: right;">
+      <button class="btn btn-primary" ng-click="saveCheck(form,checkdata)">确定</button>
+      <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<div style="overflow: hidden;padding: 6px">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+</div>
+<div ui-echarts="dataTrend" style="width: 900px;height: 600px;">
+</div>

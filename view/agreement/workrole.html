@@ -1,0 +1,71 @@
+<div ng-controller="workroleCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>合同审批角色管理</h3>
+        </div>
+    </div>
+    <div class="row" ng-if="search.isGroup">
+		<div class="col-xs-12">
+			<label class="control-label">
+				<i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+				<a role="button" ng-click="findPark(search,find)">{{search.parkName?search.parkName:'请选择项目'}} </a>
+			</label>
+		</div>
+	</div>
+    <div class="row">
+        <!-- <div class="col-md-3 col-sm-3"></div> -->
+         <div class="col-md-12 col-sm-12 col-xs-12"> 
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" class="form-control" style="width:150px" ng-model="search.checkRoleName" placeholder="请输入角色名称" />
+                    </div>
+                    <button class="btn btn-default" ng-click="find()">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">审批角色列表
+                    <button class="btn btn-primary pull-right" ng-click="showModal()" ng-disabled="!search.parkId">添加审批角色</button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top:10px">
+                        <thead class="title">
+                            <tr>
+                                <th>NO</th>
+                                <th>项目名称</th>
+                                <th>角色名称</th>
+                                <th>分类名称</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data || pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data">
+                                <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td>{{item.parkName}}</td>
+                                <td>{{item.checkRoleName}}</td>
+                                <td>{{item.classifyName}}</td>
+                                <td>
+                                    <a href="javascript:void(0)" ng-click="showModal(item)" class="btn btn-xs"><span class="fa fa-edit"></span>编辑</a>
+                                    <a href="javascript:void(0)" ng-click="del(item)" class="btn btn-xs"><span class="fa fa-trash"></span>删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+
+         </div> 
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

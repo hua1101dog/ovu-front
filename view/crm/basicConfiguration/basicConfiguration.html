@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <title>基础配置</title> -->
+</head>
+
+<body>
+    <div id="angularId">
+        <div class="page-title">
+            <div class="title_left" style="padding-top: 15px;">
+                <h3>基础配置</h3>
+            </div>
+        </div>
+        <div class="row" id="basicConfiguration">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <ul class="nav nav-tabs bar_tabs" role="tablist"  style="padding-top: 15px;">
+                        <li role="presentation" class="active">
+                            <a href="#overdue" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">逾期设置</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#recycling" id="tab2" role="tab" data-toggle="tab" aria-expanded="false">回收</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#public" id="tab3" role="tab" data-toggle="tab" aria-expanded="false">公共客户</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#permissions" id="tab4" role="tab" data-toggle="tab" aria-expanded="false">权限设置</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#todo" id="tab5" role="tab" data-toggle="tab" aria-expanded="false">待办事项配置</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content"  style="padding-top: 15px;">
+                        <!-- 逾期设置 star -->
+                        <div role="tabpanel" class="tab-pane fade active in" id="overdue" ng-controller="overdueCtrl">
+                            <div class="row" id="basicBox">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="x_panel">
+                                        <div class="form-group" >
+                                            <label class="control-label label-W"
+                                                style="padding-right:0;" >逾期保护期设置</label>
+                                            <div style="display:inline-block;" ng-click="explain1()"><span class="question" >？</span></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-2 control-label label-W"
+                                                style="margin-bottom:20px;text-align: center;padding: 0;margin-left: -67px;">逾期保护期天数:</label>
+                                            <div class="col-xs-2" style="padding: 0;">
+                                                <input type="number" class="form-control common_input_sm" ng-model="search.overdueDay"
+                                                    name="overdueDay" style="cursor: default;height: 23px;margin-left: -55px;" />
+                                            </div>
+                                            <div class="col-xs-1" style="margin-left: -112px;margin-top: 2px;">天</div>
+                                            <div class="col-xs-9"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-8" style="text-align: center;margin-top: 30px;">
+                                                <button class="btn btn-primary" ng-click="save(search)"
+                                                    style="width: 120px;">保存</button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 逾期设置 end -->
+
+                        <!-- 回收 star -->
+                        <div role="tabpanel" class="tab-pane fade in" id="recycling" ng-controller="recyclingCtrl">
+                            <form name="form" novalidate>
+                                <div class="form-group">
+                                    <label class="col-xs-1 control-label  common_inputTitle label-W"
+                                        style="margin-bottom:20px;padding-right:0;">回收设置</label>
+                                    <div class="col-xs-1" style="padding:0;margin-bottom:20px;" ng-click="explain2()"><span
+                                            class="question">？</span></div>
+                                            <div class="col-xs-10" style="padding:0;margin-bottom:45px;"></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-2" style="margin-bottom:10px;">
+                                        <input type="radio" ng-model="search.Recycling" name="Recycling" value='1' style="margin-top: 4px;float: left;" ng-click="Recycling(1)">
+                                        <label style="text-align: left;line-height: 10px;" class="control-label common_inputTitle" >支持自动回收</label>
+                                    </div>
+                                    <div class="col-xs-2" style="margin-bottom:10px;">
+                                        <input type="radio" ng-model="search.Recycling" name="Recycling"
+                                            value='0' style="margin-top: 4px;float: left;" ng-click="Recycling(0)">
+                                        <label style="text-align: left;line-height: 10px;" class="control-label common_inputTitle" >不支持自动回收</label>
+                                    </div>
+                                    <div class="col-xs-10"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label label-W common_inputTitle"
+                                        style="text-align: left;padding-right:0;margin-bottom:10px;">逾期未跟进客户，逾期达到</label>
+                                    <div class="col-xs-2" style="padding: 0;">
+                                        <input type="number" class="form-control" ng-model="search.recovery_overdue"
+                                            name="recovery_overdue" style="cursor: default;height: 23px;margin-left: -112px;" ng-disabled="disabled"/>
+                                    </div>
+                                    <label class="col-xs-6 control-label label-W common_inputTitle"
+                                        style="margin-bottom:10px;margin-left: -131px;">天后自动回收至公共客户</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label label-W common_inputTitle"
+                                        style="text-align: left;padding-right:0;margin-bottom:10px;">客户被分配、推荐后</label>
+                                    <div class="col-xs-2" style="padding: 0;">
+                                        <input type="number" class="form-control" ng-model="search.recovery_distribute"
+                                            name="recovery_distribute" style="cursor: default;height: 23px;margin-left: -112px;" ng-disabled="disabled"/>
+                                    </div>
+                                    <label class="col-xs-6 control-label label-W common_inputTitle"
+                                        style="margin-bottom:10px;margin-left: -131px;">天仍未跟进的客户，自动回收至公共客户</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label label-W common_inputTitle"
+                                        style="text-align: left;padding-right:0;margin-bottom:10px;">确认协同客户后</label>
+                                    <div class="col-xs-2" style="padding: 0;">
+                                        <input type="number" class="form-control" ng-model="search.recovery_coordination"
+                                            name="recovery_coordination" style="cursor: default;height: 23px;margin-left: -112px;" ng-disabled="disabled"/>
+                                    </div>
+                                    <label class="col-xs-6 control-label label-W common_inputTitle"
+                                        style="margin-bottom:10px;margin-left: -131px;">天仍未跟进的客户，自动回收至公共客户</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label label-W common_inputTitle"
+                                        style="text-align: left;padding-right:0;margin-bottom:10px;">无效客户，设置无效达到</label>
+                                    <div class="col-xs-2" style="padding: 0;">
+                                        <input type="number" class="form-control" ng-model="search.recovery_invalid"
+                                            name="recovery_invalid" style="cursor: default;height: 23px;margin-left: -112px;" ng-disabled="disabled"/>
+                                    </div>
+                                    <label class="col-xs-6 control-label label-W common_inputTitle"
+                                        style="margin-bottom:10px;margin-left: -131px;">天后自动回收至公共客户</label>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-8">
+                                        <input type="checkbox" ng-model="search.recovery_leave" name="recovery_leave" ng-true-value='1'
+                                            ng-false-value='0' style="margin-top: 4px;float: left;margin-left: -112px;" ng-disabled="disabled">
+                                        <label style="text-align: left; margin-bottom:10px;margin-left: -15px;"
+                                            class="col-xs-6 control-label">业务员离开销售团队后，其名下客户自动回收</label>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-8" style="text-align: center;margin-top: 30px;">
+                                        <button class="btn btn-primary" ng-click="save(search)"
+                                            style="width: 120px;">保存</button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                        <!-- 回收  end -->
+
+                        <!-- 公共客户  start -->
+                        <div role="tabpanel" class="tab-pane fade in" id="public" ng-controller="publicCtrl">
+                            <div class="row" id="basicBox">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="x_panel">
+                                        <div class="form-group">
+                                            <label class="col-xs-2 control-label label-W"
+                                                style="margin-bottom:20px;">公共客户跟进规则</label>
+                                            <div class="col-xs-10" style="padding:0;margin-bottom:40px;"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-8">
+                                                <input type="checkbox" ng-model="search.public" name="public"
+                                                    ng-true-value=1 ng-false-value=0
+                                                    style="margin-top: 4px;float: left;">
+                                                <label style="text-align: left; margin-bottom:10px;"
+                                                    class="col-xs-6 control-label">允许置业顾问直接跟进公共客户</label>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-8" style="text-align: center;margin-top: 30px;">
+                                                <button class="btn btn-primary" ng-click="save(search)"
+                                                    style="width: 120px;">保存</button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 公共客户  end -->
+
+                        <!-- 权限设置  start -->
+                        <div role="tabpanel" class="tab-pane fade in" id="permissions" ng-controller="permissionsCtrl">
+                            <div class="row" id="basicBox">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="x_panel">
+                                        <div class="form-group">
+                                            <label class="col-xs-2 control-label label-W"
+                                                style="margin-bottom:20px;">权限设置</label>
+                                            <div class="col-xs-10" style="padding:0;margin-bottom:40px;"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-4">
+                                                <input type="checkbox" ng-model="search.jurisdiction_control" name="jurisdiction_control"
+                                                    ng-true-value=1 ng-false-value=0
+                                                    style="margin-top: 4px;float: left;">
+                                                <label style="text-align: left; margin-bottom:10px;"
+                                                    class="col-xs-10 control-label">允许销售经理对[待售]房源进行销控</label>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <input type="checkbox" ng-model="search.jurisdiction_view_deal" name="jurisdiction_view_deal"
+                                                    ng-true-value=1 ng-false-value=0
+                                                    style="margin-top: 4px;float: left;">
+                                                <label style="text-align: left; margin-bottom:10px;"
+                                                    class="col-xs-10 control-label">置业顾问无权限查看他人签约房源成交价格信息</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-6">
+                                                <input type="checkbox" ng-model="search.jurisdiction_modify_phone" name="jurisdiction_modify_phone"
+                                                    ng-true-value=1 ng-false-value=0
+                                                    style="margin-top: 4px;float: left;">
+                                                <label style="text-align: left; margin-bottom:10px;"
+                                                    class="col-xs-10 control-label">置业顾问无权限修改客户电话</label>
+                                            </div>
+                                            <div class="col-xs-6" style="margin-bottom:10px;"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-8" style="text-align: center;margin-top: 30px;">
+                                                <button class="btn btn-primary" ng-click="save(search)"
+                                                    style="width: 120px;">保存</button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 权限设置  end -->
+
+                        <!-- 待办事项配置  start -->
+                        <div role="tabpanel" class="tab-pane fade in" id="todo" ng-controller="todoCtrl">
+                            <div class="row" id="basicBox">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="x_panel">
+                                        <div class="form-group">
+                                            <label class="col-xs-2 control-label label-W"
+                                                style="margin-bottom:20px;">跟进消息提醒</label>
+                                            <div class="col-xs-10" style="padding:0;margin-bottom:40px;"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-1 control-label label-W"
+                                                style="margin-bottom:20px;padding-right:0;">今日待回访</label>
+                                            <div class="col-xs-1" style="padding:0;margin-bottom:20px;" ng-click="explain3()"><span
+                                                    class="question">？</span></div>
+                                            <label class="col-xs-1 control-label label-W"
+                                                style="margin-bottom:20px;padding-right:0;">逾期未跟进</label>
+                                            <div class="col-xs-1" style="padding:0;margin-bottom:20px;" ng-click="explain4()"><span
+                                                    class="question">？</span></div>
+                                            <label class="col-xs-1 control-label label-W"
+                                                style="margin-bottom:20px;padding-right:0;">新分配客户</label>
+                                            <div class="col-xs-1" style="padding:0;margin-bottom:20px;" ng-click="explain5()"><span
+                                                    class="question">？</span></div>
+                                            <label class="col-xs-1 control-label label-W"
+                                                style="margin-bottom:20px;padding-right:0;">新推荐客户</label>
+                                            <div class="col-xs-1" style="padding:0;margin-bottom:20px;" ng-click="explain6()"><span
+                                                    class="question">？</span></div>
+                                            <label class="col-xs-1 control-label label-W"
+                                                style="margin-bottom:20px;padding-right:0;">新协同客户</label>
+                                            <div class="col-xs-3" style="padding:0;margin-bottom:20px;" ng-click="explain7()"><span
+                                                    class="question">？</span></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-2 control-label label-W"
+                                                style="margin-bottom:20px;">催办消息提醒</label>
+                                            <div class="col-xs-10" style="padding:0;margin-bottom:40px;"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-1 control-label label-W"
+                                                style="margin-bottom:20px;padding-right:0;">逾期未签约</label>
+                                            <div class="col-xs-1" style="padding:0;margin-bottom:20px;" ng-click="explain8()"><span
+                                                    class="question">？</span></div>
+                                            <label class="col-xs-1 control-label label-W"
+                                                style="margin-bottom:20px;padding-right:0;">逾期未交款</label>
+                                            <div class="col-xs-1" style="padding:0;margin-bottom:20px;" ng-click="explain9()"><span
+                                                    class="question">？</span></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <!-- <div class="col-xs-8" style="text-align: center;margin-top: 30px;">
+                                                <button class="btn btn-primary" ng-click="save(detaiForm,proDetail)"
+                                                    style="width: 120px;">保存</button>
+                                            </div> -->
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 待办事项配置  end -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<style>
+    .question {
+        float: left;
+        /* padding-left: 5px; */
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        border-radius: 50%;
+        border: 1px solid #000;
+    }
+    .projectChoose{
+    width: 250px;line-height: 60px;z-index:999999;
+}
+</style>

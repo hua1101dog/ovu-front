@@ -1,0 +1,585 @@
+<style>
+    .modal-dialog {
+        min-width: 700px;
+    }
+    .div-group {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .div-panel {
+        width: 86px;
+        color: #989898;
+        background-color: #fff;
+        border: 1px solid #e6e9ed;
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 0;
+        margin-right: 15px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    .div-active {
+        color: #fff;
+        background-color: #5891eb;
+    }
+
+    .a_house {
+        color: #009ddc;
+        font-size: 13px;
+        font-weight: 400;
+        padding: 0;
+    }
+
+    .btn_search {
+        width: 80px;
+        color: #fff;
+        background-color: #5891eb;
+    }
+
+    .label_search {
+        color: #989898;
+        padding: 0 5px 0 8px;
+    }
+
+    .status_hasFix {
+        color: #ff747d;
+    }
+
+    .btn-oper {
+        background-color: #fff;
+        border: 1px solid #78c4ec;
+        color: #78c4ec;
+        padding: 3px 10px;
+    }
+
+    .table > tbody > tr > td,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > td,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > thead > tr > th {
+        height: 45px;
+    }
+    .checkbox-inline {
+        margin-left: 10px;
+        font-size: 14px;
+    }
+    .checkbox-inline input[type="checkbox"] {
+        visibility: visible;
+    }
+</style>
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id ? '编辑':'添加'}}服务分类</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div
+        class="x_content"
+        style="max-height: 650px; overflow: auto; overflow-x: hidden;"
+    >
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required"
+                    >展现渠道：</label
+                >
+                <div class="col-xs-8">
+                    <select
+                        class="col-xs-8 form-control"
+                        ng-model="item.useType"
+                        style="width: 150px;"
+                    >
+                        <option value="1">WEB和APP</option>
+                        <option value="2">WEB</option>
+                        <option value="3">APP</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">父级分类：</label>
+                <div class="col-xs-4">
+                    <input
+                        class="form-control"
+                        ng-model="item.parentServiceName"
+                        type="text"
+                        disabled="disabled"
+                    />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">排序号：</label>
+                <div class="col-xs-8">
+                    <input
+                        class="form-control"
+                        ng-model="item.orderNo"
+                        required
+                        type="text"
+                    />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required"
+                    >服务名称：</label
+                >
+                <div class="col-xs-8">
+                    <input
+                        class="form-control"
+                        ng-model="item.serviceName"
+                        required
+                        type="text"
+                    />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">服务说明：</label>
+                <div class="col-xs-8">
+                    <textarea
+                        type="text"
+                        cols="6"
+                        style="resize: vertical;"
+                        class="form-control"
+                        ng-model="item.serviceInfo"
+                    />
+                </div>
+            </div>
+            <div
+                class="form-group"
+                ng-if="item.useType!=3&&item.isDevelop=='1'"
+            >
+                <label class="col-xs-3 control-label">服务路径(WEB):</label>
+                <div class="col-xs-8">
+                    <input
+                        class="form-control"
+                        ng-model="item.serviceUrl"
+                        type="text"
+                    />
+                </div>
+            </div>
+            <div class="form-group" ng-if="item.useType!=3">
+                <label class="col-xs-3 control-label required"
+                    >LOGO图(WEB):</label
+                >
+                <div
+                    class="col-xs-4 thumbnail text-center"
+                    style="margin-left: 12px; margin-bottom: 0;"
+                >
+                    <img
+                        alt=""
+                        onerror="javascript:this.src='/res/img/detail.png';"
+                        ng-click="showPhoto()"
+                        ng-src="{{processImgUrl(item.logoUrl,'240')}}"
+                        style="max-height: 180px;"
+                    />
+                    <div class="caption">
+                        <p>
+                            <button
+                                class="btn btn-warning height34"
+                                ng-click="clearPhoto(item,'logoUrl')"
+                            >
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                            <button
+                                class="btn btn-default height34"
+                                ng-click="addPhoto(item,'logoUrl',true)"
+                            >
+                                <i class="glyphicon glyphicon-picture"></i>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div style="line-height: 60px;">
+                        统一图片尺寸要求：64*64
+                    </div>
+                </div>
+            </div>
+            <div
+                class="form-group"
+                ng-if="item.useType!=2&&item.isDevelop=='1'"
+            >
+                <label class="col-xs-3 control-label required"
+                    >服务路由(APP):</label
+                >
+                <div class="col-xs-8">
+                    <input
+                        class="form-control"
+                        ng-model="item.appServiceUrl"
+                        type="text"
+                        required
+                    />
+                </div>
+            </div>
+            <div
+                class="form-group"
+                ng-if="item.useType!=2&&item.isDevelop=='1'"
+            >
+                <label class="col-xs-3 control-label">H5路径(APP):</label>
+                <div class="col-xs-8">
+                    <input
+                        class="form-control"
+                        ng-model="item.appH5Url"
+                        type="text"
+                    />
+                </div>
+            </div>
+            <div class="form-group" ng-if="item.useType!=2">
+                <label class="col-xs-3 control-label required"
+                    >LOGO图-白色背景(APP):</label
+                >
+                <div
+                    class="col-xs-4 thumbnail text-center"
+                    style="margin-left: 12px; margin-bottom: 0;"
+                >
+                    <img
+                        alt=""
+                        onerror="javascript:this.src='/res/img/detail.png';"
+                        ng-click="showPhoto()"
+                        ng-src="{{processImgUrl(item.appLogoUrl,'240')}}"
+                        style="max-height: 180px;"
+                    />
+                    <div class="caption">
+                        <p>
+                            <button
+                                class="btn btn-warning height34"
+                                ng-click="clearPhoto(item,'appLogoUrl')"
+                            >
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                            <button
+                                class="btn btn-default height34"
+                                ng-click="addPhoto(item,'appLogoUrl',true)"
+                            >
+                                <i class="glyphicon glyphicon-picture"></i>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div style="line-height: 60px;">
+                        统一图片尺寸要求：32*32
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-if="item.useType!=2">
+                <label class="col-xs-3 control-label required"
+                    >LOGO图-蓝色背景:</label
+                >
+                <div
+                    class="col-xs-4 thumbnail text-center"
+                    style="margin-left: 12px; margin-bottom: 0;"
+                >
+                    <img
+                        alt=""
+                        onerror="javascript:this.src='/res/img/detail.png';"
+                        ng-click="showPhoto()"
+                        ng-src="{{processImgUrl(item.appLogo2,'240')}}"
+                        style="max-height: 180px;"
+                    />
+                    <div class="caption">
+                        <p>
+                            <button
+                                class="btn btn-warning height34"
+                                ng-click="clearPhoto(item,'appLogo2')"
+                            >
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                            <button
+                                class="btn btn-default height34"
+                                ng-click="addPhoto(item,'appLogo2',true)"
+                            >
+                                <i class="glyphicon glyphicon-picture"></i>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div style="line-height: 60px;">
+                        统一图片尺寸要求：32*32
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required"
+                    >服务类型：</label
+                >
+                <div class="col-xs-8">
+                    <select
+                        class="col-xs-8 form-control"
+                        ng-model="item.serviceType"
+                        style="width: 150px;"
+                    >
+                        <option value="1">自营</option>
+                        <option value="2">第三方</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" style="display: none;">
+                <label class="col-xs-3 control-label required"
+                    >用户分类：</label
+                >
+                <div class="col-xs-8">
+                    <select
+                        class="col-xs-8 form-control"
+                        ng-model="item.limitLevel"
+                        style="width: 150px;"
+                    >
+                        <option value="1">个人和企业用户</option>
+                        <option value="2">仅限企业用户</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required"
+                    >用户权限：</label
+                >
+                <div class="col-xs-8">
+                    <label class="checkbox-inline">
+                        <input
+                            type="checkbox"
+                            ng-model="userClassify.enterprise"
+                            ng-true-value="true"
+                            ng-false-value="false"
+                        />实体企业
+                    </label>
+                    <label class="checkbox-inline">
+                        <input
+                            type="checkbox"
+                            ng-model="userClassify.virtualCom"
+                            ng-true-value="true"
+                            ng-false-value="false"
+                        />虚拟企业
+                    </label>
+                    <label class="checkbox-inline">
+                        <input
+                            type="checkbox"
+                            ng-model="userClassify.staff"
+                            ng-true-value="true"
+                            ng-false-value="false"
+                        />员工
+                    </label>
+                    <label class="checkbox-inline">
+                        <input
+                            type="checkbox"
+                            ng-model="userClassify.personal"
+                            ng-true-value="true"
+                            ng-false-value="false"
+                        />个人
+                    </label>
+                    <label class="checkbox-inline">
+                        <input
+                            type="checkbox"
+                            ng-model="userClassify.hide"
+                            ng-true-value="true"
+                            ng-false-value="false"
+                        />管理员权限
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required"
+                    >服务级别：</label
+                >
+                <div class="col-xs-8">
+                    <select
+                        class="col-xs-8 form-control"
+                        ng-model="item.serviceLevel"
+                        ng-init="item.serviceLevel='3'"
+                        disabled="disabled"
+                        style="width: 150px;"
+                    >
+                        <option value="1">一级服务</option>
+                        <option value="2">二级服务</option>
+                        <option value="3">三级服务</option>
+                    </select>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <label class="col-xs-3 control-label required">服务是否发布：</label>
+                <div class="col-xs-8">
+                    <select class="col-xs-8 form-control" ng-model="item.status"
+                            style="width: 150px;">
+                        <option value="1">是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+            </div> -->
+            <div class="form-group">
+                <label class="col-xs-3 control-label required"
+                    >服务是否发布：</label
+                >
+                <div style="padding-top: 7px;" class="col-md-5">
+                    <label>
+                        <input
+                            type="radio"
+                            name="status"
+                            ng-value="1"
+                            required=""
+                            ng-model="item.status"
+                            class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required"
+                            value="0"
+                            aria-checked="true"
+                            aria-required="false"
+                            aria-invalid="false"
+                        />
+                        <span>是</span>
+                    </label>
+                    &nbsp;&nbsp;
+                    <label>
+                        <input
+                            type="radio"
+                            name="status"
+                            ng-value="0"
+                            required=""
+                            ng-model="item.status"
+                            class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required"
+                            value="1"
+                            aria-checked="false"
+                            aria-required="false"
+                            aria-invalid="false"
+                        />
+                        <span>否</span>
+                    </label>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <label class="col-xs-3 control-label required">服务是否开发：</label>
+                <div class="col-xs-8">
+                    <select class="col-xs-8 form-control" ng-model="item.isDevelop"
+                            style="width: 150px;">
+                        <option value="1">已开发</option>
+                        <option value="0">未开发</option>
+                    </select>
+                </div>
+            </div> -->
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label required"
+                    >是否开发：</label
+                >
+                <div style="padding-top: 7px;" class="col-md-5">
+                    <label>
+                        <input
+                            type="radio"
+                            name="isDevelop"
+                            ng-value="1"
+                            required=""
+                            ng-model="item.isDevelop"
+                            class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required"
+                            value="1"
+                            aria-checked="false"
+                            aria-required="false"
+                            aria-invalid="false"
+                        />
+                        <span>是</span>
+                    </label>
+                    &nbsp;&nbsp;
+                    <label>
+                        <input
+                            type="radio"
+                            name="isDevelop"
+                            ng-value="0"
+                            required=""
+                            ng-model="item.isDevelop"
+                            class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required"
+                            value="0"
+                            aria-checked="true"
+                            aria-required="false"
+                            aria-invalid="false"
+                        />
+                        <span>否</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label required"
+                    >是否默认：</label
+                >
+                <div style="padding-top: 7px;" class="col-md-5">
+                    <label>
+                        <input
+                            type="radio"
+                            name="isDefault "
+                            ng-value="1"
+                            required=""
+                            ng-model="item.isDefault"
+                            class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required"
+                            value="1"
+                            aria-checked="false"
+                            aria-required="false"
+                            aria-invalid="false"
+                        />
+                        <span>是</span>
+                    </label>
+                    &nbsp;&nbsp;
+                    <label>
+                        <input
+                            type="radio"
+                            name="isDefault "
+                            ng-value="0"
+                            required=""
+                            ng-model="item.isDefault"
+                            class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required"
+                            value="0"
+                            aria-checked="true"
+                            aria-required="false"
+                            aria-invalid="false"
+                        />
+                        <span>否</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required"
+                    >是否小程序：</label
+                >
+                <div style="padding-top: 7px;" class="col-md-5">
+                    <label>
+                        <input
+                            type="radio"
+                            name="isMinapp "
+                            ng-value="1"
+                            required=""
+                            ng-model="item.isMinapp"
+                            class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required"
+                            value="1"
+                            aria-checked="false"
+                            aria-required="false"
+                            aria-invalid="false"
+                        />
+                        <span>是</span>
+                    </label>
+                    &nbsp;&nbsp;
+                    <label>
+                        <input
+                            type="radio"
+                            name="isMinapp "
+                            ng-value="0"
+                            required=""
+                            ng-model="item.isMinapp"
+                            class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required"
+                            value="0"
+                            aria-checked="true"
+                            aria-required="false"
+                            aria-invalid="false"
+                        />
+                        <span>否</span>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary save" ng-click="save(form)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

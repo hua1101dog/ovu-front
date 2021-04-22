@@ -1,0 +1,77 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">账号分配</h4>
+  </div>
+  <div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="form-group">
+			<div class="col-md-3" align="right"><label>账号类型：</label></div>
+			<div class="col-md-5"><span>个人</span></div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3" align="right"><label>账号名称：</label></div>
+			<div class="col-md-5"><span >{{item.NAME}}</span></div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3" align="right"><label>性别：</label></div>
+			<div class="col-md-5"><span>{{item.SEX | sexFilter}}</span></div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3" align="right"><label>手机号：</label></div>
+			<div class="col-md-5">
+				<span>{{item.PHONE}}</span>			
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3" align="right"><label>所属行业：</label></div>
+			<div class="col-md-5">
+				<span>{{item.industryName}}</span>			
+			</div>
+		</div>
+		<div ng-if=" item.isAlloted == 1" class="form-group">
+			<div class="col-md-3" align="right"><label>登录密码：</label></div>
+			<div class="col-md-5"><span>已有密码</span></div>
+		</div>
+		<div ng-if=" item.isAlloted == 0||!item.isAlloted " class="form-group">
+			<div class="col-md-3" align="right"><label>登录密码：</label></div>
+			<div class="col-md-5">
+				<span>系统默认密码</span>		
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-md-3 control-label">分配管家：</label>
+			<div class="col-md-4">
+				<select class="form-control" ng-model="item.stewardId" ng-options="o.id as o.personName for o in item.allParkSteward">
+						<option value="">--请选择--</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+				<label class="col-md-3 control-label">产权空间：</label>
+					<div class="col-md-4">
+							<ol class="" style="padding:8px 0 0 10px;margin-bottom:0;">
+								<li ng-repeat="house1 in houses1 track by $index">
+									{{house1.fullPath}}
+								</li>
+							</ol>
+							<button class="btn btn-sm btn-default pull-left" ng-click="openSeleHouseModal(houses1,1)"><i class="glyphicon glyphicon-pencil"></i>选择房屋</button>
+					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label">租赁空间：</label>
+					<div class="col-md-4">
+							<ol class="" style="padding:8px 0 0 10px;margin-bottom:0;">
+								<li ng-repeat="house2 in houses2 track by $index">
+									{{house2.fullPath}}
+								</li>
+							</ol>
+							<button class="btn btn-sm btn-default pull-left" ng-click="openSeleHouseModal(houses2,2)"><i class="glyphicon glyphicon-pencil"></i>选择房屋</button>
+					</div>
+			</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form, item)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

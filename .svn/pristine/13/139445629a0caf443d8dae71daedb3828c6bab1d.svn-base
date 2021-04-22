@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">新增审批用户</h4>
+    <!-- {{item.ss}} -->
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-md-3 col-sm-3 col-xs-12 control-label required">角色名称:</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <select class="form-control" ng-model="roleId" required ng-options="o.roleId as o.checkRoleName for o in role">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 col-sm-3 col-xs-12 control-label required">部门名称:</label>
+            <div class="input-group col-sm-6 col-md-6" >
+                <input type="text" class="form-control" required style="width:230px;margin-left:15px;" readonly="readonly" placeholder="请选择部门" ng-model="search.parentName" name="parentName">
+                <span class="input-group-btn">
+					<button type="button" class="btn btn-default" style="margin-left:-52px; " ng-click="findParentDept()"><i class='fa fa-search'></i></button>
+				</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 col-sm-3 col-xs-12 control-label required" style="padding-right:8px;">用户名称：</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <select class="form-control"  ng-model="userId" required ng-options="o.userId as o.userName for o in cus">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

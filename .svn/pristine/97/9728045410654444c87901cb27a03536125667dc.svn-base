@@ -1,0 +1,73 @@
+<div id="angularId" ng-controller="singleProjectCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>承接概览</h3>
+		</div>
+	</div>
+	<div>
+		<div class="col-xs-12" style="padding:0">
+			<div class="form-group">
+				<label class="control-label">
+					<i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+					<a role="button" ng-click="selectProject()">{{search.projectName?search.projectName:'请选择项目'}} </a></label>
+			</div>
+			<div>
+				<h4>承接进度</h4>
+				<div class="row">
+					<div class="col-xs-11" style="padding-top: 7px;padding-right: 0px">
+						<uib-progressbar animate="false" value="progress" type="success"><b>{{progress}}%</b></uib-progressbar>
+					</div>
+					<div class="col-xs-1" ng-show="search.projectId && progress!=100">
+						<button class="btn btn-success" ng-click="finish()" >完成</button>
+					</div>
+				</div>
+			</div>
+
+			<h4>分类统计</h4>
+			<div class="col-xs-12">
+				<div class="col-xs-4">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<span>盘点清单结果统计</span>
+						</div>
+						<div class="panel-body">
+							<div id="stockChart" style="height:150px;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<span>查验清单结果统计</span>
+						</div>
+						<div class="panel-body">
+							<div id="watchChart" style="height:150px;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<span>检测清单结果统计</span>
+						</div>
+						<div class="panel-body">
+							<div id="checkChart" style="height:150px;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<h4>分项承接进度</h4>
+			<div class="col-xs-12">
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+						<span>分项承接进度</span>
+					</div>
+					<div class="panel-body">
+						<div id="itemChart" style="height:270px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

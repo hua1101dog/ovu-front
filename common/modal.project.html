@@ -1,0 +1,21 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">选择项目</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="item form-group">
+			<label class="control-label col-md-3 col-sm-3 col-xs-12 required">项目名称:
+			</label>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<select class="form-control col-xs-12" name="projectId" ng-model="item.id" ng-options="o.id as o.name for o in projects" required>
+					<option value="">--请选择--</option>
+				</select>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+	</form>
+</div>

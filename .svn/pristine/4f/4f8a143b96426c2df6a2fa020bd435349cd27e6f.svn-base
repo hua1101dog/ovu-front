@@ -1,0 +1,37 @@
+<!-- 课件详情 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">所含课件详情</h4>
+</div>
+<div class="panel panel-default" style="padding: 0px 20px;">
+        <table class="table table-striped table-hover" style="margin-top: 10px;">
+            <thead>
+            <tr>
+                <th class="text-center">序号</th>
+                <th>课件名称</th>
+                <th>查看率</th>
+                <th>已查看人数</th>
+                <th>培训人数</th>
+                <th>浏览记录</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="!courseware  || courseware.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+            <tr ng-repeat="item in courseware" >                       
+                <td class="text-center">{{$index + 1}}</td>                    
+               
+                <td>{{item.coursewareName}}</td>
+                <td>{{item.viewRate}}</td>
+               
+                <td ><a href="javascript:;" class="btn-link" ng-click="showPerson(item,'查看人群')">{{item.viewedTotalCount}}</a></td>
+                <td ><a href="javascript:;" class="btn-link" ng-click="showPerson(item,'培训人群')">{{item.personListNew.length}}</a></td>
+              
+                <td><a href='javascript:void(0)' ng-click="showViewd(item)" class='btn btn-xs'><span
+                  class='fa fa-eye'>查看记录</span></a></td>
+            </tr>
+            </tbody>
+        </table>
+       
+    </div>

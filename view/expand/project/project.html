@@ -1,0 +1,176 @@
+<div ng-controller="projectCtrl">
+  <div class="page-title">
+    <div class="title_left">
+      <h3>项目管理</h3>
+    </div>
+    <div class="title_right">
+      <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+        <div class="input-group">
+          <label class="control-label"></label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <!-- 查询条件star -->
+      <div class="x_panel">
+        <div class="form-inline">
+          <div class="form-group">
+            <input type="text" ng-model="search.projectName" class="form-control" placeholder="请输入项目名称"/>
+          </div>
+          <div class="form-group">
+            <select class="form-control" ng-model="search.type"
+                    ng-options="o[0] as o[1] for o in yetaiDict">
+              <option value="" selected>选择项目类型</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <select class="form-control" ng-model="search.projectType"
+                    ng-options="o[0] as o[1] for o in exp_projectTypeDict">
+              <option value="" selected>选择物业类型</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <select class="form-control" ng-model="search.checkState"
+                    ng-options="o[0] as o[1] for o in checkStates">
+            </select>
+          </div>
+
+          <button class="btn btn-success" ng-click="find()">查询</button>
+        </div>
+      </div>
+      <!-- 查询条件end -->
+    </div>
+
+    <div class=" col-md-2 " style="margin-bottom:8px;">
+      <a style="font-size:18px;">|&nbsp;项目列表</a>
+    </div>
+    <div class="col-md-10" style="text-align:right">
+      <button type="button" class="btn btn-success" ng-click="showEditModal()">新增项目
+      </button>
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_content">
+          <div class="" role="tabpanel" data-example-id="togglable-tabs">
+            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#tab_content1" id="check-tab" role="tab"
+                   ng-click="switchTab(0)"
+                   data-toggle="tab" aria-expanded="true">待审核</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#tab_content2" role="tab" id="checked-tab"
+                   ng-click="switchTab(1)"
+                   data-toggle="tab" aria-expanded="false">已审核</a>
+              </li>
+            </ul>
+
+            <div id="myTabContent" class="tab-content">
+              <!--待审核-->
+              <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
+                   aria-labelledby="check-tab">
+                <table class="table table-hover text-left" id="checkTable">
+                  <thead>
+                  <tr align="left">
+                    <th class="text-center">NO</th>
+                    <th>项目名称</th>
+                    <th>项目类型</th>
+                    <th>占地面积</th>
+                    <th>项目地址</th>
+                    <th>定位档次</th>
+                    <th>物业类型</th>
+                    <th>联系人</th>
+                    <th>联系方式</th>
+                    <th>操作</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-if="pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                  </tr>
+                  <tr ng-repeat="item in pageModel.data">
+                    <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+                    </td>
+                    <td>{{item.projectName}}</td>
+                    <td>{{item.type|keyToValue:yetaiDict}}</td>
+                    <td>{{item.buildingArea}}</td>
+                    <td>{{item.projectAddress}}</td>
+                    <td>{{item.positionGrade|keyToValue:exp_positionGradeDict}}</td>
+                    <td>{{item.projectType|keyToValue:exp_projectTypeDict}}</td>
+                    <td>{{item.contact}}</td>
+                    <td>{{item.phone}}</td>
+                    <td>
+                      <a class="btn btn-xs" ng-click="showEditModal(item.id)"><span class="fa fa-edit"></span> 编辑</a>
+                      <a class="btn btn-xs" ng-click="check(item.id)"><span class="fa fa-check-square-o"></span> 审核</a>
+                      <a class="btn btn-xs" ng-click="del(item.id)"><span class="fa fa-trash"></span> 删除</a>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                  <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+              </div>
+
+              <!--已审核-->
+              <div role="tabpanel" class="tab-pane fade" id="tab_content2"
+                   aria-labelledby="checked-tab">
+                <table class="table table-hover text-left" id="checkedTable">
+                  <thead>
+                  <tr align="left">
+                    <th class="text-center">NO</th>
+                    <th>项目名称</th>
+                    <th>项目类型</th>
+                    <th>占地面积</th>
+                    <th>项目地址</th>
+                    <th>定位档次</th>
+                    <th>物业类型</th>
+                    <th>联系人</th>
+                    <th>联系方式</th>
+                    <th>审核状态</th>
+                    <th>备注/原因</th>
+                    <th>操作</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-if="pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                  </tr>
+                  <tr ng-repeat="item in pageModel.data">
+                    <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+                    </td>
+                    <td>{{item.projectName}}</td>
+                    <td>{{item.type|keyToValue:yetaiDict}}</td>
+                    <td>{{item.buildingArea}}</td>
+                    <td>{{item.projectAddress}}</td>
+                    <td>{{item.positionGrade|keyToValue:exp_positionGradeDict}}</td>
+                    <td>{{item.projectType|keyToValue:exp_projectTypeDict}}</td>
+                    <td>{{item.contact}}</td>
+                    <td>{{item.phone}}</td>
+                    <td>{{item.checkState|keyToValue:checkStates}}</td>
+                    <td>{{item.remarks}}</td>
+                    <td>
+                      <a class="btn btn-xs" ng-if="item.checkState==2"
+                         ng-click="showEditModal(item.id)"><span class="fa fa-edit"></span> 编辑</a>
+                      <a class="btn btn-xs" ng-if="item.checkState==1" ng-click="detail(item.id)"><span
+                        class="fa fa-eye"></span> 查看详情</a>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                  <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

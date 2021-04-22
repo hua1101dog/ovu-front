@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="productDatabase/style/css/custom.css">
+</head>
+<body>
+	<div id="angularId" ng-controller="mgmtIndexCtrl" ng-init = "parentIndustryList();">
+		<div class="page-title">
+			<div class="title_left">
+				<h3>数据管理</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="x_panel">
+				<div class="form-inline">
+					<div class="form-group productDatabase">
+						<label>行业类型：</label>
+	            		 <select class="form-control" style="width:180px;" ng-model="parentIndustryCode"  ng-change = "getIndustryList(parentIndustryCode)" >
+		                    <option value="">--请选择--</option>
+		                    <option ng-repeat="industry in parentIndustryList" value="{{industry.industryCode}}">{{industry.industryName}}</option>
+		                </select>
+		                <select class="form-control childSelect" style="width:180px;"  ng-model="vm.search.industryCode" ng-change="vm.getProductList(vm.search.industryCode)">
+	                        <option value="">--请选择--</option>  
+	                       	<option ng-repeat="item in industryList" value="{{item.industryCode}}">{{item.industryName}}</option>                                            
+	                    </select>
+			       </div>
+					<div class="form-group">
+							<product-select 
+								product-tree="productTree" 							
+								products="products" 
+								select-data="selectData">
+							</product-select>
+					</div>
+					<div class="form-group">
+						<label>产品名称:</label>
+						<input class="form-control" type="text" ng-model="vm.search.industryProductName" />
+					</div>
+					<div class="form-group">
+						<label>创建日期</label> <input type="datetime"
+							class="form-control Wdate bg-readOnly"
+							ng-model="vm.search.beginTime" onchange=""
+							onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+						至 <input type="datetime" class="form-control Wdate bg-readOnly"
+							ng-model="vm.search.endTime" onchange=""
+							onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+					</div>
+					<button class="btn btn-default" ng-click="vm.query()">查询</button>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading" style="color: #999999;">
+					结果共有：{{pageModel.totalRecord}}条
+					<button class="btn btn-info pull-right btn-right m-r-lg"
+						ng-click="vm.edit('add')">新增产品</button>
+				</div>
+				<div class="panel-body p-b-none p-t-none">
+					<table class="table table-striped table-hover m-b-none"
+						style="margin-top: 10px; color: #999999;">
+						<thead class="title">
+							<tr>
+								<th class="text-center">序号</th>
+								<th>产品名称</th>
+								<th>行业类型</th>
+								<th>产品链位置</th>
+								<th>创建日期</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="!pageModel.data || pageModel.data.length == 0">
+								<td colspan="100" class="text-center">暂无记录</td>
+							</tr>
+							<tr ng-repeat="item in pageModel.data" style="color: #333333;">
+								<td class="text-center">{{$index +
+									1+pageModel.pageSize*pageModel.pageIndex}}</td>
+								<td>{{item.industryProductName  || '--'}}</td>
+								<td>{{item.industryName|| '--'}}</td>
+								<td>{{item.relationStatus?(item.relationStatus|keyToValue:relationStatusList): '--'}}</td>
+								<td>{{item.createTime?(item.createTime | date:"yyyy-MM-dd"):'--'}}</td>
+								<td><a href='javascript:void(0)' ng-click="vm.edit('modify',item)"
+									class='btn btn-xs'
+									style="border: 1px solid #5692ea; color: #5692ea;">修改</a>
+									<!-- <a href='javascript:void(0)' ng-click="vm.deleteItem(item)"
+									class='btn btn-xs'
+									style="border: 1px solid #5692ea; color: #5692ea;">删除</a> -->
+							</tr>
+						</tbody>
+					</table>
+					<div class="page-footer clearfix">
+						<ng-include src="'/common/pager.html'" class="ng-scope">
+						<style type="text/css" class="ng-scope">
+							.pagination>li>span:hover {
+								background-color: #fff;
+								cursor: text
+							}
+							</style>
+						</ng-include>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+
+<div id="angularId" ng-controller="spaceBacktrackCtl" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>空间回溯</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">楼栋列表<a href="javaScript:void(0)" ng-click='addTopNode()' class='btn btn-xs pull-right'><span class='fa fa-plus'></span>分期</a></div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="oriList.length==0">无楼栋信息</div>
+                    <div id="house_tree">
+                        <tree-view node-list="treeData" config="config"></tree-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>单元号</label>
+                        <input type="text" style="width: 100px" class="form-control" ng-model="search.unitNo" placeholder="单元号如00" />
+                    </div>
+                    <div class="form-group">
+                        <label>楼层号</label>
+                        <input type="text" style="width: 140px" class="form-control" ng-model="search.groundNo" placeholder="楼层号如000" />
+                    </div>
+                    <div class="form-group">
+                        <label>空间编码</label>
+                        <input type="text" style="width: 140px" class="form-control" ng-model="search.houseNo" placeholder="空间编码" />
+                    </div>
+                    <div class="form-group">
+                        <label>空间名称</label>
+                        <input type="text" style="width: 140px" class="form-control" ng-model="search.houseName" placeholder="空间名称" />
+                    </div>
+                    <div class="form-group">
+                        <label>空间类别</label>
+                        <select class="form-control" ng-model="search.rmCats" ng-change="changeHouseType()" ng-options="o.id as o.dicItem for o in houseType" style="width: 140px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-default pull-right btn-search" ng-click="find()" style="width: 80px;color: #fff; background-color: #5891eb;">查询</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    房屋列表
+                    <button class="btn btn-info pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="mergeSpace()">逆向合并</button>
+                </div>
+                <div class="panel-body" style="overflow: auto">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th class="text-center" style="width:20px">
+                                    <span role="button" ng-click="checkAll(pageModel)">
+                                        <i class="glyphicon glyphicon-unchecked" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                                    </span>
+                                </th>
+                                <th style="text-align:center">期/楼栋/单元/楼层</th>
+                                <th style="text-align:center">空间名称</th>
+                                <th style="text-align:center">空间编码</th>
+                                <th style="text-align:center">空间类别</th>
+                                <th style="text-align:center">空间状态</th>
+                                <th style="text-align:center">空间面积(m<sup>2</sup>)</th>
+                                <th style="text-align:center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                            <tr ng-repeat="item in pageModel.data" ng-if="!item.edit">
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+                                <td class="text-center">{{item.stageName}}/{{item.buildName}}/{{item.unitNo+'单元'+item.groundNo+'层'}}</td>
+                                <td class="text-center">{{item.houseName}}</td>
+                                <td class="text-center">{{item.houseNo}}</td>
+                                <td class="text-center">{{item.rmCat|rmCatType}}</td>
+                                <td class="text-center">{{item.spaceStatus|spaceType}}</td>
+                                <td class="text-center">{{item.area}}</td>
+                                <td class="text-center">
+                                    <a href='javascript:void(0)' ng-click="goDetail('/ovu-base/system/parkHouse/spaceInfo.do',item,$event)" class='btn btn-xs'><span class='fa fa-book'></span>详情</a>
+                                    <a href='javascript:void(0)'
+                                    ng-click="separate(item)"
+                                    ng-show="(item.rmCat=='FW11' || item.rmCat=='FW12' || item.rmCat=='FW16') && (!item.checkStatus || item.checkStatus==1) && item.spaceStatus==1"
+                                    class='btn btn-xs'><span class='fa fa-wrench'></span>逆向拆分</a> <a href='javascript:void(0)' ng-click='getPositon(item)' class='btn btn-xs'><span class='fa  fa-user-o'></span>工位</a>
+                                    <a href='javascript:void(0)' ng-click='check(item.id,item.checkStatus,1,$event)' class='btn btn-xs' ng-show="item.checkStatus==5"><span class='fa  fa-check'></span>复核(逆向拆)</a>
+                                    <a href='javascript:void(0)' ng-click='check(item.id,item.checkStatus,1,$event)' class='btn btn-xs' ng-show="item.checkStatus==6"><span class='fa  fa-check'></span>复核(逆向合)</a>
+                                    <a href='javascript:void(0)' ng-click='check(item.id,item.checkStatus,2,$event)' class='btn btn-xs' ng-show="item.checkStatus==5||item.checkStatus==6"><span class='fa  fa-check'></span>复核不通过</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

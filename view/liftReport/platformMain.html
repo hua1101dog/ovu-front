@@ -1,0 +1,120 @@
+<div ng-controller="PlatformMainCtrl as vm">
+	<div class="x_panel">
+		<span class="h4" style="line-height: 1.7;">项目总览</span>
+	<!-- 	<span class="pull-right"  ng-init="selectedModel=1">
+	        <button class="btn  btn-default btn-info" ng-class="{'btn-info':(selectedModel == 1) }" ng-click="selectedModel=1">
+	        	全国
+        	</button>
+	        <button class="btn  btn-default" ng-class="{'btn-info':(selectedModel == 2) }" ng-click="selectedModel=2">
+	        	全省
+        	</button>
+	        <button class="btn  btn-default" ng-class="{'btn-info':(selectedModel == 3) }" ng-click="selectedModel=3">
+	        	全市
+        	</button>
+        </span> -->
+	</div>
+	<uib-tabset active="active">
+	   <uib-tab index="0" heading="综合展示"  select="vm.selectTab(0)">
+	   		<div ng-include=" '../view/liftReport/platform/platformIndex0.html' " ng-controller="index0Ctrl as vm"></div>
+	   </uib-tab>
+	   <uib-tab index="1" heading="电梯总览" select="vm.selectTab(1)">
+	   		<div ng-include=" '../view/liftReport/platform/platformIndex1.html' " ng-controller="index1Ctrl as vm"></div>
+	   </uib-tab>
+	   <uib-tab index="2" heading="服务对象总览" select="vm.selectTab(2)">
+	   		<div ng-include=" '../view/liftReport/platform/platformIndex2.html' "  ng-controller="index2Ctrl as vm"></div>
+	   </uib-tab>
+	   <uib-tab index="3" heading="人员统计总览" select="vm.selectTab(3)">
+	   		<div ng-include=" '../view/liftReport/platform/platformIndex3.html' "  ng-controller="index3Ctrl as vm"></div>
+	   </uib-tab>
+	   <uib-tab index="4" heading="工单总览" select="vm.selectTab(4)">
+	   		<div ng-include=" '../view/liftReport/platform/platformIndex4.html' "  ng-controller="index4Ctrl as vm"></div>
+	   </uib-tab>
+	   <uib-tab index="5" heading="运营实时监控" select="vm.selectTab(5)">
+	   		<div ng-include=" '../view/liftReport/platform/platformIndex5.html' "  ng-controller="index5Ctrl as vm"></div>
+	   </uib-tab>
+	 </uib-tabset>
+ </div>
+<style>
+	.m-t-sm {
+ 	 margin-top: 10px;
+	}
+	.m-t {
+	  margin-top: 15px;
+	}
+	.m-t-md {
+	  margin-top: 20px;
+	}
+	.m-t-lg {
+	  margin-top: 30px;
+	}
+	.m-n {
+	  margin: 0 !important;
+	}
+	.b {
+		border: 1px solid #ddd;
+		background: #fff;
+	}
+	.b-n {
+		border: 1px solid #ddd;
+	}
+	.border-r10 {
+    	border-radius: 10px;
+	}
+	.b-r {
+		border-right: 1px solid #ddd;
+	}
+	.border-line{
+		  margin: 25px 0;
+	    text-align: center;
+	    line-height: 32px;
+	}
+	.font-size-lg {
+	    font-size: 25px;
+	    font-weight: bold;
+	}
+	.tipMarker{
+	color:#555;
+	background-color:rgba(255,254,239,0.8);
+	border:1px solid #7E7E7E;
+	padding:2px 6px;
+	font-size:12px;
+	white-space:nowrap;
+	display:inline-block;
+	}
+	.tipMarker:before,
+	.tipMarker:after{
+	content:'';
+	display:block;
+	position:absolute;
+	margin:auto;
+	width:0;
+	height:0;
+	border:solid transparent;
+	border-width:5px 5px;
+	}
+	.tipMarker.top{
+	transform:translate(-50%,-110%);
+	}
+	.tipMarker.top:before,
+	.tipMarker.top:after{
+	bottom:-9px;
+	left:0;
+	right:0;
+	border-top-color:rgba(255,254,239,0.8);
+	}
+	.tipMarker.top:before{
+	bottom:-10px;
+	border-top-color:#7E7E7E;
+	}
+	.font-16{
+		font-size: 16px;
+	}
+	.border-line-lg{
+	    margin: 60px 0;
+	    text-align: center;
+	    line-height: 40px;
+	}
+	.amap-touch-toolbar .amap-zoomcontrol {
+		bottom: 10px;
+	}
+</style>

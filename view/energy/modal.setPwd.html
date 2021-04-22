@@ -1,0 +1,24 @@
+<div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <!--<h4 class="modal-title">登录</h4>-->
+    </div>
+    <div class="modal-body container-fluid form-horizontal" style="margin:50px">
+        <form name="form" novalidate id="pwdFrom">
+            <div class="form-group" >
+                <label class="col-xs-3 control-label required">请输入密码：</label>
+                <div class="col-xs-6">
+                        <input type="text" class="form-control" required ng-model="item.password"  />
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="save(form,item)">确定</button>
+    </div>
+
+    <style>
+    .modal.in .modal-dialog{
+        top:35%
+    }
+    </style>

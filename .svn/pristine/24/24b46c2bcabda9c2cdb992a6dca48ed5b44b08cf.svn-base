@@ -1,0 +1,284 @@
+<style>
+    input.bar-input{
+        margin-right: 5px;
+        padding: 0 5px;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+</style>
+
+<div id="angularId" ng-controller="dashboardCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>财务全况统计</h3>
+        </div>
+    </div>
+
+    <div class="col-xs-12" ng-if="search.isGroup">
+        <label class="control-label" style="font-size: 20px">
+            <i class="fa fa-map-marker" style="font-size: 20px;margin-right:5px"></i>
+            <a role="button" ng-click="findPark(search,groupInit)">{{search.parkName?search.parkName:'请选择项目'}} </a>
+        </label>
+    </div>
+
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>城市位置：</label>
+                    <select class="form-control" ng-model="search.city" ng-change="selectCity(search.city)"
+                            ng-options="o[0] as o[1] for o in cities">
+                        <option value="" selected>选择城市</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>选择车场：</label>
+                    <select class="form-control" ng-model="search.parklot" ng-change="selectParklot(search.parklot)"
+                            ng-options="o as o.parklotName for o in parklots">
+                        <option value="" selected>选择车场</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>进车时间：</label>
+                    <input type="datetime" id="inStartTime"
+                           class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched"
+                           placeholder="进车开始时间"
+                           ng-model="search.inStartTime" onchange=""
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:&quot;#F{$('#inEndTime').val()||'%y-%M-%d %H:%i:%s'}&quot;})"
+                           aria-invalid="false">
+                </div>
+                <div class="form-group">
+                    <span> - </span>
+                </div>
+                <div class="form-group">
+                    <input type="datetime" id="inEndTime"
+                           class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched"
+                           placeholder="进车结束时间"
+                           ng-model="search.inEndTime" onchange=""
+                           onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('inStartTime').val()}&quot;})"
+                           aria-invalid="false">
+                </div>
+                <button class="btn btn-primary pull-right" ng-click="find()">查询</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!--应缴总金额-->
+            <div class="col-xs-3">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <span>应缴总金额</span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="payableMoneyAnnulus" style="height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+            <!--折扣总金额-->
+            <div class="col-xs-3">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <span>折扣总金额</span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="preferentialMoneyAnnulus" style="height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+            <!--实缴缴总金额-->
+            <div class="col-xs-3">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <span>实缴缴总金额</span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="payactMoneyAnnulus" style="height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+            <!--停车总量-->
+            <div class="col-xs-3">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <span>停车总量</span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="parkCarAnnulus" style="height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="search.isGroup">
+            <div class="col-xs-6" id="mapDiv">
+                <div id="container" style="width:100%; height:408px"></div>
+            </div>
+            <div class="col-xs-6">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">项目详情</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item">项目名称：{{project.parkName}}</li>
+                                    <li class="list-group-item">项目地址：{{project.city}}</li>
+                                    <li class="list-group-item">项目主任：</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <ul class="list-group">
+                                    <li class="list-group-item">停车场数量：{{parklots.length}}</li>
+                                    <li class="list-group-item">停车出入口：</li>
+                                    <li class="list-group-item">停车位数量：{{parklotsAllSpaceNum}}</li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-6">
+                                <div id="parklotAnnulus" style="height:200px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <span>停车场实收收入图</span>
+                        <button ng-if="!search.isGroup" class="btn btn-primary pull-right" ng-click="actIncomeSearch()">查询</button>
+                        <input ng-if="!search.isGroup" type="datetime"
+                               class="bar-input Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched pull-right"
+                               placeholder="结束时间" ng-model="search.actIncomeEndDay" onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                               aria-invalid="false">
+                        <input ng-if="!search.isGroup" type="datetime"
+                               class="bar-input Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched pull-right"
+                               placeholder="开始时间" ng-model="search.actIncomeStartDay" onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                               aria-invalid="false">
+
+                        <button ng-if="search.isGroup" class="btn btn-danger pull-right" ng-click="actIncomeParklotContrast()">车场选择</button>
+                        <button ng-if="search.isGroup" class="btn btn-primary pull-right" ng-click="actIncomeSamePeriodContrast()">同期对比
+                        </button>
+                    </div>
+                    <div class="panel-body">
+                        <div id="actIncomeTrend" style="height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <span>月卡缴费情况</span>
+                        <button ng-if="!search.isGroup" class="btn btn-primary pull-right" ng-click="monthCardBarSearch()">查询</button>
+                        <input ng-if="!search.isGroup" type="datetime"
+                               class="bar-input Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched pull-right"
+                               placeholder="出车结束时间" ng-model="search.monthCardBarEndDay" onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                               aria-invalid="false">
+                        <input ng-if="!search.isGroup" type="datetime"
+                               class="bar-input Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched pull-right"
+                               placeholder="出车开始时间" ng-model="search.monthCardBarStartDay" onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                               aria-invalid="false">
+
+                        <button ng-if="search.isGroup" class="btn btn-danger pull-right"
+                                ng-click="monthCardPayBarParklotContrast()">车场选择
+                        </button>
+                        <button ng-if="search.isGroup" class="btn btn-primary pull-right"
+                                ng-click="monthCardPayBarSamePeriodContrast()">同期对比
+                        </button>
+                    </div>
+                    <div class="panel-body">
+                        <div id="monthCardPayBar" style="height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="search.isGroup" ng-init="loadTrafficNumTrend()">
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <span>停车场车流量</span>
+                        <button class="btn btn-danger pull-right" ng-click="trafficNumTrendParklotContrast()">车场选择
+                        </button>
+                        <button class="btn btn-primary pull-right" ng-click="trafficNumTrendSamePeriodContrast()">同期对比
+                        </button>
+                    </div>
+                    <div class="panel-body">
+                        <div id="trafficNumTrend" style="height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="!search.isGroup">
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <span>异常放行图</span>
+                        <button class="btn btn-primary pull-right" ng-click="abnormalReleaseBarSearch()">查询</button>
+                        <input type="datetime"
+                               class="bar-input Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched pull-right"
+                               placeholder="出车结束时间" ng-model="search.abnormalReleaseBarEndDay" onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                               aria-invalid="false">
+                        <input type="datetime"
+                               class="bar-input Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched pull-right"
+                               placeholder="出车开始时间" ng-model="search.abnormalReleaseBarStartDay" onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                               aria-invalid="false">
+                    </div>
+                    <div class="panel-body">
+                        <div id="abnormalReleaseBar" style="height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="!search.isGroup">
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <span>每日车辆构成</span>
+                        <button class="btn btn-primary pull-right" ng-click="carTypeBarSearch()">查询</button>
+                        <input type="datetime"
+                               class="bar-input  Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched pull-right"
+                               placeholder="进车结束时间" ng-model="search.carTypeBarEndDay" onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                               aria-invalid="false">
+                        <input type="datetime"
+                               class="bar-input  Wdate ng-pristine ng-valid ng-empty ng-touched ng-untouched pull-right"
+                               placeholder="进车开始时间" ng-model="search.carTypeBarStartDay" onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                               aria-invalid="false">
+                    </div>
+                    <div class="panel-body">
+                        <div id="carTypeBar" style="height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>陌生人管理</title>
+    <link rel="stylesheet" href="reportManage/style/report.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="strangermamageCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>陌生人管理</h3>
+            </div>
+        </div>
+
+        <div>
+            <div class="x_panel">
+                <div class="form-inline find_input marT_15">
+
+                    <!-- <div class="form-group">
+                        <label>抓拍位置</label>
+                        <select style="min-width: 179px;max-width: 180px;" class="form-control"
+                            ng-model="search.SnapPosition">
+                            <option value="">--请选择--</option>
+                            <option ng-repeat="item in SnapPosition" value="{{item.id}}">{{item.name}}</option>
+                        </select>
+                    </div> -->
+
+                    <div class="form-group">
+                        <label>疑似人群</label>
+                        <select style="min-width: 179px;max-width: 180px;" class="form-control"
+                            ng-model="search.ruleIds">
+                            <option value="">--请选择分类--</option>
+                            <option value="0">未分类</option>
+                            <option ng-repeat="item in rulesList.data" value="{{item.id}}">{{item.name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary" ng-click="query()">查询</button>
+                    </div>
+
+                    <div class="form-group" style="float:right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                批量移动 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="" ng-click="selectAllCheck(item)"
+                                        ng-repeat="item in rulesList.data">{{item.name}}</a></li>
+                                <li>
+                                    <a href="" ng-click="selectAllCheck({id:0,name:'未分类'})">未分类</a></li>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <!-- <div class="panel-body" style="overflow-x: scroll;overflow-y: hidden;overflow:visible"> -->
+            <div class="panel-body" style="overflow:hidden">
+                <div style="overflow-y: auto;height:750px">
+                    <table class="table text-left">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 60px">
+                                    <i role="button" ng-click="allCharge()"
+                                        ng-class="{'glyphicon-check':all_Charge,'glyphicon-unchecked':!all_Charge}"
+                                        class="glyphicon"></i>
+                                </th>
+                                <th>
+                                    陌生人照片
+                                </th>
+                                <th>
+                                    抓拍总次数
+                                </th>
+                                <th>
+                                    抓拍记录
+                                </th>
+                                <th>
+                                    疑似人群
+                                </th>
+                                <th>是否人工归档</th>
+                                <th>
+                                    操作
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-if="pageModel.list.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr style="color:#333333;" ng-repeat="item in pageModel.list" class="text-center">
+                                <td>
+                                    <i role="button" ng-click="charge(item)"
+                                        ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                        class="glyphicon"></i>
+                                </td>
+                                <td>
+                                    <img onerror="javascript:this.src='/res/img/detail.png';" ng-src="{{ConversionUrl(item.url)}}"
+                                        ng-click='showBigImg(ConversionUrl(item.url))'
+                                        style="height:50px;width:50px;border:1px solid #ddd" />
+                                </td>
+                                <td>{{item.num||'0'}}</td>
+                                <td><a href='javascript:void(0)' ng-click="getStrangerDetail(item)"
+                                        class="xqclass">查看详情</a></td>
+                                <td>{{item.pushType||'未分类'}}</td>
+                                <td>{{item.isArtificial?'是':'否'}}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            移动 <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="" ng-repeat="x in rulesList.data"
+                                                    ng-click="selectOneCheck(x,item)">
+                                                    {{x.name}}
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="" ng-click="selectOneCheck({id:0,name:'未分类'},item)">未分类</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix" style="margin-left:8%;margin-top:-20px;">
+                        <ng-include src="'/common/pager.html'" class="ng-scope">
+                            <style type="text/css" class="ng-scope">
+                                .pagination>li>span:hover {
+                                    background-color: #fff;
+                                    cursor: text
+                                }
+
+                            </style>
+                        </ng-include>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div> -->
+
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+<style>
+    .ydclass {
+        width: 28px;
+        height: 14px;
+        font-size: 14px;
+        font-family: Source Han Sans CN;
+        font-weight: 400;
+        color: rgba(73, 137, 255, 1);
+        line-height: 36px;
+        cursor: pointer;
+    }
+
+    .xqclass {
+        cursor: pointer;
+    }
+
+</style>

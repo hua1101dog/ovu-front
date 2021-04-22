@@ -1,0 +1,26 @@
+<!-- 报装申请 -->
+<div class="report-request" id="angularId">
+
+    <div class="photoDiv" ng-if="curPic.on">
+        <img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute" ng-click="curPic.on = false"></img>
+        <img class="photo" ng-src="{{curPic.url}}" image-load="wheel()"></img>
+    </div>
+
+    <report-req-app></report-req-app>
+
+    <!-- 工作分类 -->
+    <ng-include src="'/common/modal.worktype.tree.html'"></ng-include>
+</div>
+
+<!-- 分页组件 -->
+<!-- <script src="../view/decoration/common/pagination/pagination.js"></script> -->
+<!-- confirm组件 -->
+<script src="../view/decoration/common/confirmModal/confirm.js"></script>
+<!-- autoFocus指令 -->
+<script src="../view/decoration/common/directives.js"></script>
+<!-- 公共服务 -->
+<!-- <script src="../view/decoration/common/service.js"></script> -->
+<!-- multi select -->
+<script src="../view/decoration/common/angularjs-dropdown-multiselect-1.11.8/src/angularjs-dropdown-multiselect.js"></script>
+<!-- 五星好评 -->
+<script type="application/javascript" src="../res/js/jquery.raty.min.js"></script>

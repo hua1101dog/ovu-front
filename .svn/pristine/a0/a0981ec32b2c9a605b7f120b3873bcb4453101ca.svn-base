@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My first three.js app</title>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="site-demo-button" id="layerDemo" style="margin-bottom: 0px;position:absolute;left:20px;top:20px;">
+        <button class="layui-btn layui-btn-normal" data-method="offset" data-type="auto">居中弹出</button>
+    </div>
+
+    <div id="map" style="width: 500px; height: 300px"></div>
+
+    <!-- 添加设备按钮 弹窗 begin -->
+    <!--添加新设备的按钮-->
+    <style>
+        .add-equip {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .equip-info-card {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            background-color: #FFF;
+            width: 350px;
+        }
+        
+        .equip-info-card .card-title {
+            padding: 0 15px;
+            text-align: center;
+            background-color: lightgray;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .equip-info-card .card-title .close-btn {
+            position: absolute;
+            right: 15px;
+            top: 3px;
+            font-size: 25px;
+            color: slategray;
+            cursor: pointer;
+        }
+        
+        .equip-info-card .card-body {
+            padding: 15px;
+            overflow: hidden;
+        }
+        
+        .equip-info-card .card-body .equip-map {
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .equip-info-card .card-body .input-label {
+            width: 30%;
+            float: left;
+            text-align: right;
+        }
+        
+        .equip-info-card .card-body .equip-map>input,
+        .equip-info-card .card-body .equip-map>.inputWrapper,
+        .equip-info-card .card-body .equip-map>.selectWrapper {
+            width: 65%;
+            float: right;
+            text-align: left;
+        }
+        
+        .equip-info-card .card-footer {
+            padding: 5px 15px;
+            text-align: center;
+            background-color: lightgray;
+            overflow: hidden;
+        }
+        
+        .equip-info-card .card-footer .equip-info-submit>div {
+            cursor: pointer;
+        }
+        
+        .equip-info-card .card-footer .equip-info-cancel>div {
+            cursor: pointer;
+        }
+    </style>
+    <button class="add-equip">添加设备</button>
+    <div class="equip-info-card" style="display:none">
+        <div class="card-title">
+            <h4 style="margin: 12px;">设备信息</h4>
+            <div class="close-btn">x</div>
+        </div>
+        <div class="card-body">
+            <!-- 设备名称 -->
+            <div class="equip-map equip-map-name">
+                <div class="input-label">设备名称：</div>
+                <input class="equip-name" type="text" name="cameraName" placeholder="设备名称" style="width:65%;" />
+            </div>
+            <!-- 设备类型 -->
+            <div class="equip-map equip-map-type">
+                <div class="input-label">设备类型：</div>
+                <div class="selectWrapper" style="width: 66.4%;">
+                    <input class="equip-type" type="text" name="cameraType" placeholder="设备类型" disabled="disabled" style="float:left;width:25%;" />
+                    <select name="typeSelect" id="typeSelect" style="float:right;width:70%;">
+                        <option value="0">球机</option>
+                        <option value="1">枪机</option>
+                    </select>
+                </div>
+            </div>
+            <!-- 摄像头尺寸选择 -->
+            <div class="equip-map equip-map-size">
+                <div class="input-label">水平尺寸：</div>
+                <div class="selectWrapper" style="width: 66.4%;">
+                    <input class="equip-size" type="text" name="cameraSize" placeholder="设备尺寸" disabled="disabled" style="float:left;width:25%;" />
+                    <select name="sizeSelect" id="sizeSelect" style="float:right;width:70%;">
+                        <option value="0">1/4</option>
+                        <option value="1">1/3</option>
+                        <option value="2">1/2.5</option>
+                        <option value="3">1/2</option>
+                        <option value="4">1/1.8</option>
+                        <option value="5">2/3</option>
+                    </select>
+                </div>
+            </div>
+            <!-- 设备焦距 -->
+            <div class="equip-map equip-map-focus">
+                <div class="input-label">设备焦距：</div>
+                <div class="inputWrapper" style="width: 66.4%;">
+                    <input class="equip-focus" type="text" name="cameraFocus" placeholder="设备焦距" disabled="disabled" style="float:left;width:25%;" />
+                    <input class="slider-focus" type="range" name="cameraFocus" min="0" max="6" step="1" value="0" style="float:right;width:70%;" />
+                </div>
+            </div>
+            <!-- 设备起始角度 -->
+            <div class="equip-map equip-map-start-angle">
+                <div class="input-label">设备角度：</div>
+                <div class="inputWrapper" style="width: 66.4%;">
+                    <input class="equip-start-angle" type="text" name="startAngle" placeholder="起始角度" disabled="disabled" style="float:left;width:25%;" />
+                    <input class="slider-start-angle" type="range" name="startAngle" min="0" max="360" step="1" value="0" style="float:right;width:70%;" />
+                </div>
+            </div>
+            <div class="equip-map equip-map-x">
+                <div class="input-label">设备X坐标：</div>
+                <input type="text" placeholder="设备x坐标" disabled="disabled" />
+            </div>
+            <div class="equip-map equip-map-y">
+                <div class="input-label">设备Y坐标：</div>
+                <input type="text" placeholder="设备y坐标" disabled="disabled" />
+            </div>
+            <div class="equip-map equip-map-z">
+                <div class="input-label">设备Z坐标：</div>
+                <input type="text" placeholder="设备z坐标" disabled="disabled" />
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="equip-info-submit" style="width:50%;float:left;">
+                <div>提交</div>
+            </div>
+            <div class="equip-info-cancel" style="width:50%;float:left;">
+                <div>取消</div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加设备按钮 弹窗 end -->
+
+    <!-- 摄像头尺寸选择 -->
+
+
+
+
+    <script src="js/3d/Three.js"></script>
+    <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/3d/OrbitControls.js"></script>
+    <script src="js/3d/dataHandle.js"></script>
+    <script src="js/3d/3Dfunction.js"></script>
+
+    <script src="js/3d/cameraRange.js"></script>
+
+    <script src="layui.js" charset="utf-8"></script>
+
+    <!-- 引入摄像头配置数据 -->
+    <script src="js/3d/cameraConfig.js"></script>
+
+    <script>
+        window.confirm = function(message, fn) {
+            layer.confirm(message, {
+                btn: ['确定', '取消'],
+                title: false
+            }, function(index) {
+                fn && fn();
+                layer.close(index);
+            }, function() {});
+        };
+        $(function() {
+            var global = {};
+            var map = new Map("map");
+            map.init();
+            map.draw();
+            //map.findPathById(1,502);
+            map.animate();
+
+            layui.use('layer', function() { //独立版的layer无需执行这一句
+                var $ = layui.jquery,
+                    layer = layui.layer; //独立版的layer无需执行这一句
+
+                //触发事件
+                var active = {
+                    offset: function(othis) {
+                        var type = othis.data('type'),
+                            text = othis.text();
+
+                        layer.open({
+                            type: 1,
+                            offset: type, //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                            id: 'layerDemo' + type, //防止重复弹出
+                            content: '<div style="padding: 20px 80px;">' +
+                                '<label>' +
+                                '<input name="sex" type="radio" value="0" />' +
+                                '隐藏摄像头(编辑界面)' +
+                                '</label><br/>' +
+                                '<label>' +
+                                '<input name="sex" type="radio" value="1" />' +
+                                '显示摄像头' +
+                                '</label><br/>' +
+                                '<label>' +
+                                '<input name="sex" type="radio" value="2" />' +
+                                '显示摄像头监控范围' +
+                                '</label>' +
+                                '</div>',
+                            btn: '确定',
+                            // btn: '关闭全部',
+                            btnAlign: 'c', //按钮居中
+                            shade: 0, //不显示遮罩
+                            yes: function() {
+                                var sex = document.getElementsByName('sex');
+                                for (var i = 0; i < sex.length; i++) {
+                                    if (sex[i].checked == true) {
+                                        val = sex[i].value;
+                                        console.log(val);
+                                        if (val === '0') {
+                                            //debugger;
+                                            map.clearMap();
+
+                                            map.showCamera = false;
+                                            map.showCameraRange = false;
+
+                                            map.init();
+                                            map.draw();
+
+                                            map.animate();
+
+                                            console.log('打开layer1');
+                                            global.showCard();
+                                        }
+                                        if (val === '1') {
+                                            //debugger;
+                                            map.clearMap();
+
+                                            map.showCamera = true;
+                                            map.showCameraRange = false;
+                                            map.init();
+                                            map.draw();
+
+                                            map.animate();
+                                            console.log('打开layer2');
+
+                                            global.closeCard();
+                                        }
+                                        if (val === '2') {
+                                            //debugger;
+
+                                            map.clearMap();
+
+                                            map.showCamera = false;
+                                            map.showCameraRange = true;
+
+                                            map.init();
+                                            map.draw();
+
+                                            map.animate();
+                                            console.log('打开layer3');
+
+                                            global.closeCard();
+                                        }
+                                        break;
+                                    }
+                                }
+                                layer.closeAll();
+                            }
+                        });
+                    }
+                };
+
+                $('#layerDemo .layui-btn').on('click', function() {
+                    var othis = $(this),
+                        method = othis.data('method');
+                    active[method] ? active[method].call(this, othis) : '';
+                });
+
+            });
+
+
+            // 添加设备
+
+            function addEquip(map, global) {
+                var state = {
+                    empty: true
+                };
+                // 添加设备
+                $('.add-equip').click(function() {
+                    // console.log('添加设备');
+                    $('.equip-info-card').show();
+                    // 地图点击事件
+                    map.on('lnClick', mapClickHandler);
+                });
+                // 关闭按钮
+                $('.card-title .close-btn').click(function() {
+                    closeCard();
+                });
+
+                function closeCard() {
+                    // console.log('关闭card');
+                    $('.equip-info-card').hide();
+                    // 关闭card后解绑点击事件
+                    map.off('lnClick', mapClickHandler);
+                    // 移除pos图标
+                    map.removePosLogo();
+                    // 清空range 设置state.empty
+                    map.clearRange();
+                    state.empty = true;
+                    $('.equip-map-x>input').val('设备x坐标');
+                    $('.equip-map-y>input').val('设备y坐标');
+                    $('.equip-map-z>input').val('设备z坐标');
+                }
+
+                global.closeCard = function() {
+                    closeCard();
+                    $('.add-equip').hide();
+                };
+                global.showCard = function() {
+                    // closeCard();
+                    $('.add-equip').show();
+                };
+                // 提交按钮
+                $('.card-footer .equip-info-submit>div').click(function() {
+                    console.log('提交信息');
+                    // $('.equip-info-card').hide();
+                    $.post('/ovu-pcos/pcos/CameraRange/saveCamera.do', {
+                        // imageType: 0,
+                        // caDimension: '1/4',
+                        // caFocal: 4,
+                        // centerStr: '220,-250',
+                        // caAngle: 120,
+                        name: $('.equip-name').val(),
+                        imageType: $('.equip-type').val() == '枪机' ? 0 : 1,
+                        caDimension: $('.equip-size').val(),
+                        caFocal: $('.equip-focus').val(),
+                        centerStr: [state.x, state.z].join(),
+                        caAngle: $('.equip-start-angle').val(),
+                        mapId:2
+                    }).success(function(res) {
+                        console.log('保存数据');
+                        console.log(res);
+                        if (res) {
+                            confirm('数据保存成功', function() {
+                                closeCard();
+                            });
+                        }
+                    });
+                });
+                // 取消按钮
+                $('.card-footer .equip-info-cancel>div').click(function() {
+                    console.log('取消');
+                    closeCard();
+                    // $('.equip-info-card').hide();
+                });
+
+                var cameraTypeList = getCameraTypeList(),
+                    cameraSizeList = getCameraSizeList(),
+                    cameraFocusList = getCameraFocusList();
+
+                // 类型选择 range slider滑块
+                // 默认选择第一个 球机 隐藏设备角度
+                $('.equip-type').val(cameraTypeList[0].type);
+                $('.equip-map-start-angle').hide();
+                $('#typeSelect').on('change', function() {
+                    console.log('类型选择变化');
+                    var v = $(this).val();
+                    $('.equip-type').val(cameraTypeList[v].type);
+                    if (cameraTypeList[v].type === '球机') {
+                        $('.equip-map-start-angle').hide();
+                        map.imageCameraType = '1';
+                    } else {
+                        $('.equip-map-start-angle').show();
+                        map.imageCameraType = '0';
+                    }
+                    if (!state.empty) {
+                        drawCameraLast();
+                    }
+
+                });
+
+                // 尺寸选择
+                $('.equip-size').val(cameraSizeList[0].ccd);
+                $('#sizeSelect').on('change', function() {
+                    console.log('尺寸选择变化');
+                    var v = $(this).val();
+                    $('.equip-size').val(cameraSizeList[v].ccd);
+                    if (!state.empty) {
+                        drawCameraLast();
+                    }
+                });
+
+                // 焦距选择 range slider滑块
+                // 默认选择第一个焦距 3.6
+                $('.equip-focus').val(cameraFocusList[0].f);
+                $('.equip-map .slider-focus').on('input propertychange', function() {
+                    var v = $(this).val();
+                    $('.equip-focus').val(cameraFocusList[v].f);
+                    if (!state.empty) {
+                        drawCameraLast();
+                    }
+                });
+
+                // 设备角度选择 range slider滑块
+                // 默认 0
+                $('.equip-start-angle').val(0);
+                $('.equip-map .slider-start-angle').on('input propertychange', function() {
+                    var v = $(this).val();
+                    $('.equip-start-angle').val(v);
+                    if (!state.empty) {
+                        drawCameraLast();
+                    }
+                });
+
+
+                // 地图点击handler
+                function mapClickHandler(evt) {
+                    // console.log('地图点击');
+                    // console.log(evt);
+                    if (evt.type === 'addEquip') {
+                        $('.equip-map-x>input').val(evt.position.x);
+                        $('.equip-map-y>input').val(evt.position.y);
+                        $('.equip-map-z>input').val(evt.position.z);
+
+                        var x = evt.position.x,
+                            y = evt.position.y,
+                            z = evt.position.z;
+
+                        state.empty = false;
+                        state.x = x;
+                        state.y = y;
+                        state.z = z;
+
+                        drawCameraLast();
+
+                    }
+
+                }
+
+                // 绘制 摄像头范围
+                function drawCameraRange(x, y, z, R_blure, R_person, R_autoCar, startAngle, allAngle, type) {
+                    if (type === '球机') {
+                        // 绘制带孔圆柱
+                        var cylinder = map.getCylinderWithHole({
+                            x: x,
+                            y: z,
+                            h: y + 1,
+                            R: R_blure,
+                            // R: 30,
+                            // r: 20,
+                            r: R_person,
+                            color: 'skyblue',
+                            opacity: 0.5,
+                            thick: 2
+                        });
+                        var cylinder1 = map.getCylinderWithHole({
+                            x: x,
+                            y: z,
+                            h: y + 1,
+                            R: R_person,
+                            r: R_autoCar,
+                            color: 'green',
+                            opacity: 0.5,
+                            thick: 2
+                        });
+                        var cylinder2 = map.getCylinderWithHole({
+                            x: x,
+                            y: z,
+                            h: y + 1,
+                            R: R_autoCar,
+                            r: 0,
+                            color: 'red',
+                            opacity: 0.5,
+                            thick: 2
+                        });
+                        map.drawRange([cylinder, cylinder1, cylinder2]);
+                    } else if (type === '枪机') {
+                        startAngle = startAngle * Math.PI / 180;
+                        allAngle = allAngle * Math.PI / 180;
+                        // 绘制扇形拉伸体
+                        var sectorExtrude = map.getSectorExtrude({
+                            x: x,
+                            y: z,
+                            h: y + 1,
+                            R: R_blure,
+                            r: R_person,
+                            startAngle: startAngle,
+                            endAngle: startAngle + allAngle,
+                            color: 'skyblue',
+                            opacity: 0.5,
+                            thick: 2
+                        });
+                        var sectorExtrude1 = map.getSectorExtrude({
+                            x: x,
+                            y: z,
+                            h: y + 1,
+                            R: R_person,
+                            r: R_autoCar,
+                            startAngle: startAngle,
+                            // endAngle: 0.62 * Math.PI,
+                            endAngle: startAngle + allAngle,
+                            color: 'green',
+                            opacity: 0.5,
+                            thick: 2
+                        });
+                        var sectorExtrude2 = map.getSectorExtrude({
+                            x: x,
+                            y: z,
+                            h: y + 1,
+                            R: R_autoCar,
+                            r: 0,
+                            startAngle: startAngle,
+                            endAngle: startAngle + allAngle,
+                            color: 'red',
+                            opacity: 0.5,
+                            thick: 2
+                        });
+                        map.drawRange([sectorExtrude, sectorExtrude1, sectorExtrude2]);
+                    }
+                }
+
+                // 绘制球机
+                function drawSphere() {
+                    var size = $('.equip-size').val(),
+                        focus = parseFloat($('.equip-focus').val());
+
+                    var camera = getCamera(size, focus);
+                    var R_blure = camera.blureDistance,
+                        R_person = camera.personDistance,
+                        R_autoCar = camera.licensePlateDistance;
+
+                    drawCameraRange(state.x, state.y, state.z, R_blure, R_person, R_autoCar, 0, 0, '球机');
+                }
+
+                // 绘制枪机
+                function drawGun() {
+                    var size = $('.equip-size').val(),
+                        focus = parseFloat($('.equip-focus').val());
+
+                    var camera = getCamera(size, focus);
+                    var R_blure = camera.blureDistance,
+                        R_person = camera.personDistance,
+                        R_autoCar = camera.licensePlateDistance;
+
+                    var startAngle = $('.equip-start-angle').val();
+                    var allAngle = camera.horizontalAngle;
+                    drawCameraRange(state.x, state.y, state.z, R_blure, R_person, R_autoCar, startAngle, allAngle, '枪机');
+                }
+                // 到处调用的绘制方法
+                function drawCameraLast() {
+                    if ($('.equip-type').val() === '球机') {
+                        drawSphere();
+                    }
+                    if ($('.equip-type').val() === '枪机') {
+                        drawGun();
+                    }
+                }
+
+            }
+            addEquip(map, global);
+
+
+
+            window.lnMap = map;
+
+        });
+    </script>
+
+
+</body>
+
+</html>

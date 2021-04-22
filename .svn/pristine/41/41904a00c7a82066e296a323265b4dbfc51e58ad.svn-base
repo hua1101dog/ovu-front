@@ -1,0 +1,39 @@
+<!-- 异常情况 -->
+<div>
+        <div class="x_panel" style="width:130%">
+        <div class="form-inline">
+                <div class="form-group">
+                    <span>选择起始时间</span>
+                    <input type="datetime" class="form-control Wdate abnorSt" style="display: inline-block;width: auto" ng-model="search.startTime" onchange=""
+                    onclick="javascript:WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.abnorEn').last().val()||'%y-%M-%d'}&quot;})">
+                    <span>选择截止时间</span>
+                    <input type="datetime" class="form-control Wdate abnorEn" style="display: inline-block;width: auto" ng-model="search.endTime" onchange=""
+                    onclick="javascript:WdatePicker({isShowClear:false,dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.abnorSt').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+                </div>
+                <button class="btn btn-default" style="margin-bottom: 4px" ng-click="findAbnormal()">查询</button>
+                <button class="btn btn-default" style="margin-bottom: 4px" ng-disabled="!search.parkId" ng-click="outputDo()">导出数据</button>
+            </div>
+        </div>
+        </div>
+        <div class="panel panel-default" style="width:130%">
+                <table class="table table-bordered" ng-if="abnormalList && abnormalList.length !== '0'">
+                    <thead>
+                        <tr>
+                                <th>计算类型</th>
+                                <th>计算公式</th>
+                                <th>数据</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in abnormalList">
+                            <td>{{item.type}}</td>
+                            <td>{{item.formulaText}}</td>
+                            <td>{{item.value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="col-md-12 col-sm-12 col-xs-12" id="Abnormal" style="height: 400px;">
+
+                </div>
+            </div>
+    </div>

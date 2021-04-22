@@ -1,0 +1,38 @@
+<div class="leaseDetail">
+    <div class="modal-header">
+        <h4 class="modal-title">租赁资源合同租期</h4>
+    </div>
+    <form name="leaseDetailForm" novalidate>
+        <div class="eachSetting" ng-repeat="item in rentalList track by $index">
+            <h5>{{item.stageName+'>'+item.buildName+'>'+item.houseName}}</h5>
+            <ul>
+                <li style="width: 100%;">
+                    <label class="required">合同租期：</label>
+                    <input type="datetime" id="lease{{$index}}0" class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                        ng-model="startTimes[$index]" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                        ng-change="getLeaseMonth(startTimes[$index], endTimes[$index], approachTimes[$index], $index, 1)" required ng-disabled="!item.disabledStatus && leaseMsg.executingContractStatus">
+                    <span class="label_search" style="margin:0 8px 0 0 ;width:auto;">至</span>
+                    <input type="datetime" id="lease{{$index}}1" class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                        ng-model="endTimes[$index]" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                        ng-change="getLeaseMonth(startTimes[$index], endTimes[$index], approachTimes[$index], $index, 2)" required ng-disabled="!item.disabledStatus && leaseMsg.executingContractStatus">
+                    <span ng-show="startTimes[$index]&&endTimes[$index]&&(startTimes[$index]<endTimes[$index])">共{{totalTimes[$index]}}个月</span>
+                </li>
+                <li style="width: 100%;">
+                    <label class="required">进场时间：</label>
+                    <input type="datetime" class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty"
+                        onchange="" ng-model="approachTimes[$index]" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                        ng-change="getLeaseMonth(startTimes[$index], endTimes[$index], approachTimes[$index], $index, 3)" required ng-disabled="!item.disabledStatus && leaseMsg.executingContractStatus">
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="modal-footer" style="text-align: center;">
+        <button class="btn btn-warning" ng-click="save(leaseDetailForm)">确认</button>
+        <button class="btn" ng-click="cancel()">关闭</button>
+    </div>
+</div>
+<style>
+    .modal-dialog {
+        width: 1000px !important;
+    }
+</style>

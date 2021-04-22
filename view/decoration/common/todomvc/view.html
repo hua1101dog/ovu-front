@@ -1,0 +1,223 @@
+<div>
+    <section id="todoapp">
+        <header class="todoapp-header">
+            <form class="todo-form" ng-submit="addTodo()">
+                <input class="new-todo" placeholder="添加标准步骤，回车换行" ng-model="newTodo" ng-disabled="saving" autofocus>
+            </form>
+        </header>
+        <section class="todoapp-main" ng-show="todos.length" ng-cloak>
+            <ul class="todo-list">
+                <li ng-repeat="todo in todos track by $index" ng-class="{editing: todo == editedTodo}">
+                    <div class="view">
+                        <label ng-dblclick="editTodo(todo)">{{todo.title}}</label>
+                        <i class="icon glyphicon glyphicon-edit" ng-click="editTodo(todo)" role="button"></i>
+                        <!-- button 按钮bug: 标准名称回车 会触发删除按钮  -->
+                        <!-- <button class="destroy" ng-click="removeTodo(todo)"></button> -->
+                        <span class="destroy" ng-click="removeTodo(todo)"></span>
+                    </div>
+                    <form ng-submit="saveEdits(todo, 'submit')">
+                        <input class="edit" ng-trim="false" ng-model="todo.title" todo-escape="revertEdits(todo)" ng-blur="saveEdits(todo, 'blur')" todo-focus="todo == editedTodo">
+                    </form>
+                </li>
+            </ul>
+        </section>
+    </section>
+</div>
+<style>
+    #todoapp {
+        color: #4d4d4d;
+        min-width: 230px;
+        /* max-width: 550px; */
+        margin: 0 auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-font-smoothing: antialiased;
+        font-smoothing: antialiased;
+        font-weight: 500;
+        text-align: left;
+        background: #fff;
+        position: relative;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2)
+    }
+    
+    #todoapp .hidden {
+        display: none;
+    }
+    
+    #todoapp button {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: none;
+        font-size: 100%;
+        vertical-align: baseline;
+        font-family: inherit;
+        font-weight: inherit;
+        color: inherit;
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-font-smoothing: antialiased;
+        font-smoothing: antialiased;
+    }
+    
+    #todoapp button {
+        outline: none;
+    }
+    
+    #todoapp input::-webkit-input-placeholder {
+        /* font-style: italic; */
+        font-weight: 300;
+        /* color: #e6e6e6; */
+        color: #aaa;
+    }
+    
+    #todoapp input::-moz-placeholder {
+        /* font-style: italic; */
+        font-weight: 300;
+        /* color: #e6e6e6; */
+        color: #aaa;
+    }
+    
+    #todoapp input::input-placeholder {
+        /* font-style: italic; */
+        font-weight: 300;
+        /* color: #e6e6e6; */
+        color: #aaa;
+    }
+    
+    #todoapp .new-todo,
+    #todoapp .edit {
+        position: relative;
+        margin: 0;
+        width: 100%;
+        /* font-size: 20px; */
+        font-size: 14px;
+        font-family: inherit;
+        font-weight: inherit;
+        line-height: 1.4em;
+        border: 0;
+        outline: none;
+        color: inherit;
+        padding: 6px;
+        border: 1px solid #999;
+        box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-font-smoothing: antialiased;
+        font-smoothing: antialiased;
+    }
+    
+    #todoapp .new-todo {
+        padding: 10px;
+        border: none;
+        background: rgba(0, 0, 0, 0.003);
+        box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+        display: block;
+    }
+    
+    #todoapp .todoapp-main {
+        position: relative;
+        z-index: 2;
+        border-top: 1px solid #e6e6e6;
+    }
+    
+    #todoapp .todo-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    
+    #todoapp .todo-list li {
+        position: relative;
+        /* font-size: 24px; */
+        font-size: 14px;
+        border-bottom: 1px solid #ededed;
+    }
+    
+    #todoapp .todo-list li:last-child {
+        border-bottom: none;
+    }
+    
+    #todoapp .todo-list li.editing {
+        border-bottom: none;
+        padding: 0;
+    }
+    
+    #todoapp .todo-list li.editing .edit {
+        display: block;
+        /* width: 506px; */
+        padding: 13px 17px 12px 17px;
+        /* margin: 0 0 0 43px; */
+    }
+    
+    #todoapp .todo-list li.editing .view {
+        display: none;
+    }
+    
+    #todoapp .todo-list li label {
+        white-space: pre-line;
+        word-break: break-all;
+        padding: 8px;
+        /* margin-left: 45px; */
+        display: block;
+        line-height: 1.2;
+        font-weight: 500;
+        transition: color 0.4s;
+    }
+    
+    #todoapp .todo-list li i.icon {
+        display: none;
+        position: absolute;
+        top: 11px;
+        right: 60px;
+        margin: auto 0;
+        font-size: 16px;
+        color: #cc9a9a;
+        transition: color 0.2s ease-out;
+    }
+    
+    #todoapp .todo-list li:last-child i.icon {
+        top: 9px;
+    }
+    
+    #todoapp .todo-list li .destroy {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 10px;
+        bottom: 0;
+        width: 40px;
+        height: 33px;
+        margin: auto 0;
+        font-size: 30px;
+        color: #cc9a9a;
+        margin-bottom: 11px;
+        transition: color 0.2s ease-out;
+    }
+    
+    #todoapp .todo-list li:last-child .destroy {
+        height: 30px;
+    }
+    
+    #todoapp .todo-list li i.icon:hover,
+    #todoapp .todo-list li .destroy:hover {
+        color: #af5b5e;
+    }
+    
+    #todoapp .todo-list li .destroy:after {
+        content: '×';
+    }
+    
+    #todoapp .todo-list li:hover i.icon,
+    #todoapp .todo-list li:hover .destroy {
+        display: block;
+    }
+    
+    #todoapp .todo-list li .edit {
+        display: none;
+    }
+    
+    #todoapp .todo-list li.editing:last-child {
+        margin-bottom: -1px;
+    }
+</style>

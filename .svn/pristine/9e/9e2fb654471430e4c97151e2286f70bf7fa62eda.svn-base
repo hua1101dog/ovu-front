@@ -1,0 +1,85 @@
+<div controller="enterpriseSelectCtrl" ng-init="vm.getAllParkarea();">
+	<div class="info-title">
+		<button type="button" class="close" ng-click="vm.cancel()">×</button>
+		<span>企业信息</span>
+	</div>
+	<div class="container-fluid">
+		<div class="x_content" style="max-height: 510px; overflow: auto;">
+			<div class="col-md-12 m-b-s m-t-s">
+				<div class="form-group col-md-8">
+					<label class=" control-label m-r-s pull-left" style="line-height:34px;">企业名称</label>
+					<div class="col-md-8 p-l-none">
+						<input type="text" ng-model="search.companyName" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group col-md-8">
+					<label class="control-label m-r-s pull-left"   style="line-height:34px;">所属园区</label>
+					<div class="col-md-8 p-l-none">
+						<select style="min-width: 150px;" class="form-control" ng-model="search.parkId">
+							<option value="" >--请选择--</option>
+							<option ng-repeat="item in parkList" value={{item.id}}>{{item.parkName}}</option>
+					   </select>
+					</div>
+				</div>
+				<button class="btn btn-info m-l-s" ng-click="find(1)">查询</button>
+				<button class="btn btn-info m-l-s" ng-click="clear()">清除</button>
+			</div>
+			<div class="panel-body popup-table p-t-none p-b-none">
+				<table class="table table-striped table-hover"
+					style="margin-top: 10px; margin-bottom: 0px; color: #999999;">
+					<thead class="title">
+						<tr>
+							<th class="text-center" style="width: 20px">
+								<span role="button" ng-click="checkAll(pageModel)" tabindex="0">
+                                    <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}" style="color:#333;"></i>
+                                </span>	
+							</th>
+							<th class="text-center no-common">序号</th>
+							<th>企业名称</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+							<td colspan="100" class="text-center">暂无记录</td>
+						</tr>
+						<tr ng-repeat="item in pageModel.data track by $index"
+							style="color: #333333;">
+							<td>
+								<i role="button" ng-click="checkOne(item,pageModel);" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" 
+									class="glyphicon" tabindex="0" style=""></i>
+							</td>
+							<td class="text-center no-common">{{$index +
+													1+pageModel.pageSize*pageModel.pageIndex}}</td>
+							<td>{{item.companyName}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+					<ng-include src="'/common/pager.html'" class="ng-scope">
+					<style type="text/css" class="ng-scope">
+						.pagination>li>span:hover {
+							background-color: #fff;
+							cursor: text
+						}
+						</style>
+					</ng-include>
+				</div>
+			</div>
+			  <div class="form-group m-t-s">
+                <div class="input-group">
+                    <ul class="ul-persons">
+                    <li class = "item pull-left" style = "padding: 5px 10px;">已选择:</li>
+                        <li class="item pull-left" style = "padding: 5px 10px;" ng-repeat="company in vm.selectedCompanyList">{{company.companyName}}
+                            <a ng-click="vm.delCompany(company,pageModel)">
+                                <i class='fa fa-remove'></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="vm.save(pageModel)">确定</button>
+	</div>
+</div>

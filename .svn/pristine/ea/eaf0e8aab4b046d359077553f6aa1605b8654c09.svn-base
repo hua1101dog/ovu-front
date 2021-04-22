@@ -1,0 +1,153 @@
+<!-- 报装申请工单 deprecated 设计变更 不需要这个界面了-->
+<div class="report-reqWorkUnit" id="angularId" ng-controller="reportReqWorkUnitCtrl">
+    <!-- title BEGIN -->
+    <div class="report-reqWorkUnit-title page-title x_panel">
+        <div class="title_left">
+            <h3 style="margin-top: 3px;">报装申请工单</h3>
+        </div>
+        <div class="col-xs-4 title_right pull-right text-right" ng-if="search.isGroup">
+            <label class="control-label">
+                <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+                <a role="button" ng-click="findPark(search,refresh)">{{search.PARK_NAME||'请选择项目'}} </a>
+            </label>
+        </div>
+    </div>
+    <!-- title END -->
+    <!-- content BEGIN -->
+    <div class="report-reqWorkUnit-content">
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <div class="form-inline pull-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="工单名称" ng-model="search.workUnitName">
+                    </div>
+                    <div class="form-group">
+                        <input type="datetime" class="form-control Wdate reportReSt" ng-model="search.start_time" placeholder="开始日期" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.reportReEn').last().val()}&quot;})">
+                        <label>-</label>
+                        <input type="datetime" class="form-control Wdate reportReEn" ng-model="search.end_time" placeholder="结束日期" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.reportReSt').first().val()}&quot;})">
+                    </div>
+                    <div class="form-group">
+                        <select id="isRequired" class="form-control" ng-model="search.workUnitStatus" ng-options="x[0] as x[1] for x in unitStatusDict">
+                            <!-- <option value="">--工单状态--</option> -->
+                        </select>
+                    </div>
+                    <div class="btn btn-primary" ng-click="find(search)">查询</div>
+                </div>
+                <div class="pull-right">
+                    <!-- <button class="btn btn-success pull-right" ng-if="search.findWork" ng-disabled="!hasChecked(pageModel)" ng-click="distributeAll()">批量派发</button> -->
+                    <!-- <button class="btn btn-success" ng-disabled="disabled" ng-click="toAdd()">批量派发</button> -->
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center">序号</th>
+                            <!--<th class="text-center" style="width:20px">
+                                <span role="button" ng-click="checkAll(pageModel)">
+                                    <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                                </span>
+                            </th> -->
+                            <th>工单名称</th>
+                            <th>报事业主房号</th>
+                            <th>报事业主姓名</th>
+                            <th>报事业主电话</th>
+                            <th>报事时间</th>
+                            <th>工单状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!pageModel.data.length">
+                            <td colspan="100" class="text-center">暂无报装申请工单</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data">
+                            <td class="text-center">
+                                {{$index + 1 + pageModel.pageSize * pageModel.pageIndex}}
+                            </td>
+                            <!--<td>
+                                <i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i>
+                            </td> -->
+                            <td>
+                                <a href='javascript:void(0)' class="btn-link" ng-click='showWorkUnitDetail(item.id)'>
+                                    <span>{{item.workunit_NAME}}</span>
+                                </a>
+                            </td>
+                            <td>{{item.house_NAME}}</td>
+                            <td>{{item.customer_NAME}}</td>
+                            <td>{{item.customer_PHONE}}</td>
+                            <td>{{item.create_DATE}}</td>
+                            <!-- <td>{{item.workUnitStatus}}</td> -->
+                            <td>{{item.unit_STATUS|keyToValue:unitStatusDict}}</td>
+                            <td>
+                                <div ng-if="(item.unit_STATUS==0 ||item.unit_STATUS==4 ) && (item.allocation_PERSON_ID.indexOf(search.personId) > -1) && item.id">
+                                    <a href='javascript:void(0)' ng-click='distributeModal(item.id)' class='btn btn-xs text-success'><span class='fa fa-paper-plane' ></span>派发</a>
+                                </div>
+                                <div ng-if="item.unit_STATUS==1 && item.exec_PERSON_ID==search.personId">
+                                    <a href='javascript:void(0)' ng-click='acceptWork(item)' class='btn btn-xs text-success'><span class='fa fa-thumbs-o-up' ></span>接单</a>
+                                </div>
+                                <div ng-if="item.unit_STATUS==5">
+                                    <a href='javascript:void(0)' ng-click='showExecModal(item.id)' class='btn btn-xs text-success'><span class='fa fa-gavel' ></span>执行</a>
+                                    <!-- <a href='javascript:void(0)' ng-click='finishWork(item)' class='btn btn-xs text-danger'><span class='fa fa-power-off'></span>完成</a> -->
+                                </div>
+
+                                <div ng-if="item.unit_STATUS==7 && item.manage_PERSON_ID == search.personId">
+                                    <a href='javascript:void(0)' ng-click='evaluateModal(item)' class='btn btn-xs text-success'><span class='fa fa-star' ></span>评价</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer clearfix">
+                <decoration-pagination total-count="pageModel.totalCount" current-page="pageModel.currentPage" num-per-page="pageModel.numPerPage" on-select-change="numSelect($event)" on-page-changed="pageChanged($event)">
+                </decoration-pagination>
+            </div>
+        </div>
+    </div>
+    <!-- content END -->
+</div>
+
+<style>
+    .report-reqWorkUnit-content .panel-heading button {
+        margin: 0;
+    }
+    
+    .report-reqWorkUnit-content .panel-body {
+        height: 530px;
+        overflow: auto;
+    }
+    
+    .report-reqWorkUnit-content .panel-body table {
+        min-width: 850px;
+    }
+    
+    .report-reqWorkUnit-content table tr th,
+    .report-reqWorkUnit-content table tr td {
+        text-align: center;
+        vertical-align: middle;
+    }
+    
+    .report-reqWorkUnit-content table td a {
+        padding: 0 10px 0 12px;
+    }
+    
+    .report-reqWorkUnit-content .pipe {
+        border-right: 2px solid #5A738E;
+    }
+</style>
+
+<!-- 分页组件 -->
+<!-- <script src="../view/decoration/common/pagination/pagination.js"></script> -->
+<!-- confirm组件 -->
+<script src="../view/decoration/common/confirmModal/confirm.js"></script>
+<!-- autoFocus指令 -->
+<script src="../view/decoration/common/directives.js"></script>
+<!-- 公共服务 -->
+<!-- <script src="../view/decoration/common/service.js"></script> -->
+
+<!-- 五星好评 -->
+<script type="application/javascript" src="../res/js/jquery.raty.min.js"></script>
+
+<!-- 加载工单流程流程 -->
+<script src="../view/workunit/myworkunitCtrl.js"></script>

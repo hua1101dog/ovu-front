@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>在线预览</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body ng-app="App">
+	<div class="wrapper" ng-controller="DocCtrl">
+	  <!-- <h1>{{pdfName}}</h1> -->
+	  <ng-pdf template-url="../pdf/partials/viewer.html" scale="page-fit" page=1 style="width:100%"></ng-pdf>
+	</div>
+</body>	
+
+<script src="../pdf/lib/angular.min.js"></script>
+<script src="../pdf/lib/pdf.js"></script>
+<script src="../pdf/lib/angular-pdf.js"></script>
+<script src="../pdf/main.js"></script>
+</html>
+<style>
+ body{
+     margin:0;
+     padding:0;
+         font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #d9edf7;
+     /* background-color: #404040; */
+ }
+</style>

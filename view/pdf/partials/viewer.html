@@ -1,0 +1,32 @@
+ <nav ng-class="getNavStyle(scroll)" style="background: #dff0d8">
+  <!-- <button ng-click="goPrevious()"><span>&lt;</span></button>
+  <button ng-click="goNext()"><span>&gt;</span></button>
+
+  <button ng-click="zoomIn()"><span>+</span></button>
+  <button ng-click="fit()"><span>100%</span></button>
+  <button ng-click="zoomOut()"><span>-</span></button>
+
+  <button ng-click="rotate()"><span>90</span></button>
+
+  <span>Page: </span>
+  <input type="text" min=1 ng-model="pageNum">
+  <span> / {{pageCount}}</span>
+
+  &nbsp;&nbsp;
+  <span>Document URL: </span>
+  <input type="text" ng-model="pdfUrl"> -->
+  <ul class="pager" style="margin:0">
+    <li ng-class="{disabled: pageNum == 1}" class="previous" ng-click="goPrevious()"><a href="javascript:;" class="btn-xs"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+    <li ng-class="{disabled: pageNum == pageCount}" class="next" ng-click="goNext()"><a href="javascript:;" class="btn-xs">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+    <li class="previous" ng-click="zoomIn()""><a href="javascript:;" class="btn-xs">放大</a></li>
+    <li class="next" ng-click="zoomOut()"><a href="javascript:;" class="btn-xs">缩小</a></li>
+  
+  </ul>
+  
+  <div style="position: absolute;left: 50%; transform: translateX(-50%);padding: 14px;top:0;">
+	  <input type="text" min=1 ng-model="pageNum" class="form-control input-sm" style="display: inline-block;width: 50px;">
+	  <span> / {{pageCount}}</span>
+  </div>
+</nav>
+
+{{loading}}

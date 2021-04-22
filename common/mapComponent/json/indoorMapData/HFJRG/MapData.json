@@ -1,0 +1,600 @@
+{
+	"name": "合肥金融港",
+	"url": "mapData/HFJRG/NKT.geojson",
+	"buildingList": [
+		{
+			"name": "A1",
+			"floorList": [
+				{
+					"name": "F1",
+					"mapUrl": "mapData/HFJRG/A1/1f.geojson"
+				},
+				{
+					"name": "F2",
+					"mapUrl": "mapData/HFJRG/A1/2f.geojson"
+				},
+				{
+					"name": "F3",
+					"mapUrl": "mapData/HFJRG/A1/3f.geojson"
+				},
+				{
+					"name": "F4",
+					"mapUrl": "mapData/HFJRG/A1/4f.geojson"
+				},
+				{
+					"name": "F5",
+					"mapUrl": "mapData/HFJRG/A1/5f.geojson"
+				},
+				{
+					"name": "F6",
+					"mapUrl": "mapData/HFJRG/A1/6f.geojson"
+				},
+				{
+					"name": "F7",
+					"mapUrl": "mapData/HFJRG/A1/7f.geojson"
+				},
+				{
+					"name": "F8",
+					"mapUrl": "mapData/HFJRG/A1/8f.geojson"
+				},
+				{
+					"name": "F9",
+					"mapUrl": "mapData/HFJRG/A1/9f.geojson"
+				},
+				{
+					"name": "F10",
+					"mapUrl": "mapData/HFJRG/A1/10f.geojson"
+				},
+				{
+					"name": "F11",
+					"mapUrl": "mapData/HFJRG/A1/11f.geojson"
+				},
+				{
+					"name": "F12",
+					"mapUrl": "mapData/HFJRG/A1/12f.geojson"
+				},
+				{
+					"name": "F13",
+					"mapUrl": "mapData/HFJRG/A1/13f.geojson"
+				},
+				{
+					"name": "F14",
+					"mapUrl": "mapData/HFJRG/A1/14f.geojson"
+				},
+				{
+					"name": "F15",
+					"mapUrl": "mapData/HFJRG/A1/15f.geojson"
+				},
+				{
+					"name": "F16",
+					"mapUrl": "mapData/HFJRG/A1/16f.geojson"
+				},
+				{
+					"name": "F17",
+					"mapUrl": "mapData/HFJRG/A1/17f.geojson"
+				}
+			]
+		},{
+			"name": "A2",
+			"floorList": [
+				{
+					"name": "F1",
+					"mapUrl": "mapData/HFJRG/A2/1f.geojson"
+				},
+				{
+					"name": "F2",
+					"mapUrl": "mapData/HFJRG/A2/2f.geojson"
+				},
+				{
+					"name": "F3",
+					"mapUrl": "mapData/HFJRG/A2/3f.geojson"
+				},
+				{
+					"name": "F4",
+					"mapUrl": "mapData/HFJRG/A2/4f.geojson"
+				},
+				{
+					"name": "F5",
+					"mapUrl": "mapData/HFJRG/A2/5f.geojson"
+				},
+				{
+					"name": "F6",
+					"mapUrl": "mapData/HFJRG/A2/6f.geojson"
+				},
+				{
+					"name": "F7",
+					"mapUrl": "mapData/HFJRG/A2/7f.geojson"
+				},
+				{
+					"name": "F8",
+					"mapUrl": "mapData/HFJRG/A2/8f.geojson"
+				},
+				{
+					"name": "F9",
+					"mapUrl": "mapData/HFJRG/A2/9f.geojson"
+				},
+				{
+					"name": "F10",
+					"mapUrl": "mapData/HFJRG/A2/10f.geojson"
+				},
+				{
+					"name": "F11",
+					"mapUrl": "mapData/HFJRG/A2/11f.geojson"
+				},
+				{
+					"name": "F12",
+					"mapUrl": "mapData/HFJRG/A2/12f.geojson"
+				},
+				{
+					"name": "F13",
+					"mapUrl": "mapData/HFJRG/A2/13f.geojson"
+				},
+				{
+					"name": "F14",
+					"mapUrl": "mapData/HFJRG/A2/14f.geojson"
+				},
+				{
+					"name": "F15",
+					"mapUrl": "mapData/HFJRG/A2/15f.geojson"
+				},
+				{
+					"name": "F16",
+					"mapUrl": "mapData/HFJRG/A2/16f.geojson"
+				},
+				{
+					"name": "F17",
+					"mapUrl": "mapData/HFJRG/A2/17f.geojson"
+				},
+				{
+					"name": "F18",
+					"mapUrl": "mapData/HFJRG/A2/18f.geojson"
+				},
+				{
+					"name": "F19",
+					"mapUrl": "mapData/HFJRG/A2/19f.geojson"
+				},
+				{
+					"name": "F20",
+					"mapUrl": "mapData/HFJRG/A2/20f.geojson"
+				},
+				{
+					"name": "F21",
+					"mapUrl": "mapData/HFJRG/A2/21f.geojson"
+				},
+				{
+					"name": "F22",
+					"mapUrl": "mapData/HFJRG/A2/22f.geojson"
+				},
+				{
+					"name": "F23",
+					"mapUrl": "mapData/HFJRG/A2/23f.geojson"
+				}
+			]
+		},{
+			"name": "A3",
+			"floorList": [
+				{
+					"name": "F1",
+					"mapUrl": "mapData/HFJRG/A3/1f.geojson"
+				},
+				{
+					"name": "F2",
+					"mapUrl": "mapData/HFJRG/A3/2f.geojson"
+				},
+				{
+					"name": "F3",
+					"mapUrl": "mapData/HFJRG/A3/3f.geojson"
+				},
+				{
+					"name": "F4",
+					"mapUrl": "mapData/HFJRG/A3/4f.geojson"
+				},
+				{
+					"name": "F5",
+					"mapUrl": "mapData/HFJRG/A3/5f.geojson"
+				},
+				{
+					"name": "F6",
+					"mapUrl": "mapData/HFJRG/A3/6f.geojson"
+				},
+				{
+					"name": "F7",
+					"mapUrl": "mapData/HFJRG/A3/7f.geojson"
+				},
+				{
+					"name": "F8",
+					"mapUrl": "mapData/HFJRG/A3/8f.geojson"
+				},
+				{
+					"name": "F9",
+					"mapUrl": "mapData/HFJRG/A3/9f.geojson"
+				},
+				{
+					"name": "F10",
+					"mapUrl": "mapData/HFJRG/A3/10f.geojson"
+				},
+				{
+					"name": "F11",
+					"mapUrl": "mapData/HFJRG/A3/11f.geojson"
+				},
+				{
+					"name": "F12",
+					"mapUrl": "mapData/HFJRG/A3/12f.geojson"
+				},
+				{
+					"name": "F13",
+					"mapUrl": "mapData/HFJRG/A3/13f.geojson"
+				},
+				{
+					"name": "F14",
+					"mapUrl": "mapData/HFJRG/A3/14f.geojson"
+				},
+				{
+					"name": "F15",
+					"mapUrl": "mapData/HFJRG/A3/15f.geojson"
+				},
+				{
+					"name": "F16",
+					"mapUrl": "mapData/HFJRG/A3/16f.geojson"
+				},
+				{
+					"name": "F17",
+					"mapUrl": "mapData/HFJRG/A3/17f.geojson"
+				},
+				{
+					"name": "F18",
+					"mapUrl": "mapData/HFJRG/A3/18f.geojson"
+				},
+				{
+					"name": "F19",
+					"mapUrl": "mapData/HFJRG/A3/19f.geojson"
+				},
+				{
+					"name": "F20",
+					"mapUrl": "mapData/HFJRG/A3/20f.geojson"
+				},
+				{
+					"name": "F21",
+					"mapUrl": "mapData/HFJRG/A3/21f.geojson"
+				},
+				{
+					"name": "F22",
+					"mapUrl": "mapData/HFJRG/A3/22f.geojson"
+				},
+				{
+					"name": "F23",
+					"mapUrl": "mapData/HFJRG/A3/23f.geojson"
+				}
+			]
+		},{
+			"name": "A5",
+			"floorList": [
+				{
+					"name": "F1",
+					"mapUrl": "mapData/HFJRG/A5/1f.geojson"
+				},
+				{
+					"name": "F2",
+					"mapUrl": "mapData/HFJRG/A5/2f.geojson"
+				},
+				{
+					"name": "F3",
+					"mapUrl": "mapData/HFJRG/A5/3f.geojson"
+				},
+				{
+					"name": "F4",
+					"mapUrl": "mapData/HFJRG/A5/4f.geojson"
+				},
+				{
+					"name": "F5",
+					"mapUrl": "mapData/HFJRG/A5/5f.geojson"
+				},
+				{
+					"name": "F6",
+					"mapUrl": "mapData/HFJRG/A5/6f.geojson"
+				},
+				{
+					"name": "F7",
+					"mapUrl": "mapData/HFJRG/A5/7f.geojson"
+				},
+				{
+					"name": "F8",
+					"mapUrl": "mapData/HFJRG/A5/8f.geojson"
+				},
+				{
+					"name": "F9",
+					"mapUrl": "mapData/HFJRG/A5/9f.geojson"
+				},
+				{
+					"name": "F10",
+					"mapUrl": "mapData/HFJRG/A5/10f.geojson"
+				},
+				{
+					"name": "F11",
+					"mapUrl": "mapData/HFJRG/A5/11f.geojson"
+				},
+				{
+					"name": "F12",
+					"mapUrl": "mapData/HFJRG/A5/12f.geojson"
+				},
+				{
+					"name": "F13",
+					"mapUrl": "mapData/HFJRG/A5/13f.geojson"
+				},
+				{
+					"name": "F14",
+					"mapUrl": "mapData/HFJRG/A5/14f.geojson"
+				},
+				{
+					"name": "F15",
+					"mapUrl": "mapData/HFJRG/A5/15f.geojson"
+				},
+				{
+					"name": "F16",
+					"mapUrl": "mapData/HFJRG/A5/16f.geojson"
+				},
+				{
+					"name": "F17",
+					"mapUrl": "mapData/HFJRG/A5/17f.geojson"
+				}
+			]
+		},{
+			"name": "A6",
+			"floorList": [
+				{
+					"name": "F1",
+					"mapUrl": "mapData/HFJRG/A6/1f.geojson"
+				},
+				{
+					"name": "F2",
+					"mapUrl": "mapData/HFJRG/A6/2f.geojson"
+				},
+				{
+					"name": "F3",
+					"mapUrl": "mapData/HFJRG/A6/3f.geojson"
+				},
+				{
+					"name": "F4",
+					"mapUrl": "mapData/HFJRG/A6/4f.geojson"
+				},
+				{
+					"name": "F5",
+					"mapUrl": "mapData/HFJRG/A6/5f.geojson"
+				},
+				{
+					"name": "F6",
+					"mapUrl": "mapData/HFJRG/A6/6f.geojson"
+				},
+				{
+					"name": "F7",
+					"mapUrl": "mapData/HFJRG/A6/7f.geojson"
+				},
+				{
+					"name": "F8",
+					"mapUrl": "mapData/HFJRG/A6/8f.geojson"
+				},
+				{
+					"name": "F9",
+					"mapUrl": "mapData/HFJRG/A6/9f.geojson"
+				},
+				{
+					"name": "F10",
+					"mapUrl": "mapData/HFJRG/A6/10f.geojson"
+				},
+				{
+					"name": "F11",
+					"mapUrl": "mapData/HFJRG/A6/11f.geojson"
+				},
+				{
+					"name": "F12",
+					"mapUrl": "mapData/HFJRG/A6/12f.geojson"
+				},
+				{
+					"name": "F13",
+					"mapUrl": "mapData/HFJRG/A6/13f.geojson"
+				},
+				{
+					"name": "F14",
+					"mapUrl": "mapData/HFJRG/A6/14f.geojson"
+				}
+			]
+		},{
+			"name": "A7",
+			"floorList": [
+				{
+					"name": "F1",
+					"mapUrl": "mapData/HFJRG/A7/1f.geojson"
+				},
+				{
+					"name": "F2",
+					"mapUrl": "mapData/HFJRG/A7/2f.geojson"
+				},
+				{
+					"name": "F3",
+					"mapUrl": "mapData/HFJRG/A7/3f.geojson"
+				},
+				{
+					"name": "F4",
+					"mapUrl": "mapData/HFJRG/A7/4f.geojson"
+				},
+				{
+					"name": "F5",
+					"mapUrl": "mapData/HFJRG/A7/5f.geojson"
+				},
+				{
+					"name": "F6",
+					"mapUrl": "mapData/HFJRG/A7/6f.geojson"
+				}
+			]
+		},{
+			"name": "A8",
+			"floorList": [
+				{
+					"name": "F1",
+					"mapUrl": "mapData/HFJRG/A8/1f.geojson"
+				},
+				{
+					"name": "F2",
+					"mapUrl": "mapData/HFJRG/A8/2f.geojson"
+				},
+				{
+					"name": "F3",
+					"mapUrl": "mapData/HFJRG/A8/3f.geojson"
+				},
+				{
+					"name": "F4",
+					"mapUrl": "mapData/HFJRG/A8/4f.geojson"
+				},
+				{
+					"name": "F5",
+					"mapUrl": "mapData/HFJRG/A8/5f.geojson"
+				},
+				{
+					"name": "F6",
+					"mapUrl": "mapData/HFJRG/A8/6f.geojson"
+				}
+			]
+		},{
+			"name": "A9",
+			"floorList": [
+				{
+					"name": "F1",
+					"mapUrl": "mapData/HFJRG/A9/1f.geojson"
+				},
+				{
+					"name": "F2",
+					"mapUrl": "mapData/HFJRG/A9/2f.geojson"
+				},
+				{
+					"name": "F3",
+					"mapUrl": "mapData/HFJRG/A9/3f.geojson"
+				},
+				{
+					"name": "F4",
+					"mapUrl": "mapData/HFJRG/A9/4f.geojson"
+				},
+				{
+					"name": "F5",
+					"mapUrl": "mapData/HFJRG/A9/5f.geojson"
+				},
+				{
+					"name": "F6",
+					"mapUrl": "mapData/HFJRG/A9/6f.geojson"
+				}
+			]
+		},{
+			"name": "A10",
+			"floorList": [
+				{
+					"name": "F1",
+					"mapUrl": "mapData/HFJRG/A10/1f.geojson"
+				},
+				{
+					"name": "F2",
+					"mapUrl": "mapData/HFJRG/A10/2f.geojson"
+				},
+				{
+					"name": "F3",
+					"mapUrl": "mapData/HFJRG/A10/3f.geojson"
+				},
+				{
+					"name": "F4",
+					"mapUrl": "mapData/HFJRG/A10/4f.geojson"
+				},
+				{
+					"name": "F5",
+					"mapUrl": "mapData/HFJRG/A10/5f.geojson"
+				},
+				{
+					"name": "F6",
+					"mapUrl": "mapData/HFJRG/A10/6f.geojson"
+				}
+			]
+		},{
+			"name": "A11",
+			"floorList": [
+				{
+					"name": "F1",
+					"mapUrl": "mapData/HFJRG/A11/1f.geojson"
+				},
+				{
+					"name": "F2",
+					"mapUrl": "mapData/HFJRG/A11/2f.geojson"
+				},
+				{
+					"name": "F3",
+					"mapUrl": "mapData/HFJRG/A11/3f.geojson"
+				},
+				{
+					"name": "F4",
+					"mapUrl": "mapData/HFJRG/A11/4f.geojson"
+				},
+				{
+					"name": "F5",
+					"mapUrl": "mapData/HFJRG/A11/5f.geojson"
+				},
+				{
+					"name": "F6",
+					"mapUrl": "mapData/HFJRG/A11/6f.geojson"
+				}
+			]
+		},{
+			"name": "A12",
+			"floorList": [
+				{
+					"name": "F1",
+					"mapUrl": "mapData/HFJRG/A12/1f.geojson"
+				},
+				{
+					"name": "F2",
+					"mapUrl": "mapData/HFJRG/A12/2f.geojson"
+				},
+				{
+					"name": "F3",
+					"mapUrl": "mapData/HFJRG/A12/3f.geojson"
+				},
+				{
+					"name": "F4",
+					"mapUrl": "mapData/HFJRG/A12/4f.geojson"
+				},
+				{
+					"name": "F5",
+					"mapUrl": "mapData/HFJRG/A12/5f.geojson"
+				},
+				{
+					"name": "F6",
+					"mapUrl": "mapData/HFJRG/A12/6f.geojson"
+				}
+			]
+		},{
+			"name": "A13",
+			"floorList": [
+				{
+					"name": "F1",
+					"mapUrl": "mapData/HFJRG/A13/1f.geojson"
+				},
+				{
+					"name": "F2",
+					"mapUrl": "mapData/HFJRG/A13/2f.geojson"
+				},
+				{
+					"name": "F3",
+					"mapUrl": "mapData/HFJRG/A13/3f.geojson"
+				},
+				{
+					"name": "F4",
+					"mapUrl": "mapData/HFJRG/A13/4f.geojson"
+				},
+				{
+					"name": "F5",
+					"mapUrl": "mapData/HFJRG/A13/5f.geojson"
+				},
+				{
+					"name": "F6",
+					"mapUrl": "mapData/HFJRG/A13/6f.geojson"
+				}
+			]
+		}
+	
+	]
+}

@@ -1,0 +1,360 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'新增'}}人员</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <uib-tabset>
+            <uib-tab heading="个人信息">
+                <div class="form-group mt7">
+                    <label class="col-xs-2 control-label required"
+                        >姓名：</label
+                    >
+                    <div class="col-xs-4">
+                        <input
+                            type="text"
+                            class="form-control"
+                            required
+                            ng-model="item.name"
+                            name="name"
+                        />
+                    </div>
+                    <label class="col-xs-2 control-label required"
+                        >性别：</label
+                    >
+                    <div class="col-xs-4">
+                        <select
+                            class="form-control"
+                            ng-model="item.sex"
+                            name="sex"
+                            required
+                        >
+                            <option value="">--性别--</option>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required"
+                        >手机号码：</label
+                    >
+                    <div class="col-xs-4">
+                        <input
+                            type="tel"
+                            class="form-control"
+                            ng-model="item.phone"
+                            name="phone"
+                            required
+                            ng-pattern="/^[1][2,3,4,5,6,7,8,9][0-9]{9}$/"
+                        />
+                    </div>
+                    <label
+                        class="col-xs-2 control-label"
+                        ng-class="item.isProtected?'required':''"
+                        >座机号码：</label
+                    >
+                    <div class="col-xs-4">
+                        <input
+                            type="tel"
+                            class="form-control"
+                            ng-model="item.fixPhone"
+                            name="fixPhone"
+                            ng-required="item.isProtected"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">号码保护：</label>
+                    <div class="col-xs-4">
+                        <input
+                            type="checkbox"
+                            ng-model="item.isProtected"
+                            name="isProtected"
+                            ng-true-value="1"
+                            ng-false-value="0"
+                        />(app端通讯录隐藏您的手机号码)
+                    </div>
+                    <label class="col-xs-2 control-label required"
+                        >学历：</label
+                    >
+                    <div class="col-xs-4">
+                        <select
+                            class="form-control"
+                            ng-model="item.educat"
+                            name="educat"
+                            required
+                        >
+                            <option value="">--请选择--</option>
+                            <option value="研究生">研究生</option>
+                            <option value="本科生">本科生</option>
+                            <option value="专科生">专科生</option>
+                            <option value="其它">其它</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required"
+                        >身份证号码：</label
+                    >
+                    <div class="col-xs-4">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="请输入15到18位字符"
+                            ng-pattern="/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$)/"
+                            required
+                            ng-model="item.idCard"
+                            ng-blur="getAge(item.idCard)"
+                        />
+                    </div>
+                    <label class="col-xs-2 control-label required"
+                        >生日：</label
+                    >
+                    <div class="col-xs-4">
+                        <input
+                            type="datetime"
+                            class="form-control"
+                            ng-model="item.birthday"
+                            readonly
+                        />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label class="col-xs-2 control-label required"
+                        >年龄：</label
+                    >
+                    <div class="col-xs-4">
+                        <input
+                            type="number"
+                            class="form-control"
+                            ng-model="item.age"
+                            required
+                            ng-pattern="/^(?:[1-9][0-9]?|1[01][0-9]|120)$/"
+                            readonly
+                        />
+                    </div>
+                    <label class="col-xs-2 control-label required"
+                        >籍贯：</label
+                    >
+                    <div class="col-xs-4">
+                        <div class="store-selector" id="placeSelect">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="选择籍贯"
+                                readonly
+                                ng-model="item.regionName"
+                                name="CITY"
+                                required="true"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required"
+                        >常住地：</label
+                    >
+                    <div class="col-xs-4">
+                        <input
+                            type="text"
+                            class="form-control"
+                            required
+                            ng-model="item.address"
+                            name="address"
+                        />
+                    </div>
+                    <label class="col-xs-2 control-label required"
+                        >婚姻状态</label
+                    >
+                    <div class="col-xs-4">
+                        <select
+                            class="form-control"
+                            required
+                            ng-model="item.maritalStatus"
+                            ng-options="o[0] as o[1] for o in maritalDict"
+                        >
+                            <option value="">--请选择婚姻状态--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required"
+                        >工号：</label
+                    >
+                    <div class="col-xs-4">
+                        <input
+                            type="text"
+                            class="form-control"
+                            ng-model="item.jobCode"
+                            name="jobCode"
+                            required
+                        />
+                    </div>
+                    <label class="col-xs-2 control-label required"
+                        >入职日期：</label
+                    >
+                    <div class="col-xs-4">
+                        <input
+                            type="datetime"
+                            class="form-control Wdate"
+                            required
+                            ng-model="item.partinDay"
+                            onchange=""
+                            onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"
+                        />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label required"
+                        >紧急联系人：</label
+                    >
+                    <div class="col-sm-10">
+                        <span
+                            class="btn btn-sm btn-default"
+                            ng-click="contactPerson.push({})"
+                        >
+                            <i class="glyphicon glyphicon-plus"></i
+                            >添加紧急联系人
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <div
+                        class="form-group"
+                        ng-repeat="con in contactPerson track by $index"
+                    >
+                        <label class="col-sm-2 control-label required"
+                            >紧急联系人{{$index +1}}：</label
+                        >
+                        <div class="col-sm-3">
+                            <input
+                                type="text"
+                                class="form-control"
+                                ng-model="con.name"
+                                required
+                            />
+                        </div>
+                        <label class="col-sm-3 control-label required"
+                            >紧急联系人{{$index +1}}电话：</label
+                        >
+                        <div class="col-sm-3">
+                            <input
+                                type="text"
+                                class="form-control"
+                                ng-model="con.phone"
+                                ng-pattern="/^[1][2,3,4,5,6,7,8,9][0-9]{9}$/"
+                                required
+                            />
+                        </div>
+                        <div class="col-sm-1">
+                            <span
+                                class="btn btn-sm btn-default"
+                                ng-click="contactPerson.splice(posts.indexOf(con),1)"
+                            >
+                                <i class="glyphicon glyphicon-minus"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">备注：</label>
+                    <div class="col-xs-10">
+                        <textarea
+                            ng-model="item.remark"
+                            name="remark"
+                            class="form-control"
+                            rows="4"
+                            maxlength="200"
+                        ></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label required"
+                        >岗位：</label
+                    >
+                    <div class="col-sm-10">
+                        <div
+                            ng-repeat="post in posts|orderBy:'readOnly'"
+                            class="form-inline"
+                            style="position: relative; margin-bottom: 5px;"
+                        >
+                            <!-- <layer-selector style="width: 450px;float:left" host="post" host-key="'deptId'"
+                                            host-text="'deptFullName'" node-list="$parent.deptTree"
+                                            callback="getPostList" name="deptId{{$index}}"
+                                            required></layer-selector>-->
+                            <tree-selector
+                                style="width: 450px; float: left;"
+                                node-list="deptTreeCopy"
+                                callback="getPostList"
+                                name="deptId{{$index}}"
+                                need="true"
+                                host="post"
+                                host-key="'deptId'"
+                                host-text="'deptFullName'"
+                                tip-text="'请选择部门'"
+                            ></tree-selector>
+                            <select
+                                class="form-control"
+                                required
+                                ng-model="post.postId"
+                                ng-disabled="post.readOnly"
+                                ng-options="o.id as o.postName for o in post.postList"
+                            >
+                                <option value=""
+                                    >&#45;&#45;请选择岗位&#45;&#45;</option
+                                >
+                            </select>
+                            <button
+                                class="btn btn-sm btn-default"
+                                ng-if="!post.readOnly"
+                                ng-click="posts.splice(posts.indexOf(post),1)"
+                            >
+                                <i class="glyphicon glyphicon-minus"></i>
+                            </button>
+                        </div>
+                        <button
+                            class="btn btn-sm btn-default"
+                            ng-click="posts.push({personId:item.id})"
+                        >
+                            <i class="glyphicon glyphicon-plus"></i>添加岗位
+                        </button>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab heading="数据权限" >
+                <div class="row mt7">
+                    <div class="col-sm-6">
+                        <label>待选区</label>
+                        <div class="well" style="padding-left: 0px;">
+                            <tree-filter
+                                node-list="vm.filteredDeptTree"
+                            ></tree-filter>
+                            <tree-view
+                                node-list="vm.filteredDeptTree"
+                                check-callback="afterCheck"
+                                config="{'edit':false,'showCheckbox':true}"
+                            ></tree-view>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>已选区</label>
+                        <div class="well">
+                            <tree-view
+                                node-list="vm.personDeptTree"
+                                config="{'edit':false}"
+                            ></tree-view>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

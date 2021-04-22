@@ -1,0 +1,82 @@
+<link rel="stylesheet" href="projectSpace/spaceDetail/spaceDetail.css">
+<div class="modal-header" style="border-bottom: none;">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">空间详情</h4>
+</div>
+<div class="modal-body container-fluid" style="padding-top: 0;margin-top: -10px;">
+    <div class="row">
+        <div class="x_panel" >
+            <div role="tabpanel" class="tab-pane fade active in" id="itemInfo" >
+                <div class="form-group form-horizontal col-xs-12">
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">空间名称：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{spaceDetail.houseName}}</span>
+
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">房屋编号：</label>
+                    <span class="col-xs-3 control-label" style="padding-left:0;padding-right:0;width: 300px;">{{spaceDetail.houseNo}}</span>
+                </div>
+                <div class="form-group form-horizontal col-xs-12">
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">空间信息：</label>
+                    <span class="col-xs-3 control-label" style="padding-left:0;padding-right:0;width: 300px;">{{spaceDetail.stageName}}/{{spaceDetail.buildName}}/{{spaceDetail.unitNo}}单元/{{spaceDetail.groundNo}}层</span>
+                </div>
+                <div class="form-group form-horizontal col-xs-12">
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">房号：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{spaceDetail.houseCode}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">房屋简称：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{spaceDetail.rmShortName}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">房屋备案号：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{spaceDetail.recordNumber}}</span>
+                </div>
+
+                <div class="form-group form-horizontal col-xs-12">
+                    <label class="col-xs-1 control-label label-width">装修类型：</label>
+                    <span class="col-xs-3 control-label label-width1">{{getDecorateType(spaceDetail.isDecoration)}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">户型：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{spaceDetail.rmStd}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">朝向：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{getHouseDirection(spaceDetail.aspect)}}</span>
+                </div>
+                <div class="form-group form-horizontal col-xs-12">
+                    <label class="col-xs-1 control-label label-width">层高：</label>
+                    <span class="col-xs-3 control-label label-width1">{{spaceDetail.houseHeight}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">柱网：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{spaceDetail.columnGrid}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">BIM房间的ID：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{spaceDetail.bimId}}</span>
+                </div>
+                <div class="form-group form-horizontal col-xs-12">
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">建筑面积：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{getAreaUnit(spaceDetail.area) || '--'}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">套内面积：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{getAreaUnit(spaceDetail.areaSu) || '--'}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">公摊面积：</label>
+                    <span class="col-xs-3 control-label label-width1">{{getAreaUnit(spaceDetail.areaChargable) ||'--'}}</span>
+                </div>
+                <div class="form-group form-horizontal col-xs-12">
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">预售建筑面积：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{getAreaUnit(spaceDetail.areaPresell) || '--'}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">预售套内面积：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{getAreaUnit(spaceDetail.areaPresellSu) || '--'}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">预售公摊面积：</label>
+                    <span class="col-xs-3 control-label label-width1">{{areaPresellChargable(spaceDetail.areaPresell,spaceDetail.areaPresellSu)}}</span>
+                </div>
+                <div class="form-group form-horizontal col-xs-12">
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">空间租售性质：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{spaceDetail.rentsaleCharacter==1?'可租售':'不可租售'}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">户规划用途：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{spaceDetail.housePlanPurposes | housePlanPurposesType}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">空间物业分类：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{getSpacePropertyName(spaceDetail.spacePropertyType)}}</span>
+                </div>
+                <div class="form-group form-horizontal col-xs-12">
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">空间状态：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{spaceDetail.spaceStatus | spaceStatus}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">空间来源：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{spaceDetail.isBase==1?'基础空间':'拆合空间'}}</span>
+                    <label class="col-xs-1 control-label label-width" style="padding-left:0;padding-right:0;">招商策略：</label>
+                    <span class="col-xs-3 control-label label-width1" style="padding-left:0;padding-right:0;">{{spaceDetail.sellStatus | spaceSellType}}</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

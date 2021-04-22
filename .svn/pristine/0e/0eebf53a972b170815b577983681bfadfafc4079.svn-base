@@ -1,0 +1,183 @@
+<!-- 添加人员 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+
+    <h4 class="modal-title">编辑房屋</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate id="eidtH">
+        <uib-tabset active="active">
+
+            <uib-tab index="0" heading="房屋" select="changeIndex(0)">
+                <div class="panel panel-default" style="clear:both;padding: 15px;
+                 margin-top: -1px;">
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label required">空间信息</label>
+                        <div class="col-xs-4 form-inline text-nowrap">
+                          <label class="control-label f-w-4 label_ellipsis">{{item.stageName}}</label> 
+                          <label class="control-label f-w-4 label_ellipsis">{{item.buildName}}</label> 
+                            <label class="control-label f-w-4 label_ellipsis">{{item.unitNo+'单元'}}</label> 
+                                <label class="control-label f-w-4 label_ellipsis">{{item.floorName}}</label> 
+                                    <label class="control-label f-w-4 label_ellipsis">{{item.houseName}}</label> 
+                           
+                        </div>
+                        <label class="col-xs-2 control-label required">房号</label>
+                          <label class="control-label f-w-4 label_ellipsis">{{item.houseCode}}</label> 
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label required">房屋名称</label>
+                        <div class="col-xs-4">
+
+                            <input type="text" class="form-control" ng-model="item.houseName" required />
+
+                        </div>
+                        <label class="col-xs-2 control-label required">房屋编码</label>
+                        <div class="col-xs-4">
+
+                            <input type="text" class="form-control" ng-model="item.houseNo" readonly />
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label required">房屋简称</label>
+                        <div class="col-xs-2">
+
+                            <input type="text" class="form-control" ng-model="item.rmShortName" required />
+
+                        </div>
+                        <label class="col-xs-2 control-label">装修状态</label>
+                        <div class="col-xs-2">
+
+                            <select class="form-control" ng-model="item.isDecoration"
+                                ng-options="o.dicVal as o.dicItem for o in isDecoration">
+                                <option value="">--请选择--</option>
+                            </select>
+
+                        </div>
+                        <label class="col-xs-2 control-label ">房屋状态</label>
+                        <div class="col-xs-2">
+
+                            <select class="form-control" name="rmStatus" ng-model="item.rmStatus"  ng-disabled="item.tenant && item.tenant.length"
+                                ng-options="o.dicCode as o.dicItem  for o in houseStatus">
+                                <option value="">--请选择--</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <label class="col-xs-2 control-label required">房屋类别</label>
+                        <div class="col-xs-4">
+
+                            <select class="form-control" required name="rm_cat" ng-model="item.rmCat"
+                                ng-options="o.dicCode as o.dicItem for o in houseType"
+                                ng-change="selectHouseType(item)">
+                                <option value="">--请选择--</option>
+                            </select>
+
+                        </div>
+                        <label class="col-xs-2 control-label required">房屋类型</label>
+                        <div class="col-xs-4">
+
+                            <select class="form-control" required  ng-model="item.rmType"
+                                ng-options="o.id as o.dicItem for o in treeTypeList">
+                                <option value="">--请选择--</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label required">设备房</label>
+                        <div class="col-xs-2">
+
+                            <select class="form-control" required  ng-model="item.isEmtHouse"
+                                ng-options="o[0] as o[1] for o in yesNoDict">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                        <label class="col-xs-2 control-label required">是否虚拟</label>
+                        <div class="col-xs-2">
+
+                            <select class="form-control" required  ng-model="item.isFictitious"
+                                ng-options="o[0] as o[1] for o in isFictitious">
+                                <option value="">--请选择--</option>
+                            </select>
+
+                        </div>
+                        <label class="col-xs-2 control-label required">租赁性质</label>
+                        <div class="col-xs-2">
+                            <select class="form-control"  ng-model="item.rentsaleCharacter"   ng-options="o.code as o.name for o in spaceRentList">
+                                <option value="">--请选择--</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label ">建筑面积</label>
+                        <div class="col-xs-2">
+
+                            <input type="number" min="0" class="form-control" ng-model="item.area" />
+
+                        </div>
+                        <label class="col-xs-2 control-label ">套内面积</label>
+                        <div class="col-xs-2">
+
+                            <input type="number" min="0" class="form-control" ng-model="item.areaSu" />
+
+                        </div>
+                        <label class="col-xs-2 control-label ">公摊面积</label>
+                        <div class="col-xs-2">
+
+                            <input type="number" min="0" class="form-control" ng-model="item.areaChargable" />
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label ">备注</label>
+                        <div class="col-xs-6">
+
+                            <textarea type="text" style="height:150px;resize:vertical" class="form-control"
+                                ng-model="item.content" />
+
+                            </div>
+                   
+                </div>
+            </div>
+            </uib-tab>
+            <uib-tab index="1" heading="业主"  select="changeIndex(1)">
+                <ng-include src="'./houseRecord/commom/addOwner.html'"></ng-include>
+               
+            </uib-tab>
+            <uib-tab index="2" heading="亲属"  select="changeIndex(2)">
+                <ng-include src="'./houseRecord/commom/addRelative.html'"></ng-include>
+            </uib-tab>
+            <uib-tab index="3" heading="租户"  select="changeIndex(3)">
+                <ng-include src="'./houseRecord/commom/addTenant.html'"></ng-include>
+           
+            </uib-tab>
+        </uib-tabset>
+      
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+	.form-control[disabled] {
+    	background-color: #dad9d9b8;
+    }
+   .label_ellipsis{
+    display: inline-block;
+  
+    overflow: hidden;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left !important;
+}
+</style>

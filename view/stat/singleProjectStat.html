@@ -1,0 +1,922 @@
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .margin-0 {
+        margin: 0;
+    }
+
+    .card-borde_s {
+        border: 1px solid #ddd;
+        background: #fff;
+
+    }
+
+    .margin-10 {
+        margin-top: 10px;
+    }
+
+    .border-r10 {
+        border-radius: 10px;
+    }
+
+    .title {
+        height: 30px;
+        margin: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .common_footer {
+        text-align: center;
+        border-top: 1px solid #ddd;
+        line-height: 40px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .green {
+        color: green;
+    }
+
+    .border-line {
+        border-right: 1px solid #ddd;
+        margin: 10px 0;
+        text-align: center;
+        line-height: 80px;
+    }
+
+    .person {
+        text-align: center;
+        line-height: 100px;
+    }
+
+    .person span {
+        font-weight: 700;
+    }
+
+    .work_top {
+        text-align: center;
+        height: 70px;
+        line-height: 70px;
+    }
+
+    .common-size {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 75px;
+        margin-left: 10px;
+    }
+
+    .work_main {
+        text-align: center;
+        height: 80px;
+    }
+
+    /*单个项目*/
+
+    .top-star {
+        line-height: 100px;
+    }
+
+    .star_icon {
+        display: inline-block;
+        width: 45px;
+        height: 55px;
+        vertical-align: middle;
+        margin-top: -20px;
+        margin-right: 20px;
+        background: url(img/u394.png) no-repeat;
+        background-size: 100% 100%;
+    }
+
+    .pro_nav {
+        width: 100%;
+        height: 50px;
+    }
+
+    .pro_nav ul {
+        width: 100%;
+        height: 50px;
+        margin: 5px
+    }
+
+    .pro_nav ul li {
+        list-style: none;
+        float: left;
+        width: 100px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        border-radius: 4px;
+        cursor: pointer;
+        color: #337ab7;
+
+    }
+
+    .pro_active {
+        color: #fff !important;
+        background-color: #337ab7
+    }
+
+    .pro_nav ul li:not(:last-child) {
+        border-right: none;
+    }
+
+    .common_width {
+        width: 50%;
+        height: 210px;
+        float: left;
+    }
+
+    .common_width ul {
+        width: 100%;
+        height: 105px;
+    }
+
+    .common_width ul li {
+        height: 40px;
+        list-style: none;
+        text-align: center;
+    }
+
+    .common_width ul.last_ul {
+        height: 70px;
+    }
+
+    .common_width ul.last_ul li {
+        height: 20px;
+        list-style: none;
+        text-align: center;
+    }
+
+    .count_wrap {
+        height: 50%;
+        text-align: center;
+    }
+
+    .count {
+        width: 50%;
+        height: 50%;
+    }
+
+    @media (min-width: 768px) {
+        .col-zd-5 {
+            float: left;
+            width: 20%;
+        }
+    }
+
+    .padding-20 {
+        padding: 20px;
+    }
+
+    .d_title {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+        display: -webkit-flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .w50 {
+        width: 50%;
+    }
+
+    .h50 {
+        height: 50%;
+    }
+
+    .h100 {
+        height: 100%;
+    }
+
+    .count_p {
+        width: 100%;
+        height: 50%;
+    }
+
+    .bt {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .count_p span {
+        display: inline-block;
+        padding-top: 25px;
+    }
+
+    .title_l {
+        height: 50px;
+        margin: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .title_l h5 {
+        line-height: 40px;
+    }
+
+    .top10 {
+        box-sizing: border-box;
+        padding: 0 10px;
+
+    }
+
+    .work_title {
+        height: 40px;
+        padding-left: 10px;
+    }
+
+    .work_title h4 {
+        font-size: 16px !important;
+        line-height: 40px;
+        margin: 0;
+    }
+
+    .lg-50 {
+        line-height: 50px;
+    }
+
+    .equipment_analysis ul {
+        height: 80px;
+        list-style: none;
+        margin-bottom: 0;
+    }
+
+    .equipment_analysis ul li {
+        height: 80px;
+        float: left;
+        border: 1px solid #ddd;
+        width: 11.11111%;
+        background: #fff;
+    }
+
+    /*.equipment_analysis ul li:not(:last-child) {
+    border-right: none;
+}*/
+
+    .lg-40 {
+        line-height: 40px;
+    }
+
+    .paddiing-b10 {
+        padding-bottom: 10px;
+    }
+
+    a.active {
+        color: #337ab7;
+         !important;
+    }
+
+    .userIcon {
+        margin: 0 auto;
+        width: 50px;
+        height: 50px;
+    }
+
+    .userDiv {
+        width: 100%;
+        text-align: center;
+    }
+
+    .userDiv label {
+        margin-top: 5px;
+        padding: 0 6px;
+        border-radius: 6px 6px;
+    }
+
+    .c-l {
+        border-right: 1px solid #ddd;
+        width: 40%;
+        margin-top: 20px;
+        line-height: 33px
+    }
+
+    .dept-group-item {
+        position: relative;
+        display: block;
+        padding: 0px 15px;
+        margin-bottom: -1px;
+        background-color: #fff;
+        text-align: left;
+    }
+
+    .item-person {
+        float: left;
+        line-height: 23px;
+        padding: 0 5px
+    }
+
+    .totalCnt {
+        width: 17%;
+        margin: 2px 0px 2px 15px;
+        display: inline-block
+    }
+</style>
+<div id="angularId" ng-controller="proSingle">
+    <div class="pro_nav">
+        <ul class="clearfix">
+            <li ng-class="{pro_active:index==2}" ng-click="tabChange(2)">工作分析</li>
+            <li ng-class="{pro_active:index==3}" ng-click="tabChange(3)">人员分析</li>
+            <li ng-class="{pro_active:index==4}" ng-click="tabChange(4)">设备分析</li>
+        </ul>
+
+    </div>
+
+    <div class="work_analysis" ng-show="index==2">
+        <div class="row margin-10">
+            <div class="col-sm-12 col-xs-12">
+                <div class="card-borde_s work_title">
+                    <h4>工单统计</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-10">
+            <div class="totalCnt" style="padding-right:0px">
+                <div class="card-borde_s" style="height: 70px;">
+                    <div class="h50 text-center lg-50 pull-left c-l">
+                        <span>工单总数</span>
+                    </div>
+                    <div class="h50 text-center lg-50 pull-left">
+                        <span class="common-size" style="color:red">{{work.TotalWorkunitCnt}}条</span>
+                    </div>
+                </div>
+            </div>
+            <div class="totalCnt" style="padding-right:0px">
+                <div class="card-borde_s" style="height: 70px;">
+                    <div class="h50 text-center lg-50 pull-left c-l">
+                        <span>计划工单</span>
+                    </div>
+                    <div class="h50 text-center lg-50 pull-left">
+                        <span class="common-size" style="color:red">{{work.PlanWorkunitCnt}}条</span>
+                    </div>
+                </div>
+            </div>
+            <div class="totalCnt" style="padding-right:0px">
+                <div class="card-borde_s" style="height: 70px;">
+                    <div class="h50 text-center lg-50 pull-left c-l">
+                        <span>应急工单</span>
+                    </div>
+                    <div class="h50 text-center lg-50 pull-left">
+                        <span class="common-size" style="color:red">{{work.EmerWorkunitCnt}}条</span>
+                    </div>
+                </div>
+            </div>
+            <div class="totalCnt" style="padding-right:0px">
+                <div class="card-borde_s" style="height: 70px;">
+                    <div class="h50 text-center lg-50 pull-left c-l">
+                        <span>异常工单</span>
+                    </div>
+                    <div class="h50 text-center lg-50 pull-left">
+                        <span class="common-size" style="color:#00CD00">{{work.AbnormalWorkunitCnt}}条</span>
+                    </div>
+                </div>
+            </div>
+            <div class="totalCnt" style="padding-right:0px">
+                <div class="card-borde_s" style="height: 70px;">
+                    <div class="h50 text-center lg-50 pull-left c-l">
+                        <span>客户工单</span>
+                    </div>
+                    <div class="h50 text-center lg-50 pull-left">
+                        <span class="green common-size">{{work.OwnerWorkunitCnt}}条</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-10">
+            <div class="col-sm-12 col-xs-12">
+                <div class="card-borde_s">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">统计</h5>
+
+                    </div>
+                    <div style="height: 50px;padding-left:10px;">
+                        <form class="form" novalidate>
+                            <div class="form-inline">
+
+                                <div class="form-group">
+                                    <input style="width: 140px;" type="datetime" class="form-control Wdate totalSt"
+                                        ng-model="search.startTime" placeholder="开始日期" onchange=""
+                                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.totalEn').last().val()||'%y-%M-%d'}&quot;})">
+                                    <label>-</label>
+                                    <input style="width: 140px;" type="datetime" class="form-control Wdate totalEn"
+                                        ng-model="search.endTime" placeholder="结束日期" onchange=""
+                                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.totalSt').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+                                </div>
+                                <button class="btn btn-default" ng-click="workStat()">统计</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-10">
+            <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">工单情况统计</h5>
+
+                    </div>
+                    <div id="workinfo" style="height: 380px;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">工单状态统计</h5>
+
+                    </div>
+                    <div id="worktype" style="height: 380px;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">工单分类统计</h5>
+
+                    </div>
+                    <div id="workunits" style="height: 380px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-10">
+            <!-- <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">有效使用人数</h5>
+
+                    </div>
+                    <div id="users" style="height: 380px;">
+
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">计划工单完成率</h5>
+
+                    </div>
+                    <div id="jhCompletion" style="height: 380px;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">耗时统计</h5>
+
+                    </div>
+                    <div id="time" style="height: 380px;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s" style="height:432px;overflow:auto">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">各部门工单完成率排名</h5>
+
+                    </div>
+                    <div id="" class="top10">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>NO</th>
+                                    <th>部门</th>
+                                    <th>完成率</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="workdFinishRate.length == 0">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr ng-repeat="item in workdFinishRate">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{item.deptName}}</td>
+                                    <td>{{item.finishWorkunitPercentage ||'暂无数据'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-10">
+            <!-- <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s" style="height:302px;overflow:auto">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">各部门工单完成率排名</h5>
+
+                    </div>
+                    <div id="" class="top10">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>NO</th>
+                                    <th>部门</th>
+                                    <th>完成率</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="workdFinishRate.length == 0">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr ng-repeat="item in workdFinishRate">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{item.deptName}}</td>
+                                    <td>{{item.finishWorkunitPercentage ||'暂无数据'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-sm-12 col-xs-12">
+                <div class="card-borde_s">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">各部门工单统计</h5>
+                    </div>
+                    <div id="dpworkuit" style="height: 250px;">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row margin-10 paddiing-b10">
+            <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">业主工单来源统计</h5>
+
+                    </div>
+                    <div id="owner" style="height: 250px;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-xs-12">
+                <div class="card-borde_s" style="height:302px;overflow:auto">
+                    <div class="pro_nav" style="width:99%;">
+                        <ul class="clearfix">
+                            <li ng-class="{pro_active:tab_index==1}" style="margin:0px 0px 1px 0px;width: 170px"
+                                ng-click="topChange(1)">员工执行工单量TOP10</li>
+                            <li ng-class="{pro_active:tab_index==2}" style="margin:0px 0px 1px 0px;width: 170px"
+                                ng-click="topChange(2)">员工创建工单数量TOP10</li>
+                            <li ng-class="{pro_active:tab_index==3}" style="margin:0px 0px 1px 0px;width: 170px"
+                                ng-click="topChange(3)">员工自发工单完成数量TOP10</li>
+                        </ul>
+
+
+                    </div>
+                    <div class="title">
+                        <h5 class="pull-left margin-0">{{title}}</h5>
+
+                    </div>
+                    <div id="" class="top10">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>NO</th>
+                                    <th>员工姓名</th>
+                                    <th width="150px;">部门岗位</th>
+                                    <th class="text-center">完成条数</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="workpFinishRate.length == 0">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr ng-repeat="item in workpFinishRate">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.postName || '暂无'}}</td>
+                                    <td class="text-center">{{item.value  ||'0'}}条</td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="person_analysis" ng-show="index==3">
+        <div class="row margin-10">
+            <div class="col-md-3 col-sm-4 col-xs-12">
+                <div class="x_panel" style="height: 500px; overflow: auto">
+                    <div class="x_title">部门列表</div>
+                    <div class="x_content">
+                        <div id="dept_tree_loading" class="alert hide" role="alert">加载中...</div>
+                        <!-- <tree-view node-list="deptTree" select-node="setDept" config="{'edit':false}"></tree-view> -->
+                        <tree-view-pro node-list="deptTree" host="search" host-text="'deptName'" host-key="'deptId'"
+                            callback="setDept" config="{'edit':false}"></tree-view-pro>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-8 col-xs-12" style="padding:0">
+                <div class="x_panel" style="height: 500px; overflow: auto" id="personList">
+                    <div class="x_title">员工列表
+                        <button class="pull-right btn btn-sm btn-info" ng-class="{active:showAll}"
+                            style="margin-top:-7px;" ng-click="showAll=!showAll">查看全部({{employees.length}})</button>
+                    </div>
+                    <div class="x_content" style="overflow: hidden;margin-top: -5px"
+                        ng-style="{height:showAll?'auto':'430px'}">
+                        <div class="pull-left userDiv">
+                            <!-- <div class="userIcon">
+                                <img ng-src="/res/img/userIcon.png" class="img-responsive img-circle"
+                                    ng-style="{cursor:item.position?'pointer':'not-allowed'}"
+                                    ng-click="setZoomAndCenter(item)" />
+                            </div>
+                            <label ng-class="{'label-success':item.position,'label-default':!item.position}"
+                                class="label ">{{item.name}}</label> -->
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">员工姓名</th>
+                                        <th class="text-center">首次签到</th>
+                                        <th class="text-center" width="150px;">签到次数</th>
+                                        <th class="text-center">在线时长</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="employees.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="item in employees">
+                                        <td style="width: 100px;">【{{item.state=='1'?'班':'休'}}】{{item.name}}</td>
+                                        <td>{{item.firstSignTime}}</td>
+                                        <td> <a href='javascript:void(0)' style="color:#337ab7"
+                                                ng-style="{cursor:item.lng?'pointer':'not-allowed'}"
+                                                ng-click="setZoomAndCenter(item)">{{item.signCount || '0'}}次</a></td>
+                                        <td class="text-center">{{item.onlineTime}}</td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="col-md-5 col-sm-8 col-xs-12">
+
+                <div class="x_panel" style="height: 500px">
+                    <!-- 地图 -->
+                    <div style="min-height: 480px;position: relative" id="mapDiv">
+                        <div style="height:100%; width: 100%;" id="container"></div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="row margin-10">
+            <div class="col-sm-3 col-xs-12">
+                <div class="card-borde_s">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">人员编制分析</h5>
+
+                    </div>
+                    <div id="compile" style="height: 200px;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-12">
+                <div class="card-borde_s" style="250px;">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">员工年龄分析</h5>
+
+                    </div>
+                    <div id="age" style="height: 200px;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-12">
+                <div class="card-borde_s" style="250px;">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">员工学历分析</h5>
+
+                    </div>
+                    <div id="schooling" style="height: 200px;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-12">
+                <div class="card-borde_s" style="250px;">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">员工入职年限分析</h5>
+
+                    </div>
+                    <div id="entry" style="height: 200px;">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row margin-10">
+            <div class="col-sm-12 col-xs-12">
+                <div class="card-borde_s" style="100px;">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">统计</h5>
+
+                    </div>
+                    <div style="height: 50px;padding-left:10px;">
+                        <form class="form" novalidate>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <input style="width: 140px;" type="datetime" class="form-control Wdate" id="perseonSt"
+                                        ng-model="search.startTimes" placeholder="开始日期" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'perseonEn\')}'||'%y-%M-#{%d-1}'})">
+                                    <label>-</label>
+                                    <input style="width: 140px;" type="datetime" class="form-control Wdate perseonEn" id="perseonEn"
+                                        ng-model="search.endTimes" placeholder="结束日期" onchange=""
+                                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'perseonSt\')}',maxDate:'%y-%M-#{%d-1}'})">
+                                </div>
+                                <button class="btn btn-default" ng-click="stat()">统计</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-10">
+            <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s" style="250px;">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">员工签到异常统计</h5>
+
+                    </div>
+                    <div id="abnormal" style="height: 200px;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s" style="250px;">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">员工异动统计</h5>
+
+                    </div>
+                    <div id="transaction" style="height: 200px;">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s" style="height:250px;overflow: auto">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">步数排名</h5>
+
+                    </div>
+
+                    <div id="" class="top10" style="height: 200px;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>NO</th>
+                                    <th>员工姓名</th>
+                                    <th width="150px;">职位</th>
+                                    <th class="text-center">总步数</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="personReport.length == 0">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr ng-repeat="item in personReport">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{item.personName}}</td>
+                                    <td>{{item.postName}}</td>
+                                    <td class="text-center">{{item.steps || '暂无数据'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row margin-10">
+            <div class="col-sm-12 col-xs-12">
+                <div class="card-borde_s" style="height:350px;overflow: auto">
+                    <div class="title">
+                        <h4 class="pull-left margin-0">有效使用(人/率)
+                            <span class="btn-link" style="margin-left: 20px" ng-if="EffectiveUser.length">有效使用人数: {{EffectiveUser[0].totalEffectivePerson}}人&nbsp;&nbsp;&nbsp;项目人数: {{EffectiveUser[0].totalDeptPerson}}人&nbsp;&nbsp;&nbsp;有效使用率: {{EffectiveUser[0].totalEffectRate}}</span>
+                        </h4>
+
+                    </div>
+                    <div style="height: 298px;">
+                        <div class="h50 text-center  pull-left" style="width:15%;display:  inline-block;">
+                            <div class="dept-group  c-l" style="width:100%" ng-if='deptList.length!==0'>
+                                <a href="javascript:void(0);" class="dept-group-item  b-none ellipsis"
+                                    ng-class="{active: (deptID == dept.id)}"
+                                    ng-repeat="dept in EffectiveUser  track by $index" ng-click="getPerson(dept.deptId,EffectiveUser)">
+                                    {{dept.deptName}}({{dept.effectivePersonList.length || 0 }} / {{dept.effectRate}})
+                                </a>
+                            </div>
+                        </div>
+                        <div class="h50 text-center lg-50 pull-left " style="width:85%;display:  inline-block;">
+                                <div ng-if='person.length==0'>
+                                        <h4 style="padding: 17px;text-align:  center;display:  inline-block;">暂无人员</h4>
+                                    </div>
+                                    <div ng-if='person.length!==0' style="margin:25px">
+                                        <span class="item-person"
+                                            ng-repeat='p in person track by $index'>{{p.personName}}({{p.postName || '暂无'}})</span>
+                                    </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="equipment_analysis" ng-show="index==4">
+        <div class="row margin-10">
+            <div class="col-sm-12 col-xs-12">
+                <ul class="clearfix" ng-if="equipData.DEVICE_AMOUNT_STAT  && equipData.DEVICE_AMOUNT_STAT.length !== 0">
+                    <li ng-repeat="item in equipData.DEVICE_AMOUNT_STAT">
+                        <div class="h50 text-center lg-40">
+                            <span>{{item.NAME}}</span>
+                        </div>
+                        <div class="h50 text-center lg-40">
+                            <span>{{item.VALUE}}台</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row margin-10">
+            <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s" style="300px;">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">设备运行状态统计</h5>
+
+                    </div>
+                    <div id="equipment" style="height: 250px;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-xs-12">
+                <div class="card-borde_s" style="300px;">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">各类设备故障统计</h5>
+
+                    </div>
+                    <div id="fault" style="height: 250px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-10 paddiing-b10">
+            <div class="col-sm-4 col-xs-12">
+                <div class="card-borde_s">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">设备工单统计</h5>
+
+                    </div>
+                    <div id="workorder" style="height: 300px;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-xs-12">
+                <div class="card-borde_s">
+                    <div class="title">
+                        <h5 class="pull-left margin-0">各类设备完好率统计</h5>
+
+                    </div>
+                    <div id="intact" style="height: 300px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />

@@ -1,0 +1,111 @@
+
+<div ng-controller="informationCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>信息公示</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>标题</label>
+                <input type="text" ng-model="search.contentOrTitle" class="form-control" placeholder="标题" />
+            </div>
+           
+            <div class="form-group">
+                <label>状态</label>
+                <select class="form-control"  ng-model="search.infoStatus" ng-options="o[0] as o[1] for o in infoStatusType">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                    <label>公示日期</label>
+                    <input type="datetime" class="form-control Wdate informatSta"  ng-model="search.startTime"  placeholder="开始日期" onchange=""
+                           onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.informatEnd').val()||'%y-%M-%d'}&quot;})">
+                    <label>-</label>
+                    <input type="datetime" class="form-control Wdate informatEnd"  ng-model="search.endTime"  placeholder="结束日期" onchange=""
+                           onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.informatSta').val()}&quot;,maxDate:'%y-%M-%d'})">
+                </div>
+            <button class="btn btn-default mt7" ng-click="find(1)">查询</button>
+            <button class="btn btn-danger pull-right mt7" ng-disabled="!hasChecked(pageModel)" ng-click="toDelAll(pageModel.list)" ng-if="hasPower('删除')">批量删除</button>
+            <button class="btn btn-primary pull-right mt7" ng-disabled="!hasChecked(pageModel)" ng-click="showInfoAll()" ng-if="hasPower('取消屏蔽')">取消屏蔽</button>
+            <button class="btn btn-primary pull-right mt7" ng-disabled="!hasChecked(pageModel)" ng-click="hideInfoAll(pageModel.list)" ng-if="hasPower('屏蔽')">屏蔽</button>
+
+            <button class="btn btn-success pull-right mt7"  ng-click="showModal()" ng-if="hasPower('新增')">新增</button>
+            
+        </div>
+    </div>
+       
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                信息公示列表
+                   
+            </div>
+            <div class="panel-body" style="padding: 0px;">
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead>
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th class="text-center" style="width:20px">
+                                <span
+                                    role="button"
+                                    ng-click="checkAll(pageModel)"
+                                >
+                                    <i
+                                        class="glyphicon"
+                                        ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"
+                                    ></i
+                                ></span>
+                            </th>
+                            <th>项目名称</th>
+                            <th>标题</th>
+                            <th>文字内容</th>
+                            <th>公示日期</th>
+                           
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data">                                        
+                           
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>
+                            <i
+                                role="button"
+                                ng-click="checkOne(item,pageModel)"
+                                ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                class="glyphicon"
+                            ></i>
+                        </td>
+                            <td>{{item.universityName}}</td>
+                            <td><a  href='javascript:void(0)' title="{{item.title}}" class="btn-link elipsis_com"   style="border-top:0;"ng-click='showModal(item)'>{{item.title}}</a></td>
+                            <td><a  href='javascript:void(0)' class="btn-link elipsis_com"   style="border-top:0;"ng-click='showModal(item)' ng-bind-html="item.trustHtml"></a></td>
+                          
+                            <td>{{item.createTime}}</td>
+                  
+                            <td>{{item.infoStatus | keyToValue :infoStatusType}}</td>
+                            <td>
+                                <a href='javascript:void(0)' ng-click="showModal(item)" class='btn btn-xs'  ng-if="hasPower('查看')"><span class='fa fa-eye'  ></span>查看详情</a>
+                                <a href='javascript:void(0)' ng-click="top(item.id)" class='btn btn-xs'  ng-if="hasPower('置顶')  && item.isTop==0"><span class='fa fa-arrow-up'  ></span>置顶</a>
+                                <a href='javascript:void(0)' ng-click="untop(item.id)" class='btn btn-xs'  ng-if="hasPower('取消置顶') && item.isTop!==0"><span class='fa fa-arrow-down'  ></span>取消置顶</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <page-pro page-model="pageModel"></page-pro>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .elipsis_com{
+            max-width: 200px;
+overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align: center;    display: inline-block;vertical-align: bottom;
+    }
+    </style>

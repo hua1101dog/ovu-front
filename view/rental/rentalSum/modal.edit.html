@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title" ng-if="!checkStatus">{{edit?"编辑":"新增"}}费项</h4>
+    <h4 class="modal-title" ng-if="checkStatus">费项详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="x_content">
+        <form name="form" novalidate>
+            <div class="form-group" ng-if="edit">
+                <label class="col-xs-3 control-label">费项代码：</label>
+                <div class="col-xs-7" style="line-height: 35px;">
+                    {{item.code}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">费项名称：</label>
+                <div class="col-xs-7">
+                    <input class="form-control" ng-model="item.name" type="text" required maxLength=100 ng-disabled="checkStatus">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-xs-3 control-label required">费项用途：</label>
+                <div class="col-xs-7 ">
+                    <select class="form-control" ng-model="item.purpose" required ng-disabled="edit || checkStatus">
+                        <option value="">--请选择--</option>
+                        <option ng-repeat="x in purpose" value="{{x.value}}">{{x.text}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">费项类别：</label>
+                <div class="col-xs-7">
+                    <select class="form-control" ng-model="item.category" required ng-disabled="edit || checkStatus">
+                        <option value="">--请选择--</option>
+                        <option ng-repeat="x in category" value="{{x.value}}">{{x.text}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">计费标准：</label>
+                <div class="col-xs-7">
+                    <select ng-model="item.billingRates" ng-change="getData(item.freightBasis)" class="form-control" ng-disabled="checkStatus" required>
+                        <option value="">--请选择--</option>
+                        <option ng-repeat="x in bills" value="{{x.value}}">{{x.text}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">税率：</label>
+                <div class="col-xs-7">
+                    <input class="form-control" ng-model="item.taxRate" type="number" ng-disabled="checkStatus" required>
+                </div>
+                <span class="col-xs-2" style="height: 34px; line-height: 34px; padding-left:0px;">%</span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">滞纳金：</label>
+                <div class="col-xs-7">
+                    <input class="form-control" ng-model="item.delayCharge" type="number" ng-disabled="checkStatus">
+                </div>
+                <span class="col-xs-2" style="height: 34px; line-height: 34px; padding-left:0px;">%</span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">是否启用：</label>
+                <div class="col-xs-7">
+                    <select class="form-control" ng-model="item.status" ng-options="o.value as o.text for o in status" ng-disabled="checkStatus"
+                        required>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary saveParkSteward" ng-click="save(form)" ng-if="!checkStatus">保存</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

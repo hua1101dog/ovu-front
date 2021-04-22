@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>物业服务</title>
+    <link rel="stylesheet" href="../adminPark.css">
+</head>
+
+<body>
+    <div>
+        <div class="page-title">
+            <div class="title_left">
+                <h3>物业服务</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="x_panel">
+                <ul class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#waterMeterReport" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">装修申请服务</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#elecMeterReport" id="tab2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">报事报修服务</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <!-- 装修申请服务 -->
+                    <div role="tabpanel" ng-controller="repairCtl" class="tab-pane fade active in"  id="waterMeterReport">
+                        <div class="form-inline" style="margin:15px 8px">
+                            <div class="form-group">
+                                <label class="control-label">联系人：</label>
+                                <input type="text" class="form-control" name="customerName" ng-model="search.companyName" placeholder="请输入">
+                            </div>
+                            <!-- <div class="form-group">
+                                <label class="control-label">服务状态：</label>
+                                <select class="form-control" ng-model="search.serviceStatus">
+                                    <option value="">-- 请选择 --</option>
+                                    <option ng-repeat="x in status.data" value={{x.value}}>{{x.text}}</option>
+                                </select>
+                            </div> -->
+                            <div class="form-group">
+                                <label class="control-label">服务单号：</label>
+                                <input type="text" class="form-control" name="serviceSn" ng-model="search.serviceSn" placeholder="请输入">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">提交日期：</label>
+                                <select class="form-control" ng-model="dataCache">
+                                    <option value="">--请选择--</option>
+                                    <option ng-repeat="x in dataRange" value={{x.value}}>{{x.text}}</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-default" ng-click="find(1)">查询</button>
+                        </div>
+                        <div class="panel panel-default" style="margin-bottom: 0px;margin-top: 10px;">
+                            <div class="panel-body">
+                                <table class="table table-striped table-hover" style="margin-top: 20px;color:#999999;">
+                                    <thead class="title">
+                                        <tr>
+                                            <th>序号</th>
+                                            <th>服务单号</th>
+                                            <th>联系人</th>
+                                            <th>报修项目</th>
+                                            <th>提交日期</th>
+                                            <th>联系电话</th>
+                                            <!--<th>服务状态</th>-->
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="pageModel.data.length == 0">
+                                            <td colspan="100" class="text-center">暂无记录</td>
+                                        </tr>
+                                        <tr style="color:#333333;" ng-repeat="x in pageModel.data">
+                                            <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                                            <td>{{x.orderSn}}</td>
+                                            <td>{{x.linkMan}}</td>
+                                            <td>{{x.title}}</td>
+                                            <td>{{x.createDate}}</td>
+                                            <td>{{x.phone}}</td>
+                                            <!--<td>{{x.serviceStatus | propertyStatus}}</td>-->
+                                            <td> <a href="javascript:void(0)" ng-click="showDetail(x)">详情</a> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="page-footer clearfix">
+                                    <ng-include src="'/common/pager.html'" class="ng-scope">
+                                        <style type="text/css" class="ng-scope">
+                                            .pagination>li>span:hover {
+                                                background-color: #fff;
+                                                cursor: text
+                                            }
+                                        </style>
+                                    </ng-include>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 报事保修服务 -->
+                    <div role="tabpanel" ng-controller="reportRepairCtl" class="tab-pane fade" id="elecMeterReport">
+                        <div class="form-inline" style="margin:15px 8px">
+                            <div class="form-group">
+                                <label class="control-label">联系人：</label>
+                                <input type="text" class="form-control" name="customerName" ng-model="search.companyName" placeholder="请输入">
+                            </div>
+                            <!-- <div class="form-group">
+                                <label class="control-label">服务状态：</label>
+                                <select class="form-control" ng-model="search.serviceStatus">
+                                    <option value="">-- 请选择 --</option>
+                                    <option ng-repeat="x in status.data" value={{x.value}}>{{x.text}}</option>
+                                </select>
+                            </div> -->
+                            <div class="form-group">
+                                <label class="control-label">服务单号：</label>
+                                <input type="text" class="form-control" name="serviceSn" ng-model="search.serviceSn" placeholder="请输入">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">提交日期：</label>
+                                <select class="form-control" ng-model="dataCache">
+                                    <option value="">--请选择--</option>
+                                    <option ng-repeat="x in dataRange" value={{x.value}}>{{x.text}}</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-default" ng-click="find(1)">查询</button>
+                        </div>
+                        <div class="panel panel-default" style="margin-bottom: 0px;margin-top: 10px;">
+                            <div class="panel-body">
+                                <table class="table table-striped table-hover" style="margin-top: 20px;color:#999999;">
+                                    <thead class="title">
+                                        <tr>
+                                             <th>序号</th>
+                                            <th>服务单号</th>
+                                            <th>联系人</th>
+                                            <th>报修项目</th>
+                                            <th>提交日期</th>
+                                            <th>联系电话</th>
+                                            <!--<th>服务状态</th>-->
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="pageModel.data.length == 0">
+                                            <td colspan="100" class="text-center">暂无记录</td>
+                                        </tr>
+                                        <tr style="color:#333333;" ng-repeat="x in pageModel.data">
+                                            <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                                            <td>{{x.orderSn}}</td>
+                                            <td>{{x.linkMan}}</td>
+                                            <td>{{x.title}}</td>
+                                            <td>{{x.createDate}}</td>
+                                            <td>{{x.phone}}</td>
+                                            <!--<td>{{x.serviceStatus | propertyStatus}}</td>-->
+                                            <td> <a href="javascript:void(0)" ng-click="showDetail(x)">详情</a> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="page-footer clearfix">
+                                    <ng-include src="'/common/pager.html'" class="ng-scope">
+                                        <style type="text/css" class="ng-scope">
+                                            .pagination>li>span:hover {
+                                                background-color: #fff;
+                                                cursor: text
+                                            }
+                                        </style>
+                                    </ng-include>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

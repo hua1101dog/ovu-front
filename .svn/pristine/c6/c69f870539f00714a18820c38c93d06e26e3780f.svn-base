@@ -1,0 +1,22 @@
+<!--<div class="input-group" style="white-space: nowrap;width: 100%">
+    <input type="text" class="form-control" ng-focus="state.focus=true" ng-blur="state.focus=false"  ng-model="host[hostText]" readonly ng-disabled="host.readOnly" />
+    <span ng-if="!host.readOnly" style="margin-left: -34px">
+        <layer-select node-list="nodeList" host="host" ng-show="state.focus||state.hover" ng-mouseover="state.hover=true" ng-mouseleave="state.hover=false" class="layerSelect" style="left: 0px;top:34px;" ></layer-select>
+        <span class="input-group-btn" style="vertical-align:baseline">
+        <button class="btn btn-default" ng-click="clear(host)" style="height: 34px"><i class='fa fa-close'></i></button>
+        </span>
+    </span>
+</div>-->
+
+<div class="input-group" style="white-space: nowrap;width: 100%" >
+    <input type="text" placeholder="{{tipText}}" class="form-control" style="float:none"  ng-focus="state.focus=true"
+           ng-blur="state.focus=false" ng-required="need" ng-model="host[hostText]"/>
+    <div ng-show="state.focus||state.hover"
+         style="left: 0px;top:48px;z-index: 4; background-color: white; position:absolute;border-radius: 4px;min-width: 100%;border:1px solid gray;overflow-y: auto;
+                          min-height: 200px;  max-height: 600px;" ng-mouseover="state.hover=state.focus=true"  ng-mouseleave="state.hover=state.focus=false">
+        <tree-project node-list="nodeList" host="host"  ></tree-project>
+    </div>
+    <span class="input-group-btn">
+         <button class="btn btn-default" ng-click="clear(host)"  style="height: 34px"><i class='fa fa-close'></i></button>
+    </span>
+</div>

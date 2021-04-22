@@ -1,0 +1,286 @@
+<div class="processForm">
+    <div class="applicationInfo">
+        <h4>{{processForm.title}} {{search.customName}}</h4>
+        <div class="msgList">
+            <div class="msg-group clearfix">
+                <p>申请信息</p>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">合同编号</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss" ng-attr-title="{{search.signContractNo}}">{{search.signContractNo}}</span>
+                </div>
+                <label class="col-xs-2">房间号</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss" ng-attr-title="{{search.house_name}}">{{search.house_name}}</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">甲方名称</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{search.firstPartyName}}">{{search.firstPartyName || '--'}}</span>
+                </div>
+                <label class="col-xs-2">乙方名称</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss" ng-attr-title="{{search.customName}}">{{search.customName || '--'}}</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">建筑面积</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">
+                        {{search.area}}
+                        <span ng-if="search.area">㎡</span>
+                    </span>
+                </div>
+                <label class="col-xs-2">建筑单价</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">
+                        <span ng-if="search.buildingUnit">¥</span>
+                        {{search.buildingUnit | number:2}}
+                    </span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">套内面积</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">{{search.area_su}}
+                        <span ng-if="search.area_su">㎡</span>
+                    </span>
+                </div>
+                <label class="col-xs-2">套内单价</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">
+                        <span ng-if="search.insetUnit">¥</span>
+                        {{search.insetUnit | number:2}}
+                    </span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">标准总价</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss">
+                        <span ng-if="search.standardPrice">¥</span>
+                        {{search.standardPrice | number:2}}
+                    </span>
+                </div>
+                <label class="col-xs-2">房间总价</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss">
+                        <span ng-if="search.housePrice">¥</span>
+                        {{search.housePrice | number:2}}
+                    </span>
+                </div>
+                <label class="col-xs-2">房间底价</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss">
+                        <span ng-if="search.minAreaUnitPrice">¥</span>
+                        {{search.minAreaUnitPrice | number:2}}
+                    </span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <p>签约信息</p>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">签约面积</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss">{{search.area}}
+                        <span ng-if="search.area">㎡</span>
+                    </span>
+                </div>
+                <label class="col-xs-2">定金</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss">
+                        <span ng-if="search.receivableMoney">¥</span>
+                        {{search.receivableMoney | number:2}}
+                    </span>
+                </div>
+                <label class="col-xs-2">成交单价</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss">
+                        <span ng-if="search.buildingDealUnit">¥</span>
+                        {{search.buildingDealUnit | number:2}}
+                    </span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">合同总价</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss">
+                        <span ng-if="search.contractPriceTax">¥</span>
+                        {{search.contractPriceTax | number:2}}
+                    </span>
+                </div>
+                <label class="col-xs-2">税率(%)</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss">{{search.taxRate}}</span>
+                </div>
+                <label class="col-xs-2">税额</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss">
+                        <span ng-if="search.amountTax">¥</span>
+                        {{search.amountTax | number:2}}
+                    </span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <label class="col-xs-2">签约日期</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{search.contractSignDate}}">{{search.contractSignDate | date : 'yyyy-MM-dd'}}</span>
+                </div>
+                <label class="col-xs-2">交房日期</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{search.handHouseDate}}">{{search.handHouseDate | date : 'yyyy-MM-dd'}}</span>
+                </div>
+                <label class="col-xs-2">业务员</label>
+                <div class="col-xs-2">
+                    <span class="ellipsiss" ng-attr-title="{{search.businessManager}}">{{search.businessManager}}</span>
+                </div>
+            </div>
+            <div class="msg-group msg-group-data clearfix">
+                <label class="col-xs-2">相关文档</label>
+                <div class="col-xs-10 clearfix">
+                    <div ng-repeat="item in processForm.list track by $index">
+                        <span>{{item.attachmentName}}</span><a class="download" href="javascript:;"
+                            ng-click="enclosureDownload(item.url,item.attachmentName)"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="msg-group clearfix" ng-if="search.paymentType != 0">
+                <p>贷款信息</p>
+            </div>
+            <div class="msg-group clearfix" ng-if="search.paymentType != 0">
+                <label class="col-xs-2">按揭银行</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{getBankName(search.mortgageBank,mortgageList)}}">{{getBankName(search.mortgageBank,mortgageList)}}</span>
+                </div>
+                <label class="col-xs-2">按揭类型</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">商业贷款</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix" ng-if="search.paymentType != 0">
+                <label class="col-xs-2">贷款金额</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">
+                        <span ng-if="search.mortgageMoney">¥</span>
+                        {{search.mortgageMoney | number:2}}
+                    </span>
+                </div>
+                <label class="col-xs-2">贷款年限</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">{{search.mortgageYear || '--'}}
+                            <span ng-if="search.mortgageYear">年</span>
+                        </span>
+                </div>
+            </div>
+            <div class="msg-group clearfix" ng-if="search.paymentType != 0">
+                <label class="col-xs-2">按揭银行</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{getBankName(search.fundBank,fundBankList)}}">{{getBankName(search.fundBank,fundBankList)}}</span>
+                </div>
+                <label class="col-xs-2">按揭类型</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">公积金贷款</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix" ng-if="search.paymentType != 0">
+                <label class="col-xs-2">贷款金额</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">
+                        <span ng-if="search.fundMoney">¥</span>
+                        {{search.fundMoney | number:2}}
+                    </span>
+                </div>
+                <label class="col-xs-2">贷款年限</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">{{search.fundYear || '--'}}
+                            <span ng-if="search.fundYear">年</span>
+                        </span>
+                </div>
+            </div>
+            <div class="msg-group clearfix" ng-if="search.decorationStandard">
+                <p>装修信息</p>
+            </div>
+            <div class="msg-group clearfix" ng-if="search.decorationStandard">
+                <label class="col-xs-2">装修标准</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss"
+                        ng-attr-title="{{getBankName(search.decorationStandard,decorationList)}}">{{getBankName(search.decorationStandard,decorationList)}}</span>
+                </div>
+                <label class="col-xs-2">是否并入合同</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">{{search.haveMergeContract==0?'是':'否'}}</span>
+                </div>
+            </div>
+            <div class="msg-group clearfix" ng-if="search.decorationStandard">
+                <label class="col-xs-2">装修总价</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">
+                        <span ng-if="search.decorateTotalPrice">¥</span>
+                        {{search.decorateTotalPrice | number:2}}
+                    </span>
+                </div>
+                <label class="col-xs-2">装修单价</label>
+                <div class="col-xs-4">
+                    <span class="ellipsiss">
+                        <span ng-if="search.decorateUnitPrice">¥</span>
+                        {{search.decorateUnitPrice | number:2}}
+                    </span>
+                </div>
+            </div>
+            <div class="msg-group clearfix">
+                <p>审批信息</p>
+            </div>
+            <div class="msg-group clearfix" ng-repeat="item in processComment track by $index">
+                <label class="col-xs-2">{{item.activityName}}</label>
+                <div class="col-xs-10">
+                    <p
+                        style="width: 100%; text-align:left;padding-left:10px;display:flex;justify-content:space-between;align-items:center;">
+                        <span class="ellipsiss" style="width:45%;"
+                            ng-attr-title="{{item.assigneeName}}">{{item.assigneeName}}</span>
+                        <span style="width:45%;">{{item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}} </span>
+                    </p>
+                    <p style="width:100%;">
+                        <span class="ellipsiss" ng-attr-title="{{item.comment}}"
+                            ng-if="item.comment">{{item.comment}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="auditOpinion clearfix" ng-if="curProcess.taskStatus == 0 && curProcess.personId">
+        <label class="col-xs-2 required">审批意见</label>
+        <textarea maxlength="100" class="col-xs-10" rows="5" placeholder="请填写审批意见(必填)"
+            ng-model="search.comment"></textarea>
+    </div>
+    <div class="transferOp">
+        <h4>流转意见</h4>
+        <div class="transferList">
+            <div class="transfer-group" ng-repeat="item in processComment track by $index">
+                <p style="padding-left: 10px;">{{item.activityName}}</p>
+                <p class="ellipsiss" ng-attr-title="{{item.assigneeName}}">{{item.assigneeName}}</p>
+                <p class="clearfix"><span style="color: #008000;width:20%;margin-right:10px;">接收人</span> <span
+                        class="ellipsiss" style="width:75%;" ng-attr-title="{{item.receiver}}">{{item.receiver}}</span>
+                </p>
+                <div>
+                    <p>{{item.endTime || item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}}</p>
+                    <p style="color: #008000;">
+                        【{{item.activityName}}】
+                    </p>
+                    <p style="color: #008000;">
+                        <span ng-if="$index===0">已提交</span>
+                        <span class="ellipsiss" ng-attr-title="{{item.comment}}"
+                            ng-if="$index!==0">{{item.comment}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

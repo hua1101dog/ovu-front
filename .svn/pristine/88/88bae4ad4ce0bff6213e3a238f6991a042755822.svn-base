@@ -1,0 +1,72 @@
+<div ng-controller="dictionaryCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>数据字典管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">数据字典类型
+                    <a href="javaScript:void(0)" ng-click='addTopNode()' class='btn btn-xs pull-right'><span class='fa fa-plus' ></span>数据字典类型</a>
+                </div>
+                <div class="x_content">
+                    <div class="alert" role="alert" ng-if="dTypeTree && dTypeTree.length==0">无数据字典类型</div>
+                    <tree-view-pro node-list="dTypeTree" host="search" host-text="'dicName'" host-key="'dicId'" callback="setDicList" config="{'edit':true}"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <button class="btn btn-default pull-right" ng-disabled="!curDicTypeNode.id" ng-click="addDic()"><span class="fa fa-plus">新增</span></button>
+                    <button class="btn btn-default pull-right" ng-click="refreshCache()"><span class="fa fa-refresh">刷新缓存</span></button>
+                    <button class="btn btn-default pull-right" ng-click="find(1)">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                    <div class="panel-heading">
+                            数据字典列表
+                        </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th style="text-align: center;">字典类型</th>
+                            <th style="text-align: center;">字典名称</th>
+                            <!--<th style="text-align: center;">字典编码</th>-->
+                             <th style="text-align: center;">字典值</th> 
+                            <th style="text-align: center;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="pageModel.list.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data">
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td>{{item.dicType}}</td>
+                            <td>{{item.dicItem}}</td> 
+                            <!--<td>{{item.dicCode}}</td>-->
+                            <td>{{item.dicVal}}</td>
+                            <td><a class="btn btn-xs" ng-click="addDicType(item)"><span class="fa fa-edit"></span>编辑子类型</a>
+                                <a class="btn btn-xs" ng-click="editDic(item)"><span class="fa fa-edit"></span>编辑</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+      table tbody tr td {
+        text-align: center
+    }
+</style>

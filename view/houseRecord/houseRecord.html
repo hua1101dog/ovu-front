@@ -1,0 +1,362 @@
+<div ng-controller="houseRecordCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>房屋档案管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-xs-12">
+           
+            <div class="x_panel">
+                <div class="x_title">楼栋列表</div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="oriList.length==0">无楼栋信息</div>
+                    <div id="house_tree">
+
+                        <tree-view-pro node-list="houseSearchtreeData" host="search" host-text="'spaceName'"
+                            host-key="'spaceId'" callback="selectNode" config="{'edit':false}"></tree-view-pro>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-xs-12" style="padding:0" id="houseRecord">
+            <div class="x_panel" id="houseInfo-top">
+                <div class="form-inline">
+                    <div class="form-group" style="margin-top: 4px;">
+                        <input type="text" ng-model="search.houseNameOrShort" class="form-control" style="width: 230px;"
+                            placeholder="房屋名称、房屋简称、房号" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" ng-model="search.peopleName" class="form-control" placeholder="人员姓名" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="search.peoplePhone" class="form-control" placeholder="联系电话" />
+                    </div>
+                    <div class="form-group">
+                        <div style=" display: inline-block">
+                            <ui-select ng-model="house_source.value" multiple placeholder="空间来源">
+                                <ui-select-match>
+                                    <span ng-bind="$item.name"> </span>
+
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in (fsDict | filter: $select.search) track by item.id">
+                                    <span ng-bind="item.name"></span>
+                                </ui-select-choices>
+                            </ui-select>
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div style=" display: inline-block">
+                            <ui-select ng-model="house_status.value" multiple placeholder="使用状态">
+                                <ui-select-match>
+                                    <span ng-bind="$item.dicItem"> </span>
+
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in (houseStatus | filter: $select.search) track by item.dicVal">
+                                    <span ng-bind="item.dicItem"></span>
+                                </ui-select-choices>
+                            </ui-select>
+
+
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div style=" display: inline-block">
+                            <ui-select ng-model="house_type.value" multiple placeholder="装修类型">
+                                <ui-select-match>
+                                    <span ng-bind="$item.dicItem"> </span>
+
+                                </ui-select-match>
+                                <ui-select-choices
+                                    repeat="item in (isDecoration | filter: $select.search) track by item.dicVal">
+                                    <span ng-bind="item.dicItem"></span>
+                                </ui-select-choices>
+                            </ui-select>
+
+
+                        </div>
+                        <button class="btn btn-default" ng-click="find(1)">查询</button>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="panel panel-default" id="houseInfo-body" style="display: grid;">
+                <div class="panel-heading" style="height: 48px;">
+                    房屋档案列表
+                    <button class="btn btn-danger pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="delAll()">
+                        批量删除
+                    </button>
+                    <button class="btn btn-info pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="mergeSpace()">
+                        房屋合并
+                    </button>
+                    <button class="btn btn-info pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="separate()">
+                        房屋拆分
+                    </button>
+                    <button class="btn btn-info pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="addWorkunit()">
+                        代客报事
+                    </button>
+                    <button class="btn btn-info pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="rent()">
+                        出租/退租
+                    </button>
+                    <button class="btn btn-info pull-right" ng-disabled="!hasChecked(pageModel)"
+                        ng-click="setPropertyChange()">
+                        产权变更
+                    </button>
+                    <button class="btn btn-info pull-right" ng-click="exprot()">
+                        导出
+                    </button>
+                </div>
+                <div class="panel-body" style="overflow: scroll">
+                    <table class="table table-striped table-hover"  id="houseRecord">
+                        <thead>
+                            <tr>
+                                <th class="text-center v_m" rowspan="2"  >NO</th>
+                                <th class="text-center v_m" style="width:20px"  rowspan="2">
+                                    <span role="button" ng-click="checkAll(pageModel,selectList)">
+                                        <i class="glyphicon"
+                                            ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                                </th>
+                                <th rowspan="2" class="v_m">空间信息</th>
+                                <th rowspan="2" class="v_m">房屋名称</th>
+                                <th rowspan="2" class="v_m">房屋简称</th>
+                                <th rowspan="2" class="v_m">
+                                    面积
+                                </th>
+                                <th rowspan="2" class="v_m">空间来源</th>
+                                <th rowspan="2" class="v_m">房屋类型</th>
+                                <th rowspan="2" class="v_m">装修类型</th>
+                                <th rowspan="2" class="v_m">使用状态</th>
+                                <th rowspan="2" class="v_m">租售性质</th>
+                                <th colspan="3" style="text-align: center;">人员信息</th>
+                                <th rowspan="2" class="v_m">操作</th>
+
+                            </tr>
+                            <tr>
+
+                                <th>角色</th>
+                                <th>姓名</th>
+                                <th>电话</th>
+
+
+
+                            </tr>
+                        </thead>
+                        <tbody ng-if="pageModel.data.length == 0">
+                            <tr>
+                                <td colspan="100" class="text-center" style="text-align: center">暂无记录</td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-repeat="item in pageModel.data">
+                            
+                            <tr>
+                                <td class="text-center">
+                                    {{$index +
+                                    1+pageModel.pageSize*pageModel.pageIndex}}
+                                </td>
+                                <td>
+                                    <i role="button" ng-click="checkOne(item)"
+                                        ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                        class="glyphicon"></i>
+                                </td>
+                                <td ng-click="houseInfo(item,$index,$event)" >
+                                    <span class="btn-link" ng-attr-title="{{item.stageName}}/{{item.buildName}}/{{item.unitNo+'单元/'+item.groundNo+'层/'+item.houseName+'房'}}">   {{item.stageName}}/{{item.buildName}}/{{item.unitNo+'单元/'+item.groundNo+'层/'+item.houseName+'房'}}</span>
+                                    
+                                   </td>
+                                  
+                                <td ng-click="houseInfo(item,$index,$event)"> <span class="btn-link">{{item.houseName}}</span></td>
+                                <td style="word-break: break-all;" ng-click="houseInfo(item,$index,$event)">
+                                    <span class="btn-link"> {{item.rmShortName}}</span>
+                                    
+                                </td>
+                                <td ng-click="houseInfo(item,$index,$event)">  <span class="btn-link"> {{item.area}}</span></td>
+                                <td ng-click="houseInfo(item,$index,$event)"><span class="btn-link"> {{item.houseSource | keyToValue:fsDict:'id':'name'}}</span></td>
+                                <td ng-click="houseInfo(item,$index,$event)"><span class="btn-link"> {{item.rmCat | keyToValue:houseType:'dicCode':'dicItem'}}</span></td>
+                                <td ng-click="houseInfo(item,$index,$event)"><span class="btn-link"> {{item.isDecoration | keyToValue:isDecoration:'dicVal':'dicItem'}}</span></td>
+                                <td ng-click="houseInfo(item,$index,$event)"><span class="btn-link"> {{item.rmStatus | keyToValue:houseStatus:'dicCode':'dicItem'}}</span></td>
+                                <td ng-click="houseInfo(item,$index,$event)">
+                                    <span  class="btn-link">{{item.rentsaleCharacter | keyToValue:spaceRentList:'code':'name'}}</span>
+                                </td>
+                                <td ng-click="showMorePerson(item,$event)">
+                                    <span class="btn-link _block " ng-if="item.ownerList && item.ownerList.length">业主</span>
+                                    <span class="btn-link _block " ng-if="item.relativeList && item.relativeList.length">亲属</span>
+                                    <span class="btn-link _block " ng-if="item.ownerTenantList && item.ownerTenantList.length">租户</span>
+                                </td>
+                                <td ng-click="showMorePerson(item,$event)">
+                                    <div  ng-if="item.ownerList && item.ownerList.length" ng-class="{'showMore':item.relativeList && item.relativeList.length}">
+                                        <!-- <span class="btn-link _block showMore" ng-repeat="own in item.ownerList">{{own.name}}</span> -->
+                                        <span class="btn-link _block ellipsis_80" >
+                                            {{item.ownerList[0].name}}
+                                            <span ng-if="item.ownerList.length>1" ng-click="showMorePerson(item,$event)" class="fa fa-angle-double-right"></span>
+                                        </span>
+                                   
+                                    </div>
+                                    <div  ng-if="item.relativeList && item.relativeList.length" ng-class="{'showMore':item.ownerTenantList && item.ownerTenantList.length}">
+                                        <!-- <span class="btn-link _block" ng-repeat="rela in item.relativeList">{{rela.relationName}}</span> -->
+                                        <span class="btn-link _block ellipsis_80" >
+                                            {{item.relativeList[0].relationName}}
+                                            <span ng-if="item.relativeList.length>1" ng-click="showMorePerson(item,$event)" class="fa fa-angle-double-right"></span>
+                                        </span>
+                                    </div>
+                                    <div  ng-if="item.ownerTenantList && item.ownerTenantList.length" >
+                                        <!-- <span class="btn-link _block showMore" ng-repeat="ten in item.ownerTenantList">{{ten.tenantName}}</span> -->
+                                        <span class="btn-link _block ellipsis_80" >
+                                            {{item.ownerTenantList[0].tenantName}}
+                                            <span ng-if="item.ownerTenantList.length>1" ng-click="showMorePerson(item,$event)" class="fa fa-angle-double-right"></span>
+                                        </span>
+                                    </div>
+                                   
+                                </td>
+                                <td ng-click="showMorePerson(item,$event)">
+                                    <div  ng-if="item.ownerList && item.ownerList.length" ng-class="{'showMore':item.relativeList && item.relativeList.length}">
+                                    <span class="btn-link _block ellipsis_80" >{{item.ownerList[0].phone}}</span>
+                                </div>
+                                <div  ng-if="item.relativeList && item.relativeList.length" ng-class="{'showMore':item.ownerTenantList && item.ownerTenantList.length}">
+                                    <!-- <span class="btn-link _block" ng-repeat="rela in item.relativeList">{{rela.relationTel}}</span> -->
+                                    <span class="btn-link _block ellipsis_80" >{{item.relativeList[0].relationTel}} </span>
+                                       
+                                    
+                                </div>
+                                <div ng-if="item.ownerTenantList && item.ownerTenantList.length" >
+                                    <span class="btn-link _block ellipsis_80" >{{item.ownerTenantList[0].tenantTel}}</span>
+                                </div></td>
+                                <td>
+                                    <div style="display: flex;">
+                                        <a href="javascript:void(0)" ng-click="showEditModal(item)"
+                                            class="btn btn-xs"><span class='fa fa-edit'></span>编辑</a>
+                                        <a href="javascript:void(0)" ng-click="changeHistory(item)" class="btn btn-xs"><span
+                                                class='fa fa-search'></span>产权变更记录</a>
+                                       
+                                    </div>
+                                    <div style="display: flex;">
+                                        <a href="javascript:void(0)" ng-if="item.houseSource!==1" ng-click="showSpace(item)" class="btn btn-xs"><span
+                                            class='fa fa-search'></span>查看</a>
+                                        <a href="javascript:void(0)" ng-click="rentHistory(item)" class="btn btn-xs"><span
+                                                class='fa fa-search'></span>房屋租赁记录</a>
+                                       
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr style="height: 367px;" ng-show="item.houseInfo"></tr>
+                        </tbody>
+                    </table>
+                    <div id="InfoConts">
+                        <div style="width: 100%;height: 100%">
+                            <uib-tabset active="active">
+                                
+                                <uib-tab index="10" heading="备忘录" select="changeIndex(10)" active="active==10">
+                                    <ng-include src="'./houseSearch/ownerInfo/ownermemo.html'"></ng-include>
+                                </uib-tab>
+                                <uib-tab index="5" heading="设备" select="changeIndex(5)" active="active==5">
+                                    <ng-include src="'./houseSearch/ownerInfo/equipment.html'"></ng-include>
+                                </uib-tab>
+                                <uib-tab index="6" heading="投诉" select="changeIndex(6)" active="active==6">
+                                    <ng-include src="'./houseSearch/ownerInfo/complaints.html'"></ng-include>
+                                </uib-tab>
+                                <uib-tab index="7" heading="邻里" select="changeIndex(7)" active="active==7">
+                                    <ng-include src="'./houseSearch/ownerInfo/neighborhood.html'"></ng-include>
+                                </uib-tab>
+                                <uib-tab index="8" heading="活动" select="changeIndex(8)" active="active==8">
+                                    <ng-include src="'./houseSearch/ownerInfo/active.html'"></ng-include>
+                                </uib-tab>
+                                <uib-tab index="9" heading="满意度" select="changeIndex(9)" active="active==9">
+                                    <ng-include src="'./houseSearch/ownerInfo/satisfaction.html'"></ng-include>
+                                </uib-tab>
+                                <uib-tab index="4" heading="工单" select="changeIndex(4)" active="active==4">
+                                    <ng-include src="'./houseSearch/ownerInfo/workunit.html'"></ng-include>
+                                </uib-tab>
+                                <uib-tab index="3" heading="车辆" select="changeIndex(3)" active="active==3">
+                                    <ng-include src="'./houseSearch/ownerInfo/car.html'"></ng-include>
+                                </uib-tab>
+                            </uib-tabset>
+         
+                        </div>
+                    </div>
+                    <div class="page-footer clearfix">
+                        <page-pro page-model="pageModel"></page-pro>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <style>
+        .detail-link {
+            width: 33px;
+            margin-left: -20px;
+            display: inline-block;
+            margin-top: 17px;
+            cursor: pointer;
+
+        }
+
+        .layui-layer-lan .layui-layer-btn a {
+            background: #2e8ded;
+            border: none;
+        }
+
+        .border-t-0 {
+            border-top: 0 !important
+        }
+
+        #houseRecord table tr th,
+        #houseRecord table tr td,
+        #houseRecord table tr td span {
+            text-align: left;
+            word-break: keep-all;
+            white-space: nowrap;
+        }
+
+
+        #houseRecord .ui-select-multiple.ui-select-bootstrap {
+            /* line-height: 29px; */
+        }
+
+        #houseRecord .ui-select-multiple.ui-select-bootstrap input.ui-select-search {
+            height: 27px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 4px;
+    /* width: 120px !important; */
+        }
+        #InfoConts {
+            display: none;
+            position: absolute;
+            width: 100%;
+           height: 367px;
+            background: #fff;
+            left: 0;
+            box-sizing: border-box;
+            padding: 10px;
+            overflow-y: auto
+        }
+        #InfoConts>div>div{
+            margin: 0px 20px;
+        }
+        #InfoConts>div>div>span:first-child{
+            color: #aaa;
+        }
+        .pagination{
+            margin: 0;
+        }
+        .showMore{
+            border-bottom: 1px solid #ccc;
+        }
+        .ellipsis_80{
+            overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 80px;
+        }
+
+    </style>

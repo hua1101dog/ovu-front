@@ -1,0 +1,69 @@
+<div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">{{item.id?'编辑':'新增'}}书籍</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">书籍类型</label>
+                <div class="col-xs-4">
+                        <select class="form-control" ng-model="item.assetCategoryId" required ng-options="o.id as o.assetName for o in secondList">
+                                <option value="">--请选择--</option>
+                            </select>
+                </div>
+                <label class="col-xs-2 control-label required">上架编号</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" required ng-model="item.shelvesNo" name="shelvesNo" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">书籍作者</label>
+                <div class="col-xs-4">
+                        <input type="text" class="form-control" required ng-model="item.author" name="author" />
+                </div>
+                <label class="col-xs-2 control-label required">书籍名称</label>
+                <div class="col-xs-4">
+                        <input type="text" class="form-control" required ng-model="item.name" name="name" />
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <label class="col-xs-2 control-label">期数</label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" ng-model="item.bookNo" name="bookNo" />
+                </div>
+                <label class="col-xs-2 control-label required">登记日期</label>
+                <div class="col-xs-4">
+                        <input  type="datetime" required class="form-control Wdate" ng-model="item.registerTime" placeholder="登记日期" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d %H:%m:%s'})">
+                </div>
+    
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label required">是否正常</label>
+                <div class="col-xs-4">
+                        <select class="form-control" ng-model="item.normal" required ng-options="o[0] as o[1] for o in [['0', '异常'],['1', '正常']]">
+                                <option value="">--请选择--</option>
+                            </select>
+                </div>
+                <label class="col-xs-2 control-label required">书籍数量</label>
+                <div class="col-xs-4">
+                    <input type="text" min="0" required ng-pattern="/^\+?[1-9][0-9]*$/" class="form-control" ng-model="item.number" name="number" />
+                </div>
+            </div>
+          
+                <div class="form-group">
+                        <label class="col-xs-2 control-label">备注信息</label>
+                        <div class="col-xs-6">
+                                <textarea class="form-control" ng-model="item.remarks"></textarea>
+                        </div>
+                    </div>
+    
+    
+    
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>房源查询</title>
+</head>
+
+<body>
+    <div id="angularId" ng-controller="houseSourceCtrl">
+        <div class="page-title" style="height:55px">
+            <div class="title_left">
+                <h3>房源查询</h3>
+            </div>
+        </div>
+        <div style="width: 250px;line-height: 60px;" ng-hide="projectTree.length==0">
+            <tree-sel-project ng-class="{'not-valid':!$root.project.id}" node-list="projectTree" host="$root.project"
+            host-key="'id'" host-text="'text'" callback="setProject" tip-text="'请选择项目'"></tree-sel-project>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="font-size: 14px">楼栋展示
+                <a href='javascript:void(0)' ng-click='' class='btn btn-xs pull-right btn-color1'>刷新 </a>
+            </div>
+            <div class="panel-body">
+                <div class="main-content">
+                    <div class="col-md-left">
+                        <div class="table_panel">
+                            <div class="table_title">
+                                {{name}}
+                            </div>
+                            <div class="table_content">
+                                <div class="left_table" >
+                                    <table class="table table-bordered" style="margin-right: 0px">
+                                        <thead class="title">
+                                            <tr>
+                                                <th style="text-align:center;height:102px;line-height:102px">楼层列表</th>
+                                                <th style="text-align:center;width: 100px">
+                                                    <div class="headH headb">单元</div>
+                                                    <div class="headH headb">号码</div>
+                                                    <div class="headH "></div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="ground in groundList">
+                                                <td class="text-center">{{ground}}</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="right_table" >
+
+                                    <table class="table table-bordered" style="border-collapse: collapse">
+                                        <thead class="title">
+                                            <tr class="headH1">
+                                                <th style="text-align:center;" colspan={{numberList[unit].length}}
+                                                    ng-repeat="unit in unitList">
+                                                    {{unit}}</th>
+                                            </tr>
+                                            <tr class="headH">
+                                                    
+                                                <th style="text-align:center;"
+                                                    ng-repeat="num in numberArr track by $index">{{num}}</th>
+                                            </tr>
+                                            <tr class="headH2">
+                                                <th style="text-align:center;"
+                                                    ng-repeat="num in numberArr track by $index">
+                                                    <div id="tablecol" style="width:100px"></div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="gNum in groundList">
+                                                <td class="text-center" ng-class="{'selColor':house.checked}"  style="outline: none;"
+                                                    ng-repeat="house in houseList[gNum] track by $index" ng-click="clickRoom(house)">
+                                                   <div class="houseT" ng-if="house.houseId" ng-class="{'salControl':house.saleStatus==0,'forSale':house.saleStatus==1,
+                                                   'offerBuy':house.saleStatus==2,'signing':house.saleStatus==3,'notSale':house.saleStatus==5}"></div> 
+                                                   {{house.houseId?house.houseCode:''}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="roomnum">
+                            <div class="col-xs-2">
+                                <div class="col-xs-2 salControl">销控</div>
+                                <div class="col-xs-10">
+                                    <div>{{ radio['0'].num }}套</div>
+                                    <div>占{{radio['0'].radio}}%</div>
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="col-xs-2 forSale">待售</div>
+                                <div class="col-xs-10">
+                                    <div>{{ radio['1'].num }}套</div>
+                                    <div>占{{radio['1'].radio}}%</div>
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="col-xs-2 offerBuy">认购</div>
+                                <div class="col-xs-10">
+                                    <div>{{ radio['2'].num }}套</div>
+                                    <div>占{{radio['2'].radio}}%</div>
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="col-xs-2 signing">签约</div>
+                                <div class="col-xs-10">
+                                    <div>{{ radio['3'].num }}套</div>
+                                    <div>占{{radio['3'].radio}}%</div>
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="col-xs-2 notSale">非售</div>
+                                <div class="col-xs-10">
+                                    <div>{{ radio['5'].num }}套</div>
+                                    <div>占{{radio['5'].radio}}%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-right" >
+                        <div class="houseInfo form-horizontal" ng-show="showRoom">
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label">房间</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" required ng-model="houseInfo.houseName" name="houseName"  readonly/>
+                                </div>
+                                <label class="col-xs-2 control-label ">户型</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="houseInfo.rm_std" name="rm_std" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label ">房间结构</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" required ng-model="houseInfo.house_structure" name="house_structure" readonly/>
+                                </div>
+                                <label class="col-xs-2 control-label ">销售状态</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="houseInfo.sale_statuStr" name="sale_statuStr" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label ">租售类型</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" required ng-model="houseInfo.rentTypeStr" name="rentTypeStr" readonly/>
+                                </div>
+                                <label class="col-xs-2 control-label ">建筑面积</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="houseInfo.area" name="area" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label ">套内面积</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" required ng-model="houseInfo.area_su" name="area_su" readonly/>
+                                </div>
+                                <label class="col-xs-2 control-label ">建筑单价</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="houseInfo.standardAreaUnitPriceNew" name="standardAreaUnitPriceNew" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label ">套内单价</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="houseInfo.standardAreaSuUnitPriceNew" name="standardAreaSuUnitPriceNew" readonly/>
+                                </div>
+                                <label class="col-xs-2 control-label ">标准总价</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="houseInfo.standardHouseTotalPriceNew" name="houseTotalPriceNew" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label ">计价方式</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="houseInfo.standardPricingStr" name="standardPricingStr" readonly/>
+                                </div>
+                                <label class="col-xs-2 control-label ">面积状态</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="houseInfo.area_statusStr" name="area_statusStr" readonly/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="OrderInfo form-horizontal" ng-show="showOrder">
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label" style="font-size: 16px">定单信息</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label">客户名称</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" required ng-model="orderInfo.customName" name="customName" readonly/>
+                                </div>
+                                <label class="col-xs-2 control-label ">联系电话</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="orderInfo.customPhone" name="customPhone" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label ">协议总价</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" required ng-model="orderInfo.contractPriceTax" name="contractPriceTax" readonly/>
+                                </div>
+                                <label class="col-xs-2 control-label ">应收定金</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" ng-model="orderInfo.receivableMoney" name="receivableMoney" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label ">签署日期</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" required ng-model="orderInfo.contractSignDate" name="contractSignDate" readonly/>
+                                </div>
+                                <label class="col-xs-2 control-label ">业务员</label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" required ng-model="orderInfo.businessManager" name="businessManager" readonly/>
+                                </div>
+                            </div>
+                            <!-- <button class="btn btn-default btn-bcolor" ng-click="">签约</button> -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<style>
+    .main-content {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .main-content>.col-md-left {
+        width: 601px;
+        
+    }
+    .main-content>.col-md-left>.table_panel{
+        border-right: 1px solid #E6E9ED; 
+    }
+    .main-content>.col-md-left>.table_panel>.table_content{
+        display: flex;
+        flex-direction: row;
+    }
+    .main-content>.col-md-left>.table_panel>.table_content>.left_table{
+        width:200px
+    }
+    .main-content>.col-md-left>.table_panel>.table_content>.right_table{
+        overflow-x:auto;
+        width:400px
+    }
+
+    .main-content>.col-md-right {
+        padding: 30px;
+        position: relative;
+        flex: 1;
+
+    }
+
+    .btn-color1 {
+        color: rgb(0, 174, 255);
+    }
+
+    button.btn-bcolor {
+        margin-left: 50%;
+        background-color: rgb(0, 174, 255);
+        color: #fff
+    }
+
+    table>tbody>tr>td.selColor {
+        background-color: rgb(255, 187, 0);
+    }
+
+    .main-content>.col-md-left>div.roomnum {
+        margin-top:20px;
+        padding-left: 10%
+    }
+
+    div.salControl {
+        background-color: rgb(170, 200, 212);
+    }
+
+    div.forSale {
+        background-color: rgb(231, 222, 222)
+    }
+
+    div.offerBuy {
+        background-color: rgb(200, 9, 9)
+    }
+
+    div.signing {
+        background-color: rgb(176, 6, 243)
+    }
+
+    div.notSale {
+        background-color: rgb(99, 95, 95)
+    }
+
+    div.col-xs-2 {
+        padding: 0px
+    }
+
+    .houseInfo {
+        padding-bottom: 20px
+    }
+
+    .houseInfo label.control-label {
+        padding-right: 0px
+    }
+
+    .roomnum div.col-xs-10 {
+        padding: 0px
+    }
+
+    .headH {
+        height: 34px;
+        line-height: 34px;
+    }
+
+    .headH1 {
+        height: 33px;
+        line-height: 33px;
+    }
+
+    .headH2 {
+        height: 36px;
+        line-height: 36px;
+    }
+
+    .headb {
+        border-bottom: 2px solid #ddd;
+    }
+
+
+    .table_title {
+        padding: 15px;
+        text-align: center;
+        border: 1px solid #E6E9ED;
+        border-right: none
+    }
+
+    .col-md-left>.table_panel>.table_content .table>thead>tr>th {
+        padding: 0px
+    }
+
+    .btn-color2 {
+        color: rgb(207, 48, 48);
+    }
+
+    /* .table-bordered {
+        border: none
+    } */
+
+    .col-md-right .form-group {
+        margin-bottom: 10px
+    }
+    .houseT{
+        width:20px;
+        height:17px;
+        border:1px solid rgb(77, 94, 110);
+        margin:0px auto;
+        margin-bottom: -5px;
+        display: inline-block
+    }
+</style>
+
+</html>

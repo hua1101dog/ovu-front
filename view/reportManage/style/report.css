@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+.form-group select{
+    width:180px !important;
+}
+.selectInvalid{
+	border: 1px solid rgba(255, 0, 0, 0.59);
+    -moz-box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+    -webkit-box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+}
+.m-l-none{
+	margin-left:0px !important;
+}

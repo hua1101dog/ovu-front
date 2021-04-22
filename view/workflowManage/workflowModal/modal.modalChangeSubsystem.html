@@ -1,0 +1,17 @@
+<div class="modal-header">
+    <div class="modal-title">子系统变更</div>
+</div>
+<div class="modal-body container-fluid  form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group form-inline">
+            <label class="col-xs-2 control-label required">子系统名称:</label>
+            <select class="col-xs-6 form-control" ng-model="chooseSubsystem" ng-options="o.moduleName for o in subsystemMsg.allData" required>
+                <option value="">--{{subsystemMsg.curData.moduleName}}--</option>
+            </select>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save()" ng-disabled="!chooseSubsystem.moduleName">确认</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+</div>

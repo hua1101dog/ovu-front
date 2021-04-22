@@ -1,0 +1,86 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{onlyOne?'单':'多'}}楼栋选择器</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">项目分类
+                </div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="oriList.length==0">无分类信息</div>
+                    <div id="house_tree">
+                        <tree-view node-list="treeData" config="config"></tree-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" ng-model="search.parkName" placeholder="项目名称" class="form-control" />
+                    </div>
+                    <button class="btn btn-default" ng-click="find()">查询</button>
+                </div>
+                <table class="table table-hover" style="margin-top: 10px;">
+                    <thead>
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th ng-hide="onlyOne" class="text-center" style="width:20px"><span role="button"
+                                    ng-click="checkAll(pageModel)">
+                                    <i class="glyphicon"
+                                        ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                            </th>
+                            <th>项目名称</th>
+                            <th>项目编码</th>
+                            <th>地址</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data" ng-class="{'bg-success':(item.parkNo==curPark.parkNo)}"
+                            ng-click="clickOnePark(item)">
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td ng-hide="onlyOne"><i role="button" ng-click="checkOne(item)"
+                                    ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                    class="glyphicon"></i></td>
+                            <td>{{item.parkName}}</td>
+                            <td>{{item.parkNo}}</td>
+                            <td>{{item.address}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+                <div class="form-group" style="margin-top:10px" ng-if="parks.length > 0">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">您已选择:</label>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                        <div class="input-group">
+                            <ul id="person" class="ul-persons">
+                                <li class="item" ng-repeat="p in parks">{{p.parkName}}<a ng-click="del(parks,p)"><i
+                                            class="fa fa-remove"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save()">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+
+</style>

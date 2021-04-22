@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <!-- <h4 class="modal-title">{{isEdit?'编辑':'新增'}}客户</h4> -->
+    <!-- <h4 class="modal-title">{{item.ss}}客户</h4> -->
+    <h4 class="modal-title">{{title}}客户</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">客户类型:</label>
+            <div class="col-xs-8">
+                <label class="radio-inline">
+					<input type="radio" ng-model="item.customerType"  value="1"> 企业
+				</label>
+				<label class="radio-inline">
+					<input type="radio" ng-model="item.customerType"  value="2"> 个体户
+				</label>
+				<label class="radio-inline">
+					<input type="radio" ng-model="item.customerType"  value="3"> 自然人
+				</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">客户名称:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.customerName" name="customerName" placeholder="请输入客户名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">统一社会信用代码:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.customerCode" name="customerCode" placeholder="请输入统一社会信用代码">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">法定代表人:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.customerCorporate" name="customerCorporate" placeholder="请输入法定代表人">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">联系人:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.customerLinkman" name="customerLinkman" placeholder="请输入联系人的名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">联系方式:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.customerPhone" name="customerPhone" placeholder="请输入联系方式">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">公司地址:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.customerAddress" name="customerAddress" placeholder="请输入公司地址">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">开户行:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.customerBank" name="customerBank" placeholder="请输入开户行">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">开户账户:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.customerAccount" name="customerAccount" placeholder="请输入开户账户">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

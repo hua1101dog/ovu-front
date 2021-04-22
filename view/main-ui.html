@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" id="mainFrame">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <title>OVU-智慧运营平台</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="bookmark" href="/favicon.ico" />
+
+    <link href="/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/res/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/res/fonts/iconfont.css" rel="stylesheet">
+    <link href="/view/main_new.css" rel="stylesheet" type="text/css" />
+    <link href="/res/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <link href="/js/angular.css" rel="stylesheet">
+    <link href="/res/js/jquery-address/css/jquery-address.css" rel="stylesheet">
+    <link href="/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+    <link href="/res/js/jquery-confirm.min.css" rel="stylesheet">
+
+    <!-- 新设计的图标库 -->
+    <link rel="stylesheet" href="/res/fonts/iconfont.css">
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div ng-app="angularApp" ng-controller="mainController" ng-cloak>
+        <ng-include src="'/common/modal.dept.html'"></ng-include>
+        <div class="photoDiv" ng-if="curPic.on">
+            <img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute" ng-click="curPic.on = false"></img>
+            <img class="photo" ng-src="{{curPic.url}}" image-load="wheel()"></img>
+        </div>
+        <paly-modal device-id="video.id" ng-if="video.on" width="700" height="400"></paly-modal>
+        <!--头部begin-->
+        <div class="header box-shadow clearfix">
+            <div class="navbar-header">
+                <!-- brand -->
+                <a href="#/" class="navbar-brand" style="height:100%;padding:0;border-right: 1px solid #e7e7e7">
+                    <img style="height: 60px;width: 230px;" ng-src="{{'/'+(domain.logo_url||'res/img/LOGO.png')}}">
+                </a>
+                <!-- / brand -->
+            </div>
+
+            <p class="group-or-not text-center pull-left" ng-if="curModule" style="color: #333;font-weight:bold;font-size: 16px;height: 30px;line-height: 30px;margin:15px 20px;">
+                {{curModule.name}}
+            </p>
+
+            <label class="control-label parkSelect" ng-if="curModule.isGroup == 3">
+				<i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+				<a role="button" ng-click="setPark()">{{park.parkName||'请选择项目'}} </a>
+			</label>
+            <!-- <div class="pull-right account" uib-dropdown auto-close="always">
+                <a href="#" uib-dropdown-toggle>
+                    <span class="thumb-sm avatar pull-right">
+						<img src='/res/img/userIcon.png' >
+						<i class="on md b-white bottom"></i>
+					  </span> {{user.NICKNAME}} <b class="caret"></b></a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                    <li role="menuitem"><a href="javascript:;;" ng-click="showinfo(user)">个人信息</a></li>
+                    <li role="menuitem"><a href="javascript:;;" ng-click="changePwd(user)">修改密码</a></li>
+                    <li class="divider"></li>
+                    <li role="menuitem"><a href="javascript:;" ng-click="logout()"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
+                </ul>
+            </div> -->
+            <div class="pull-right account" uib-dropdown auto-close="always">
+                <a href="#" uib-dropdown-toggle>
+                    <span class="thumb-sm avatar pull-right">
+						<img src='/res/img/userIcon.png' > 
+                    </span>
+                    <span class="user-nickname">{{user.NICKNAME}}</span>
+                    <i class="icon iconfont icon-arrLeft-fill"></i>
+                </a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                    <li role="menuitem">
+                        <a href="javascript:;" ng-click="showinfo(user)">
+                            <i class="icon iconfont icon-infor_information"></i>
+                            <span class="menuitem-text">个人信息</span>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="javascript:;" ng-click="changePwd(user)">
+                            <i class="icon iconfont icon-infor_password"></i>
+                            <span class="menuitem-text">修改密码</span>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="javascript:;" ng-click="logout()">
+                            <i class="icon iconfont icon-infor_quit"></i>
+                            <span class="menuitem-text">退出系统</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--头部end-->
+        <div class="leftDiv bg-black" id="menuDiv">
+            <!-- <p class="text-center" ng-if="curModule" style="background-color: #53cebe;color: #1a2e4e;font-size: 16px;height: 30px;line-height: 30px;">{{curModule.name}}</p> -->
+            <!-- <div class="btn-group" uib-dropdown keyboard-nav style="width: 100%" ng-if="curModule">
+				<button type="button" class="btn btn-success" style="width: 100%" uib-dropdown-toggle>{{curModule.name}} <span class="caret"></span></button>
+				<ul class="dropdown-menu" uib-dropdown-menu role="menu" style="width: 100%;margin: 0;">
+					<li ng-repeat="module in modules" style="width: 100%;" ng-click="setModule(module)"
+						 class="text-center">
+						<a href="#" ><span ng-class="{'text-success':curModule ==module }">{{module.name}}</span></a></li>
+				</ul>
+			</div>-->
+
+
+            <tree-menu class="topMenu " node-list="menus"></tree-menu>
+        </div>
+        <div ui-view class="view_body" id="routeBody"></div>
+        <div style="position: absolute;  bottom: 50px;  right: 0;z-index: 10">
+            <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.style || 'warning')" close="closeAlert($index)" dismiss-on-timeout="10000" style="min-width:450px;">{{alert.msg}}</div>
+        </div>
+        <div class="navbar navbar-default footer" role="navigation">
+            <div class="pull-right">
+                <span ng-if="!curModule">OVU-智慧运营平台</span>
+                <div ng-if="curModule">
+                    <a ng-click="showModuleVersionInfo(curModule.id)" href="javascript:;;">{{curModule.name}} {{curModule.currVersion}}</a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="view_body hide" id="ajaxBody"></div>
+
+</body>
+<script type="text/javascript" src="/res/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+<script src="/res/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/res/js/treeview/bootstrap-treeview.js"></script>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=6e6a649a349261a1802609e86aaba209"></script>
+<script type="text/javascript" src="//webapi.amap.com/ui/1.0/main.js"></script>
+<script src="/res/gentelella/vendors/echarts/dist/echarts.min.js"></script>
+<script src="/res/gentelella/vendors/validator/validator.js"></script>
+<script type="text/javascript" src="/res/js/sockjs.min.js"></script>
+<script src="/res/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+<!--兼容以前项目需要的东西 -->
+<script src="/res/js/utils.js"></script>
+<script src="/res/js/jquery-confirm.min.js"></script>
+
+<script src="/res/gentelella/vendors/starrr/dist/starrr.js"></script>
+<script src="/res/gentelella/vendors/dropzone/dist/min/dropzone.min.js"></script>
+<script type="text/javascript" src="/res/js/jquery-address/js/jquery-address.js"></script>
+<script type="text/javascript" src="/umeditor/third-party/template.min.js"></script>
+<script type="text/javascript" src="/umeditor/umeditor.config.js"></script>
+<script type="text/javascript" src="/umeditor/umeditor.min.js"></script>
+<script type="text/javascript" src="/umeditor/lang/zh-cn/zh-cn.js"></script>
+
+<script type="text/javascript" src="/res/js/layer/layer.js"></script>
+<script src="/government/lib/laydate/laydate.js"></script>
+<script src="/res/gentelella/vendors/moment/min/moment.min.js"></script>
+<script type="text/javascript" src="/res/js/datepicker97/WdatePicker.js"></script>
+<script type="text/javascript" src="/res/js/ajaxfileupload.js"></script>
+<script src="/res/js/jQuery.print.js"></script>
+<script src="/res/js/angular-html2pdf/html2canvas.min.js"></script>
+<script src="/res/js/angular-html2pdf/jspdf.min.js"></script>
+<script src="/res/js/redips-table.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/angular.min.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/angular-locale_zh-cn.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/ocLazyLoad.min.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/clickoutside.directive.js"></script>
+<script type="text/javascript" src="/res/js/wheelzoom-feng.js"></script>
+<script type="text/javascript" src="/res/js/common.js"></script>
+
+<script src="/res/js/wangEditor/wangEditor.min.js"></script>
+<script src="../view/liftReport/statement/dailyMaintenance/angular-animate.min.js"></script>
+<script src="../view/liftReport/statement/dailyMaintenance/angular-aria.min.js"></script>
+<script src="../view/liftReport/statement/dailyMaintenance/angular-sanitize.min.js"></script>
+<script src="../view/liftReport/statement/dailyMaintenance/angular-material.min.js"></script>
+<script src="../view/liftReport/statement/dailyMaintenance/angular-material-calendar.js"></script>
+<!--视频播放  -->
+<script type="text/javascript" src="/view/playVedio/swfobject.js"></script>
+<script>
+    var app = angular.module("angularApp", ['ui.router', 'ui.bootstrap', 'oc.lazyLoad', 'angular-click-outside', "ngMaterial", "materialCalendar"]);
+</script>
+<!-- <script type="text/javascript" src="/js/filter.js"></script>
+<script type="text/javascript" src="/js/router.config.js"></script>
+<script type="text/javascript" src="/js/controller.js"></script>
+<script type="text/javascript" src="/view/mainController.js"></script>
+<script type="text/javascript" src="/js/directive.js"></script>
+<script type="text/javascript" src="/js/customComponent.js"></script> -->
+<script>document.write("<script type='text/javascript' src='/js/filter.js?t=" + Date.now() + "'><\/script>");</script>
+<script>document.write("<script type='text/javascript' src='/js/router.config.js?t=" + Date.now() + "'><\/script>");</script>
+    <script>document.write("<script type='text/javascript' src='/js/controller.js?t=" + Date.now() + "'><\/script>");</script>
+    <!-- <script type="text/javascript" src="/view/mainController.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/view/mainController.js?t=" + Date.now() + "'><\/script>");</script>
+    <!-- <script type="text/javascript" src="/js/directive.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/js/directive.js?t=" + Date.now() + "'><\/script>");</script>
+    <!-- <script type="text/javascript" src="/js/customComponent.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/js/customComponent.js?t=" + Date.now() + "'><\/script>");</script>
+
+</html>

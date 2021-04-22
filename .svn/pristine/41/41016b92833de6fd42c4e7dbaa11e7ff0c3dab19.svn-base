@@ -1,0 +1,218 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="cancel()">×</button>
+  <h4 class="modal-title">{{search.isAdd}}签到点</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+  <form name="form" novalidate="">
+    <div class="form-group">
+      <div ng-if="search.flag ||!search.checkPointId">
+        <label class="col-xs-2 control-label required">项目名称：</label>
+        <div class="input-group col-xs-4">
+          <input type="text" readonly class="form-control" required ng-model="search.parkName">
+          <span class="input-group-btn">
+            <button class="btn btn-default" ng-click="findPark(search)">
+              <i class="fa fa-map-marker"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+      <label ng-if="!(search.flag ||!search.checkPointId)" class="control-label ml38">项目名称：{{search.parkName}}</label>
+    </div>
+    <div class="form-group">
+      <div ng-if="search.flag ||!search.checkPointId">
+        <label class="col-xs-2 control-label required">签到点地址：</label>
+        <div class="input-group col-xs-8">
+          <input type="text" class="form-control" maxlength="128" required aria-label="Amount (to the nearest dollar)"
+            ng-model="search.checkInAddress">
+        </div>
+        <!-- <span class="input-group-addon" ng-click="searchPoint()">搜索</span>-->
+      </div>
+      <label ng-if="!(search.flag ||!search.checkPointId)"
+        class="control-label ml38">签到点地址：{{search.checkInAddress}}</label>
+    </div>
+    <div class="form-group AMap-wrapper">
+      <!-- <div id="container" class="col-xs-8 col-xs-offset-2" style="height: 400px;border: 1px solid #ccc"></div>
+      <div id="tip" ng-if="search.flag ||!search.checkPointId">
+        <input type="text" id="map-keyword" name="keyword" required value="请输入关键字：(选定后搜索)" onfocus="this.value=''">
+      </div>
+    </div> -->
+      <div id="map-container" ui-map="myMap" class="col-xs-8 col-xs-offset-2" style="height: 500px;"
+        ui-options="mapOptions" ui-map-cache="noCache" ui-event="{'map-click':'clickMap($event, $params)'}">
+        <div id="tip">
+          <input type="text" id="map-keyword" name="keyword" value="请输入关键字：(选定后搜索)" onfocus='this.value=""' />
+        </div>
+      </div>
+      <div ng-repeat="marker in markers" ui-map-marker="markers[$index]"
+        ui-event="{'map-click':'clickMarker($event,$params,marker)'}">
+      </div>
+    </div>
+
+    <!-- <div class="form-group" style="padding-top: 12px">
+                    <div ng-if="search.flag ||!search.checkPointId">
+                        <label class="col-xs-2 control-label required">经度：</label>
+                        <div class="col-xs-3">
+                            <input type="text" required class="form-control" readonly ng-model="search.mapLng">
+                        </div>
+                        <label ng-if="!(search.flag ||!search.checkPointId)" class="control-label">经度：{{search.mapLng}}</label>
+                    </div>
+                    <div ng-if="search.flag ||!search.checkPointId">
+                        <label class="col-xs-2 control-label required">纬度：</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" required readonly ng-model="search.mapLat">
+                        </div>
+                        <label ng-if="!(search.flag ||!search.checkPointId)" class="control-label">纬度：{{search.mapLat}}</label>
+                    </div>
+        -->
+    <div class="form-group" style="padding-top: 12px">
+      <div ng-if="search.flag ||!search.checkPointId">
+        <label class="col-xs-2 control-label required">签到点名称：</label>
+        <div class="col-xs-3">
+          <input type="text" required class="form-control" ng-model="search.checkInName" placeholder="输入签到点名称">
+        </div>
+        <label ng-if="!(search.flag ||!search.checkPointId)" class="control-label">签到点名称：{{search.checkInName}}</label>
+      </div>
+      <div ng-if="search.flag ||!search.checkPointId">
+        <label class="col-xs-2 control-label required">签到点范围：</label>
+        <div class="col-xs-3">
+          <input type="text" class="form-control" required placeholder="范围>100米" ng-model="search.checkInRange">
+        </div>
+        <em style="font-style: normal;
+          line-height: 34px;">米</em>
+        <label ng-if="!(search.flag ||!search.checkPointId)" class="control-label">签到点范围：{{search.checkInRange}}</label>
+      </div>
+    </div>
+    <div class="form-group" style="padding-top: 12px" ng-if="search.flag ||!search.checkPointId">
+      <label class=" col-md-2 control-label required" style="margin-left: -8px;">是否拍照:</label>
+      <div class="col-xs-8">
+        <label class="radio-inline">
+          <input type="radio" ng-model="search.isNeedProve" value="1" ng-change="showIn()"
+            style="margin-top: 3px !important;">是
+        </label>
+        <label class="radio-inline">
+          <input type="radio" ng-model="search.isNeedProve" value="2" ng-change="showOut()"
+            style="margin-top: 3px !important;">否
+        </label>
+      </div>
+
+    </div>
+    <!-- <div class="form-group">
+                    <div style="overflow: hidden;margin-bottom: 10px">
+                        <label class="col-xs-2 control-label">白班上下班时间：</label>
+                        <div class="pull-left">
+                            <div style="margin-bottom: 10px">
+                                上午：
+                                <input ng-if="search.flag ||!search.checkPointId" type="text" readonly ng-model="search.morningGoworkBegin"
+                                    format="HH:mm:ss" ng-lay-date="" class="form-control" style="width: auto;display: inline-block">
+                                <label class="width100" ng-if="!(search.flag ||!search.checkPointId)">{{search.morningGoworkBegin}}</label>
+                                至：
+                                <input ng-if="search.flag ||!search.checkPointId" type="text" readonly ng-model="search.morningGoworkEnd"
+                                    format="HH:mm:ss" ng-lay-date="" class="form-control" style="width: auto;display: inline-block">
+                                <label class="width100" ng-if="!(search.flag ||!search.checkPointId)">{{search.morningGoworkEnd}}</label>
+                            </div>
+                            <div>
+                                下午：
+                                <input ng-if="search.flag ||!search.checkPointId" type="text" readonly ng-model="search.morningOutworkBegin"
+                                    format="HH:mm:ss" ng-lay-date="" class="form-control" style="width: auto;display: inline-block">
+                                <label class="width100" ng-if="!(search.flag ||!search.checkPointId)">{{search.morningOutworkBegin}}</label>
+                                至：
+                                <input ng-if="search.flag ||!search.checkPointId" type="text" readonly ng-model="search.morningOutworkEnd"
+                                    format="HH:mm:ss" ng-lay-date="" class="form-control" style="width: auto;display: inline-block">
+                                <label class="width100" ng-if="!(search.flag ||!search.checkPointId)">{{search.morningOutworkEnd}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="overflow: hidden;margin-bottom: 10px">
+                        <label class="col-xs-2 control-label">中班上下班时间：</label>
+                        <div class="pull-left">
+                            <div style="margin-bottom: 10px">
+                                上午：
+                                <input ng-if="search.flag ||!search.checkPointId" type="text" readonly ng-model="search.middleGoworkBegin"
+                                    class="form-control" format="HH:mm:ss" ng-lay-date="" style="width: auto;display: inline-block">
+                                <label class="width100" ng-if="!(search.flag ||!search.checkPointId)">{{search.middleGoworkBegin}}</label>
+                                至：
+                                <input ng-if="search.flag ||!search.checkPointId" type="text" readonly ng-model="search.middleGoworkEnd"
+                                    format="HH:mm:ss" ng-lay-date="" class="form-control" style="width: auto;display: inline-block">
+                                <label class="width100" ng-if="!(search.flag ||!search.checkPointId)">{{search.middleGoworkEnd}}</label>
+                            </div>
+                            <div>
+                                下午：
+                                <input ng-if="search.flag ||!search.checkPointId" type="text" readonly ng-model="search.middleOutworkBegin"
+                                    format="HH:mm:ss" ng-lay-date="" class="form-control" style="width: auto;display: inline-block">
+                                <label class="width100" ng-if="!(search.flag ||!search.checkPointId)">{{search.middleOutworkBegin}}</label>
+                                至：
+                                <input ng-if="search.flag ||!search.checkPointId" type="text" readonly ng-model="search.middleOutworkEnd"
+                                    format="HH:mm:ss" ng-lay-date="" class="form-control" style="width: auto;display: inline-block">
+                                <label class="width100" ng-if="!(search.flag ||!search.checkPointId)">{{search.middleOutworkEnd}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="overflow: hidden;margin-bottom: 10px">
+                        <label class="col-xs-2 control-label">晚班上下班时间：</label>
+                        <div class="pull-left">
+                            <div style="margin-bottom: 10px">
+                                上午：
+                                <input ng-if="search.flag ||!search.checkPointId" type="text" readonly ng-model="search.nightGoworkBegin"
+                                    format="HH:mm:ss" ng-lay-date="" class="form-control" style="width: auto;display: inline-block">
+                                <label class="width100" ng-if="!(search.flag ||!search.checkPointId)">{{search.nightGoworkBegin}}</label>
+                                至：
+                                <input ng-if="search.flag ||!search.checkPointId" type="text" readonly ng-model="search.nightGoworkEnd"
+                                    format="HH:mm:ss" ng-lay-date="" class="form-control" style="width: auto;display: inline-block">
+                                <label class="width100" ng-if="!(search.flag ||!search.checkPointId)">{{search.nightGoworkEnd}}</label>
+                            </div>
+                            <div>
+                                下午：
+                                <input ng-if="search.flag ||!search.checkPointId" type="text" readonly ng-model="search.nightOutworkBegin"
+                                    format="HH:mm:ss" ng-lay-date="" class="form-control" style="width: auto;display: inline-block">
+                                <label class="width100" ng-if="!(search.flag ||!search.checkPointId)">{{search.nightOutworkBegin}}</label>
+                                至：
+                                <input ng-if="search.flag ||!search.checkPointId" type="text" readonly ng-model="search.nightOutworkEnd"
+                                    format="HH:mm:ss" ng-lay-date="" class="form-control" style="width: auto;display: inline-block">
+                                <label class="width100" ng-if="!(search.flag ||!search.checkPointId)">{{search.nightOutworkEnd}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+  </form>
+</div>
+<div class="modal-footer" ng-if="search.flag ||!search.checkPointId">
+  <button class="btn btn-primary" ng-click="save(form)">确定</button>
+  <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+  .in {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .ml38 {
+    margin-left: 38px;
+  }
+
+  .width100 {
+    width: 100px;
+  }
+
+  #tip {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    background-color: #ddf;
+    color: #333;
+    border: 1px solid silver;
+    box-shadow: 3px 4px 3px 0px silver;
+    border-radius: 5px;
+    overflow: hidden;
+    line-height: 20px;
+    padding: 0 10px;
+    z-index: 1;
+  }
+
+  #tip input[type="text"] {
+    height: 25px;
+    border: 0;
+    padding-left: 5px;
+    width: 200px;
+    border-radius: 3px;
+    outline: none;
+  }
+</style>

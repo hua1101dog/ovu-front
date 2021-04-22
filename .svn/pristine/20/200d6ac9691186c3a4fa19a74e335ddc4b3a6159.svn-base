@@ -1,0 +1,263 @@
+<div ng-controller="summaryCtrl" id="summary">
+    <div class="page-title" style="height: 45px;
+    line-height: 45px;">
+        <div class="title_left">
+            <h3>签到统计</h3>
+
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>日期</label>
+                <input type="datetime" class="form-control Wdate" id="start" placeholder="输入开始时间"
+                    style="display: inline-block;width: auto" ng-model="search.arrangeDateFrom" onchange=""
+                    onclick="WdatePicker({isShowClear:true,dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'end\',{M:-1})}',maxDate:'#F{$dp.$D(\'end\')}' || '%y-%M-%d'})">
+
+                <span>-</span>
+                <input type="datetime" class="form-control Wdate" placeholder="输入结束时间"
+                    style="display: inline-block;width: auto" ng-model="search.arrangeDateTo" id="end" onchange=""
+                    onclick="WdatePicker({isShowClear:true,dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'start\')}',maxDate:'%y-%M-%d' || '#F{$dp.$D(\'start\',{M:1})}'})">
+
+            </div>
+            <div class="form-group">
+                <label>所在部门</label>
+                <div class="input-group ">
+                    <tree-selector node-list="searchDeptTree_1" host="auth" host-key="'id'" host-text="'deptName'"
+                        callback="selectDeptCall" leaf-only=false tip-text="'请选择部门'"></tree-selector>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>选择人员</label>
+                <select-person host="search.user" dept-id="search.deptId"></select-person>
+            </div>
+            <button class="btn btn-default mt7" ng-click="find(1)" ng-disabled="!search.deptId">查询</button>
+        </div>
+    </div>
+    <div class="x_panel">
+        <p class="detail"><span style="color: red;">说明：</span>
+            <span class="blue piece"></span>
+            <span>未排班</span>&nbsp;&nbsp;&nbsp;
+            <span class="white piece"></span>
+            <span>未开始</span>&nbsp;&nbsp;&nbsp;
+            <span class="green piece"></span>
+            <span>正常</span>&nbsp;&nbsp;&nbsp;
+            <span class="purple piece"></span>
+            <span>异常</span>&nbsp;&nbsp;&nbsp;
+            <span class="red piece"></span>
+            <span>缺勤</span>&nbsp;&nbsp;&nbsp;
+            <span class="gray piece"></span>
+            <span>休息</span></span>&nbsp;&nbsp;&nbsp;
+            <span><i class="fa fa-info-circle" style="color:#f9dd03"></i></span>
+            <span>涉嫌作弊</span>
+        </p>
+    </div>
+    <div class="panel panel-default" style="display: grid;">
+        <div class="panel-heading" style="padding: 5px 15px;">月度考勤汇总列表
+
+            <button class="btn btn-default pull-right btn-primary mt7" ng-click="downloadFile(auth.id)"
+                ng-disabled="!auth.id">导出excel</button>
+        </div>
+        <div class="panel-body" style="overflow:auto;overflow-y: hidden;padding: 15px 15px 0 15px;" id="summaryTab">
+            <table class="table table-bordered">
+                <thead class="title">
+                    <tr>
+                        <th rowspan="2" style="vertical-align:middle">NO</th>
+                        <th rowspan="2" style="vertical-align:middle">姓名</th>
+                        <th rowspan="2" style="vertical-align:middle" ng-if=" !auth.id">部门</th>
+                        <th rowspan="2" style="vertical-align:middle">岗位</th>
+                        <th ng-repeat="w in pageData.dates track by $index">{{w.week}}</th>
+                        <th colspan="6">考勤汇总</th>
+                    </tr>
+                    <tr>
+                        <th ng-repeat="w in pageData.dates track by $index">{{w.nickDay}}</th>
+                        <th>正</th>
+                        <th>缺</th>
+                        <th>异</th>
+                        <th>总</th>
+                        <th>休</th>
+                        <th>日</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+
+                        <td>
+                            <div style="white-space: nowrap;">
+                                {{item.personName}}
+                            </div>
+                        </td>
+                        <td ng-if=" !auth.id">
+                            <div style="white-space: nowrap;">
+                                {{item.deptName}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="white-space: nowrap;">
+                                {{item.postName}}
+                            </div>
+                        </td>
+                        <td style="padding: 0;"
+                            ng-class="{'green':item.plans[w.day].color=='green','blue':item.plans[w.day]==undefined,'gray':item.plans[w.day].color=='gray','red':item.plans[w.day].color=='red',
+                            'white':item.plans[w.day].signStatus=='0','purple':item.plans[w.day].color=='purple','hasField':item.plans[w.day].hasField}"
+                            ng-repeat="w in pageData.dates" style="padding: 0;line-height: 12px;"
+                            class="draw_share_atooltip">
+                            <div style="height: 24px; width: 35px;outline: none;"
+                                ng-click="showModal(item.plans[w.day])"
+                                ng-mouseover="changeShow(item.plans.show,item.plans[w.day].htmlTooltip,$event)"></div>
+                          
+                            </div>
+                            
+                            <div style="position:relative;height: 10px;">
+                            <span class="icon11" ng-if="item.plans[w.day].remarkId "><i class="fa fa-question-circle-o"
+                             uib-tooltip="{{item.plans[w.day].remarkId}}" tooltip-placement="left"></i></span>
+                             </div>
+                             <div style="position:relative">
+                             <span class="icon22" ng-if="item.plans[w.day].punchIn==1"><i class="fa fa-info-circle"></i></span>
+                             </div>
+                         </td>
+                         <td>{{item.normal}}</td>
+                         <td>{{item.absence}}</td>
+                         <td>{{item.unNormal}}</td>
+                         <td>{{item.totalWork}}</td>
+                         <td>{{item.rest}}</td>
+                         <td>{{item.worklogDayCount}}</td>
+                       </tr>
+                        </tbody>
+                       </table>
+                      <div ng-show="plansShow" style="position: fixed;z-index: 6;" ng-bind-html="planHtmlTooltip" ng-style="{top: planHtmlTooltipTop, left:planHtmlTooltipLeft}">
+</div>
+        <div class="page-footer clearfix" style="margin-top: -20px;">
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+</div>
+</div>
+<style>
+    .detail {
+        font-size: 16px;
+    }
+
+    .piece {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+
+        vertical-align: middle
+    }
+
+    .green {
+        background: #00CD00
+    }
+
+    .gray {
+        background: #bbb
+    }
+
+    .purple {
+        background: #b598e4;
+    }
+
+    .white {
+        border: 1px solid #ccc;
+        background: #fff;
+    }
+
+    .red {
+        background: #f77462;
+    }
+
+    .icon11 {
+        position: absolute;
+        right: 0;
+        color: black;
+        /* top: -19px; */
+        font-size: 14px;
+        bottom: 0;
+        line-height: 14px;
+
+    }
+
+    .icon22 {
+        position: absolute;
+        left: 0;
+        color: #f9dd03;
+        font-size: 14px;
+        bottom: 0;
+        line-height: 14px;
+    }
+
+    .blue {
+        background: #3cb3dc;
+    }
+
+    .showRecord {
+        /* display: none; */
+        width: 300px;
+        background: #fff;
+        display: block;
+        color: #333;
+        height: 200px;
+        overflow: auto;
+        padding: 0 0 0 8px;
+    }
+
+    .draw_share_atooltip:hover .showRecord {
+
+        /* width: 300px;
+    background: #fff;
+    display: block;
+    color: #333; */
+        /* height: 100px;
+    overflow: auto; */
+
+
+
+    }
+
+    .record_title {
+        padding: 10px 0px;
+        text-align: center;
+    }
+
+    .record_left {
+        width: 65px;
+    }
+
+    .record_right {
+        width: calc(100% - 70px);
+        vertical-align: text-top;
+
+        text-align: left;
+    }
+
+    .draw_share_atooltip .tooltip-inner {
+        max-width: 400px;
+        padding: 3px 8px;
+        color: #000;
+        text-align: center;
+        background-color: #fff;
+        border-radius: 4px;
+    }
+
+    .draw_share_atooltip .tooltip.top .tooltip-arrow {
+        border-top-color: #ccc;
+    }
+
+    .yellow {
+        background: yellow;
+    }
+
+    .hasField {
+        border: 3px solid red !important
+    }
+
+    #summary .tooltip.in {
+        opacity: 1;
+    }
+</style>

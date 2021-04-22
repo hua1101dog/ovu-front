@@ -1,0 +1,29 @@
+<div class="layui-layer layui-layer-dialog  layer-anim" id="layui-layer2" type="dialog" times="2" showtime="0" contype="string" style="z-index: 19891016; top: 187px; left: 710px;">
+    <div class="layui-layer-content" style="text-align: center;" ng-show="status==0">
+        确定作废当前减免单吗？
+    </div>
+    <div class="layui-layer-content" style="text-align: center;" ng-show="status==1">
+        确定复核当前收款吗？
+    </div>
+    <div class="layui-layer-content" style="text-align: center;" ng-show="status==2">
+        确定作废当前收款吗？
+    </div>
+
+    <div class="layui-layer-content" style="text-align: center;" ng-show="status==3">
+        确定作废当前退款单吗？
+    </div>
+    <div class="layui-layer-content" style="text-align: center;" ng-show="status==4">
+        确定复核当前退款单吗？
+    </div>
+    <div class="layui-layer-content" style="text-align: center;" ng-show="status==5">
+        确定作废当前冲抵吗？
+    </div>
+    <span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close2" href="javascript:;" ng-click="cancel()"></a></span>
+    <div class="layui-layer-btn layui-layer-btn-">
+        <a class="layui-layer-btn0" ng-click="sure()">确定</a>
+        <a class="layui-layer-btn1" ng-click="cancel()">取消</a>
+    </div>
+    <span class="layui-layer-resize"></span>
+</div>
+
+

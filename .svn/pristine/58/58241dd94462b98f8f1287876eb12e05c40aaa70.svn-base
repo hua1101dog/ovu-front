@@ -1,0 +1,91 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">添加日志</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<div>
+			<div class="">
+				<!--  <div class="">									
+					<div><p style="font-family: 'Arial Negreta', 'Arial';font-weight: 700;font-style: normal;font-size: 18px;">总结： 完成工单10条，分派工单10条，报事20条。</p></div>
+				</div>-->
+				<div class="panel panel-default">
+					<div class="panel-heading"><p style="font-family: 'Arial Negreta', 'Arial';font-weight: 700;font-style: normal;color: #73879C;">当日完成工作</p></div>
+					<div class="panel-body">
+						<table class="table" style="margin-top: 10px;">
+						  <thead>
+						    <tr>
+						      <th>工单名称</th>
+						      <th>完成时间</th>
+						      <th>执行人</th>
+						      <th>协助人</th>
+						      <th>管理人</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr>
+						      <td>1期1栋物业费催缴</td>
+						      <td>2017-05-19</td>
+						      <td>张三</td>
+						      <td>李四，王五，赵六</td>
+						      <td>刘姮</td>
+						    </tr>
+						    <tr>
+						      <td>1期1栋物业费催缴</td>
+						      <td>2017-05-19</td>
+						      <td>张三</td>
+						      <td>李四，王五，赵六</td>
+						      <td>刘姮</td>
+						    </tr>
+						    <tr>
+						      <td>1期1栋物业费催缴</td>
+						      <td>2017-05-19</td>
+						      <td>张三</td>
+						      <td>李四，王五，赵六</td>
+						      <td>刘姮</td>
+						    </tr>
+						    <tr>
+						      <td>1期1栋物业费催缴</td>
+						      <td>2017-05-19</td>
+						      <td>张三</td>
+						      <td>李四，王五，赵六</td>
+						      <td>刘姮</td>
+						    </tr>
+						  </tbody>
+						</table>
+					</div>
+				</div>
+				<div>
+					<div>
+						<h4>日志:</h4>
+					</div>
+					<div>
+						<!--style给定宽度可以影响编辑器的最终宽度-->
+						<script type="text/plain" id="myEditor" style="height:240px;"></script>
+						<div class="clear"></div>
+					</div>
+					
+				</div>
+				<div>
+					<div style="margin-top: 20px;"><p style="font-family: 'Arial Negreta', 'Arial';font-weight: 700;font-style: normal;
+    color: #990000;">注：员工在日志记录里面，需要添加待办事项和日结事项。</p></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" style="background: #169F85;color: #fff;" ng-click="getPlainTxt()">提交</button>
+			<button class="btn btn-warning" ng-click="cancel()" style="background:#f0ad4e;color: #fff;">取消</button>
+		</div>
+		<script type="text/javascript">
+			 //实例化编辑器
+		    var um = UM.getEditor('myEditor',{
+		    	  initialFrameWidth:'100%'
+		    });
+			um.addListener('blur', function() {
+				$('#focush2').html('编辑器失去焦点了')
+			});
+			um.addListener('focus', function() {
+				$('#focush2').html('')
+			});
+		</script>
+	

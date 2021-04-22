@@ -1,0 +1,111 @@
+<div class="map-container" map-full-page id="map-gaode">
+    高德地图
+</div>
+<div class="bar-container" ng-class="{'dispatch':$ctrl.isDispatch}" ng-if="$ctrl.showBottomBar">
+    <div class="panel panel-default map-bottom">
+        <div class="panel-body">
+            <div class="pull-left col-xs-2 bar-title">
+                <div ng-if="!$ctrl.isDispatch">
+                    <label class="checkbox-inline border-right">
+                    选择设备分类:
+                    </label>
+                </div>
+                <div ng-if="$ctrl.isDispatch">
+                    <label class="checkbox-inline border-right" style="top: 20px;">
+                        <span>在线人员:</span>
+                        <span class="green-color">{{$ctrl.totalNum}}</span>
+                    </label>
+                </div>
+            </div>
+            <div class="pull-right col-xs-10 bar-title">
+                <div ng-if="!$ctrl.isDispatch">
+                    <label class="checkbox-inline border-right col-md-2 col-sm-3 filter-label" ng-repeat="item in $ctrl.equipCatoryList">
+                        <i role="button" ng-click="$ctrl.checkOne(item)"
+                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                            class="glyphicon"></i>
+                        <span class="green-color">{{item.text}}</span> 
+                    </label>
+                </div>
+                <div ng-if="$ctrl.isDispatch">
+                    <label class="checkbox-inline col-md-3 col-sm-6 filter-label" ng-repeat="item in $ctrl.equipCatoryList">
+                        <i role="button" ng-click="$ctrl.checkOne(item)"
+                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                            class="glyphicon"></i>
+                        <i class="icon iconfont {{item.icon}} {{item.color}}"></i>
+                        <span class="green-color">{{item.text}}</span> 
+                        <!-- <span class="span-color" ng-if="$ctrl.isDispatch">{{item.num}}</span>  -->
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #map-gaode {
+        /* 全屏调整 */
+        /*min-height: 596px;*/
+        height: 100%;
+    }
+    
+    .map-bottom {
+        width: 100%;
+        position: absolute;
+        bottom: 0px;
+        margin-bottom: 0;
+        z-index: 1000;
+        background: #565A64;
+        color: #FFF;
+    }
+    
+    .filter-label {
+        margin-left: 10px;
+    }
+    
+    .green-color {
+        color: #18FF00;
+    }
+    
+    .bar-container.dispatch {
+        width: 55%;
+        position: relative;
+        right: -45%;
+    }
+    
+    .bar-title {
+        margin: -15px;
+        padding: 5px;
+    }
+
+    .icon-color-yellow {
+        color: #ecec00;
+    }
+    .icon-color-green {
+        color: #37CF82;
+    }
+    .icon-color-purple {
+        color: #9724cf;
+    }
+    .icon-color-blue {
+        color: #2A60FF;
+    }
+    .icon-color-pink {
+        color: #f964b8;
+    }
+
+    .icon-sign_stewards {
+        color: #ecec00;
+    }
+    .icon-sign_cleanness {
+        color: #37CF82;
+    }
+    .icon-sign_engineering {
+        color: #9724cf;
+    }
+    .icon-sign_order {
+        color: #2A60FF;
+    }
+    .icon-sign_service {
+        color: #f964b8;
+    }
+
+</style>

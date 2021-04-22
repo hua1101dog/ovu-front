@@ -1,0 +1,170 @@
+<!-- 复用 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="panel panel-default">
+            <div class="panel-body" style="padding: 0px;">
+                <div class="panel-body" style="max-height: 700px;overflow: auto;">
+                        <div class="panel panel-default">
+                                <input type="text" class="form-control" style="width: 120px;margin: 10px auto;" ng-model="item.text">
+                    <div class="panel-heading" style="height: 45px;">
+                        <button class="btn btn-primary pull-left" ng-click="selectSubject(1)">增加题目</button>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="row detail" ng-repeat="item in pageModel"
+                                style="width: 80%;margin-left: 50px;">
+                                <div>
+                                    <div class="form-group" style="padding-top: 1px">
+                                        <div class="col-xs-10">
+                                            <span class="tihao">Q{{$index+1}}.[{{item.typeName}}]</span>
+                                            <span style="white-space:normal; word-break:break-all;"> {{item.question}} </span>
+                                            <span ng-if="item.type==1">({{score1}}分)</span>
+                                            <span ng-if="item.type==2">({{score2}}分)</span>
+                                            <span ng-if="item.type==3">({{score3}}分)</span>
+                                            <span ng-if="item.type==4">({{score4}}分)</span>
+                                            <!-- <span ng-if="item.type==5">({{item.paperScore}}分)</span> -->
+                                            <input type="text" style="width: 70px;height: 20px;"
+                                                ng-model="item.paperScore" ng-blur="getScore5(item.paperScore)" placeholder="输入分数"
+                                                ng-if="item.type==5">
+
+                                        </div>
+                                        <!-- <div class="col-xs-1"><span class="leibie">{{detail.type|keyToValue:subjectTypeDict}}</span></div> -->
+
+                                        <div class="col-xs-2" style="text-align: right">
+                                            <i role="button" ng-hide="$index==0" ng-click="sort($index-1,$index)"
+                                                class="glyphicon glyphicon-upload" style="font-size: 25px"></i>
+                                            <i role="button" ng-hide="$index==(pageModel.length-1)"
+                                                ng-click="sort($index,$index+1)" class="glyphicon glyphicon-download"
+                                                style="font-size: 25px"></i>
+                                        </div>
+                                    </div>
+                                    <!-- 单选题 -->
+                                    <div class="form-group" ng-if="item.type==1">
+                                        <label class="col-xs-2 control-label">选项：</label>
+                                        <div class="col-xs-8 pt7">
+                                            <div ng-repeat="o in item.optionDetail" style="margin-right: 10px">
+                                                <input type="radio"
+                                                    disabled="disabled" style="word-break: break-all;"/>{{o.option}}.&nbsp;<span style="white-space:normal; word-break:break-all;">{{o.optionContent}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 多选题 -->
+                                    <div class="form-group" ng-if="item.type==2">
+                                        <label class="col-xs-2 control-label">选项：</label>
+                                        <div class="col-xs-8 pt7">
+                                            <div ng-repeat="o in item.optionDetail|orderBy:'option'"
+                                                style="margin-right: 10px">
+                                                <input type="checkbox"
+                                                    disabled="disabled" style="word-break: break-all;"/>{{o.option}}.&nbsp;<span style="white-space:normal; word-break:break-all;">{{o.optionContent}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 判断题 -->
+                                    <div class="form-group" ng-if="item.type==3">
+                                        <label class="col-xs-2 control-label">选项：</label>
+                                        <div class="col-xs-8 pt7">
+                                            <input type="radio" disabled="disabled" />正确
+                                            <span style="margin-right: 10px"></span>
+                                            <input type="radio" disabled="disabled" />错误
+                                        </div>
+                                    </div>
+                                    <!-- 问答题 -->
+                                    <div class="form-group" ng-if="item.type==5">
+                                        <label class="col-xs-2 control-label">作答：</label>
+                                        <div class="col-xs-8">
+                                            <textarea class="form-control" rows="3" readonly>答：</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2 control-label">答案：</label>
+                                        <div class="col-xs-8 pt7" style="font-family: monospace;color:red">
+                                                <div ng-if="item.type==3" style="word-break: break-all;">
+                                                        {{item.answer=='A'?'正确':'错误'}}
+                                                </div>
+                                                <div ng-if="item.type!=3 && item.type!=2" style="word-break: break-all;">
+                                                        {{item.answer.split('$').join(',')}}
+                                                </div>
+                                            
+                                                <div ng-if="item.type==2" style="word-break: break-all;">
+                                                        {{item.answer.split('$').join(',')}}
+                                                </div>
+                                                    
+                                            
+                                        </div>
+                                    </div>
+                                    <div><span class="pull-right" style="margin-right: 5px">
+                                            <a class="btn-link" href='javascript:void(0)' ng-click='del(item)'>删除</a>
+                                        </span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                <div class="panel-body">
+                    <table class="table table-bordered" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>题目类型</th>
+                                <th>单选题</th>
+                                <th>多选题</th>
+                                <th>判断题</th>
+                                <th>填空题</th>
+                                <th>问答题</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">题数</td>
+                                <td class="text-center"><input type="text" ng-model="count1" style="width:35px;"
+                                    ng-change="changeScore(count1)" ng-pattern="/^[0-9]\d*$/" disabled /></td>
+                                <td class="text-center"><input type="text" ng-model="count2" style="width:35px;"
+                                    ng-change="changeScore(count2)" ng-pattern="/^[0-9]\d*$/" disabled /></td>
+                                <td class="text-center"><input type="text" ng-model="count3" style="width:35px;"
+                                    ng-change="changeScore(count3)" ng-pattern="/^[0-9]\d*$/" disabled /></td>
+                                <td class="text-center"><input type="text" ng-model="count4" style="width:35px;"
+                                    ng-change="changeScore(count4)" ng-pattern="/^[0-9]\d*$/" disabled /></td>
+                                <td class="text-center"><input type="text" ng-model="count5" style="width:35px;"
+                                    ng-change="changeScore(count5)" ng-pattern="/^[0-9]\d*$/" disabled /></td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-center">分值</td>
+                                <td class="text-center"><input type="text" ng-model="score1" style="width:35px;"
+                                    ng-change="changeScore(score1)" ng-disabled="count1==0"/></td>
+                                <td class="text-center"><input type="text" ng-model="score2" style="width:35px;"
+                                    ng-change="changeScore(score2)" ng-disabled="count2==0"/></td>
+                                <td class="text-center"><input type="text" ng-model="score3" style="width:35px;"
+                                    ng-change="changeScore(score3)" ng-disabled="count3==0"/></td>
+                                <td class="text-center"><input type="text" ng-model="score4" style="width:35px;"
+                                    ng-change="changeScore(score4)" ng-disabled="count4==0"/></td>
+                                <td class="text-center">
+                                   
+                                        <div id="question" ng-show="isCompileFn"></div>
+                                        <div ng-show="!isCompileFn">
+                                           {{numscore.score.score5}}
+                                        </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="panel-body" style="background-color: yellow;">
+                        <div style="float: left;">当前已选中:<span>{{totalNum}}</span>道题
+                            共<span>{{totalScore}}</span>分</div>
+                        <div style="float: left;margin-left: 10px;">总分:<span>{{totalScore}}</span>分</div>
+                        <div style="float: left;margin-left: 10px;">及格分：<input type="text"
+                                style="width: 50px;height: 20px;" ng-model="item.passGrade"></div>
+                        <button style="float: right;margin: 0 20px;" ng-click="cancel()">取消</button>
+                        <button style="float: right;" ng-click="savePaper(item)">生成试卷</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</form>
+</div>

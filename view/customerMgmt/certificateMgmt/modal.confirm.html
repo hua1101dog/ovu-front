@@ -1,0 +1,100 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">审核企业信息</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" 
+	style="margin-left: 10px;margin-right: 10px;height:600px;overflow:scroll">
+	<form name="form" novalidate>
+		<div class="form-group">
+			<div class="col-md-4" align="right"><span>企业名称：</span></div>
+			<div class="col-md-7"><span>{{item.companyBo.companyName}}</span></div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-4" align="right"><span>法人代表：</span></div>
+			<div class="col-md-7"><span>{{item.companyBo.corporateRepresentative}}</span></div>
+		</div>
+		<div class="form-group">
+            <div class="col-md-4" align="right"><span>组织机构代码：</span></div>
+            <div class="col-md-7"><span>{{item.companyBo.orgCode}}</span></div>
+        </div>
+		<div class="form-group">
+            <div class="col-md-4" align="right"><span>注册地址：</span></div>
+            <div class="col-md-7"><span>{{item.companyBo.corporateRegAddr}}</span></div>
+        </div>
+		<div class="form-group">
+            <div class="col-md-4" align="right"><span>办公地址：</span></div>
+            <div class="col-md-7"><span>{{item.companyBo.runAddr}}</span></div>
+        </div>
+		<div class="form-group">
+			<div class="col-md-4" align="right"><span>注册资本：</span></div>
+			<div class="col-md-7"><span>{{item.companyBo.regCapital}}</span>
+			     <span ng-if="item.companyBo.moneyType == 1">万元</span>
+                 <span ng-if="item.companyBo.moneyType == 2">美元</span>
+			</div>
+		</div>
+		<div class="form-group">
+            <div class="col-md-4" align="right"><span>注册时间：</span></div>
+            <div class="col-md-7"><span>{{item.companyBo.corporateRegTime}}</span></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4" align="right"><span>企业规模：</span></div>
+            <div class="col-md-7">
+                <span>{{item.companyBo.enterpriseSizeCode|convertCompanySize}}</span>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-md-4" align="right"><span>企业类型：</span></div>
+            <div class="col-md-7">
+                <span>{{item.companyBo.enterpriseNatureCode |convertCompanyNature}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4" align="right"><span>联系人：</span></div>
+            <div class="col-md-7"><span>{{item.companyBo.linkman}}</span></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4" align="right"><span>联系电话：</span></div>
+            <div class="col-md-7"><span>{{item.companyBo.mobile}}</span></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4" align="right"><span>营业执照(副本)：</span></div>
+            <div class="col-md-7">
+                <div class="photoWraper" ng-repeat="p in businessLicenseImg track by $index">
+                    <img onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(p)}}" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4" align="right"><span>税务登记证(副本)：</span></div>
+            <div class="col-md-7">
+                <div class="photoWraper" ng-repeat="p in taxRegCertificateImg track by $index">
+                    <img onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(p)}}" />
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <label class="col-md-4 control-label">审核：</label>
+            <div class="col-md-7">
+                <label class="radio-inline">
+                    <input type="radio" name="confirm-status" ng-value="1" ng-model="item.confirmStatus"> 通过
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="confirm-status" ng-value="2" ng-model="item.confirmStatus"> 不通过
+                </label>
+            </div>
+        </div>
+        <div class="form-group" >
+            <label class="col-md-4 control-label">审核意见：</label>
+            <div class="col-md-7"><textarea rows="4" cols="50" ng-model="item.confirmOpinion"></textarea></div>
+        </div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="confirmCompany(item)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

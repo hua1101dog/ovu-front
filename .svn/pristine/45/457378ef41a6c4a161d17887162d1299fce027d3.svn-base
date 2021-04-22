@@ -1,0 +1,54 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()">×</button>
+    <h4 class="modal-title">报表详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <table class="table table-hover text-left" id="checkTable">
+        <thead>
+        <tr align="center">
+            <th class="text-center" style="vertical-align: middle" rowspan="2">NO</th>
+            <th  style="vertical-align: middle" rowspan="2">员工姓名</th>
+            <th  style="vertical-align: middle" rowspan="2">岗位</th>
+            <th class="text-center" colspan="4">应急工单</th>
+            <th class="text-center" colspan="2">计划工单</th>
+        </tr>
+        <tr align="center">
+            <th >报事量</th>
+            <th >执行量</th>
+            <!-- <th >总量</th> -->
+            <th >异常量</th>
+            <th >完成率</th>
+            <!-- <th >总量</th> -->
+            <th >已评价</th>
+            <th >完成率</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-if="report.reportContent.personWorkunitStatics.length == 0">
+            <td colspan="100" >暂无记录</td>
+        </tr>
+        <tr ng-repeat="item in report.reportContent.personWorkunitStatics">
+            <td >{{$index +1}} </td>
+            <td>{{item.person.name}}</td>
+            <td>{{item.person.deptName}}-{{item.person.postName}}</td>
+            <!-- <td>{{item.reportEmerNum}}</td> -->
+            <td >{{item.reportEmerNum}}</td>
+            <td >{{item.execEmerNum}}</td>
+            <td  title="{{'总量：'+item.totalEmerNum}}">
+                <span ng-class="{'btn-link':item.abnormalWorkunitsNum}" ng-click="abnormalList(item,$index)">{{item.abnormalWorkunitsNum}}</span></td>
+            <td >{{item.regularRate}}%</td>
+            <!-- <td >{{item.planTotalNum}}</td> -->
+            <td >{{item.evaluatedPlanNum}}</td>
+            <td >{{item.planFinishRate}}%</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<style>
+    table tr th,
+      table tr td {
+          text-align: center;
+      }
+  </style>
+
+

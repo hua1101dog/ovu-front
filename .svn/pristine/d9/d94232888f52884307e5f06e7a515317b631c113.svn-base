@@ -1,0 +1,48 @@
+<div class="modal-header" style="border:0px">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+        ×
+    </button>
+    <h4 class="modal-title">空间入驻详情</h4>
+</div>
+<!--map.put("name", user.getNickname());//名称
+map.put("industryCodeName", "无");//工商分类
+map.put("enterpriseNatureCode", "无");//企业类型
+map.put("regCapital", "");//注册资本
+map.put("operationStatus", "无");//经营状态
+map.put("contact", user.getNickname());//联系人
+map.put("phone", user.getPhone());//联系电话
+map.put("enterTime", user.getEntryTime());//todo 入驻时间-->
+<div class="modal-body container-fluid form-horizontal" style="margin-bottom:20px">
+    <table class="table" style="margin-top: 10px;color:#999999;">
+        <thead class="title">
+        <tr class="text-center">
+            <th class="text-center">NO</th>
+            <th>企业名称</th>
+            <th>工商分类</th>
+            <th>企业类型</th>
+            <th>注册资本</th>
+            <th>经营状态</th>
+            <th>联系人</th>
+            <th>联系电话</th>
+            <th>入驻时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-if="items.length == 0">
+            <td colspan="100" class="text-center">暂无记录</td>
+        </tr>
+        <tr ng-repeat="item in result.data" style="color:#333333;">
+            <td class="text-center">{{$index + 1}}</td>
+            <td class="">{{item.name}}</td>
+            <td class="">{{item.industryCodeName}}</td>
+            <td class="">{{item.enterpriseNatureCode}}</td>
+            <td class="">{{item.regCapital}}</td>
+            <td class="">{{item.operationStatus|operateStatus}}</td>
+            <td class="">{{item.contact}}</td>
+            <td class="">{{item.phone}}</td>
+            <td class="">{{item.enterTime}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

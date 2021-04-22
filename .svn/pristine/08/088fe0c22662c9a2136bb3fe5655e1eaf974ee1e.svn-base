@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>素材管理</title>
+    <link rel="stylesheet" href="operationManage/releaseManage/releaseIndex.css" />
+</head>
+
+<body>
+    <div id="angularId">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>素材管理</h3>
+            </div>
+        </div>
+        <div class="row" id="bookingBox">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <ul class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#graphicInfoRom" id="tab0" role="tab" data-toggle="tab" aria-expanded="true">图文消息</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#meetingRom" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">视频</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#position" id="tab2" role="tab" data-toggle="tab" aria-expanded="false">音频</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="bookingManage">
+                        <!-- 图文消息 star -->
+                        <div role="tabpanel" class="tab-pane fade active in" id="graphicInfoRom" ng-controller="propagandaFiles0Ctl">
+
+                            <div class="form-inline marT_15">
+                                <div class="form-group">
+                                    <label style="margin-left: 6px;">更新日期：</label>
+                                    <input type="text" class="form-control Wdate" id="search_date01" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                                    至
+                                    <input type="text" class="form-control Wdate" id="search_date02" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'search_date01\');}'})">
+                                </div>
+                                <button class="btn btn-default pull-right btn_search" ng-click="find()">查询</button>
+                                <button class="btn btn-default pull-right btn_search" ng-click="showNews()">新增</button>
+                            </div>
+                            <table class="table text-center">
+                                <thead>
+                                <tr>
+                                    <th width="5%">序号</th>
+                                    <th width="40%" >标题</th>
+                                    <th width="15%">更新人</th>
+                                    <th width="20%">更新时间</th>
+                                    <th width="20%">操作</th>
+                                </tr>
+                                <tr class="hide">
+                                    <th colspan="7">
+                                        <div class="alert" role="alert">加载中...</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr ng-repeat="x in pageModel.data">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{x.title | limitTo:20}}{{x.title.length>20?'...':''}}</td>
+                                    <td>{{x.updaterName}}</td>
+                                    <td>{{x.updatetime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td>
+                                        <a href="/ovu-park/backStage/propagandaFiles/download?strID={{x.id}}" target="_blank" class="btn btn-xs">二维码</a>
+                                        <a href="/view/propaganda/propagandaFiles/pageview.html?id={{x.id}}" target="_blank" class="btn btn-xs">详情</a>
+                                        <a href="javascript:void(0)" ng-click="showNews(x)" class="btn btn-xs">修改</a>
+                                        <a href="javascript:void(0)" ng-click="del(x)" class="btn btn-xs">删除</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <ng-include src="'/common/pager.html'"></ng-include>
+                        </div>
+                        <!-- 图文消息 end -->
+
+                        <!-- 视频 star -->
+                        <div role="tabpanel" class="tab-pane fade" id="meetingRom" ng-controller="propagandaFiles1Ctl">
+
+                            <div class="form-inline marT_15">
+                                <div class="form-group">
+                                    <label style="margin-left: 6px;">更新日期：</label>
+                                    <input type="text" class="form-control Wdate" id="search_date1" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                                    至
+                                    <input type="text" class="form-control Wdate" id="search_date2" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'search_date1\');}'})">
+                                </div>
+                                <button class="btn btn-default pull-right btn_search" ng-click="find()">查询</button>
+                                <button class="btn btn-default pull-right btn_search" ng-click="addNewFile()">新增</button>
+                            </div>
+                            <table class="table text-center">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>名称</th>
+                                        <th>创建人</th>
+                                        <th>更新时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    <tr class="hide">
+                                        <th colspan="7">
+                                            <div class="alert" role="alert">加载中...</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="x in pageModel.data">
+                                        <td>{{$index+1}}</td>
+                                        <td>{{x.title}}</td>
+                                        <td>{{x.createrName}}</td>
+                                        <td>{{x.createtime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>
+                                            <a href="/view/propaganda/propagandaFiles/video.html?path={{x.address2}}" target="_blank" class="btn btn-xs">详情</a>
+                                            <a href="javascript:void(0)" ng-click="addNewFile(x)" class="btn btn-xs">修改</a>
+                                            <a href="javascript:void(0)" ng-click="del(x)" class="btn btn-xs">删除</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ng-include src="'/common/pager.html'"></ng-include>
+                        </div>
+                        <!-- 视频 end -->
+
+                        <!-- 语音 star -->
+                        <div role="tabpanel" class="tab-pane fade" id="position" ng-controller="propagandaFiles2Ctl">
+                            <div class="form-inline marT_15">
+                                <div class="form-group">
+                                    <label style="margin-left: 6px;">更新日期：</label>
+                                    <input type="text" class="form-control Wdate" id="search_date3" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                                    至
+                                    <input type="text" class="form-control Wdate" id="search_date4" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'search_date3\');}'})">
+                                </div>
+                                <button class="btn btn-default pull-right btn_search" ng-click="find()">查询</button>
+                                <button class="btn btn-default pull-right btn_search" ng-click="addNewFile()">新增</button>
+                            </div>
+
+                            <table class="table text-center">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>名称</th>
+                                        <th>创建人</th>
+                                        <th>更新时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    <tr class="hide">
+                                        <th colspan="7">
+                                            <div class="alert" role="alert">加载中...</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="x in pageModel.data">
+                                        <td>{{$index+1}}</td>
+                                        <td>{{x.title}}</td>
+                                        <td>{{x.createrName}}</td>
+                                        <td>{{x.createtime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>
+                                            <a href="/view/propaganda/propagandaFiles/audio.html?path={{x.address}}" target="_blank" class="btn btn-xs">详情</a>
+                                            <a href="javascript:void(0)" ng-click="addNewFile(x)" class="btn btn-xs">修改</a>
+                                            <a href="javascript:void(0)" ng-click="del(x)" class="btn btn-xs">删除</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ng-include src="'/common/pager.html'"></ng-include>
+                        </div>
+                        <!-- 语音  end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 模态框组件 start -->
+    <div id="modalLoading" class="modal fade bs-example-modal-sm" style="margin-top: 200px;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <label>
+                        <i class="fa fa-spinner"></i>数据加载中，请稍候。。。</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

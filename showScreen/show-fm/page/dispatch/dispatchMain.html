@@ -1,0 +1,184 @@
+<div class="">
+    <!--<div class="panel panel-default left-table">
+        <table class="table  table-bordered">
+            <thead class="title">
+                <tr>
+                    <th>时间段</th>
+                    <th>事件描述</th>
+                    <th>部门</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in vm.patrolMatterList" ng-class="{green: (item.isGreen)}">
+                    <td>{{::item.patrolDate}}</td>
+                    <td>{{::item.patrolThing}}</td>
+                    <td>{{::item.patrolDept}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>-->
+    <!-- <div class="panel panel-default map-right">
+        <div class="panel-body">
+            <label class="checkbox-inline border-right">
+                总人数
+                <span class="span-color">51</span>
+            </label>
+            <label class="checkbox-inline border-right">
+                <i role="button" ng-click="checked = !checked"
+                   ng-class="{'glyphicon-check':checked,'glyphicon-unchecked':!checked}"
+                   class="glyphicon"></i>
+                 管家  <span class="span-color">51</span>
+            </label>
+            <label class="checkbox-inline border-right">
+                <i role="button" ng-click="checked = !checked"
+                      ng-class="{'glyphicon-check':checked,'glyphicon-unchecked':!checked}"
+                      class="glyphicon"></i> 保洁  <span class="span-color">51</span>
+            </label>
+            <label class="checkbox-inline border-right">
+                <i role="button" ng-click="checked = !checked"
+                   ng-class="{'glyphicon-check':checked,'glyphicon-unchecked':!checked}"
+                   class="glyphicon"></i>  <span class="span-color">51</span>
+            </label>
+            <label class="checkbox-inline border-right">
+                <i role="button" ng-click="checked = !checked"
+                   ng-class="{'glyphicon-check':checked,'glyphicon-unchecked':!checked}"
+                   class="glyphicon"></i>  <span class="span-color">51</span>
+            </label>
+            <label class="checkbox-inline">
+                <i role="button" ng-click="checked = !checked"
+                   ng-class="{'glyphicon-check':checked,'glyphicon-unchecked':!checked}"
+                   class="glyphicon"></i>  <span class="span-color">51</span>
+            </label>
+        </div>
+    </div> -->
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="">
+            <div class="col-lg-12 col-sm-12 b-b b-2x " >
+                <h4 class="font-bold">设备报修列表(总数:{{vm.workList.length || 0}}条)</h4>
+                    <div class="">
+                        <table class="table">
+                            <thead class="title">
+                            <tr>
+                                <th>工单名称</th>
+                                <th>创建时间</th>
+                                <th>工单状态</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--  <tr ng-if="!vm.list.length">
+                            <td>暂无防盗报警</td>
+                        </tr>-->
+                            <tr ng-repeat="item in vm.workList | limitTo : vm.numW">
+                                <td>{{item.WORKUNIT_NAME}}</td>
+                                <td>{{item.REL_TIME}}</td>
+                                <!--<td>{{item.SOURCE}}</td>-->
+                                <td>{{item.UNIT_STATUS|keyToValue:vm.statusList}}</td>
+                            </tr>
+                            <tr ng-if=" vm.workList.length>=4">
+                                    <td colspan="3">
+                                            <a  class="more" ng-click="vm.getmoreW()">{{vm.infoW}}</a>
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">设备传感器异常列表(总数:{{vm.sensorList.length || 0}}条)</h4>
+                <table class="table">
+                    <thead class="title">
+                        <tr>
+                            <th>设备名称</th>
+                            <th>监测参数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr ng-repeat="item in vm.sensorList | limitTo : vm.nums"
+                            ng-class="{myactive : vm.checked==item.id}"
+                            ng-click="vm.checkOne(item.id)">
+                            <td>{{item.name}}</td>
+                            <td>{{item.val}}</td>
+                        </tr>
+                        <tr ng-if=" vm.sensorList.length>=4">
+                                <td colspan="2">
+                                        <a  class="more" ng-click="vm.getmores()">{{vm.infos}}</a>
+                                    </td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">设备房运行监测列表(总数:{{vm.EquipmentRoomList.length || 0}}条)</h4>
+                <table class="table">
+                    <thead class="title">
+                        <tr>
+                            <th>设备名称</th>
+                            <th>监测参数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr ng-repeat="item in vm.EquipmentRoomList | limitTo : vm.num"
+                            ng-class="{myactive : vm.checked==item.id}"
+                            ng-click="vm.checkOne(item.id)">
+                            <td>{{item.name}}</td>
+                            <td>{{item.val}}</td>
+                        </tr>
+                        <tr ng-if="vm.EquipmentRoomList.length>=4">
+                            <td colspan="2">
+                                <a  class="more" ng-click="vm.getmore()">{{vm.info}}</a>
+                              </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </big-screen>
+</div>
+</div>
+<style>
+    .left-table {
+        position: absolute;
+        left: 5px;
+        bottom: 0px;
+        z-index: 300;
+    }
+
+    .map-right {
+        position: absolute;
+        right: 360px;
+        bottom: 0px;
+        z-index: 300;
+        background: #565A64;
+        color: #fff;
+        font-size: 14px;
+    }
+
+    .border-right {
+        border-right: 1px solid #6E7075;
+        padding: 5px 10px 5px 15px;
+    }
+
+    .span-color {
+        color: #18FF00;
+    }
+    .more{
+        text-align: center;
+        color: #2A60FF;
+        display: inline-block;
+        height: 30px;
+        width: 100%;
+        cursor: pointer;
+        font-size: 14px;
+        padding-top: 20px;
+
+    }
+
+    .myactive{
+        color: #18FF00;
+    }
+</style>

@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">新增项目</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="x_content">
+        <form name="form" novalidate>
+
+            <div class="form-group row">
+                <label class="col-xs-3 control-label required">项目区域：</label>
+                <div class="col-xs-7 ">
+                    <select class="form-control" ng-model="item.stageId" required ng-change="changeStage(item.stageId)">
+                        <option value="">--请选择--</option>
+                        <option value="{{x.stageId}}" ng-repeat="x in stageList">{{x.stageName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-xs-3 control-label required">项目编号：</label>
+                <div class="col-xs-7 " style="line-height: 35px;">{{item.code}}</div>
+            </div>
+            <div class="form-group row">
+                <label class="col-xs-3 control-label required">项目时间：</label>
+                <div class="col-xs-7 " style="line-height: 35px;">
+                    {{createTime}}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-xs-3 control-label required">总计租面积：</label>
+                <div class="col-xs-7 ">
+                    <input ng-model="item.plannedRentalArea" type="number" class="form-control" required 
+                    ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999999999.99"
+                    style="width: 150px;display:inline-block; margin-right: 5px;">m
+                    <sup>2</sup>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-xs-3 control-label required">计划年租金：</label>
+                <div class="col-xs-7 ">
+                    <input ng-model="item.plannedAnnualRent" type="number" class="form-control" required  
+                    ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"   max="999999999999999.99"
+                    style="width: 150px;display:inline-block; margin-right: 5px;">万元
+                </div>
+            </div>
+    </div>
+    </form>
+</div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary saveParkSteward" ng-click="save(form)">保存</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

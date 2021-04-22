@@ -1,0 +1,89 @@
+<div class="" ng-controller="advertisingMainCtrl as vm">
+    <big-screen gaode-data="vm.gaodeData0" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="col-lg-12 col-sm-12 b-b b-2x text-center">
+            <button class="btn btn-title font-bold">{{vm.title}}</button>
+        </div>
+        <!--企业服务中心》广告位-->
+        <div>
+            <div class="col-lg-12 col-sm-12 b-b b-2x" ng-show="vm.show.indexOf('1') != -1">
+                <h4 class="font-bold">广告位信息</h4>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3>{{vm.ad.adNum}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">广告位总数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center ">
+                    <h3 class="yellow">{{vm.ad.totalIncome || 256}}<span class="text-xs">万</span>
+                    </h3>
+                    <span class="spantext">总收入</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b-lg">
+                    <h3 class="blue">{{vm.ad.deliveryNum || 5}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">已投放企业数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3 class="green">{{vm.ad.rentNum}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">已租数量</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b-lg">
+                    <h3 class="red">{{vm.ad.notRentNum}}<span class="text-xs">个</span>
+                    </h3>
+                    <span class="spantext">未租数量</span>
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 b-b b-2x" ng-show="vm.show.indexOf('2') != -1">
+                <h4 class="font-bold">广告位类型占比</h4>
+                <div style="height:200px;" ui-echarts="vm.option1">
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12" ng-show="vm.show.indexOf('3') != -1">
+                <h4 class="font-bold">广告时间占用比</h4>
+                <div style="height:200px;" ui-echarts="vm.option2">
+                </div>
+            </div>
+        </div>
+        <!--具体的工位-->
+        <div ng-show="vm.show.indexOf('4') != -1">
+            <div class="col-lg-12 col-sm-12">
+                <h4 class="font-bold">广告位信息列表</h4>
+                <table class="table">
+                    <thead class="title">
+                        <tr>
+                            <th>名称</th>
+                            <th>参数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>广告位类型</td>
+                            <td>{{vm.ad.adType}}</td>
+                        </tr>
+                        <tr>
+                            <td>广告位数量</td>
+                            <td>{{vm.ad.adNum}}</td>
+                        </tr>
+                        <tr>
+                            <td>总收入</td>
+                            <td>{{vm.ad.totalIncome}}</td>
+                        </tr>
+                        <tr>
+                            <td>状态</td>
+                            <td>{{vm.ad.adStatus}}</td>
+                        </tr>
+                        <tr>
+                            <td>投放企业名称</td>
+                            <td>{{vm.ad.deliveryName}}</td>
+                        </tr>
+                        <tr>
+                            <td>投放时间</td>
+                            <td>{{vm.ad.deliveryTime}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>

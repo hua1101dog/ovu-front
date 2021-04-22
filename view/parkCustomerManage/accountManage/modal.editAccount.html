@@ -1,0 +1,80 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">编辑账号</h4>
+  </div>
+  <div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="form-group">
+			<div class="col-md-3" align="right"><label>账号类型：</label></div>
+			<div class="col-md-5">
+				<span ng-if="item.USER_TYPE == 1">个人</span>
+				<span ng-if="item.USER_TYPE == 2">企业</span>
+				<span ng-if="item.USER_TYPE == 4">普通会员</span>
+			</div>			
+		</div>
+		<div class="form-group">
+			<div class="col-md-3" align="right"><label>客户名称：</label></div>
+			<div class="col-md-5"><span>{{item.NAME}}</span></div>				
+		</div>	
+		<div class="form-group">
+			<div class="col-md-3" align="right"><label>联系人：</label></div>
+			<div class="col-md-5"><span>{{item.CONTACT_MAN}}</span></div>			
+		</div>	
+		<div class="form-group">
+			<div class="col-md-3" align="right"><label>联系电话：</label></div>
+			<div class="col-md-5"><span>{{item.PHONE}}</span></div>				
+		</div>	
+		<div class="form-group">
+			<label class="col-md-3 control-label required">登录账号：</label>
+			<div class="col-md-5">
+				<input type="text" class="form-control" name ="LOGIN_NAME" ng-model="item.LOGIN_NAME" placeholder="默认为手机号"/>
+			</div>
+			<!-- <div class="col-md-5">
+					<select class="form-control"  name="STAGE_ID" required ng-model="item.STAGE_ID" ng-change="changeStage()" ng-options="o.ID as o.STAGE_NAME for o in StageList">
+					<option value="">--请选择--</option>
+				</select>
+			</div> -->
+		</div>	
+		<div class="form-group">
+			<label class="col-md-3 control-label required">登录密码：</label>
+			<div class="col-md-5">
+				<input type="text" class="form-control" name = "PASSWORD" ng-model="pwd" placeholder="系统默认密码" />
+			</div>
+		</div>	
+		<!-- <div class="form-group">
+			<label class="col-md-3 control-label">分配管家：</label>
+			<div class="col-md-4">
+				<select class="form-control" ng-model="item.myParkSteward">
+					<option value="">--请选择--</option>
+					<option ng-repeat="ps in item.allParkSteward" value="{{ps.id}}">{{ps.personName}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+				<label class="col-md-3 control-label">产权空间：</label>
+					<div class="col-md-4">
+							<ol class="" style="padding:8px 0 0 10px;margin-bottom:0;">
+								<li ng-repeat="house in houses">
+									{{house.fullPath}}
+								</li>
+							</ol>
+							<button class="btn btn-sm btn-default pull-left" ng-click="openSeleHouseModal(houses)"><i class="glyphicon glyphicon-pencil"></i>选择房屋</button>
+					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label">租赁空间：</label>
+					<div class="col-md-4">
+							<ol class="" style="padding:8px 0 0 10px;margin-bottom:0;">
+								<li ng-repeat="house in houses">
+									{{house.fullPath}}
+								</li>
+							</ol>
+							<button class="btn btn-sm btn-default pull-left" ng-click="openSeleHouseModal(houses)"><i class="glyphicon glyphicon-pencil"></i>选择房屋</button>
+					</div>
+			</div> -->
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

@@ -1,0 +1,148 @@
+<div ng-controller="realityElectricityTotalCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>实际用电负荷统计</h3>
+
+        </div>
+    </div>
+
+    <div class="panel panel-default" style="display: grid;">
+        <div class="panel-heading">实际用电负荷统计列表
+
+        </div>
+        <div class="panel-body table-responsive section-scroll" style="overflow: auto;">
+          
+                <table class="table table-striped" style="margin-bottom: 0;">
+                        <thead style="background-color: #f2f2f2;">
+                            <tr>
+                                <th style="text-align: center;vertical-align:middle;" rowspan="2">NO</th>
+                                <th rowspan="2" style="vertical-align:middle;" nowrap="nowrap">配电室名称</th>
+                                <th rowspan="2" style="vertical-align:middle;" nowrap="nowrap">供电范围</th>
+                                <th rowspan="2" style="vertical-align:middle;" nowrap="nowrap">供电方式</th>
+                                <th rowspan="2" style="vertical-align:middle;" nowrap="nowrap">变压器表号</th>
+                                <th nowrap="nowrap">变压器容量</th>
+                                <th nowrap="nowrap">设计负荷</th>
+                                <th nowrap="nowrap">进线使用负荷</th>
+                                <th nowrap="nowrap">能耗</th>
+                                <th nowrap="nowrap" >功率因素</th>
+                                <th colspan="3" nowrap="nowrap" >进线运行电流（A）</th>
+                                <th rowspan="2" style="vertical-align:middle;" nowrap="nowrap">单台变压器负荷比</th>
+                                <th rowspan="2" style="vertical-align:middle;" nowrap="nowrap">变压器总容量负荷比</th>
+        
+                            </tr>
+                            <tr>
+                                <th nowrap="nowrap" style="text-align: center;">KVA</th>
+                                <th nowrap="nowrap" style="text-align: center;">KW</th>
+                                <th nowrap="nowrap" style="text-align: center;">KW</th>
+                                <th nowrap="nowrap" style="text-align: center;">KWh</th>
+                                <th nowrap="nowrap" style="text-align: center;">COS￠</th>
+                                <th nowrap="nowrap" style="text-align: center;">L1</th>
+                                <th nowrap="nowrap" style="text-align: center;">L2</th>
+                                <th nowrap="nowrap" style="text-align: center;">L3</th>
+        
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!realityElectricityTotalList || realityElectricityTotalList.length == 0">
+                                <td colspan="100" style="text-align: center;">暂无记录</td>
+                            </tr>
+        
+        
+                        </tbody>
+                        <tbody ng-repeat="item in realityElectricityTotalList" ng-init="outerIndex = $index">
+                            <tr ng-repeat="obj in item.list track by $index" ng-class="{'outerIndex_1':outerIndex%4==1,'outerIndex_2':outerIndex%4==2,'outerIndex_3':outerIndex%4==3,'outerIndex_0':outerIndex%4==0}">
+                                <td style="text-align: center;vertical-align:middle" rowspan="{{item.list.length}}"
+                                    ng-if="$index==0">{{outerIndex +1}}</td>
+                                <td rowspan="{{item.list.length}}" style="vertical-align:middle" ng-if="$index==0">
+                                    {{item.roomName}}</td>
+                                <td rowspan="{{item.list.length}}" style="vertical-align:middle" ng-if="$index==0">
+                                    {{item.ammeterServiceArea || '--'}}
+                                </td>
+                                <td rowspan="{{item.list.length}}" style="vertical-align:middle" ng-if="$index==0">
+                                    {{item.ammeterServiceMode || '--'}}
+                                </td>
+                                <td>
+                                    {{obj.meterNumber || '--'}}
+                                </td>
+                                <td>
+                                    {{obj.capacity}}
+                                </td>
+                                <td>
+                                    {{obj.designLoad || '--'}}
+                                </td>
+                                <td>
+                                    {{obj.psum  || '--'}}
+                                </td>
+                                <td>
+                                    {{obj.energy  || '--'}}
+                                </td>
+                                <td>
+                                    {{obj.pfc  || '--'}}
+                                </td>
+                                <td>
+                                    {{obj.ia  || '--'}}
+                                </td>
+                                <td>
+                                    {{obj.ib  || '--'}}
+                                </td>
+                                <td>
+                                    {{obj.ic  || '--'}}
+                                </td>
+                                <td>
+                                    {{obj.loadRation  || '--'}}
+                                </td>
+                                <td rowspan="{{item.list.length}}" style="vertical-align:middle" ng-if="$index==0">
+                                    {{item.totalLoadRation || '--'}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+        
+                   
+          
+        </div>
+    </div>
+
+</div>
+
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+
+    .layui-table td,
+    .layui-table th {
+        position: relative;
+        padding: 5px;
+        min-height: 15px;
+        line-height: 15px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .layui-table th {
+        font-weight: 700;
+        position: relative
+    }
+    .outerIndex_0{
+        
+        background: #fff!important; 
+       
+    }
+    .outerIndex_1{
+        background: #DFF0D8 !important; 
+    }
+    .outerIndex_2{
+        background: #F5F5F5 !important; 
+ 
+    }
+    .outerIndex_3{
+        background: #D9EDF7 !important; 
+ 
+    }
+   
+    
+    
+
+</style>

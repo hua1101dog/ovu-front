@@ -1,0 +1,64 @@
+<!-- 转流服务管理 -->
+<div ng-controller="transformCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>转流服务管理</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>转流服务编号</label>
+                <input type="text" ng-model="search.transformNo" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>转流服务名称</label>
+                <input type="text" ng-model="search.transformName" class="form-control" />
+            </div>
+            <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            转流服务列表
+            <button class="btn btn-primary pull-right" ng-click="showEditModal()">添加转流服务</button>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead class="title">
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th>转流服务编号</th>
+                        <th>转流服务名称</th>
+                        <th>转流服务占用的端口</th>
+                        <th>转流服务所在的硬件服务器id</th>
+                        <!-- <th>设备状态</th> -->
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.transformNo}}</td>
+                        <td>{{item.transformName}}</td>
+                        <td>{{item.listenPort}}</td>
+                        <td>{{item.hardwareId}}</td>
+                        <!-- <td>{{item.transformStatus | keyToValue:videoTypeDict}}</td> -->
+                        <td>
+                            <a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'>
+                                <span class='fa fa-edit'></span>编辑</a>
+                            <a href='javascript:void(0)' ng-click='del(item.id)' class='btn btn-xs'>
+                                <span class='fa fa-trash'></span>删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>

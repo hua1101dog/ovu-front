@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="moocManageCtrl" ng-init="getCompanyNatureList()">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>慕课管理</h3>
+            </div>
+        </div>
+        <div class="">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group m-r-sm">
+                        <label>企业名称</label> 
+                        <input class="form-control" type="text" ng-model="search.company"
+                        ng-class="{'waiting':loadingPerson}"
+                        uib-typeahead="o as o.companyName for o in searchCompany($viewValue)"
+                        ng-change="changeExecVal()"
+                        typeahead-on-select="searchDept()"
+                        typeahead-min-length=0 typeahead-wait-ms='300'
+                        typeahead-editable="false"/>
+                        <!-- <input type="text" ng-model="search.companyName" class="form-control" /> -->
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">部门名称</label>
+                        <div class="input-group">
+                            <layer-selector host="search" host-key="'id'" host-text="'text'"
+                                            node-list="deptList" callback="setDept" ng-click="clickDept()"></layer-selector>
+                        </div>
+                        <!-- <select style="width:180px;" class="form-control" ng-model="search.deptId" ng-change="searchPerson()">
+                            <option value="">--请选择--</option>
+                            <option ng-repeat="item in deptList" value="{{item.id}}">{{item.text+"("+item.ptext+")"}}
+                            </option>
+                        </select> -->
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">员工姓名</label>
+                        <input class="form-control" type="text" ng-model="search.user"
+                        ng-class="{'waiting':loadingPerson}"
+                        uib-typeahead="o as o.fullName for o in searchPerson($viewValue)"
+                        typeahead-min-length=0 typeahead-wait-ms='300'
+                        typeahead-editable="false" />
+                    </div>
+                    <div class="form-group">
+                        <label class="m-r-xs">学习日期</label> 
+                        <input type="datetime" class="form-control Wdate" id="startT" placeholder="输入开始时间"
+                            style="display: inline-block;width: auto" ng-model="search.startDate" onchange=""
+                            onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'endT\',{M:-1})}',maxDate:'#F{$dp.$D(\'endT\')}' || '%y-%M-%d'})">
+                            <span>-</span>
+                            <input type="datetime" class="form-control Wdate"  placeholder="输入结束时间"
+                            style="display: inline-block;width: auto" ng-model="search.endDate" id="endT" onchange=""
+                            onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startT\')}',maxDate:'%y-%M-%d' || '#F{$dp.$D(\'startT\',{M:1})}'})">
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color: #999999;">
+                    员工学习课时统计列表
+                    <button class="btn btn-primary pull-right" ng-click="exportMooc()">导出</button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px; color: #999999;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th>所属公司</th>
+                                <th>所属部门</th>
+                                <th>父部门</th>
+                                <th>员工编号</th>
+                                <th>姓名</th>
+                                <th>手机号</th>
+                                <th>累计学习课时总长</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+
+                            <tr ng-repeat="item in pageModel.data track by $index" style="color: #333333;">
+                                <td class="text-center">{{$index +
+									1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td style="width: 180px;">
+                                    <p style="width: 180px;" ng-attr-title="{{item.companyName}}">
+                                        {{item.companyName.length > 21 ? (item.companyName.substring(0,21) + '...') : item.companyName}}
+                                    </p>
+                                </td>
+                                <td>{{item.deptName||'--'}}</td>
+					            <td>{{item.parentDeptName||'无'}}</td>
+                                <td>{{item.jobCode||'--'}}</td>
+                                <td>{{item.name||'--'}}</td>
+                                <td>{{item.phone||'--'}}</td>
+                                <td>{{item.totalTimeLengthStr||'--'}}</td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='showStaffInfo(item)' class='btn btn-xs'
+                                        style="border: 1px solid #5692ea; color: #5692ea;"><span></span>员工学习详情</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'" class="ng-scope">
+                        </ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<style>
+    .selectInvalid{
+	border: 1px solid rgba(255, 0, 0, 0.59);
+    -moz-box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+    -webkit-box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+}
+</style>

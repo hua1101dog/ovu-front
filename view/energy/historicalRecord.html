@@ -1,0 +1,508 @@
+<!-- 历史记录查询 -->
+
+
+<div ng-controller="historicalRecordCtrl">
+    <div class="page-title">
+        <div>
+            <!-- <button class="btn btn-primary" ng-click="backPage()" style="margin: 0 10px 10px 15px;">返回</button> -->
+            <h3 style="display: inline-block;margin-left:10px">配电柜回路管理</h3>
+            <!-- <button class="btn btn-primary pull-right" ng-click="return()" style="margin-top:10px">返回</button> -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+
+            <div class="x_panel">
+                <div class="x_title">变压器列表
+                </div>
+                <div class="x_content" style="z-index: 1;overflow: auto;height:700px">
+                    <!-- <div ng-click="clickMainMenu()">一级菜单</div>
+                                <div ng-click="clickSubMenu()">二级菜单</div>-->
+                    <div class="alert" role="alert" ng-show="trmTreeData.length==0">无分类信息</div>
+                    <div id="house_tree">
+                        <!-- <tranformertree-view node-list="trmTreeData" config="config"></tranformertree-view> -->
+                        <tranformertree-view node-list="trmTreeData" callback="selectNode"
+                        config="config"></tranformertree-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-8 col-xs-12">
+            <div class="x_panel" style="margin-top:20px">
+                <div ng-if="!isNode">
+                    <div class="panel_box nowrap" style="overflow: auto;width: 1000px">
+                        <div>
+                            <div class="x_panel" style="border:0;margin-bottom: 0px">
+                                <div class="card-border" style="height:300px;overflow: auto">
+                                    <h5 class="margin-0 title">{{data.trSimpleName}}</h5>
+                                    <div class="center">
+                                        <img src="/res/img/energy/03.png" alt="" class="img">
+
+                                    </div>
+                                    <div class="top10">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>参数代码</th>
+                                                    <th>单位代码</th>
+                                                    <th>监测值</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-if="data.monitorMeter.paramList == 0">
+                                                    <td colspan="100" class="text-center">暂无记录</td>
+                                                </tr>
+                                                <tr ng-repeat="i in data.monitorMeter.paramList">
+                                                    <td>{{i.code}}</td>
+                                                    <td>{{i.unit}}</td>
+                                                    <td>{{i.value}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                                <div class="right-line"></div>
+                                <div class="card-border" style="height:300px;overflow:auto">
+
+                                    <h5 class="margin-0 title">{{data.inMeter.pointName}}</h5>
+                                    <div>
+                                        <div class="left-line"></div>
+                                        <div class="in-block">
+                                            <img ng-src="{{'/res/img/energy/'+(data.inMeter.status=='close' ? '01':'02')+'.png'}}"
+                                                alt="" class="x-img">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="top10">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>参数代码</th>
+                                                    <th>单位代码</th>
+                                                    <th>监测值</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-if="data.inMeter.paramList == 0">
+                                                    <td colspan="100" class="text-center">暂无记录</td>
+                                                </tr>
+                                                <tr ng-repeat="i in data.inMeter.paramList">
+                                                    <td>{{i.code}}</td>
+                                                    <td>{{i.unit}}</td>
+                                                    <td>{{i.value}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div ng-if="data.distributorList" class="in-block">
+
+                                    <div class="in-block" ng-repeat="i in data.distributorList">
+                                        <div class="right-line"></div>
+                                        <div class="card-border" style="height:300px;overflow:auto">
+                                            <h5 class="margin-0 title">{{i.dtSimpleName}}</h5>
+                                            <div class="box" ng-repeat="t in i.loopList">
+                                                <div class="sm-sline"></div>
+                                                <div class="in-block">
+                                                    <img ng-src="{{'/res/img/energy/'+(t.status=='close' ? '01':'02')+'.png'}}"
+                                                        alt="" class="sm-img">
+                                                </div>
+                                                <div class="roonName" uib-tooltip={{t.loopName}} tooltip-placement="auto top">{{t.loopName}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="data.parentMeter" class="in-block">
+                                    <div class="right-line"></div>
+                                    <div class="card-border" style="height:300px;overflow:auto">
+                                        <h5 class="margin-0 title">{{data. parentMeter.pointName}}</h5>
+                                        <div class="left-line"></div>
+                                        <div class="in-block">
+                                            <img ng-src="{{'/res/img/energy/'+(data.parentMeter.status=='close' ? '01':'02')+'.png'}}"
+                                                alt="" class="x-img">
+                                        </div>
+                                        <div class="top10">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>参数代码</th>
+                                                        <th>单位代码</th>
+                                                        <th>监测值</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-if="data.parentMeter.paramList == 0">
+                                                        <td colspan="100" class="text-center">暂无记录</td>
+                                                    </tr>
+                                                    <tr ng-repeat="data.parentMeter.paramList">
+                                                        <td>{{i.code}}</td>
+                                                        <td>{{i.unit}}</td>
+                                                        <td>{{i.value}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div ng-if="data.refTransformer" class="drawLine">
+                                   <div class="rect"></div>
+                            </div> -->
+                        <div class="x_panel" ng-if="data.refTransformer" style="border:0;">
+                            <div class="card-border" style="height:300px;overflow: auto">
+                                <h5 class="margin-0 title">{{data.refTransformer.trSimpleName}}</h5>
+                                <div class="center">
+                                    <img src="/res/img/energy/03.png" alt="" class="img">
+
+                                </div>
+                                <div class="top10">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>参数代码</th>
+                                                <th>单位代码</th>
+                                                <th>监测值</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="data.refTransformer.monitorMeter.paramList == 0">
+                                                <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr>
+                                            <tr ng-repeat="i in data.refTransformer.monitorMeter.paramList">
+                                                <td>{{i.code}}</td>
+                                                <td>{{i.unit}}</td>
+                                                <td>{{i.value}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div>
+                            <div class="right-line"></div>
+                            <div class="card-border" style="height:300px;overflow:auto">
+                                <h5 class="margin-0 title">{{data.refTransformer.inMeter.pointName}}</h5>
+                                <div>
+                                    <div class="left-line"></div>
+                                    <div class="in-block">
+                                        <img ng-src="{{'/res/img/energy/'+(data.refTransformer.inMeter.status=='close' ? '01':'02')+'.png'}}"
+                                            alt="" class="x-img">
+                                    </div>
+
+                                </div>
+                                <div class="top10">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>参数代码</th>
+                                                <th>单位代码</th>
+                                                <th>监测值</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="data.refTransformer.inMeter.paramList == 0">
+                                                <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr>
+                                            <tr ng-repeat="i in data.refTransformer.inMeter.paramList">
+                                                <td>{{i.code}}</td>
+                                                <td>{{i.unit}}</td>
+                                                <td>{{i.value}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div ng-if="data.refTransformer.distributorList" class="in-block">
+                                <div class="in-block" ng-repeat="i in data.refTransformer.distributorList">
+                                    <div class="right-line"></div>
+                                    <div class="card-border" style="height:300px;overflow:auto">
+                                        <h5 class="margin-0 title">{{i.dtSimpleName}}</h5>
+                                        <div class="box" ng-repeat="t in i.loopList">
+                                            <div class="sm-sline"></div>
+                                            <div class="in-block">
+                                                <img ng-src="{{'/res/img/energy/'+(t.status=='close' ? '01':'02')+'.png'}}"
+                                                    alt="" class="sm-img">
+                                            </div>
+                                            <div class="roonName" uib-tooltip={{t.loopName}} tooltip-placement="auto top">{{t.loopName}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="data.refTransformer.parentMeter" class="in-block">
+                                <div class="right-line"></div>
+                                <div class="card-border" style="height:300px;overflow:auto">
+                                    <h5 class="margin-0 title">{{data.refTransformer.parentMeter.pointName}}</h5>
+                                    <div class="left-line"></div>
+                                    <div class="in-block">
+                                        <img ng-src="{{'/res/img/energy/'+(data.refTransformer.parentMeter.status=='close' ? '01':'02')+'.png'}}"
+                                            alt="" class="x-img">
+                                    </div>
+                                    <div class="top10">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>参数代码</th>
+                                                    <th>单位代码</th>
+                                                    <th>监测值</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-if="data.refTransformer.parentMeter.paramList == 0">
+                                                    <td colspan="100" class="text-center">暂无记录</td>
+                                                </tr>
+                                                <tr ng-repeat="data.refTransformer.parentMeter.paramList">
+                                                    <td>{{i.code}}</td>
+                                                    <td>{{i.unit}}</td>
+                                                    <td>{{i.value}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div ng-if="isNode">
+                    <div class="x_panel">
+                        <button class="btn btn-primary pull-right" ng-click="addPdg()" ng-if="isNode">新增回路</button>
+                        <h4 class="title">{{pdgroomName}}回路状态</h3>
+                            <div class="parent">
+                                <div class="status">
+                                    <div class="item" ng-repeat="n in data">
+                                        <div class="top_line">
+                                        </div>
+
+                                        <img ng-src="{{'/res/img/energy/'+(n.status=='close' ? '01':'02')+'.png'}}" alt=""
+                                            class="y_pic">
+                                        <div class="bottom_item" ng-click="addPdg(n.loopId)">
+                                            {{n.loopName}} <br>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+                    <div class="x_panel">
+                        <h4 class="title">{{pdgroomName}}监测参数</h4>
+                        <table class="table table-hover table-bordered" style="background-color:#fff;margin-bottom: 10px; ">
+                            <thead>
+                                <tr>
+                                    <th>回路名称</th>
+                                    <th>Ua(Kv)</th>
+                                    <th>Ub(Kv)</th>
+                                    <th>Uc(Kv)</th>
+                                    <th>Ia(A)</th>
+                                    <th>Ib(A)</th>
+                                    <th>Ic(A)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr ng-repeat="n in data">
+                                    <td>{{n.loopName}}</td>
+                                    <td>{{n.ua}}</td>
+                                    <td>{{n.ub}}</td>
+                                    <td>{{n.uc}}</td>
+                                    <td>{{n.ia}}</td>
+                                    <td>{{n.ib}}</td>
+                                    <td>{{n.ic}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 col-xs-12">
+            <div class="x_panel" style="margin-top:20px">
+                <h5 class="text-center">历史记录</h5>
+                <div class="form-group">
+                    <label>选择时间:</label>
+                    <input type="datetime" class="form-control Wdate" required style="display: inline-block;max-width: 133px"
+                        ng-model="search.time" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',qsEnabled:false,autoShowQS:false,maxDate:'%y-%M-%d'})"">
+                                    <button class="
+                        btn btn-default" style="margin-bottom: 4px" ng-click="findAll()">查询</button>
+                </div>
+                <div>
+                    <span>选择时间段:</span>
+                    <ul>
+                        <li class="time active"><a href="javascript:void(0);">2017-08-01 15:20:21</a></li>
+                        <li class="time"><a href="javascript:void(0);">2017-08-01 15:20:21</a></li>
+                        <li class="time"><a href="javascript:void(0);">2017-08-01 15:20:21</a></li>
+                        <li class="time"><a href="javascript:void(0);">2017-08-01 15:20:21</a></li>
+                        <li class="time"><a href="javascript:void(0);">2017-08-01 15:20:21</a></li>
+                    </ul>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .title {
+        text-align: center;
+        font-weight: 700
+    }
+
+    .card-border {
+        border: 2px solid #8B8BFF;
+        background: #fff;
+        width: 210px;
+        display: inline-block;
+        margin: 0 10px;
+    }
+
+
+
+
+    .status {}
+
+    .top_line {
+        background-color: #3D3DFF;
+        width: 160px;
+        height: 7px;
+        opacity: .6
+    }
+
+    .left-line {
+        background-color: #3D3DFF;
+        width: 7px;
+        height: 81px;
+        opacity: .6;
+        display: inline-block
+    }
+
+    .y_pic {
+        display: inline-block;
+        width: 200px;
+        transform: rotate(90deg);
+        margin: 79px -20px;
+        /* color: #68ACC6; */
+        opacity: .6
+    }
+
+    .item {
+        display: inline-block;
+        float: left;
+        margin-top: 20px;
+    }
+
+    .bottom_item {
+        background-color: #3D3DFF;
+        color: #fff;
+        text-align: center;
+        line-height: 22px;
+        /* border-radius: 15px; */
+        width: 130px;
+        margin-left: 9px;
+        font-size: 14px;
+        opacity: .6
+    }
+
+    .parent {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .top10 {
+        box-sizing: border-box;
+
+
+    }
+
+    .img {
+        width: 110px;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .in-block {
+        display: inline-block
+    }
+
+    .x-img {
+        width: 195px;
+        height: 66px;
+        vertical-align: super;
+        margin-left: -4px;
+        opacity: .6
+    }
+
+    .box {
+        position: relative;
+        height: 40px;
+    }
+
+    .sm-sline {
+        background-color: #3D3DFF;
+        width: 7px;
+        height: 40px;
+        opacity: .6;
+        display: inline-block;
+    }
+
+    .sm-img {
+        width: 125px;
+        height: 27px;
+        margin-left: -4px;
+        opacity: .6;
+        /* margin-top: -29px; */
+        position: absolute;
+        left: 10px;
+        top: 7px;
+    }
+
+    .roonName {
+        display: inline-block;
+        background-color: #3D3DFF;
+        color: #fff;
+        position: absolute;
+        right: 10px;
+        padding: 5px;
+        top: 5px;
+        border-radius: 9px;
+        opacity: .6;
+        max-width: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap
+    }
+
+    .time {
+        float: left;
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin: 4px;
+    }
+
+    .active {
+        background-color: green;
+        color: #fff
+    }
+
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

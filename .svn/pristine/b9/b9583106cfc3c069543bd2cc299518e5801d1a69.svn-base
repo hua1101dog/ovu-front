@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title" ng-show="!item.isView">客户分配</h4>
+</div>
+<div class="panel-heading" style="font-size: 14px">
+    <div class="col-md-7">置业顾问列表</div>
+    <div class="col-md-4 form-group">
+        <input class="form-control" type="text" ng-model="search.query" placeholder="姓名/手机">
+    </div>
+    <button class="btn btn-default" ng-click="find()">查询</button>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="x_panel">
+        <table class="table table-striped table-hover">
+            <thead class="title">
+                <tr>
+                    <th class="text-center" style="width:20px">
+                        <span role="button" ng-click="checkAll(pageModel)">
+                            <i class="glyphicon glyphicon-unchecked"
+                                ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                        </span>
+                    </th>
+                    <th class="text-center">序号</th>
+                    <th class="text-center">姓名</th>
+                    <th class="text-center">手机</th>
+                    <th class="text-center">身份</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel.data">
+                    <td><i role="button" ng-click="checkOne(item, pageModel)"
+                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                            class="glyphicon glyphicon-unchecked"></i>
+                    </td>
+                    <td>{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.phone}}</td>
+                    <td>{{item.isLead==1?'销售经理':'置业顾问'}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-footer clearfix">
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" ng-show="!item.isView">
+    <button class="btn btn-primary" ng-click="saveNews(pageModel)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+
+<style>
+    /* .page-title {
+        width: 100%;
+        height: 40px;
+        padding: 20px 0;
+    } */
+
+    /* .panel-heading button,
+    .panel-heading .btn-group {
+        margin-top: -3px;
+    } */
+
+</style>

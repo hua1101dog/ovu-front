@@ -1,0 +1,100 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">摄像头绑定</h4>
+</div>
+<div class="modal-body container-fluid">
+    <form name="form" novalidate>
+	<div class="col-xs-12">
+		<div class="x_panel" ng-if="!model.id">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label class="required">绑定位置：</label>
+                    <div style="display:inline-block;width: 300px">
+                        <layer-selector host="model" host-key="'buildId'" host-text="'buildName'" node-list="houseTree" leaf-only="true" need="true"></layer-selector>
+                    </div>
+                </div>
+            </div>
+		</div>
+        <div class="x_panel" >
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>品牌型号</label>
+                    <input type="text" ng-model="search.brand"  class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>注册编码</label>
+                    <input type="text" ng-model="search.regiCode"  class="form-control" />
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="form-group text-nowrap">
+                    <label >房屋：</label>
+                    <span class="text-nowrap">
+                        <house-selector class="searchBox" form-bean="search"></house-selector>
+                    </span>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>设备编码</label>
+                    <input type="text" ng-model="search.EQUIP_CODE"  class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>设备名称</label>
+                    <input type="text" ng-model="search.NAME"  class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>设备惯用名</label>
+                    <input type="text" ng-model="search.equipSimpleName"  class="form-control" />
+                </div>
+                <button class="btn btn-default" ng-click="find(1)" >查询</button>
+            </div>
+        </div>
+		<div class="panel panel-default">
+			<div class="panel-heading">摄像头列表</div>
+			<div class="panel-body">
+				<table class="table table-hover">
+					<thead class="title">
+					<tr >
+						<th style="width:30px" class="text-center">NO</th>
+						<th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+						<th>编码</th>
+						<th>名称</th>
+						<th>惯用名</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+					<tr ng-repeat="item in pageModel.data" ng-class="{'bg-success':item.checked}" role="button">
+						<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+						<td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+						<td style="word-wrap: break-word">{{item.equip_code}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.equip_simple_name}}</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+					<ng-include src="'/common/pager.html'"></ng-include>
+				</div>
+                <div class="form-group" style="margin-top:10px" ng-if="model.videos.length > 0">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">您已选择:</label>
+                    <div class="col-md-10 col-sm-10 col-xs-12" style="margin-top: -10px">
+                        <div class="input-group">
+                            <ul id="person" class="ul-persons">
+                                <li class="item" ng-repeat="p in model.videos">{{p.name}}<a ng-click="delVideo(model.videos,p)"><i class="fa fa-remove"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+    </form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form,model)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

@@ -1,0 +1,79 @@
+{
+    "datas": {
+        "tradeGeneral": {
+            "annual_tax": "非公开",
+            "amount_invested": "非公开",
+            "assort_company": "5",
+            "company_totle": "266",
+            "finance_company": "26",
+            "office_company": "261",
+            "quoted_company": "3",
+            "annual_revenue": "非公开",
+            "double_company": "34"
+        },
+        "tradeObtain": {
+            "obtain_people": "6057",
+            "obtain_rise": "245",
+            "data":{
+                "Jan": 500,
+                "Feb": 550,
+                "Mar": 1000,
+                "Apr": 700,
+                "May": 1000,
+                "Jun": 2000,
+                "Jul": 4600,
+                "Aug": 5400,
+                "Sep": 5812,
+                "Oct": 6500
+            }
+        },
+        "tradeFocus": {
+            "annual_focus": "42.9",
+            "annual_rise": "4.2",
+            "data": {
+                "Jan": 10,
+                "Feb": 15,
+                "Mar": 20,
+                "Apr": 25,
+                "May": 30,
+                "Jun": 34,
+                "Jul": 35,
+                "Aug": 36,
+                "Sep": 38.7,
+                "Oct": 42.9
+            }
+        },
+        "companyRatio":[
+            { "name": "金融、泛金融类", "value": 26},
+            { "name": "商贸、电子商务", "value": 45 },
+            { "name": "工程建筑及房地产开发", "value": 49 },
+            { "name": "计算机、软件开发", "value": 25 },
+            { "name": "教育培训", "value": 11 },
+            { "name": "咨询服务", "value": 27 },
+            { "name": "装修设计", "value": 21 },
+            { "name": "科技及推广应用", "value": 19 },
+            { "name": "文化传媒", "value": 13 },
+            { "name": "商务生活服务", "value": 25 }
+        ],
+        "companyArea":[
+            { "name": "金融、泛金融类", "value": 47953.95},
+            { "name": "商贸、电子商务", "value":9952.64 },
+            { "name": "工程建筑及房地产开发", "value": 22079.29 },
+            { "name": "计算机、软件开发", "value": 4482.08 },
+            { "name": "教育培训", "value": 2460.54 },
+            { "name": "咨询服务", "value": 6677.34 },
+            { "name": "装修设计", "value": 5452.52 },
+            { "name": "科技及推广应用", "value": 5613.5 },
+            { "name": "文化传媒", "value": 2881.02 },
+            { "name": "商务生活服务", "value":4172.5 }
+        ],
+        "companyQuoted":[
+            { "name": "主板", "value": 1},
+            { "name": "新三板", "value": 1 },
+            { "name": "中小板", "value": 0 },
+            { "name": "创业板", "value": 0 },
+            { "name": "境外", "value": 1 }
+        ]
+    },
+    "success": true
+}

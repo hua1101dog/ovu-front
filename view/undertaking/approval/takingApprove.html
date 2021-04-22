@@ -1,0 +1,67 @@
+<div ng-controller="takingApproveCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>承接立项</h3>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row" style="margin-top: 50px">
+                <ul class="time-horizontal">
+                    <li><b></b><h3>导出模板</h3></li>
+                    <li><b></b><h3>导入承接位置</h3></li>
+                    <li><b></b><h3>生成承接清单</h3></li>
+                </ul>
+            </div>
+            <div class="form-inline" style="margin-top: 30px">
+                <div>请选择查验专业：</div>
+                <div style="font-size: 15px">
+                    <label class="control-label" ng-repeat="item in attrs" style="padding-right: 10px">
+                        <input type="checkbox" style="margin:0 5px" ng-checked="item.checked" ng-click="clickBox(item)" />{{item.text}}
+                    </label>
+                </div>
+            </div>
+            <div style="text-align: center">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label class="control-label">
+                            <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+                            <a role="button" ng-click="selectProject()">{{project.name?project.name:'请选择项目'}} </a></label>
+                    </div>
+                    <button class="btn btn-success btn-large" ng-click="export()">分专业导出模板</button>
+                    <button class="btn btn-success btn-large" ng-click="import()">导入承接位置</button>
+                    <strong class="text-success">{{msg}}</strong>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .time-horizontal {
+        list-style-type: none;
+        border-top: 1px solid #707070;
+        padding: 3px;
+        margin: 0px;
+    }
+
+    .time-horizontal li {
+        float: left;
+        position: relative;
+        text-align: center;
+        width: 25%;
+        padding-top: 10px;
+    }
+
+    .time-horizontal li b:before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: 47%;
+        width: 12px;
+        height: 12px;
+        border: 2px solid #4c4c4c;
+        border-radius: 8px;
+        background: #98FB98;
+    }
+</style>

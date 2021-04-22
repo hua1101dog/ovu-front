@@ -1,0 +1,43 @@
+<div class="" ng-controller="patrollingMainCtrl as vm" style="height: 100%;">
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="">
+            <!--电子巡更 -->
+            <div >
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">电子巡更概况</h4>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.watch.total || 0}}</h3>
+                        <span class="spantext">巡更点总数</span>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.watch.regular_num || 0}}</h3>
+                        <span class="spantext">已巡更</span>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                        <h3 class="red">{{vm.watch.total - vm.watch.regular_num}}</h3>
+                        <span class="spantext">未巡更</span>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <h4 class="font-bold">电子巡更记录</h4>
+                    <h4 class="font-bold">巡更点名称:{{vm.name || '无'}}</h4>
+                    <table class="table">
+                        <thead class="title">
+                        <tr>
+                            <th>巡更人员</th>
+                            <th>巡更时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in vm.list track by $index">
+                            <td>{{item.patrolMan}}</td>
+                            <td>{{item.patrolDate}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>

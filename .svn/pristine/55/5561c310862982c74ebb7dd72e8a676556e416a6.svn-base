@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{title}}</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <!-- <div class="form-group">
+            <label class="col-xs-2 control-label required">项目名称:</label>
+            <div class="col-xs-8">
+                <select class="form-control" required ng-model="item.classifyName"  ng-options="o[0] as o[1] for o in msg">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">审批角色名称：</label>
+            <div class="col-xs-8">
+                <select class="form-control" required ng-model="roleId"  ng-options="o.roleId as o.checkRoleName for o in msg">
+                    <option value="">--请选择--</option> 
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">起批金额：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.miniMoney" name="miniMoney" placeholder="请输入起批金额">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">最大金额：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.maxMoney" name="maxMoney" placeholder="请输入最大金额">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">步骤描述：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.stepName" name="stepName" placeholder="请输入步骤描述">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">顺序码：</label>
+            <div class="col-xs-8">
+                <input type="number" class="form-control" required ng-model="item.sortNumber" min="1" name="sortNumber" placeholder="请输入数字类型顺序码">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

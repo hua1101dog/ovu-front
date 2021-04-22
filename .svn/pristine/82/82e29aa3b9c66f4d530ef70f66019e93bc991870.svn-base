@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>空间文件管理</title>
+</head>
+<body>
+<div id="angularId" ng-controller="fileCtl" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>空间文件管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control"  ng-model="search.fileSpaceType">
+                            <!-- <option value="1">楼栋</option> -->
+                            <option value="2">房间</option>
+                            <option value="3">楼层</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" readonly="readonly" placeholder="空间选择..."
+                                   ng-model="search.spaceResult" />
+                            <span class="input-group-btn">
+								<button class="btn btn-default" ng-click="chooseHouseType(search.fileSpaceType)"><i class='fa fa-search'></i></button>
+						  		<button class="btn btn-default" ng-click="clear()"><i>清空</i></button>
+						  	</span>
+                        </div>
+                    </div>
+                    <div class="form-group"  ng-if="showGround">
+						<label class="col-xs-4 control-label" style="padding-right:0;padding-left:0;text-align: right;">楼层：</label>
+						<div  class="col-xs-6" style="padding-left:0;">
+			        	    <select class="form-control"  ng-model="search.groundNo" ng-options="o as o for o in groundList">
+			    	            <option value="">--请选择--</option>
+				            </select>
+						</div>
+			        </div>
+                    <!-- <div class="form-group">
+                        <select class="form-control"  ng-model="search.fileAreaType">
+                            <option value="">--空间类型--</option>
+                            <option value="1">室外公共区域</option>
+                            <option value="2">室内区域</option>
+                        </select>
+                    </div> -->
+                    <div class="form-group">
+                        <select class="form-control" ng-model="search.fileType" ng-options="o.value as o.text for o in fileTpye">
+                            <option value="">--图纸类型--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>文件编号：</label>
+                        <input type="text" ng-model="search.fileNo"  placeholder="请输入" class="form-control" />
+                    </div>
+                    <button class="btn btn-success pull-right" ng-click="addNewFile('add')">新增</button>
+                    <button class="btn btn-default pull-right" ng-click="find()" >查询</button>
+                </div>
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead class="title">
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th>编号</th>
+                        <th>文件名称</th>
+                        <th>空间名称</th>
+                        <th>区域类型</th>
+                        <th>空间类型</th>
+                        <th>文件类型</th>
+                        <th>源文件</th>
+                        <!-- <th>PDF</th> -->
+                        <th>上传时间</th>
+                        <th >上传人</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index+1}}</td>
+                        <td>{{item.fileNo}}</td>
+                        <td><a href = "{{item.originalFilePath}}">{{item.fileName}}</a></td>
+                        <td>{{item.curSpaceName}}</td>
+                        <td>{{item.fileAreaType==1?"室外公共区域":"室内区域"}}</td>
+                        <td>{{getSpace(item.fileSpaceType)}}</td>
+                        <td>{{getFileType[item.fileType]}}</td>
+                        <td>{{item.originalFileName}}</td>
+                        <!-- <td>{{item.pdfFileName}}</td> -->
+                        <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.LOGIN_NAME}}</td>
+                        <td>
+                            <a href='javascript:void(0)' ng-click='edit("edit", item)' class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+                            <a href='javascript:void(0)' ng-if="item.fileIsEffect == 1?true:false" ng-click='authorize($event,item.id,$index)' class='btn btn-xs' ><span class='fa fa-key'></span>授权</a>
+                            <a href='javascript:void(0)' ng-click='delFile(item.id)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'" class="ng-scope"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-include src="'/common/modal.houseTree.html'"></ng-include>
+</div>
+<script type="text/javascript" src="/res/js/ajaxfileuploadall.js"></script>
+</body>
+</html>

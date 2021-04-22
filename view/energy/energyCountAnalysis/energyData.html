@@ -1,0 +1,99 @@
+<div ng-controller="energyDataCtrl">
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>数据回归周期</label>
+                <select id="isRequired" class="form-control" ng-model="date" ng-options="o[0] as o[1] for o in dateList" ng-change="changeTime(date)">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>选择时间</label>
+                <span ng-show="date==0">
+                    <input type="datetime" class="form-control Wdate" style="display: inline-block;width: auto" ng-model="search.time" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy',maxDate:'%y',qsEnabled:false,autoShowQS:false})">
+                </span>
+                <span ng-show="date==1">
+                    <input type="datetime" class="form-control Wdate" style="display: inline-block;width: auto" ng-model="search.time" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM',qsEnabled:false,autoShowQS:false,maxDate:'%y-%M'})">
+                </span>
+                <span ng-show="date==2">
+                    <input type="datetime" class="form-control Wdate" style="display: inline-block;width: auto" ng-model="search.time" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',qsEnabled:false,autoShowQS:false,maxDate:'%y-%M-%d'})">
+                </span>
+            </div>
+            <button class="btn btn-default" style="margin-bottom: 4px" ng-click="find()">查询</button>
+        </div>
+        <div class="x_panel">
+            <div class="form-group content">
+                <ul class="picType" ng-init="isSelected=1">
+                    <li ng-click="toggleLine(true);isSelected=1" ng-class="{actives:isSelected==1}" style="line-height: 25px;padding: 0px 6px">折线</li>
+                    <li ng-click="toggleLine(false);isSelected=2" ng-class="{actives:isSelected==2}" style="line-height: 25px;padding: 0px 6px">柱状</li>
+                </ul>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div ng-if="isLine" ui-echarts="dataLineTrendData" style="height: 300px;width:500px;display:inline-block"></div>
+                <div ng-if="isColumn" ui-echarts="dataColumnTrendData" style="height: 300px;width:500px;display:inline-block"></div>
+                <div style="display:inline-block">
+                    <table class="table table-bordered" style="height: 213px;margin-left: 50px">
+                        <tr ng-if="dataList && dataList.length !== 0">
+                            <td colspan="100" style="text-align:center">数据阶段说明</td>
+                        </tr>
+                        <tr ng-repeat="item in dataList">
+                            <td>{{item.policyName}}</td>
+                            <td>{{item.beginData}}-{{item.endData}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12" style="height: 500px;overflow: auto">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>总值</th>
+                            <th>累计值</th>
+                            <th>对应数据名称</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!dateLists||dateLists.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in dateLists">
+
+                            <td>{{item.time}}</td>
+                            <td>{{item.total}}</td>
+                            <td>{{item.aggValue}}</td>
+                            <td>{{item.policyName}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <style>
+            .actives {
+                background-color: #62c3ff;
+            }
+
+
+            .picType {
+                float: right;
+                margin-top: 8px;
+            }
+
+            .content ul li {
+                display: inline-block;
+                cursor: pointer;
+                border: 1px solid #ccc
+            }
+
+            th {
+                text-align: center
+            }
+
+        </style>
+    </div>

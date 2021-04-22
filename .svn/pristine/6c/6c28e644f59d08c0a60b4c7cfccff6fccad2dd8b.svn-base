@@ -1,0 +1,79 @@
+<div ng-controller="workunitRuleCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>督办规则</h3>
+		</div>
+	</div>
+	<div>
+		<div class="x_panel" >
+				<div class="form-inline">
+					<div class="form-group" ng-if="search.isGroup">
+						<label>项目</label>
+						<div class="input-group">
+							<input type="text" class="form-control" readonly="readonly" style="min-width: 250px"  ng-model="search.parkName" />
+					 <span class="input-group-btn">
+						<button  class="btn btn-default" ng-click="findPark(search)"><i class='fa fa-map-marker'></i></button>
+					 </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>工作分类</label>
+						<div class="input-group">
+							<input type="text" class="form-control" readonly="readonly"   ng-model="search.WORKTYPE_NAME" />
+							 <span class="input-group-btn">
+								<button  class="btn btn-default" ng-click="chooseWorkType()"><i class='fa fa-search'></i></button>
+							 </span>
+						</div>
+					</div>
+					<button class="btn btn-default" ng-click="find(1)" >查询</button>
+				</div>
+			</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">督办规则列表
+				<button class="btn btn-success pull-right" ng-click="showEditModal()" >新增</button>
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped table-hover" style="margin-top: 10px;">
+					<thead>
+					<tr>
+						<th class="text-center">NO</th>
+						<th nowrap="nowrap">工作分类</th>
+						<th nowrap="nowrap">时间限制（分钟）</th>
+						<th nowrap="nowrap">项目</th>
+						<th nowrap="nowrap">督办部门与岗位</th>
+						<th nowrap="nowrap">督办人员</th>
+						<th nowrap="nowrap">创建时间</th>
+						<th nowrap="nowrap">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-if="pageModel.list.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+					<tr ng-repeat="item in pageModel.list" >
+						<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+						<td>{{item.worktypes}}</td>
+						<td>{{item.MINITES}}</td>
+						<td>{{item.PARK_NAME}}</td>
+						<td>{{item.DEPT_ID|keyToValue:oriList:'id':'text'}}:{{item.POST_ID|keyToValue:postDict:'id':'postName'}}</td>
+						<td>{{item.persons}}</td>
+						<td>{{item.CREATE_DATE}}</td>
+						<td>
+							<a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs' ><span class='fa fa-edit' ></span>编辑</a>
+							<a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+					<ng-include src="'/common/pager.html'"></ng-include>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+ table tr th,
+        table tr td {
+            text-align: left;
+        }
+</style>

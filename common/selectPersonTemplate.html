@@ -1,0 +1,29 @@
+
+<span class="inputWarper">
+    <input class="form-control" type="text" ng-model="user" ng-required="need"
+           uib-typeahead="o as o.name+' ('+o.deptName+')' for o in find(null,$viewValue)"
+           typeahead-on-select="finishPick($item)"
+            typeahead-min-length=0 typeahead-wait-ms='300'
+           typeahead-popup-template-url="selectPersonTemplate.html"
+           typeahead-focus-on-select = false
+           placeholder="请选择人员"
+           typeahead-editable="!isinvalid"/>
+    <span  ng-click="clear($event)" class="glyphicon glyphicon-remove"></span>
+    <style>
+    .inputWarper{
+        position: relative;
+        display: inline-block;
+    }
+    .inputWarper>span{
+        position: absolute;right:0px; font-size: 16px;border: none;   padding: 4px;line-height: 24px;background-color: transparent;
+        border-radius: 15px;
+        display: none;
+    }
+    .inputWarper:hover>span{
+        display: inline-block;
+    }
+</style>
+</span>
+<!--ng-class="{'waiting':loadingPerson}"
+typeahead-loading="loadingPerson"-->
+

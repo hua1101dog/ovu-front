@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <title>OVU-智慧运营平台</title>
+    <link href="/res/js/layui/css/layui.css" rel="stylesheet">
+    <!--<link href="https://cdn.bootcss.com/bootstrap-slider/10.0.2/css/bootstrap-slider.min.css" rel="stylesheet">-->
+    <link href="http://lib.baomitu.com/bootstrap-slider/9.10.0/css/bootstrap-slider.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        html,body{
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            overflow:hidden;
+        }
+        .layui-pc{
+            background-color: transparent;
+            display: none;
+            z-index: 1;
+            right: 0
+        }
+        body:hover .layui-pc{
+            display: block;
+        }
+        .layui-pc:hover{
+            background-color: #393D49;
+        }
+        .layui-pc .layui-nav-item{
+            line-height:36px;
+
+        }
+        .layui-pc .layui-nav-child{
+            top:36px;
+        }
+
+        .layui-mobile{
+            top:2rem;
+            z-index: 100;
+            left:50% ;
+            transform: translate(-50%);
+
+        }
+
+        .layui-mobile * {
+           font-size: 1rem;
+       }
+       .layui-mobile .layui-nav-item{
+           line-height: 50px;
+
+        }
+        .layui-mobile .layui-nav-child{
+            top:45px;
+        }
+
+        #fengSlider{
+            display: none;
+        }
+        body:hover #fengSlider{
+            display:block;
+            position: absolute;
+            bottom: 60px;
+            width: 90%;
+
+            left: 50%;
+            transform: translate(-50%);
+        }
+        .sliderClass .slider-track {
+           height: 40px!important;
+           width: 100%;
+           margin-top: -5px;
+           top: 50%;
+           left: 0;
+       }
+        @media (max-width: 640px){
+            body:hover #fengSlider{
+                bottom: 0px;
+                width: 70%;
+            }
+        }
+        @media (min-width: 641px) and (max-width: 1440px){
+            body:hover #fengSlider{
+                bottom: 25px;
+                width: 80%;
+            }
+        }
+
+        .tooltip {
+            position: absolute;
+            z-index: 1070;
+            display: block;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1.42857143;
+            text-align: left;
+            text-align: start;
+            text-decoration: none;
+            text-shadow: none;
+            text-transform: none;
+            letter-spacing: normal;
+            word-break: normal;
+            word-spacing: normal;
+            word-wrap: normal;
+            white-space: normal;
+            filter: alpha(opacity=0);
+            opacity: 0;
+
+            line-break: auto;
+        }
+        .tooltip.in {
+            filter: alpha(opacity=90);
+            opacity: .9;
+        }
+        .tooltip.top {
+            padding: 5px 0;
+            margin-top: -3px;
+        }
+        .tooltip-inner {
+            max-width: 200px;
+            padding: 3px 8px;
+            color: #fff;
+            text-align: center;
+            background-color: #000;
+            border-radius: 4px;
+        }
+        .tooltip-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+        }
+        .tooltip.top .tooltip-arrow {
+            bottom: 0;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px 5px 0;
+            border-top-color: #000;
+        }
+        .pc,.mobile{
+            display: none;
+            height: 100%;
+        }
+        .Wdate{
+            width: 100px;
+        }
+        .video-js {
+            visibility: hidden;
+        }
+        .cameraText{
+            position:absolute;
+            top:0px;
+            z-index:100
+        }
+    </style>
+</head>
+
+<body >
+    <h1 style="display: none">log</h1>
+    <marquee class="cameraText"><span style="font-size: 20px;color: rgb(252, 244, 244);"></span></marquee>
+    <div id="view"></div>
+    <video id="video" class="pc" style="background-color:black;width: 100%;height:100%;object-fit: contain" tabindex="-1" controls  muted="muted" ></video>
+    <input id="feng"  data-slider-id='fengSlider'  type="hidden" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
+    <div id = "wrapper" class="mobile">
+        <div id="mobileVideo" style="background-color:black;width: 100%;height:100%;object-fit: contain"></div>
+    </div>
+
+</body>
+<script type="text/javascript" src="/res/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/res/js/layui/layui.js"></script>
+<script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
+<!--<script src="/res/js/chimee/chimee-mobile-player.browser.min.js"></script>-->
+<script src="https://sdk-release.qnsdk.com/qiniu-web-player-1.2.0.js"></script>
+
+<script src="http://lib.baomitu.com/bootstrap-slider/9.10.0/bootstrap-slider.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-FtJyC+/3fgtPbqlacLHdGwBrmPjKoYBsiqNF5/BEprsnIXB4xtXLCJRx7Xx+TWKP" src="http://lib.baomitu.com/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"></script>
+<!--<script src="https://cdn.bootcss.com/bootstrap-slider/10.0.2/bootstrap-slider.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/sugar/2.0.4/sugar.min.js"></script>-->
+<script src="http://lib.baomitu.com/sugar/2.0.3/sugar.min.js"></script>
+<script type="text/javascript" src="/res/js/datepicker97/WdatePicker.js"></script>
+
+
+<script id="topCtlDiv" type="text/html">
+    <ul class="layui-nav layui-pc" id="layui-bar" style="position: absolute;/*right: 0;left: 50%; transform: translate(-50%)*/;white-space: nowrap;"
+        lay-filter="">
+        <li class="layui-nav-item" lay-unselect>
+            {{#  if(!d.isMobile){ }}
+            <a href="javascript:;" style="max-width:500px;text-overflow:ellipsis;white-space: nowrap;overflow:hidden">{{d.curCamera.name}}</a>
+            {{#  } }}
+            {{#  if(d.cameraList.length >1){ }}
+            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                {{#  layui.each(d.cameraList, function(index, item){ }}
+                    <dd ><a href="javascript:void(0)" onclick="chooseCamera('{{item.cameraCode}}')" style="white-space: nowrap">{{item.name}}</a></dd>
+                {{#  }); }}
+            </dl>
+            {{#  } }}
+        </li>
+        {{#  if(d.curResolutionList && d.curResolutionList.length>1 ){ }}
+        <li class="layui-nav-item" lay-unselect>
+            <a href="javascript:;">{{d.curResolution[1]}}</a>
+            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                {{#  layui.each(d.curResolutionList, function(index, item){ }}
+                <dd ><a href="javascript:void(0)" onclick="chooseResolution('{{item[0]}}')" style="white-space: nowrap">{{item[1]}}</a></dd>
+                {{#  }); }}
+            </dl>
+        </li>
+        {{#  } }}
+        <li class="layui-nav-item" lay-unselect>
+            <a href="javascript:;">{{d.curPlayType}}</a>
+            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                {{#  layui.each(d.playTypeList, function(index, item){ }}
+                <dd ><a href="javascript:void(0)" onclick="choosePlayType('{{item[0]}}')" style="white-space: nowrap">{{item[1]}}</a></dd>
+                {{#  }); }}
+            </dl>
+        </li>
+        {{#  if(d.action =='playback'){ }}
+        {{#  if(!d.isMobile){ }}
+        <li class="layui-nav-item" lay-unselect>
+            <input type="text" class="Wdate"  value="{{d.date}}" max="{{d.maxDate}}"
+             onclick="javascript:WdatePicker({onpicked:changePlaybackDate,dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{'%y-%M-%d'}&quot;})"
+            />
+        </li>
+        {{# } else { }}
+
+        <li class="layui-nav-item" lay-unselect>
+            <input type="text"  id="mobileDate"style="width:10rem"  readonly="readonly" value="{{d.dateTime}}"
+            />
+        </li>
+        {{#  } }}
+        {{#  } }}
+    </ul>
+
+</script>
+
+<script type="text/javascript">
+
+    var layer,laytpl;
+    var isMobile = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
+    var DATA ={
+        isMobile:isMobile,
+        curPlayType:"播放方式",
+        resolutionList:[['p1080','超清'],['p720','高清'],['p320','标清']],
+        playTypeList:[['play','直播'],['playback','点播']]
+    };
+    var play;
+    var CUR_ACTION;
+    var layerIndex;
+    var REACHABLE_LOCAL_IPS = [];
+    var NOT_REACHABLE_LOCAL_IPS = [];
+
+    var now = new Date();
+    var currYear = now.getFullYear();
+    var currMonth = now.getMonth() ;
+    var currDay = now.getDate();
+    var currHours=now.getHours();
+    var currMinutes=now.getMinutes();
+    var optionObj = {
+        preset : 'datetime',
+        theme: 'android-ics light', //皮肤样式
+        display: 'bottom', //显示方式
+        mode: 'scroller', //日期选择模式
+        dateFormat: 'yyyy-mm-dd',
+        lang: 'zh',
+        showNow: true,
+        nowText: "今天",
+        startYear: currYear, //开始年份
+        endYear: currYear, //结束年份
+        minDate: new Date(currYear, currMonth - 2, currDay),
+        maxDate: new Date(currYear, currMonth , currDay,currHours,currMinutes),
+        onSelect:function(newDateval,inst){ //选中时触发事件
+                console.log("选择的时间：.....",newDateval);
+                var tempdate=newDateval.split(" ");
+                DATA.date = tempdate[0];
+                var locStr = newDateval.replace(/-/g,"/");
+                DATA.seekTime = DATA.startTime = Date.parse(newDateval);
+                var endOfDay = Sugar.Date.addDays(new Date(newDateval),1);
+                DATA.endTime = endOfDay >new Date() ?Date.parse(new Date()):Date.parse(endOfDay);
+                playback(DATA.curCamera.cameraCode);
+       },
+    };
+
+    var confirm = function (message, fn,cancel) {
+        layer.closeAll();
+        layer.confirm(message, { btn: ['确定', '取消'], title: false }, function (index) {
+            fn && fn();
+            layer.close(index);
+        }, function (index) {
+            cancel&&cancel();
+            layer.close(index);
+        });
+    };
+    var msg = function (tip) {
+        layer.closeAll();
+        tip = tip || "操作成功！";
+        layer.msg(tip, { time: 3000, icon: 1 });
+    };
+    var alert = function (tip) {
+        layer.closeAll();
+        layer.msg(tip || '操作失败！', { time: 4000, icon: 5 });
+    };
+
+    var CAMERA_SERVICE_URL = "/ovu-camera/";
+    /* if(!isMobile){
+         CAMERA_SERVICE_URL = localStorage.getItem("CAMERA_SERVICE_URL");
+     }
+    //var CAMERA_SERVICE_URL = "http://beta.ovuems.com/ovu-camera/";
+   // var CAMERA_SERVICE_URL = "http://192.168.0.14:5678/ovu-camera/"
+
+   // var CAMERA_SERVICE_URL = "http://172.16.11.99/ovu-camera/"
+    !CAMERA_SERVICE_URL && $.ajax({
+            url:"/ovu-pcos/api/video/getCameraServiceUrl.do",
+            async:true,
+            success: function(resp){
+                if(resp.code == 0){
+                    CAMERA_SERVICE_URL = resp.data;
+                    !isMobile && localStorage.setItem("CAMERA_SERVICE_URL",resp.data);
+                }
+            }
+        });*/
+    // 建立websocket 长连接
+    var echo_websocket;
+    var player;
+    function getParam(name) {
+        return location.href.match(new RegExp('[?#&]' + name + '=([^?#&]+)', 'i')) ? RegExp.$1 : '';
+    }
+    function sendMessage(messageObj) {
+        CUR_ACTION= messageObj||CUR_ACTION
+        var jsonStr = JSON.stringify(CUR_ACTION);
+        if(!echo_websocket||echo_websocket.readyState!=1){
+            //echo_websocket = websocket = new WebSocket("ws://beta.ovuems.com/middleware/websocket") ; //初始化 websocket
+           var wsUrl = "ws://"+location.host+"/middleware/websocket";
+            //  var wsUrl = "ws://beta.ovuems.com/middleware/websocket";
+            echo_websocket = new ReconnectingWebSocket(wsUrl, null, {debug: false, reconnectInterval: 1})
+           // echo_websocket  = new WebSocket(wsUrl);
+            echo_websocket.onopen = function () {
+                console.log('Info: connection opened.');
+                echo_websocket.send(jsonStr);
+            };
+            echo_websocket.onmessage = function (event) {
+                console.log('Received: ' + event.data); //处理服务端返回消息
+                $("h1").html(event.data);
+                processData(event.data);
+            };
+            echo_websocket.onclose = function (event) {
+                if (player != null) {
+                    player.unload();
+                    player.detachMediaElement();
+                    player.destroy();
+                    player = null;
+                }
+                confirm("已掉线！尝试重连吗？",sendMessage);
+
+                console.log('Info: connection closed.');
+                console.log(event);
+            };
+        }else{
+            echo_websocket.send(jsonStr);
+            $("h1").html(jsonStr);
+        }
+    }
+    function processData(strResp){
+        if(!strResp){
+            return;
+        }
+        var resp = JSON.parse(strResp);
+        if(resp.code == -1){
+            alert(resp.msg);
+            return;
+        }
+        switch(resp.action){
+            case "log":
+                layer.close(layerIndex);
+                alert(resp.msg);break;
+            case "initFlow":
+                render(resp.data);break;
+            case "play":
+                layer.close(layerIndex);
+                DATA.curAction = resp.action;
+                render(resp.data);
+                getFlvUrl(resp.data,play);break;
+            case "stopPlayer":
+                DATA.curAction = resp.action;
+                if (player != null) {
+                    player.unload();
+                    player.detachMediaElement();
+                    player.destroy();
+                    player = null;
+                }
+                confirm(resp.msg,sendMessage);
+                break;
+        }
+        console.log(resp.msg);
+    }
+  function getFlvUrl(flowInstance,fn){
+      if(flowInstance.pushYun){
+          isMobile?mobilePlay(flowInstance.m3u8Url):pcPlay(flowInstance.flvUrl);
+          return;
+      }
+      var videoPath =  ":"+flowInstance.httpPort+"/flv/"+flowInstance.flowName+".flv";
+      function _func (ip){
+            if(ip ){
+                var flvUrl= "http://"+ ip+videoPath;
+                (DATA.curAction == "play") && fn&&fn(flvUrl);
+            }else{
+                alert("流媒体无外网ip映射，无法外网播放！");
+            }
+        }
+        if(!flowInstance.localIp){
+            _func(flowInstance.ip);
+        }else if(REACHABLE_LOCAL_IPS.indexOf(flowInstance.localIp)>-1){
+          var flvUrl= "http://"+ flowInstance.localIp+videoPath;
+          fn&&fn(flvUrl);
+      }else if(NOT_REACHABLE_LOCAL_IPS.indexOf(flowInstance.localIp)>-1){
+          _func(flowInstance.ip);
+      }else{
+          $.ajax({
+              url: "http://"+flowInstance.localIp+":"+flowInstance.httpPort+"/abc.html",
+              cache: true,
+              timeout:800,
+              success: function(html){
+              },
+              error:function(resp){
+                  console.log(resp.responseText);
+                  var ip = flowInstance.localIp;
+                  switch (resp.status) {
+                      case 0:ip=flowInstance.ip;NOT_REACHABLE_LOCAL_IPS.push(flowInstance.localIp);break;
+                      case 404:ip=flowInstance.localIp;REACHABLE_LOCAL_IPS.push(flowInstance.localIp);break;
+                  }
+                  _func(ip);
+              }
+          });
+      }
+  }
+
+
+
+    function render(flowInstance){
+        if(flowInstance){
+            if(flowInstance.startTime){
+                DATA.curPlayType='回放'
+            }else if(flowInstance.rtspUrl){
+                DATA.curPlayType='直连'
+            }else{
+                DATA.curPlayType='转播'
+            }
+            DATA.curResolutionList =DATA.resolutionList.slice(0,flowInstance.resolutionNum);
+            DATA.curResolution = DATA.curResolutionList.find(function(n){ return n[0]== flowInstance.resolution});
+        }
+        var getTpl = topCtlDiv.innerHTML
+            ,view = document.getElementById('view');
+
+        laytpl(getTpl).render(DATA, function(html){
+            view.innerHTML = html;
+            if(isMobile){
+               $("#layui-bar").removeClass("layui-pc");
+               $("#layui-bar").addClass("layui-mobile");
+           }
+        });
+        layui.element.init('nav');
+
+      }
+    function stopVideo(){
+        DATA.curResolution =DATA.curResolution||DATA.resolutionList[0];
+        DATA.curResolutionList.find(function(n){ return n[0]== flowInstance.resolution});
+        sendMessage({action:"stopTransform",cameraCode:DATA.curCamera.cameraCode,resolution:DATA.curResolution[0]});
+    }
+    function showCameraText(){
+        if(isMobile){
+            $(".cameraText").show();
+            $(".cameraText span").text(DATA.curCamera.name);
+        }else{
+            $(".cameraText").hide();
+        }
+
+    }
+
+    //直播
+    function showVideo(cameraCode,resolution){
+        DATA.curCamera =DATA.cameraList.find(function(n){return n.cameraCode == cameraCode });
+        showCameraText();
+        render();
+        layerIndex = layer.load(0, {
+            shade: [0.2, '#000'], //0.1透明度的白色背景
+            time: 10*1000
+        });
+        sendMessage({action:"play",cameraCode:cameraCode,resolution:resolution?resolution:null});
+
+    }
+
+    //点播
+    function playback(cameraCode){
+        DATA.curCamera =DATA.cameraList.find(function(n){return n.cameraCode == cameraCode });
+        DATA.dateTime=Sugar.Date.format(new Date(DATA.startTime),"{yyyy}-{MM}-{dd} {HH}:{mm}:{ss}");
+        showCameraText();
+        render();
+        layerIndex = layer.load(0, {
+            shade: [0.2, '#000'], //0.1透明度的白色背景
+            time: 10*1000
+        });
+        console.log("startTime:"+Sugar.Date.format(new Date(DATA.startTime),"{yyyy}-{MM}-{dd} {HH}:{mm}:{ss}"))
+        console.log("endTime:"+Sugar.Date.format(new Date(DATA.endTime),"{yyyy}-{MM}-{dd} {HH}:{mm}:{ss}"));
+        sendMessage({action:"playback",cameraCode:cameraCode,startTime:DATA.startTime,endTime:DATA.endTime,seekTime:DATA.seekTime});
+
+    }
+    function changePlaybackDate(dp){
+        if (dp.cal.oldValue == dp.cal.getNewDateStr()){return;}
+        var date =dp.cal.getNewDateStr();
+        DATA.date = date;
+        console.log(date);
+        var locStr = date.replace(/-/g,"/");
+        DATA.seekTime = DATA.startTime = Date.parse(locStr);
+        var endOfDay = Sugar.Date.addDays(new Date(locStr),1);
+        DATA.endTime = endOfDay >new Date() ?Date.parse(new Date()):Date.parse(endOfDay);
+        vedioProgress();
+        playback(DATA.curCamera.cameraCode);
+    }
+
+    function pcPlay(url) {
+        $(".mobile").hide();
+        $(".pc").show();
+        $("h1").html(url);
+        layer.closeAll();
+        //利用奇米来进行视频播放，内置的有线路切换
+        if (flvjs.isSupported()) {
+            if (typeof player !== "undefined") {
+                if (player != null) {
+                    player.unload();
+                    player.detachMediaElement();
+                    player.destroy();
+                    player = null;
+                }
+            }
+            var videoElement = document.getElementById("video");
+            player = flvjs.createPlayer({
+                type: 'flv',
+                isLive: true,
+                hasAudio: false,
+                url: url
+            });
+            player.attachMediaElement(videoElement);
+            player.load();
+            player.play();
+
+            player.on(flvjs.Events.ERROR, function (data) {
+                console.log(data);
+                player.unload();
+                player.detachMediaElement();
+                player.attachMediaElement(videoElement);
+                player.load();
+                player.play();
+            })
+        }
+    }
+
+    function retryM3u8(url,fn){
+        $.ajax({
+            url: url,
+            timeout:800,
+            success: function(html){
+                fn&&fn();
+            },
+            error:function(resp){
+                switch (resp.status) {
+                    case 404:
+                        window.setTimeout(function(){
+                            retryM3u8(url,fn);
+                        },1000)
+                        break;
+                }
+            }
+        });
+    }
+
+    //播放视频方法
+    function mobilePlay (url) {
+        $(".mobile").show();
+        $(".pc").hide();
+        var options = {
+            controls: true,
+            autoplay:true, //如为 true，则视频将会自动播放
+            url: url.replace(".flv",".m3u8"),
+            container: document.getElementById("mobileVideo"),
+            //url: src,
+            type: 'hls',
+            preload: true,
+        };
+        retryM3u8(options.url,()=>{
+            layer.closeAll();
+            player = new QPlayer(options);
+        })
+
+        /*
+        $(".mobile").show();
+        $(".pc").hide();
+        $("h1").html(src);
+        var options = {
+            controls: true,
+            url: src.replace(".flv",".m3u8"),
+            //url: src,
+            type: 'hls',
+            preload: true,
+            autoplay: true // 如为 true，则视频将会自动播放
+        };
+        var callback = function(){
+            player.autoplay(true, null);
+            player.fullscreen(true, null);
+            $(".video-js").css("visibility","visible");
+        }
+        player = new QiniuPlayer('demo-video', options,callback);*/
+    }
+
+    function processAction(){
+        var action = getParam("action")||"play";
+        DATA.curResolution = [getParam("resolution")||(DATA.cameraList[0].cameraCode=="feng4"?"p720":'p720'),'未知']
+        choosePlayType(action);
+    }
+    function chooseCamera(cameraCode){
+        if(DATA.curCamera.cameraCode!=cameraCode){
+            showVideo(cameraCode,DATA.curResolution[0]);
+        }
+    }
+    function chooseResolution(resolution){
+        if(DATA.curResolution[0]!=resolution){
+            showVideo(DATA.curCamera.cameraCode,resolution);
+        }
+    }
+
+    function choosePlayType(action){
+        if(DATA.action ==action ){
+            return;
+        }
+        DATA.action = action;
+        switch (action){
+            case "play":
+
+                $("#video").attr("controls","controls");
+                if(fengSlider){
+                    fengSlider.destroy();
+                    fengSlider = null;
+                }
+                showVideo(DATA.cameraList[0].cameraCode,DATA.curResolution?DATA.curResolution[0]:null);break;
+            case "playback":
+                $("#video").removeAttr("controls");
+                DATA.seekTime = DATA.startTime = parseInt(getParam("startTime"))||Date.parse(Sugar.Date.beginningOfDay(new Date()));
+                DATA.endTime = parseInt(getParam("endTime"))||Date.parse(Sugar.Date.addMinutes(new Date(),-30));
+                DATA.maxDate = DATA.date = Sugar.Date.format(new Date(DATA.startTime),"{yyyy}-{MM}-{dd}");
+                vedioProgress();
+                playback(DATA.cameraList[0].cameraCode);break;
+        }
+
+    }
+
+    var fengSlider;
+    function vedioProgress() {
+        if(fengSlider){
+            fengSlider.destroy();
+        }
+        //视频进度控制 slider
+        var max = (DATA.endTime-DATA.startTime)/1000;
+         fengSlider = new Slider('#feng', {
+                //tooltip: 'always',
+                step: 1,
+                min: 0,
+                max: max,
+                formatter: function(value) {
+                    return Sugar.Date.format(new Date(DATA.startTime + value*1000),"{yyyy}-{MM}-{dd} {HH}:{mm}:{ss}");
+                }
+            });
+            fengSlider.on("slideStop", function(value) {
+                console.log("slideStop");
+                //点播 触发
+                DATA.seekTime =  DATA.startTime + value*1000;
+                playback(DATA.curCamera.cameraCode);
+            });
+
+    }
+
+    (function() {
+        layui.use(['layer','element','laytpl' ], function(){
+            layer = layui.layer;
+            laytpl = layui.laytpl;
+//视频模块本身播放视频时，没有equipmentId
+            var cameraCode = getParam("cameraCode");
+            var equipmentId = getParam("equipmentId");
+          /*  $(".mobile").show();
+            //playback.ovuems.com.qiniudns.com
+            mobilePlay("http://peh7jjpqm.bkt.clouddn.com/recordings/z1.video1.632a3318172161115_459X0/1536303875_1536303886.m3u8");
+            return;*/
+
+            if(isMobile) {
+                play = mobilePlay;
+                $(".mobile").show();
+                $(".cameraText").show();
+            } else {
+                play = pcPlay;//mobilePlay;
+                $(".pc").show();
+                $(".cameraText").hide();
+            }
+
+            $("h1").html(equipmentId);
+
+            if(equipmentId){
+                $.get('/ovu-pcos/api/video/getCameras.do',{equipmentId:equipmentId},function(res){
+                    if(res.code ==0 ){
+                        //摄像头列表
+                        DATA.cameraList = res.data.map(function(n){return {name:n.name,cameraCode:n.regi_code}});
+                        if(DATA.cameraList && DATA.cameraList.length){
+                            processAction();
+                        }else{
+                            alert("无摄像头信息！");
+                            return;
+                        }
+                    }
+                })
+            }else if(cameraCode){
+                $.get(CAMERA_SERVICE_URL+'api/cameraInfo.do',{cameraCode:cameraCode},function(res){
+                    if(res.code ==0 ){
+                        //摄像头列表
+                        DATA.cameraList = [{name:res.data.name,cameraCode:res.data.code}];
+                        if(DATA.cameraList && DATA.cameraList.length){
+                            processAction();
+                        }else{
+                            alert("无摄像头信息！");
+                            return;
+                        }
+                    }
+                })
+            }else{
+                alert("未指定摄像机！")
+            }
+
+        });
+    }());
+    function closePlayer(){
+        if (flvjs.isSupported()) {
+            if (typeof player !== "undefined") {
+                if (player != null) {
+                    player.unload();
+                    player.detachMediaElement();
+                    player.destroy();
+                    player = null;
+                }
+            }
+        }
+    }
+    window.onbeforeunload= function(event) { 
+           
+      if (flvjs.isSupported()) {
+            if (typeof player !== "undefined") {
+                if (player != null) {
+                    player.unload();
+                    player.detachMediaElement();
+                    player.destroy();
+                    player = null;
+                }
+            }
+        }
+
+    }
+
+</script>
+</html>

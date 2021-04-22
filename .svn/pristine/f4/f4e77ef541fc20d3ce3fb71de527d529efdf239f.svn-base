@@ -1,0 +1,132 @@
+
+<div ng-controller="workunitreleaseCtl" id="workunitreleaseCtl">
+	<div class="page-title">
+		<div class="title_left">
+			<h3>待派工单(计划)</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel" style="padding-right: 0;padding-left: 0">
+				<div class="x_title">
+					<a ng-click='expandAll(planWorkTypeTree)' role="button" class='btn-link' title="展开与收缩">
+						<i class="glyphicon"
+							ng-class="{'glyphicon-resize-small':planWorkTypeTree.expanded,'glyphicon-resize-full':!planWorkTypeTree.expanded}"></i></a>
+					工作分类
+				</div>
+				<div class="x_content" style="z-index: 1">
+					<div class="alert" role="alert" ng-show="!planWorkTypeTree">无工作分类</div>
+					<div>
+						<tree-view-pro node-list="planWorkTypeTree" host="search" host-text="'text'" host-key="'workTypeId'"
+							callback="selectNode" clean="clean" config="{'edit':false}"></tree-view-pro>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+			<div class="x_panel" >
+				<div class="form-inline">
+				
+					<div class="form-group">
+                        <label >执行人</label>
+						
+						<select-person host="search.exec" dept-id="search.deptId"></select-person>
+					</div>
+					<div class="form-group">
+                        <label >管理人</label>
+						
+						<select-person host="search.source" dept-id="search.deptId"></select-person>
+					</div>
+					<div class="form-group">
+						<label >工单名称</label>
+						<input type="text"  ng-model="search.workUnitName" class="form-control" />
+					</div>
+					
+					<div class="form-group">
+						<label>是否设备任务</label>
+						<select class="form-control" ng-model="search.IsEquip"  ng-options="o[0] as o[1] for o in yesNoDict">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+			
+				
+				<div class="form-group">
+					<label>计划派发时间</label>
+					<input class="form-control Wdate"   readOnly=true onchange="" id="workunit_releaseFROM_DATE" placeholder="开始日期" 
+						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate: '#F{$dp.$D(\'workunit_releaseTO_DATE\')}'})" ng-model="search.execStartDate"></input>
+						   <label>-</label>
+					<input class="form-control Wdate"   readOnly=true onchange="" id="workunit_releaseTO_DATE"  placeholder="结束日期"
+						   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'workunit_releaseFROM_DATE\')}'})" ng-model="search.execEndDate"></input>
+						   <button class="btn btn-default" ng-click="find(1)">查询</button>
+				</div>
+				
+			</div>	
+	    </div>
+	<div class="panel panel-default" style="display: grid;">
+		<div class="panel-heading">工单列表
+            <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="exportExcel()">导出Excel</button>
+			<button class="btn btn-danger pull-right"  ng-disabled="!hasChecked(pageModel)" ng-click="delAll()" >删除</button>
+			<button class="btn btn-info pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="distriubteModal()" >批量设置执行人</button>
+			<button class="btn btn-info pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="distriubteModal()" >批量设置管理人</button>
+			<button class="btn btn-info pull-right" ng-click="showReleaseEditModal()" >添加计划工单</button>
+			<button class="btn btn-info pull-right"  ng-click="importWorkPlan()" >批量导入计划工单</button>
+			<button class="btn btn-info pull-right"  ng-click="downWorkUnitTmpl()" >下载模板</button>
+		</div>
+		<div class="panel-body" style="overflow: auto;">
+            <table  class="table table-striped table-hover" style="margin-top: 10px">
+				<thead>
+				<tr>
+					<th class="text-center" style="width:20px">NO</th>
+					<th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+						<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+						<th>工作分类</th>
+						<th>工作事项</th>
+						<th>工单名称</th>
+						<th>工单编号</th>
+					<!-- <th>工单描述</th> -->
+				     <th>设备</th>
+					<th>位置</th>
+					<th>执行人</th>
+                    <th>指定管理人</th>
+					<th>计划派发时间</th>
+                     <th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+				<tr ng-repeat="item in pageModel.data">
+					<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+					<td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+					<td>{{item.workTypeName}}</td>
+					<td >{{item.workTaskNewName}}</td>
+					<td>{{item.workUnitName}}</td>
+					<td>{{item.id}}</td>
+					<!-- <td>{{item.description}}</td>					 -->
+					<td style="min-width: 120px;">{{item.equipmentName}}</td>
+					<td>{{item.parkName}}</td>
+					<td ><a href='javascript:void(0)' class='btn btn-xs btn-link' ng-click='distriubteModal(item)'>{{item.execPersonName || '选择人员'}}</a></td>
+                    <td ><a href='javascript:void(0)' class='btn btn-xs btn-link' ng-click='distriubteModal(item)'>{{item.managerName || '选择人员'}}</a></td>
+					<td>{{item.execDate }}</td>
+					<td>
+						<a href='javascript:void(0)' ng-click='showReleaseEditModal(item)' class='btn btn-xs btn-link'><span class='fa fa-edit'></span>编辑</a>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			<div class="page-footer clearfix">
+				<page-pro page-model="pageModel"></page-pro>
+			</div>
+		</div>
+	</div>
+	<ng-include src="'/common/modal.worktype.tree.html'"></ng-include>
+		</div>
+
+	</div>
+</div>
+<style>
+#workunitreleaseCtl	table tr th, 
+#workunitreleaseCtl table tr td{
+		text-align: left;
+	}
+</style>
+  

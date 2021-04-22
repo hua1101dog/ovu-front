@@ -1,0 +1,2880 @@
+{
+    "创意天地":{
+        "name": "创意天地",
+        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/NKT.geojson",
+        "list": [
+            {
+                "name": "高层办工1#",
+                "id": 40115,
+                "bimId": 40115,
+                "floorNo": "04201110001CYTDYQ02G01",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG1/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG1/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG1/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG1/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG1/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG1/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG1/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG1/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG1/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG1/10f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "高层办工2#",
+                "id": 40113,
+                "bimId": 40113,
+                "floorNo": "04201110001CYTDYQ02G02",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG2/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG2/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG2/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG2/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG2/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG2/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG2/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG2/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG2/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG2/10f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "高层办工3#",
+                "id": 40107,
+                "bimId": 40107,
+                "floorNo": "04201110001CYTDYQ03G03",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG3/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG3/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG3/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG3/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG3/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG3/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG3/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG3/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG3/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG3/10f.geojson"
+                    },{
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG3/11f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "高层办工4#",
+                "id": 40105,
+                "bimId": 40105,
+                "floorNo": "04201110001CYTDYQ03G04",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG4/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG4/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG4/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG4/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG4/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG4/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG4/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG4/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG4/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG4/10f.geojson"
+                    },{
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG4/11f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "高层办工5#",
+                "id": 40103,
+                "bimId": 40103,
+                "floorNo": "04201110001CYTDYQ03G05",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG5/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG5/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG5/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG5/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG5/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG5/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG5/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG5/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG5/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG5/10f.geojson"
+                    },{
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG5/11f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "高层办工6#",
+                "id": 40101,
+                "bimId": 40101,
+                "floorNo": "04201110001CYTDYQ03G06",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG6/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG6/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG6/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG6/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG6/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG6/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG6/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG6/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG6/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG6/10f.geojson"
+                    },{
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG6/11f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "高层办工7#",
+                "id": 40154,
+                "bimId": 40154,
+                "floorNo": "04201110001CYTDYQ04G07",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/10f.geojson"
+                    },{
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/11f.geojson"
+                    },
+                    {
+                        "name": "F12",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/12f.geojson"
+                    },
+                    {
+                        "name": "F13",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/13f.geojson"
+                    },{
+                        "name": "F14",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/14f.geojson"
+                    },{
+                        "name": "F15",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/15f.geojson"
+                    },{
+                        "name": "F16",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG7/16f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "高层办工8#",
+                "id": 40156,
+                "bimId": 40156,
+                "floorNo": "04201110001CYTDYQ04G08",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/10f.geojson"
+                    },{
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/11f.geojson"
+                    },
+                    {
+                        "name": "F12",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/12f.geojson"
+                    },
+                    {
+                        "name": "F13",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/13f.geojson"
+                    },{
+                        "name": "F14",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/14f.geojson"
+                    },{
+                        "name": "F15",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/15f.geojson"
+                    },{
+                        "name": "F16",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG8/16f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "餐饮主力店",
+                "id": 40129,
+                "bimId":40129,
+                "floorNo": "04201110001CYTDYQ01ZLD",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYZLD/Change_1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYZLD/Change_2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYZLD/Change_3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYZLD/Change_4f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "艺术品卖场",
+                "id": 40122,
+                "bimId":40122,
+                "floorNo": "04201110001CYTDYQ01MC0",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJMC/Change_1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJMC/Change_2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJMC/Change_3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJMC/Change_4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJMC/Change_5f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "高层办工9#",
+                "id": 40172,
+                "bimId": 40172,
+                "floorNo": "04201110001CYTDYQ01G09",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/10f.geojson"
+                    },
+                    {
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/11f.geojson"
+                    },
+                    {
+                        "name": "F12",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/12f.geojson"
+                    },
+                    {
+                        "name": "F13",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/13f.geojson"
+                    },
+                    {
+                        "name": "F14",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/14f.geojson"
+                    },
+                    {
+                        "name": "F15",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/15f.geojson"
+                    },
+                    {
+                        "name": "F16",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/16f.geojson"
+                    },
+                    {
+                        "name": "F17",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG9/17f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "高层办工10#",
+                "id": 40175,
+                "bimId": 40175,
+                "floorNo": "04201110001CYTDYQ01G10",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/6f.geojson"
+                    },
+
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/9f.geojson"
+                    },{
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/10f.geojson"
+                    },{
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/11f.geojson"
+                    },{
+                        "name": "F12",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/12f.geojson"
+                    },{
+                        "name": "F13",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/13f.geojson"
+                    },{
+                        "name": "F14",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/14f.geojson"
+                    },{
+                        "name": "F15",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/15f.geojson"
+                    },{
+                        "name": "F16",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/16f.geojson"
+                    },
+                    {
+                        "name": "F17",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG10/17f.geojson"
+                    }
+
+                ]
+            },
+            {
+                "name": "高层办工11#",
+                "id": 40177,
+                "bimId": 40177,
+                "floorNo": "04201110001CYTDYQ01G11",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/6f.geojson"
+                    },
+
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/10f.geojson"
+                    },
+                    {
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/11f.geojson"
+                    },
+                    {
+                        "name": "F12",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/12f.geojson"
+                    },
+                    {
+                        "name": "F13",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/13f.geojson"
+                    },
+                    {
+                        "name": "F14",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/14f.geojson"
+                    },
+                    {
+                        "name": "F15",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/15f.geojson"
+                    },
+                    {
+                        "name": "F16",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/16f.geojson"
+                    },
+                    {
+                        "name": "F17",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/GCBG11/17f.geojson"
+                    }
+
+                ]
+            },
+            {
+                "name": "美术馆",
+                "id": 40148,
+                "bimId": 40148,
+                "floorNo": "04201110001CYTDYQ01MSG",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/MSG/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/MSG/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "体验馆",
+                "id": 40162,
+                "bimId" : 40162,
+                "floorNo": "04201110001CYTDYQ02TYG",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/TYG/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/TYG/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "创意工坊1#",
+                "id": 40112,
+                "bimId" : 40112,
+                "floorNo": "04201110001CYTDYQ03F01",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF1/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF1/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF1/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF1/4f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "创意工坊2#",
+                "id": 40111,
+                "bimId" : 40111,
+                "floorNo": "04201110001CYTDYQ03F02",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF2/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF2/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF2/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF2/4f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "创意工坊3#",
+                "id": 40110,
+                "bimId" : 40110,
+                "floorNo": "04201110001CYTDYQ03F03",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF3/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF3/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF3/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF3/4f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "创意工坊4#",
+                "id": 40109,
+                "bimId" : 40109,
+                "floorNo": "04201110001CYTDYQ03F04",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF4/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF4/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF4/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF4/4f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "创意工坊5#",
+                "id": 40108,
+                "bimId" : 40108,
+                "floorNo": "04201110001CYTDYQ03F05",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF5/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF5/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF5/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF5/4f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "创意工坊6#",
+                "id": 40150,
+                "bimId" : 40150,
+                "floorNo": "04201110001CYTDYQ04F06",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF6/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF6/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF6/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF6/4f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "创意工坊7#",
+                "id": 40151,
+                "bimId" : 40151,
+                "floorNo": "04201110001CYTDYQ04F07",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF7/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF7/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF7/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF7/4f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "创意工坊8#",
+                "id": 40152,
+                "bimId" : 40152,
+                "floorNo": "04201110001CYTDYQ04F08",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF8/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF8/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF8/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF8/4f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "创意工坊9#",
+                "id": 40153,
+                "bimId" : 40153,
+                "floorNo": "04201110001CYTDYQ04F09",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF9/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF9/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF9/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF9/4f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "创意工坊10#",
+                "id": 40170,
+                "bimId" : 40170,
+                "floorNo": "04201110001CYTDYQ01F10",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF10/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF10/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF10/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF10/4f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "创意工坊11#",
+                "id": 40171,
+                "bimId" : 40171,
+                "floorNo": "04201110001CYTDYQ01F11",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF11/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF11/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF11/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CYGF11/4f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商业中心",
+                "id": 40179,
+                "bimId" : 40179,
+                "floorNo": "04201110001CYTDYQ01CKX",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CKX/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CKX/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CKX/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CKX/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CKX/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/CKX/6f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "工作室1#",
+                "id": 40117,
+                "bimId" : 40117,
+                "floorNo": "04201110001CYTDYQ01Y01",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS1/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS1/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS1/3f.geojson"
+                    }
+
+                ]
+            },
+            {
+                "name": "工作室2#",
+                "id": 40118,
+                "bimId" : 40118,
+                "floorNo": "04201110001CYTDYQ01Y02",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS2/1f.geojson"
+                    },
+
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS2/3f.geojson"
+                    }
+
+                ]
+            },
+            {
+                "name": "工作室3#",
+                "id": 40120,
+                "bimId" : 40120,
+                "floorNo": "04201110001CYTDYQ01Y03",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS3/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS3/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS3/3f.geojson"
+                    }
+
+                ]
+            },
+            {
+                "name": "工作室4#",
+                "id": 40126,
+                "bimId" : 40126,
+                "floorNo": "04201110001CYTDYQ01Y04",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS4/1f.geojson"
+                    },
+
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS4/3f.geojson"
+                    }
+
+                ]
+            },
+            {
+                "name": "工作室5#",
+                "id": 40121,
+                "bimId" : 40121,
+                "floorNo": "04201110001CYTDYQ01Y05",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS5/1f.geojson"
+                    },
+
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS5/3f.geojson"
+                    }
+
+                ]
+            },
+            {
+                "name": "工作室6#",
+                "id": 40127,
+                "bimId" : 40127,
+                "floorNo": "04201110001CYTDYQ01Y06",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS6/1f.geojson"
+                    },
+
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/YSJGZS6/3f.geojson"
+                    }
+
+                ]
+            },
+            {
+                "name": "地下室",
+                "id": 40199,
+                "bimId" : 40199,
+                "floorNo": "04201110001CYTDYQ01DXS",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/equipmentRoom/2.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "剧场",
+                "id": 40157,
+                "bimId" : 40157,
+                "floorNo": "04201110001CYTDYQ02JC1",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/JC/1f.geojson"
+                    },{
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/JC/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "特色酒店",
+                "id": 40116,
+                "bimId" : 40116,
+                "floorNo": "04201110001CYTDYQ01JD1",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/ZYJD/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/ZYJD/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/ZYJD/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/ZYJD/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/ZYJD/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/ZYJD/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/ZYJD/7f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#1",
+                "id": 40147,
+                "bimId" : 40147,
+                "floorNo": "04201110001CYTDYQ01S01",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP1/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP1/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP1/3f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#2",
+                "id": 40146,
+                "bimId" : 40146,
+                "floorNo": "04201110001CYTDYQ01S02",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP2/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP2/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#3",
+                "id": 40144,
+                "bimId" : 40144,
+                "floorNo": "04201110001CYTDYQ01S03",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP3/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP3/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#4",
+                "id": 0,
+                "bimId" : 0,
+                "floorNo": "04201110001CYTDYQ01S04",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP4/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP4/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#5",
+                "id": 40145,
+                "bimId" : 40145,
+                "floorNo": "04201110001CYTDYQ01S05",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP5/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP5/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#6",
+                "id": 40142,
+                "bimId" : 40142,
+                "floorNo": "04201110001CYTDYQ01S06",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP6/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP6/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#7",
+                "id": 40143,
+                "bimId" : 40143,
+                "floorNo": "04201110001CYTDYQ01S07",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP7/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP7/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP7/3f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#8",
+                "id": 40140,
+                "bimId" : 40140,
+                "floorNo": "04201110001CYTDYQ01S08",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP8/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP8/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP8/3f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#9",
+                "id": 40141,
+                "bimId" : 40141,
+                "floorNo": "04201110001CYTDYQ01S09",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP9/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP9/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#10",
+                "id": 40138,
+                "bimId" : 40138,
+                "floorNo": "04201110001CYTDYQ01S10",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP10/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP10/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#11",
+                "id": 40139,
+                "bimId" : 40139,
+                "floorNo": "04201110001CYTDYQ01S11",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP11/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP11/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#12",
+                "id": 40123,
+                "bimId" : 40123,
+                "floorNo": "04201110001CYTDYQ01S12",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP12/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP12/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP12/3f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#13",
+                "id": 0,
+                "bimId" : 0,
+                "floorNo": "04201110001CYTDYQ01S13",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP13/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP13/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#14",
+                "id": 0,
+                "bimId" : 0,
+                "floorNo": "04201110001CYTDYQ01S14",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP14/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP14/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#15",
+                "id": 40133,
+                "bimId" : 40133,
+                "floorNo": "04201110001CYTDYQ01S15",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP15/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP15/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#16",
+                "id": 40130,
+                "bimId" : 40130,
+                "floorNo": "04201110001CYTDYQ01S16",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP16/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP16/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#17",
+                "id": 40135,
+                "bimId" : 40135,
+                "floorNo": "04201110001CYTDYQ01S17",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP17/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP17/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#18",
+                "id": 40134,
+                "bimId" : 40134,
+                "floorNo": "04201110001CYTDYQ01S18",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP18/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP18/2f.geojson"
+                    }
+                ]
+            },
+
+            {
+                "name": "商街#19",
+                "id": 40165,
+                "bimId" : 40165,
+                "floorNo": "04201110001CYTDYQ01S19",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP19/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP19/2f.geojson"
+                    }
+                ]
+            },
+
+            {
+                "name": "商街#20",
+                "id": 40168,
+                "bimId" : 40168,
+                "floorNo": "04201110001CYTDYQ01S20",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP20/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP20/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP20/3f.geojson"
+                    }
+                ]
+            },
+
+            {
+                "name": "商街#21",
+                "id": 40166,
+                "bimId" : 40166,
+                "floorNo": "04201110001CYTDYQ01S21",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP21/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP21/2f.geojson"
+                    }
+                ]
+            },
+
+            {
+                "name": "商街#22",
+                "id": 40167,
+                "bimId" : 40167,
+                "floorNo": "04201110001CYTDYQ01S22",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP22/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP22/2f.geojson"
+                    }
+                ]
+            },
+
+            {
+                "name": "商街#23",
+                "id": 40169,
+                "bimId" : 40169,
+                "floorNo": "04201110001CYTDYQ01S23",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP23/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP23/2f.geojson"
+                    }
+                ]
+            },
+
+            {
+                "name": "商街#24",
+                "id": 0,
+                "bimId" : 0,
+                "floorNo": "04201110001CYTDYQ01S24",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP24/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP24/2f.geojson"
+                    }
+                ]
+            },
+
+            {
+                "name": "商街#25",
+                "id": 40158,
+                "bimId" : 40158,
+                "floorNo": "04201110001CYTDYQ01S25",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP25/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP25/2f.geojson"
+                    }
+                ]
+            },
+
+            {
+                "name": "商街#26",
+                "id": 40159,
+                "bimId" : 40159,
+                "floorNo": "04201110001CYTDYQ01S26",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP26/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP26/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP26/3f.geojson"
+                    }
+                ]
+            },
+
+            {
+                "name": "商街#27",
+                "id": 40160,
+                "bimId" : 40160,
+                "floorNo": "04201110001CYTDYQ01S27",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP27/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP27/2f.geojson"
+                    }
+                ]
+            },
+
+            {
+                "name": "商街#28",
+                "id": 40161,
+                "bimId" : 40161,
+                "floorNo": "04201110001CYTDYQ01S28",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP28/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP28/2f.geojson"
+                    }
+                ]
+            },
+
+            {
+                "name": "商街#29",
+                "id": 40163,
+                "bimId" : 40163,
+                "floorNo": "04201110001CYTDYQ01S29",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP29/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP29/2f.geojson"
+                    }
+                ]
+            },
+            {
+                "name": "商街#30",
+                "id": 40164,
+                "bimId" : 40164,
+                "floorNo": "04201110001CYTDYQ01S30",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP30/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CYTD/SP30/2f.geojson"
+                    }
+                ]
+            }
+
+        ]
+    },
+    "合肥金融港":{
+        "name": "合肥金融港",
+        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/NKT.geojson",
+        "list": [
+            {
+                "name": "A1",
+                "id": "11",
+                "bimId": 11,
+                "floorNo": "03401110001HFJRYQ01A01",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/10f.geojson"
+                    },
+                    {
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/11f.geojson"
+                    },
+                    {
+                        "name": "F12",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/12f.geojson"
+                    },
+                    {
+                        "name": "F13",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/13f.geojson"
+                    },
+                    {
+                        "name": "F14",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/14f.geojson"
+                    },
+                    {
+                        "name": "F15",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/15f.geojson"
+                    },
+                    {
+                        "name": "F16",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/16f.geojson"
+                    },
+                    {
+                        "name": "F17",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A1/17f.geojson"
+                    }
+                ]
+            },{
+                "name": "A2",
+                "id": "8",
+                "bimId": "8",
+                "floorNo" : "03401110001HFJRYQ01A02",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/10f.geojson"
+                    },
+                    {
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/11f.geojson"
+                    },
+                    {
+                        "name": "F12",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/12f.geojson"
+                    },
+                    {
+                        "name": "F13",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/13f.geojson"
+                    },
+                    {
+                        "name": "F14",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/14f.geojson"
+                    },
+                    {
+                        "name": "F15",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/15f.geojson"
+                    },
+                    {
+                        "name": "F16",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/16f.geojson"
+                    },
+                    {
+                        "name": "F17",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/17f.geojson"
+                    },
+                    {
+                        "name": "F18",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/18f.geojson"
+                    },
+                    {
+                        "name": "F19",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/19f.geojson"
+                    },
+                    {
+                        "name": "F20",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/20f.geojson"
+                    },
+                    {
+                        "name": "F21",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/21f.geojson"
+                    },
+                    {
+                        "name": "F22",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/22f.geojson"
+                    },
+                    {
+                        "name": "F23",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A2/23f.geojson"
+                    }
+                ]
+            },{
+                "name": "A3",
+                "bimId": "6",
+                "floorNo": "04201110001CYTDYQ050010",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/10f.geojson"
+                    },
+                    {
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/11f.geojson"
+                    },
+                    {
+                        "name": "F12",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/12f.geojson"
+                    },
+                    {
+                        "name": "F13",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/13f.geojson"
+                    },
+                    {
+                        "name": "F14",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/14f.geojson"
+                    },
+                    {
+                        "name": "F15",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/15f.geojson"
+                    },
+                    {
+                        "name": "F16",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/16f.geojson"
+                    },
+                    {
+                        "name": "F17",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/17f.geojson"
+                    },
+                    {
+                        "name": "F18",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/18f.geojson"
+                    },
+                    {
+                        "name": "F19",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/19f.geojson"
+                    },
+                    {
+                        "name": "F20",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/20f.geojson"
+                    },
+                    {
+                        "name": "F21",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/21f.geojson"
+                    },
+                    {
+                        "name": "F22",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/22f.geojson"
+                    },
+                    {
+                        "name": "F23",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A3/23f.geojson"
+                    }
+                ]
+            },{
+                "name": "A5",
+                "bimId": "15",
+                "floorNo": "03401110001HFJRYQ01A05",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/10f.geojson"
+                    },
+                    {
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/11f.geojson"
+                    },
+                    {
+                        "name": "F12",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/12f.geojson"
+                    },
+                    {
+                        "name": "F13",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/13f.geojson"
+                    },
+                    {
+                        "name": "F14",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/14f.geojson"
+                    },
+                    {
+                        "name": "F15",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/15f.geojson"
+                    },
+                    {
+                        "name": "F16",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/16f.geojson"
+                    },
+                    {
+                        "name": "F17",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A5/17f.geojson"
+                    }
+                ]
+            },{
+                "name": "A6",
+                "bimId": "17",
+                "floorNo": "03401110001HFJRYQ01A06",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/8f.geojson"
+                    },
+                    {
+                        "name": "F9",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/9f.geojson"
+                    },
+                    {
+                        "name": "F10",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/10f.geojson"
+                    },
+                    {
+                        "name": "F11",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/11f.geojson"
+                    },
+                    {
+                        "name": "F12",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/12f.geojson"
+                    },
+                    {
+                        "name": "F13",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/13f.geojson"
+                    },
+                    {
+                        "name": "F14",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A6/14f.geojson"
+                    }
+                ]
+            },{
+                "name": "A7",
+                "bimId": "26",
+                "floorNo": "04201110001CYTDYQ050010",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A7/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A7/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A7/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A7/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A7/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A7/6f.geojson"
+                    }
+                ]
+            },{
+                "name": "A8",
+                "bimId": "29",
+                "floorNo": "03401110001HFJRYQ01008",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A8/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A8/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A8/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A8/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A8/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A8/6f.geojson"
+                    }
+                ]
+            },{
+                "name": "A9",
+                "bimId": "38",
+                "floorNo": "03401110001HFJRYQ01009",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A9/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A9/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A9/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A9/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A9/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A9/6f.geojson"
+                    }
+                ]
+            },{
+                "name": "A10",
+                "bimId": "48",
+                "floorNo": "04201110001CYTDYQ050010",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A10/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A10/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A10/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A10/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A10/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A10/6f.geojson"
+                    }
+                ]
+            },{
+                "name": "A11",
+                "bimId": "44",
+                "floorNo": "03401110001HFJRYQ010A11",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A11/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A11/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A11/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A11/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A11/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A11/6f.geojson"
+                    }
+                ]
+            },{
+                "name": "A12",
+                "bimId": "33",
+                "floorNo": "03401110001HFJRYQ010A12",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A12/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A12/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A12/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A12/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A12/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A12/6f.geojson"
+                    }
+                ]
+            },{
+                "name": "A13",
+                "bimId": "27",
+                "floorNo": "03401110001HFJRYQ010A13",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A13/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A13/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A13/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A13/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A13/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/A13/6f.geojson"
+                    }
+                ]
+            },{
+                "name": "B6",
+                "bimId": "52",
+                "floorNo": "04201110001CYTDYQ050010",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/B6/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/B6/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/B6/3f.geojson"
+                    }
+                ]
+            },{
+                "name": "B7",
+                "bimId": "56",
+                "floorNo": "04201110001CYTDYQ050010",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/B7/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/B7/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/B7/3f.geojson"
+                    }
+                ]
+            },{
+                "name": "B10",
+                "bimId": "72",
+                "floorNo": "04201110001CYTDYQ050010",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/B10/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/B10/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/B10/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/HFJRG/B10/4f.geojson"
+                    }
+                ]
+            }
+
+        ]
+    },
+    "长沙中电软件园": {
+        "name": "长沙中电软件园",
+        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/view/NKT.geojson",
+        "list": [
+            {
+                "bimId": "36",
+                "name": "4#",
+                "floorNo": "0",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs4/cs4-1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs4/cs4-2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs4/cs4-3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs4/cs4-4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs4/cs4-5f.geojson"
+                    }
+                ]
+            },
+            {
+                "bimId": "45",
+                "floorNo": "0",
+                "name": "5#",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs5/cs5-1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs5/cs5-2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs5/cs5-3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs5/cs5-4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs5/cs5-5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs5/cs5-6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs5/cs5-7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs5/cs5-8f.geojson"
+                    }
+                ]
+            },
+            {
+                "bimId": "41",
+                "floorNo": "04301040001ZSRJYQ01001",
+                "name": "6#",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs6/cs6-1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs6/cs6-2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs6/cs6-3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs6/cs6-4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs6/cs6-5f.geojson"
+                    }
+                ]
+            },
+            {
+                "bimId": "50",
+                "floorNo": "0",
+                "name": "7#",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs7/cs7-1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs7/cs7-2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs7/cs7-3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs7/cs7-4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs7/cs7-5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs7/cs7-5f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs7/cs7-5f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs7/cs7-5f.geojson"
+                    }
+                ]
+            },
+            {
+                "bimId": "80",
+                "floorNo": "0",
+                "name": "8#",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs8/cs8-1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs8/cs8-2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs8/cs8-3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs8/cs8-4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs8/cs8-5f.geojson"
+                    }
+                ]
+            },
+            {
+                "bimId": "66",
+                "floorNo": "04301040001CSRJYQ01009",
+                "name": "9#",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/8f.geojson"
+                    }
+                ]
+            },
+            {
+                "bimId": "67",
+                "floorNo": "04301040001CSRJYQ01009",
+                "name": "9#",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/5f.geojson"
+                    },
+                    {
+                        "name": "F6",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/6f.geojson"
+                    },
+                    {
+                        "name": "F7",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/7f.geojson"
+                    },
+                    {
+                        "name": "F8",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs9/8f.geojson"
+                    }
+                ]
+            },
+            {
+                "bimId": "83",
+                "floorNo": "0",
+                "name": "11#",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs11/cs11-1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs11/cs11-2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs11/cs11-3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs11/cs11-4f.geojson"
+                    }
+                ]
+            },
+            {
+                "bimId": "84",
+                "floorNo": "0",
+                "name": "12#",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs12/cs12-1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs12/cs12-2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs12/cs12-3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs12/cs12-4f.geojson"
+                    }
+                ]
+            },
+            {
+                "bimId": "85",
+                "floorNo": "0",
+                "name": "14#",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs14/cs14-1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs14/cs14-2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs14/cs14-3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs14/cs14-4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs14/cs14-5f.geojson"
+                    }
+                ]
+            },
+            {
+                "bimId": "75",
+                "floorNo": "0",
+                "name": "17#",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs17/cs17-1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs17/cs17-2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs17/cs17-3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs17/cs17-4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs17/cs17-5f.geojson"
+                    }
+                ]
+            },
+            {
+                "bimId": "73",
+                "floorNo": "0",
+                "name": "18#",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs18/cs18-1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs18/cs18-2f.geojson"
+                    },
+                    {
+                        "name": "F3",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs18/cs18-3f.geojson"
+                    },
+                    {
+                        "name": "F4",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs18/cs18-4f.geojson"
+                    },
+                    {
+                        "name": "F5",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/CSRJY/cs18/cs18-5f.geojson"
+                    }
+                ]
+            }
+        ]
+    },
+    "青岛光谷国际海洋信息港":{
+        "name": "青岛光谷国际海洋信息港",
+        "mapUrl": "/common/mapComponent/json/indoorMapData/QDGG/NKT.geojson",
+        "list":[
+            {
+                "bimId": 150,
+                "name": "3",
+                "floorNo": "0",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/QDGG/QDGG3/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/QDGG/QDGG3/2f.geojson"
+                    }
+                ]
+            }
+        ]
+    },
+    "鄂州光谷联合科技城":{
+        "name": "鄂州光谷联合科技城",
+        "mapUrl": "/common/mapComponent/json/indoorMapData/EZGG/NKT.geojson",
+        "list":[
+            {
+                "bimId": 150,
+                "name": "3",
+                "floorNo": "0",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/QDGG/QDGG3/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/QDGG/QDGG3/2f.geojson"
+                    }
+                ]
+            }
+        ]
+    },
+    "昙华林":{
+        "name": "昙华林",
+        "mapUrl": "/common/mapComponent/json/indoorMapData/THL/NKT.geojson",
+        "list":[
+            {
+                "bimId": 150,
+                "name": "3",
+                "floorNo": "0",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/QDGG/QDGG3/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/QDGG/QDGG3/2f.geojson"
+                    }
+                ]
+            }
+        ]
+    },
+    "咸阳西部智谷":{
+        "name": "咸阳西部智谷",
+        "mapUrl": "/common/mapComponent/json/indoorMapData/XYXBZG/Change_xbzgNKT.geojson",
+        "list":[
+            {
+                "bimId": 1500000,
+                "name": "3",
+                "floorNo": "0",
+                "list": [
+                    {
+                        "name": "F1",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/QDGG/QDGG3/1f.geojson"
+                    },
+                    {
+                        "name": "F2",
+                        "mapUrl": "/common/mapComponent/json/indoorMapData/QDGG/QDGG3/2f.geojson"
+                    }
+                ]
+            }
+        ]
+    }
+}

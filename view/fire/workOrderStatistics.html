@@ -1,0 +1,59 @@
+<div ng-controller="workOrderStatisticsCtrl as vm">
+	<div class="page-title">
+		<div class="title_left">
+			<h4>工单统计</h4>
+		</div>
+	</div>
+	<div class="x_panel" >
+		<div class="form-inline">
+			<div class="form-group">
+                 <label>日期</label>
+                 <input style="width: 140px;" type="datetime" class="form-control Wdate" ng-model="vm.search.STAR" placeholder="开始日期" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M'}&quot;})">
+                 <label>-</label>
+                 <input style="width: 140px;" type="datetime" class="form-control Wdate" ng-model="vm.search.END" placeholder="结束日期" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM',minDate:&quot;#F{$('.Wdate').first().val()}&quot;,maxDate:'%y-%M'})">
+             </div>
+			<button class="btn btn-default" ng-click="vm.init()" >查询</button>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-6 col-sm-6 col-xs-6">
+			<div class="x_panel" style="height: 400px;">
+				<div class="x_title">工单统计</div>
+				<div id="work-chart-1"
+					style="height:350px;" 
+					ui-echarts="vm.oneOption" >
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 col-sm-6 col-xs-6">
+			<div class="x_panel" style="height: 400px;">
+				<div class="x_title">已解决工单统计</div>
+				<div id="work-chart-2"
+					style="height:350px;" 
+					ui-echarts="vm.twoOption" >
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-6 col-sm-6 col-xs-6">
+			<div class="x_panel" style="height: 400px;">
+				<div class="x_title">处理工单人员统计top10</div>
+				<div id="work-chart-3"
+					style="height:350px;" 
+					ui-echarts="vm.threeOption" >
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 col-sm-6 col-xs-6">
+			<div class="x_panel" style="height: 400px;">
+				<div class="x_title">月度工单统计</div>
+				<div id="work-chart-4"
+					style="height:350px;" 
+					ui-echarts="vm.fourOption" >
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

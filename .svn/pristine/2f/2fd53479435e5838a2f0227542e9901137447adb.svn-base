@@ -1,0 +1,256 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">合同详情</h4>
+</div>
+<div class="btngroup">
+    <button class="btn btn-primary" ng-click="cancel()"><span class="btnImage close"></span>关闭</button>
+    <button class="btn btn-primary" ng-click="receiveMoney(contactInfo.houseId,contactInfo.customName)" ng-if="isContract&&contactInfo.contractType==3" ng-disabled ="!contactInfo.isReceive"><span class="btnImage re_money"></span>收款</button>
+    <button class="btn btn-primary" ng-click="resetSubscri()" ng-if="isContract&&contactInfo.contractType!=4"><span class="btnImage to_sign"></span>重置认购</button>
+</div>
+<div class="modal-body container-fluid form-horizontal m-content">
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">客户名称:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.customName}}</span>
+        <label class="col-xs-2 control-label ">联系电话:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.customPhone}}</span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label">房间:</label>
+        <span class="col-xs-10 s_content">{{contactInfo.house_name}}</span>
+        <!-- <label class="col-xs-2 control-label ">是否首次购房:</label>
+        <div class="col-xs-4">
+            <label class="radio-inline">
+                <input type="radio" ng-model="templateRoom" value="1" name="templateRoom"> 是
+            </label>
+            <label class="radio-inline">
+                <input type="radio" ng-model="templateRoom" value="2" name="templateRoom"> 否
+            </label>
+        </div> -->
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">房间结构:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.house_structure}}</span>
+
+        <label class="col-xs-2 control-label ">面积状态:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.area_status==0?'待售':'已售'}}</span>
+    </div>
+
+    <div class="form-group">
+
+        <label class="col-xs-2 control-label ">建筑面积(m<sup>2</sup>):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.area}}</span>
+        <label class="col-xs-2 control-label ">套内面积(m<sup>2</sup>):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.area_su}}</span>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">建筑单价(元):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.buildingUnit}}</span>
+        <label class="col-xs-2 control-label ">套内单价(元):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.insetUnit}}</span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label">计价方式:</label>
+        <div class="col-xs-4">
+            <label class="radio-inline">
+                <input type="radio" ng-model="contactInfo.priceType" value="0" name="" disabled> 按建筑面积
+            </label>
+            <label class="radio-inline">
+                <input type="radio" ng-model="contactInfo.priceType" value="1" name="" disabled> 按套内面积
+            </label>
+        </div>
+        <label class="col-xs-2 control-label ">标准总价(元):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.standardPrice}}</span>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">付款方式:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.paymentName}}</span>
+        <label class="col-xs-2 control-label">折扣(%):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.discount}}</span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label">建筑成交单价(元):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.buildingDealUnit}}</span>
+        <label class="col-xs-2 control-label">套内成交单价(元):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.insetDealUnit}}</span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">折扣说明:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.discountNotes}}</span>
+        <label class="col-xs-2 control-label">房间总价(元):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.housePrice}}</span>
+    </div>
+    <div class="title_t">装修选择</div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">装修标准:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.decorationStandard|toDictionaryText:decorationList}}</span>
+        <label class="col-xs-2 control-label ">装修单价(元):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.decorateUnitPrice}}</span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">是否并入合同:</label>
+        <div class="col-xs-4">
+            <label class="radio-inline">
+                <input type="radio" ng-model="contactInfo.haveMergeContract" value="0" name="" disabled> 是
+            </label>
+            <label class="radio-inline">
+                <input type="radio" ng-model="contactInfo.haveMergeContract" value="1" name="" disabled> 否
+            </label>
+        </div>
+        <label class="col-xs-2 control-label ">装修总价(元):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.decorateTotalPrice}}</span>
+    </div>
+    <div class="title_t">摘要</div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">合同编号:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.signContractNo}}</span>
+
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">应收定金(元):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.receivableMoney}}</span>
+        <label class="col-xs-2 control-label">合同总价(元):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.contractPriceTax}}</span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label">不含税合同总价(元):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.contractPrice}}</span>
+        <label class="col-xs-2 control-label">税额(元):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.amountTax}}</span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">税率(%):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.taxRate}}</span>
+        <label class="col-xs-2 control-label">合同签订日期:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.contractSignDate}}</span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label">业务归属日期:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.bussinessBelongDate}}</span>
+        <label class="col-xs-2 control-label">交房日期:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.handHouseDate}}</span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label">合同备案号:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.contractFilingNo}}</span>
+        <label class="col-xs-2 control-label">备案日期:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.contractFilingDate}}</span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">推荐人:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.referencesPerson}}</span>
+        <label class="col-xs-2 control-label ">业务员:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.businessManager}}</span>
+    </div>
+    <div class="title_t" ng-if="contactInfo.mortgageMoney||contactInfo.fundMoney">贷款信息</div>
+    <div class="form-group" ng-if="contactInfo.mortgageMoney">
+        <label class="col-xs-2 control-label ">按揭银行:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.mortgageBank|toDictionaryText:mortgageList}}</span>
+        <label class="col-xs-2 control-label ">按揭贷款:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.mortgageMoney}}</span>
+    </div>
+    <div class="form-group" ng-if="contactInfo.mortgageYear">
+        <label class="col-xs-2 control-label ">按揭年限:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.mortgageYear}}</span>
+    </div>
+    <div class="form-group" ng-if="contactInfo.fundMoney">
+        <label class="col-xs-2 control-label ">公积金银行:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.fundBank|toDictionaryText:fundBankList}}</span>
+        <label class="col-xs-2 control-label ">公积金贷款:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.fundMoney}}</span>
+    </div>
+    <div class="form-group" ng-if="contactInfo.fundYear">
+        <label class="col-xs-2 control-label ">公积金年限:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.fundYear}}</span>
+    </div>
+    <div class="title_t">补差信息</div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">补差方案:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.balancePaymentPlan|toDictionaryText:banlanceplanList}}</span>
+        <label class="col-xs-2 control-label ">实际补差款(人民币):</label>
+        <span class="col-xs-4 s_content">{{contactInfo.balancePaymentMoney}}</span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-2 control-label ">补差经办人:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.balancePaymentPerson}}</span>
+        <label class="col-xs-2 control-label">补差经办时间:</label>
+        <span class="col-xs-4 s_content">{{contactInfo.balancePaymentDate}}</span>
+    </div>
+</div>
+<style>
+    .modal-header {
+        background-color: #337ab7;
+        padding: 10px 15px;
+        color: #ffffff
+    }
+
+    .btngroup {
+        margin-top: 1px;
+        padding: 2px;
+        background-color: #337ab7
+    }
+
+    .btngroup>.btn {
+        background-color: #e2f1084f;
+        height: 34px;
+        line-height: 22px;
+        padding: 6px 12px;
+        margin-right: 0px
+    }
+
+    span.btnImage {
+        display: block;
+        float: left;
+        margin-top: 3px;
+        height: 16px;
+        width: 20px;
+        margin-right: 2px;
+        padding-left: 0px;
+        background-repeat: no-repeat;
+        font-size: 14px;
+
+    }
+
+    .m-content {
+        padding-right: 30px;
+        padding-bottom: 30px;
+    }
+
+    .modal-md {
+        width: 900px;
+    }
+
+    span.save {
+        background-image: url("../../../image/icon_save.png");
+    }
+
+    span.close {
+        background-image: url("../../../image/icon_close.png");
+    }
+
+    .required-title {
+        color: rgb(199, 45, 45)
+    }
+
+    .title_t {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        color: blue;
+        font-size: 14px;
+        border-bottom: 1px solid #ddd;
+        font-weight: 700;
+        margin-left: 28px
+    }
+    .form-group span.s_content {
+        font-size: 14px;
+        padding-top: 7px;
+    }
+    span.re_money {
+        background-image: url("../../../image/reMoney.png");
+    }
+    span.to_sign {
+        background-image: url("../../../image/toSign.png");
+    }
+
+</style>

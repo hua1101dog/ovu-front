@@ -1,0 +1,152 @@
+<div class="map-container" map-full-page id="map-indoor">
+
+
+    <div id="xwMap"></div>
+
+    <!-- <button class="btn btn-sm btn-default pull-right goback" ng-click="$ctrl.goback()">返回上级</button> -->
+    <button class="btn btn-sm btn-default pull-right back-to-park" ng-click="$ctrl.backToPark()" ng-if="!$ctrl.showParkMap">返回园区</button>
+
+    <!-- 视角按钮组 -->
+    <div class="viewmode-group btn-group-vertical" style="bottom: 5%" data-toggle="buttons">
+        <button id="twoMap" class="btn btn-default" ng-click="$ctrl.to2D()" ng-class="{'btn-primary':$ctrl.show2DMode}">2D</button>
+        <button id="threeMap" class="btn btn-default" ng-click="$ctrl.to3D()" ng-class="{'btn-primary':!$ctrl.show2DMode}">3D</button>
+    </div>
+
+    <!-- 进入楼栋 提示-->
+    <div class="enter-tip panel panel-primary" ng-if="$ctrl.showEnterTip && $ctrl.floorName">
+        <div class="panel-heading">
+            <h4 style="margin:0;">提示信息</h4>
+        </div>
+        <div class="panel-body" style="font-size: 16px;">
+            进入楼栋{{$ctrl.floorName}}？
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-success" ng-click="$ctrl.enterFloor();">确定</button>
+            <button class="btn btn-danger" style="margin-left: 15px;" ng-click="$ctrl.cancelTip();">取消</button>
+        </div>
+    </div>
+
+    <!-- Add 楼层控制按钮-->
+    <div id="floorJumper" class="floor-jumper" ng-if="!$ctrl.showParkMap">
+        <div id="jumpHead" class="jump-head" ng-click="$ctrl.floorCtrl()">
+            <img src="/show/res/indoor-data/feng-wedgets/img/layer.png">
+        </div>
+        <div id="jumpBody" class="jump-body">
+            <label ng-repeat-start="item in $ctrl.groundList" ng-class="{'selected':$ctrl.selectNo == $index}" ng-click="$ctrl.groundClick(item, $index)">
+                {{item.name}}
+            </label>
+            <hr ng-repeat-end>
+        </div>
+    </div>
+
+</div>
+<style>
+    #map-indoor {
+        position: relative;
+    }
+
+    #xwMap {
+        width: 100%;
+        height: 100%;
+    }
+
+    #xwMap button.goback {
+        position: absolute;
+        z-index: 1;
+        right: 10px;
+        top: 10px;
+    }
+
+    .viewmode-group.btn-group-vertical {
+        width: 42px;
+        position: absolute;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 3px;
+        border-radius: 2px;
+    }
+
+    #twoMap,
+    #threeMap {
+        border-radius: 0;
+    }
+
+    .enter-tip {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .back-to-park {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    .floor-jumper {
+        width: 42px;
+        position: absolute;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 3px;
+        border-radius: 2px;
+        top: 30px;
+        left: 37px;
+    }
+
+    .jump-head {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .jump-head img {
+        width: 22px;
+    }
+
+    .jump-body {
+        overflow: scroll;
+        height: auto;
+        max-height: 300px;
+        display:block;
+    }
+
+    .jump-body label {
+        display: inline-block;
+        text-align: center;
+        width: 42px;
+        height: 42px;
+        line-height: 42px;
+        margin: 0px;
+        cursor: pointer;
+        font-size: 0.8em;
+        font-weight: bold;
+        color: #666666;
+    }
+
+    .jump-body label.selected {
+        color: rgb(30, 130, 250);
+    }
+
+    .jump-body hr {
+        height: 1px;
+        border-top: 1px solid #99999973;
+        border-right: none;
+        border-bottom: none;
+        border-left: none;
+        border-image: initial;
+        width: 60%;
+        margin: 0px 20%;
+    }
+
+    .jump-body::-webkit-scrollbar {
+        width: 4px;
+        background-color: #F5F5F5;
+    }
+    .airocov_info_Triangle {
+        border-top: 16px solid #fff!important;
+        opacity: 1!important;
+        bottom: 1px!important;
+    }
+    .panel {
+        background-color: #fff!important;
+    }
+</style>

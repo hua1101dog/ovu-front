@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{curItem.status == 'approvalReject'? '驳回': '会签审批'}}</h3>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="panel panel-default">
+        <form name="myForm" novalidate>
+            <ul class="list-group" style="font-size: 16px;">
+                <li class="list-group-item">
+                    <label for="" class="control-label">{{curItem.status == 'approvalReject'? '驳回说明': '审批意见'}}:</label>
+                </li>
+                <li class="list-group-item">
+                    <textarea type="text" class="form-control" name="comment" ng-model="search.comment" style="height:150px;resize:vertical" placeholder="请输入内容"></textarea>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save()">确定</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+</div> 

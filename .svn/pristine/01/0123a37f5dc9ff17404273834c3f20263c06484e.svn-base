@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <!-- <h4 class="modal-title">{{isEdit?'编辑':'新增'}}客户</h4> -->
+    <h4 class="modal-title">{{item.ss}}合同分类</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">分类类型:</label>
+            <div class="col-xs-8">
+                <label role="button" class="radio-inline">
+                    <input type="radio" value="1" name="classifyType" ng-model="item.classifyType"/>进账合同
+                </label>
+                <label role="button" class="radio-inline">
+                    <input type="radio" value="2" name="classifyType" ng-model="item.classifyType"/>支出合同
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">分类名称:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.classifyName" name="classifyName" placeholder="请输入分类名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">分类编码:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.classifyCode" name="classifyCode" placeholder="请输入分类编码">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">分类描述:</label>
+            <div class="col-xs-8">
+                <textarea class="col-xs-12" required name="" ng-model="item.classifyDetail" placeholder="请输入分类描述" id="" cols="30" rows="5"></textarea>
+            </div>
+        </div>
+        
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

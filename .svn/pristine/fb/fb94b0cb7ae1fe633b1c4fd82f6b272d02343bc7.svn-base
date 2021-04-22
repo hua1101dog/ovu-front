@@ -1,0 +1,81 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">编辑清单</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="form-group" >
+			<label class="col-xs-2 control-label">移交位置：</label>
+			<div class="col-xs-4">
+				<label class="control-label">{{item.area}}</label>
+			</div>
+			<label class="col-xs-2 control-label">查验项：</label>
+			<div class="col-xs-4">
+				<label class="control-label">{{item.item_name}}</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">查验内容：</label>
+			<div class="col-xs-4">
+				<label class="control-label">{{item.content}}</label>
+			</div>
+		</div>
+		<div ng-if="item.way==1">
+			<div class="form-group" >
+				<label class="col-xs-2 control-label">品牌：</label>
+				<div class="col-xs-4">
+					<label class="control-label">{{item.brand}}</label>
+				</div>
+				<label class="col-xs-2 control-label">数量：</label>
+				<div class="col-xs-4">
+					<label class="control-label">{{item.num}}</label>
+				</div>
+			</div>
+			<div class="form-group" >
+				<label class="col-xs-2 control-label required">是否相符：</label>
+				<div class="col-xs-4">
+					<select class="form-control" name="has_problem" ng-model="item.has_problem" required
+							ng-options="o[0] as o[1] for o in yesNoDict">
+						<option value="">请选择</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div ng-if="item.way==2 || item.way==3">
+			<div ng-if="item.way==2">
+				<div class="form-group">
+					<label class="col-xs-2 control-label">现场图片：</label>
+					<div class="col-xs-10">
+						<div class="photoWraper" ng-repeat="p in item.photos">
+							<img onerror="javascript:this.src='/res/img/detail.png';"
+								 ng-click="showPhoto()"
+								 ng-src="{{processImgUrl(p)}}">
+							<a role="button" ng-if="!item.ID" ng-click="delPhoto(item.photos,p)" ><i class="glyphicon glyphicon-remove"></i></a>
+						</div>
+						<img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(item.photos,3)" title="上传图片">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label required">是否存在问题：</label>
+				<div class="col-xs-4">
+					<select class="form-control" name="has_problem" ng-model="item.has_problem" required
+							ng-options="o[0] as o[1] for o in yesNoDict">
+						<option value="">请选择</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-2 control-label">问题描述：</label>
+			<div class="col-xs-10">
+				<textarea type="text" rows="5" class="form-control" ng-model="item.remark" maxlength="60"  />
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

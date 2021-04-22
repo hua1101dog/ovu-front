@@ -1,0 +1,136 @@
+<div class="modal-header" style="border:0px">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+        ×
+    </button>
+    <h4 class="modal-title">租售详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" style="margin-bottom:20px">
+    <div>
+        <div class="div" style="margin-left:12px">
+            <span class="name"> 光谷联合集团有限公司</span>
+            <span class="con">(运营方)</span>
+        </div>
+    </div>
+
+    <div ng-repeat="item in result.data">
+        <div class="div">
+            <div ng-repeat="info in item.node" class="dis-in">
+                <div class="arr">
+                    <div class="dis-in">
+                            <img id="u952_img" class="long" src="/res/img/space/icon_next.png">
+                            <span class="fw" ng-if="info.relation == '入驻方'">租赁</span>
+                        <span class="fw" ng-if="info.relation == '产权方'">销售</span>
+                    </div>
+                    
+                </div>
+                <div ng-if="item.tips" class="div">
+                    <div class="divposition" style="text-align:center">
+                    <span class="name conpany_color">
+                            <div ng-if="item.tips == '拆'" id="u800" class="divposition" style="vertical-align: top">
+                                    <img id="u800_img" class="img " src="/res/img/space/icon_split.png">
+                                </div>
+                                <div ng-if="item.tips == '合'" id="u952" class="divposition" style="vertical-align: top">
+                                    <img id="u952_img" class="img " src="/res/img/space/icon_merge.png">
+                                </div>
+                        <a href='javascript:void(0)' class="conpany" ng-click='showHouseInfo(item)'>{{info.name}}</a>
+                    </span>
+                        <span class="con">({{info.relation}})</span>
+                    </div>
+                </div>
+                <div class="div" ng-if="!item.tips" style="margin-right: 12px;">
+                    <span class="name" ng-attr-title="{{info.name}}"> {{info.name}}</span>
+                    <span class="con">({{info.relation}})</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<style>
+    .div {
+        text-align: center;
+        margin-bottom: 10px
+
+    }
+
+    .name {
+        padding: 5px 20px;
+        border: 1px solid #E3E3E3;
+        font-weight: 700;
+        font-size: 16px;
+        border-radius: 3px;
+        width: 205px;
+        height: 36px;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+    }
+
+    .arr {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .long {
+        margin-left: -80px
+    }
+
+    .dis-in {
+        display: inline-block;
+        margin-left: 30px
+        
+    }
+
+    .fw {
+        line-height: 1px;
+        color: #ccc
+    }
+
+    
+
+    .con {
+        margin-left: 10px;
+        color: #ccc;
+        display: inline-block;
+    height: 28px;
+    vertical-align: text-bottom;
+    }
+
+    .img {
+        height: 28px;
+         width: 28px;
+            margin-top: -3px
+    }
+
+    .divposition {
+        display: inline-block;
+       
+    }
+
+    #u800 {
+        text-align: center;
+    }
+
+    #u952 {
+        text-align: center;
+    }
+    .conpany_color{
+        text-align: center;
+    width: 205px;
+    height: 36px;
+    background: rgba(6,158,255,1);
+    margin-left: -18px
+    }
+    .conpany{
+width:127px;
+height:16px;
+font-size:16px;
+font-family:MicrosoftYaHei-Bold;
+font-weight:bold;
+color:rgba(255,255,255,1)
+    }
+
+</style>

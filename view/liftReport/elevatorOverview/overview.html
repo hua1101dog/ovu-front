@@ -1,0 +1,346 @@
+<!--电梯综合展示-->
+<div id="angularId" ng-controller="elevatorOverviewController">
+    <!--title BEGIN-->
+    <div class="page-title  x_panel">
+        <div class="title_left">
+            <h4>电梯监测</h4>
+        </div>
+    </div>
+    <!--title END-->
+
+    <!--content BEGIN-->
+    <div class="row">
+        <!-- left 项目分期 treeView BEGIN-->
+        <div class="col-md-3 col-sm-3 col-xs-12 left-side">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>项目分期</h4>
+                </div>
+                <div class="panel-body">
+                    <!--<div id="dept_tree"></div>-->
+                    <div id="house_tree">
+                        <tree-view node-list="treeData"></tree-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--left 项目分期 treeView END-->
+        <!--right BEGIN-->
+        <div class="col-md-9 col-sm-9 col-xs-12">
+            <!--top bar BEGIN-->
+            <div class="panel panel-default">
+                <div class="top-ban clearfix">
+                    <div class="top-left pull-right">
+                        <div class="all">
+                            <span class="text">全部</span>
+                            <span class="number">{{topbarData.normalTotal + topbarData.abnormalTotal}}</span>
+                        </div>
+                        <div class="left-normal">
+                            <span class="icon normal-icon"></span>
+                            <span class="text">正常</span>
+                            <span class="number">{{topbarData.normalTotal}}</span>
+                        </div>
+                        <div class="right-unnormal">
+                            <span class="icon unnormal-icon"></span>
+                            <span class="text">异常</span>
+                            <span class="number">{{topbarData.abnormalTotal}}</span>
+                        </div>
+                    </div>
+                    <label style="float: left;padding: 8px 5px 0 0;">电梯分类:</label>
+                  <div class="top-right pull-left">
+                    	<input type="text" class="form-control" ng-focus="search.modelFocus=true" placeholder="请选择电梯分类"
+							ng-blur="search.modelFocus=false"  ng-model="search.modelName" name="modelName"
+							readonly  required/>
+						<layer-select node-list="typeData" ng-show="search.modelFocus||search.modelHover"
+							ng-mouseover="search.modelHover=true" ng-mouseleave="search.modelHover=false"
+							class="layerSelect" style="left: 100px;top: 54px;" >
+						</layer-select>
+                        <button type="button" class="btn btn-default" ng-click="find(1)">查询</button>
+                    </div>
+                </div>
+            </div>
+            <!--top bar END-->
+            <!--card list BEGIN-->
+            <div class="card-list">
+                <div class="panel panel-default" ng-if="checklog === false">
+                    <div class="panel-heading clearfix">
+                        <h4 class="title" style="display:inline-block">{{selectedName}}</h4>
+                        <div class="pull-right" style="margin-top:10px">
+                            <select ng-model="selectedName" ng-options="x for x in names">
+                        </select>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div ng-if="selectedName==='图片模式'">
+                                <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="item in pageModel.data">
+                                    <div class="thumbnail">
+                                        <div class="caption">
+                                            <div class="title clearfix">
+                                                <span class="pull-left" style="max-width: 130px;">{{item.name}}</span>
+                                                <div class="state pull-right">
+
+                                                    <p ng-show="{{item.normal}}">
+                                                        <span>故障报警</span>
+                                                        <span class="badge normal">正常</span>
+                                                    </p>
+                                                    <p ng-show="{{!item.normal}}">
+                                                        <span>故障报警</span>
+                                                        <span class="badge unnormal">异常</span>
+                                                    </p>
+                                                    <p ng-show="{{item.normal}}">
+                                                        <span>运行状态</span>
+                                                        <span class="mg-l-10 glyphicon glyphicon-refresh"></span>
+                                                    </p>
+                                                    <p ng-show="{{!item.normal}}">
+                                                        <span>运行状态</span>
+                                                        <span class="mg-l-10 glyphicon glyphicon-remove-circle"></span>
+                                                    </p>
+
+                                                </div>
+                                            </div>
+                                             <a ng-click="enterSingleElevator(item.liftId)" href="javascript:;;">
+                                                <img src="../view/liftReport/elevatorOverview/elevator.png" alt="电梯">
+                                            </a>
+                                            <div class="card-bottom clearfix" style=" text-align: left;">
+                                                <div>
+                                                    <span class="card-txt">电梯编号：</span>
+                                                    <span>{{item.code}}</span>
+                                                </div>
+                                                <div>
+                                                    <span class="card-txt">电梯位置：</span>
+                                                    <span>{{item.position}}</span>
+                                                </div>
+                                               <!--  <div>
+                                                    <span class="card-txt mg-r-30">上下行            ：</span>
+                                                    <span class="glyphicon glyphicon-triangle-{{item.direction==='up'?'top':'bottom'}}"></span>
+                                                </div> -->
+                                               <!--  <div>
+                                                    <span class="card-txt">负责范围：</span>
+                                                    <span>{{item.range}}</span>
+                                                </div> -->
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="selectedName==='列表模式'">
+                                <table class="table list-mode">
+                                    <thead>
+                                        <tr>
+                                            <th>电梯名称</th>
+                                            <th>电梯编号</th>
+                                            <th>电梯位置</th>
+                                            <th>电梯状态</th>
+                                           <!--  <th>电梯参数</th>
+                                            <th>查看日志</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="pageModel.data.length == 0">
+                                            <td colspan="100" class="text-center">暂无记录</td>
+                                        </tr>
+                                        <tr ng-repeat="item in pageModel.data">
+                                            <td><a ng-click="enterSingleElevator(item.liftId)" href="javascript:;;">{{item.name}}</a></td>
+                                            <td>{{item.code}}</td>
+                                            <td>{{item.position}}</td>
+                                            <td>{{item.normal?'正常':'异常'}}</td>
+                                            <!-- <td>
+                                                <p><span>方向：</span><span>{{item.direction==='up'?'上行':'下行'}}</span></p>
+                                                <p><span>楼层：</span><span>6楼</span></p>
+                                            </td> -->
+                                           <!--  <td>
+                                                <button class="btn btn-primary" ng-click="checkLog()">
+                                                    查看日志
+                                                </button>
+                                                <a href='javascript:void(0)' class='btn btn-xs btn-primary' ng-click="showDetail(item)">查看日志</a>
+                                            </td> -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'"></ng-include>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default" ng-if="checklog === true">
+                    <div class="panel-heading clearfix">
+                        <h4 class="title" style="display:inline-block">电梯状态日志</h4>
+                        <div class="pull-right" style="margin-top:10px">
+                            <div class="btn btn-sm btn-primary" ng-click="back()">返回</div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-inline">
+                            <div class="form-group  pull-left">
+                                <input type="datetime" class="form-control Wdate" ng-model="search.signInTime" placeholder="请输入时间" onchange="" readonly onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                            </div>
+                            <button class="btn btn-default pull-left m-l-10" ng-click="find(1)">查询</button>
+                        </div>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>电梯名称</th>
+                                    <th>电梯编号</th>
+                                    <th>电梯位置</th>
+                                    <th>电梯状态</th>
+                                    <th>电梯参数</th>
+                                    <th>变更时间</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="!elevatorLogList || elevatorLogList.length == 0">
+                                    <td colspan="6" class="text-center">暂无日志</td>
+                                </tr>
+                                <tr ng-repeat="item in elevatorLogList">
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.code}}</td>
+                                    <td>{{item.position}}</td>
+                                    <td>{{item.status}}</td>
+                                    <td>{{item.params}}</td>
+                                    <td>{{item.changeTime}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="page-footer clearfix">
+                            <ng-include src="'/common/pager.html'"></ng-include>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--card list END-->
+    </div>
+    <!--right END-->
+</div>
+<!--content END-->
+
+</div>
+
+<style>
+    .m-l-10 {
+        margin-left: 10px;
+    }
+
+    .left-side .panel-body {
+        height: 800px;
+        overflow: auto;
+    }
+
+    #dept_tree .list-group {
+        min-width: 200px;
+    }
+
+    .top-ban {
+        max-width: 800px;
+        margin: 20px 20px 20px 30px;;
+    }
+
+    .top-left .all {
+        float: left;
+    }
+
+    .top-ban .text {
+        display: inline-block;
+        vertical-align: middle;
+        color: black;
+        margin-right: 10px;
+    }
+
+    .top-ban .number {
+        font-size: 30px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .top-left .left-normal {
+        float: left;
+        margin-left: 30px;
+        color: green;
+    }
+
+    .top-left .right-unnormal {
+        float: left;
+        margin-left: 30px;
+        color: red;
+    }
+
+    .top-left .icon {
+        display: inline-block;
+        vertical-align: middle;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin: 0 5px;
+    }
+
+    .top-left .normal-icon {
+        background-color: green;
+    }
+
+    .top-left .unnormal-icon {
+        background-color: red;
+    }
+
+    .top-right .form-control {
+        float: left;
+    }
+
+    .top-right input {
+        width: 70%;
+        margin-right: 10px;
+    }
+    /*正常 异常*/
+
+    .normal {
+        background-color: green;
+    }
+
+    .unnormal {
+        background-color: red;
+    }
+
+    .mg-l-10 {
+        margin-left: 10px;
+    }
+    /*card*/
+
+    .card-list .thumbnail {
+        min-height: 457px;
+    }
+
+    .card-list .thumbnail .caption {
+        text-align: center;
+    }
+
+    .card-bottom {
+        background: #659ED8;
+        padding: 10px;
+        color: #FFF;
+    }
+
+    .card-bottom>div>div {
+        margin: 5px 0;
+    }
+
+    .card-bottom .card-txt {
+        color: #2A619A;
+    }
+    /*右边加border*/
+
+    .right-border {
+        border-right: 2px solid #E6E9ED;
+    }
+    /*echarts 宽高*/
+
+    .echarts-container {
+        height: 400px;
+    }
+
+    table.list-mode>tbody>tr>td {
+        vertical-align: middle;
+    }
+</style>

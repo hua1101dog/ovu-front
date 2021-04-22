@@ -1,0 +1,63 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">招商定义</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">分期/分区：</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.stageName" name="STAGE_NAME" disabled style="cursor: default;"/>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-xs-3 control-label">楼栋：</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.buildName" name="FLOOR_NAME" disabled style="cursor: default;"/>
+					</div>
+				</div>
+				<div class="form-group" >
+                    <label class="col-xs-3 control-label">单元：</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" ng-model="item.unitNo" name="UNIT_NUM" disabled style="cursor: default;"/>
+                    </div>
+                </div>
+				<div class="form-group" >
+					<label class="col-xs-3 control-label">楼层：</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.groundNo" name="GROUND_NUM" disabled style="cursor: default;"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">房间：</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.houseName" name="HOUSE_NAME" disabled style="cursor: default;"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">面积(m<sup>2</sup>)：</label>
+					<div class="col-xs-4">
+						<input type="number" class="form-control" ng-model="item.area" name="area" disabled style="cursor: default;"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label" required>租售方式：</label>
+					<div class="col-xs-4">
+						<select ng-if="addorview=='add'" class="form-control" required ng-model="item.sellStatus" ng-options="o.value as o.name for o in sellOptions" name="sellStatus">
+						    <option value="">--请选择--</option>
+						</select>
+                        <select ng-if="addorview=='view'" disabled class="form-control" required ng-model="item.sellStatus" ng-options="o.value as o.name for o in sellOptions" name="sellStatus">
+                            <option value="">--请选择--</option>
+                        </select>
+					</div>
+				</div>
+				
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button ng-if="addorview=='add'" class="btn btn-primary" ng-click="savePrice(form,item)">确定</button>
+			<button ng-if="addorview=='add'" class="btn btn-warning" ng-click="cancel()">取消</button>
+            <button ng-if="addorview=='view'" class="btn btn-warning" ng-click="cancel()">关闭</button>
+
+        </div>
+

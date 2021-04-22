@@ -1,0 +1,57 @@
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancel()">×</button>
+		<h4 class="modal-title">{{item.ID?'编辑':'添加'}}个人信息</h4>
+   </div>
+   <div class="modal-body container-fluid form-horizontal">
+		<form name="form" novalidate>
+			<div class="form-group">
+				<label class="col-md-3 control-label required">客户名称：</label>
+				<div class="col-md-7">
+					<input type="text" class="form-control" required ng-model="item.NAME"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label required">性别：</label>
+				<div class="col-md-7">					
+					  <input type="radio" ng-checked="item.SEX == 0" name="SEX" ng-click="checkSex(0)" id="inlineRadio1" value="0"> 男&nbsp;&nbsp;&nbsp;&nbsp;					
+					  <input type="radio" ng-checked="item.SEX == 1" name="SEX" ng-click="checkSex(1)" id="inlineRadio2" value="1"> 女				
+				</div>	
+			</div>	
+			<div class="form-group">
+				<label class="col-md-3 control-label required">手机号：</label>
+				<div class="col-md-7">
+					<input type="text" class="form-control" name="PHONE" ng-model="item.PHONE" ng-pattern="/^[1][3|5|7|8][0-9]{9}$/" required/>
+					 <span style="color:red" ng-show="form.PHONE.$dirty && form.PHONE.$invalid">
+                         <span class="col-xs-6 control-label" style = "color:red;text-align:left"  ng-show="form.PHONE.$dirty && form.PHONE.$invalid && form.PHONE.$error.pattern" style >请输入正确的手机号</span>
+                     </span>
+				</div>
+			</div>	
+			<div class="form-group">
+				<label class="col-md-3 control-label required">邮箱：</label>
+				<div class="col-md-7">
+					<input type="text" class="form-control" name="EMAIL" ng-model="item.EMAIL" ng-pattern="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/" required/>
+					<span style="color:red" ng-show="form.EMAIL.$dirty && form.EMAIL.$invalid">
+						<span class="col-xs-6 control-label" style = "color:red;text-align:left"  ng-show="form.EMAIL.$dirty && form.EMAIL.$invalid && form.EMAIL.$error.pattern" style >请输入正确的邮箱</span>
+					</span>
+				</div>
+			</div>	
+			<div class="form-group">
+				<label class="col-md-3 control-label required">所属行业：</label>
+				<div class="col-md-7">
+					<select class="form-control"  name="BLONG_INDUSTRY" required ng-model="item.BLONG_INDUSTRY" ng-change="changeStage()" ng-options="o.tid as o.text for o in industryList">
+						<option value="">--请选择--</option>
+					</select>
+				</div>
+			</div>	
+			<div class="form-group">
+				<label class="col-md-3 control-label">所属职业：</label>
+				<div class="col-md-7">
+					<input type="text" class="form-control" ng-model="item.belongProfession"/>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save(form)">确定</button>
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>

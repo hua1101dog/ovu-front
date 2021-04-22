@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>账单管理</title>
+</head>
+<body>
+    <div id="meterId">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>账单管理</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="x_panel" >
+                <ul class="nav nav-tabs bar_tabs" role="tablist">
+                     <li role="presentation" class="active">
+                         <a href="#waterBill" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">用水账单</a>
+                     </li>
+                     <li role="presentation">
+                         <a href="#elecBill" id="tab2" role="tab" data-toggle="tab" aria-expanded="false">用电账单</a>
+                     </li>
+                     <li role="presentation">
+                         <a href="#propertyBill" id="tab3" role="tab" data-toggle="tab" aria-expanded="false">物业费账单</a>
+                     </li>
+                     <li role="presentation">
+                         <a href="#energyBill" id="tab4" role="tab" data-toggle="tab" aria-expanded="false">能源账单</a>
+                     </li>                 
+                </ul>
+                <div class="tab-content" style="margin-top:10px;">
+                     <!-- 水账单 -->
+                     <div role="tabpanel" class="tab-pane fade active in" id="waterBill" ng-controller="waterBillCtl">
+                       <div class="panel panel-default">
+	                      <div class="panel-heading">导入企业水费账单 <strong><a href="/ovupark/waterbill.xlsx"
+	                              style="margin-left: 15px" class="btn-link">企业水费账单模板</a></strong>
+	                      </div>
+	                      <div class="panel-body">
+	                          <div class="form-inline">
+	                              <button class="btn btn-info" ng-click="uploadBillInfo()">文件导入</button>
+	                          </div>
+	                      </div>
+	                    </div>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label class="control-label">企业名称：</label>
+                                <input type="text" class="form-control" name="customerName"  ng-model="search.customerName" placeholder="请输入企业名称">  
+                            </div> 
+                            <div class="form-group">
+                                <label class="control-label">账单起止日期：</label>
+                                <input type="datetime" class="form-control Wdate" id="waterBill_date1"  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                                                                                           至
+                                <input type="datetime" class="form-control Wdate" id="waterBill_date2"  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'waterBill_date1\');}'})">
+                            </div>
+                            <button class="btn btn-default" ng-click="find(1)" >查询</button>
+                            <!-- <div id="testH"><button class="btn btn-default" ng-click="testH()" >testH</button></div> -->
+                        </div>
+                        <div class="panel panel-default" style="margin-bottom: 0px;margin-top: 10px;">
+                            <div class="panel-heading">用水报表列表
+                            <!-- 
+                                <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="batchOpt(pageModel, 'send')" disabled="disabled">批量发送</button>
+                                <button class="btn btn-danger pull-right"  ng-click="syncWaterMeterData();">同步报表</button>
+                             -->
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped table-hover" style="margin-top: 20px;color:#999999;">
+                                    <thead class="title">
+                                        <tr>
+                                            <th class="text-center">No.</th>
+                                            <!-- 
+                                            <th class="text-center" style="width:20px">
+                                                <span role="button" ng-click="checkAll(pageModel)"><i class="glyphicon glyphicon-unchecked" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                                            </th>
+                                             -->
+                                            <th>客户名称</th>
+                                            <th>账单日期</th>
+                                            <th>起码</th>
+                                            <th>止码</th>
+                                            <th>倍率</th>
+                                            <th>用量(m³)</th>
+                                            <th>单价(元)</th>
+                                            <th>实际总费用(元)</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                        <tr ng-repeat="item in pageModel.data" style="color:#333333;">
+                                            <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                                            <!-- 
+                                            <td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon glyphicon-unchecked"></i></td>
+                                             -->
+                                            <td>{{item.customerName}}</td>
+                                            <td>{{item.startTime + " ~ " + item.endTime}}</td>
+                                            <td>{{item.preFlow}}</td>
+                                            <!-- <td>{{(item.flow * item.price) | number:2}}</td> -->
+                                            <td>{{item.nowFlow}}</td>
+                                            <td>{{item.times}}</td>
+                                            <td>{{item.waterUse}}</td>
+                                            <td>{{item.price}}</td>
+                                            <td>{{item.totalCost}}</td>
+                                            <td>
+                                                <a href="javascript:void(0)" ng-click="showDetailsModal(item)" class="btn btn-xs">详情>></a>
+                                             </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="page-footer clearfix">
+                                    <ng-include src="'/common/pager.html'"></ng-include>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                     
+                     <!-- 电账单 -->
+                     <div role="tabpanel" class="tab-pane fade" id="elecBill" ng-controller="elecBillCtl">
+	                     <div class="panel panel-default">
+		                    <div class="panel-heading">导入企业电费账单 <strong><a href="/ovupark/electricitybill.xlsx"
+		                            style="margin-left: 15px" class="btn-link">企业电费账单模板</a></strong>
+		                    </div>
+		                    <div class="panel-body">
+		                        <div class="form-inline">
+		                            <button class="btn btn-info" ng-click="uploadBillInfo()">文件导入</button>
+		                        </div>
+		                    </div>
+		                </div>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label class="control-label">企业名称：</label>
+                                <input type="text" class="form-control" name="customerName"  ng-model="search.customerName" placeholder="请输入企业名称">  
+                            </div> 
+                            <div class="form-group">
+                                <label class="control-label">账单起止日期：</label>
+                                <input type="datetime" class="form-control Wdate" id="elecBill_date1"  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                                                                                        至
+                                <input type="datetime" class="form-control Wdate" id="elecBill_date2"  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'elecBill_date1\');}'})">
+                            </div>
+                            <button class="btn btn-default" ng-click="find(1)" >查询</button>
+                        </div>
+                        <div class="panel panel-default" style="margin-bottom: 0px;margin-top: 10px;">
+                            <div class="panel-heading">用电账单列表
+                            <!-- 
+                                <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="batchOpt(pageModel, 'send')" disabled="disabled">批量发送</button>
+                                <button class="btn btn-danger pull-right"  ng-click="syncReport();">同步报表</button>
+                             -->
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped table-hover" style="margin-top: 20px;color:#999999;">
+                                    <thead class="title">
+                                        <tr>
+                                            <th class="text-center">No.</th>
+                                            <!-- 
+                                            <th class="text-center" style="width:20px">
+                                                <span role="button" ng-click="checkAll(pageModel)"><i class="glyphicon glyphicon-unchecked" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                                            </th>
+                                             -->
+                                            <th>客户名称</th>
+                                            <th>账单日期</th>
+                                            <th>起码</th>
+                                            <th>止码</th>
+                                            <th>倍率</th>
+                                            <th>用量（KWh）</th>
+                                            <th>单价(元)</th>
+                                            <th>实际总费用(元)</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                        <tr ng-repeat="item in pageModel.data" style="color:#333333;">
+                                            <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                                            <!-- 
+                                            <td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon glyphicon-unchecked"></i></td>
+                                             -->
+                                            <td>{{item.customerName}}</td>
+                                            <td>{{item.startTime + " ~ " + item.endTime}}</td>
+                                            <td>{{item.preFlow}}</td>
+                                            <!-- <td>{{(item.flow * item.price) | number:2}}</td> -->
+                                            <td>{{item.nowFlow}}</td>
+                                            <td>{{item.times}}</td>
+                                            <td>{{item.electricityUse}}</td>
+                                            <td>{{item.price}}</td>
+                                            <td>{{item.totalCost}}</td>
+                                            <td>
+                                                <a href="javascript:void(0)" ng-click="showDetailsModal(item)" class="btn btn-xs">详情>></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="page-footer clearfix">
+                                    <ng-include src="'/common/pager.html'"></ng-include>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                     
+                     <!-- 物业费账单 -->
+                     <div role="tabpanel" class="tab-pane fade" id="propertyBill" ng-controller="propertyBillCtl">
+	                     <div class="panel panel-default">
+		                    <div class="panel-heading">导入企业物业费账单 <strong><a href="/ovupark/propertybill.xlsx"
+		                            style="margin-left: 15px" class="btn-link">企业物业费账单模版</a></strong>
+		                    </div>
+		                    <div class="panel-body">
+		                        <div class="form-inline">
+		                            <button class="btn btn-info" ng-click="uploadBillInfo()">文件导入</button>
+		                        </div>
+		                    </div>
+		                </div>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label class="control-label">企业名称：</label>
+                                <input type="text" class="form-control" name="customerName"  ng-model="search.customerName" placeholder="请输入企业名称">  
+                            </div> 
+                            <div class="form-group">
+                                <label class="control-label">账单起止日期：</label>
+                                <input type="datetime" class="form-control Wdate" id="propertyBill_date1"  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                                                                                        至
+                                <input type="datetime" class="form-control Wdate" id="propertyBill_date2"  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'propertyBill_date1\');}'})">
+                            </div>
+                            <button class="btn btn-default" ng-click="find(1)" >查询</button>
+                        </div>
+                        <div class="panel panel-default" style="margin-bottom: 0px;margin-top: 10px;">
+                            <div class="panel-heading">物业费账单列表
+                            <!-- 
+                                <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="batchOpt(pageModel, 'send')" disabled="disabled">批量发送</button>
+                                <button class="btn btn-danger pull-right"  ng-click="syncWaterMeterData();">同步报表</button>
+                            -->
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped table-hover" style="margin-top: 20px;color:#999999;">
+                                    <thead class="title">
+                                        <tr>
+                                            <th class="text-center">No.</th>
+                                            <!-- 
+                                            <th class="text-center" style="width:20px">
+                                                <span role="button" ng-click="checkAll(pageModel)"><i class="glyphicon glyphicon-unchecked" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                                            </th>
+                                             -->
+                                            <th>客户名称</th>
+                                            <th>账单日期</th>
+                                            <th>物业面积（㎡）</th>
+                                            <th>单价（元）</th>
+                                            <th>实际总费用（元）</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                        <tr ng-repeat="item in pageModel.data" style="color:#333333;">
+                                            <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                                            <!-- 
+                                            <td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon glyphicon-unchecked"></i></td>
+                                             -->
+                                            <td>{{item.customerName}}</td>
+                                            <td>{{item.startTime + " ~ " + item.endTime}}</td>
+                                            <td>{{item.propertyArea}}</td>
+                                            <td>{{item.price}}</td>
+                                            <td>{{item.totalCost}}</td>
+                                            <td>
+                                                <a href="javascript:void(0)" ng-click="showDetailsModal(item)" class="btn btn-xs">详情>></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="page-footer clearfix">
+                                    <ng-include src="'/common/pager.html'"></ng-include>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                     
+                     <!-- 能源账单 -->
+                     <div role="tabpanel" class="tab-pane fade" id="energyBill" ng-controller="energyBillCtl">
+	                     <div class="panel panel-default">
+		                    <div class="panel-heading">导入企业能源账单 <strong><a href="/ovupark/energybill.xlsx"
+		                            style="margin-left: 15px" class="btn-link">企业能源费账单模板</a></strong>
+		                    </div>
+		                    <div class="panel-body">
+		                        <div class="form-inline">
+		                            <button class="btn btn-info" ng-click="uploadBillInfo()">文件导入</button>
+		                        </div>
+		                    </div>
+		                </div>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label class="control-label">企业名称：</label>
+                                <input type="text" class="form-control" name="customerName"  ng-model="search.customerName" placeholder="请输入企业名称">  
+                            </div> 
+                            <div class="form-group">
+                                <label class="control-label">账单起止日期：</label>
+                                <input type="datetime" class="form-control Wdate" id="energyBill_date1"  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                                                                                            至
+                                <input type="datetime" class="form-control Wdate" id="energyBill_date2"  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'energyBill_date1\');}'})">
+                            </div>
+                            <button class="btn btn-default" ng-click="find(1)" >查询</button>
+                        </div>
+                        <div class="panel panel-default" style="margin-bottom: 0px;margin-top: 10px;">
+                            <div class="panel-heading">能源账单列表
+                            <!-- 
+                                <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="batchOpt(pageModel, 'send')" disabled="disabled">批量发送</button>
+                                <button class="btn btn-danger pull-right"  ng-click="syncWaterMeterData();">同步报表</button>
+                             -->
+                            </div>
+                            <div class="panel-body">
+                                <div style="overflow-x:scroll;overflow-y:hidden">
+                                    <table class="table table-striped table-hover" style="margin-top: 20px;width:2000px;color:#999999;">
+                                        <thead class="title">
+                                            <tr>
+                                                <th class="text-center">No.</th>
+                                                <!-- 
+                                                <th class="text-center" style="width:20px">
+                                                    <span role="button" ng-click="checkAll(pageModel)"><i class="glyphicon glyphicon-unchecked" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                                                </th>
+                                                 -->
+                                                <th>客户名称</th>
+                                                <th>账单日期</th>
+                                                <th>起码</th>
+                                                <th>止码</th>
+                                                <th>正常用量（KWh）</th>
+                                                <th>单价</th>
+                                                <th>正常用能费用（元）</th>
+                                                <th>加班用量（KWh）</th>
+                                                <th>单价</th>
+                                                <th>加班用能费用（元）</th>
+                                                <th>总用量（KWh）</th>
+                                                <th>月用能费（元）</th>
+                                                <th>其他费用（元）</th>
+                                                <th>实际总费用（元）</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                                            <tr ng-repeat="item in pageModel.data" style="color:#333333;">
+                                                <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                                                <!-- 
+                                                <td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon glyphicon-unchecked"></i></td>
+                                                 -->
+                                                <td>{{item.customerName}}</td>
+                                                <td>{{item.startTime + " ~ " + item.endTime}}</td>
+                                                <td>{{item.preFlow}}</td>
+                                                <!-- <td>{{(item.flow * item.price) | number:2}}</td> -->
+                                                <td>{{item.nowFlow}}</td>
+                                                <td>{{item.energyUse}}</td>
+                                                <td>{{item.price}}</td>
+                                                <td>{{item.cost}}</td>
+                                                <td>{{item.overtimeUse}}</td>
+                                                <td>{{item.overtimePrice}}</td>
+                                                <td>{{item.overtimeCost}}</td>
+                                                <td>{{item.totalEnergyUse}}</td>
+                                                <td>{{item.monthCost}}</td>
+                                                <td>{{item.otherCost}}</td>
+                                                <td>{{item.totalCost}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="page-footer clearfix">
+                                    <ng-include src="'/common/pager.html'"></ng-include>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                     
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

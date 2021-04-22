@@ -1,0 +1,346 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title" ng-show="!show">{{item.id?'编辑':'新增'}}题目</h4>
+    <h4 class="modal-title" ng-show="show">查看题目</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+            <div class="form-group">
+                    <label class="col-xs-3 control-label">题目类型:</label>
+                    <div class="col-xs-6">
+                        <select class="form-control" ng-model="item.type" ng-if="!show && !item.id"
+                            ng-options="o[0] as o[1] for o in subjectTypeDict">
+                            <option value="o[0]"></option>
+                        </select>
+                        <label class="control-label" ng-if="show">{{item.type | keyToValue :subjectTypeDict}}</label>
+                        <label class="control-label" ng-if="item.id && !show">{{item.type | keyToValue :subjectTypeDict}}</label>
+                    </div>
+                
+            </div>
+          
+            <div class="form-group">
+            
+                    <label class="col-xs-3 control-label">知识体系分类：</label>
+                    <div class="col-xs-8">                          
+                        <layer-selector host="item" host-key="'hierarchyClassificationId'" need="true"
+                            callback="setHierarchyClassification" host-text="'text'" node-list="treeClass111"  ng-if="!show" required>
+                        </layer-selector>
+                        <label class="control-label" ng-if="show">{{item.text}}</label>
+                    </div>
+              
+            </div>
+            <!--单选题 -->
+            <div ng-if="item.type==1">
+                <div class="form-group" ng-show="item.isPublicSubject==1" ng-show="!show" style="margin-bottom: 0;">
+                    <label class="col-xs-3 control-label">是否公开：</label>
+                    <div class="col-xs-8">
+                        <label role="button" style="line-height:32px;margin-right: 15px" ng-show="!show"><input type="radio"
+                                style="margin:0 5px" ng-model="item.isPublic" value="1" name="isPublic"
+                                ng-disabled="show" ng-show="!show">是</label>
+                        <label role="button" style="line-height:32px;" ng-disabled="show" ng-show="!show"><input type="radio"
+                                style="margin:0 5px" ng-model="item.isPublic" value="0" name="isPublic"
+                                ng-disabled="show" ng-show="!show">否</label>
+                                <label style="line-height:32px;margin-right: 15px" ng-show="show">{{item.isPublic==1?'是':'否'}}</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">题目：</label>
+                    <div class="col-xs-6" >
+                        <input type="text" class="form-control" ng-model="item.question" placeholder="请输入题目"
+                            ng-readonly="show" maxlength="200" ng-show="!show" >
+                    </div>
+                    <label class="col-xs-8 control-label" style="text-align: left;white-space:normal; word-break:break-all;" ng-show="show">{{item.question}}</label>
+                </div>
+                <div class="form-group" ng-show="!show">
+                    <div  ng-repeat="o in item.optionDetail">
+                                <div class="form-group">
+                                        <label role="button" class="col-xs-3 control-label" style="line-height:28px;">
+                                                <input type="radio" style="margin:0 5px" name="option" ng-model="item.answer"
+                                                    ng-value="o.option" ng-disabled="show">{{o.option}}
+                                            </label>
+                                            <div class="col-xs-6">
+                                                <input type="text" class="form-control" ng-model="o.optionContent" placeholder="请输入单选选项"
+                                                    ng-readonly="show" maxlength="200" ng-disabled="show" />
+                                            </div>
+                                            <label role="button" class="col-xs-2 control-label"
+                                                style="line-height:28px;padding-right: 66px;padding-top: 5px;padding-left:0px;">
+                                                <input type="radio" style="margin:0 5px;" name="option1" ng-model="item.answer"
+                                                    ng-value="o.option" ng-disabled="show">设为答案
+                                            </label>
+                                </div>
+                        
+                    </div>
+                      <div style="text-align: center;">
+                            <a ng-if="!show" class="btn btn-primary" href="javascript:void(0)" ng-click="addOption(item,true)"
+                            aria-label="Add" style="width: 376px;margin: 0 auto;display: inline-block">
+                            <i class="glyphicon glyphicon-plus" aria-hidden="true">添加选项</i>
+                            <a class="btn btn-link"  ng-if="!show" href="javascript:void(0)" ng-click="delOption(item)">
+                                    删除
+                                </a>
+                        </a>
+                      </div>
+                    
+                </div>
+                <div class="form-group" ng-show="show">
+                        <div  ng-repeat="o in item.optionDetail">                          
+                                <label class="control-label col-xs-3">{{o.option}}：</label>
+                                <label class="col-xs-8 control-label" style="text-align: left;word-break: break-all;" ng-show="show">{{o.optionContent}}</label>                                                
+                        </div>
+                    </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label" >正确答案：</label>
+                    <div class="col-xs-8 zqda">
+                        {{item.answer}}
+                    </div>
+                </div>
+            </div>
+            <!--多选题 -->
+            <div ng-if="item.type==2">
+                    <div class="form-group" ng-show="item.isPublicSubject==1" ng-show="!show" style="margin-bottom: 0;">
+                            <label class="col-xs-3 control-label">是否公开：</label>
+                            <div class="col-xs-8">
+                                <label role="button" style="line-height:32px;margin-right: 15px" ng-show="!show"><input type="radio"
+                                        style="margin:0 5px" ng-model="item.isPublic" value="1" name="isPublic"
+                                        ng-disabled="show" ng-show="!show">是</label>
+                                <label role="button" style="line-height:32px;" ng-disabled="show" ng-show="!show"><input type="radio"
+                                        style="margin:0 5px" ng-model="item.isPublic" value="0" name="isPublic"
+                                        ng-disabled="show" ng-show="!show">否</label>
+                                        <label ng-show="show">{{item.isPublic==1?'是':'否'}}</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                                <label class="col-xs-3 control-label" >题目：</label>
+                                <div class="col-xs-8" style="padding-left: 0px;">
+                                    <input type="text" class="form-control" ng-model="item.question" placeholder="请输入题目"
+                                        ng-readonly="show" maxlength="200" ng-show="!show">
+                                </div>
+                                <label class="col-xs-8 control-label" style="text-align: left;white-space:normal; word-break:break-all;" ng-show="show">{{item.question}}</label>
+                            </div>
+                <div class="form-group" ng-show="!show">
+                    <div class="row" ng-repeat="o in item.optionDetail"
+                        style="margin-bottom: 5px;margin-right: -70px;margin-left: -15px;">
+                        <label role="button" class="col-xs-3 control-label" style="line-height:28px;">
+                            <input type="checkbox" style="margin:0 5px" name="option" ng-model="o.checked"
+                                ng-checked="o.checked" ng-disabled="show">{{o.option}}</label>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" ng-model="o.optionContent" placeholder="请输入多选选项"
+                                ng-readonly="show" maxlength="200" ng-disabled="show" />
+                        </div>
+                        <label role="button" class="col-xs-2 control-label"
+                            style="line-height:28px;padding-right: 66px;padding-top: 5px;padding-left:0px;">
+                            <input type="checkbox" style="margin:0 5px;" name="option" ng-model="o.checked"
+                                ng-value="o.option" ng-checked="o.checked" ng-disabled="show">设为答案
+                        </label>
+                    </div>
+                    <div style="text-align: center;">
+                            <a ng-if="!show" class="btn btn-primary" href="javascript:void(0)" ng-click="addOption(item,true)"
+                            aria-label="Add" style="width: 405px;margin: 0 auto;display: inline-block;margin-left:51px;">
+                            <i class="glyphicon glyphicon-plus" aria-hidden="true">添加选项</i>
+                            <a class="btn btn-link"  ng-if="!show" href="javascript:void(0)" ng-click="delOption(item)">
+                                    删除
+                                </a>
+                        </a>
+                      </div>
+             
+                </div>
+                <div class="form-group" ng-show="show">
+                        <div  ng-repeat="o in item.optionDetail">                          
+                                <label class="control-label col-xs-3">{{o.option}}：</label>
+                                <label class="col-xs-8 control-label" style="text-align: left;white-space:normal; word-break:break-all;" ng-show="show">{{o.optionContent}}</label>                                                
+                        </div>
+                    </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">正确答案：</label>
+                    <div class="col-xs-8 zqda">
+                            <span  ng-show="show">{{item.answer.split('$').join(',')}}</span>
+                            <span ng-repeat="o in item.optionDetail" ng-show="!show">
+                                <span ng-if="o.checked">{{o.option}}、</span>
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <!--判断题 -->
+            <div ng-if="item.type==3">
+                    <div class="form-group" ng-show="item.isPublicSubject==1" style="margin-bottom: 0;">
+                            <label class="col-xs-3 control-label">是否公开：</label>
+                            <div class="col-xs-8" ng-show="!show">
+                                <label role="button" style="line-height:32px;margin-right: 15px" ng-show="!show"><input type="radio"
+                                        style="margin:0 5px" ng-model="item.isPublic" value="1" name="isPublic"
+                                        ng-disabled="show" ng-show="!show">是</label>
+                                <label role="button" style="line-height:32px;" ng-disabled="show" ng-show="!show"><input type="radio"
+                                        style="margin:0 5px" ng-model="item.isPublic" value="0" name="isPublic"
+                                        ng-disabled="show" ng-show="!show">否</label>
+                                        
+                            </div>
+                            <label class="control-label col-xs-8" ng-show="show" style="text-align: left;white-space:normal; word-break:break-all;">{{item.isPublic==1?'是':'否'}}</label>
+                        </div>
+                        <div class="form-group">
+                                <label class="col-xs-3 control-label" >题目：</label>
+                                <div class="col-xs-8" style="padding-left: 0px;">
+                                    <input type="text" class="form-control" ng-model="item.question" placeholder="请输入题目"
+                                        ng-readonly="show" maxlength="200" ng-show="!show" >
+                                </div>
+                                <label class="col-xs-8 control-label" style="text-align: left;white-space:normal; word-break:break-all;" ng-show="show">{{item.question}}</label>
+                            </div>
+                <div class="form-group" ng-show="!show">
+                    <label role="button" class="col-xs-3 control-label" style="line-height:22px;">
+                        <input type="radio" name="answer3" style="margin:0 5px" ng-model="item.answer"
+                            ng-checked="item.answer=='A'" value="A" >正确</label>
+                    <label role="button" class="col-xs-8 control-label" style="line-height:22px;text-align: left;">
+                        <input type="radio" name="answer3" style="margin:0 5px" ng-model="item.answer"
+                            ng-checked="item.answer=='A'" value="A" >设为答案</label>
+                            
+                </div>
+                <div class="form-group" ng-show="!show">
+                    <label role="button" class="col-xs-3 control-label" style="line-height:22px;">
+                        <input type="radio" name="answer3"  ng-model="item.answer"
+                            ng-checked="item.answer=='B'" value="B" >错误</label>
+                    <label role="button" class="col-xs-8 control-label" style="line-height:22px;text-align: left;">
+                        <input type="radio" name="answer3" ng-model="item.answer"
+                            ng-checked="item.answer=='B'" value="B" >设为答案</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">正确答案：</label>
+                    <div class="col-xs-8 zqda">
+                        <span ng-if="item.answer=='A'">正确</span>
+                        <span ng-if="item.answer=='B'">错误</span>
+                    </div>
+                </div>
+                <!-- <div class="mt7 fileName">
+                        有且只能设置一个选项为正确答案
+                    </div> -->
+            </div>
+            <!--填空题 -->
+            <div ng-if="item.type==4">
+                    <div class="form-group" ng-show="item.isPublicSubject==1">
+                            <label class="col-xs-3 control-label">是否公开：</label>
+                            <div class="col-xs-8" ng-show="!show">
+                                <label role="button" style="line-height:32px;margin-right: 15px"><input type="radio"
+                                        style="margin:0 5px" ng-model="item.isPublic" value="1" name="isPublic"
+                                        ng-disabled="show">是</label>
+                                <label role="button" style="line-height:32px;"><input type="radio" style="margin:0 5px"
+                                        ng-model="item.isPublic" value="0" name="isPublic" >否</label>
+                                                
+                            </div>
+                            <label class="control-label col-xs-8" ng-show="show" style="text-align: left;word-break: break-all;">{{item.isPublic==1?'是':'否'}}</label>
+                        </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label" >题目：</label>
+                        <span class="col-xs-8">
+                            <!-- <label class="control-label" ng-repeat="o in item.optionDetail" style="text-align: left;">{{o.blankContent}}
+                            </label> -->
+                            <label class="control-label" ng-show="!show"  style="text-align: left;white-space:normal; word-break:break-all;">{{setText(item.optionDetail)}}
+                                </label>
+                                <label class="control-label" ng-show="show"  style="text-align: left;white-space:normal; word-break:break-all;">{{item.question}}
+                                </label>
+                                
+                        </span>
+                    </div>
+                    <div class="form-group" ng-show="!show">
+                        <label class="col-xs-3 control-label" >题目设置：</label>
+                       
+                        <div class="col-xs-8">
+                            <span ng-repeat="o in item.optionDetail">
+                                <input ng-if="o.type==1" type="text" class="form-control" style="display: inline;width: 200px;margin-bottom: 5px" ng-model="o.blankContent"  ng-readonly="show"/>
+                                <span ng-if="o.type==0" style="border-bottom: 1px solid #ccc;padding: 9px 0px;margin-bottom: 5px">{{o.blankContent}}</span>
+                            </span>
+                            <div ng-if="!show">
+                                <button class="btn btn-success " ng-click="addBlankText(1)">增加文字段</button>
+                                <button class="btn btn-success" ng-click="addBlankText(0)">增加填空段</button>
+                                <button ng-if="item.optionDetail.length>0" class="btn btn-default" ng-click="backspace()">撤销</button>
+                            </div>
+                            <div class="mt7 fileName">
+                                最多只能设置5个填空段
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label ">选项答案：</label>
+                        <div class="col-xs-8">
+                            <ul ng-show="!show">
+                                <li ng-repeat="an in item.tempAnswers track by $index" style="margin-bottom: 5px">
+                                    填空{{$index+1}}：<input type="text" class="form-control" style="display: inline;width: 600px" ng-model="an.answer" required ng-readonly="show" maxlength="200" ng-show="!show"/>
+                                    <label class="control-label" ng-show="show" style="text-align: left;word-break: break-all;">{{an.answer}}</label>
+                                </li>
+                            </ul>
+                            <label class="control-label" ng-show="show" style="text-align: left;word-break: break-all;">{{item.answer.split('$').join(',')}}</label>
+                        </div>
+                        <!-- <div class="mt7 fileName" style="margin-right: 93px;">
+                            参考答案手动录入
+                        </div> -->
+                    </div>
+                </div>
+           
+            <!--问答题 -->
+            <div ng-if="item.type==5">
+                <div class="form-group" ng-show="item.isPublicSubject==1">
+                    <label class="col-xs-3 control-label">是否公开：</label>
+                    <div class="col-xs-8" ng-show="!show">
+                        <label role="button" style="line-height:32px;margin-right: 15px"><input type="radio"
+                                style="margin:0 5px" ng-model="item.isPublic" value="1" name="isPublic"
+                                >是</label>
+                        <label role="button" style="line-height:32px;"><input type="radio" style="margin:0 5px"
+                                ng-model="item.isPublic" value="0" name="isPublic">否</label>
+                    </div>
+                    <label class="control-label col-xs-8" ng-show="show" style="text-align: left;">{{item.isPublic==1?'是':'否'}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label" >题目：</label>
+                    <div class="col-xs-8" ng-show="!show">
+                        <div>
+                            <input type="text" class="form-control" ng-model="item.question" placeholder="请输入题目"
+                                ng-readonly="show" maxlength="200" >
+                        </div>
+                    </div>
+                    <label class="col-xs-8 control-label" style="text-align: left;white-space:normal; word-break:break-all;" ng-show="show">{{item.question}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">参考答案：</label>
+                    <div class="col-xs-8" ng-show="!show">
+                        <textarea rows="10" class="form-control" ng-model="item.answer" placeholder="答案限制500字以内"
+                            style="resize: vertical" ng-readonly="show" maxlength="500"></textarea>
+                    </div>
+                    <label class="col-xs-8 control-label" ng-show="show" style="text-align: left;white-space:normal; word-break:break-all;">{{item.answer}}</label>
+                </div>
+            </div>
+   
+        <div style="text-align: center;">
+            <button class="btn btn-primary" ng-click="saveQuestion(form,item)" style="margin: 0 10px;"
+                ng-if="!show">保存</button>
+            <button class="btn btn-success" ng-click="continue(form,item)" style="margin: 0 10px;" ng-if="!show && !item.id"
+                >继续添加</button>
+            <button class="btn btn-warning" ng-click="cancel()" style="margin: 0 10px;" ng-if="!show">取消</button>
+        </div>
+    </form>
+</div>
+
+
+<style>
+    .fileName {
+        font-family: '微软雅黑';
+        font-weight: 400;
+        font-style: normal;
+        color: #999999;
+        text-align: left;
+        float: right;
+    }
+
+    .zqda {
+        font-size: 22px;
+        font-family: monospace;
+        color: red;
+        margin-top: 5px;
+    }
+
+    .space {
+        background-color: skyblue;
+        width: 80px;
+        height: 30px;
+        border-radius: 10px;
+        float: left;
+        text-align: center;
+        line-height: 30px;
+        margin: 2px 10px;
+    }
+
+</style>

@@ -1,0 +1,288 @@
+<div ng-controller="equipmentCtl" id="NgCtrlTag">
+
+    <div class="page-title">
+        <div class="title_left">
+            <h3>{{($parent.equipType|keyToValue:equipTypeDict)||'设备'}}台帐</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12" ng-hide="search.maxPanel">
+            <div class="x_panel">
+                <div class="x_title">
+                    <a ng-click='expandAll(equipTypeTree)' role="button" class='btn-link' title="展开与收缩">
+                        <i class="glyphicon" ng-class="{'glyphicon-resize-small':equipTypeTree.expanded,'glyphicon-resize-full':!equipTypeTree.expanded}" ></i></a>
+                        {{($parent.equipType|keyToValue:equipTypeDict)||'设备'}}分类
+                    <a ng-click='addTopNode()'  role="button" ng-show="search.isGroup&&!$parent.equipType" class='btn-link pull-right'><i class='fa fa-plus'></i>一级分类</a>
+                </div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="!equipTypeTree">无{{($parent.equipType|keyToValue:equipTypeDict)||'设备'}}分类</div>
+                    <div>
+                        <tree-view-pro node-list="equipTypeTree" host="search" host-text="'equipTypeName'" host-key="'equipTypeId'" callback="selectNode" clean="clean" config="config"></tree-view-pro>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0" ng-class="{'maxPanel':search.maxPanel}" >
+            <div style="position: absolute;right: 0; top: -50px;"><button ng-click="search.maxPanel=!search.maxPanel" class="btn btn-default" style=""><i class="glyphicon" ng-class="{'glyphicon-resize-full':!search.maxPanel,'glyphicon-resize-small':search.maxPanel}" ></i></button></div>
+
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group text-nowrap">
+                        <label >房屋：</label>
+                        <span class="text-nowrap">
+                            <house-selector class="searchBox" form-bean="search"></house-selector>
+                        </span>
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <label>设备编码</label>
+                        <input type="text" ng-model="search.EQUIP_CODE" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>设备名称</label>
+                        <input type="text" ng-model="search.NAME" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>设备惯用名</label>
+                        <input type="text" ng-model="search.equipSimpleName" class="form-control" />
+                    </div>
+                    <div class="form-group" >
+                        <label >设备类型</label>
+                        <select class="form-control" ng-model="search.equip_type" ng-options="o[0] as o[1] for o in equipTypeDict">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-if="search.preSetEquipType=='sensor'">
+                        <label>传感器编码</label>
+                        <input type="text" ng-model="search.mac" class="form-control" />
+                    </div>
+                    <div class="form-group" ng-if="search.preSetEquipType!='sensor'">
+                        <label>是否绑定传感器</label>
+                        <select class="form-control" ng-model="search.IsSensorBind" ng-options="o[0] as o[1] for o in yesNoDict">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-if="search.preSetEquipType!='sensor'">
+                        <label>品牌</label>
+                        <input type="text" ng-model="search.brand" class="form-control" />
+                    </div>
+                    <div class="form-group" ng-if="search.preSetEquipType!='sensor'">
+                        <label>注册代码</label>
+                        <input type="text" ng-model="search.regiCode" class="form-control" />
+                    </div>
+                    <div class="form-group" ng-if="search.preSetEquipType!='sensor'">
+                        <label>设备所在位置</label>
+                        <select class="form-control" ng-model="search.in_out_door" ng-options="o[0] as o[1] for o in pointTypeDict">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-if="search.preSetEquipType == 'camera'">
+                        <label ><input type="radio" name="useSence" ng-model="search.useSence" style="width: 22px;" value="all" />全部</label>
+                        <label ><input type="radio" name="useSence" ng-model="search.useSence" style="width: 22px;" value="equipHouse" />设备房</label>
+                        <label ><input type="radio" name="useSence" ng-model="search.useSence" style="width: 22px;" value="patrol" />巡查</label>
+                        <label ><input type="radio" name="useSence" ng-model="search.useSence" style="width: 22px;" value="door" />门禁</label>
+                        <label ><input type="radio" name="useSence" ng-model="search.useSence" style="width: 22px;" value="barrierGate" />道闸</label>
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)">查询</button>
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="btn-group pull-left">
+                        <label class="btn btn-default" ng-class="{'btn-success':search.mode=='list-mode'}" ng-model="search.mode" uib-btn-radio="'list-mode'"><i class="glyphicon glyphicon-th-list"></i></label>
+                        <label class="btn btn-default" ng-class="{'btn-success':search.mode=='map-mode'}" ng-model="search.mode" uib-btn-radio="'map-mode'"><i class="glyphicon glyphicon-map-marker"></i></label>
+                    </div>
+                    &nbsp;
+                    <span ng-if="search.mode=='list-mode'">
+                        <button class="btn btn-primary pull-right" ng-click="setEqSta()" ng-disabled="!hasChecked(pageModel)" ng-if="$parent.equipType!='sensor'">批量设置设备状态</button>
+                        <button class="btn btn-primary pull-right" ng-if="domain.orgType=='propertyManagement'" ng-disabled="!hasChecked(pageModel)" ng-click="setMatainName()">批量设置维保单位</button>
+                        <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="exportExcel()">导出Excel</button>
+                        <!--<button class="btn btn-primary pull-right" ng-show="false" ng-click="exportExcel()">导出Excel</button>-->
+                        <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="exportAll()">打印条码</button>
+                        <button class="btn btn-danger pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="delAll()">批量删除</button>
+                        <button class="btn btn-primary pull-right" ng-click="showEditModal()" ng-if="$parent.equipType!='sensor'">添加设备</button>
+                    </span>
+                </div>
+                <div class="panel-body" style="overflow-x: scroll;overflow-y: hidden">
+                    <table ng-show="search.mode=='map-mode'" style="width: 100%">
+                        <tr >
+                            <td style="width: 230px;vertical-align: top">
+                                <div style="height: 500px;overflow-y: scroll">
+                                    <ul >
+                                        <li ng-repeat="item in pageModel.data" style="position: relative">
+                                            <button ng-click="scrollToTarget(item)" class="btn nameBtn" ng-class="{'btn-success':search.hasIndoorMap?item.map_lng:item.longitude_,'btn-warning':item.lng,'active':curEquip==item}" >{{item.equip_simple_name || '--'}}</button>
+                                            <div class="absDiv" ng-if="domain.id==item.domain_id && item.lng">
+                                                <button class="btn btn-primary inline_block" ng-click="saveGeo(item)" title="保存"><i class="glyphicon glyphicon-ok"></i></button>
+                                                <button class="btn btn-default inline_block" ng-click="cancelGeo(item)" title="撤消"><i class="glyphicon glyphicon-remove"></i></button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td style="vertical-align: top!important;">
+                                <div ng-show="search.hasIndoorMap" style="height:500px;" ><!--style="position: relative"-->
+                                    <div id="canvas" style="width: 100%;height: 100%;position: relative;"></div>
+                                </div>
+                                <div ng-show="!search.hasIndoorMap">
+                                    <div id="map-container" ui-map="$parent.$parent.myMap" style="height: 500px;width: 100%"
+                                         ui-options="mapOptions" ui-map-cache="noCache"
+                                         ui-event="{'map-click':'clickMap($event, $params)'}">
+                                        <div id="tip">
+                                            <input type="text" id="map-keyword" name="keyword" value="请输入关键字：(选定后搜索)" onfocus='this.value=""' />
+                                        </div>
+                                    </div>
+                                    <div ng-repeat="marker in markers" ui-map-marker="markers[$index]" ui-event="{'map-click':'clickMarker($event,$params,marker)'}">
+                                    </div>
+                                    <div ui-map-info-window="myInfoWindow" style="width:190px">
+                                        <div class="x_title">
+                                            <a href='javascript:void(0)' class="btn-link" ng-click='showEquipDetail(markerData.id)'>{{markerData.name}}</a>
+                                        </div>
+                                        <div class="x_content" style="z-index: 1;">
+                                            <div>
+                                                <label style="display: table-cell;white-space: nowrap" class="control-label">编码：</label>
+                                                <div style="display: table-cell;word-break:break-all">{{markerData.equip_code}}</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 ">
+                                                    <ul>
+                                                        <li ng-repeat="param in markerData.params">
+                                                            <a href='javascript:void(0)' class="btn-link" ng-click='showDetectHistory(param.sensor_id,param.detect_param_id,param.param_name)'>
+                                                                {{param.param_name}}：<b ng-class="{'text-danger':param.is_regular==2}">{{param.val}}{{(param.val_type==1 && param.val!=undefined)?param.unit:''}}</b>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <table ng-show="search.mode=='list-mode'" class="table table-striped table-hover" style="">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width:30px">NO</th>
+                                <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                                <th nowrap="nowrap">设备编码</th>
+                                <th nowrap="nowrap">设备名称</th>
+                                <th nowrap="nowrap">惯用名</th>
+                                <th nowrap="nowrap">分类</th>
+                               <!-- <th style="width:120px">位置</th>-->
+                                <th nowrap="nowrap">关联传感器</th>
+                                <th nowrap="nowrap">参数</th>
+                                <th nowrap="nowrap">计划任务</th>
+                                <th nowrap="nowrap">工单</th>
+                                <th nowrap="nowrap">创建时间</th>
+                                <th nowrap="nowrap">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data">
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+                                <td style="word-break: break-all">{{item.equip_code}}</td>
+                                <td><a href='javascript:void(0)' class="btn-link" ng-click='showEquipDetail(item.id)'>{{item.name}}</a></td>
+                                <td style="word-wrap: break-word;">{{item.equip_simple_name}}</td>
+                                <td style="min-width: 120px;">{{item.type_name}}</td>
+                               <!-- <td>{{item.park_name}} {{item.stage_name}} {{item.floor_name}} {{item.house_name}}</td>-->
+                                <td>
+                                    {{item.cnt}}
+                                    <!--<ol style="padding-left: 15px;">
+                                        <li ng-repeat="sensor in item.sensorList">
+                                            <a href='javascript:void(0)' class="btn-link" ng-click='showSensorDetail(sensor.id)'>{{sensor.name}}</a>
+                                        </li>
+                                    </ol>-->
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li ng-repeat="param in item.params">
+                                            <a href='javascript:void(0)' class="btn-link" ng-click='showDetectHistory(param.sensor_id,param.detect_param_id,param.param_name)'>
+                                                {{param.param_name}}：<b ng-class="{'text-danger':param.is_regular==2}">{{param.val}}{{(param.val_type==1 && param.val!=undefined)?param.unit:''}}</b>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>{{item.worktask_count}}</td>
+                                <td>{{item.workunit_count}}</td>
+                                <td>{{item.optime}}</td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-if="item.hasBindCamera" ng-click='playVideo(item.id)' class='btn btn-xs'><span class='fa fa-camera'></span>视频监控</a>
+                                    <a href='javascript:void(0)' ng-if="domain.id==item.domain_id" ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+                                    <a href='javascript:void(0)' ng-if="domain.id==item.domain_id" ng-click='del(item)' class='btn btn-xs' ><span class='fa fa-trash'></span>删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="types.html">
+        <div>
+            <a href="javaScript:void(0)" ng-click="addSubType(node)" class="btn-link" role="button"><i class='glyphicon glyphicon-plus' ></i>下级分类</a>
+        </div>
+    </script>
+    <script type="text/javascript" src="/res/js/AirocovMap/AirocovMap.min.js"></script>
+</div>
+<style>
+    .nameBtn{
+        width: 200px;
+        margin-bottom: 5px;
+        position: relative;
+        white-space:normal;
+    }
+    .absDiv{
+        position: absolute;
+        top: 0px;
+        right: 8px;
+        z-index: 2;
+        right: 21px;
+    }
+    .absDiv button{
+        margin-bottom: 5px;
+        padding: 4px;
+        border-radius: 15px;
+        line-height: 14px;
+    }
+    .nameBtn.active{
+        box-shadow: inset 0 3px 5px rgba(0,0,0,.5)
+    }
+
+    #tip{
+        position: absolute;
+        top: 2%;
+        right: 2%;
+        background-color: #ddf;
+        color: #333;
+        border: 1px solid silver;
+        box-shadow: 3px 4px 3px 0px silver;
+        border-radius: 5px;
+        overflow: hidden;
+        line-height: 20px;
+        padding: 0 10px;
+        z-index: 1;
+    }
+    #tip input[type="text"] {
+        height: 25px;
+        border: 0;
+        padding-left: 5px;
+        width: 200px;
+        border-radius: 3px;
+        outline: none;
+    }
+    table tr th,
+            table tr td {
+                text-align: left;
+            }
+</style>

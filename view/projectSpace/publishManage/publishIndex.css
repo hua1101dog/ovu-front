@@ -1,0 +1,65 @@
+.div-group{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.div-panel{
+ 	width: 86px;
+    color: #989898;
+    background-color:#fff;
+    border: 1px solid #E6E9ED;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0;
+    margin-right: 15px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.div-active{
+    color: #fff;
+    background-color: #5891eb;
+}
+.btn-search{ 
+ 	width: 80px;
+    color: #fff;
+    background-color: #5891eb;
+}
+.label-search{
+    color: #989898;
+    padding: 0 5px 0 8px;
+}
+.status_rent{
+    color: #f7a500;
+}
+.status_sell{
+    color: #ff747d;
+}
+.btn-oper{ 
+ 	background-color: #fff;
+    border: 1px solid #78c4ec;
+    color: #78c4ec;
+    padding: 3px 10px;
+}
+.btn-nooper{ 
+    background-color: #fff;
+    border: 1px solid gray;
+    color: gray;
+    cursor: text;
+    padding: 3px 10px;
+}
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th{
+  	height:45px; 
+ }
+  

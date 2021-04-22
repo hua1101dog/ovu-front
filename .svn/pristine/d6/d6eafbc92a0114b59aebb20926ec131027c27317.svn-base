@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>商户申请管理</title>
+<link rel="stylesheet" href="crowdSource/order/orderListIndex.css">
+</head>
+<body>
+<div id="angularId" ng-controller="merchantApplyCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>商户申请管理</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-9 col-sm-8 col-xs-12" style="width: 98%;">
+			<div class="x_panel" >
+				<div class="form-inline">
+					<div class="form-group">
+						<label class="label_search" >商户状态</label>
+						<select class="form-control" style="width: 180px;" ng-model="search.auditStatus" ng-options="o.id as o.name for o in statusModel">
+						    <option value="" >--全部--</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="label_search" >商户名称</label>
+						<input class="form-control" ng-model="search.name">
+					</div>
+					<div class="form-group">
+						<label class="label_search">创建时间</label>
+						<input type="datetime" style="background-color:#fff;" class="form-control Wdate" ng-model="search.dateMin" onchange=""  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+						<span class="label_search" style="margin: 0 4px;">至</span>
+						<input type="datetime" style="background-color:#fff;" class="form-control Wdate" ng-model="search.dateMax" onchange=""  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+					</div>
+					<button class="btn btn-default" ng-click="find()">查询</button>
+				</div>
+				<!-- <div class="form-inline" style="margin: 10px auto;">
+					<div class="form-group">
+						<div class="form-group">
+						    <label class="label_search">创建时间</label>
+							<input type="datetime" style="background-color:#fff;" class="form-control Wdate" ng-model="search.dateMin" onchange=""  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+							<span class="label_search" style="margin: 0 4px;">至</span>
+							<input type="datetime" style="background-color:#fff;" class="form-control Wdate" ng-model="search.dateMax" onchange=""  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+						</div>
+					</div>
+					<button class="btn btn-default pull-right btn_search" ng-click="find()">查询</button>
+				</div> -->
+			</div>
+			<div class="panel panel-default" style="margin-bottom: 0px;">
+				<table class="table table-striped table-hover" style="margin-top: 10px;">
+					<thead class="title">
+					<tr>
+						<th width="25%" class="text-center">商户名称</th>
+						<th class="text-center">联系人</th>
+						<th class="text-center">联系电话</th>
+						<th class="text-center">申请时间</th>
+						<th class="text-center">申请状态</th>
+						<th class="text-center">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+					<tr ng-repeat="item in pageModel.data">
+						<td width="25%" class="">{{item.name||'--'}}</td>
+						<td class="">{{item.sellername||'--'}}</td>
+						<td class="">{{item.sellerphone||'--'}}</td>
+						<td class="">{{item.createTime?(item.createTime | date : 'yyyy-MM-dd HH:mm:ss'):'--'}}</td>
+						<td class="">{{getStatus(item.auditStatus||'--')}}</td>
+						<td class="">
+							<div ng-if="item.auditStatus=='0'?true:false">
+	                            <a href="javascript:void(0)" ng-click="shopEditStatus(item,1)" class="btn btn-xs"><span class="fa fa-edit pr5"></span>审核通过</a>
+	                        </div>
+	                        <div ng-if="item.auditStatus=='0'?true:false">
+	                            <a href="javascript:void(0)" ng-click="shopEditStatus(item,2)" class="btn btn-xs"><span class="fa fa-edit pr5"></span>审核拒绝</a>
+	                        </div>
+							<div>
+	                            <a href="javascript:void(0)" ng-click="showApproveModal(item)" class="btn btn-xs"><span class="fa fa-edit pr5"></span>查看</a>
+	                        </div>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+                	<ng-include src="'/common/pager.html'" class="ng-scope"><style type="text/css" class="ng-scope">
+                    	.pagination>li>span:hover{background-color: #fff;cursor:text}
+                	</style>
+                	</ng-include>
+            	</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

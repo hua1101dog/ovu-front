@@ -1,0 +1,113 @@
+<div class="modal-header">
+    <h4 class="modal-title">联系本人
+        <button type="button" class="close" ng-click="cancel()">×</button>
+    </h4>
+</div>
+<div class="modal-body" style="max-height: 700px;overflow: auto;">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th class="text-center">NO</th>
+                <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+                        <i class="glyphicon"
+                            ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                </th>
+                <th style="text-align:center">姓名</th>
+                <th style="text-align:center">电话</th>
+           
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="pageModel.length == 0">
+                <td colspan="100" class="text-center">暂无记录</td>
+            </tr>
+            <tr ng-repeat="item in pageModel track by $index" role="button">
+                <td class="text-center">{{$index-0 + 1}}</td>
+                <td>
+                    <i role="button" ng-click="selectPersonItem(item,pageModel)"
+                        ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                        class="glyphicon"></i>
+                </td>
+                <td style="text-align:center">{{item.name}}</td>
+                <td style="text-align:center">{{item.phone}}</td>
+             
+
+            </tr>
+        </tbody>
+    </table>
+    <!-- <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div> -->
+    <!-- <div class="page-footer clearfix">
+        <page  page-model="pageModel"></page>
+    </div> -->
+
+    <form class="form-label-left" id="selectForm">
+        <div class="form-group">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    已选人员:
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="input-group">
+                            <ul id="person" class="ul-persons">
+                                <li class="item" ng-repeat="p in personsSelected">
+                                    {{p.name || ''}}
+                                    <a ng-click="delSelectedPersonItem(p)"><i class='fa fa-remove'></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 60px">
+                <label class="control-label col-md-2 col-sm-2 required">备注:</label>
+                <div class="col-md-10 col-sm-10 col-xs-12">
+                    <textarea ng-model="item.opContent" name="opContent" required class="form-control" rows="2"></textarea>
+                </div>
+        </div>
+
+    </form>
+
+
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary edit" ng-click="save()">确定</button>
+    <button type="button" class="btn btn-warning" ng-click="$dismiss()">取消</button>
+</div>
+<style>
+    .ul-persons {
+        list-style: none;
+        float: left;
+        padding: 0px;
+        margin-bottom: 0;
+    }
+
+    .ul-persons li {
+        margin: 5px;
+        padding: 5px;
+        float: left;
+    }
+
+    .ul-persons li.item {
+        background-color: #F9F9F9;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

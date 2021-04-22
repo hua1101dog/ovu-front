@@ -1,0 +1,72 @@
+
+<div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">{{item.closeStatus== 2 ? '拉':'合'}}闸</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <form name="form" novalidate>
+                <div class="form-group" style="clear:both;">
+                        <label class="col-xs-4 control-label required">已选择设备:</label>
+                       
+                       
+                    </div>
+                    <div class="form-group" style="clear:both;margin-top: -15px;margin-bottom: -15px">
+                            <label class="col-xs-4 control-label"></label>
+                            <div class="col-xs-8">
+                                    <ul>
+                                        <li>计量点编码： {{item.pointCode}}</li>
+                                        <li>计量点名称：{{item.pointName}}</li>
+                                    </ul>
+                             </div>
+                    </div>
+                    <div class="form-group" style="clear:both;">
+                            <label class="col-xs-4 control-label">当前操作：</label>
+                            <div class="col-xs-8 mt7">
+                                {{item.closeStatus== 2 ? '拉':'合'}}闸
+                            </div>
+                           
+                        </div>
+                <div class="form-group" style="clear:both;">
+                        <label class="col-xs-4 control-label required">请输入密码：</label>
+                        <div class="col-xs-8">
+                                <input type="text" class="form-control" required ng-model="item.password" />
+                        </div>
+                       
+                    </div>
+           
+         
+            
+        </form>
+    </div>
+    <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="save(form,item)">确定</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        </div>
+    <style>
+      
+      .ul-persons {
+        list-style: none;
+        float: left;
+        padding: 0px;
+    }
+
+    .ul-persons li {
+        margin: 5px;
+        padding: 5px;
+        float: left;
+    }
+
+    .ul-persons li.item {
+        background-color: #F9F9F9;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    </style>
+    

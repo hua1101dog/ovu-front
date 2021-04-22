@@ -1,0 +1,155 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">{{item.id?'编辑':'添加'}}品牌型号</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="form-group" ng-if="item.pid">
+					<label class="col-xs-2 control-label">上级分类：</label>
+					<div class="col-xs-4">
+						<div style="margin-top: 8px">{{item.ptexts}}</div>
+					</div>
+					<label class="col-xs-2 control-label">品牌：</label>
+					<div  class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.brand" name="brand"  ng-class="{'waiting':loadingBrand}"
+							   uib-typeahead="o.brand as o.brand for o in getBrand($viewValue)" typeahead-min-length=0 typeahead-editable=true typeahead-loading="loadingBrand" typeahead-wait-ms='300'/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">型号：</label>
+					<div  class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.text" name="text" required/>
+					</div>
+					<label class="col-xs-2 control-label required">编码：</label>
+					<div  class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.code" name="code" required/>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-xs-2 control-label ">厂商：</label>
+					<div  class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.manufacturer" name="manufacturer" />
+					</div>
+					<label class="col-xs-2 control-label ">产地：</label>
+					<div  class="col-xs-4">
+						<input type="text" class="form-control" ng-model="item.madeIn" name="madeIn" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">上传图片：</label>
+					<div class="col-xs-10">
+						<div class="photoWraper">
+							<img onerror="javascript:this.src='/res/img/detail.png';"
+								 ng-click="showPhoto()"
+								 ng-src="{{'/ovu-pcos/'+item.logo_url.substr(item.logo_url.indexOf('document'))}}">
+							<a role="button" ng-click="del(item)"><i class="glyphicon glyphicon-remove"></i></a>
+						</div>
+						<img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhoto(item)" title="上传图片">
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">分类中定义的参数（{{item.defs.length}}）</div>
+					<div class="panel-body">
+						<div class="col-xs-6" ng-repeat="def in item.defs" style="    margin-bottom: 10px;">
+							<label class="col-xs-4 control-label ">{{def.name}}<span ng-if="def.val_type==2">（{{def.unit}}）</span>：</label>
+							<div  class="col-xs-8">
+								<input type="text" ng-if="def.val_type==1" class="form-control" ng-model="def.val" name="val{{$index}}" />
+								<input type="number" ng-if="def.val_type==2" class="form-control"  ng-model="def.val" name="val{{$index}}" />
+								<select class="form-control" ng-if="def.val_type==3" ng-options="o as o for o in def.options" ng-model="def.val"  name="val{{$index}}" >
+									<option value="">--请选择--</option>
+								</select>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+
+
+				<!--<div class="panel panel-default">
+					<div class="panel-heading">参数列表
+						<button class="btn btn-primary pull-right" ng-click="addAttr()" >新增参数</button>
+					</div>
+					<div class="panel-body">
+							<table class="table table-striped table-hover" style="margin-bottom: 0px; ">
+								<thead class="title">
+								<tr>
+									<th class="text-center">NO</th>
+									<th >参数名称</th>
+									<th >参数值</th>
+									<th>操作</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-if="!item.attrs||item.attrs.length == 0"><td colspan="100" class="text-center">暂无参数</td></tr>
+								<tr ng-repeat="attr in item.attrs" >
+									<td class="text-center">{{$index + 1}}</td>
+									<td style="padding:1px"><input type="text" class="form-control" required name="name{{$index}}" ng-model="attr.name" /></td>
+									<td style="padding:1px"><input type="text" class="form-control" required name="val{{$index}}" ng-model="attr.val" /></td>
+									<td>
+										<a href='javascript:void(0)' ng-click='item.attrs.splice(item.attrs.indexOf(attr),1)' class='btn btn-xs' ><span class='fa fa-trash'></span>删除</a>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+				</div>-->
+				<div class="panel panel-default">
+					<div class="panel-heading">检测参数列表<i>(tip：关联工作类型后,在监测参数异常时，自动生成应急工单！)</i>
+						<button class="btn btn-primary pull-right" ng-click="selectDetectParam(item)" >新增检测参数</button>
+					</div>
+					<div class="panel-body">
+						<table class="table table-striped table-hover" style="margin-bottom: 0px; ">
+							<thead class="title">
+							<tr>
+								<th class="text-center">NO</th>
+								<th>检测参数名称</th>
+								<th>值类型</th>
+								<th >单位/选项</th>
+								<th >阈值/正常项</th>
+								<th>异常时应急工单类型</th>
+								<th>操作</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-if="!item.params||item.params.length == 0"><td colspan="100" class="text-center">暂无检测参数</td></tr>
+							<tr ng-repeat="param in item.params" >
+								<td class="text-center">{{$index + 1}}</td>
+								<td >{{param.ptexts+":"+param.text}}</td>
+								<td >{{param.val_type|keyToValue:sensorDataDict}}</td>
+								<td style="max-width: 220px">{{param.val_type == 1?param.unit:param.option_list}}</td>
+								<td style="padding:1px;white-space: nowrap">
+									<div ng-if="param.val_type == 1">
+										<input type="text" class="form-control" style="width: 120px;display: inline-block" placeholder="最小阈值" name="min_val{{$index}}" ng-model="param.min_val" />
+										<input type="text" class="form-control" style="width: 120px;display: inline-block" placeholder="最大阈值" name="max_val{{$index}}" ng-model="param.max_val" />
+									</div>
+									<div ng-if="param.val_type == 2">
+										<input type="text" class="form-control" placeholder="正常项" name="regular_list{{$index}}" ng-model="param.regular_list" />
+									</div>
+								</td>
+								<td style="padding:1px;">
+									<div class="input-group">
+										<input type="text" class="form-control" ng-focus="param.worktypeFocus=true" ng-blur="param.worktypeFocus=false"  ng-model="param.worktype_name" name="worktype_name" readonly />
+										<layer-select node-list="worktypeTree" select-method="selectWorktype" host="param" ng-show="param.worktypeFocus||param.worktypeHover" ng-mouseover="param.worktypeHover=true" ng-mouseleave="param.worktypeHover=false" class="layerSelect" style="left: 0px;top:34px;" ></layer-select>
+										<span class="input-group-btn">
+											<button class="btn btn-default" ng-click="clearWorkType(param)" style="height: 34px"><i class='fa fa-close'></i></button>
+										</span>
+									</div>
+								</td>
+								<td>
+									<a href='javascript:void(0)' ng-click='item.params.splice(item.params.indexOf(param),1)' class='btn btn-xs' ><span class='fa fa-trash'></span>删除</a>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+

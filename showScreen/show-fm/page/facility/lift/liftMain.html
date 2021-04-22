@@ -1,0 +1,118 @@
+<div class="" ng-controller="liftMainCtl as vm" style="height:100%;">
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="">
+            <!--园区电梯情况-->
+            <div>
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">项目电梯概况</h4>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightData.total}}</h3>
+                        <div>电梯总数</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightData.regular_num}}</h3>
+                        <div>正常</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightData.total - vm.rightData.regular_num}}</h3>
+                        <div class="red">异常</div>
+                    </div>
+                </div>
+                <div class="lift-panel col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">电梯列表</h4>
+                    <div class="content">
+                        <div ng-repeat="item in vm.rightBuildEquipList" class="repeat-cont b-b clearfix">
+                            <div class="col-sm-12">
+                                <span class="keyName font-bold">名称：</span>
+                                <span class="keyValue">{{item.name}}</span>
+                            </div>
+                            <div class="col-sm-12">
+                                <span class="keyName font-bold">位置：</span>
+                                <span class="keyValue">{{item.house_name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <h4 class="font-bold">电梯监测详情</h4>
+                    <div class="col-lg-12 col-sm-12" ng-repeat="item in vm.sensorList">
+                        <p>{{item.name}}:{{item.val}}{{item.unit}}</p>
+                    </div>
+                   <!-- <h5>楼层:1层</h5>
+                    <div class="col-lg-12 col-sm-12 ">
+                        监测时间：2017-11-22 13:39:07
+                    </div>
+                    <div class="col-lg-12 col-sm-12 ">
+                        阈值范围：-2层~17层
+                    </div>
+                    <h5>方向:等客</h5>
+                    <div class="col-lg-12 col-sm-12 ">
+                        监测时间：2017-11-22 13:39:07
+                    </div>
+                    <div class="col-lg-12 col-sm-12 ">
+                        正常状态:正常运行
+                    </div>
+                    <h5>电梯状态:正常运行</h5>
+                    <div class="col-lg-12 col-sm-12 ">
+                        监测时间：2017-11-22 13:39:07
+                    </div>
+                    <div class="col-lg-12 col-sm-12 ">
+                        正常状态:正常运行
+                    </div>-->
+                </div>
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">设备工单列表(总数:{{vm.workUnitList.length || 0}}条)</h4>
+                <table class="table">
+                  <thead class="title">
+                  <tr>
+                    <th>工单位置</th>
+                    <th>执行人</th>
+                    <th>工单状态</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  <!--<tr ng-repeat="item in vm.EquipmentRoomList | limitTo : vm.num"-->
+                      <!--ng-class="{myactive : vm.checked==item.id}"-->
+                      <!--ng-click="vm.checkOne(item.id)">-->
+                    <!--<td>{{item.name}}</td>-->
+                    <!--<td>{{item.val}}</td>-->
+                  <!--</tr>-->
+                  <tr ng-repeat="item in vm.workUnitList">
+                    <td>{{vm.location}}</td>
+                    <td>{{item.NAME}}</td>
+                    <td>{{item.UNIT_STATUS|keyToValue:vm.statusList}}</td>
+                  </tr>
+                  <!--<tr ng-if="vm.EquipmentRoomList.length>=4">-->
+                    <!--<td colspan="2">-->
+                      <!--<a  class="more" ng-click="vm.getmore()">{{vm.info}}</a>-->
+                    <!--</td>-->
+                  <!--</tr>-->
+
+                  </tbody>
+
+                </table>
+              </div>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>
+<style>
+    .right-panel .lift-panel .content {
+        height: 300px;
+        overflow: auto;
+    }
+
+    .right-panel .lift-panel .content div {
+        padding: 0;
+    }
+
+    .right-panel .lift-panel .content .repeat-cont {
+        padding: 10px 0;
+    }
+
+    .right-panel .lift-panel .content .repeat-cont > div {
+        margin: 5px 0;
+    }
+</style>

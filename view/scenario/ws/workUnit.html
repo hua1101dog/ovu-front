@@ -1,0 +1,457 @@
+<div ng-controller="workUnitctrl1" ng-init="search.msgStatus = 0">
+    <div class="title_top">
+        <!-- <div class="title-text">异常及退回工单>></div> -->
+        <div class="title-text">
+            <span class="title-text-span" ng-class="{'gray-text':search.msgStatus == 0}" ng-click="search.msgStatus = 0;find(1)">未处理消息</span>
+            <span class=" gray-text">|</span>
+            <span class=" title-text-span" ng-class="{'gray-text':search.msgStatus == 1}" ng-click="search.msgStatus = 1;find(1)">已处理消息</span>
+             <span class=" gray-text">|</span>
+                <span class=" title-text-span" ng-class="{'gray-text':search.msgStatus == 2}" ng-click="search.msgStatus = 2;find(1)">工单查询</span> 
+        </div>
+    </div>
+
+    <div class="main-content" ng-if="search.msgStatus==0">
+        <div class="x_panel" style="padding: 20px;padding-bottom: 0px;">
+            <div class="form-inline">
+                <div class="p-header">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="search.msgName" placeholder="按消息名称搜索" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="find(1)"><i class='fa fa-search'></i></button>
+                        </span>
+                    </div>
+                    <!-- <div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">
+                            <input type="checkbox" class="checkbox-00" value="1" ng-model="checkList.yingji">
+                            <span class="checkbox-00-lab">应急</span>
+                        </div>
+
+                        <div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">
+                            <input type="checkbox" class="checkbox-00" value="2" ng-model="checkList.jihua">
+                            <span class="checkbox-00-lab">计划</span>
+                        </div>
+
+                        <div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">
+                            <input type="checkbox" class="checkbox-00" value="3" ng-model="checkList.shebei">
+                            <span class="checkbox-00-lab">设备</span>
+                        </div>
+
+                        <div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">
+                            <input type="checkbox" class="checkbox-00" value="4" ng-model="checkList.siningning">
+                            <span class="checkbox-00-lab">400报事</span>
+                        </div> -->
+
+
+                </div>
+            </div>
+            <table class="table table-striped table-hover" style="margin-top: 10px;margin-left: 20px;">
+                <thead>
+                    <tr class="text-left">
+                        <th style="width:20%;">消息名称</th>
+                        <!-- <th style="width:17%;">异常原因</th> -->
+                        <th style="width:17%;">当前节点</th>
+                         <th style="width:16%;">创建时间</th>
+                        <th style="width:30%;" ng-if="hasPower('联系本人') || hasPower('通知上级') || hasPower('派发')">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.totalCount ">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data" style="color:#333333;" class="text-left">
+                        <td><a href='javascript:void(0)' class="btn-link"
+                                ng-click='showWorkUnitDetail(item.thirdId)'>
+                                <!-- <span class="badge" style="vertical-align: unset" ng-style="{'background-color':item.DATA_STATUS=='0'?'#777':'rgb(217, 41, 28)'}"> -->
+                                        <span class="badge" style="vertical-align: unset">
+                                    {{item.msgContent}}</span>
+                                    {{item.msgName||"--"}}</a></td>
+                        <!--<td>{{item.msgContent}}</td>-->
+                        <td>{{item.personName||"--"}}</td>
+                         <td>{{item.time||"--"}}</td>
+                        <td ng-if="hasPower('联系本人') || hasPower('通知上级') || hasPower('派发')">
+
+                            <button class="btn btn-default " style="margin-left: 5px" ng-click="noticePerson(item)"
+                                ng-if="hasPower('联系本人')">联系本人</button>
+                            <button class="btn btn-default " style="margin-left: 5px" ng-click="noticeLeader(item)"
+                                ng-if="hasPower('通知上级')">通知上级</button>
+                            <button class="btn btn-default " ng-if="hasPower('派发') && (item.status==0||item.status==4)"
+                                ng-click='distributeModal(item.thirdId,item.deptId,item.parkId,item.msgId)'>派发</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+
+    </div>
+    <div class="main-content" ng-if="search.msgStatus==1">
+        <div class="x_panel" style="padding: 20px;padding-bottom: 0px;">
+            <div class="form-inline">
+                <div class="p-header">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="search.msgName" placeholder="按消息名称搜索" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="find(1)"><i class='fa fa-search'></i></button>
+                        </span>
+                    </div>
+                    <!-- <div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">
+                            <input type="checkbox" class="checkbox-00" value="1" ng-model="checkList.yingji">
+                            <span class="checkbox-00-lab">应急</span>
+                        </div>
+
+                        <div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">
+                            <input type="checkbox" class="checkbox-00" value="2" ng-model="checkList.jihua">
+                            <span class="checkbox-00-lab">计划</span>
+                        </div>
+
+                        <div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">
+                            <input type="checkbox" class="checkbox-00" value="3" ng-model="checkList.shebei">
+                            <span class="checkbox-00-lab">设备</span>
+                        </div>
+
+                        <div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">
+                            <input type="checkbox" class="checkbox-00" value="4" ng-model="checkList.siningning">
+                            <span class="checkbox-00-lab">400报事</span>
+                        </div> -->
+
+
+                </div>
+            </div>
+            <table class="table table-striped table-hover" style="margin-top: 10px;margin-left: 20px;">
+                <thead>
+                    <tr class="text-left">
+                        <th style="width:20%;">消息名称</th>
+                        <th style="width:16%;">处理时间</th>
+                        <th style="width:30%;">操作记录</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.totalCount ">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data" style="color:#333333;" class="text-left">
+                        <td><a href='javascript:void(0)' class="btn-link"
+                                ng-click='showWorkUnitDetail(item.thirdId)'>
+                                <!-- <span class="badge" style="vertical-align: unset" ng-style="{'background-color':item.DATA_STATUS=='0'?'#777':'rgb(217, 41, 28)'}"> -->
+                                        <span class="badge" style="vertical-align: unset">
+                                   {{item.msgContent}}
+                                </span>
+                                 {{item.msgName||"--"}}</a></td>
+                        <td>{{item.optime||"--"}}</td>
+                        <td>
+
+                           <button class="btn btn-default " style="margin-left: 5px" ng-click="record(item)">操作记录</button>
+                             <!-- <button class="btn btn-default " style="margin-left: 5px" ng-click="noticeLeader(item)"
+                                ng-if="hasPower('通知上级')">通知上级</button>
+                            <button class="btn btn-default " ng-if="hasPower('派发') && (item.status==0||item.status==4)"
+                                ng-click='distributeModal(item.id,item.deptId,item.parkId)'>派发</button> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+
+    </div>
+    <div class="main-content" ng-if="search.msgStatus==2">
+        <div class="x_panel" style="padding: 20px;padding-bottom: 0px;">
+            <div class="form-inline">
+                <div class="p-header">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="search.NAME" placeholder="按工单名称搜索" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="find(1)"><i class='fa fa-search'></i></button>
+                        </span>
+                    </div>
+                  
+                </div>
+                 <div class="form-group" style="margin-top:15px">
+                <label>工单状态</label>
+               <!--     <house-selector  form-bean="search" has-park="true"></house-selector> -->
+               <!--  <select  class="form-control" required ng-model="search.operateType" ng-options="x[0] as x[1] for x in newWorkStatus">
+                        <option value="">--请选择--</option>
+                    </select> -->
+            </div>
+              <!--   <button class="btn btn-default" ng-click="find(1)">查询</button> -->
+                  <!--   <div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">
+                        <input type="checkbox" class="checkbox-00" value="1" ng-model="checkList.yingji">
+                        <span class="checkbox-00-lab">应急</span>
+                    </div>
+
+                    <div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">
+                        <input type="checkbox" class="checkbox-00" value="2" ng-model="checkList.jihua">
+                        <span class="checkbox-00-lab">计划</span>
+                    </div>
+
+                    <div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">
+                        <input type="checkbox" class="checkbox-00" value="3" ng-model="checkList.shebei">
+                        <span class="checkbox-00-lab">设备</span>
+                    </div>
+
+                    <div style="display: flex;flex-direction: row;align-items: center;margin-left: 35px">
+                        <input type="checkbox" class="checkbox-00" value="4" ng-model="checkList.siningning">
+                        <span class="checkbox-00-lab">400报事</span>
+                    </div> -->
+
+
+                </div>
+            </div>
+            <table class="table table-striped table-hover" style="margin-top: 10px;margin-left: 20px;">
+                <thead class="title">
+                    <tr class="text-left">
+                        <th style="width:20%;text-align: left" >工单名称</th>
+                        <th style="width:17%;text-align: left">工单状态</th>
+                        <th style="width:17%;text-align: left">当前节点</th>
+                        <th style="width:16%;text-align: left">创建时间</th>
+                        <th style="width:30%;text-align: left" ng-if="hasPower('联系本人') || hasPower('通知上级') || hasPower('派发')">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.totalCount ">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data" style="color:#333333;" class="text-left">
+                        <td><a href='javascript:void(0)' class="btn-link"
+                                ng-click='showWorkUnitDetail(item.ID)'>{{item.WORKUNIT_NAME||"--"}}</a></td>
+                        <td>{{item.UNIT_STATUS|keyToValue:unitStatusDict}}</td>
+                        <td>{{item.CUSTOMER_NAME||"--"}}</td>
+                        <td>{{item.CREATE_DATE||"--"}}</td>
+                        <td ng-if="hasPower('联系本人') || hasPower('通知上级') || hasPower('派发')">
+
+                           <!--  <button class="btn btn-default " style="margin-left: 5px" ng-click="noticePerson(item)"
+                                ng-if="hasPower('联系本人')">联系本人</button>
+                            <button class="btn btn-default " style="margin-left: 5px" ng-click="noticeLeader(item)"
+                                ng-if="hasPower('通知上级')">通知上级</button> -->
+                            <button class="btn btn-default " ng-if="hasPower('派发') && (item.UNIT_STATUS==0)"
+                                ng-click='distributeModal(item.ID,item.deptId,item.PARK_ID)'>派发</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+
+    </div>
+
+  <!--   <div ng-controller="workUnitctrl2" style="margin-top:20px" ng-if="search.msgStatus==2">
+    <div class="title_top" style="position: relative"  ng-init='showContent=true' ng-click="showContent=!showContent">
+        <div class="title-text">400报事>></div>
+        <div class="title-zhankai" >{{showContent?'收起':'展开'}}</div>
+    </div>
+
+    <div class="main-content"  ng-show="showContent">
+        <div class="x_panel" style="padding: 20px;padding-bottom: 0px;">
+            <div class="content-left col-md-5">
+                <form name="form" class="form-horizontal" >
+                    <div class="form-group" >
+                        <label class="control-label col-sm-2   required">业主电话</label>
+                        <div class="col-sm-8">
+                            <input type="text" ng-model="workUnitInfo.ownerPhone" ng-minlength="11" ng-maxlength="11" ng-pattern="/^1[34578]\d{9}$/"  placeholder="电话" class="form-control"  ng-readonly='ownerDisable' required>
+                        </div>
+                        <div class="col-sm-2 ">
+                                <button class="btn btn-default " ng-readonly='!workUnitInfo.ownerPhone'  ng-click="queryOwner()">查询</button>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="showItem">
+                        <label class="control-label col-sm-2  required">发起人
+                        </label>
+                        <div class="col-sm-8 ">
+                            <input type="text" name="name" placeholder="输入发起人" ng-readonly='isDisable' ng-model="workUnitInfo.ownerName" required
+                                maxLength="20" class="form-control ">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="showItem">
+                            <label class="control-label col-sm-2 ">报事位置
+                            </label>
+                            <div class="col-sm-10">
+                                <house-selector  is-disabled={{isDisable}}  form-bean="location"  has-park=true></house-selector>
+                            </div>
+
+                    </div>
+                    <div class="form-group" ng-if="showItem">
+                            <label class="control-label col-sm-2 ">详细地址</label>
+                            <div class="col-sm-8">
+                                    <input type="text" name="name" placeholder="输入详细地址" ng-model="workUnitInfo.position" class="form-control" >
+                            </div>
+
+                    </div>
+                    <div class="form-group" ng-if="showItem">
+                        <label class="control-label col-sm-2 required">事件描述</label>
+                        <div class="col-sm-8">
+                            <textarea ng-model="workUnitInfo.description" placeholder="事件描述" name="remark" class="form-control" required
+                                rows="4"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group" class="col-sm-12" style="text-align:center">
+                        <button class="btn btn-primary" ng-click="saveWorkUnit(form.$valid)"  ng-readonly="!showItem">保存</button>
+                        <button class="btn btn-warning" ng-click="resetFormInfo()"  ng-readonly="!showItem">重置</button>
+                    </div>
+                </form>
+            </div>
+            <div class="content-right col-md-6" style="padding-left:120px">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="电话、业主姓名" ng-model="search.name" />
+                    </div>
+
+                    <button class="btn btn-default " style="margin-top: 3px" ng-click="find(1)">查询</button>
+                </div>
+                <div class="title-table">近期报事</div>
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead>
+                        <tr class="text-left">
+                            <th style="width:30%;">报事内容</th>
+                            <th style="width:30%;">报事时间</th>
+                            <th style="width:40%;">处理进度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!pageModel.totalCount">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data" style="color:#333333;" class="text-left">
+                            <td> {{item.name||"--"}}</td>
+                            <td>{{item.time||"--"}}</td>
+                            <td>{{item.status|keyToValue:workStatusArr}} </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+
+    </div> -->
+</div>
+</div>
+
+<style>
+     .gray-text{
+        
+        color: rgba(0, 120, 255, 1)
+    }
+    .title-text {
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        padding-left: 20px;
+        background: rgba(226, 240, 255, 1);
+        border-radius: 6px 6px 0px 0px;
+        font-size: 18px;
+        font-family: MicrosoftYaHei-Bold;
+        font-weight: bold;
+        color: #888;
+    }
+
+    .title-zhankai {
+        font-size: 18px;
+        font-family: MicrosoftYaHei-Bold;
+        font-weight: bold;
+        color: rgba(0, 120, 255, 1);
+        position: absolute;
+        right: 15px;
+        top: 15px;
+    }
+
+    .title {
+        background: #DEE8F8;
+        color: #0078FF;
+        text-align: center
+    }
+
+    .main-content {
+        width: 100%;
+        background: #FFFFFF;
+
+    }
+
+    .btn-default {
+        background-color: #0078FF;
+        color: #FEFEFE
+    }
+
+    .content-left {
+        height: 400px
+    }
+
+    /* div.content-right{
+        padding-left: 40px
+    } */
+
+    .title-text-span{
+        cursor: pointer;
+    }
+    .title-text-span:hover{
+        color: rgba(0, 120, 255, 1);
+    }
+    div.content-right>div.title-table {
+        margin-top: 10px;
+        font-size: 16px;
+        font-family: MicrosoftYaHei;
+        font-weight: 400;
+        color: rgba(51, 51, 51, 1);
+        line-height: 34px;
+    }
+
+    .form-group {
+        margin-bottom: 15px
+    }
+
+    .btn-warning {
+        margin-left: 30px
+    }
+
+    .p-header {
+        background: #fff;
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 25px;
+        margin-left: 20px;
+    }
+
+    .p-ipt {
+        width: 200px;
+        height: 30px;
+        background: rgba(246, 246, 246, 1);
+        border: 1px solid rgba(231, 231, 231, 1);
+        box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.08);
+        font-size: 15px;
+    }
+
+    .search-00 {
+        display: inline-block;
+        width: 40px;
+        height: 30px;
+        background: rgba(0, 120, 255, 1);
+    }
+
+    .checkbox-00 {
+        width: 20px;
+        height: 20px;
+    }
+
+    .checkbox-00-lab {
+        font-size: 14px;
+        font-family: MicrosoftYaHei;
+        font-weight: 400;
+        color: rgba(102, 102, 102, 1);
+    }
+
+    /* .col-sm-2{
+        padding: 0px;
+        width:80px;
+    } */
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+   
+</style>

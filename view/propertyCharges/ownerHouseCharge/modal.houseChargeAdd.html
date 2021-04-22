@@ -1,0 +1,83 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h3 class="modal-title">{{title}}</h3>
+</div>
+<div class="modal-body form-horizontal">
+    <form name="houseAddForm" novalidate>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">分期/分区:</label>
+            <div class="col-xs-7">
+                <select class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="STAGE" ng-change="changeStage(STAGE)"
+                    ng-options="o.text for o in stageList">
+                    <option value="">-请选择-</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">楼栋:</label>
+            <div class="col-xs-7">
+                <select class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="BUILD" ng-change="changeBuild(BUILD)"
+                    ng-options="o.buildName for o in buildList">
+                    <option value="">-请选择-</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">单元:</label>
+            <div class="col-xs-7">
+                <select class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="UNITNO" ng-change="changeUnit(BUILD,UNITNO)"
+                    ng-options=" o for o in unitList">
+                    <option value="">-请选择-</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">楼层:</label>
+            <div class="col-xs-7">
+                <select class="form-control" ng-model="GROUNDNO" ng-change="changeGround(GROUNDNO)" ng-options="o as o+'楼' for o in groundList">
+                    <option value="">-请选择-</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">房屋:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-empty" readonly="readonly" required ng-model="HOUSE">
+            </div>
+            <button class="btn btn-primary" ng-click="changeHouse()">选择</button>
+        </div>
+        <div class="form-group">
+            <label class="control-label required col-xs-3">收费项目编码:</label>
+            <div class="col-xs-7">
+                <select style="min-width:160px;" class="form-control ng-pristine ng-untouched ng-valid ng-empty" required ng-model="search.expenseChildId">
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="item in expenseList track by $index" value={{item.id}}>{{item.chargeName}}</option>
+                </select>
+            </div>
+        </div>
+      <!--  <div class="form-group">
+            <label class="control-label col-xs-3">减免折扣:</label>
+            <div class="col-xs-7">
+                <input type="number" class="form-control" oninput="this.value=this.value.replace(/^[0]+[0-9]*$/gi,'')" ng-model="search.discount" ng-change="discountAddChange(1)">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-3">减免额:</label>
+            <div class="col-xs-7">
+                <input type="number" class="form-control" oninput="this.value=this.value.replace(/^[0]+[0-9]*$/gi,'')" ng-model="search.deductions" ng-change="discountEditChange(2)">
+            </div>
+        </div>-->
+        <div class="form-group">
+            <label class="control-label col-xs-3">备注:</label>
+            <div class="col-xs-7">
+                <!-- <input type="text" class="form-control" ng-model="search.remarks">-->
+                <textarea type="text" style="height: 150px; resize: vertical; cursor: default;" class="form-control"
+                    ng-model="search.remark" name="content" aria-multiline="true" aria-invalid="false"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-success btn-lg" ng-click="save(houseAddForm)">确认</button>
+    <button class="btn btn-danger btn-lg" ng-click="cancel()">取消</button>
+</div>

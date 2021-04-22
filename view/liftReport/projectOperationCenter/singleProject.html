@@ -1,0 +1,511 @@
+<!--单项目电梯概览-->
+<div id="angularId" ng-controller="singleProjectOverviewController">
+    <!--  <a href="#/elevator-">点击跳转到单电梯</a> -->
+    <!--title BEGIN-->
+    <div class="page-title x_panel">
+        <div class="title_left">
+            <h4>电梯信息</h4>
+        </div>
+        <button class="btn btn-primary pull-right" ng-click="goBack()">返回</button>
+    </div>
+    <!--title END-->
+
+    <!--上半部分 BEGIN-->
+    <div class="row up">
+
+        <div class="col-md-5 col-sm-12 col-xs-12">
+            <div class="row">
+                <!--<div class="project-space col-md-6 col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>项目空间</h4>
+                        </div>
+                        <div class="panel-body">
+                            &lt;!&ndash;<div id="dept_tree"></div>&ndash;&gt;
+                            <div ng-if="!treeData || treeData.length === 0">
+                                暂无数据
+                            </div>
+                            <div id="house_tree">
+                                <tree-view node-list="treeData"></tree-view>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="todo-list col-md-12 col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>待办事项概览</h4>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item" ng-if="todoList.length === 0">
+                                    <p>暂无待办事项</p>
+                                </li>
+                                <li class="list-group-item" ng-repeat="item in todoList">
+                                    <!--<p>电梯名称：{{item.liftName}}</p>
+                                    <p>电梯位置：{{item.position}}</p>
+                                    <p>维保工：{{item.personName}}</p>
+                                    <p>保养类型：{{item.maintainType}}</p>-->
+                                    <div style="overflow: hidden">
+                                        <img ng-src="{{'/res/img/mark_bs/d'+(item.unitStatus)+'.png'}}" alt="" style="float:left;width: 50px;height: 50px;margin-right: 10px">
+                                        <div style="float: left;">
+                                            <p>{{item.unitStatusName}}</p>
+                                            <p>{{item.id}}</p>
+                                        </div>
+                                        <button class="btn" style="float: right;color: black" ng-class="{green:item.workUnitType==1,yellow:item.workUnitType!=1}">{{item.workUnitType==1?'计划工单':'应急工单'}}</button>
+                                    </div>
+                                    <p>{{item.workUnitName}}</p>
+                                    <p>维保工程师：{{item.personName}}</p>
+                                </li>
+                                <div style="text-align: center">
+                                    <button class="btn btn-primary" ng-click="seeMore()" ng-if="isMore && todoList.length !== 0">查看更多</button>
+                                    <button class="btn btn-primary" ng-click="stopMore()" ng-if="!isMore">收&nbsp;&nbsp;&nbsp;&nbsp;起</button>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body" style="padding: 0;">
+                    <div ui-map="map" style="height:400px; " ui-options="mapOptions" ui-map-cache="mayap">
+                    </div>
+                    <div ng-repeat="marker in markers" ui-map-marker="markers[$index]" ui-event="{'map-mouseover':'mouseoverMaker($event,$params,marker)',
+	  							'map-mouseout':'myInfoWindow.close()','map-click':'clickMarker($event,$params,marker)'}">
+                    </div>
+                    <div ui-map-info-window="myInfoWindow" style="width:250px">
+                        <div ng-show="markerData.liftName">
+                            <div class="x_title" style="margin-bottom: 0;">{{markerData.liftStatus | normalFilter}}</div>
+                            <div class="x_content" style="z-index: 1;padding-bottom: 0;">
+                                <div class="row">
+                                    <label class="col-xs-4 control-label ">项目名称:</label>
+                                    <label class="col-xs-6 control-label limitLength">{{markerData.projectName}}</label>
+                                </div>
+                               <!-- <div class="row">
+                                    <label class="col-xs-4 control-label ">电梯名称:</label>
+                                    <label class="col-xs-6 control-label limitLength">{{markerData.liftName}}</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-xs-4 control-label ">电梯编号:</label>
+                                    <label class="col-xs-6 control-label " style="white-space:normal; word-break:break-all;">{{markerData.liftCode}}</label>
+                                </div>-->
+                                <div class="row">
+                                    <label class="col-xs-4 control-label ">电梯位置:</label>
+                                    <label class="col-xs-6 control-label limitLength">{{markerData.position}}</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-xs-4 control-label ">维保工:</label>
+                                    <label class="col-xs-6 control-label limitLength">{{markerData.name}}</label>
+                                </div>
+                                <!--<div class="row">
+                                    <label class="col-xs-4 control-label ">联系电话:</label>
+                                    <label class="col-xs-6 control-label ">{{markerData.phone}}</label>
+                                </div>-->
+                            </div>
+                        </div>
+                        <div ng-show="!markerData.liftName">
+                            <div class="x_content" style="z-index: 1;padding-bottom: 0;">
+                                <div class="row">
+                                    <label class="col-xs-4 control-label ">维保工:</label>
+                                    <label class="col-xs-6 control-label ">{{markerData.name}}</label>
+                                </div>
+                                <!--<div class="row">
+                                    <label class="col-xs-4 control-label ">联系电话:</label>
+                                    <label class="col-xs-6 control-label ">{{markerData.phone}}</label>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--上半部分 END-->
+
+    <!--中间部分 BEGIN-->
+    <div class="row middle" style="margin-top: 10px;">
+        <div class="col-md-6 col-sm-12 person-list" ng-controller="PersonCtrl">
+            <div class="x_panel">
+                <div class="x_title clearfix">
+                    <h4 class="pull-left">人员列表</h4>
+                    <div class="pull-right btn btn-primary" ng-click="switchShowAll()">
+                        显示全部({{userList.department.length}})
+                    </div>
+                </div>
+                <div class="x_content">
+                    <!--人员头像展示-->
+                    <div class="row">
+                        <!--<div class="text-center col-md-2 colo-xs-4" ng-repeat="user in userList | limitTo : limitNum  as results">
+
+                            <div class="user-pic">
+                                <span class="glyphicon glyphicon-user"></span>
+                            </div>
+                            <div class="username">
+                                {{user.name}}
+                            </div>
+                        </div>-->
+                        <div ng-if="!userList.department ||userList.department.length==0">
+                            暂无数据
+                        </div>
+                        <div class="col-md-6 colo-xs-6" ng-repeat="item in userList.department | limitTo : limitNum  as results">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" ng-click="selectDepartment(item)">
+                                    {{item.departmentName}}
+                                    <img src="/res/img/arrow_down.png" ng-if="!item.isExpand" alt="" class="pull-right" style="margin-top: 3px">
+                                    <img src="/res/img/arrow_up.png" ng-if="item.isExpand" alt="" class="pull-right" style="margin-top: 3px">
+                                </div>
+                                <div class="panel-body row" ng-if="item.isExpand" style="height: 60px;overflow: auto">
+                                    <div ng-if="!item.person ||item.person.length==0">
+                                        暂无人员信息
+                                    </div>
+                                    <div class="col-md-6 colo-xs-6" style="display: inline-block" ng-repeat="user in item.person">
+                                        <div class="user-pic" style="text-align: center">
+                                            <span class="glyphicon glyphicon-user"></span>
+                                        </div>
+                                        <div style="text-align: center;margin-bottom: 15px">
+                                            {{user}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--员工签到统计-->
+                    <div>员工签到统计</div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <input type="datetime" class="form-control Wdate" ng-model="search.signInTime" placeholder="日期" onchange="" readonly onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                            <input type="text" ng-model="search.name" placeholder="请输入姓名" class="form-control" />
+                        </div>
+                        <button class="btn btn-default pull-right" ng-click="find(1)">查询</button>
+                    </div>
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th>姓名</th>
+                                <th>到岗状态</th>
+                                <th>签到时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.list">
+                                <td class="text-center">{{$index + 1 + pageModel.pageSize * pageModel.pageIndex}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.signInStatus}}</td>
+                                <td>{{item.signInTime}}</td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='showDetailModal(item)' class='btn btn-xs'><span class='fa fa-info-circle'></span>签到详情</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--分页-->
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 records">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <uib-tabset type="pills" justified="true">
+                        <uib-tab index="0" heading="维保记录">
+                            <div ng-controller="WorkIndex0Ctrl">
+                                <table class="table table-bordered" style="table-layout: fixed">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 80px;">电梯名称</th>
+                                            <!--<th style="width: 65px;">电梯编号</th>-->
+                                            <th style="width: 182px;">电梯注册代码</th>
+                                            <!-- <th>使用位置</th>
+                                            <th>电梯分类</th> -->
+                                            <th style="width: 53px;">维保工</th>
+                                            <th style="width: 80px;">保养类型</th>
+                                           <!-- <th style="width: 70px;">保养状态</th>-->
+                                            <th style="width: 70px;">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="pageModel.data.length == 0">
+                                            <td colspan="100" class="text-center">暂无记录</td>
+                                        </tr>
+                                        <tr ng-repeat="item in pageModel.list">
+                                            <td>{{item.liftName}}</td>
+                                           <!-- <td style="word-wrap: break-word;">{{item.liftCode}}</td>-->
+                                            <td style="word-wrap: break-word;">{{item.liftRegisterCode}}</td>
+                                            <td>{{item.personName}}</td>
+                                            <td>{{item.maintainType}}</td>
+                                           <!-- <td>{{item.status}}</td>-->
+                                            <td>
+                                                <a href='javascript:void(0)' class='btn btn-xs' ng-click="showDetail(item)">查看详情</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!--分页-->
+                                <div class="page-footer clearfix">
+                                    <ng-include src="'/common/pager.html'"></ng-include>
+                                </div>
+                            </div>
+                        </uib-tab>
+                        <uib-tab index="1" heading="应急记录">
+                            <div ng-controller="WorkIndex1Ctrl">
+                                <table class="table table-bordered" style="table-layout: fixed">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 80px;">电梯名称</th>
+                                            <!--<th style="width: 65px;">电梯编号</th>-->
+                                            <th style="width: 182px;">电梯注册代码</th>
+                                            <!-- <th>使用位置</th>
+	                                        <th>电梯分类</th> -->
+                                            <th style="width: 53px;">维保工</th>
+                                            <th style="width: 80px;">维修来源</th>
+                                           <!-- <th style="width: 70px;">维修状态</th>-->
+                                            <th style="width: 70px;">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="pageModel.data.length == 0">
+                                            <td colspan="100" class="text-center">暂无记录</td>
+                                        </tr>
+                                        <tr ng-repeat="item in pageModel.list">
+                                            <td>{{item.liftName}}</td>
+                                            <!--<td style="word-wrap: break-word;">{{item.liftCode}}</td>-->
+                                            <td style="word-wrap: break-word;">{{item.liftRegisterCode}}</td>
+                                            <td>{{item.personName}}</td>
+                                            <td>{{item.eventType}}</td>
+                                            <!--<td>{{item.status}}</td>-->
+                                            <td>
+                                                <a href='javascript:void(0)' class='btn btn-xs' ng-click="showDetail(item)">查看详情</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!--分页-->
+                                <div class="page-footer clearfix">
+                                    <ng-include src="'/common/pager.html'"></ng-include>
+                                </div>
+                            </div>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--中间部分 END-->
+
+    <!--下半部分 BEGIN-->
+    <div class="row down">
+        <div class="col-md-6 col-sm-12 top10">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>电梯故障数TOP10</h4>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>电梯名称</th>
+                                <th>总故障数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="items.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in items track by $index">
+                                <td>{{$index+1}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.total}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 overview" ng-controller="schartsController">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="h4" style="display: inline-block;">工单概览</div>
+                    <div class="pull-right" style="line-height: 40px;" ng-init="selected=4">
+                        <a href="javascript:;" ng-class="{active:selected==1}" ng-click="selectTime('day');selected=1">本日</a>|
+                        <a href="javascript:;" ng-class="{active:selected==2}" ng-click="selectTime('week');selected=2">本周</a> |
+                        <a href="javascript:;" ng-class="{active:selected==3}" ng-click="selectTime('month');selected=3">本月</a>|
+                        <a href="javascript:;" ng-class="{active:selected==4}" ng-click="selectTime('year');selected=4">本年</a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6 echarts-container right-border">
+                            <!--<div pie-chart ui-option="pieOption1"></div>-->
+                            <div style="height:400px;width:100%;" ui-echarts="pieOption1"></div>
+                        </div>
+                        <div class="col-sm-6 echarts-container">
+                            <!--<div pie-chart ui-option="pieOption2"></div>-->
+                            <div style="height:400px;width:100%;" ui-echarts="pieOption2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--下半部分 END-->
+
+</div>
+
+<style>
+    /*地图容器*/
+
+    #map-container {
+        height: 350px;
+        background-color: #EEE;
+    }
+    /*右边加border*/
+
+    .right-border {
+        border-right: 2px solid #E6E9ED;
+    }
+    /*datepicker popup*/
+
+    .full button span {
+        background-color: limegreen;
+        border-radius: 32px;
+        color: black;
+    }
+
+    .partially button span {
+        background-color: orange;
+        border-radius: 32px;
+        color: black;
+    }
+    /*up begin*/
+    /*treeview*/
+
+    .project-space #dept_tree {
+        min-width: 150px;
+    }
+
+    .project-space .panel-body {
+        overflow: auto;
+        height: 320px;
+    }
+
+    .todo-list .panel-body {
+        overflow: auto;
+        height: 320px;
+    }
+    .panel-body {
+        padding: 0;
+    }
+    .todo-list .list-group {
+        min-width: 320px;
+    }
+    /*up end*/
+    /*middle begin*/
+
+    .person-list .x_content {
+        overflow: auto;
+        height: 490px;
+        position: relative;
+    }
+
+    .person-list .row {
+        margin: 15px;
+    }
+
+    .person-list .form-inline {
+        min-width: 430px;
+        margin: 5px 0;
+    }
+
+    .person-list .table {
+        min-width: 420px;
+    }
+
+    .records .panel-body {
+        height: 572px;
+        overflow: auto;
+        position: relative;
+    }
+
+    .records .tab-content {
+        overflow: auto;
+    }
+
+    .records .nav-pills>li>a {
+        border-radius: 0;
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    .records .table {
+        margin: 10px 0;
+        /*   min-width: 720px; */
+    }
+
+    .middle .page-footer {
+        /* min-width: 470px;
+        position: absolute;
+        bottom: 10px; */
+    }
+    /*middle end*/
+    /*down begin*/
+
+    .top10 .panel-body {
+        height: 430px;
+        overflow: auto;
+    }
+
+    .top10 .table {
+        min-width: 400px;
+        margin-bottom: 0;
+    }
+    /*echarts 宽高*/
+
+    .echarts-container {
+        height: 400px;
+    }
+    /*down end*/
+    /*map-marker*/
+
+    .map-marker {
+        border: 1px solod red;
+        background-color: skyblue;
+        width: 180px;
+        height: 180px;
+        padding: 20px;
+        border-radius: 50%;
+        text-align: center;
+    }
+
+    a.active {
+        color: blue;
+    }
+
+    .amap-touch-toolbar .amap-zoomcontrol {
+        bottom: 10px;
+    }
+    .limitLength {
+        width:100px;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        overflow:hidden;
+    }
+    .yellow {
+        background-color: yellow;
+    }
+    .green {
+        background-color: green;
+    }
+</style>

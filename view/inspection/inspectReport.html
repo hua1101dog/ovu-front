@@ -1,0 +1,75 @@
+<!-- 巡查调度报告 -->
+<style type="text/css">
+	.aList {padding:5px 0}
+	.aList a{padding: 3px 25px;float:left;cursor: pointer}
+	.aList a + a{border-left:1px solid slategray!important;}
+	table tr th,
+        table tr td {
+            text-align: left;
+        }
+</style>
+
+<div ng-controller="inspectReportCtrl" class="modal-demo">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>| 巡查调度报告</h3>
+        </div>
+    </div>
+		<div class="x_panel">
+			<div class="form-inline">
+				<div class="form-group">
+						<label>调度时间</label>
+						<input style="width: 140px;" type="datetime" class="form-control Wdate" ng-model="search.time" placeholder="调度时间" onchange=""
+						onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',isShowClear:false})">
+					<!-- <input type="text" class="form-control" placeholder="调度的日期" /> -->
+				</div>
+				<button class="btn btn-default" ng-click="find(1)">查询</button>
+				<button class="btn btn-primary pull-right" ng-click="exportFile()">导出</button>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<!-- <uib-tabset active="active"> -->
+					<div class="aList clearfix">
+						<a ng-click="(search.isOpen='1') ;find(1)" ng-class="{'btn-link':search.isOpen=='1'}">全部</a>
+						<a ng-click="(search.isOpen='2') ; find(1, 0)" ng-class="{'btn-link':search.isOpen=='2'}">未处理</a>
+						<a ng-click="(search.isOpen='3') ; find(1, 1)" ng-class="{'btn-link':search.isOpen=='3'}">已处理</a>
+					</div>
+				<!-- </uib-tabset> -->
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped table-hover" style="margin-top: 10px;">
+					<thead>
+						<tr>
+							<th class="text-center">NO</th>
+							<th>巡查点名称</th>
+							<th>调度人</th>
+							<th>调度时间</th>
+							<th>执行人</th>
+							<th>处理结果</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+							<td colspan="100" class="text-center">暂无记录</td>
+						</tr>
+						<tr ng-repeat="item in pageModel.data track by $index">
+							<td class="text-center">{{$index + 1+pageModel.pageSize*search.pageIndex}}</td>
+							<td class="text-center">{{item.insPointName}}</td>
+							<td class="text-center">{{item.commanderName}}</td>
+							<td class="text-center">{{item.commanderTime}}</td>
+							<td class="text-center">{{item.executorName}}</td>
+							<td class="text-center">
+								{{item.feedback}} 
+								<button ng-if="item.status == 0" class="btn btn-primary" ng-click="processFeedback(item.id, item.feedback)">处理反馈</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+					<ng-include src="'/common/pager.html'"></ng-include>
+				</div>
+			</div>
+		</div>
+</div>

@@ -1,0 +1,53 @@
+    <div class="form-group" style="padding-top:12px;">
+        <label class="col-xs-2 control-label ">传感器类型：</label>
+        <div  class="col-xs-4">
+            <input type="text" class="form-control" ng-model="item.sensorInfo.sensor_type_name"  readonly  />
+        </div>
+        <label class="col-xs-2 control-label">mac地址：</label>
+        <div class="col-xs-4">
+            <input type="text" class="form-control"  ng-model="item.sensorInfo.mac" readonly/>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-hover">
+            <thead class="title">
+            <tr>
+                <th class="text-center">NO</th>
+                <th>检测参数名称</th>
+                <th>值类型</th>
+                <th >单位/选项</th>
+                <th >阈值/正常项</th>
+                <th>异常时应急工单类型</th>
+            </tr>
+            </thead>
+            <tr ng-if="sensors.length == 0">
+                <td colspan="100" class="text-center">未配置检测参数</td>
+            </tr>
+            <tbody ng-repeat="sensor in sensors track by $index">
+            <tr ng-repeat="param in sensor.params">
+                <td class="text-center">{{($parent.$index+1)+'-'+ ($index + 1)}}</td>
+                <td >{{param.param_name}}</td>
+                <td >{{param.val_type|keyToValue:sensorDataDict}}</td>
+                <td style="max-width: 220px">{{param.val_type == 1?param.unit:param.option_list}}</td>
+                <td style="padding:1px;white-space: nowrap">
+                    <div ng-if="param.val_type == 1">
+                        <input type="text" class="form-control" style="width: 120px;display: inline-block" placeholder="最小阈值" name="min_val{{$index}}" ng-model="param.min_val" />
+                        <input type="text" class="form-control" style="width: 120px;display: inline-block" placeholder="最大阈值" name="max_val{{$index}}" ng-model="param.max_val" />
+                    </div>
+                    <div ng-if="param.val_type == 2">
+                        <input type="text" class="form-control" placeholder="正常项" name="regular_list{{$index}}" ng-model="param.regular_list" />
+                    </div>
+                </td>
+                <td style="padding:1px;" >
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-focus="param.worktypeFocus=true" ng-blur="param.worktypeFocus=false"  ng-model="param.worktype_name" name="worktype_name" readonly />
+                        <layer-select node-list="emerWorkTypeTree" select-method="selectWorktype" host="param" ng-show="param.worktypeFocus||param.worktypeHover" ng-mouseover="param.worktypeHover=true" ng-mouseleave="param.worktypeHover=false" class="layerSelect" style="left: 0px;top:34px;" ></layer-select>
+                        <span class="input-group-btn">
+                                        <button class="btn btn-default" ng-click="clearWorkType(param)" style="height: 34px"><i class='fa fa-close'></i></button>
+                                    </span>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>

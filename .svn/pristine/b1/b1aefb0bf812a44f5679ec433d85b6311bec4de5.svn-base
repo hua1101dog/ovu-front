@@ -1,0 +1,54 @@
+.panel-heading {
+    padding-top: 20px;
+}
+.chargeCategorySet .panel-heading>button:first-of-type {
+    margin-right: 5px;
+}
+
+table th,
+table td {
+    text-align: center !important;
+}
+.chargeCategorySet table th:first-child,
+.chargeCategorySet table td:first-child,
+.feeCategorySet table th:first-child,
+.feeCategorySet table td:first-child,
+.tollRateSet table th:first-child,
+.tollRateSet table td:first-child,
+.unpaidExpensesManage table th:first-child,
+.unpaidExpensesManage table td:first-child,
+.ownerHouseChargeSet table th:first-child,
+.ownerHouseChargeSet table td:first-child {
+    width: 50px;
+}
+.chargeCategorySet table th:last-child,
+.chargeCategorySet table td:last-child,
+.feeCategorySet table th:last-child,
+.feeCategorySet table td:last-child,
+.tollRateSet table th:last-child,
+.tollRateSet table td:last-child {
+    width: 200px;
+}
+.chargeCategorySet table td:last-child>button {
+    margin-right: 5px;
+}
+.unpaidExpensesManage .table-num,
+.ownerHouseChargeSet .table-num {
+    margin-top: 10px; 
+    color: #999999; 
+    width: 50px;
+}
+.unpaidExpensesManage .table-title td,
+.ownerHouseChargeSet .table-title td {
+    white-space: nowrap;
+}
+.unpaidExpensesManage .table-title,
+.ownerHouseChargeSet .table-title {
+    margin-top: 10px; 
+}
+.unpaidExpensesManage tr.showRed {
+    color: #F00 !important;
+}
+.unpaidExpensesManage tr.showBlack {
+    color: #000 !important;
+}

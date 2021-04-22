@@ -1,0 +1,135 @@
+<div ng-controller="stopinformationCtrl" id="SiCtrlTag">
+  <div class="stop-information">
+    <div class="left-content x_panel">
+      <div class="remarkCard">
+          <span>巡查摄像头:</span>
+          <img src="/common/mapComponent/img/camera.png" alt="">
+          <span>违停标识:</span>
+          <span><img src="/common/mapComponent/img/car.png" alt=""></span>
+      </div>
+      <map-park-stop-component is-stop=true map_data="mapData"></map-park-stop-component>
+    </div>
+    <div class="right-content x_panel">
+      <div class="right-content_header">
+        列表
+      </div>
+      <div class="list">
+        <div ng-repeat="list in lists" class="list-item" ng-click="goMessage(list)">
+          <div class="list-item_left">
+            <div>
+              <strong>名称</strong>
+              <div>{{ list.name }}</div>
+            </div>
+            <div>
+              <strong>摄像头ID</strong>
+              <div>{{ list.id }}</div>
+            </div>
+          </div>
+          <div class="list-item_right">
+            <img ng-click="showPhoto()" ng-repeat="src in [list.picA, list.picB]" ng-src="{{ src }}" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #SiCtrlTag .list {
+    overflow: auto;
+  }
+
+  #SiCtrlTag .remarkCard {
+    position: absolute;
+    height: 30px;
+    width: 230px;
+    z-index: 500;
+    right: 20px;
+    top:20px;
+    padding:5px 10px;
+    border:1px solid #cccccc;
+    background: #fff;
+  }
+
+  #SiCtrlTag .remarkCard img {
+    height: 15px;
+    width: 15px;
+    vertical-align:top;
+  }
+
+  #SiCtrlTag .right-content_header {
+    background: #f5f5f5;
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0 15px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  #SiCtrlTag .stop-information {
+    display: flex;
+    justify-content: stretch;
+    margin-top: 15px;
+  }
+
+  #SiCtrlTag .list-item {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding: 5px;
+    border-bottom: 1px solid #cccccc;
+  }
+
+  #SiCtrlTag .list-item_left {
+    flex: 0 0 50%;
+    padding-right: 10px;
+  }
+
+  #SiCtrlTag .list-item_left strong {
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  #SiCtrlTag .list-item_left>div:first-child {
+    margin-bottom: 10px;
+  }
+
+  #SiCtrlTag .list-item_right {
+    flex: 0 0 50%;
+  }
+
+  #SiCtrlTag .list-item_right {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #SiCtrlTag .list-item_right img {
+    width: 80px;
+    height: 80px;
+  }
+
+  #SiCtrlTag .left-content {
+    flex: 1 1 auto;
+    overflow: auto;
+    position: relative;
+    margin-right: 10px;
+    padding: 0px;
+  }
+
+  #SiCtrlTag .right-content {
+    padding:0px;
+    position: relative;
+    padding-top: 50px;
+    flex: 0 0 372px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    height: 750px;
+  }
+</style>

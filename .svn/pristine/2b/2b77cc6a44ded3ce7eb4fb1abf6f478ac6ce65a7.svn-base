@@ -1,0 +1,287 @@
+<!-- 巡查轨迹 -->
+<div ng-controller="inspathCtrl">
+    <div class="photoDiv" ng-if="curPic.on">
+        <img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute"
+            ng-click="curPic.on = false"></img>
+        <img class="photo" ng-src="{{curPic.url}}" image-load="wheel()"></img>
+        <img style="top:30px;right:20px;position:absolute;width:160px" ng-src="{{curPic.url}}"></img>
+        <img src="/res/img/navigate-right.png" class="hand" style="top:50%;right:10%;position:absolute;width:45px"
+            ng-click="next()"></img>
+        <img src="/res/img/navigate-left.png" class="hand" style="top:50%;left:10%;position:absolute;width:45px;"
+            ng-click="before()"></img>
+
+      
+
+    </div>
+    <div class="page-title">
+        <div class="title_left">
+            <h3>巡查轨迹</h3>
+        </div>
+
+    </div>
+   
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>巡查时间</label>
+                <input type="datetime" class="form-control Wdate" ng-model="search.insDate" placeholder="巡查时间"
+                    onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+            </div>
+            <div class="form-group">
+                    <label>选择部门:</label>
+                    <div style="display:inline-block;">
+ 
+                            <tree-selector   style="width: 300px;" node-list="childTree" host="search"  callback="setDept" host-key="'deptId1'" host-text="'nodeText'" leaf-only=false tip-text="'请选择部门'"></tree-selector>
+                    </div>
+                </div>
+            <div class="form-group">
+                <label>选择路线</label>
+                <select class="form-control" ng-model="search.insWayId"
+                    ng-options="o.insWayId as o.wayName for o in wayList">
+                    <option value=""> --请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>员工</label>
+                    <select-person host="search.user" dept-id="search.deptId || dept.id"></select-person>
+            </div>
+
+            <button class="btn btn-default" ng-click="find()">查询</button>
+
+        </div>
+
+    </div>
+    <div class="x_panel" ng-show="isnWayList.length!==0">
+         <a class="sPrev" href="javascript:void(0)" ng-click="goLeft()"></a>
+        <div class="slideBox">
+            <ul id="list">
+                <li ng-repeat="item in isnWayList track by $index" ng-click='getPath(item.orbitId,isshow)'
+                    ng-class="{'active_s': search.orbitId==item.orbitId}">
+                    <div class="card-border">
+                        <div class="x_title">
+                            <h5>{{item.personName}}</h5>
+                            <!-- <h5>凯凯王</h5> -->
+                        </div>
+                        <div class="x_content">
+                                <!-- <p>轨迹条数：{{item.startTime}}</p> -->
+                         <div>
+                                <div style="line-height: 27px">执行时间：{{item.startTime}}</div>
+                            <div style="line-height: 27px">里&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;程：{{item.insOrbDistance}}km</div>
+                            <div style="line-height: 27px">耗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时：{{item.insOrbSpending}}h</div>
+                            <div style="line-height: 27px">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速：{{item.insOrbSpeed}}km/h</div>
+                         </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+         
+        </div>
+   <a class="sNext" href="javascript:void(0)" ng-click="goRight()"></a>
+    </div>
+    <div class="x_panel" style="padding:5px;">
+        <div id="mainMap" ui-map="mainMap" style="height:550px; " ui-options="mainMapOptions" ui-map-cache="mainMap"
+            ui-event="{'map-click':'clickMap($event,$params)'}">
+        </div>
+
+        <div ng-repeat="marker in mainMarkers track by $index" ui-map-marker="mainMarkers[$index]"
+            ui-event="{'map-click':'clickMarker($event,$params,marker)'}">
+        </div>
+        <div ng-repeat="polyline in polylines track by $index" ui-map-polyline="polyline"
+            ui-event="{'map-click':'clickPolyline($event,$params,polyline)'}">
+        </div>
+        <div ng-if="floorIshow" style="position: absolute;bottom: 30px;max-height: 200px;overflow: auto">
+            <div class="list-group">
+                <a href="javascript:void(0)" class="list-group-item  b-none ellipsis" ng-class="{active_s: (selectedFloor == {{$index}})}"
+                    ng-repeat="floor in floorList  track by $index" ng-click="getPointList(floor,$index)">
+                    {{floor.floorName}}
+                </a>
+            </div>
+        </div>
+        <div style="position: absolute;top: 10px;right: 60px;z-index: 1;">
+            <button class="photoButton btn btn-md btn-default" ng-click="showImg()" ng-disabled="isshow">显示图片</button>
+            <button class="photoButton btn btn-md btn-default" ng-click="displayImg()"
+                ng-disabled="!isshow">隐藏图片</button>
+        </div>
+        <div ui-map-info-window="myInfoWindow">
+            <div class="list-group">
+                <a href="javascript:void(0)" class="list-group-item  b-none ellipsis" ng-class="{active_s: (selectPoint == {{$index}})}"
+                    ng-repeat="item in pointList  track by $index" ng-click="getPoint(item.insPointId,$index)">
+                    {{item.name}}
+                </a>
+
+            </div>
+
+
+        </div>
+        <!-- <div ui-map-info-window="imgWindow" style="width:300px" ng-if="ImgIshow">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">'
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="http://www.runoob.com/wp-content/uploads/2014/07/slide1.png" alt="First slide">
+                    </div>
+                    <div class="item">
+                        <img src="http://www.runoob.com/wp-content/uploads/2014/07/slide2.png" alt="Second slide">
+                    </div>
+                    <div class="item">
+                        <img src="http://www.runoob.com/wp-content/uploads/2014/07/slide3.png" alt="Third slide">
+                    </div>
+                </div>
+
+            </div>
+        </div> -->
+
+
+
+
+
+    </div>
+    <div class="panel panel-default" style="height:  100px;">
+        <div class="panel-body">
+            <p>图示：</p>
+            <p>
+                <span style="margin:0 50px"><img src="/res/img/inspection/u779.png" />室外点位</span>
+                <span><img src="/res/img/inspection/u787.png" />室内点位</span>
+            </p>
+        </div>
+    </div>
+
+</div>
+<style>
+    .amap-touch-toolbar .amap-zoomcontrol {
+        bottom: 10px;
+    }
+
+    .b-none {
+        border-left: 0;
+        border-right: 0;
+    }
+
+    .a-icon {
+        float: right;
+        color: #0ce496;
+        width: 1.28571429em;
+        text-align: center;
+    }
+
+    /* 轮播css */
+      #list {
+        position: absolute;
+        
+
+    }
+  
+    .slideBox {
+        position: relative;
+        height: 220px;
+        overflow: hidden;
+          margin: 10px 20px;
+    }
+
+    .sPrev,
+    .sNext {
+        position: absolute;
+    left: 0px;
+    top: 0px;
+    display: block;
+    width: 33px;
+    height: 100%;
+    background: url(../res/img/inspection/icoLeft.gif) center center no-repeat #fff;
+    z-index: 1
+    }
+     .sNext {
+        left: auto;
+        right: 0px;
+        background: url(../res/img/inspection/icoRight.gif) center center no-repeat #fff;
+        z-index: 1
+    }
+
+   
+
+    .slideBox .sPrev:hover,
+    .slideBox .sNext:hover {
+        border-color: #f60;
+    }
+
+  
+
+    .slideBox ul li {
+        float: left;
+        display: inline-block;
+        width: 200px;
+        outline: none;
+        margin: 0 10px;
+
+    }
+
+    .slideBox ul li .title {
+        line-height: 24px;
+    }
+
+    /*公用的card 样式*/
+
+    .card-border {
+        border: 1px solid #ddd;
+        background: #fff;
+        border-radius: 10px;
+        padding: 0 0px;
+        background-color: white;
+        height: 210px;
+        margin: 10px 10px
+    }
+
+    .x_title {
+        border-bottom: 2px solid #E6E9ED;
+        margin: 0 7px 10px 7px;
+
+    }
+
+    .x_content {
+        position: relative;
+        width: 100%;
+        float: left;
+        clear: both;
+        padding: 0 15px;
+        /* line-height: 27px; */
+    }
+
+    .card-border h5 {
+        margin: 5px;
+        text-align: center;
+    }
+
+    /* 地图按钮样式 */
+    .photoButton {
+        font-size: 14px;
+        font-family: verdana;
+        text-align: center;
+        color: #666;
+        height: 100%;
+        cursor: pointer;
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 10px
+    }
+
+    .amap-marker-label {
+        position: absolute;
+        z-index: 2;
+        border: 0;
+        background-color: transparent;
+        white-space: nowrap;
+        cursor: default;
+        padding: 3px;
+        font-size: 12px;
+        line-height: 14px;
+    }
+
+   
+
+    .active_s {
+        color: blue
+    }
+</style>

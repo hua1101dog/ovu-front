@@ -1,0 +1,76 @@
+<div ng-controller="energyConsumptionCtrl">
+    <div class="content" style="margin:20px 0">
+        <span class="h3">业态能耗统计</span>
+        <ul ng-init="search.meterType=1"  class="picType" style="margin: 0 15px;line-height: 24px">
+            <li ng-repeat="item in classifyList" style="width: 38px;text-align: center;font-size: 11px"
+            ng-class="{'actives': search.meterType ==item.type,'bor-l':$index=='0'}" ng-click="checkTypes(item)">{{item.name}}</li>
+        </ul>
+    </div>
+    <div class="x_panel content">
+        <span>选择起始时间</span>
+        <input type="datetime" class="form-control Wdate ConsumSt" style="display: inline-block;width: auto" ng-model="search.startTime" onchange=""
+        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.ConsumEn').last().val()||'%y-%M-%d'}&quot;})">
+        <span>选择截止时间</span>
+        <input type="datetime" class="form-control Wdate ConsumEn" style="display: inline-block;width: auto" ng-model="search.endTime" onchange=""
+        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.ConsumSt').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+        <button class="btn btn-default" style="margin-bottom: 4px" ng-click="find()">查询</button>
+        <!-- <ul ng-init="selecteds=1" style="margin:0 15px;line-height:24px">
+            <li ng-class='{active:search.operateType =="1"}' ng-click="(search.operateType ='1')&&find(1)" style="padding:5px;width: 34px;text-align: center;">水</li>
+            <li ng-class='{active:search.operateType =="2"}' ng-click="(search.operateType ='2')&&find(1)" style="padding:5px;width: 34px;text-align: center;">电</li>
+            <li ng-class='{active:search.operateType =="3"}' ng-click="(search.operateType ='3')&&find(1)" style="padding:5px;width: 34px;text-align: center;">气</li>
+        </ul> -->
+
+    </div>
+    <div class="x_panel">
+        <div style="margin-bottom: 20px" class="clearfix content">
+            <ul>
+                <li ng-class='{actives:selects==1}' ng-click="selects=1;selectTime('day')" style="line-height: 25px;padding: 0px 6px">本日</li>
+                <li ng-class='{actives:selects==2}' ng-click="selects=2;selectTime('week')" style="line-height: 25px;padding: 0px 6px">本周</li>
+                <li ng-class='{actives:selects==3}' ng-click="selects=3;selectTime('month')" style="line-height: 25px;padding: 0px 6px">本月</li>
+                <li ng-class='{actives:selects==4}' ng-click="selects=4;selectTime('year')" style="line-height: 25px;padding: 0px 6px">本年</li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-4"><div id="parkList"  style="height: 300px;width: 300px"></div></div>
+            <div class="col-md-4 col-sm-4 col-xs-4" ><div id="meterList"  style="height: 300px;width: 300px"></div></div>
+            <div class="col-md-4 col-sm-4 col-xs-4"><div  id="energyList"  style="height: 300px;width: 300px"></div></div>
+        </div>
+        <div class="form-group content">
+            <label class="col-xs-2 control-label required" style="margin-top: 6px">请选择年份：</label>
+            <div class="col-xs-8">
+                <select class="form-control" style="width: auto" ng-change="toggleYear(search.year)" ng-model="search.year" ng-options="o[0] as o[1] for o in currentYear">
+                </select>
+            </div>
+            <ul class="picType" ng-init="isSelected=1">
+                <li ng-click="toggleLine(true);isSelected=1" ng-class="{actives:isSelected==1}" style="line-height: 25px;padding: 0px 6px">折线</li>
+                <li ng-click="toggleLine(false);isSelected=2" ng-class="{actives:isSelected==2}" style="line-height: 25px;padding: 0px 6px">柱状</li>
+            </ul>
+        </div>
+         <div>
+            <div  ng-show="isLine"  ng-style="{'width':width}" id="energyLineTrend" style="height: 400px;"></div>
+            <div ng-show="isColumn" ng-style="{'width':width}" id="energyColumnTrend" style="height: 400px;"></div>
+         </div>
+    </div>
+
+</div>
+<style>
+     .actives {
+        background-color: #62c3ff;
+    }
+
+    .content ul,
+    .picType {
+        float: right;
+        margin-top: 8px;
+    }
+
+    .content ul li {
+        display: inline-block;
+        cursor: pointer;
+        border: 1px solid #ccc
+    }
+    .h3{
+   font-weight: 800;
+    font-size: 24px;
+    }
+</style>

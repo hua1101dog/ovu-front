@@ -1,0 +1,52 @@
+<style type="text/css">
+    .pl13 {
+        padding-left: 13px;
+
+    }
+
+    .aList {
+        padding: 5px 0
+    }
+
+    .aList a {
+        padding: 3px 25px;
+        float: left
+    }
+
+    .aList a+a {
+        border-left: 1px solid slategray!important;
+    }
+</style>
+<div ng-controller="alarmsCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>报警管理</h3>
+        </div>
+    </div>
+    <!--<div ng-if="search.isGroup">
+            <label class="control-label"><i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i><a role="button" ng-click="findPark(search,fn)">{{search.parkName?search.parkName:'请选择项目'}} </a></label>
+        </div>-->
+    <uib-tabset active="active">
+        <uib-tab index="0" heading="仪表设备报警" select="setCurTab('YBSB')">
+                <div ng-controller="YBSBCtl">
+                <div class="aList clearfix">
+                    <a href="javascript:void(0)" ng-click="(search.isHandled ='0')&& find(1)" ng-class="{'btn-link':search.isHandled =='0'}">未处理报警</a>
+                    <a href="javascript:void(0)" ng-click="(search.isHandled ='1') &&  (search.timeType='1')  &&  find(1)" ng-class="{'btn-link':search.isHandled =='1'}">已处理报警</a>
+                  
+                </div>
+                <ng-include src="'./energy/alarm/instrumentEquipment.html'"></ng-include>
+           </div> 
+        </uib-tab>
+        <uib-tab index="1" heading="变配电参数报警" select="setCurTab('BPD')">
+                <div ng-controller="BPDCtl">
+                <div class="aList clearfix">
+                        <a href="javascript:void(0)" ng-click="(search.isHandled ='0')&&find(1)" ng-class="{'btn-link':search.isHandled =='0'}">未处理报警</a>
+                        <a href="javascript:void(0)" ng-click="(search.isHandled ='1') &&  (search.timeType='1')  &&  find(1)" ng-class="{'btn-link':search.isHandled =='1'}">已处理报警</a>
+                      
+                    </div>
+                <ng-include src="'./energy/alarm/distributionParameter.html'"></ng-include>
+           </div>
+        </uib-tab>
+    </uib-tabset>
+ 
+</div>

@@ -1,0 +1,20 @@
+<!--index.html-->
+<div id="angularId" ng-controller="coverCtrl">
+    <div ng-switch="type">
+        <!--电梯综合展示-->
+        <div ng-switch-when="overview">
+            <ng-include src="'/view/liftReport/elevatorOverview/overview.html'"></ng-include>
+        </div>
+        <!--单电梯-->
+        <div ng-switch-when="singleElevator">
+            <ng-include src="'/view/liftReport/projectOperationCenter/singleElevator.html'"></ng-include>
+        </div>
+    </div>
+
+</div>
+
+<!--电梯综合展示-->
+<script src="/view/liftReport/elevatorOverview/overview.js"></script>
+
+<!--单电梯-->
+<script src="/view/liftReport/projectOperationCenter/singleElevator.js"></script>

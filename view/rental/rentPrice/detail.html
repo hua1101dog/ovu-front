@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>定价明细</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="detailCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>定价明细</h3>
+            </div>
+        </div>
+        <div class="">
+            <div class="panel panel-default resolvePrice_m">
+                <div class="resolve_nav">
+                    <span style="width:auto">楼栋：</span>
+                    <ul class="nav nav-tabs">
+                        <li ng-click="selBuliding(x)" ng-class="{'active':currentBulid.id===x.buildId}" ng-repeat="x in rentalHousesMsg.floorList">
+                            <a>{{x.buildName}}</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="tab-content resolve_box panel-body" style="padding-top:0">
+                    <div ng-show="currentBulid.id===bulid[0][0].buildId" class="tab-pane active" ng-repeat="bulid in houseList" style="overflow: scroll">
+                        <div class="table_model_box" ng-repeat="floor in bulid track by $index" ng-style="width">
+                            <div class="table_model">
+                                <ul>
+                                    <li>单元-楼层-房号</li>
+                                    <li>计租面积（m <sup>2</sup>）</li>
+                                    <li>单价（元/月/m <sup>2</sup>） </li>
+                                    <li>标准年租金（万元）</li>
+                                </ul>
+                                <ul ng-repeat="house in floor track by $index" ng-class="status0">
+                                    <li>{{house.unitNo+"-"+house.groundNo+"-"+house.houseCode}}</li>
+                                    <li>{{house.area||"&nbsp;"}}</li>
+                                    <li>{{house.validRentPrice}}</li>
+                                    <li>{{house.area*house.validRentPrice*12/10000|number:2}}</li>
+                                </ul>                                                
+                            </div>
+                            <div> </div>
+                        </div>
+
+                    </div>
+                </div>
+                <ul class="resolve_list">
+                    <li>
+                        <label>项目区域：</label>
+                        <span>{{rentalHousesMsg.project.stageName}}</span>
+                    </li>
+                    <li>
+                        <label>项目编码：</label>
+                        <span>{{rentalHousesMsg.project.code}}</span>
+                    </li>
+                    <li>
+                        <label>总计租面积：</label>
+                        <span>{{rentalHousesMsg.project.plannedRentalArea}}</span><span>（m <sup>2</sup>）</span>
+                    </li>
+                    <li>
+                        <label>计划年租金：</label>
+                        <span>{{rentalHousesMsg.project.plannedAnnualRent|number:2}}</span><span>万元</span>
+                    </li>
+                    <li>
+                        <label>实际总租面积：</label>
+                        <span>{{rentalHousesMsg.project.actualRentalArea}}</span><span>（m <sup>2</sup>）</span>
+                    </li>
+                    <li>
+                        <label>标准年租金：</label>
+                        <span>{{rentalHousesMsg.project.actualAnnualRent|number:2}}</span><span>万元</span>
+                    </li>
+                </ul> 
+                <div class="btn_m">
+                    <button class="btn btn-primary" ng-click="back()">返回</button>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

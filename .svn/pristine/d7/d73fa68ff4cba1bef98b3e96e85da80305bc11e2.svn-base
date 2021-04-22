@@ -1,0 +1,84 @@
+<!-- 邻里查询 -->
+<div ng-controller="neighborhoodCtrl">
+    <div class="x_panel">
+        <div class="form-inline">
+           
+            <div class="form-group">
+                
+                <select  class="form-control" ng-change="changeSelect()" ng-model="search.type" ng-options="o[0] as o[0] for o in [['二手市场'],['议事大厅']]">
+                    <option value="">--请选择邻里类型--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" ng-model="search.title" class="form-control" placeholder="邻里标题" />
+            </div>
+            <div class="form-group">
+                <input style="width: 180px;"  type="datetime" class="form-control Wdate neighSt" ng-model="search.startTime" placeholder="开始日期" onchange=""
+                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:&quot;#F{$('.neighEn').last().val()||'%y-%M-%d'}&quot;})">
+               <label>-</label>
+               <input style="width: 180px;" type="datetime" class="form-control Wdate neighEn" ng-model="search.endTime" placeholder="结束日期" onchange=""
+                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('.neighSt').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+        </div>
+            <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default" style="display: grid;">
+        <div class="panel-heading">邻里列表
+        </div>
+        <div class="panel-body" style="overflow: scroll;">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">NO</th>
+                       
+                        <th style="width: 80px;">邻里类型</th>
+                         <th style="width: 145px;">邻里标题</th>
+                        <th>邻里内容</th>
+                        <th style="width: 150px;">发布日期</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!nei_pageModel.data  || nei_pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in nei_pageModel.data">
+                        <td class="text-center">{{$index + 1+nei_pageModel.pageSize*nei_pageModel.pageIndex}}</td>
+                        <td style="width: 80px;">{{item.type}}</td>
+                    
+                        <td style="width: 145px;" ng-if="item.title.length<19">{{item.title}}</td>
+                        <td  ng-if="item.title.length>=19" ng-class="{'border-t-0':$index==0}">
+                            <!-- <div  style="width: 145px;display: -webkit-box;-webkit-box-orient: horizontal;-weblit-box-align:end" >
+                                    <span style=" margin-right: 25px;word-break: break-all;text-overflow: ellipsis;-webkit-line-clamp: 2;overflow: hidden;height: 36px;display: -webkit-box;-webkit-box-orient: vertical;">{{item.title}}</span>
+                                    <span class="btn-link detail-link" ng-click="showXSDetail(item.title,'邻里标题')">详情</span>
+                            </div> -->
+                            <on-detail titles="邻里标题" value="{{item.title}}" style="width: 145px">
+
+                                </on-detail>
+                            
+                        </td> 
+                        <td ng-if="item.content.length<54">{{item.content}}</td>
+                        <td ng-if="item.content.length>=54" ng-class="{'border-t-0':$index==0}">
+                            <!-- <div  style="display: -webkit-box;-webkit-box-orient: horizontal;-weblit-box-align:end" >
+                                    <span style="margin-right: 25px;word-break: break-all;text-overflow: ellipsis;-webkit-line-clamp: 2;overflow: hidden;height: 36px;display: -webkit-box;-webkit-box-orient: vertical;">{{item.content}}</span>
+                                    <span class="btn-link detail-link" ng-click="showXSDetail(item.content,'邻里内容')">详情</span>
+                            </div> -->
+                            <on-detail titles="邻里内容" value="{{item.content}}">
+
+                                </on-detail>
+                           
+                        </td>
+               
+                        <!-- <td>{{item.content}}</td> -->
+                        <td>{{item.time}}</td>
+                       
+                       
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <page-pro page-model="nei_pageModel"></page-pro>
+            </div>
+        </div>
+    </div>
+</div>

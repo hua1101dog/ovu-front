@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <!-- 添加移动端viewport 设置 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>OVU-智慧运营平台</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="bookmark" href="/favicon.ico" />
+    <link href="/ovu-pcos/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+        
+        .card-wrapper {
+            height: 100%;
+            margin: 0 -15px;
+            overflow: auto;
+        }
+        
+        [ng\:cloak],
+        [ng-cloak],
+        [data-ng-cloak],
+        [x-ng-cloak],
+        .ng-cloak,
+        .x-ng-cloak {
+            display: none !important;
+        }
+        
+        .equip-card {}
+        
+        .equip-card-header {
+            color: #333;
+            background-color: #eee;
+            border-color: #ddd;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body ng-app="angularApp" ng-controller="indexCtrl" ng-cloak style="margin: 0 auto;">
+    <div class="wrapper panel panel-default" style="height:100%; margin-bottom:0;">
+        <div class="panel-heading text-center" style="position: fixed;width: 100%;">
+            <h4 style="margin:0">设备台账</h4>
+        </div>
+        <div class="panel-body" style="padding:45px 15px 0;height:100%;overflow:hidden;">
+            <div class="card-wrapper">
+                <div class="equip-card">
+                    <div class="equip-card-header">
+                        <h4 style="margin:0;">设备</h4>
+                    </div>
+                    <div class="equip-card-body">
+                        <div ng-if="errMsg" class="text-center" style="color: red;margin: 20px;">
+                            {{errMsg}}
+                        </div>
+                        <div class="equip-detail-content" ng-if="!errMsg" style="margin: 20px 0;">
+
+                            <div class="row">
+                                <div class="col-xs-5 text-right">APP设备名称：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.app_name}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">APP设备编码：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.app_code}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">设备惯用名：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.equip_simple_name}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">位置惯用名：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.loc_simple_name}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">品牌：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.brand_name}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">设备型号：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.mode_name}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">设备分类：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.type_name}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">厂商：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.made_company}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">产地：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.origin}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">出厂日期：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.produce_date}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">注册代码：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.regi_code}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">使用单位：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.use_company}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">项目：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.park_name}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">改造单位：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.reform_company}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">安装单位：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.install_company}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">安装日期：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.install_date}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">维保单位：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.maintain_name}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">维保负责人：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.maintain_person}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">首保日期：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.frist_maintain_date}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">下次维保日期：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.next_maintain_date}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 text-right">年度维保日期：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.year_maintain_date}}</div>
+                            </div>
+                            <!-- <div class="row">
+                                <div class="col-xs-5 text-right">地址：</div>
+                                <div class="col-xs-7 text-left">{{equipModel}}</div>
+                            </div> -->
+                            <div class="row">
+                                <div class="col-xs-5 text-right">备注：</div>
+                                <div class="col-xs-7 text-left">{{equipModel.comment}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="equip-card">
+                    <div class="equip-card-header">
+                        <h4 style="margin:0;">工单</h4>
+                    </div>
+                    <div class="equip-card-body">
+                        <div class="equip-workunit">
+                            <style>
+                                .workunit-card {
+                                    padding: 15px 0;
+                                }
+                                
+                                .workunit-card:not(:last-child) {
+                                    border-bottom: 15px solid #ddd;
+                                }
+                            </style>
+                            <div ng-if="!workUnitList.length" class="text-center" style="margin-bottom:15px">
+                                该设备暂无工单
+                            </div>
+                            <div class="workunit-card" ng-repeat="item in workUnitList">
+                                <div class="row">
+                                    <div class="col-xs-5 text-right">工单编号：</div>
+                                    <div class="col-xs-7 text-left">{{item.ID}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 text-right">工单名称：</div>
+                                    <div class="col-xs-7 text-left">{{item.WORKUNIT_NAME}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 text-right">工单类型：</div>
+                                    <div class="col-xs-7 text-left">{{mbWorkunitTypeDict[item.WORKUNIT_TYPE + '']}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 text-right">工单分类：</div>
+                                    <div class="col-xs-7 text-left">{{item.WORKTYPE_NAME}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 text-right">执行人：</div>
+                                    <div class="col-xs-7 text-left">{{item.EXEC_PERSON_NAME}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 text-right">管理人：</div>
+                                    <div class="col-xs-7 text-left">{{item.MANAGE_PERSON_NAME}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 text-right">执行时间：</div>
+                                    <div class="col-xs-7 text-left">{{item.EXEC_DATE}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 text-right">工单状态：</div>
+                                    <div class="col-xs-7 text-left">{{mobUnitStatusDict[item.UNIT_STATUS+'']}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 text-right">督办人：</div>
+                                    <div class="col-xs-7 text-left">{{item.SUPERVISE_PERSON_NAMES}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="/ovu-pcos/res/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/ovu-pcos/res/js/angular1.5.11/angular.min.js"></script>
+<script type="text/javascript" src="/ovu-pcos/res/js/angular1.5.11/ui-bootstrap-tpls.js"></script>
+<script>
+    var app = angular.module("angularApp", ['ui.bootstrap']);
+</script>
+<script>
+    app.controller('indexCtrl', ['$scope', '$location', '$http', '$q', function($scope, $location, $http, $q) {
+
+        var search = location.search;
+
+        $scope.mbWorkunitTypeDict = {
+            '1': "计划",
+            '2': "应急"
+        };
+        $scope.mobUnitStatusDict = {
+            '0': "待派发",
+            '1': "已派发",
+            '4': "已退回",
+            '5': "已接单",
+            '7': "已执行",
+            '8': "已评价"
+        };
+
+        $http.get("/ovu-pcos/mobile/equipmentDetail.do" + search).success(function(resp) {
+            if (resp.success) {
+                $scope.equipModel = resp.data;
+            } else {
+                $scope.errMsg = resp.error;
+            }
+        });
+
+        $http.get("/ovu-pcos/mobile/getEquipmentWorkunit.do" + search).success(function(resp) {
+            if (resp.success) {
+                $scope.workUnitList = resp.data.data;
+            }
+        });
+    }]);
+</script>
+
+</html>

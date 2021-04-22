@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <button class="close" type="button" ng-click="vm.cancel()">×</button>
+    <h5 class="modal-title" id="modal-title">查看报装证件</h5>{{vm.a}}
+</div>
+<div class="modal-body" id="modal-body">
+    <h5 ng-if="!vm.certifList || vm.certifList.length == 0" class="text-center" style="margin: 50px;">
+        该报装请求没有报装证件
+    </h5>
+    <div class="row" ng-if="vm.certifList.length">
+        <div class="col-xs-4 col-lg-4">
+            <div class="pic-list list-group">
+                <a href="javascript:;" class="list-group-item btn-link" ng-class="{'active':item.active}" ng-repeat="item in vm.certifList" ng-click="vm.clickPicTitle(item, vm.certifList)">
+                    {{item[0]}}
+                </a>
+            </div>
+        </div>
+        <div class="col-xs-8 col-lg-8" style="border-left: 1px solid #bbb;">
+            <div style="height: 400px;line-height:400px;">
+                <img style="max-height: 100%;max-width: 100%" alt="" ng-click="vm.showPhoto()" ng-src="{{vm.imgUrl}}" onerror="javascript:this.src='/res/img/detail.png';" />
+            </div>
+        </div>
+    </div>
+</div>

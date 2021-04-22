@@ -1,0 +1,112 @@
+<div ng-controller="energySyntheticalCtrl">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>能源综合统计</h3>
+        <!-- <div ng-if="search.isGroup">
+          <label class="control-label"><i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i><a role="button" ng-click="findPark(search,callback)">{{search.PARK_NAME?search.PARK_NAME:'请选择项目'}} </a></label>
+      </div> -->
+      </div>
+    </div>
+  <!--  <div ng-if="search.isGroup">
+        <label class="control-label"><i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i><a role="button" ng-click="findPark(search,callback)">{{search.PARK_NAME?search.PARK_NAME:'请选择项目'}} </a></label>
+    </div>-->
+  <div class="row">
+    <div class="col-md-3 col-sm-4 col-xs-12">
+      <!--<div class="col-xs-12">
+          <label class="control-label"><i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i><a role="button" ng-click="findPark(search,loadHouseTree)">{{search.PARK_NAME?search.PARK_NAME:'请选择项目'}} </a></label>
+      </div>
+      <input type="text" class="form-control" placeholder="请输入项目名称搜索">
+      <div style="height: 400px;overflow: auto">
+          <ul class="list-group" style="margin-top: 10px">
+              <li class="list-group-item" ng-click="goSinglePro()">创意天地</li>
+              <li class="list-group-item">软件园</li>
+              <li class="list-group-item">金融港</li>
+          </ul>
+      </div>-->
+      <div class="x_panel" style="overflow: auto;height:902px;">
+        <div class="x_content" style="z-index: 1;">
+          <div class="list-group">
+            <input class="form-control" style="margin-bottom: 10px" placeholder="请输入项目名称" ng-model="q" />
+            <a href="javascript:;;" ng-click="searchProject(item)" style="margin-bottom: 10px" ng-class="{'act':(search.parkId==item.parkId)}"
+               type="button" class="list-group-item btn btn-default" ng-repeat="item in projectsList | filter:{parkName:q} as results track by $index">{{item.parkName}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9 col-sm-8 col-xs-12 content" style="padding:0;height:850px;margin-left: -5px;">
+      <div class="x_panel clearfix">
+        <span>选择起始时间</span>
+        <input type="datetime" class="form-control Wdate engergySySt" style="display: inline-block;width: auto" ng-model="search.startTime" onchange=""
+        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.engergySyEn').last().val()||'%y-%M-%d'}&quot;})">
+        <span>选择截止时间</span>
+        <input type="datetime" class="form-control Wdate engergySyEn" style="display: inline-block;width: auto" ng-model="search.endTime" onchange=""
+        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.engergySySt').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+        <button class="btn btn-default pull-right" style="margin-bottom: 4px" ng-click="find()">查询</button>
+      </div>
+      <div class="x_panel">
+        <div style="margin-bottom: 20px" class="clearfix">
+          <ul>
+            <li ng-class='{act:selected==1}' ng-click="selected=1;selectTime('day')" style="line-height: 25px;padding: 0px 6px">本日</li>
+            <li ng-class='{act:selected==2}' ng-click="selected=2;selectTime('week')" style="line-height: 25px;padding: 0px 6px">本周</li>
+            <li ng-class='{act:selected==3}' ng-click="selected=3;selectTime('month')" style="line-height: 25px;padding: 0px 6px">本月</li>
+            <li ng-class='{act:selected==4}' ng-click="selected=4;selectTime('year')" style="line-height: 25px;padding: 0px 6px">本年</li>
+          </ul>
+        </div>
+        <!-- <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="col-md-6 col-sm-6 col-xs-6" ui-echarts="energyCategoryData" style="height: 300px;"></div>
+          <div class="col-md-6 col-sm-6 col-xs-6" ui-echarts="everyEnergyData" style="height: 300px;"></div>
+        </div> -->
+        <div class="row">
+          <div class="col-sm-6 col-xs-6">
+           <div> <div id="energyCategory" style="height: 300px;"></div></div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-6">
+          <div>  <div id="everyEnergyData" style="height: 300px;"></div></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-2 control-label required" style="margin-top: 6px">请选择年份：</label>
+          <div class="col-xs-8">
+            <select class="form-control" style="width: auto" ng-change="toggleYear(search.year)" ng-model="search.year" ng-options="o[0] as o[1] for o in currentYear">
+            </select>
+          </div>
+          <ul class="picType" ng-init="isSelected=1">
+            <li ng-click="toggleLine(true);isSelected=1" ng-class="{act:isSelected==1}" style="line-height: 25px;padding: 0px 6px">折线</li>
+            <li ng-click="toggleLine(false);isSelected=2" ng-class="{act:isSelected==2}" style="line-height: 25px;padding: 0px 6px">柱状</li>
+          </ul>
+        </div>
+        <!-- <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="col-md-12 col-sm-12 col-xs-12" ng-if="isLine" ui-echarts="energyLineTrendData" style="height: 400px;"></div>
+          <div class="col-md-12 col-sm-12 col-xs-12" ng-if="isColumn" ui-echarts="energyColumnTrendData" style="height: 400px;"></div>
+        </div> -->
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+           <div>
+            <div  ng-show="isLine" id="line" style="height: 400px;"></div>
+            <div  ng-show="isColumn" id="column" style="height: 400px;"></div>
+           </div>
+          </div>
+        
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+    .act {
+        background-color: #62c3ff;
+    }
+
+    .content ul,
+    .picType {
+        float: right;
+        margin-top: 8px;
+    }
+
+    .content ul li {
+      display: inline-block;
+        cursor: pointer;
+        border: 1px solid #ccc
+    }
+</style>

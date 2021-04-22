@@ -1,0 +1,54 @@
+<div ng-controller="YearProjectCtrl as vm">
+	<div class="page-title">
+		<div class="title_left">
+			<h4>年度项目情况汇总</h4>
+		</div>
+	</div>
+
+	<div class="x_panel" >
+		<div class="form-inline">
+			<div class="form-group">
+			<label>年份</label>
+			<input class="form-control Wdate"   readOnly=true onchange=""
+				   onclick="WdatePicker({dateFmt:'yyyy',maxDate:'%y-%M-%d'})" ng-model="vm.time"></input>
+		</div>
+			<button class="btn btn-default" ng-click="vm.find()" >查询</button>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12 col-sm-12 col-xs-12">
+			<div class="x_panel" style="height: 456px;">
+				<div id="year-project-chart" 
+					style="height:440px;" 
+					ui-echarts="vm.yearProjectOption" >
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12 col-xs-12">
+			<table class="table table-hover table-bordered" style="background-color:#fff;margin-bottom: 10px; ">
+				<thead class="title">
+				<tr>
+					<th>月份</th>
+					<th>新增项目数</th>
+					<th>新增电梯数</th>
+					<!-- <th>丢失项目数</th>
+					<th>丢失电梯数</th> -->
+				</tr>
+				</thead>
+				<tbody>
+				<!-- <tr ng-if="false"><td colspan="100" class="text-center">暂无记录</td></tr> -->
+				<tr ng-repeat="n in vm.list">
+					<td>{{n.month}}</td>
+					<td>{{n.addProjectTotal}}</td>
+					<td>{{n.addLiftTotal}}</td>
+					<!-- <td>{{n.loseProjectTotal}}</td>
+					<td>{{n.loseLiftTotal}}</td> -->
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

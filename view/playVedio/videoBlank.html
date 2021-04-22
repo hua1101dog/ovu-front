@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <title>OVU-智慧运营平台</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="bookmark" href="/favicon.ico" />
+    <link href="/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 密码更改 表单验证 用到了这个css -->
+    <link href="/js/angular.css" rel="stylesheet">
+    <!-- dropdown退出 icon -->
+    <link href="/res/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 新设计的图标库 -->
+    <link rel="stylesheet" href="/res/fonts/iconfont.css">
+</head>
+
+<body ng-app="angularApp" ng-controller="indexCtrl as vm" ng-cloak>
+    <!-- <div class="page-title">
+        <div class="title_left">
+            <h4>{{vm.name}}</h4>
+        </div>
+
+    </div> -->
+    <!-- <div class="row" style="margin:0px" > -->
+        <!-- <div class="col-lg-12 col-sm-12 col-xl-12"> -->
+                <!-- <div class="page-title" style="padding:10px 0">
+                    <div class="title_left">
+                        <h1>{{vm.name}}</h1>
+                    </div>
+            
+                </div> -->
+                <play-camera id="video2" list="vm.list" height="530"></play-camera>
+            <!-- </div> -->
+      
+
+    <!-- </div> -->
+</body>
+<script type="text/javascript" src="/res/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/res/js/layer/layer.js"></script>
+<script src="/government/lib/laydate/laydate.js"></script>
+<script src="/res/gentelella/vendors/moment/min/moment.min.js"></script>
+<script type="text/javascript" src="/res/js/datepicker97/WdatePicker.js"></script>
+<script type="text/javascript" src="/res/js/ajaxfileupload.js"></script>
+
+<script type="text/javascript" src="/res/js/angular1.5.11/angular.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/ui-bootstrap-tpls.js"></script>
+
+
+
+<!--视频播放  -->
+<script type="text/javascript" src="/res/video/flv.min.js"></script>
+<script>
+    var app = angular.module("angularApp", ['ui.bootstrap']);
+
+</script>
+
+
+<!-- <script type="text/javascript" src="/js/filter.js"></script> -->
+<script>document.write("<script type='text/javascript' src='/js/filter.js?t=" + Date.now() + "'><\/script>");</script>
+
+<!-- <script type="text/javascript" src="/js/directive.js"></script> -->
+<!-- <script type="text/javascript" src="/js/customComponent.js"></script> -->
+
+<script>
+    var app = angular.module("angularApp");
+    app.controller('indexCtrl', function ($scope, $location, $http) {
+        $scope.search = {};
+        document.title = "视频详情";
+        var vm = this;
+     
+
+        var objPath = $location.$$absUrl.split("?")[1].split("&");
+        var id = objPath[0].split("=")[1];
+        // var name = decodeURI(objPath[1].split("=")[1]);
+        // vm.name = name;
+        $http.get('/ovu-camera/pcos/videomanagement/device/getIsOpen?cameraId=' + id).success(function (data) {
+            vm.list = data.data;           
+        });
+
+
+
+    });
+
+    /**
+     * 监控视频柏播放组件
+     * param:设备id,宽度，长度
+     */
+    app.directive('playCamera', ['$window', '$timeout', '$http','$location' ,function ($window, $timeout, $http,$location) {
+        return {
+            restrict: 'AE',
+            scope: {
+                deviceId: '<?',
+                width: '<?',
+                height: '<?',
+                url: '<?',
+                list: '<?'
+            },
+            templateUrl: '/view/playVedio/cameraInner.html',
+            link: function (scope, el, attr) {
+                scope.player; //播放器实体对象
+                scope.isOpen = true; //是否展开右侧水平的面板,默认不展开
+                scope.width = scope.width || el.parent().width() || 100;
+                scope.id = 'video' + scope.$id;
+
+                scope.$on('destory', function (evt, data) {
+                    flv_destroy();
+                    clearInterval(scope.timer);
+                });
+
+                scope.$on('$destroy', function () {
+                    flv_destroy();
+                    clearInterval(scope.timer);
+                });
+
+                //点击视频源，用于切换摄像头
+                var interval;
+                scope.timer;
+                scope.pid="";
+                var timer2;
+                scope.clickVideo = function (video, index) {
+                    scope.pid=video.id
+                    scope.videoIndex = index;
+                    clearInterval( scope.timer);
+                    $http.get('/ovu-camera/pcos/videomanagement/device/keepLive?id=' + video.id);
+                    scope.timer = setInterval(function () {
+                        $http.get('/ovu-camera/pcos/videomanagement/device/keepLive?id=' +
+                            video.id).success(function (data) {
+                            if (!data.success) {
+                                clearInterval(scope.timer);
+                            }
+                        })
+                    },40000);
+                    $http.get('/ovu-camera/pcos/videomanagement/device/getLiveBroadcast?id=' + video.id)
+                        .success(function (data) {
+                            //  if (data.data && data.data.flvUrl) {
+                            //     play(data.data.flvUrl);
+                            // } else {
+                            // }
+                    });
+                    timer2=setInterval(function(){
+                        $http.get('/ovu-camera/pcos/videomanagement/device/get?id=' + video.id).success(function (
+                        data) {
+                        if (data.data && data.data.flvUrl) {
+                            clearInterval(timer2);
+                            scope.url = data.data.flvUrl;
+                            scope.name=data.data.name;
+                            scope.cameraName=data.data.cameraName;
+                            } 
+                        });
+                    },1000)
+                }
+              
+               
+               
+                //改变线路 
+                // scope.changeLine = function(type) {
+                //         scope.url = type == 1 ? scope.data.interM3u8 : scope.data.lanM3u8;
+                // }
+                //展开右侧面板的方法
+                // scope.toggleRight = function () {
+                //     if (scope.isOpen) {
+                //         scope.height = el.parent().height();
+                //     }
+                // }
+                //监听url变化
+                scope.$watch('url', function (current, prev) {
+                    if (angular.isDefined(current) && !angular.equals(current, prev)) {
+                        if (current == '') {
+                            init();
+                        } else {
+                            play(scope.url);
+                        }
+                    }
+                }, true);
+                function init() {
+                    scope.list && scope.clickVideo(scope.list[0], 0); //默认打开第一个摄像头直播
+                    scope.hre='../main.html?module=1#/videomanagement/playbackState?pid='+scope.list[0].id;
+                }
+                //初始化
+                $timeout(function () {
+                    if (scope.list) {
+                        init();
+                    } else {
+                        scope.$watch('list', function (current, prev) {
+                            if (angular.isDefined(current) && !angular.equals(current,
+                                    prev)) {
+                                init();
+                            }
+                        }, true);
+                    }
+                })
+                function play(url) {
+                    if (flvjs.isSupported()) {
+                        if (typeof scope.player !== "undefined") {
+                            if (scope.player != null) {
+                                scope.player.unload();
+                                scope.player.detachMediaElement();
+                                scope.player.destroy();
+                                scope.player = null;
+                            }
+                        }
+                        var videoElement = document.getElementById(scope.id);
+                        document.addEventListener("visibilitychange", function() {
+                        if (document.hidden && videoElement.paused) {
+                          videoElement.play();
+                          }
+                        });
+                        scope.player = flvjs.createPlayer({
+                            type: 'flv',
+                            isLive: true,
+                            hasAudio: false,
+                            url: url ||
+                                'http://116.205.13.37:8082/live/34020000001310000001.flv'
+                        });
+                        scope.player.attachMediaElement(videoElement);
+                        scope.player.load();
+                        scope.player.play();
+                    }
+                    //利用奇米来进行视频播放，内置的有线路切换
+                    /*  scope.player = new ChimeePlayer({
+                          wrapper: '#'+id,
+                          src: scope.data.interM3u8,
+                          box:'hls',
+                          isLive: true,
+                          autoplay: true,
+                          controls: true,
+                          log: {
+                              error: false,
+                              info: false,
+                              warn: false,
+                              debug: false,
+                              verbose: false,
+                          },
+                          plugin: [
+                              {
+                                  "name": "chimeeControl",
+                                  "children": {
+                                      play:{},  progressBar:{},  screen:{},
+                                      "clarity": {
+                                          "list": [
+                                              {
+                                                  "name": "线路一",
+                                                  "src": scope.data.interM3u8
+                                              },
+                                              {
+                                                  "name": "线路二",
+                                                  "src": scope.data.lanM3u8
+                                              }
+                                          ]
+                                      }
+                                  }
+                              }
+                          ]
+                      });*/
+                }
+                function flv_destroy() {
+                    if (scope.player) {
+                        scope.player.pause();
+                        scope.player.unload();
+                        scope.player.detachMediaElement();
+                        scope.player.destroy();
+                        scope.player = null;
+                    }
+                }
+              
+            }
+        };
+    }]);
+
+</script>
+
+</html>

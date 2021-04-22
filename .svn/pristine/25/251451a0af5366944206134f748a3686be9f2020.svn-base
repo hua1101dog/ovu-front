@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>认证管理</title>
+</head>
+<body>
+<div id="angularId" ng-controller="confirmContr" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>认证管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="x_panel" >
+            <div class="form-inline" >
+                <div class="form-group">
+                    <label>客户名称</label>
+                    <input type="text" ng-model="search.NAME" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>账号</label>
+                    <input type="text" ng-model="search.LOGIN_NAME" class="form-control" placeholder='手机号'/>
+                </div>          
+                <div class="form-group">
+                    <label>认证状态</label>
+                    <select class="form-control" ng-model="search.CONFIRM_STATUS">
+                        <option value="">---不限---</option>
+                        <option value="0">待认证</option>
+                        <option value="1">通过</option>    
+                        <option value="2">未通过</option>                  
+                    </select>
+                </div>
+        
+                <button class="btn btn-default" ng-click="find(1)" >查询</button>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#999999;">认证企业申请列表</div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center">No.</th>             
+                            <th>客户名称</th>
+                            <th>账号</th>
+                            <th>性别</th>
+                            <th>联系方式</th> 
+                            <th>认证状态</th>
+                            <th>认证时间</th>            
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                    <tr ng-repeat="item in pageModel.data" style="color:#333333;">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <!-- <td>{{item.CUS_TYPE | convertCusType}}</td> -->
+                        <td>{{item.PERSON_NAME}}</td>
+                        <td>{{item.LOGIN_NAME}}</td>
+                        <td>{{item.PERSON_SEX == 0 ? "男" : "女"}}</td>
+                        <td>{{item.PERSON_PHONE}}</td>
+                        <td>{{item.CONFIRM_STATUS | confirmStatusFilter}}</td>
+                        <td>{{item.CONFIRM_TIME}}</td>
+                        <td>
+                            <a href='javascript:void(0)' ng-click="showConfirmModal(item)" class='btn btn-xs' style="color:blue;"><span class='fa fa-user'></span>审核</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'" class="ng-scope">
+                    <style type="text/css" class="ng-scope">
+                        .pagination>li>span:hover{background-color: #fff;cursor:text}
+                    </style>
+                </ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

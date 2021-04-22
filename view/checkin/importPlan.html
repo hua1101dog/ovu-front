@@ -1,0 +1,145 @@
+<div ng-controller="holidaySettingCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>排班计划</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>排班时间</label>
+                <!-- <input type="datetime" class="form-control Wdate" ng-model="search.arrangeMonth" onchange=""
+          onclick="javascript:WdatePicker({dateFmt:'yyyy-MM',isShowClear:false})"> -->
+                <input type="text" readonly ng-model="arrangeMonth" class="form-control time"
+                    style="width: 200px;" ng-lay-range="" date-format="yyyy-MM-dd" date-type="date">
+            </div>
+            <div class="form-group">
+                <label>所在部门</label>
+                <div class="input-group ">
+                    <tree-selector node-list="searchDeptTree" host="auth" host-key="'deptId'" host-text="'deptName'"
+                        leaf-only=false tip-text="'请选择部门'" callback="getAuth" is-hide="true"></tree-selector>
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <label>选择人员</label>
+                <div style=" display: inline-block">
+                    <ui-select ng-model="selected.value" multiple >
+                        <ui-select-match>
+                            <span ng-bind="$item.name"> </span>
+                           
+                        </ui-select-match>
+                        <ui-select-choices  repeat="item in (personListBlock | filter: $select.search) track by item.id">
+                            <span ng-bind="item.name"></span>
+                        </ui-select-choices>
+                    </ui-select>
+             
+                  
+             </div>
+             <div class="form-group">
+                <label role="button" style="line-height: 32px; margin-right: 15px"><input type="checkbox"
+                    style="margin: 0 5px" ng-model="jobStatus" value="1"   
+                    ng-change="changeStatu(jobStatus)" />离职员工</label>
+               
+    
+            </div>
+             <button class="btn btn-default pull-right" ng-click="find(1)" ng-disabled="!deptId"
+                    style="margin-left: 10px; margin-top: 2px;">查询</button>
+            </div>
+           
+
+        </div>
+    </div>
+    <div class="panel panel-default" style="display: grid;">
+        <div class="panel-heading">排班列表
+            <button class="btn btn-default pull-right btn-primary" ng-click="showModal(auth.deptId)"
+                ng-if="isAuth">新增</button>
+            <button class="btn btn-default pull-right btn-primary" ng-click="downloadFile(auth.deptId)"
+                ng-if="isAuth">下载模板</button>
+            <button class="btn btn-default pull-right btn-primary" ng-click="exportPlans()" ng-disabled="!auth.deptId">导出排班计划</button>
+         
+        </div>
+        <div class="panel-body" style="overflow:auto">
+            <table class="table table-bordered" >
+                <thead class="title">
+                    <tr>
+                        <th rowspan="2" style="vertical-align:middle;width: 30px">NO</th>
+                        <th rowspan="2" style="vertical-align:middle;width:56px">姓名</th>
+                        <th rowspan="2" style="vertical-align:middle;width:70px">岗位</th>
+                        <th rowspan="2" style="vertical-align:middle;width:90px">员工账号</th>
+                        <!-- <th ng-repeat="w in weekList track by $index">{{w | keyToValue:weekType }}</th> -->
+                        <th style="width:32px" ng-repeat="w in pageData.dates track by $index">{{w.week}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="width:32px" ng-repeat="w in pageData.dates track by $index">{{w.nickDay}}
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.personName}}</td>
+                        <td>{{item.postName}}</td>
+                        <td>{{item.jobCode}}</td>
+                        <td style="color:#524f4f;cursor: pointer;" ng-repeat="w in pageData.dates track by $index"
+                            ng-class="{'green':(item.plans[w.day].state=='1'),'gray':(item.plans[w.day].state!=='1' || !item.plans[w.day].show)}"  ng-click="editSchedule(item,w)">
+                            <span ng-hide="(item.plans[w.day].state!=='1' || !item.plans[w.day].show)">{{item.plans[w.day].scheduleName}}</span>
+
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="page-footer clearfix" style="margin-left: 15px;">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+
+    </div>
+    <div class="x_panel">
+        <p class="detail"><span style="color: red;">色块说明：</span>
+            <span class="green piece"></span>
+            <span>上班</span>&nbsp;&nbsp;&nbsp;
+            <span class="gray piece"></span>
+            <span>休息</span>
+        </p>
+        <p class="detail" style="color: red;" ng-if="importRemark"><span>排班说明：</span>
+            <span
+                ng-repeat="item in importRemark.classes track by $index">{{item}}（{{importRemark.rows[0].schedules[0][item]}}）
+            </span>
+        </p>
+        <p class="detail" style="color: red;" ng-if="autoRemark"><span>排班说明：</span>
+            <span>按法定节假日排版 上下班时间（{{autoRemark.timeFrom}}-{{autoRemark.timeTo}}）</span>
+        </p>
+    </div>
+
+
+</div>
+<style>
+    .detail {
+        font-size: 16px;
+
+    }
+
+    .piece {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+    
+        vertical-align: middle
+    }
+
+    .green {
+        background: #00CC33
+    }
+
+    .gray {
+        background: #B2B2B2
+    }
+</style>

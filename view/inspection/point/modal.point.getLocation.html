@@ -1,0 +1,18 @@
+	<!--绑定供应商的新增修改弹出框  -->
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancel()">×</button>
+		<h4 class="modal-title">查看位置</h4>
+    </div>
+    <div class="modal-body container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				<div id="map-container" ui-map="myMap" ui-map-cache="mapCache" style="height: 300px; " ui-options="mapOptions">
+	  			</div>
+		 	    <div ng-repeat="marker in markers" ui-map-marker="markers[$index]">
+                </div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>

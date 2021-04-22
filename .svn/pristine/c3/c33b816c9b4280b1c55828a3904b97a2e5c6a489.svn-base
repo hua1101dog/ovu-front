@@ -1,0 +1,88 @@
+<div class="input-group" style="white-space: nowrap;width: 100%">
+    <input type="text" class="form-control" ng-required="need" ng-focus="state.focus=true;find(1)"
+        ng-model="host[hostText]" ng-change="change(host[hostText])" ng-disabled="host.readOnly" />
+    <span class="input-group-btn" style="vertical-align:top">
+        <!-- <button class="btn btn-default" ng-click="clear(host)" style="height: 34px"><i class='fa fa-close'></i></button> -->
+        <button class="btn btn-default" ng-click="query(host[hostText])" style="height: 34px"><i class='fa fa-search'></i></button>
+    </span>
+    <div ng-show="state.focus" class="panel panel-default tableSelect">
+        <div class="panel-heading" style="color: #999999;">
+            <button type="button" class="close" style="margin-top: -10px;" ng-click="state.focus=false;">×</button>
+        </div>
+        <div class="panel-body p-b-none p-t-none">
+            <table class="table table-striped table-hover m-b-none" style="margin-top: 10px; color: #999999;">
+                <thead class="title">
+                    <tr>
+                        <th style="width:50px;">序号</th>
+                        <th style="width:290px">客户名称</th>
+                        <th>客户类型</th>
+                        <th>客户来源</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data" style="color: #333333;" ng-click="check(item)">
+                        <td style="width:50px;">
+                            {{$index + 1+pageModel.pageSize*pageModel.pageIndex}}
+                        </td>
+                        <td
+                            style="width:290px;max-width:290px;white-space:nowrap;text-overflow:ellipsis;overflow: hidden;">
+                            {{item.name || '--'}}</td>
+                        <td>{{item.type == 1? "个人":"企业"}}</td>
+                        <td>{{item.resource || "CRM"}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'" class="ng-scope">
+                    <style type="text/css" class="ng-scope">
+                        .pagination>li>span:hover {
+                            background-color: #fff;
+                            cursor: text
+                        }
+
+                    </style>
+                </ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .tableSelect {
+        width: 600px;
+        max-height: 600px;
+        min-height: 200px;
+        position: absolute;
+        left: 0px;
+        top: 34px;
+        z-index: 4;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tableSelect .panel-body {
+        flex: 1;
+        overflow: hidden;
+    }
+
+    .tableSelect table tbody {
+        display: block;
+        max-height: 450px;
+        overflow-y: scroll;
+    }
+
+    .tableSelect table thead,
+    .tableSelect tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .tableSelect table thead {
+        width: calc(100% - 1em)
+    }
+
+</style>

@@ -1,0 +1,8 @@
+<div class="dropdown areaClick" outside-click>
+	<input type="text" readOnly placeholder="请选择产品" data-toggle="dropdown" class = "form-control bg-readOnly areaClick" 
+		ng-model="products" ng-focus="openTreeProduct()" ng-attr-title="{{products}}"/>
+	<ul class="industrial_ul form-control dropdown-menu areaClick" id="industrial_chain" ng-show="isProduct">
+		<li ng-repeat="item in productTree" class = "" ng-click="productClick(item)"><i class="icon-check" 
+		ng-class="{'icon-checked':item.checkflag==1}" ></i><span class="name">{{item.industryProductName}}</span></li>
+	</ul>
+</div>

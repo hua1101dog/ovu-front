@@ -1,0 +1,10 @@
+<div class="x_panel">
+    <div class="x_title">楼栋列表 </div>
+    <div class="x_content" style="z-index: 1">
+        <div class="alert" role="alert" ng-show="houseTree.length==0">无楼栋信息</div>
+        <div>
+            <!-- <tree-view node-list="houseTree" config="config"></tree-view> -->
+            <tree-view-pro node-list="houseTree"  callback="selectNode" config="{'edit':false}"></tree-view-pro>
+        </div>
+    </div>
+</div>

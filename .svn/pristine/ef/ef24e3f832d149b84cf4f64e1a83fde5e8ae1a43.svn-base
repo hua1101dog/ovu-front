@@ -1,0 +1,10 @@
+<div class="info-panel">
+    <div ng-transclude>
+    </div>
+</div>
+<style>
+    .info-panel {
+        height: 100%;
+        overflow: auto;
+    }
+</style>

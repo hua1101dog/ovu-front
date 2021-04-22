@@ -1,0 +1,163 @@
+<meta charset="UTF-8">
+<div ng-cloak>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancel()">×</button>
+            <h4 class="modal-title">{{pageModel.id ? '编辑' : '新增'}}</h4>
+        </div>
+        <div class="modal-body form-horizontal">
+            <form name="addForm" novalidate=""
+                class="ng-pristine ng-valid ng-valid-required ng-valid-pattern ng-valid-maxlength">
+                <h4 style="margin-left: 100px;padding-bottom: 10px;margin-bottom: 10px;border-bottom: 1px solid #ddd;">
+                    产品简介</h4>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label required">产品名称：</label>
+                    <div class="col-xs-7">
+                        <!-- <i class="icon-search"
+                            style="width: 20px;height: 20px;position: absolute;top: 7px;left: 20px; z-index: 999; background: url(/res/img/search.png) no-repeat; background-size: 100% 100%; cursor: pointer;"
+                            ng-click="getFocus()" role="button" tabindex="0"></i> -->
+                        <input type="text" id="focusShow"
+                            class="form-control awesomplete ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required"
+                            required="" maxlength="30" ng-model="pageModel.proRecommandName" list="mylist"
+                            placeholder="请输入产品名称" style="padding-left: 10px;" autocomplete="off" aria-required="false"
+                            aria-invalid="false">
+                        <datalist id="mylist">
+                            <select>
+                                <!---->
+                            </select>
+                        </datalist>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-3 required">简介：</label>
+                    <div class="col-xs-7">
+                        <!-- <input type="text" class="form-control" ng-model="curItem.remarks"> -->
+                        <textarea type="text" style="height: 150px; resize: vertical; cursor: default;"
+                            class="form-control ng-pristine ng-valid ng-not-empty ng-valid-required ng-valid-maxlength ng-touched"
+                            required="" ng-model="pageModel.introduction" name="content" aria-multiline="true"
+                            aria-invalid="false" maxlength="400" placeholder="最多可输入400字"
+                            ng-change="contentLength(pageModel.introduction, 1)" aria-required="false"></textarea>
+                        <!-- <span style="color: #888;">剩余可输入字数: 391/400</span> -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label required" style="margin-top: 45px;">供应商：</label>
+                    <div class="col-xs-7" style="padding-top:10px;">
+                        <div style="margin-bottom: 15px;height: 30px;">
+                            <button class="btn btn-primary pull-right" ng-click="chooseProvider()">选择供应商</button>
+                        </div>
+                        <div>
+                            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                                <thead class="title" style="background-color: #eee;">
+                                    <tr class="text-center">
+                                        <th>供应商</th>
+                                        <th>联系电话</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="proList">
+                                    <!-- <tr ng-if="!pageModel.data || pageModel.data.length == 0">
+                                                <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr> -->
+                                    <tr class="text-center"
+                                        ng-repeat="item in proDetail.supplierInfos||idsData track by $index">
+                                        <td style="width: 40%;">{{item.companyName}}</td>
+                                        <td style="width: 40%;">{{item.phone}}</td>
+                                        <td style="width: 20%;">
+                                            <a class="btn-oper btn-danger" href="javaScript:;"
+                                                ng-click="delPro(item)">删除</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- <textarea type="text" style="height: 150px; resize: vertical; cursor: default;" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required ng-valid-maxlength" required="" ng-model="search.mainProduct" name="content" aria-multiline="true" aria-invalid="false" maxlength="400" placeholder="最多可输入400字" ng-change="contentLength(search.mainProduct, 2)" aria-required="false"></textarea><span style="color: #888;">剩余可输入字数: 394/400</span> -->
+                    </div>
+                </div>
+                <h4 style="margin-left: 100px;padding-bottom: 10px;margin-bottom: 10px;border-bottom: 1px solid #ddd;">
+                    推送约定</h4>
+                <div class="form-group" style="height: 50px;line-height: 50px;overflow: hidden;">
+                    <!-- <div style="float: left;width: 100px;margin-left:100px;text-align: center;"> -->
+                    <!-- <input type="radio" name="Settled"> -->
+                    <!-- <label class="control-label">入驻前：</label> -->
+                    <!-- </div> -->
+                    <div
+                        style="float: left;margin-left: 240px; width: 480px;padding-left: 20px;background-color: #ddd;">
+                        <span>入驻申请后</span>
+                        <span> 第 &ensp;<input type="text" ng-model="pageModel.beforeSettled"
+                                style="line-height: 20px;">&ensp;天 </span>
+                    </div>
+                </div>
+                <div class="form-group" style=" height: 100%; overflow: hidden;">
+                    <!-- <div
+                        style="float: left;height:100%;width: 100px;text-align:center;margin-left: 100px;line-height: 100%;">
+                        <input type="radio" name="Settled">
+                        <label class="control-label">入驻前：</label>
+                    </div> -->
+                    <div
+                        style="float: left;margin-left: 240px;padding-left: 20px;padding-bottom:20px; width: 480px;background-color: #ddd;">
+                        <div style="height: 50px;line-height: 50px;">
+                            <span>企业进驻后</span>
+                            <span> 第&ensp;<input type="text" ng-model="pageModel.inSettled"
+                                    style="line-height: 20px;">&ensp;天</span>
+                        </div>
+                        <div style="width: 460px;position: relative;overflow: hidden;">
+                            <span style="float: left">指定日期&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</span>
+                            <div style="float: left; width: 300px;">
+                                <input type="radio"   name="Calendar" ng-model="pageModel.inCalendarType" value="0"
+                                    class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required "
+                                    aria-checked="true" aria-required="false" aria-invalid="false">阳历
+                                <input type="radio"   name="Calendar" ng-model="pageModel.inCalendarType" value="1"
+                                    class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required "
+                                    aria-checked="false" aria-required="false" aria-invalid="false">阴历
+                                <ul class="datelist">
+                                    <li ng-if="!pageModel.inDates"
+                                        style="height: 30px;overflow: hidden;line-height: 30px;margin: 10px 10px 10px 0;">
+                                        <input type="datetime" class="form-control Wdate" ng-model="item" onchange=""
+                                            onclick="javascript:WdatePicker({dateFmt:'MM-dd'})"
+                                            style="width: 150px;float: left;">
+                                        <a href="javascript:;"
+                                            style="float: left;height: 20px;line-height: 20px;margin-top: 5px;margin-left: 10px;font-size: 12px;"
+                                            ng-click="delDate()" class="btn btn-xs delDate"><span
+                                                class="fa fa-trash"></span>删除</a>
+                                    </li>
+                                    <li ng-repeat="item in pageModel.inDates.split(',')"
+                                        style="height: 30px;overflow: hidden;line-height: 30px;margin: 10px 10px 10px 0;">
+                                        <input type="datetime" class="form-control Wdate" ng-model="item" onchange=""
+                                            onclick="javascript:WdatePicker({dateFmt:'MM-dd'})"
+                                            style="width: 150px;float: left;">
+                                        <a href="javascript:;"
+                                            style="float: left;height: 20px;line-height: 20px;margin-top: 5px;margin-left: 10px;font-size: 12px;"
+                                            ng-click="delDate()" class="btn btn-xs delDate"><span
+                                                class="fa fa-trash"></span>删除</a>
+                                    </li>
+                                </ul>
+                                <!-- <input type="text" disabled> <button class="addDatelist" ng-click="addDate()">添加</button> -->
+                                <button class="btn btn-sm btn-default" ng-click="addDate()"><i
+                                        class="glyphicon glyphicon-plus"></i>添加日期
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="height: 50px;line-height: 50px;overflow: hidden;">
+                    <!-- <div style="float: left;width: 100px;margin-left:100px;text-align: center;"> -->
+                    <!-- <input type="radio" name="Settled"> -->
+                    <!-- <label class="control-label">入驻前：</label> -->
+                    <!-- </div> -->
+                    <div style="float: left;margin-left: 240px;width: 480px;padding-left: 20px;background-color: #ddd;">
+                        <span>退出申请后</span>
+                        <span> 第 &ensp;<input type="text" ng-model="pageModel.afterSettled"
+                                style="line-height: 20px;">&ensp;天 </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer" style="text-align: center;">
+            <button class="btn btn-success btn-lg"
+                ng-click="save(addForm,pageModel)">{{pageModel.id ? '确认修改' : '新增'}}</button>
+            <button class="btn btn-danger btn-lg" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</div>

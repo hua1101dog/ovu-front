@@ -1,0 +1,357 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-label="Close">
+    <span aria-hidden="true">&times;</span></button>
+  <h4 class="modal-title">|&nbsp;项目详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+  <uib-tabset>
+    <uib-tab heading="基础信息">
+      <div class="form-group" style="padding-top: 12px">
+        <label class="col-xs-2 control-label required">项目名称：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" required class="form-control" ng-model="item.projectName" name="projectName" placeholder="">
+        </div>
+        <label class="col-xs-2 control-label required">项目类型：</label>
+        <div class="col-xs-4">
+          <select readonly class="form-control" required ng-model="item.type" ng-options="o[0] as o[1] for o in yetaiDict">
+            <option value="">--请选择--</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">建筑面积(m<sup>2</sup>)：</label>
+        <div class="col-xs-4">
+          <input readonly type="number" class="form-control" ng-model="item.buildingArea" name="buildingArea" placeholder="">
+        </div>
+        <label class="col-xs-2 control-label">项目地址：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" class="form-control" ng-model="item.projectAddress" name="projectAddress" placeholder="">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">开发单位：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" class="form-control" ng-model="item.developCompany" name="developCompany">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">联系人：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" class="form-control" ng-model="item.contact" name="contact">
+        </div>
+        <label class="col-xs-2 control-label">联系方式：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" class="form-control" ng-model="item.phone" name="phone">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label required">是否有物业单位：</label>
+        <div class="col-xs-4">
+          <select readonly class="form-control" required ng-model="item.hasOwnPropertyCompany" ng-options="o[0] as o[1] for o in exp_hasOwnPropertyCompany">
+            <option value="" selected>--请选择--</option>
+          </select>
+        </div>
+        <label class="col-xs-2 control-label" ng-if="item.hasOwnPropertyCompany ==1 ">当前物业单位：</label>
+        <div class="col-xs-4" ng-if="item.hasOwnPropertyCompany ==1 ">
+          <input readonly type="text" class="form-control" ng-model="item.nowPropertyCompany" name="nowPropertyCompany">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label ">物业管理收费标准：</label>
+        <div class="col-xs-5">
+          高层 <input readonly type="number" class="form-control" ng-model="item.heightBuildingPay" style="width: auto;display: inline-block" name="heightBuildingPay"> 元/平方米/月
+        </div>
+        <div class="col-xs-5">
+          洋房 <input readonly type="number" class="form-control" ng-model="item.foreignHousePay" style="width: auto;display: inline-block" name="foreignHousePay"> 元/平方米/月
+        </div>
+      </div>
+    </uib-tab>
+    <uib-tab heading="配套设施设备">
+      <input readonly type="hidden" ng-model="item.id">
+      <div class="form-group" style="padding-top: 12px">
+        <label class="col-xs-2 control-label">销售代理公司名称：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" class="form-control" ng-model="item.sellProxyCompanyName" name="sellProxyCompanyName">
+        </div>
+        <label class="col-xs-2 control-label">建筑设计公司名称：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" class="form-control" ng-model="item.buildingDesignCompanyName" name="buildingDesignCompanyName">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">园林设计公司名称：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" class="form-control" ng-model="item.gardenDesignCompanyName">
+        </div>
+
+        <label class="col-xs-2 control-label">物业公司名称：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" class="form-control" ng-model="item.propertyCompany">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">物业公司简介：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" class="form-control" ng-model="item.propertyCompanyDetail">
+        </div>
+        <label class="col-xs-2 control-label">坐落位置：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" class="form-control" ng-model="item.projectLocation">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">物业类型：</label>
+        <div class="col-xs-4">
+          <select readonly class="form-control" ng-model="item.projectType" ng-options="o[0] as o[1] for o in exp_projectTypeDict">
+            <option value="">--请选择--</option>
+          </select>
+        </div>
+        <label class="col-xs-2 control-label">预计售价：</label>
+        <div class="col-xs-4">
+          <input readonly type="number" class="form-control" ng-model="item.expectedSellPrice">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">定位档次：</label>
+        <div class="col-xs-4">
+          <select readonly class="form-control" ng-model="item.positionGrade" ng-options="o[0] as o[1] for o in exp_positionGradeDict">
+            <option value="">--请选择--</option>
+          </select>
+        </div>
+        <label class="col-xs-2 control-label">占地面积(m<sup>2</sup>)：</label>
+        <div class="col-xs-4">
+          <input readonly type="number" class="form-control" ng-model="item.coverArea">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">容积率：</label>
+        <div class="col-xs-4">
+          <input readonly type="number" class="form-control" ng-model="item.capacityRate">
+        </div>
+        <label class="col-xs-2 control-label">绿化率：</label>
+        <div class="col-xs-4">
+          <input readonly type="number" class="form-control" ng-model="item.greenCoverrate">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">绿化面积(m<sup>2</sup>)：</label>
+        <div class="col-xs-4">
+          <input readonly type="number" class="form-control" ng-model="item.greenCoverArea">
+        </div>
+        <label class="col-xs-2 control-label">总建筑面积(m<sup>2</sup>)：</label>
+        <div class="col-xs-4">
+          <input readonly type="number" class="form-control" placeholder="一期()平米、二期()平米" ng-model="item.totalBuildingArea">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">开工时间：</label>
+        <div class="col-xs-4">
+          <input readonly type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched" ng-model="item.startBuilding" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" aria-invalid="false">
+        </div>
+        <label class="col-xs-2 control-label">竣工时间：</label>
+        <div class="col-xs-4">
+          <input readonly type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched" ng-model="item.endBuilding" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" aria-invalid="false">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">开盘时间：</label>
+        <div class="col-xs-4">
+          <input readonly type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched" ng-model="item.openDate" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" aria-invalid="false">
+        </div>
+        <label class="col-xs-2 control-label">入伙时间：</label>
+        <div class="col-xs-4">
+          <input readonly type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched" ng-model="item.joinDate" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" aria-invalid="false">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">提供图纸：</label>
+        <div class="col-xs-10">
+          <label class="checkbox-inline" ng-repeat="providePaper in providePaperList">
+            <input readonly type="checkbox" ng-model="providePaper.chosen" ng-true-value="true" ng-false-value="false">{{providePaper.text}}
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">住宅面积(m<sup>2</sup>)：</label>
+        <div class="col-xs-10">
+          <input readonly type="number" class="form-control" ng-model="item.homeArea">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">户数：</label>
+        <div class="col-xs-10">
+          <input readonly type="number" class="form-control" ng-model="item.homeNumbers">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">写字楼：</label>
+        <div class="col-xs-10">
+                        <textarea readonly ng-model="item.writingBuilding" class="form-control" rows="3" cols="20" placeholder="（）平方米（）层（）栋" name="writingBuilding"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">商业面积：</label>
+        <div class="col-xs-10">
+                        <textarea readonly ng-model="item.businessArea" class="form-control" rows="3" cols="20" placeholder="（）平方米（）层（）栋" name="businessArea"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">会所(m<sup>2</sup>)：</label>
+        <div class="col-xs-4">
+          <input readonly type="number" class="form-control" ng-model="item.club">
+        </div>
+        <label class="col-xs-2 control-label">功能配置：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" class="form-control" ng-model="item.functionSetting">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">停车位：</label>
+        <div class="col-xs-10">
+                        <textarea readonly ng-model="item.parkingSpace" class="form-control" rows="3" cols="20" placeholder="地下（）辆，地上（）辆" name="parkingSpace"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">智能化设施 ：</label>
+        <div class="col-xs-10">
+          <label class="checkbox-inline" ng-repeat="intelligentFacilities in intelligentFacilitiesList">
+            <input readonly type="checkbox" ng-model="intelligentFacilities.chosen" ng-true-value="true" ng-false-value="false">{{intelligentFacilities.text}}
+          </label>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label class="col-xs-2 control-label">配电总容量：</label>
+        <div class="col-xs-10">
+                            <textarea readonly ng-model="item.totalDistributeCapacity" class="form-control" rows="3" cols="20" placeholder="变压器（）台、型号（）、功率（）KW、高压配电柜（）个、低压配电柜（）个" name="totalDistributeCapacity"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">电梯品牌 ：</label>
+        <div class="col-xs-10">
+          <select readonly class="form-control" ng-model="item.elevatorBrand" ng-options="o[0] as o[1] for o in exp_elevatorBrand">
+            <option value="">--请选择--</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">电梯数量（部）：</label>
+        <div class="col-xs-4">
+          <input readonly type="number" class="form-control" ng-model="item.elevatorNumbers">
+        </div>
+        <label class="col-xs-2 control-label">电梯总功率：</label>
+        <div class="col-xs-4">
+          <input readonly type="number" class="form-control" ng-model="item.elevatorTotalIp">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">中央空调 ：</label>
+        <div class="col-xs-10">
+          <select readonly class="form-control" ng-model="item.centralAir" ng-options="o[0] as o[1] for o in exp_centralAir">
+            <option value="">--请选择--</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">水泵：</label>
+        <div class="col-xs-10">
+                            <textarea readonly ng-model="item.waterPump" class="form-control" rows="3" placeholder="消防泵（）台：功率（）KW；;稳压泵（）台：功率（）KW；;加压泵（）台：功率（）KW" cols="20" name="waterPump"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">发电机：</label>
+        <div class="col-xs-10">
+                            <textarea readonly ng-model="item.alternator" class="form-control" rows="3" cols="20" placeholder="（）台，功率（）千瓦" name="alternator"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">公共照明：</label>
+        <div class="col-xs-10">
+          <input readonly type="number" class="form-control" ng-model="item.commonLights" name="commonLights" placeholder="功率（）千瓦">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">垃圾中转站：</label>
+        <div class="col-xs-10">
+                            <textarea readonly ng-model="item.garbageTransferStation" class="form-control" rows="3" cols="20" placeholder="" name="garbageTransferStation"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">煤气 ：</label>
+        <div class="col-xs-10">
+          <select readonly class="form-control" ng-model="item.coalGas" ng-options="o[0] as o[1] for o in exp_coalGas">
+            <option value="">--请选择--</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">当地收费标准：</label>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">水费：</label>
+        <div class="col-xs-10">
+                            <textarea readonly ng-model="item.localChargeStandardWater" class="form-control" rows="3" cols="20" placeholder="住宅用水（）元/m3 ； 商业用水（）元/m3" name="localChargeStandardWater"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">电费：</label>
+        <div class="col-xs-10">
+                            <textarea readonly ng-model="item.localChargeStandardEnergy" class="form-control" rows="3" cols="20" placeholder="住宅用电（）元/KW ； 商业用电（）元/KW" name="localChargeStandardEnergy"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">管理费：</label>
+        <div class="col-xs-10">
+                            <textarea readonly ng-model="item.localChargeStandardManage" class="form-control" rows="3" cols="20" placeholder="多层（）元/m2/月 ； 小高层（）元/m2/月 ； 高层（）元/m2/月 ； 别墅（）元/m2/月 ； 商业（）元/m2/月" name="localChargeStandardManage"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">中央空调费：</label>
+        <div class="col-xs-4">
+          <input readonly type="text" class="form-control" ng-model="item.localChargeStandardAir" name="localChargeStandardAir" placeholder="元/kw">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">公共水费是否摊销 ：</label>
+        <div class="col-xs-2">
+          <select readonly class="form-control" ng-model="item.isCommonWaterSpend" ng-options="o[0] as o[1] for o in exp_isCommonWaterSpend">
+            <option value="">--请选择--</option>
+          </select>
+        </div>
+        <label class="col-xs-2 control-label">收费：水：</label>
+        <div class="col-xs-2">
+          <input readonly type="text" class="form-control" ng-model="item.commonWaterSpend" name="commonWaterSpend" placeholder="元/m3">
+        </div>
+        <label class="col-xs-1 control-label">电：</label>
+        <div class="col-xs-2">
+          <input readonly type="text" class="form-control" ng-model="item.commonEnergySpend" name="commonEnergySpend" placeholder="元/kw">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">本地人员工资水平：</label>
+        <div class="col-xs-10">
+                            <textarea readonly ng-model="item.localPersonSalaryStandard" class="form-control" rows="3" cols="20" placeholder="管理处经理 （）元/月：主管（）元/月：护卫员（）元/月;维修工（）元/月：保洁员（）元/月;社保情况：不太完善" name="localPersonSalaryStandard"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">委托物业管理方式 ：</label>
+        <div class="col-xs-10">
+          <select readonly class="form-control" ng-model="item.propertyManagement" ng-options="o[0] as o[1] for o in exp_propertyManagement">
+            <option value="">--请选择--</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-2 control-label">需要常驻的顾问人员（针对顾问方式）：</label>
+        <div class="col-xs-10">
+                            <textarea readonly ng-model="item.needStayPerson" class="form-control" rows="3" cols="20" placeholder="驻场经理（）名  客户服务顾问（）名" name="needStayPerson"></textarea>
+        </div>
+      </div>
+
+    </uib-tab>
+  </uib-tabset>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

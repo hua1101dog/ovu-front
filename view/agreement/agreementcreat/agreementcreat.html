@@ -1,0 +1,191 @@
+<div ng-controller="createHtmlCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>合同创建</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="x_panel">
+            <div ng-if="content == undefined" style="margin-left:30px;">
+                <h4>请选择合同分类和合同模版</h4>
+            </div>
+            <div class=" col-md-6 col-sm-12 col-xs-12" ng-bind-html="content">
+
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <form name="form" class="form form-horizontal " novalidate>
+                    <div class="form-group">
+                        <label class="control-label required col-md-3 col-sm-3 col-xs-12">合同分类:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <select class="form-control" ng-change="agreementsList(search.classifyId)" ng-model="search.classifyId" required ng-options="o.classifyId as o.classifyName for o in agreementList">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required col-md-3 col-sm-3 col-xs-12">合同模版:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <select class="form-control" ng-change="templetsList(search.templetId)" ng-model="search.templetId" required ng-options="o.templetId as o.templetName for o in templetList">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required col-md-3 col-sm-3 col-xs-12">合同名称:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" required ng-model="search.compactName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required col-md-3 col-sm-3 col-xs-12">合同金额:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="number" class="form-control" required min="0" ng-model="search.compactMoney">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required col-md-3 col-sm-3 col-xs-12">到期时间:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="datetime" required class="form-control Wdate" ng-model="search.expirationTime" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-{%d+1}'})">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-repeat="item in detailAgreement.dataItem">
+                        <!-- <label ng-if="item.isNeed == 1" class="control-label required col-md-3 col-sm-3 col-xs-12">{{item.dataItemName}}</label>
+                        <label ng-if="item.isNeed == 2" class="control-label col-md-3 col-sm-3 col-xs-12">{{item.dataItemName}}</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12" ng-if="item.dataItemType==1">
+                            <input ng-if="item.isNeed == 1" type="text" class="form-control" required ng-model="item[item.dataItemCode]">
+                            <input ng-if="item.isNeed == 2" type="text" class="form-control" ng-model="item[item.dataItemCode]">
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12" ng-if="item.dataItemType==2">
+                            <input ng-if="item.isNeed == 1" type="datetime" required class="form-control Wdate" ng-model="item[item.dataItemCode]" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                            <input ng-if="item.isNeed == 2" type="datetime" class="form-control Wdate" ng-model="item[item.dataItemCode]" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12" ng-if="item.dataItemType==3">
+                            <input ng-if="item.isNeed == 1" type="number" class="form-control" required min="0" ng-model="item[item.dataItemCode]">
+                            <input ng-if="item.isNeed == 2" type="number" class="form-control" min="0" ng-model="item[item.dataItemCode]">
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12" ng-if="item.dataItemType==4">
+                            <div ng-if="item.isNeed == 1" class="ueditor" required config="config" ng-model="item[item.dataItemCode]"></div>
+                            <div ng-if="item.isNeed == 2" class="ueditor" config="config" ng-model="item[item.dataItemCode]"></div>
+                        </div> -->
+
+
+                        <label ng-class="{'1':'required','2':''}[item.isNeed]" class="control-label col-md-3 col-sm-3 col-xs-12">{{item.dataItemName}}</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12" ng-if="item.dataItemType==1">
+                            <input type="text" class="form-control" ng-required="item.isNeed == 1" ng-model="item[item.dataItemCode]">
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12" ng-if="item.dataItemType==2">
+                            <input type="datetime" ng-required="item.isNeed == 1" class="form-control Wdate" ng-model="item[item.dataItemCode]" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12" ng-if="item.dataItemType==3">
+                            <input type="number" class="form-control" ng-required="item.isNeed == 1" min="0" ng-model="item[item.dataItemCode]">
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12" ng-if="item.dataItemType==4">
+                            <!-- <div class="ueditor" ng-required="item.isNeed == 1" config="config" ng-model="item[item.dataItemCode]"></div> -->
+                            <div id="{{'wang-editor-'+$index}}" ng-required="item.isNeed == 1"></div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">是否独立合同:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <label class="radio-inline">
+                           <input type="radio" value="1" ng-model="search.isParent"/>是
+                        </label>
+                            <label class="radio-inline">
+                            <input type="radio" value="0" ng-model="search.isParent"/>否
+                        </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="search.isParent!=1">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">父合同名称:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <select class="form-control" ng-model="search.parentId" required ng-options="o.infoId as o.compactName for o in fatherAgreementsList">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">是否开启独立提醒:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <label class="radio-inline">
+                                <input type="radio" value="1" ng-model="search.isWarning"/>是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" value="0" ng-model="search.isWarning"/>否
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="search.isWarning==1">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">提醒方式:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <label class="radio-inline">
+                                <input type="radio" value="1" ng-model="search.warnType"/>定时提醒
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" value="2" ng-model="search.warnType"/>间隔提醒
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="search.isWarning==1">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">开始日期:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <!-- maxDate:'%y-%M-%d' -->
+                            <input type="datetime" class="form-control Wdate" ng-model="search.warnStartDay" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="search.isWarning==1">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">结束日期:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="datetime" class="form-control Wdate" ng-model="search.warnEndDay" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="search.isWarning==1">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">间隔天数:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="number" class="form-control" min="0" ng-model="search.spaceDay">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="search.isWarning==1">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">提醒内容:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <!-- <input type="text" class="form-control" required ng-model="search.warnContent"> -->
+                            <textarea class="form-control" name="" id="" cols="30" rows="10" ng-model="search.warnContent"></textarea>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group pull-right">
+                    <button class="btn btn-primary" ng-click="save(item,form)">创建</button>
+                    <button class="btn btn-warning" style="margin-right:50px" ng-click="cancel()">取消</button>
+                </div> -->
+                </form>
+                <div class="form-group pull-right">
+                    <button class="btn btn-primary" ng-click="save(form,search)">创建</button>
+                    <button class="btn btn-warning" style="margin-right:50px" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<style>
+    [ng-bind-html="content"] {
+        overflow: auto;
+    }
+    
+    [ng-bind-html="content"] table {
+        border-top: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+    }
+    
+    [ng-bind-html="content"] table th {
+        border-right: 1px solid #ccc;
+        padding: 3px 5px;
+        border-bottom: 2px solid #ccc;
+        text-align: center;
+    }
+    
+    [ng-bind-html="content"] table td {
+        border-bottom: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        padding: 3px 5px;
+    }
+</style>

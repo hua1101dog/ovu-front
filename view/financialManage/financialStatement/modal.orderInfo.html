@@ -1,0 +1,79 @@
+<meta charset="UTF-8">
+<div>
+    <h3 style="padding: 2%;background-color: #eee;">订单信息
+        <button type="button" class="close" ng-click="cancel()">×</button>
+    </h3>
+    <ul style="padding:2% 3%;">
+        <li style="display:flex;height: 50px;line-height: 50px;border-top:1px solid #eee">
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">订单编号</div>
+            <div style="width: 250px;text-align: left;padding-left: 20px;">{{pageModel.billNo}}</div>
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">订单类别</div>
+            <div style="flex:1;text-align: left;padding-left: 20px;">{{pageModel.orderType == "1" ? "自营" : "第三方"}}</div>
+        </li>
+        <li style="display:flex;height: 50px;line-height: 50px;">
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">订单金额</div>
+            <div style="width: 250px;text-align: left;padding-left: 20px;">{{(pageModel.totalAmount/100).toFixed(2)}}</div>
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">商户类别</div>
+            <div style="flex:1;text-align: left;padding-left: 20px;">{{pageModel.mtypeStr}}</div>
+        </li>
+        <li style="display:flex;height: 50px;line-height: 50px;">
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">子商户号</div>
+            <div style="width: 250px;text-align: left;padding-left: 20px;">{{pageModel.mid?pageModel.mid:"--"}}</div>
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">商家名称</div>
+            <div style="flex:1;text-align: left;padding-left: 20px;"><p ng-attr-title="{{pageModel.mname}}" style="width: 270px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis;">{{pageModel.mname}}</p></div>
+        </li>
+        <li style="display:flex;height: 50px;line-height: 50px;">
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">商品名称</div>
+            <div style="width: 250px;text-align: left;padding-left: 20px;">
+                <p ng-attr-title="{{pageModel.goodsName}}" style="width: 250px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis;">{{pageModel.goodsName}}</p>
+                </div>
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">商品ID</div>
+            <div style="flex:1;text-align: left;padding-left: 20px;">{{pageModel.serviceId}}</div>
+        </li>
+        <li style="display:flex;height: 50px;line-height: 50px;">
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">商品数量</div>
+            <div style="width: 250px;text-align: left;padding-left: 20px;">{{pageModel.goodsNum}}</div>
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">订单时间</div>
+            <div style="flex:1;text-align: left;padding-left: 20px;">{{pageModel.orderTime}}</div>
+        </li>
+        <li style="display:flex;height: 50px;line-height: 50px;">
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">支付方式</div>
+            <div style="width: 250px;text-align: left;padding-left: 20px;">{{pageModel.payTypeStr ? pageModel.payTypeStr : "--"}}</div>
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">备注</div>
+            <div style="flex:1;text-align: left;padding-left: 20px;">{{pageModel.billBack ? pageModel.billBack : "--"}}</div>
+        </li>
+        <li style="display:flex;height: 50px;line-height: 50px;">
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">手续费率</div>
+            <div style="width: 250px;text-align: left;padding-left: 20px;">{{pageModel.payFeeRateStr}}</div>
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">手续费</div>
+            <div style="flex:1;text-align: left;padding-left: 20px;">{{(pageModel.fee/100).toFixed(2) || "--"}}</div>
+        </li>
+        <li style="display:flex;height: 50px;line-height: 50px;">
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">支付时间</div>
+            <div style="width: 250px;text-align: left;padding-left: 20px;">{{pageModel.payTime ? pageModel.payTime : "--"}}</div>
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">入账金额</div>
+            <div style="flex:1;text-align: left;padding-left: 20px;">{{pageModel.totalAmount - pageModel.fee ? ((pageModel.totalAmount - pageModel.fee)/100).toFixed(2) : "--"}}</div>
+        </li>
+        <li style="display:flex;height: 50px;line-height: 50px;">
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">订单状态</div>
+            <div style="width: 250px;text-align: left;padding-left: 20px;">{{pageModel.orderStatusStr}}</div>
+            <div style="width: 150px;background-color: #f5f5f5;text-align: right;padding-right: 20px;">&nbsp;</div>
+            <div style="flex:1;text-align: left;padding-left: 20px;">&nbsp;</div>
+        </li>
+    </ul>
+    <div class="modal-footer" style="text-align: center;">
+        <!-- <button class="btn btn-primary" ng-click="save()">确定</button> -->
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>
+</div>
+<style>
+    div {
+        border-right: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+    }
+
+    li {
+        border-left: 1px solid #eee;
+    }
+
+</style>

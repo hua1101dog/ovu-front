@@ -1,0 +1,118 @@
+<div ng-controller="ownCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>业主授权</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-12">
+			
+			<div class="x_panel">
+				<div class="x_title">楼栋列表<a href="javaScript:void(0)" ng-click='addTopNode()' class='btn btn-xs pull-right' ng-if="config.edit"><span class='fa fa-plus' ></span>分期</a></div>
+				<div class="x_content" style="z-index: 1">
+					<div class="alert" role="alert" ng-show="acs_treeData.length==0">无楼栋信息</div>
+					<tree-view-pro node-list="acs_treeData"  callback="selectNode" config="{'edit':false}"></tree-view-pro>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+			<div class="x_panel" >
+				<div class="form-inline">
+
+					<div class="form-group">
+						<label for="phoneNum">手机号码</label>
+						<input id="phoneNum" type="text" ng-model="search.phone" class="form-control"/>
+
+					</div>
+					<div class="form-group">
+						<label for="ownerName">业主姓名</label>
+						<input id="ownerName" type="text" ng-model="search.ownerName"  class="form-control"  />
+
+					</div>
+
+
+						<button class="btn btn-default" ng-click="find(1)" >查询</button>
+
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">业主授权列表
+						<button class="btn btn-primary pull-right" ng-click="authorise()" ng-disabled="!hasChecked(pageModel)">授权</button>
+						<button class="btn btn-danger pull-right" ng-click="unAuthorise()" ng-disabled="!hasChecked(pageModel)">取消授权</button>
+						<button class="btn btn-primary pull-right" ng-disabled="!pageModel.data || pageModel.data.length == 0"  ng-click="authoriseAll()">批量授权</button>
+				</div>
+				<div class="panel-body">
+				<table class="table table-striped table-hover" style="margin-top: 10px;">
+					<thead>
+					<tr>
+						<th class="text-center">NO</th>
+						<th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+							<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+						<th nowrap="nowrap">业主姓名</th>
+						<th nowrap="nowrap">电话号码</th>
+						<th nowrap="nowrap">房号</th>
+						<th nowrap="nowrap">身份证号</th>
+						<th nowrap="nowrap">已授权位置</th>
+						<th nowrap="nowrap">备注</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-if="!pageModel.data  || pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+					<tr ng-repeat="item in pageModel.data">
+							<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+						<td><i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+						<td>{{item.ownerName}}</td>
+						<td>{{item.phone}}</td>
+						<td style="max-width:300px">{{item.houseName}}</td>
+						<td>{{item.identity}}</td>
+						<td>{{item.authPlace}}</td>
+						<td>{{item.remark}}</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+					<ng-include src="'/common/pager.html'"></ng-include>
+				</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/ng-template" id="ownAccModel.html">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancel()">×</button>
+		<h4 class="modal-title">授权选择器</h4>
+	</div>
+	<div class="modal-body container-fluid form-horizontal">
+		<div class="col-sm-8">
+			<label>待选区</label>
+			<div class="well" style="padding-left: 0px">
+			
+				<tree-filter node-list="acs_hascheck_treeData"></tree-filter>
+					<tree-view node-list="acs_hascheck_treeData" check-callback="check"
+					config="config"></tree-view>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<label>已选区</label>
+			<div class="well" >
+				<ol style="padding-left: 15px">
+					<li ng-repeat="item in rightList"  ng-click="moveLeft(item)">{{item.text}}</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save()">确定</button>
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>
+
+</script>
+<style>
+   
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

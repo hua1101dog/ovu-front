@@ -1,0 +1,39 @@
+{
+    "name": "test",
+    "background": "#F2F2F2",
+    "building": {
+        "color": "#000000",
+        "opacity": 0.1,
+        "transparent": true,
+        "depthTest": false
+    },
+    "floor": {
+        "color": "#E0E0E0",
+        "opacity": 1,
+        "transparent": false
+    },
+    "selected": "#ffff55",
+    "strokeStyle": {
+        "color": "#666666",
+        "opacity": 0.5,
+        "transparent": true,
+        "linewidth": 1
+    },
+    "fontStyle": {
+        "opacity": 1,
+        "textAlign": "center",
+        "textBaseline": "middle",
+        "color": "#333333",
+        "fontsize": 13,
+        "halfWidth":18,
+        "fontface": "'Lantinghei SC', 'Microsoft YaHei', 'Hiragino Sans GB', 'Helvetica Neue', Helvetica, STHeiTi, Arial, sans-serif"
+    },
+    "pubPointImg": {
+        "11001": "./img/toilet.png",
+        "11002": "./img/ATM.png",
+        "21001": "./img/stair.png",
+        "21002": "./img/escalator.png",
+        "21003": "./img/lift.png",
+        "22006": "./img/entry.png"
+    }
+}

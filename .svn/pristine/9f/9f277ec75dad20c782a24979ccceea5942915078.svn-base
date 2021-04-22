@@ -1,0 +1,106 @@
+/**
+ *
+ * @authors Roc (rochuang@xtremeprog.com)
+ * @date    2015-08-21 17:02:18
+ * @version V1.0.0
+ */
+.store-selector {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+.store-selector a {
+  text-decoration: none;
+}
+.store-selector ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.store-selector input[disabled],.store-selector input[readonly] {
+  background-color: #fff !important;
+  cursor: pointer !important;
+  border-bottom-style: solid !important;
+}
+.store-selector .store-content {
+  display: none;
+  width: 100%;
+  min-width: 300px;
+  max-width: 388px;
+  position: absolute;
+  top: 33px;
+  left: 0;
+  font-size: 12px;
+  background-color: #fff;
+  border: #ccc thin solid;
+  padding: 5px;
+  z-index:10;
+}
+.store-selector .store-content > .store-close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  background-color: #ddd;
+  text-align: center;
+  line-height: 20px;
+  -webkit-border-radius: 10px !important;
+  -moz-border-radius: 10px !important;
+  -ms-border-radius: 10px !important;
+  -o-border-radius: 10px !important;
+  border-radius: 10px !important;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  opacity: 1;
+}
+.store-selector ul.tab {
+  border-bottom: #ccc thin solid;
+  padding-left: 20px;
+}
+.store-selector ul.tab > li {
+  display: inline-table;
+  background-color: #fff;
+}
+.store-selector ul.tab > li.active {
+  border: #ccc thin solid;
+  margin-bottom: -1px;
+  border-bottom-color: transparent;
+}
+.store-selector ul.tab > li > a {
+  display: inline-block;
+  width: 70px;
+  padding: 5px 2px;
+  text-align: center;
+}
+.store-selector .mc {
+  display: none;
+  padding: 10px;
+}
+.store-selector .mc.active {
+  display: block;
+}
+.store-selector .mc > .area-list {
+  overflow: hidden;
+}
+.store-selector .mc > .area-list > li {
+  display: inline-block;
+  float: left;
+  width: 120px;
+  padding: 5px 0;
+  text-align: left;
+  line-height: normal;
+}
+.store-selector .mc > .area-list > li > a {
+  padding: 2px 3px;
+}
+.store-selector .mc > .area-list > li.active > a {
+  color: #fff;
+  background-color: #ff4a00;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}

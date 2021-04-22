@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">新增人员</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">姓名</label>
+            <div class="col-xs-6">
+                <input type="text" class="form-control" required ng-model="item.name" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">电话</label>
+            <div class="col-xs-6">
+                <input type="text" class="form-control" id="telephone"  name="telephone" required ng-model="item.telephone"  ng-pattern=/^((0?1[35879]\d{9})|((0(10|2[1-9]|[3-9]\d{2}))?[1-9]\d{6,7}))$/  ng-model-options="{ updateOn: 'blur mouseleave'}">
+                <span style="color:red" ng-show="form.telephone.$error.pattern">请输入正确的电话号码</span>
+            </div>
+        </div>
+
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

@@ -1,0 +1,95 @@
+<!-- 考试记录 -->
+<div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">考试记录</h4>
+    </div>
+    <div class="panel-body" style="padding: 0px;">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                <tr>
+                    <th class="text-center">NO</th>
+                    <!-- <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(textRecord)"> -->
+                    <!-- <i class="glyphicon" ng-class="{'glyphicon-check':textRecord.checked,'glyphicon-unchecked':!textRecord.checked}"></i></span></th> -->
+                    <th>考试名称</th>
+                    <th>通过率</th>
+                    <th>平均分</th>
+                    <th>考试人群</th>
+                    <th>考试时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!textRecord.data  || textRecord.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                <tr ng-repeat="item in textRecord.data">
+                    <td class="text-center">{{$index + 1+textRecord.pageSize*textRecord.pageIndex}}</td>
+                    <!-- <td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td> -->
+                    <td style="white-space:normal; word-break:break-all;">{{item.text}}</td>
+                    <td>{{item.passRate || '-'}}</td>
+                    <td>{{item.avgScore || '-'}}</td>
+                    <td>
+                        <a href='javascript:void(0)' ng-click="showPerson(item,true)" class='btn btn-xs' style="color: blue;">查看</a>
+                    </td>
+                    <td>{{item.startTime}}--{{item.endTime}}</td>
+                    <td>
+                        <a href='javascript:void(0)' ng-click="batchAddModal(item,true)" class='btn btn-xs' style="color: blue;" ng-if="state==0">编辑</a>
+                        <a href='javascript:void(0)' ng-click="testResultModal(item)" class='btn btn-xs' style="color: blue;" ng-if="state==1">考试结果</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                    <div class="page"  style="font-size:12px;">
+                            <ul class="pagination pull-left" ng-show ="pageModel.totalPage">
+                                <li ><span style="height:31px;">每页
+                                  <select  style="width:80px;padding:0;border:none" type="number"   ng-model="pageModel.pageSize" ng-change="find(1)" ng-options="o[0] as o[1] for o in [[10,'&nbsp;&nbsp;&nbsp;10'],[20,'&nbsp;&nbsp;&nbsp;20'],[50,'&nbsp;&nbsp;&nbsp;50'],[100,'&nbsp;&nbsp;&nbsp;100'],[200,'&nbsp;&nbsp;&nbsp;200']]">
+                                  </select>条</span></li>
+                                <li ng-if="$first" role="button" ng-repeat-start="page in pageModel.pages track by $index"  ng-class="{disabled:pageModel.currentPage ==1}" ng-click="pageModel.currentPage >1 && find(pageModel.currentPage-1)"><a>«</a></li>
+                                <li ng-class="{active:page==pageModel.currentPage}" role="button">
+                                    <a ng-if="page>0" ng-click="find(page)">{{page}}</a>
+                                    <span ng-if="!(page>0)" style="border-top:none;border-bottom:none">{{page}}</span>
+                                </li>
+                                <li ng-if="$last" role="button" ng-repeat-end ng-class="{disabled:pageModel.currentPage == pageModel.totalPage}" ng-click="pageModel.currentPage < pageModel.totalPage && find(pageModel.currentPage+1)"><a>»</a></li>
+                                <li><span>共{{pageModel.totalRecord}}条记录</span></li>
+                            </ul>
+                        </div>
+            </div>
+        </div>
+
+    
+    <style>
+        .tihao {
+            background: lightgray;
+            padding: 3px;
+            border-radius: 5px;
+        }
+    
+        .leibie {
+            background: lightskyblue;
+            padding: 1px;
+            border-radius: 10px;
+        }
+    
+        .row.detail {
+            margin-left: 3px;
+            margin-right: 3px;
+            margin-bottom: 3px;
+            border: 1px solid transparent;
+            border-color: #ddd;
+            border-radius: 3px;
+        }
+    
+        .pt7 {
+            padding-top: 7px;
+        }
+    
+        table tr th,
+        table tr td {
+            text-align: center;
+        }
+        <style type="text/css">
+	.pagination>li>span:hover{background-color: #fff;cursor:text}
+</style>
+    </style>
+    

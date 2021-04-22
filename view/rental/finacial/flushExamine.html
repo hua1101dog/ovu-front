@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>账务管理</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="flushExamineCtrl">
+        <div class="page-title">
+            <div class="title_left" ng-show="pageType == 1">
+                <h3>冲抵审批</h3>
+            </div>
+            <div class="title_left" ng-show="pageType == 2">
+                <h3>冲抵查看</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color:#999999;">收款信息</div>
+                <div class="panel-body">
+                    <table style="color:#999999;border: 1px solid #ddd;width: 100%;">
+                        <tbody>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">租户名称：</td>
+                                <td style="border: 1px solid #ddd;">{{receivab.secondPartyName}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款日期：</td>
+                                <td style="border: 1px solid #ddd;">{{receivab.receiveDate}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款方式：</td>
+                                <td style="border: 1px solid #ddd;">{{receivab.paymentMethod| pamodel}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款金额：</td>
+                                <td style="border: 1px solid #ddd;">{{receivab.receiveAmount| number:2}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">预收金额：</td>
+                                <td style="border: 1px solid #ddd;">{{receivab.advanceAmount| number:2}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款账户：</td>
+                                <td style="border: 1px solid #ddd;">{{receivab.receiveAccount}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款银行：</td>
+                                <td style="border: 1px solid #ddd;">{{receivab.receiveBank}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">付款账号：</td>
+                                <td style="border: 1px solid #ddd;">{{receivab.payAccount}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">付款人：</td>
+                                <td style="border: 1px solid #ddd;">{{receivab.payUser}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">是否开票：</td>
+                                <td style="border: 1px solid #ddd;">{{receivab.isInvoice| invoice}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">发票号：</td>
+                                <td style="border: 1px solid #ddd;">{{receivab.invoiceNo}}</td>
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">收款人：</td>
+                                <td style="border: 1px solid #ddd;">{{receivab.receiveUserName}}</td>
+                            </tr>
+                            <tr style="color:#333333; height: 30px;">
+                                <td style="border: 1px solid #ddd;color: #999999;font-weight: bold;">本次冲抵金额：</td>
+                                <td style="border: 1px solid #ddd;">{{charge.chargeAmount| number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--<ul class="basaMsg_ul">
+                    <li class="form-group">
+                        <label>租户名称：</label>
+                        <span>{{receivab.secondPartyName}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>收款日期：</label>
+                        <span>{{receivab.receiveDate}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>收款方式：</label>
+                        <span>{{receivab.paymentMethod| pamodel}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>收款金额：</label>
+                        <span>{{receivab.receiveAmount| number:2}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>预收金额：</label>
+                        <span>{{receivab.advanceAmount| number:2}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>收款账户：</label>
+                        <span>{{receivab.receiveAccount}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>收款银行：</label>
+                        <span>{{receivab.receiveBank}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>付款账号：</label>
+                        <span>{{receivab.payAccount}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>付款人：</label>
+                        <span>{{receivab.payUser}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>是否开票：</label>
+                        <span>{{receivab.isInvoice| invoice}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>发票号：</label>
+                        <span>{{receivab.invoiceNo}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>收款人：</label>
+                        <span>{{receivab.receiveUserName}}</span>
+                    </li>
+                    <li class="form-group">
+                        <label>本次冲抵金额：</label>
+                        <span>{{charge.chargeAmount| number:2}}</span>
+                    </li>
+                </ul>-->
+                </div>
+            </div>
+            <div class="panel panel-default" ng-show="fromItem">
+                <div class="panel-heading" style="color:#999999;">可冲抵保证金</div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                        <thead class="title">
+                            <tr>
+                                <th>费项名称</th>
+                                <th>租赁资源</th>
+                                <th>收款金额</th>
+                                <th>可冲金额</th>
+                                <th>冲账金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="color:#333333;" ng-repeat="x in fromItem">
+                                <td>{{x.expenditureName||'租金'}}</td>
+                                <td>{{x.houseName}}</td>
+                                <td>{{x.receiveAmount| number:2}}</td>
+                                <td>{{x.lastDepositAmount| number:2}}</td>
+                                <td>{{x.chargeAmount| number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color:#999999;">应收明细</div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                        <thead class="title">
+                            <tr>
+                                <th>费项名称</th>
+                                <th>应收日期</th>
+                                <th>租赁资源</th>
+                                <th>账单周期</th>
+                                <th>应收金额</th>
+                                <th>已收金额</th>
+                                <th>减免金额</th>
+                                <th>未收金额</th>
+                                <th>本次收款金额</th>
+                                <th>欠费</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="toItem.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                            <tr style="color:#333333;" ng-repeat="x in toItem">
+                                <td>{{x.expenditureName||'租金'}}</td>
+                                <td>{{x.dateReceivable}}</td>
+                                <td>{{x.houseName}}</td>
+                                <td>{{x.billDateStart}}<span ng-if="x.billDateEnd">至</span>{{x.billDateEnd}}</td>
+                                <td>{{x.billPrice| number:2}}</td>
+                                <td>{{x.lastReceiveAmount| number:2}}</td>
+                                <td>{{x.lastReliefAmount| number:2}}</td>
+                                <td>{{x.lastUnreceiveAmount| number:2}}</td>
+                                <td>{{x.chargeAmount| number:2}}</td>
+                                <td>{{x.lastUnreceiveAmount - x.chargeAmount| number:2}}</td>
+                            </tr>
+                            <tr style="color:#333333;">
+                                <td>合计</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{{billPriceTotal| number:2}}</td>
+                                <td>{{receiveTotal| number:2}}</td>
+                                <td>{{reliefTotal| number:2}}</td>
+                                <td>{{unreceiveTotal| number:2}}</td>
+                                <td>{{chargeAmountTotal| number:2}}</td>
+                                <td>{{arrearsTotal| number:2}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-default" ng-show="(pageType == 2)&&(charge.status == 2)">
+                <div class="panel-heading" style="color:#999999;">驳回原因</div>
+                <div class="panel-body">{{charge.auditRemark}}</div>
+            </div>
+        </div>
+        <div class="modal-footer" ng-show="pageType == 2">
+            <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+        </div>
+        <ul class="ul_list" ng-show="pageType == 1">
+            <li class="inline_li">
+                <label for="">审批人：</label>
+                <p>{{user.nickname}}</p>
+            </li>
+            <li class="inline_li">
+                <label for="">审批意见：</label>
+                <textarea ng-model="remark" cols="30" rows="5" class="ng-pristine ng-untouched ng-valid ng-empty" aria-multiline="true" aria-invalid="false"></textarea>
+            </li>
+        </ul>
+        <div class="submitBtn_m" ng-show="pageType == 1">
+            <a ng-click="viod(1)" class="btn btn-primary">通过</a>
+            <a ng-click="viod(0)" class="btn btn-default">驳回</a>
+            <a class="btn btn-primary" ng-click="back()">返回</a>
+        </div>
+    </div>
+</body>
+
+</html>

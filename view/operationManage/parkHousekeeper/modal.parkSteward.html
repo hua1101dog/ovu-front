@@ -1,0 +1,178 @@
+<style>
+.div-group{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.div-panel{
+ 	width: 86px;
+    color: #989898;
+    background-color:#fff;
+    border: 1px solid #E6E9ED;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0;
+    margin-right: 15px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+ }
+ .div-active{
+    color: #fff;
+    background-color: #5891eb;
+ }
+ .a_house{
+ 	color: #009DDC;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 0;
+  }
+ .btn_search{ 
+ 	width: 80px;
+    color: #fff;
+    background-color: #5891eb;
+  }
+  .label_search{
+    color: #989898;
+    padding: 0 5px 0 8px;
+  }
+  .status_hasFix{
+    color: #ff747d;
+  }
+  .btn-oper{ 
+ 	background-color: #fff;
+    border: 1px solid #78c4ec;
+    color: #78c4ec;
+    padding: 3px 10px;
+  }
+  .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+  	height:45px; 
+  }
+</style>
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">{{item.id ? '编辑':'添加'}}管家</h4>
+   </div>
+   <div class="modal-body container-fluid form-horizontal">
+   	<div class="x_content" style="max-height:650px;overflow: auto;">
+		<form name="form" novalidate>
+			<div class="form-group">
+				<label class="col-xs-2 control-label required">姓名：</label>
+				<div class="col-xs-8">
+					<input class="form-control" readonly="readonly" ng-if="item.id" ng-model="item.personName" type="text">
+					<div class="input-group" ng-if="!item.id">
+						<input class="form-control" readonly="readonly" required  placeholder="选择人员" ng-model="item.personName" type="text" />
+						<span class="input-group-btn">
+							<button class="btn btn-default" ng-click="choosePerson()"><i class="fa fa-search"></i></button>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label">性别：</label>
+				<div class="col-xs-8">
+					<input class="form-control" readonly="readonly" ng-model="item.sex" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label">入职时间：</label>
+				<div class="col-xs-8">
+					<input class="form-control" readonly="readonly" ng-model="item.partinDay" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label">工号：</label>
+				<div class="col-xs-8">
+					<input class="form-control" readonly="readonly" ng-model="item.jobCode" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label">联系手机：</label>
+				<div class="col-xs-8">
+					<input type="text" class="form-control" readonly="readonly" ng-model="item.phone" placeholder="手机" />
+				</div>
+			</div>
+			<div class="form-group">
+                <label class="col-xs-2 control-label">QQ：</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" ng-model="item.qq" placeholder="qq" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label">微信：</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" ng-model="item.weiXin" placeholder="微信" />
+                </div>
+            </div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label required">服务范围：</label>
+				<div class="col-xs-8">
+					<span class="input-group-btn" title="添加服务分类"><button class="btn btn-default" ng-click="chooseSorting()"><i class="fa fa-search"></i></button></span>
+					<div class="sortingRange">
+						<div class="div-panel" ng-repeat="sr in initServiceRanges" title="{{sr.sortingName}}">{{sr.sortingName.length > 4 ? sr.sortingName.substring(0, 4)+"..." : sr.sortingName}}</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-2 control-label required">标签：</label>
+				<div class="col-xs-8">
+					<span class="input-group-btn" title="添加标签"><button class="btn btn-default" ng-click="chooseLabel()"><i class="fa fa-search"></i></button></span>
+					<div class="myLabels">
+						<div class="div-panel" ng-repeat="l in initLabels" title="{{l.label}}">{{l.label.length > 4 ? l.label.substring(0, 4)+"..." : l.label}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label">头像：</label>
+				
+				<div class="thumbnail col-xs-4" style="height: auto;min-height: 200px; width: 150px;padding:0;margin-left: 10px">
+					<img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(item.userIcon)}}"/>
+
+                    <div class="caption">
+                        <p>
+                            <button class="btn btn-warning height34" ng-click="clearPhoto(item,'userIcon')"><i
+                                    class="glyphicon glyphicon-remove"></i></button>
+                            <button class="btn btn-default height34" ng-click="addPhoto(item,'userIcon')"><i
+                                    class="glyphicon glyphicon-picture "></i></button>
+                        </p>
+                    </div>
+                </div>
+				<label class="col-xs-2 control-label">微信二维码：</label>
+				
+				<div class="thumbnail col-xs-4" style="height: auto;min-height: 200px; width: 150px;padding:0;margin-left: 10px">
+					<img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(item.weiXinCode)}}"/>
+
+                    <div class="caption">
+                        <p>
+                            <button class="btn btn-warning height34" ng-click="clearPhoto(item,'weiXinCode')"><i
+                                    class="glyphicon glyphicon-remove"></i></button>
+                            <button class="btn btn-default height34" ng-click="addPhoto(item,'weiXinCode')"><i
+                                    class="glyphicon glyphicon-picture "></i></button>
+                        </p>
+                    </div>
+				</div>
+			</div>	
+			<div class="form-group">
+				<label class="col-xs-2 control-label">管家介绍：</label>
+				<div class="col-xs-8">
+					<textarea type="text" cols="6" style="resize:vertical" class="form-control" ng-model="item.description"/>
+				</div>	
+			</div>		
+		</form>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary saveParkSteward" ng-click="saveParkSteward(form)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

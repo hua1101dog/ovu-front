@@ -1,0 +1,38 @@
+{
+    "success":"true",
+    "datas":{
+        "service_general":{
+            "operate_num":54,
+            "property_num":109,
+            "order_num":2251
+        },
+        "operate_pie":[
+            { "name": "总经办", "value": 1 },
+            { "name": "工程部", "value": 12 },
+            { "name": "设计部", "value": 4 },
+            { "name": "成本部", "value": 6 },
+            { "name": "招商部", "value": 16 },
+            { "name": "运营部", "value": 7 },
+            { "name": "财务部", "value": 3 },
+            { "name": "行政部", "value": 5 }
+        ],
+        "property_pie":[
+            { "name": "管理人员", "value": 14 },
+            { "name": "物业部", "value": 4 },
+            { "name": "秩序部", "value": 38 },
+            { "name": "客服部", "value": 6 },
+            { "name": "工程部", "value": 7 },
+            { "name": "保洁", "value": 40 }
+        ],
+        "order_pie":[
+            { "name": "设施设备巡检", "value": 24 },
+            { "name": "设施设备维保", "value": 0 },
+            { "name": "工程", "value": 106 },
+            { "name": "设施设备保养", "value": 0 },
+            { "name": "保洁", "value": 4 },
+            { "name": "秩序", "value": 38 },
+            { "name": "绿化", "value": 0 },
+            { "name": "客服", "value": 136 }
+        ]
+    }
+}

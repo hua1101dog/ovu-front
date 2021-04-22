@@ -1,0 +1,106 @@
+<div class="panel-own">
+    <button type="button" class="close" style="margin-right:10px" ng-click="showMenuList=!showMenuList">×</button>
+    <div class="row menulistSty">
+        <div class="form-inline">
+            <div class="form-group">
+                <input type="text" placeholder="请输入菜单名称" class="form-control" ng-model="menuName" />
+                <button class="btn btn-default" ng-click="findSearchMenu()">查询</button>
+
+            </div>
+        </div>
+    </div>
+    <div class="divLineSty"></div>
+    <div class="row menulistSty" ng-if="showSerachTitle">
+        <div>
+            <label class="title_own">以下是"{{menuName}}"相关的菜单</label>
+            
+        </div>
+        <div ng-if="!menuList.length" style="text-align: center">
+          没有符合条件的结果！
+        </div>
+    </div>
+    <div class="row menulistSty" ng-if="oftenUsedList.length&&!showSerachTitle">
+        <div>
+            <label class="title_own">最近访问</label>
+        </div>
+        <div>
+            <ul ng-repeat="item in oftenUsedList" class="ulList" >
+                <li>
+                    <a href="javascript:void(0)"  ng-click="selectMenu(item,$event)">
+                        {{item.text}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row menulistSty divList">
+        <ul  ng-repeat="item in menuList" class="ulColumn" style="margin-bottom: 30px;" ng-if="menuList.length&&!item.state.hide" >
+            <li class="title_own" ng-hide="item.state.hide">
+                <a href="javascript:void(0)" alt="" ng-class="{'aclick':item.nodes&&item.nodes.length}" ng-click="selectMenu(item,$event)">
+                    {{item.text}}
+                </a>
+            </li>
+            <tree-menu-list  node-list ="item.nodes" config="config" pnode="item" ></tree-menu-list>
+        </ul>
+       
+    </div>
+</div>
+<script type="text/ng-template" id="treeMenuList.html">
+	<ul ng-if="nodeList.length">
+            <li ng-repeat="node in nodeList"   ng-hide="node.state.hide" >
+                <a href="javascript:void(0);" alt=""  ng-class="{'aclick':node.nodes&&node.nodes.length}" ng-click="$parent.selectMenu(node,$event)"  >
+                   <span  ng-class="{'title_own':node.nodes.length}" >  {{node.text}}</span>
+                </a>
+                <tree-menu-list  node-list ="node.nodes"  ></tree-menu-list>
+            </li>
+        
+        </ul>
+        
+</script>
+<style>
+    .panel-own {
+        width: 60%;
+        max-height:95%;
+        margin-bottom: 50px;
+        overflow-y: scroll;
+        box-shadow: 8px 8px 10px  #aaa;
+        background: #F7F7F7;
+        padding: 20px
+    }
+    .aclick {
+        pointer-events: none
+    }
+    .menulistSty {
+        margin-top: 20px;
+        margin-left: 20px
+    }
+    .ulList{
+        width: 33.33%;
+        float: left;  
+    }
+
+    .divList {
+        
+        column-count: 3; 
+        column-gap: 0; 
+        
+    }
+    .ulColumn { 
+        -webkit-column-break-inside: avoid;
+        break-inside: avoid;
+    }
+  
+
+    .title_own {
+        font-size: 13px;
+        font-weight: 900;
+        line-height: 20px;
+        margin:9px,9px,0px,9px
+       
+    }
+    .divLineSty {
+        height: 1px;
+        background: #3498DB;
+        margin: 20px auto;
+    }
+</style>

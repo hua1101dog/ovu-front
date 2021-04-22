@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}系统帐号</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group" >
+            <label class="col-xs-4 control-label required">登录账号：</label>
+            <div class="col-xs-6">
+                <input type="text" class="form-control" ng-model="item.loginName" name="loginName" required
+                       ng-pattern="/^[A-Za-z0-9_]+$/"
+                    />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label required">昵称：</label>
+            <div class="col-xs-6">
+                <input type="text" class="form-control" ng-model="item.nickname" name="nickname" required/>
+            </div>
+        </div>
+        <div class="form-group" ng-if="!item.id">
+            <label class="col-xs-4 control-label required">初始密码：</label>
+            <div class="col-xs-6" uib-popover="6~50 characters!" popover-placement="top" popover-trigger="mouseenter">
+                <input  type="{{passType?'text':'password'}}" ng-init="item.password='888888'" ng-model="item.password" name = "password" class="form-control" placeholder="" required ng-minlength="6" ng-maxlength="50"  >
+                <button class="btn btn-default" style="position: absolute;right:17px;top:1px;height:32px;border:none" ng-click="passType = !passType">
+                    <i class="glyphicon" ng-class="{'glyphicon-eye-open':!passType,'glyphicon-eye-close':passType}"></i></button>
+            </div>
+        </div>
+        <div class="form-group" ng-repeat="module in item.modules" ng-if="module.checked==1">
+            <label class="col-xs-4 control-label">{{module.name}}：</label>
+            <div class="col-xs-8 mt7">
+					<span ng-repeat="role in module.roles" class="mr15" ng-class="{'text-success':role.checked,'text-muted':!role.checked}" role="button"
+                          ng-click="role.checked = !role.checked" >
+					<i class="glyphicon" ng-class="{'glyphicon-check':role.checked,'glyphicon-unchecked':!role.checked}" ></i>{{role.name}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">禁用账号：</label>
+            <div class="col-xs-6">
+                <label class="i-switch i-switch-md m-t-xs m-r">
+                    <input type="checkbox"  ng-model="item.disable"
+                           ng-true-value="1" ng-false-value="0">
+                    <i></i>
+                </label>
+                <a id="resetPwdBtn" class="btn btn-link btn-sm" style="margin-bottom: 15px;" ng-click="resetPassword()" ng-if="item.ID">
+                    <i class="fa fa-retweet"></i>重置密码
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

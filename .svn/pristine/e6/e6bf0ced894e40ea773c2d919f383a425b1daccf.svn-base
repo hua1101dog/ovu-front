@@ -1,0 +1,124 @@
+	<!--新增修改弹出框  -->
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="vm.cancel()">×</button>
+		<h4 class="modal-title">请选择自发工单</h4>
+    </div>
+    <div class="modal-body container-fluid">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h5>已选择
+					<a class="btn btn-primary" href="javascript:void(0)" ng-click="vm.batchDel()" aria-label="Delete">
+						<i class="fa fa-trash-o" aria-hidden="true"></i>
+					</a>
+				</h5>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<table class="table table-condensed table-hover">
+					<thead class="title">
+					<tr>
+						<th class="text-center" style="width:20px">
+							<span role="button" ng-click="vm.selectedItemchecked=!vm.selectedItemchecked;checkAllList(vm.selectedItem,vm.selectedItemchecked)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':vm.selectedItemchecked,'glyphicon-unchecked':!vm.selectedItemchecked}">
+								</i>
+							</span>
+						</th>
+						<th class="text-center">工单名称</th>
+						<th>工单状态</th>
+						<th>执行时间</th>
+						<th>创建者</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in vm.selectedItem">
+							<td>
+								<i role="button" ng-click="checkOne(item)"
+								   ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+								   class="glyphicon"></i>
+							</td>
+							<td>{{item.name}}</td>
+							<td>{{item.status | keyToValue:unitStatusDict}}</td>
+							<td>{{item.execTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+							<td>{{item.createPerson}}</td>
+							<td>
+								<a href='javascript:void(0)' ng-click='vm.del(item)' class='btn btn-xs'>
+									<span class='fa fa-trash'></span>删除
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h5>
+					<div class="form-inline" style="margin-bottom: 10px">
+						<div class="form-group">
+							<label>工单列表</label>
+							<input style="width: 140px;" type="datetime" class="form-control Wdate"  ng-model="search.startTime"  placeholder="开始日期" onchange=""
+								   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+							<label>-</label>
+							<input style="width: 140px;" type="datetime" class="form-control Wdate"  ng-model="search.endTime"  placeholder="结束日期" onchange=""
+								   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.Wdate').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+						</div>
+						<button class="btn btn-default" ng-click="find(1)">查询</button>
+						<button class="btn btn-default" ng-click="vm.batchAdd()">批量添加</button>
+					</div>
+				</h5>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<table class="table table-condensed table-hover">
+					<thead class="title">
+					<tr>
+						<th class="text-center" style="width:20px">
+							<span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}">
+								</i>
+							</span>
+						</th>
+						<th class="text-center">工单名称</th>
+						<th>工单状态</th>
+						<th>执行时间</th>
+						<th>创建者</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="pageModel.data.length == 0">
+							<td colspan="100" class="text-center">暂无记录</td>
+						</tr>
+						<tr ng-repeat="item in pageModel.data">
+							<td>
+								<i role="button" ng-click="checkOne(item)"
+								   ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+								   class="glyphicon"></i>
+							</td>
+							<td>{{item.name}}</td>
+							<td>{{item.status | keyToValue:unitStatusDict}}</td>
+							<td>{{item.execTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+							<td>{{item.createPerson}}</td>
+							<td>
+								<a href='javascript:void(0)' ng-click='vm.add(item)' class='btn btn-xs'>
+									<span class='fa fa-plus'></span>添加
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="vm.save()">确定</button>
+		<button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+	</div>
+	<style>
+		.panel-default{
+			margin-bottom: 0;
+		}
+	</style>

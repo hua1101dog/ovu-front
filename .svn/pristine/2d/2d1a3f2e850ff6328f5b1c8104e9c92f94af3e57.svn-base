@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>综合报表</title>
+    <link rel="stylesheet" href="bigScreen/operational/comprehensiveInfo.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="comprehenInfoCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>综合报表</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="x_panel">
+                <div>
+                    <div>
+                        <div class="panel panel-default" style="margin-bottom: 0px;margin-top: 10px;">
+                            <div class="panel-body">
+                                <form name="form" novalidate>
+                                    <div class="form-inline" style="margin:15px 8px">
+                                        <button class="btn btn-default pull-right btn-search mt" ng-click="save(form)">保存</button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-12 control-label"><h4 class="title-h4">运营实时数据</h4></label>
+                                    </div>
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">资产安全预警：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.assetSecurityWarning" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-12 control-label"><h4 class="title-h4">产业数据</h4></label>
+                                    </div> 
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">自有企业：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.ownEnterprise" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>                                  
+                                    <div class="form-group">
+                                        <label class="col-xs-12 control-label"><h4 class="title-h4">设施设备数据</h4></label>
+                                    </div>                                   
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">地上停车位：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.groundParkingTotal" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">地下停车位：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.undergroundParkingTotal" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">资产总数：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.assetTotal" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">已授权资产：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.authorizedAssetTotal" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">未授权资产：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.unauthorizedAssetTotal" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>                                  
+                                    <div class="form-group">
+                                        <label class="col-xs-12 control-label"><h4 class="title-h4">企业服务数据</h4></label>
+                                    </div>   
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">总服务量：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.scServiceTotal" type="number"
+                                                class="form-control input-text" ng-disabled=true 
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">市场对接：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.scMarketDocking" type="number"
+                                                class="form-control input-text"  ng-blur = "getTotal()"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">宣传推广：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.scPublicity" type="number" 
+                                                class="form-control input-text" ng-blur = "getTotal()" 
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">金融服务：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.scFinancialService" type="number" 
+                                                class="form-control input-text" ng-blur = "getTotal()"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">人才服务：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.scTalentService" type="number"
+                                                class="form-control input-text" ng-blur = "getTotal()"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">投诉处理：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.scComplaintHandling" type="number"
+                                                class="form-control input-text" ng-blur = "getTotal()"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>   
+                                    <div class="form-group">
+                                        <label class="col-xs-12 control-label"><h4 class="title-h4">生活配套数据</h4></label>
+                                    </div>         
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">就餐人数：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.lsDinerTotal" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">金额：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.lsAmount" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">餐厅数：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.lsRestaurantsTotal" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">入住人数：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.lsOccupantPeople" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">入住房间：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.lsOccupantHouse" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">空置房间：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.lsVacantHouse" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">机场人次：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.lsTravelAir" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">高铁人次：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.lsTravelTrain" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">其他：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="compParams.lsTravelOther" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="9999999999">
+                                        </div>
+                                    </div>                
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!--选择巡查项弹出框  -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">设置路线名称</h4>
+</div>
+<div class="modal-body container-fluid">
+    <form name="form" novalidate class="form-horizontal">
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">路线名：</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.wayName" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">路线分类</label>
+            <div class="col-xs-8">
+                <select class="form-control" required  ng-model="item.wayClassify"
+                ng-options="o.dicCode as o.dicItem for o in videoClassList"
+              >
+                <option value="">--请选择--</option>
+            </select>
+            </div>
+         </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required" style="text-align:right">截图张数：</label>
+
+            <div class="col-xs-6">
+                <input type="number" class="form-control" required ng-model="item.captureNum" name="captureNum" max="1"
+                    placeholder='最多可设置1张' min="1" ng-pattern="/^[0-1]$/">
+               <!--  <span style="color:red" ng-show="form.captureNum.$error.pattern">最少设置1张，最多可设置3张</span> -->
+
+            </div>
+            <span class="col-xs-3">
+                <a class="btn btn-primary" style="margin-bottom: 10px;" href="javascript:void(0)" ng-click="addTime()"
+                    aria-label="Add">
+                    <i class="glyphicon glyphicon-plus" aria-hidden="true">时间点</i>
+                </a>
+            </span>
+        </div>
+       
+        <div class="form-group" ng-repeat="v in item.timeList">
+            <label class="col-xs-3 control-label required" style="text-align:right">截图时间点：</label>
+            <div class="col-xs-6">
+                <input type="datetime" id="d1" required class="form-control Wdate" ng-model="v.time" wdate-way
+                    onchange="">
+
+            </div>
+            <span class="col-xs-3">
+                <a class="btn btn-primary" href="javascript:void(0)" style="display:  block;width:36px"
+                    ng-click="delTime(v)" aria-label="Delete">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </a>
+            </span>
+        </div>
+       
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .list-group-item.active,
+    .list-group-item.active:focus,
+    .list-group-item.active:hover {
+        background-color: #337ab7;
+        border-color: #337ab7;
+    }
+
+    .b-none {
+        border-left: 0;
+        border-right: 0;
+    }
+
+    .a-icon {
+        float: right;
+        color: #0ce496;
+        width: 1.28571429em;
+        text-align: center;
+    }
+</style>

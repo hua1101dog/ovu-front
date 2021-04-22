@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>APP内测配置</title>
+    <link rel="stylesheet" href="integratManage/forceUpdate/forceUpdateIndex.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="forceUpdateIndexCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>APP内测配置</h3>
+            </div>
+        </div>
+        <div>
+            <div class="x-panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>android版本</label>
+                        <input type="text" ng-model="search.androidVersion" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>ios版本</label>
+                        <input type="text" ng-model="search.iosVersion" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>标题</label>
+                        <input ng-model="search.title" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                            type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>生效状态</label>
+                        <select class="form-control" style="width: 180px" ng-model="search.status"
+                            ng-options="o.value as o.text for o in stateOut">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-default" ng-click="query()">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default" style="margin-bottom: 0;">
+                <div class="panel-heading">APP版本列表
+                    <button class="btn btn-primary pull-right" ng-click="showEditModal()">新增</button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center">No.</th>
+                                <th>android版本</th>
+                                <th>ios版本</th>
+                                <th>标题</th>
+                                <th>状态</th>
+                                <th>创建人</th>
+                                <th>创建时间</th>
+                                <th>修改时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0 || !pageModel.data">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data" class="ng-scope">
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td>{{item.androidVersion}}</td>
+                                <td>{{item.iosVersion}}</td>
+                                <td>{{item.title}}</td>
+                                <td>{{item.status | takeEffect}}</td>
+                                <td>{{item.createName}}</td>
+                                <td>{{item.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td>{{item.updateTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td>
+                                    <div>
+                                        <a href='javascript:void(0)' ng-click='showEditModal(item)'
+                                            class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+                                        <a href="javascript:void(0)" ng-click="confirm(item)"
+                                            class="btn btn-xs"><span class="fa fa-edit"></span>{{item.status ===0 ?"生效":"取消"}}</a>
+                                        <a href="javascript:void(0)" ng-click="checkStaffList(item)"
+                                            class="btn btn-xs"><span class="fa fa-send-o"></span>查看人员</a>
+                                            <a href='javascript:void(0)' ng-click='cancel(item)'
+                                                class='btn btn-xs'><span class='fa fa-edit'></span>删除</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'" class="ng-scope">
+                            <style type="text/css" class="ng-scope">
+                                .pagination>li>span:hover {
+                                    background-color: #fff;
+                                    cursor: text
+                                }
+                            </style>
+                        </ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    .tab_index {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 0;
+    }
+
+    .tab_index li {
+        width: 86px;
+        color: #989898;
+        background-color: #fff;
+        border: 1px solid #e6e6ed;
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 0;
+        margin-right: 15px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    .tab_index li.act {
+        color: #fff;
+        background-color: #5891eb;
+    }
+
+</style>
+
+</html>

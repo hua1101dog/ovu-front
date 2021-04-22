@@ -1,0 +1,106 @@
+<!-- 设置亲属 -->
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()">×</button>
+    <!-- <h4 class="modal-title">操作亲属</h4> -->
+    <h4 class="modal-title">查看亲属</h4>
+</div>
+<!-- <div class="modal-body container-fluid">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <span>
+            <button class="btn btn-primary" ng-click="vm.addTodoItem()">添加亲属</button>
+            <a class="btn btn-primary" href="javascript:void(0)" ng-click="vm.batchDelTodoItem()" aria-label="Delete">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </a>
+        </span>
+    </div>
+</div> -->
+<div class="panel panel-default">
+    <form name="form">
+        <div class="panel-body" style="height:500px;overflow:auto">
+            <table class="table table-striped table-hover" style="margin-bottom: 0px; ">
+                <thead class="title">
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <!-- <th class="text-center" style="width:20px">
+                            <span role="button" ng-click="checkAll(pageModel)">
+                                <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                            </span>
+                        </th> -->
+                        <th>亲属姓名</th>
+                        <th>亲属电话</th>
+                        <th>角色</th>
+                        <!-- <th>操作</th> -->
+
+                    </tr>
+                </thead>
+               <!--  <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data == 0">
+                        <td colspan="100" class="text-center">暂无亲属</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>
+                            <i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                class="glyphicon"></i>
+                        </td>
+                        <td>
+                            <div>
+                                <input type="text" class="form-control input-sm" ng-model="item.relationName" required>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <input type="text" class="form-control input-sm" ng-model="item.relationTel">
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <select id="isRequired" class="form-control" ng-change="" required ng-model="item.relationRole" ng-options="o[0] as o[1] for o in [[0,'父母'],[1,'子女'],[2,'其他']]">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <a href='javascript:void(0)' ng-click='vm.delTodoItem(item)' class='btn btn-xs'>
+                                <span class='fa fa-trash'></span>删除
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>  --> 
+             
+                <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data == 0">
+                        <td colspan="100" class="text-center">暂无亲属</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.relationName}}</td>
+                        <td>{{item.relationTel}}</td>
+                        <td>{{item.relationRole | keyToValue:relationRoleDict}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div> -->
+        </div>
+    </form>
+</div>
+</div>
+<div class="modal-footer">
+    <!-- <button class="btn btn-primary" ng-click="vm.save(form,item)">确定</button> -->
+    <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+</div>
+<style>
+    .panel-default {
+        margin-bottom: 0;
+    }
+
+    .x_title.active,
+    td.active {
+        color: blue;
+
+
+    }
+</style>

@@ -1,0 +1,56 @@
+<!-- 数据源管理 -->
+<div class="clearfix" ng-controller="dataSourceCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>数据源管理</h3>
+        </div>
+    </div>
+    
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            数据源管理列表
+            <button class="btn btn-primary pull-right" ng-click="showAddModal()" ng-disabled="!search.parkId">新增数据源</button>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th>数据源名称</th>
+                        <th>数据源类型名称</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">
+                            {{$index + 1+pageModel.pageSize*pageModel.pageIndex}}
+                        </td>
+                        <td>{{item.datasourceName}}</td>
+                        <td>{{item.datasourceTypeName}}</td>
+                       <td class="clearfix">
+                            <a href="javascript:void(0)" ng-click="showAddModal(item)">
+                                <span class='fa fa-edit'></span>编辑
+                            </a>
+                            <span class="pipe"></span>
+
+                            <a href="javascript:void(0)" ng-click="toDel(item)">
+
+                                <span class='fa fa-trash'></span>刪除
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="page-footer clearfix">
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+</div>

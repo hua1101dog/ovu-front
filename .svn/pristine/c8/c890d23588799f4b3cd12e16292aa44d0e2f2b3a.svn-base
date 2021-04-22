@@ -1,0 +1,143 @@
+<div class="panel panel-default" style="display: grid;" id="workPlanSet_table">
+    <div class="panel-heading">工作计划列表
+        <button class="btn btn-primary pull-right" ng-if=" !showDetail"
+            ng-click="showEditModal()">新增事项</button>
+        <button class="btn btn-info pull-right" ng-if="!showDetail"
+            ng-disabled="!hasChecked(pageModel)" ng-click="distributeModal('zx') && !showDetail">批量设置执行人</button>
+        <button class="btn btn-info pull-right" ng-if=" !showDetail"
+            ng-disabled="!hasChecked(pageModel)" ng-click="distributeModal('gl')">批量设置管理人</button>
+        <button class="btn btn-danger pull-right" ng-if=" !showDetail"
+            ng-disabled="!hasChecked(pageModel)" ng-click="delAll()">批量删除</button>
+        <button class="btn btn-warning pull-right" ng-if=" !showDetail"
+            ng-disabled="!hasChecked(pageModel)" ng-click="frozeAll()">批量冻结</button>
+        <button class="btn btn-primary pull-right" ng-if=" !showDetail"  ng-disabled="!hasChecked(pageModel) "
+            ng-click="submitAll()">批量提交审核</button>
+    </div>
+    <div class="panel-body" style="overflow: auto;">
+        <table class="table table-hover text-left" style="margin-top: 10px;">
+            <thead>
+                <tr>
+                    <th class="text-center">NO</th>
+                    <th ng-if="!showDetail" class="text-center" style="width:20px"><span role="button"
+                            ng-click="checkAll(pageModel)">
+                            <i class="glyphicon"
+                                ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                    </th>
+                    <th>工作分类</th>
+                    <th>工作事项</th>
+                    <th>事项描述</th>
+                    <th>空间</th>
+                    <th>设备</th>
+                    <th>执行人</th>
+                    <th>协助人</th>
+                    <th>管理人</th>
+                    <th>频次</th>
+                    <th ng-if="!showDetail">冻结状态</th>
+                    <th ng-if="!showDetail">审批状态</th>
+                    <th ng-if="!showDetail">审批意见</th>
+                    <th ng-if="!showDetail">操作</th>
+                    <th ng-if="showDetail">读作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr>
+                <tr ng-repeat="item in pageModel.data">
+                    <td class="text-center" ng-if="!showDetail">
+                        {{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td class="text-center" ng-if="showDetail">
+                            {{$index + 1}}</td>
+                    <td ng-if="!showDetail"><i role="button" ng-click="checkOne(item)"
+                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                            class="glyphicon"></i></td>
+                    <td>{{item.wrokTypeName}}</td>
+                    <td >
+                        <div class="overHidden" title=" {{item.workTaskName}}">
+                            {{item.workTaskName}}
+                        </div></td>
+                    <td><div class="overHidden" title=" {{item.description}}">
+                        {{item.description}}
+                    </div></td>
+                    <td style="min-width: 120px;">{{item.address}}</td>
+                    <td  ><div class="overHidden" title=" {{item.equipmentNames}}">
+                        {{item.equipmentNames}}
+                    </div></td>
+                    <td>
+                        <a href='javascript:void(0)' ng-if="showDetail" 
+                            class=' btn-link overHidden'> {{item.execPersonNames?  item.execPersonNames.join(',') : ''}}</a>
+                            <a href='javascript:void(0)' ng-click='distributeModal("zx",item)' ng-if="!showDetail"
+                        class=' btn-link overHidden'> {{item.execPersonNames? item.execPersonNames.join(',') : '选择人员'}}</a>
+                    </td>
+                  
+                    <td><a href='javascript:void(0)'   ng-if="!showDetail"  ng-click='distributeModal("xz",item)'
+                            class=' btn-link overHidden'> {{item.assisPersonNames? item.assisPersonNames.join(',') : '选择人员'}}</a>
+                            <a href='javascript:void(0)'   ng-if="showDetail"
+                            class='btn-link overHidden'> {{item.assisPersonNames ? item.assisPersonNames.join(',') : ''}}</a>
+                    </td>
+                    <td><a href='javascript:void(0)' ng-click='distributeModal("gl",item)' ng-if="!showDetail"
+                            class='btn-link overHidden'> {{item.managerName ? item.managerName :'选择人员'}}</a>
+                            <a href='javascript:void(0)'  ng-if="showDetail "
+                            class=' btn-link overHidden'> {{item.managerName ? item.managerName :''}}</a>
+                         
+                          
+                            
+                    </td>
+                    <td   ng-if="!showDetail " ><a href='javascript:void(0)' ng-click='setFrequency(item)' class='btn btn-xs btn-link'> {{item.execCycle ? (item.execCycle | keyToValue:frequencyDict) :'设置频次'}}{{item.execNum?item.execNum+'次':''}}</a></td>
+                    <td   ng-if="showDetail"><a href='javascript:void(0)'  class='btn btn-xs btn-link' >{{item.execCycle ? (item.execCycle | keyToValue:frequencyDict) :''}}{{item.execNum?item.execNum+'次':''}}</a></td>
+                    <td  ng-if="!showDetail">{{item.is_frozen==1?'已冻结':''}}</td>
+                    <td  ng-if="!showDetail">{{item.status | keyToValue:approvalStatusDict}}</td>
+                    <td  ng-if="!showDetail"><a href='javascript:void(0)' ng-click='showDetailModal(item)'
+                        class='btn btn-xs btn-link'> {{item.remark ?'详情':''}}</a>
+                </td  >
+                    <td ng-if="!showDetail" style="min-width: 120px;">
+                        <a href='javascript:void(0)' ng-if="hasPower('编辑') ||  item.hasAuthority "
+                            ng-click='showEditModal(item)' class='btn btn-xs'><span
+                                class='fa fa-edit'></span>编辑</a>
+                        <a href='javascript:void(0)' ng-if="hasPower('编辑') ||  item.hasAuthority" ng-click='del(item)'
+                            class='btn btn-xs text-danger'><span
+                                class='fa fa-trash'></span>删除</a>
+                        <a href='javascript:void(0)' ng-if="hasPower('编辑') || item.hasAuthority"
+                            ng-click='frozeOrUnfroze(item)' class='btn btn-xs text-warning'>
+                            <span class='fa'
+                                ng-class="{'fa-lock':item.is_frozen!=1,'fa-unlock':item.is_frozen==1}"></span>
+                            {{item.is_frozen==1?'解冻':'冻结'}}</a>
+                        <a href='javascript:void(0)' ng-click='showWorkunitsModal(item)'
+                            class="btn btn-xs text-success"><span
+                                class='fa fa-search'></span>工单</a>
+                    </td>
+                    <td ng-if="showDetail"> 
+                        <div style="min-width: 100px;">
+                            {{item.execCycle ? (item.execCycle | keyToValue:frequencyDict) :''}}
+                            {{item.execDate ? (item.execDate + (item.execCycle | keyToValue:frequencyDictDetail)) :''}}
+                            {{item.sendTime ?','+item.sendTime+'派发':''}}
+                        
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-footer clearfix" ng-if="(!showDetail || hasPage) && pageModel.data && pageModel.data.length">
+            <page-pro page-model="pageModel"></page-pro>
+        </div>
+    </div>
+</div>
+<style>
+  #workPlanSet_table table tr th,
+  
+  #workPlanSet_table table tr td{
+      text-align: left;
+  }
+  .overHidden{
+    width: 100px;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: -o-ellipsis-lastline;
+
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  }
+</style>

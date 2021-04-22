@@ -1,0 +1,49 @@
+<div ng-cloak>
+    <header class="main-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-sm-3">
+                    <img src="../img/bg.png">
+                </div>
+                <div class="col-lg-9 col-sm-9 text-right">
+                    <span class="white">
+                       <!-- <i class="fa fa-bell fa-fw fa-lg "></i>
+                        <span class="iconRight">2</span>-->
+                        欢迎光临电梯政务云服务平台！今天是{{today}}
+                    </span>
+                    <!--<span uib-dropdown class="m-l-xl font-bold text-md">
+                      <a href id="simple-dropdown" uib-dropdown-toggle>
+                        你好粮食局的老大! <span class="caret"></span>
+                      </a>
+                      <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                        <li>
+                          <a href>hhaha</a>
+                        </li>
+                      </ul>
+                    </span>-->
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="content-wrap m-t">
+        <div class="container-fluid">
+            <div ui-view class="" id="routeBody" ></div>
+        </div>
+    </section>
+</div>
+<footer class="myfooter">
+    <div class="container">
+        <p class="text-muted text-center" style="margin: 14px 0;">建设单位：武汉市质量技术监督局|技术支持：武汉光谷联合集团有限公司</p>
+    </div>
+</footer>
+<!--头部end-->
+<!--<div class="leftDiv bg-black" id="menuDiv">
+    <ul class="topMenu " style="">
+        <li ng-repeat="menu in menuList">
+            <a ui-sref="{{menu.url}}" ng-class="{active:$state.includes('{{menu.url}}')}">
+                <i class="{{menu.icon}}"></i>
+                <div>{{menu.name}}</div>
+            </a>
+        </li>
+    </ul>
+</div>-->

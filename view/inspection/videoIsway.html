@@ -1,0 +1,176 @@
+<div ng-controller="videoIswayCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>巡查路线</h3>
+        </div>
+
+    </div>
+
+    <div class="row" style="padding:15px">
+        <div class="col-md-8 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <span>室外</span>
+            </div>
+            <div class="x_panel" style="padding:5px;">
+                <!-- <map_video_way is-add-way=true></map_video_way> -->
+                <map-park-component1 is-add-way=true map_data="mapData_way"></map-park-component1>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12" style="padding:0 0 0 15px;">
+            <div class="x_panel">
+                <div class="x_title" style="height:45px;padding-bottom: 10px">
+                    <span style="font-size:18px">{{deptName}}巡查路线</span>
+                    <button class="btn btn-default pull-right" ng-click="del()" style="margin-top:-3px;"
+                        ng-if="search.insWayId">删除路线</button>
+                    <button class="btn btn-primary pull-right " ng-click="getWay()" style="margin-top:-3px;"
+                        ng-if="startAddWay" >取消</button>
+                    <button class="btn btn-primary pull-right " ng-click="save()" style="margin-top:-3px;"
+                        ng-if="startAddWay" ng-disabled="!isSave">保存</button>
+                    <button class="btn btn-primary pull-right " ng-click="addWayPoint(true)" style="margin-top:-3px;"
+                        ng-if="!startAddWay&&search.insWayId">编辑</button>
+                    <button class="btn btn-primary pull-right" ng-click="addWayPoint(false)" style="margin-top:-3px;"
+                        ng-class="{'addColor':startAddWay}" ng-if="!startAddWay">添加路线</button>
+
+
+                </div>
+                <div class="x_content">
+                    <div>
+                        <select class="form-control" ng-change="getWay()" ng-model="search.insWayId"
+                            ng-options="o.insWayId as o.wayName for o in isnWayList">
+                            <option value="">--请选择路线--</option>
+                        </select>
+
+                    </div>
+                    <div class="x_panel" style="margin-top:10px">
+                        <ul class="icon-item">
+                            <li ng-repeat="item in selecedPoints  track by $index"
+                                style="height: 40px;line-height: 30px;">
+                                <i class="layui-icon step-item-head">{{$index-0+1}}</i>
+                            </li>
+                        </ul>
+                        <ul   style="margin-top:3px;margin-left: 40px;">
+                            <li style="height: 40px;line-height: 30px;"
+                                ng-repeat="item in selecedPoints  track by $index">
+                                <span class="step-item-main-title content_video" uib-tooltip="{{item.equipmentSimpleName}}"
+                                    tooltip-placement="bottom-left">{{item.equipmentSimpleName}}</span>
+                                <button class="btn btn-sm btn-default pull-right"
+                                    ng-click="delItem(item,$event)" ng-disabled="!startAddWay">删除</button>
+                                <!-- <button class="btn btn-sm btn-default pull-right" style="cursor: drag" ng-drag="true"
+                                    ng-drag-data="item">拖拽</button> -->
+                            </li>
+                        </ul>
+                      
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+<style>
+    .amap-touch-toolbar .amap-zoomcontrol {
+        bottom: 10px;
+    }
+
+    .b-none {
+        border-left: 0;
+        border-right: 0;
+    }
+
+    .a-icon {
+        float: right;
+        color: #0ce496;
+        width: 1.28571429em;
+        text-align: center;
+    }
+
+    .userDiv {
+        text-align: center;
+        padding: 6px;
+    }
+
+    .userDiv label {
+        margin-top: 5px;
+        padding: 0 6px;
+        border-radius: 6px 6px;
+    }
+
+    .icon-item {
+        width: 10%;
+        float: left;
+        text-align: center
+    }
+
+    .layui-icon {
+        font-family: layui-icon !important;
+        font-size: 16px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .step-item {
+        line-height: 26px;
+        position: relative;
+        background: #ffffff;
+        float: left;
+        width: 90%
+    }
+
+
+    .step-item-head {
+        position: relative;
+        display: inline-block;
+        /* line-height: 30px; */
+        width: 30px;
+        text-align: center;
+        vertical-align: top;
+        color: #ffffff;
+        border: 1px solid #009DD9;
+        border-radius: 50%;
+        background: #009DD9;
+    }
+
+    .icon-item li:first-child .step-item-head {
+        background: #009900;
+        border: 1px solid #009900;
+    }
+
+    .icon-item li:last-child .step-item-head {
+        background: #FF0000;
+        border: 1px solid #FF0000;
+    }
+
+    .step-item-main-title {
+        color: #555555;
+        margin-left: 40px;
+        font-size: 14px
+    }
+
+    .btn-group-sm>.btn,
+    .btn-sm {
+        /* padding: 2px 8px; */
+        font-size: 12px;
+        line-height: 14px;
+        border-radius: 3px;
+        width: 47px;
+        height: 26px;
+    }
+
+    .content_video {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        /* line-height: 30px; */
+    }
+
+    .x_panel>.x_title>button.addColor {
+        background-color: #ffa200
+    }
+</style>

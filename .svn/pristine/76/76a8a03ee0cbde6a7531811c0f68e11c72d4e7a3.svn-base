@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>能源空调</title>
+</head>
+<body>
+<div id="airConditionerId" ng-controller="airConditionerCtl" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>能源空调</h3>
+        </div>
+    </div>
+    <div class="row">
+            <div class="x_panel" >
+            <div class="panel panel-default">
+                <div class="panel-heading">导入企业能源空调数据 <strong><a href="/ovupark/airconditioner.xlsx"
+                        style="margin-left: 15px" class="btn-link">企业能源空调模板</a></strong>
+                </div>
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <button class="btn btn-info" ng-click="uploadAirConditionerInfo()">文件导入</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="form-group">
+                    <label class="control-label">分期/分区：</label>
+                    <!-- <select class="form-control"  name="STAGE_ID"  ng-model="search.stageId" ng-change="changeStage()" ng-options="o.ID as o.STAGE_NAME for o in StageList">
+                        <option value="">---期---</option>
+                    </select> -->
+                    <input type="text" ng-model="search.stageId" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">楼栋：</label>
+                    <!-- <select class="form-control"  name="BUILD_ID"  ng-model="search.floorId" ng-change="changeBuild()" ng-options="o.iD as o.fLOOR_NAME for o in BuildList" >
+                        <option value="">---栋---</option>
+                    </select> -->
+                    <input type="text" ng-model="search.floorId" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">楼层：</label>
+                    <!-- <select class="form-control"  name="GROUND_NUMBER" ng-model="search.groundNum" ng-change="changeNum()" ng-options="o as o+'层' for o in GroundList" >
+                        <option value="">---层---</option>
+                    </select> -->
+                    <input type="text" ng-model="search.groundNum" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>客户名称</label>
+                    <input type="text" ng-model="search.customerName" class="form-control" />
+                </div>
+                <button class="btn btn-default" ng-click="find(1)" >查询</button>
+            </div>
+            <div class="panel panel-default" style="margin-top: 10px;">
+                <div class="panel-heading" style="color:#999999;">
+                    能源空调信息列表
+                    <!-- <button class="btn btn-primary pull-right" ng-click="showEditModal()">新增水表</button> -->
+                    <!-- <button class="btn btn-info pull-right" style="background-color:#5692ea;" ng-click="syncWaterMeterData();" >同步水表信息</button> -->
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 20px;color:#999999;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center">NO.</th>
+                                <th>客户名称</th>
+                                <th>关联空间</th>
+                                <th>建筑面积（m2）</th>
+                                <th>用能面积（m2）</th>
+                                <th>起码</th>
+                                <th>止码</th>
+                                <th>正常用量（KWh）</th>
+                                <th>正常单价</th>
+                                <th>正常用能费用（元）</th>
+                                <th>加班用量（KWh）</th>
+                                <th>加班单价</th>
+                                <th>加班用能费用（元）</th>
+                                <th>总用量（KWh）</th>
+                                <th>月用能费（元）</th>
+                                <th>其他费用（元）</th>
+                                <th>实际总费用（元）</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                            <tr ng-repeat="item in pageModel.data" style="color:#333333;">
+                                <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td>{{item.customerName}}</td>
+                                <td>
+                                    <!-- {{stageMap[(item.stageId)]}}
+                                    {{floorMap[(item.floorId)]}}
+                                    {{item.groundNum}}层
+                                    {{houseMap[(item.houseId)]}} -->
+                                    {{item.stageId}}
+                                    {{item.floorId}}
+                                    {{item.groundNum}}层
+                                    {{item.houseId}}
+                                </td>
+                                <td>{{item.coveredarea}}</td>
+                                <td>{{item.energyarea}}</td>
+                                <td>{{item.preflow}}</td>
+                                <td>{{item.nowflow}}</td>
+                                <td>{{item.energyuse}}</td>
+                                <td>{{item.price}}</td>
+                                <td>{{item.cost}}</td>
+                                <td>{{item.overtimeuse}}</td>
+                                <td>{{item.overtimeprice}}</td>
+                                <td>{{item.overtimecost}}</td>
+                                <td>{{item.totalenergyuse}}</td>
+                                <td>{{item.monthcost}}</td>
+                                <td>{{item.othercost}}</td>
+                                <td>{{item.totalcost}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'" class="ng-scope">
+                        <style type="text/css" class="ng-scope">
+                            .pagination>li>span:hover{background-color: #fff;cursor:text}
+                        </style>
+                    </ng-include>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <%@ include file="/common/modal.industry.tree.jsp" %> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+</body>
+</html>

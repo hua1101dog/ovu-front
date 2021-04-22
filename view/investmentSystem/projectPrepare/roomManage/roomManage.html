@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>房间管理</title>
+</head>
+
+<body>
+    <div id="angularId" ng-controller="roomManageCtrl">
+        <div class="page-title" style="height:55px">
+            <div class="title_left">
+                <h3>房间管理</h3>
+            </div>
+        </div>
+        <div style="width: 250px;line-height: 60px;float: left;" ng-hide="projectTree.length==0">
+            <tree-sel-project ng-class="{'not-valid':!$root.project.id}" node-list="projectTree" host="$root.project"
+                host-key="'id'" host-text="'text'" callback="setProject" tip-text="'请选择项目'"></tree-sel-project>
+        </div>
+
+        <div class="x_panel">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>房间号:</label>
+                    <input class="form-control" type="text" ng-model="search.house_code" />
+                </div>
+                <div class="form-group">
+                    <label>户型:</label>
+                    <input class="form-control" type="text" ng-model="search.rm_std" />
+                </div>
+                <div class="form-group">
+                    <label>房屋名称:</label>
+                    <input class="form-control" type="text" ng-model="search.spaceName" />
+                </div>
+                <div class="form-group">
+                    <label>销售状态:</label>
+                    <select class="form-control" ng-model="search.sale_status"
+                        ng-options="o.key as o.value for o in saleStatus" style="width: 180px">
+                        <option value="">-请选择-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>面积状态:</label>
+                    <select class="form-control" ng-model="search.area_status"
+                         style="width: 180px" ng-change="find(1)">
+                        <option value="">-请选择-</option>
+                        <option value="0">待售</option>
+                        <option value="1">已售</option>
+                    </select>
+                </div>
+                <button class="btn btn-default" ng-click="find(1)">查询</button>
+            </div>
+
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading" style="font-size: 14px">房间列表
+                <button class="btn btn-danger pull-right" ng-disabled="!hasChecked(pageModel)"
+                    ng-click="batchRecycle()">批量回收</button>
+                <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)"
+                    ng-click="batchOpen()">批量放盘</button>
+                <button class="btn btn-primary pull-right" ng-disabled="isSync" ng-click="synchronization()">同步</button>
+            </div>
+            <div class="panel-body" style=" overflow-x: auto;">
+                <div class="selStatistics">
+                    <i class="fa fa-lg fa-info-circle btn-color1" aria-hidden="true"></i>
+                    <span> 已选择 </span><span class="btn-color1">{{selCount}}</span> 项&nbsp;&nbsp;
+                </div>
+                <div id="table_room"   ng-style="{'width':width}">
+                    <table class="table col-md-12 col-sm-12 table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center" style="width:20px">
+                                    <span role="button" ng-click="checkAll()">
+                                        <i class="glyphicon"
+                                            ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                                    </span>
+                                </th>
+                                <th style="width:30px;text-align:center">序号</th>
+                                <th style="text-align:left">房间</th>
+                                <th style="text-align:left">房屋名称</th>
+                                <th style="text-align:left">户型</th>
+                                <!-- <th style="text-align:left">房间结构</th> -->
+                                <th style="text-align:left">建筑面积</th>
+                                <th style="text-align:left">套内面积</th>
+                                <th style="text-align:left">面积状态</th>
+                                <th style="text-align:left">销售状态</th>
+                                <th style="text-align:left">租售类型</th>
+                                <!--<th style="text-align:left">预售建筑面积</th>
+                                <th style="text-align:left">预售套内面积</th>-->
+                                <th style="text-align:left">实测建筑面积</th>
+                                <th style="text-align:left">实测套内面积</th>
+                                <th style="text-align:center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data">
+                                <td class="text-center">
+                                    <i role="button" ng-click="checkOne(item)"
+                                        ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                        class="glyphicon"></i>
+                                </td>
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td style="text-align:left">
+                                    {{item.houseName}}
+                                </td>
+                                <td style="text-align:left">
+                                    {{item.spaceName||'--'}}
+                                </td>
+                                <td style="text-align:left">{{item.rm_std||'--'}}</td>
+                                <!-- <td style="text-align:left">{{item.house_structure||'--'}}</td> -->
+                                <td style="text-align:left">{{item.area||'--'}}</td>
+                                <td style="text-align:left">{{item.area_su||'--'}}</td>
+                                <td style="text-align:left">{{item.area_status|toAreaStatus}}</td>
+                                <td style="text-align:left">{{item.sale_status|toSaleStatus}}</td>
+                                <td style="text-align:left">{{item.rent_sale_type|toRentSaleType}}</td>
+                                <!-- <td style="text-align:left">{{item.area_presell||'&#45;&#45;'}}</td>
+                                <td style="text-align:left">{{item.area_presell_su||'&#45;&#45;'}}</td>-->
+                                <td style="text-align:left">{{item.area_actual||'--'}}</td>
+                                <td style="text-align:left">{{item.area_actual_su||'--'}}</td>
+                                <td class="text-center">
+                                    <a href='javascript:void(0)' ng-click='showRoomDetail(item.house_id)'
+                                        class='btn btn-xs btn-color1'>查看 </a>
+                                    <a href='javascript:void(0)' ng-disabled="item.sale_status!=0"
+                                        ng-click='batchOpen(item)' ng-style="{color: item.sale_status!=0 ? '#aaa':'#00AEFF'}" class='btn btn-xs btn-color1'>放盘 </a>
+                                    <a href='javascript:void(0)' ng-disabled="item.sale_status!=1" ng-style="{color: item.sale_status!=1 ? '#aaa' : '#CF3030'}"
+                                        ng-click='batchRecycle(item)' class='btn btn-xs btn-color2'>回收 </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+<script type="text/ng-template" id="batchOpenFailDetail.html">
+<div class="modal-body container-fluid form-horizontal" style="padding:20px" >
+    <div class="msgrect" >
+        <div style="width:50px"><i class="fa fa-frown-o fa-3x" style="color:#BCD2EE;"aria-hidden="true"></i></div>
+        <div >
+            <div class="failTitle">亲爱的用户</div>
+            <div class="failTitle">很抱歉，请维护房屋建筑面积，房屋套内面积，房管局备案号，谢谢！</div>
+            <a href='javascript:void(0)' ng-click='isShow=true' class='btn btn-xs btn-color2 pull-right' ng-show="!isShow" style="margin-top: 10px;">查看详情 </a>
+            <!-- <a  style="color:red;margin-right:20px" ng-click="isShow=true" ng-if="!isShow">查看详情</a> -->
+            <div class="failroom" ng-if="isShow" ng-bind-html="roomMsg"></div>
+        </div>
+    </div>
+    <div class="form-group" style="text-align: right;padding-top:20px;padding-right:20px">
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>
+</div>
+</script>
+<style>
+    div.selStatistics {
+
+        background: rgba(135, 206, 250, 0.2);
+        height: 40px;
+        line-height: 40px;
+        border: 1px solid rgba(0, 225, 255, 0.5);
+        font-family: 'Microsoft YaHei', Arial, SimSun;
+        font-size: 14px;
+        padding-left: 10px
+    }
+
+    .btn-color1 {
+        color: rgb(0, 174, 255);
+    }
+
+    .panel-body>.table>thead.title {
+        background-color: #f5f5f5;
+        border: 1px solid #ddd;
+
+    }
+
+    .panel-body>.table>thead>tr>th {
+        border-bottom: none;
+        line-height: 40px
+    }
+
+    /* .panel-default>.panel-heading{
+        background-color: rgb(3, 193, 247)
+    } */
+    .x_panel {
+        padding: 15px
+    }
+
+    .btn-color2 {
+        color: rgb(207, 48, 48);
+    }
+    .modal-body .msgrect{
+        padding:20px;
+        border:1px solid #BCD2EE;
+        display:flex;
+        flex-direction: row
+    }
+    
+    .modal-body .failTitle {
+        color: #333;
+        font-family: 'Microsoft YaHei', Arial, SimSun;
+        font-weight: bold;
+        margin-top: 10px;
+        font-size: 15px
+    }
+
+    .modal-body div.failroom {
+        font-size: 13px;
+        line-height: 25px;
+        margin-top: 10px;
+
+    }
+</style>
+
+</html>

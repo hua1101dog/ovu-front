@@ -1,0 +1,45 @@
+
+.modal-super-lgs { width: 1234px; }
+#tb .mCSB_container {
+    width:1600px!important;
+}
+label.control-label{
+    padding-left:0;
+    padding-right:0;
+    float: left;
+}
+label.label-width{
+    width: 120px;
+}
+span.label-width1{
+    width: 135px;
+}
+input[type=text]{
+    border:none!important;
+    background: none!important;
+}
+span.control-label{
+    text-align: left!important;
+    word-wrap: break-word;
+}
+.form-group,.form-group>div{
+    padding-left:0;
+    padding-right:0;
+}
+.cl-back{
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    position: absolute;
+    left: 300px;
+    top:12px;
+    background-color: #0b70ed;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+.modal-content{
+    width: 800px;
+}

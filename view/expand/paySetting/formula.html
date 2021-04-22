@@ -1,0 +1,53 @@
+<div ng-controller="formulaCtl" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>设置计算公式</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">支出类型
+                </div>
+                <div class="x_content">
+                    <div class="alert" role="alert" ng-show="treeData_formula.length==0">无类型信息</div>
+                    <!--<tree-view node-list="treeData_formula" config="config"></tree-view>-->
+                    <tree-view-pro node-list="treeData_formula" host="search" host-text="'parentName'" host-key="'parentId'" callback="selectNode" config="config"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="panel panel-default">
+                <div class="panel-heading">计算公式
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                        <tr>
+                            <th>类型</th>
+                            <th>计算公式</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="item.id">
+                            <td>{{item.text}}</td>
+                            <td>{{item.formula_text}}</td>
+                            <td>
+                                <a href='javascript:void(0)' ng-click='set(item)' class='btn btn-xs'><span class='fa fa-edit'></span>设置公式</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+   
+	table tr th,
+	table tr td {
+		text-align: left;
+	}
+</style>

@@ -1,0 +1,166 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">会议室预定详情</h4>
+    <h3 style="text-align: center;" ng-if="item.morderStatus != 3">{{getStatus(item.morderStatus)}}</h3>
+    <h3 style="text-align: center;" ng-if="item.morderStatus == 3">{{item.refundStatus == 0 ? "已取消" : "交易关闭"}}</h3>
+    <p style="text-align: center; color:red;margin-top: 10px;"
+        ng-if="(item.morderStatus == 3 && item.refundStatus != 0)||item.morderStatus == 5">
+        {{item.refundStatus == 4 ? "退款成功" : "退款处理中"}}</p>
+    <p style="text-align: center; color:red;margin-top: 10px;" ng-if="item.morderStatus == 1 && item.totalPrice">
+        {{item.refundStatus == 3 ? "拒绝退款" : "已支付"}}</p>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <div class="bookingDetail">
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">会议室名称：</label>
+            <span class="col-xs-8 s_content">{{item.office.boardroomName}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">会议室地址：</label>
+            <span class="col-xs-8 s_content">{{item.office.position||"--"}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">会议主题：</label>
+            <span class="col-xs-8 s_content">{{item.theme||"--"}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">人数：</label>
+            <span class="col-xs-8 s_content">{{item.peopleNum||"--"}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">会务：</label>
+            <!-- <span class="col-xs-8 s_content">{{item.conferenceType||"--"}}</span> -->
+            <!-- <span class="col-xs-8 s_content">{{getConferenceType(item.conferenceType)}}</span> -->
+            <span class="col-xs-8 s_content">{{conferenceType}}</span>
+            
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">预订时段：</label>
+            <span class="col-xs-8 s_content">{{item.beginTime}} ~ {{item.endTime}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">预订时长：</label>
+            <span class="col-xs-8 s_content">{{(item.endDuration-item.beginDuration)/2}}小时</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">单价：</label>
+            <span
+                class="col-xs-8 s_content">{{item.office.singlePrice ? item.office.singlePrice + "元/半小时" : "免费"}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">订单金额：</label>
+            <span class="col-xs-8 s_content">{{item.totalPrice ? item.totalPrice + "元" : "免费"}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">预定人：</label>
+            <span class="col-xs-8 s_content">{{item.reservation}}</span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">联系人：</label>
+            <span class="col-xs-8 s_content">{{item.contactMan}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">联系方式：</label>
+            <span class="col-xs-8 s_content">{{item.contactPhone}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">备注：</label>
+            <span class="col-xs-8 s_content">{{item.remark||"--"}}</span>
+        </div>
+        <!-- <div class="form-group">
+            <label class="col-xs-4 control-label ">发布方名称：</label>
+            <span class="col-xs-8 s_content">{{item.office.creatorName}}</span>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">发布方联系方式：</label>
+            <span class="col-xs-8 s_content">{{item.office.creatorPhone}}</span>
+        </div> -->
+
+        <b></b>
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">创建时间：</label>
+            <span class="col-xs-8 s_content">{{item.createTime}}</span>
+        </div>
+
+        <div class="form-group" ng-if="item.morderStatus == 4 ||(item.morderStatus == 3 && item.refundStatus != 0)">
+            <label class="col-xs-4 control-label ">申请退款时间：</label>
+            <span class="col-xs-8 s_content">{{item.refundApplyTime}}</span>
+        </div>
+
+        <div class="form-group" ng-if="item.morderStatus == 4">
+            <label class="col-xs-4 control-label ">申请退款原因：</label>
+            <span class="col-xs-8 s_content">{{item.refundApplyReason}}</span>
+        </div>
+
+
+        <div class="form-group" ng-if="(item.morderStatus == 2||item.morderStatus == 1) && item.totalPrice">
+            <label class="col-xs-4 control-label ">付款时间：</label>
+            <span class="col-xs-8 s_content">{{item.payTime}}</span>
+        </div>
+
+        <div class="form-group" ng-if="item.morderStatus == 3 && item.refundStatus == 0">
+            <label class="col-xs-4 control-label ">取消时间：</label>
+            <span class="col-xs-8 s_content">{{item.cancelTime}}</span>
+        </div>
+
+        <div class="form-group" ng-if="item.refundStatus == 4">
+            <label class="col-xs-4 control-label ">退款时间：</label>
+            <span class="col-xs-8 s_content">{{item.refundTime}}</span>
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="col-xs-4 control-label ">订单编号：</label>
+            <span class="col-xs-8 s_content">{{item.orderCode}}</span>
+        </div>
+        <b></b>
+
+        <div class="form-group" ng-if="item.morderStatus == 4 && item.office.userType == 0">
+            <label class="col-xs-4 control-label" style="padding-top: 12px;">拒绝退款原因：</label>
+            <span class="col-xs-8 s_content"><input style="width: 300px;" type="text" class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.refundApproveSuggest" placeholder="请输入原因（同意退款可忽略）"></span>
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <span ng-if="item.morderStatus == 4 && item.office.userType == 0">
+        <button class="btn btn-primary" ng-click="save(item,2)">确认退款</button>
+        <button class="btn btn-danger" ng-click="save(item,3)">拒绝退款</button>
+    </span>
+    <button class="btn btn-warning" style="float: right;" ng-click="cancel()">关闭</button>
+</div>
+<style>
+    .bookingDetail {
+        margin: 0 60px;
+        margin-right: 0px;
+    }
+
+    /* .bookingDetail p span:first-child{
+            display: inline-block;
+            width: 110px;
+            color: #999;
+            float:left;
+        }
+        .bookingDetail p span:last-child{
+            display: inline-block;
+            color: #070707;
+            width: 320px;
+        } */
+    .bookingDetail b {
+        display: block;
+        widows: 100%;
+        border-bottom: 1px dashed #ccc;
+        margin-bottom: 4px;
+    }
+
+    .bookingDetail .form-group span.s_content {
+        font-size: 14px;
+        padding-left: 0px;
+        padding-top: 7px;
+    }
+
+</style>

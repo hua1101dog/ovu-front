@@ -1,0 +1,75 @@
+		<div class="modal-header">
+			<h4 class="modal-title">{{item.id?'编辑':'添加'}}传感器</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="form-group" >
+					<div ng-if="item.isGroup">
+						<label class="col-xs-2 control-label required">项目：</label>
+						<div  class="col-xs-4">
+							<input type="text" placeholder="--请选择--" class="form-control" ng-focus="item.parkFocus=true" ng-blur="item.parkFocus=false"  ng-model="item.park_name" name="park_name" readonly  required/>
+							<layer-select node-list="parkTree" select-method="selectPark" ng-show="item.parkFocus||item.parkHover" ng-mouseover="item.parkHover=true" ng-mouseleave="item.parkHover=false" class="layerSelect" style="left: 15px;top:inherit;" ></layer-select>
+						</div>
+					</div>
+					<label class="col-xs-2 control-label required">品牌型号：</label>
+					<div  class="col-xs-4">
+						<input type="text" placeholder="--请选择--" class="form-control" ng-focus="item.modelFocus=true" ng-blur="item.modelFocus=false"  ng-model="item.type_name" name="type_name" readonly  required/>
+						<layer-select node-list="sensorTypeTree" ng-show="item.modelFocus||item.modelHover" ng-mouseover="item.modelHover=true" ng-mouseleave="item.modelHover=false" class="layerSelect" style="left: 15px;top:inherit;" ></layer-select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">传感器名称：</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" required ng-model="item.name" name="name" />
+					</div>
+					<label class="col-xs-2 control-label required">传感器编码：</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" required ng-model="item.mac" name="mac" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">使用位置：</label>
+					<div class="col-xs-10 form-inline text-nowrap">
+						<select class="form-control" ng-model="item.STAGE" ng-options="o as o.stageName for o in houseTree" required>
+							<option value="">--期--</option>
+						</select>
+						<select class="form-control" ng-model="item.FLOOR" ng-change="geneUnit(item.FLOOR)" ng-options="o as o.floorName for o in item.STAGE.nodes" required>
+							<option value="">--栋--</option>
+						</select>
+						<select class="form-control" ng-model="item.unit_no" ng-change="geneGround(item.FLOOR)" ng-options="o.unit_no as o.unit_no+'单元' for o in item.FLOOR.unitList" required>
+							<option value="">--单元--</option>
+						</select>
+						<select class="form-control" ng-model="item.ground_no" ng-change="getHouseList(item.FLOOR)" ng-options="o.ground_no as o.ground_no+'楼' for o in item.FLOOR.groundList" required>
+							<option value="">--楼--</option>
+						</select>
+						<select class="form-control" ng-model="item.house_id" ng-options="o.ID as o.HOUSE_NAME for o in item.FLOOR.houseList" required>
+							<option value="">--房号--</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label ">安装位置：</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control"  ng-model="item.install_position" name="install_position" />
+					</div>
+					<label class="col-xs-2 control-label ">安装日期：</label>
+					<div class="col-xs-4">
+						<input type="datetime" class="form-control Wdate"  name="install_date" ng-model="item.install_date"  onchange=""
+							   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd'})">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">备注：</label>
+					<div class="col-xs-10">
+						<textarea  style="height:150px;resize:vertical" class="form-control"  name="comment"  ng-model="item.comment"   />
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+
+

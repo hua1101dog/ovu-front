@@ -1,0 +1,485 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">
+        <span ng-if="curProcess.procDefKey == 'settled_workflow'">
+            流程：{{curProcess.taskStatus | workStatus}}-【入驻办理】{{processForm.userType | usertype}}{{processForm.settleType===1?'购房入驻': '租赁入驻'}}申请
+        </span>
+        <span ng-if="curProcess.procDefKey == 'decorate_workflow'">
+            流程：{{curProcess.taskStatus | workStatus}}-{{curProcess.title}}
+        </span>
+        <span ng-if="curProcess.procDefKey == 'out_rental_workflow'">
+            流程：{{curProcess.taskStatus | workStatus}}-【退租申请】业主房屋退租申请
+        </span>
+        <span ng-if="curProcess.procDefKey == 'yard_reserve_workflow'">
+            流程：{{curProcess.taskStatus | workStatus}}-【场地预定】{{processForm.formData.name}}场地预定
+        </span>
+        <span ng-if="curProcess.procDefKey == 'ad_reserve_workflow'">
+            流程：{{curProcess.taskStatus | workStatus}}-【广告位预定】{{processForm.formData.adName}}广告位预定
+        </span>
+        <span ng-if="curProcess.procDefKey == 'house_rental_workflow'">
+            流程：{{curProcess.taskStatus | workStatus}}-【合同审批】{{processForm.title}}
+        </span>
+        <span ng-if="curProcess.procDefKey == 'rental_relief_workflow'">
+            流程：{{curProcess.taskStatus | workStatus}}-【租金减免申请】{{processForm.title}}
+        </span>
+        <span ng-if="curProcess.procDefKey == 'sale_contract_workflow'">
+            流程：{{curProcess.taskStatus | workStatus}}-【合同审批】{{processForm.title}} <span ng-if="processForm.formData.customName">-</span> {{processForm.formData.customName}}
+        </span>
+    </h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <uib-tabset>
+        <uib-tab heading="流程表单" ng-click="switchForm()">
+            <ng-include
+                ng-if="curProcess.procDefKey == 'settled_workflow' ||curProcess.procDefKey == 'decorate_workflow'"
+                src="'workflowManage/workflowModal/modal.workflow.settled.html'"></ng-include>
+            <ng-include ng-if="curProcess.procDefKey == 'out_rental_workflow'"
+                src="'workflowManage/workflowModal/modal.workflow.outRental.html'"></ng-include>
+            <ng-include ng-if="curProcess.procDefKey == 'yard_reserve_workflow'"
+                src="'workflowManage/workflowModal/modal.workflow.yardReserve.html'"></ng-include>
+            <ng-include ng-if="curProcess.procDefKey == 'ad_reserve_workflow'"
+                src="'workflowManage/workflowModal/modal.workflow.adReserve.html'"></ng-include>
+            <ng-include ng-if="curProcess.procDefKey == 'house_rental_workflow'"
+                src="'workflowManage/workflowModal/modal.workflow.leaseContract.html'"></ng-include>
+            <ng-include ng-if="curProcess.procDefKey == 'rental_relief_workflow'"
+                src="'workflowManage/workflowModal/modal.workflow.rentalRelief.html'"></ng-include>
+                <ng-include ng-if="curProcess.procDefKey == 'sale_contract_workflow'"
+                    src="'workflowManage/workflowModal/modal.workflow.investment.html'"></ng-include>
+        </uib-tab>
+        <uib-tab heading="流程图">
+            <div class="process-img">
+                <img ng-src="/ovu-workflow/act/image/highLighting/{{curProcess.processInstanceId}}?time={{time}}">
+            </div>
+        </uib-tab>
+        <uib-tab heading="流程状态">
+            <div class="process-status">
+                <div class="enclosure-head">
+                    <div>流程节点</div>
+                    <div>操作人</div>
+                    <div>接收时间</div>
+                    <div>操作时间</div>
+                    <div style="width: 50%;">审批意见</div>
+                </div>
+                <div class="enclosure-body" ng-repeat="item in processComment track by $index">
+                    <div>{{item.activityName}}</div>
+                    <div>{{item.assigneeName}}</div>
+                    <div>{{item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}}</div>
+                    <div>{{item.endTime | date : 'yyyy-MM-dd HH:mm:ss'}}</div>
+                    <div style="width: 50%;">{{item.comment}}</div>
+                </div>
+            </div>
+        </uib-tab>
+        <uib-tab heading="附件" ng-if="curProcess.procDefKey != 'house_rental_workflow'">
+            <div class="enclosure">
+                <div class="enclosure-head">
+                    <div>资源名称</div>
+                    <div>创建人</div>
+                    <div>创建时间</div>
+                    <div>备注</div>
+                </div>
+                <div class="enclosure-body" ng-repeat="item in attachmentlist track by $index"
+                    ng-if="attachmentlist && attachmentlist.length > 0">
+                    <div>{{item.attachmentName}}</div>
+                    <div>{{item.userName}}</div>
+                    <div>{{item.createTime}}</div>
+                    <div>
+                        <a class="download" href="javascript:;"
+                            ng-click="enclosureDownload(item.url,item.attachmentName)"></a>
+                    </div>
+                </div>
+                <div ng-if="!attachmentlist || attachmentlist.length == 0" style="text-align:center;font-size:20px;">
+                    暂无数据</div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+    <div class="btnList">
+        <button class="btn btn-primary" ng-if="curProcess.taskStatus == 0 && curProcess.personId"
+            ng-click="save()">批准</button>
+        <button class="btn btn-primary" ng-if="curProcess.taskStatus == 0 && curProcess.personId"
+            ng-click="back()">退回</button>
+    </div>
+</div>
+<style>
+    .modal-dialog.modal-lg {
+        width: 1200px;
+        min-width: 700px;
+    }
+
+    .btnList {
+        position: absolute;
+        top: 10px;
+        right: 0;
+        padding: 10px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .btnList>button {
+        padding: 5px 15px;
+        margin-right: 10px;
+    }
+
+    .processForm {
+        width: 100%;
+        min-height: 500px;
+    }
+
+    .processForm .applicationInfo {
+        width: 100%;
+        max-height: 800px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px 30px;
+        border-bottom: 1px solid #e5e5e5;
+        overflow-y: scroll;
+    }
+
+    .applicationInfo>h4 {
+        text-align: center;
+        font-size: 18px;
+        font-weight: 400;
+        margin-bottom: 20px;
+        padding: 10px 0;
+    }
+
+    .applicationInfo .msgList {
+        width: 80%;
+        min-width: 560px;
+        border: 1px solid rgba(0, 0, 0, 0.7);
+    }
+
+    .msgList>div {
+        width: 100%;
+        height: auto;
+    }
+
+    .msg-group>p {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        background-color: #199ED8;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .msg-group>label {
+        height: 150px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        margin-bottom: 0;
+        padding: 0px;
+        border-right: 1px solid rgba(0, 0, 0, 0.7);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+    }
+
+    .msg-group>div {
+        height: 150px;
+        border-right: 1px solid rgba(0, 0, 0, 0.7);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .msg-group>div span {
+        max-height: 80px;
+        padding: 3px;
+    }
+
+    .msg-group>div:last-of-type {
+        border-right: none;
+    }
+
+    .msg-group:last-of-type>label,
+    .msg-group:last-of-type>div {
+        border-bottom: none;
+    }
+
+    .msg-group select {
+        width: 100px !important;
+    }
+
+    div.msg-group-data>label {
+        height: 170px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    div.msg-group-data>div {
+        height: 170px;
+        overflow-y: scroll;
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+
+    div.msg-group-data>div>div {
+        margin-right: 10px;
+        padding: 5px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    div.msg-group-data>div span {
+        color: #00f;
+        padding: 0 10px;
+    }
+
+    a.download {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        background: url("/res/img/download.png") no-repeat;
+        background-size: 100% 100%;
+    }
+
+    .btn-oper {
+        background-color: #fff;
+        border: 1px solid #78c4ec;
+        color: #78c4ec;
+        padding: 3px 10px;
+    }
+
+    div.msg-group-upload>label {
+        height: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    div.msg-group-upload>div {
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    div.msg-group-upload>div span {
+        color: #00f;
+        padding: 0 10px;
+    }
+
+    div.msg-group-upload a.blue_btn {
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        background-color: rgba(97, 142, 214, 1);
+        border-radius: 4px;
+        width: 82px;
+        text-align: center;
+        color: #fff;
+        font-size: 12px;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    div.msg-group-upload>div>.workList {
+        width: 100%;
+        padding: 5px;
+        max-height: 100px;
+        overflow-y: scroll;
+    }
+
+    div.msg-group-upload>div>.workList>li {
+        float: left;
+        padding: 5px;
+        margin-right: 15px;
+        text-align: center;
+        font-size: 12px;
+        position: relative;
+    }
+
+    div.msg-group-upload>div>.workList>li>b {
+        position: absolute;
+        top: -2px;
+        right: -5px;
+    }
+
+    div.msg-group-deposit>div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    div.msg-group-deposit>div>div {
+        width: 100%;
+        height: 75px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .processForm .auditOpinion {
+        width: 100%;
+        padding: 20px 30px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .auditOpinion>textarea {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .processForm .transferOp {
+        width: 100%;
+        max-height: 400px;
+        border: 1px solid rgba(0, 0, 0, 0.7);
+        margin-top: 20px;
+        overflow-y: scroll;
+    }
+
+    .transferOp>h4 {
+        padding: 15px 20px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+    }
+
+    .transferList>div {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 15px 20px;
+    }
+
+    div.transfer-group {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+    }
+
+    div.transfer-group:last-of-type {
+        border-bottom: none;
+    }
+
+    div.transfer-group>p {
+        width: 20%;
+    }
+
+    div.transfer-group>p>span {
+        float:left;
+        /* display: inline-block; */
+        vertical-align: top;
+    }
+
+    div.transfer-group>div {
+        width: 40%;
+        text-align: center;
+    }
+
+    /* 流程图 */
+    .process-img {
+        width: 100%;
+        min-height: 500px;
+        padding: 20px;
+    }
+
+    /* 流程状态 -begin */
+    .process-status {
+        width: 100%;
+        font-size: 14px;
+        font-weight: 400;
+        min-height: 500px;
+        max-height: 740px;
+        overflow-y: scroll;
+    }
+
+    .status-head {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .status-head>div {
+        width: 20%;
+        padding: 20px 0px;
+        text-align: center;
+    }
+
+    .status-body,
+    .body-msg,
+    .body-detail,
+    .body-head,
+    .body-body {
+        width: 100%;
+    }
+
+    .body-msg,
+    .body-head,
+    .body-body {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .body-msg {
+        background-color: #999;
+        color: #fff;
+    }
+
+    .body-msg>div,
+    .body-head>div,
+    .body-body>div {
+        width: 20%;
+        padding: 20px 0px;
+        text-align: center;
+    }
+
+    .enclosure {
+        min-height: 500px;
+        max-height: 740px;
+        overflow-y: scroll;
+        margin-bottom: 50px;
+    }
+
+    .enclosure,
+    .enclosure-head,
+    .enclosure-body {
+        width: 100%;
+    }
+
+    .enclosure-head,
+    .enclosure-body {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .enclosure-head>div,
+    .enclosure-body>div {
+        width: 30%;
+        padding: 20px 0px;
+        text-align: center;
+    }
+    select[disabled],
+    select[readonly],
+    textarea[disabled],
+    textarea[readonly] {
+        background-color: #eee;
+        opacity: 1;
+    }
+
+    /* 最多显示四行 */
+    .ellipsiss {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        overflow: hidden;
+        overflow-wrap: break-word;
+        word-break: break-all;
+    }
+
+</style>

@@ -1,0 +1,92 @@
+<div id="angularId" ng-controller="workunitAuthCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>应急工单派发授权</h3>
+        </div>
+    </div>
+    <div class="row" id="workunitAuth">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <a ng-click='expandAll(emerWorkTypeTree)' role="button" class='btn-link' title="展开与收缩">
+                        <i class="glyphicon"
+                           ng-class="{'glyphicon-resize-small':emerWorkTypeTree.expanded,'glyphicon-resize-full':!emerWorkTypeTree.expanded}"></i></a>
+                    应急工作分类
+                </div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="!emerWorkTypeTree">无工作分类</div>
+                <tree-view-pro node-list="emerWorkTypeTree" host="search" host-text="'worktypeName'" host-key="'worktypeId'" callback="selectNode" config="{edit: false,set: true}"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>员工姓名</label>
+                        <select-person host="search.user"  dept-id="dept.id" person-type="'auth'"></select-person>
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)">查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">派发人员列表
+                    <button class="btn btn-danger pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="delAll()">
+                        批量删除
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th class="text-center" style="width:20px"><span role="button"
+                                                                             ng-click="checkAll(pageModel)">
+							<i class="glyphicon"
+                               ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                            </th>
+                            <th style="white-space: nowrap">工单归属部门</th>
+                            <th>工作分类</th>
+                            <th>派发人</th>
+                            <th>外包部门</th>
+                            <th style="width:90px">生成时间</th>
+                            <th style="width:124px">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data">
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td><i role="button" ng-click="checkOne(item)"
+                                   ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                   class="glyphicon"></i></td>
+                            <td>{{item.deptId|keyToValue:flatDetpTree:'id':'text'}}</td>
+                            <td>{{item.worktypeId|keyToValue:emerWorkTypeTreeFlat:'id':'text'}}</td>
+                            <td>{{item.personNames}}</td>
+                            <td>{{item.outSourceDeptName?(item.outSourceName+":"+item.outSourceDeptName):''}}</td>
+                            <td>{{item.opTime}}</td>
+                            <td>
+                                <a href='javascript:void(0)' ng-if="hasPower('外包')||!item.outSourceDeptId" ng-click='editModal(item)' class='btn btn-xs'><span
+                                    class='fa fa-edit' ></span>编辑</a>&nbsp;&nbsp;
+                                <a href='javascript:void(0)' ng-if="hasPower('外包')||!item.outSourceDeptId" ng-click='del(item)' class='btn btn-xs'><span
+                                    class='fa fa-trash'></span>删除</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+      #workunitAuth table tr th,
+     #workunitAuth table tr td{
+      text-align: left;
+  }
+</style>

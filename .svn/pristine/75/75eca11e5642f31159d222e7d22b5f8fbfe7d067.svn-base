@@ -1,0 +1,99 @@
+<div class="row m-b m-t">
+    <div class="col-lg-12 col-sm-12 text-lg font-bold title">
+        <a href="javascript:;"  ng-click="vm.type=1;vm.selectType()"
+           ng-class="{active:vm.type==1}" >设备预警</a>|
+        <a href="javascript:;"  ng-click="vm.type=2;vm.selectType()"
+           ng-class="{active:vm.type==2}">维保单位资质到期预警</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-sm-12">
+        <div class="x_panel" >
+            <div class="form-inline">
+                <div class="form-group">
+                    <label style="padding-left:5px;">维保单位名称</label>
+                    <input type="text" ng-if="vm.type==1" ng-model="search.maintainCompany"  class="form-control" />
+                    <input type="text" ng-if="vm.type!=1" ng-model="search.companyName"  class="form-control" />
+                </div>
+                <div class="form-group" ng-if="vm.type==1">
+                    <label style="padding-left:5px;">电梯注册代码</label>
+                    <input type="text" ng-model="search.liftRegistCode"  class="form-control" />
+                </div>
+                <button class="btn btn-default pull-right" ng-click="find()" >查询</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-sm-12">
+        <div class="panel panel-default ">
+            <div class="panel-heading">{{vm.title}}
+                <button ng-if="vm.type==2" ng-disabled="!hasChecked(pageModel)"
+                        class="btn btn-primary pull-right" ng-click="vm.sendEmail()">发送邮件</button>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover " >
+                    <thead class="title">
+                        <tr ng-if="vm.type==1">
+                            <th class="text-center">NO</th>
+                            <!--<th>预警时间</th>-->
+                            <th>所属项目</th>
+                            <th >电梯名称</th>
+                            <th>电梯编号</th>
+                            <th>电梯注册代码</th>
+                            <th>使用位置</th>
+                            <th>电梯品牌</th>
+                            <!--<th>故障码</th>-->
+                            <th>维保单位</th>
+                            <th>使用单位</th>
+                        </tr>
+                        <tr ng-if="vm.type==2">
+                            <th class="text-center">NO</th>
+                            <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+                                    <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                            <th>维保单位</th>
+                            <th >批准日期</th>
+                            <th>有效日期</th>
+                            <th>许可证编号</th>
+                            <th>设备类别</th>
+                            <th>批准级别</th>
+                            <th>资质证书批准范围（安装/改造/维修）</th>
+                            <th>是否发送邮件</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                        <tr ng-repeat="item in pageModel.data" ng-if="vm.type==1">
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td>{{item.parkName}}</td>
+                            <td>{{item.liftName}}</td>
+                            <td>{{item.liftNumber}}</td>
+                            <td>{{item.liftRegistCode}}</td>
+                            <td>{{item.location}}</td>
+                            <td>{{item.brandName}}</td>
+                            <td>{{item.maintainCompany}}</td>
+                            <td>{{item.useCompany}}</td>
+                        </tr>
+                    <tr ng-repeat="item in pageModel.data" ng-if="vm.type==2">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td><i role="button" ng-click="checkOne(item)"
+                               ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i>
+                        </td>
+                        <td>{{item.companyName}}</td>
+                        <td>{{item.approvalDate}}</td>
+                        <td>{{item.validDate}}</td>
+                        <td>{{item.licenceNo}}</td>
+                        <td>{{item.deviceClass}}</td>
+                        <td>{{item.approvalLevel}}</td>
+                        <td>{{item.certificateRange}}</td>
+                        <td>{{item.sendEmailStatusName}}</td>是否发送邮件
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

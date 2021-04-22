@@ -1,0 +1,100 @@
+<!-- 设备管理 总 -->
+<div class="video-monitor" id="angularId" ng-controller="eqMonitVideo">
+    <!-- <ng-include src="'../view/equipment/monitoring/paths/safty/videoMonitor/main.html'"></ng-include> -->
+    <div ng-switch="showHash">
+        <!--多项目-->
+        <div ng-switch-when="multiProjects">
+            <ng-include src="'../view/equipment/monitoring/multiProjects/main.html'"></ng-include>
+        </div>
+        <!--单项目-->
+        <div ng-switch-when="singleProject">
+            <ng-include src="'../view/equipment/monitoring/singleProject/main.html'"></ng-include>
+        </div>
+        <!--设备详情-->
+        <div ng-switch-when="detail">
+            <ng-include src="'../view/equipment/monitoring/detail/index.html'"></ng-include>
+        </div>
+    </div>
+</div>
+
+<!-- map3D组件 -->
+<script src="../view/equipment/monitoring/detail/map3D/map3D.js"></script>
+<!-- bim组件 -->
+<script src="../view/equipment/monitoring/detail/BIM/bim.js"></script>
+
+<!--Map3D 依赖 -->
+<script src="../lib/fengmap.min.js"></script>
+<!-- BIM 依赖 -->
+<script src="/res/js/bimViz/sdk/third/toolbar/jquery.toolbar.js"></script>
+<script src="/res/js/bimViz/sdk/viz/bimviz.js"></script>
+
+<!-- 多项目 -->
+<script src="../view/equipment/monitoring/multiProjects/main.js"></script>
+<!-- 单项目 -->
+<script src="../view/equipment/monitoring/singleProject/main.js"></script>
+<!-- 详情页 -->
+<script src="../view/equipment/monitoring/detail/index.js"></script>
+<!-- 单项目 多项目 公共部分 -->
+<script src="../view/equipment/monitoring/common/common.js"></script>
+
+<script>
+    (function(angualr, document) {
+
+        document.title = "OVU-设备管理";
+        var app = angular.module("angularApp");
+
+        app.controller('eqMonitVideo', ['$scope', '$rootScope', '$interval', '$http', '$filter', '$uibModal', 'fac', function($scope, $rootScope, $interval, $http, $filter, $uibModal, fac) {
+
+            app.modulePromiss.then(function(res) {
+                //debugger;
+                $scope.search = {
+                    isGroup: fac.isGroupVersion()
+                };
+                if (app.park) {
+                    $scope.search.parkId = app.park.ID;
+                    $scope.search.PARK_NAME = app.park.PARK_NAME;
+                }
+                // 异步代码
+                // if ($scope.search.isGroup) {
+                //     $scope.showHash = 'multiProjects';
+                // } else {
+                //     $scope.showHash = 'singleProject';
+                // }
+            });
+
+            if (fac.isGroupVersion()) {
+                $scope.showHash = 'multiProjects';
+            } else {
+                $scope.showHash = 'singleProject';
+            }
+
+            // $scope.search = {
+            //     isGroup: fac.isGroupVersion()
+            // };
+            // if (app.park) {
+            //     $scope.search.parkId = app.park.ID;
+            //     $scope.search.PARK_NAME = app.park.PARK_NAME;
+            // }
+            // if ($scope.search.isGroup) {
+            //     $scope.showHash = 'multiProjects';
+            // } else {
+            //     $scope.showHash = 'singleProject';
+            // }
+
+            // 安防管理 视频监控 id
+            // $scope.equipmentType_id = 21;
+            // $scope.showHash = 'multiProjects';
+            // $scope.showHash = 'singleProject';
+            // $scope.showHash = 'detail';
+            $scope.singleProject = function() {
+                // $scope.projectId = 0;
+                $scope.showHash = 'singleProject';
+            };
+            $scope.detail = function() {
+                $scope.showHash = 'detail';
+            };
+        }]);
+
+        angular.bootstrap(document.getElementById("angularId"), ['angularApp']);
+    })(angular, document);
+</script>

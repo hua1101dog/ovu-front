@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+	    <title>问卷助手</title>
+	    <link rel="stylesheet" href="questionAssistant/questionManage/questionIndex.css">
+	</head>
+	<body>
+	    <div id="questionnaireId" ng-controller="questionnaireCtl" >
+		    <div class="page-title">
+		        <div class="title_left">
+		            <h3>问卷管理</h3>
+		        </div>
+		    </div>
+		    <div class="x_panel">
+		        <div class="form-inline">
+		            <div class="form-group">
+		                <label>标题: </label>
+		                <input ng-model="search.title" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text">
+		            </div>
+		            <div class="form-group">
+		                <label style="margin-left: 6px;">创建日期：</label>
+		                <input type="text" class="form-control Wdate" id="search_date1" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+		                 至
+		                <input type="text" class="form-control Wdate" id="search_date2" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'search_date1\');}'})">
+		            </div>
+		            <button class="btn btn-default" ng-click="query()">查询</button>
+		        </div>
+		        <div class="form-inline">
+		            <div class="form-group div-group">
+		                <label>状态: </label>
+		                <div class="div-panel div-active" ng-class=" {'div-active': currentNum==3}" ng-click="setCurrentNum(3)">全部</div>
+		                <div class="div-panel" ng-class=" {'div-active': currentNum==0}" ng-click="setCurrentNum(0)">草稿</div>
+		                <div class="div-panel" ng-class=" {'div-active': currentNum==1}" ng-click="setCurrentNum(1)">运行中</div>
+		                <div class="div-panel" ng-class=" {'div-active': currentNum==2}" ng-click="setCurrentNum(2)">结束</div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="panel panel-default" style="margin-bottom: 0px;">
+		        <div class="panel-heading">问卷列表
+		            <button class="btn btn-primary pull-right" ng-click="showEditModal()">新建问卷</button>
+		        </div>
+		        <div class="panel-body">
+		            <table class="table table-striped table-hover" style="margin-top: 10px;">
+		                <thead class="title">
+		                    <tr>
+		                        <th class="text-center">No.</th>
+		                        <th>标题</th>
+		                        <th>创建人</th>
+		                        <th>创建时间</th>
+		                        <th>有效日期</th>
+		                        <th>问卷状态</th>
+		                        <th>答卷人数</th>
+		                        <th>操作</th>
+		                    </tr>
+		                </thead>
+		                <tbody>
+		                    <tr ng-if="!pageModel.data || pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+		                    <tr ng-repeat="item in pageModel.data" class="ng-scope">
+		                        <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+		                        <td class=""><a href="javascript:void(0)" class="btn-link" ng-click="showPreviewModal(item)">{{item.title | convertTitle}}</a></td>
+		                        <td class="">{{item.creatorName||'--'}}</td>
+		                        <td class="">{{item.createTime?(item.createTime | date : "yyyy-MM-dd HH:ss:mm"):'--'}}</td>
+		                        <td class="">{{item.beginTime||'--' }} ~ {{item.endTime||'--' }}</td>
+		                        <td class="">{{item | convertStatusType}}</td>
+		                        <td class="">{{item.countJoin||'--'}}</td>
+		                        <td class="">
+		                            <div>
+		                                <a href="javascript:void(0)" ng-show="{{item.naireStatus == '0'}}" ng-click="showEditModal(item)" class="btn btn-xs"><span class="fa fa-edit"></span>编辑</a>
+		                                <a href="javascript:void(0)" ng-show="{{item.naireStatus == '0'}}" ng-click="optItem(item, 'del')" class="btn btn-xs"><span class="fa fa-trash"></span>删除</a>
+		                                <a href="javascript:void(0)" ng-show="{{item.naireStatus == '0'}}" ng-click="optItem(item, 'publish', '1')" class="btn btn-xs"><span class="fa fa-send-o"></span>发布</a>
+		                                <a href="javascript:void(0)" ng-show="{{item.naireStatus == '1'}}" ng-click="optItem(item, 'stop', '2')" class="btn btn-xs"><span class="fa fa-send-o"></span>停止</a>
+		                                <a href="javascript:void(0)" ng-show="{{item.naireStatus == '0'}}" ng-click="optItem(item, 'questions')" class="btn btn-xs"><span class="fa fa-send-o"></span>题目管理</a>
+		                                <a href="javascript:void(0)" ng-show="{{item.naireStatus != '0'}}" ng-click="showStatisticsModal(item)" class="btn btn-xs"><span class="fa fa-send-o"></span>统计分析</a>
+		                                <a href="javascript:void(0)" ng-click="showPreviewModal(item)" class="btn btn-xs"><span class="fa fa-send-o"></span>预览</a>
+		                            </div>
+		                        </td>
+		                    </tr>
+		                </tbody>
+		            </table>
+		            <div class="page-footer clearfix">
+		            <ng-include src="'/common/pager.html'" class="ng-scope"><style type="text/css" class="ng-scope">
+		                .pagination>li>span:hover{background-color: #fff;cursor:text}
+		            </style>
+		            </ng-include>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</body>
+</html>

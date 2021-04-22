@@ -1,0 +1,237 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}推送采集点</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">名称：</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" ng-model="item.name" required>
+            </div>
+        </div>
+        <div  class="form-group">
+            <label class="col-xs-2 control-label ">内网代理：</label>
+            <div class="col-xs-10">
+                <select class="form-control" ng-model="item.proxyCode" ng-options="o.proxyCode as o.name for o in proxyList">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label text-nowrap required">空间编码：</label>
+            <div class="col-xs-10">
+                <textarea type="text" style="height:50px;resize:none" required placeholder='项目、楼栋或房间的编码' class="form-control" ng-model="item.locationNo" ></textarea>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="form-group " style="margin-top: -7px;margin-bottom: 0">
+                    <label class="col-xs-2 required control-label text-nowrap" >数据类型：</label>
+                    <div class="col-xs-4">
+                      <select class="form-control" ng-model="item.type" required ng-options="o.id as o.text for o in companyEnum">
+                            <option value="">--请选择--</option>
+                        </select>  
+
+                          <!-- 
+                        <select class="form-control" ng-model="item.type">
+                            <option value="">--请选择--</option>
+                            <option label="信锐" value="string:sundray">信锐</option>
+                            <option label="慧联无线" value="string:easylinkin">慧联无线</option>
+                            <option label="旷视人脸识别" value="string:megvii">旷视人脸识别</option>
+                            <option label="尼森科技" value="string:nisenElevator">尼森科技</option>
+                            <option label="立方门禁" value="string:reformer">立方门禁</option>
+                            <option label="三川电量" value="string:suntrans">三川电量</option>
+                            <option label="wifi蓝牙" value="string:wifi">wifi蓝牙</option>
+                            <option label="臻识车牌识别" value="string:zenith">臻识车牌识别</option>
+                            <option label="第六感" value="string:sixSense">第六感</option>
+                            <option label="领普照明" value="string:linp">领普照明</option>
+                            <option label="科拓停车场" value="string:keyTop">科拓停车场</option>
+                            <option label="港湾科技" value="string:harborTechnology">港湾科技</option>
+
+                        </select>  -->
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body" ng-if="item.type=='reformer'">
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">ip：</label>
+                    <div class="col-xs-4">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.ip" />
+                    </div>
+                    <label class="col-xs-2 control-label  required">port：</label>
+                    <div class="col-xs-4">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.port" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label  required">clientID：</label>
+                    <div class="col-xs-4">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.clientID" />
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body" ng-if="item.type=='nisenElevator'">
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">url：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.url" />
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body" ng-if="item.type=='megvii'">
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">url：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.url" />
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">账号：</label>
+                    <div class="col-xs-4">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.account" />
+                    </div>
+                    <label class="col-xs-2 control-label  required">密码：</label>
+                    <div class="col-xs-4">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.password" />
+                    </div>
+                </div>
+            </div>
+			<div class="panel-body" ng-if="item.type=='linp'">
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">url：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.url" />
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body" ng-if="item.type=='suntrans'">
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">url：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.url" />
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">urlEnv：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.urlEnv" />
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body" ng-if="item.type=='wifi'">
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">certifUrl：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.certificationUrl" />
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">wifiUrl：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.wifiUrl" />
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">btoothUrl：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.bluetoothUrl" />
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">uwbUrl：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.uwbUrl" />
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">assertsUrl：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.assertsUrl" />
+                    </div>
+                </div>
+                 <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">btoothLimit：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.bluetoothLimit" />
+                    </div>
+                </div>
+                 <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">btoothMacN：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.bluetoothAapmacN" />
+                    </div>
+                </div>
+                 <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">btoothMacS：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.bluetoothAapmacS" />
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body" ng-if="item.type=='carIden'">
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">url：</label>
+                    <div class="col-xs-8">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.url" />
+                    </div>
+                </div>
+            </div>
+            
+             
+             
+             <div class="panel-body"  ng-if="item.type=='harborTechnology'">
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">ip：</label>
+                    <div class="col-xs-4">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.ip" />
+                    </div>
+                    <label class="col-xs-2 control-label  required">port：</label>
+                    <div class="col-xs-4">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.port" />
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">username：</label>
+                    <div class="col-xs-4">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.username" />
+                    </div>
+                    <label class="col-xs-2 control-label  required">password：</label>
+                    <div class="col-xs-4">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.password" />
+                    </div>
+                </div>
+                 <div class="form-group" >
+                    <label class="col-xs-2 control-label  required">route：</label>
+                    <div class="col-xs-4">
+                        <input type="text"  required class="form-control" ng-model="item.configJSON.route" />
+                    </div>
+                    <label class="col-xs-2 control-label  required">switch：</label>
+                    <div class="col-xs-4">
+                        <input type="text" required class="form-control" ng-model="item.configJSON.switch" />
+                    </div>
+                </div>
+
+              </div> 
+
+              
+  
+
+
+
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label">备注：</label>
+            <div class="col-xs-10">
+                <textarea type="text" style="height:50px;resize:none" class="form-control" ng-model="item.comment" />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="vm.save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+</div>

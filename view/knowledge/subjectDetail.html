@@ -1,0 +1,133 @@
+<!-- 查看详情 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">考生考试详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>         
+                <div class="panel-body" style="margin-top: -10px;">
+                        <div class="panel panel-default">
+                    <div class="panel-heading" style="height: 45px;">{{pageModel.text}}
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="row detail" ng-repeat="item in pageModel.subjectDetail"
+                                style="width: 80%;margin-left: 50px;">
+                                <div>
+                                    <div class="form-group" style="padding-top: 1px">
+                                        <div class="col-xs-10" style="word-break: break-all;">
+                                            <span class="tihao" >Q{{$index+1}}.[{{item.typeName}}]</span>
+                                            {{item.question}}
+                                            <span ng-if="item.type==1">({{item.paperScore}}分)</span>
+                                            <span ng-if="item.type==2">({{item.paperScore}}分)</span>
+                                            <span ng-if="item.type==3">({{item.paperScore}}分)</span>
+                                            <span ng-if="item.type==4">({{item.paperScore}}分)</span>
+                                            <span ng-if="item.type==5">({{item.paperScore}}分)</span>
+
+                                        </div>
+                                        <!-- <div class="col-xs-1"><span class="leibie">{{detail.type|keyToValue:subjectTypeDict}}</span></div> -->
+
+                            
+                                    </div>
+                                    <!-- 单选题 -->
+                                    <div class="form-group" ng-if="item.type==1">                                        
+                                        <div>
+                                            <label class="col-xs-2 control-label" >考生选项：</label>                                       
+                                            <div class="col-xs-10">
+                                                <label class="form-control" rows="3" readonly >{{item.choose}}</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <label class="col-xs-2 control-label">选项：</label>
+                                        <div class="col-xs-8 pt7">
+                                                <div  ng-repeat="o in item.optionDetail">
+                                                        <input type="radio"disabled="disabled" />{{o.option}}.&nbsp;<span style="white-space:normal; word-break:break-all;">{{o.optionContent}}</span>
+                                                    </div>
+                                        </div>
+                             
+                                    </div>
+                                    <!-- 多选题 -->
+                                    <div class="form-group" ng-if="item.type==2">
+                                       <label class="col-xs-2 control-label" >考生选项：</label>                                        
+                                        <div class="col-xs-10">
+                                            <label class="form-control" rows="3" readonly >{{item.choose.split('$').join(',')}}</label>
+                                        </div>                                    
+                                            <label class="col-xs-2 control-label" >选项：</label>
+                                            <div class="col-xs-8">
+                                                    <div  ng-repeat="o in item.optionDetail|orderBy:'option'"
+                                                    style="margin-right: 10px;margin-top: 10px;">
+                                                    <input type="checkbox"
+                                                        disabled="disabled" />{{o.option}}.&nbsp;<span style="white-space:normal; word-break:break-all;">{{o.optionContent}}</span>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <!-- 判断题 -->
+                                    <div class="form-group" ng-if="item.type==3">
+                                        <div>
+                                            <label class="col-xs-2 control-label" >考生选项：</label>
+                                        </div>
+                                        <div class="col-xs-10">
+                                                <label class="form-control" rows="3" readonly><span ng-if="item.choose"> {{item.choose=='A'?'正确':'错误'}}</span></label>
+                                              
+                                            </div>
+                                        
+                                        <div class="col-xs-8 pt7" style="margin-top: 10px;">
+                                                <label class="col-xs-2 control-label">选项：</label>
+                                            <input type="radio" disabled="disabled" />正确
+                                            <span style="margin-right: 10px"></span>
+                                            <input type="radio" disabled="disabled" />错误
+                                        </div>
+                                    </div>
+                                      <!-- 填空题 -->
+                                      <div class="form-group" ng-if="item.type==4">
+                                        <div>
+                                            <label class="col-xs-2 control-label" >考生作答：</label>
+                                            <div class="col-xs-10">
+                                                <textarea class="form-control" rows="3" readonly > {{item.chooseNewArr.join(' ,')}}</textarea>
+                                            </div>
+                                        </div>
+                                       
+                                        
+                                       
+                                    </div>
+                                    <!-- 问答题 -->
+                                    <div class="form-group" ng-if="item.type==5">
+                                        <label class="col-xs-2 control-label">考生作答：</label>
+                                        <div class="col-xs-10">
+                                            <textarea class="form-control" rows="3" readonly >{{item.choose}}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                         <div class="col-xs-2" style=" margin-left: 15px">
+                                            <label class="control-label" >答案：</label>
+                                         </div>
+                                        <div class="col-xs-8" style="color:red;">
+                                                <label class="control-label" ng-if="item.type==3">
+                                                        {{item.answer=='A'?'正确':'错误'}}
+                                                </label>
+                                            
+                                                <label class="control-label" ng-if="item.type!=3" style="text-align: left;word-break: break-all;">
+                                                        {{item.answer.split('$').join(',')}}
+                                                </label>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+            </div>
+           
+        
+
+</form>
+</div>
+<style>
+    .pt7{
+        padding-top: 7px;
+
+    }
+    
+    </style>

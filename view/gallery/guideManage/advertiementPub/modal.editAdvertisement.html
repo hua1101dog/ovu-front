@@ -1,0 +1,71 @@
+<div class="modal-header">
+        <h4 class="modal-title">{{item.id?'编辑':'新增'}}信息</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="col-xs-4 control-label required">名称</label>
+                <div class="col-xs-8">
+                    <input type="text" class="col-xs-10 my-form-control" required ng-model="item.name" name="name" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label required">图片</label>
+                <div class="col-xs-8">
+	                <img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+	                     ng-click="showPhoto()"
+	                     ng-src="{{processImgUrl(item.imagePath,'50')}}" class="max-height:50px" style="width: 200px;
+    						height: 160px;"/>
+	                <div class="caption">
+	                    <p>
+	                        <span class="btn btn-warning height34" ng-click="clearPhoto(item,'imagePath')"><i
+	                            class="glyphicon glyphicon-remove"></i></span>
+	                        <span class="btn btn-default height34" ng-click="addPhoto(item,'imagePath')"><i
+	                            class="glyphicon glyphicon-picture "></i></span>
+	                        <button class="btn btn-info" ng-click="selectFromDb(1)" >从资料库选择</button>
+	                    </p>
+	                </div>
+            	</div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label required">排序</label>
+                <div class="col-xs-8">
+                    <!--<select class="col-xs-10 my-form-control" required ng-model="item.sort"
+                    	ng-options="o as o for o in SORT">
+                    </select>-->
+                    <input type="number" class="col-xs-10 my-form-control" required ng-model="item.sort" name="sort" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label required">作品介绍</label>
+                <div class="col-xs-8">
+	                <textarea class="col-xs-10 my-form-control" required style="height: 150px;" ng-model="item.content" name="content" /></textarea>
+            	</div>
+            </div>
+    
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+    <style>
+    	.my-form-control {
+		    display: block;
+		    /*width: 100%;*/
+		    height: 34px;
+		    padding: 6px 12px;
+		    font-size: 14px;
+		    line-height: 1.42857143;
+		    color: #555;
+		    background-color: #fff;
+		    background-image: none;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+		    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+		    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+		    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		}
+    </style>

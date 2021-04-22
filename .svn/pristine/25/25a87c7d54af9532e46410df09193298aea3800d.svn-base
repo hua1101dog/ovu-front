@@ -1,0 +1,11 @@
+    .developmentTab,.informationTab,.backgroundTab{
+        font-size: 14px;
+    }
+    .companyTab li{
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+    }
+    .addUnderline{
+        border-bottom: 1px solid #ddd;
+    }

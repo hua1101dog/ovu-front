@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>服务发布</title>
+    <!-- <link rel="stylesheet" href="/common/style.css"> -->
+    <link rel="stylesheet" href="/res/js/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" href="/res/js/easyui/themes/icon.css">
+</head>
+
+<body>
+<div ng-controller = "serviceRelease">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>服务发布</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="x_panel">
+            <div class="panel-heading" style="">
+                服务分类列表
+                <button class="btn btn-danger pull-right" ng-click="del()">批量取消</button>
+                <button class="btn btn-success pull-right" ng-click="morePub()">批量发布</button>
+            </div>
+            <ul class="nav nav-tabs bar_tabs" role="tablist"
+                style="display: flex;height: 55px;overflow-x: scroll;overflow-y: hidden;white-space: nowrap;">
+                <li role="presentation" ng-repeat="item in firstServiceList"
+                    ng-class="{true : 'active',false : '' }[$index==0]">
+                    <a id="tab1"0 role="tab" data-toggle="tab" aria-expanded="true"
+                       ng-click="showSecond(item)">{{item.serviceName}}</a>
+                </li>
+            </ul>
+            <ul class="nav nav-tabs bar_tabs" role="tablist"
+                style="display: flex;height: 55px;overflow-x: scroll;overflow-y: hidden;white-space: nowrap;">
+                <li role="presentation" ng-repeat="item in secondServiceList"
+                    ng-class="{true : 'active',false : '' }[$index==0]">
+                    <a id="tab2"0 role="tab" data-toggle="tab" aria-expanded="true"
+                       ng-click="showChild(item)">{{item.serviceName}}</a>
+
+                </li>
+            </ul>
+            <div class="tab-content" style="min-height: 300px;padding: 10px">
+
+
+                <div style="margin-top: 20px;user-select: none;">
+                    <input type="checkbox" id="all_releaseServer" ng-model="allFlag" ng-init="allFlag=false" ng-click="checkAll()"/>
+                    <label for="all_releaseServer">全选</label>
+                </div>
+
+                <div style="margin: 15px">
+                    <div>自营服务</div>
+                    <div role="button" class="brick" ng-repeat="product in pageModel track by $index" ng-click="selectOne(product)"
+                         ng-if="product.serviceType==1"
+                         style="min-height:138px;margin: 10px">
+                        <div style="position: absolute;margin-top: 20px;margin-left:20px;">
+                            <input type="checkbox" id="awesome" ng-model="product.checked" disabled="disabled"/>
+                            <label for="awesome"></label>
+                        </div>
+                        <div class="brick-content">{{product.serviceName}}</div>
+                        <button class="btn" ng-class="product.status == 1?'btn-warning':'btn-success'"
+                                ng-click="pub(product)">{{product.status == 1?'取消':'发布'}}</button>
+                    </div>
+                </div>
+                <div style="margin: 15px">
+                    <div>第三方服务</div>
+                    <div role="button" class="brick" ng-repeat="product in pageModel track by $index" ng-click="selectOne(product)"
+                         ng-if="product.serviceType==2"
+                         style="min-height:138px;margin: 10px">
+                        <div style="position: absolute;margin-top: 20px;margin-left:20px;">
+                            <input type="checkbox" id="awesome" ng-model="product.checked" disabled="disabled"/>
+                            <label for="awesome"></label>
+                        </div>
+                        <div class="brick-content">{{product.serviceName}}</div>
+                        <button class="btn" ng-class="product.status == 1?'btn-warning':'btn-success'"
+                                ng-click="pub(product)">{{product.status == 1?'取消':'发布'}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<style>
+        input[type="checkbox"] {
+    visibility: hidden;
+}
+
+input[type="checkbox"] + label::before {
+    content: "\a0"; /*ä¸æ¢è¡Œç©ºæ ¼*/
+    display: inline-block;
+    vertical-align: .2em;
+    width: .8em;
+    height: .8em;
+    margin-right: .2em;
+    border-radius: .2em;
+    background-color: silver;
+    text-indent: .15em;
+    line-height: .65; /*è¡Œé«˜ä¸åŠ å•ä½ï¼Œå­å…ƒç´ å°†ç»§æ‰¿æ•°å­—ä¹˜ä»¥è‡ªèº«å­—ä½“å°ºå¯¸è€Œéžçˆ¶å…ƒç´ è¡Œé«˜*/
+}
+
+input[type="checkbox"]:checked + label::before {
+    content: "\2713";
+    background-color: yellowgreen;
+}
+    .panel-heading {
+        border-color: #d0d6d6;
+        font-size: 16px;
+    }
+    .brick {
+        clear: both;
+        width: 130px;
+        height: 130px;
+        background-color: #36a9ce;
+        display: inline-block;
+        color: white;
+        text-align: center;
+        /*line-height: 120px;*/
+        font-size: 14px;
+        box-shadow: 5px 3px 10px #d0d6d6;
+        border-radius: 10px;
+        margin-right: 35px;
+    }
+    .brick-content {
+        word-wrap: break-word;
+        margin-top: 40%;
+        height: 40px;
+    }
+    .brick-check {
+        margin-top: 10px!important;
+        margin-left: -85px!important;
+    }
+</style>
+</html>

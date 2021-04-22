@@ -1,0 +1,183 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">{{item.ID?'编辑':'添加'}}房屋</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">空间名称：</label>
+					<div class="col-xs-3">
+						<input type="text" class="form-control" required ng-model="item.HOUSE_NAME"  name="HOUSE_NAME" />
+					</div>
+					<label class="col-xs-2 control-label required">房屋编码：</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control"  readonly required ng-attr-title="{{item.HOUSE_NO}}" ng-model="item.HOUSE_NO" name="HOUSE_NO" />
+					</div>
+				</div>
+				<div class="form-group" >
+                    <label class="col-xs-2 control-label required">分期：</label>
+                    <div class="col-xs-3">
+                        <select class="form-control"  name="STAGE" required ng-model="item.STAGE"  ng-options="o as o.stageName for o in treeData" >
+                            <option value="">--期--</option>
+                        </select>
+                    </div>
+
+                    <label style="padding-left: 0;padding-right: 0;" class="col-xs-1 control-label required">楼栋：</label>
+                    <div style="padding-left: 0;padding-right: 0;" class="col-xs-1">
+                        <select style="padding-left: 0;padding-right: 0;" class="form-control"  name="FLOOR" required ng-model="item.FLOOR" ng-change="geneUnit(item)" ng-options="o as o.floorName for o in item.STAGE.nodes track by o.floorId" >
+                            <option value="">--栋--</option>
+                        </select>
+                    </div>
+
+
+                    <label style="padding-left: 0;padding-right: 0;" class="col-xs-1 control-label required">单元：</label>
+                    <div style="padding-left: 0;padding-right: 0;" class="col-xs-1">
+                        <input type="text" class="form-control mr15" style="width: 100px" placeholder="2位编码" maxlength="2" ng-model="item.unit_no" name="unit_no"  ng-class="{'waiting':loadingUnitNo}"
+                               uib-typeahead="o.unit_no as o.unit_no for o in getUnitNo($viewValue,item.FLOOR.floorId)" typeahead-min-length=0 typeahead-editable=true typeahead-loading="loadingUnitNo" typeahead-wait-ms='300' required/>
+                    </div>
+                    <label style="padding-left: 0;padding-right: 0;" class="col-xs-1 control-label required">楼层：</label>
+                    <div style="padding-left: 0;padding-right: 0;" class="col-xs-1">
+                        <input type="text" class="form-control" style="width: 100px" placeholder="3位编码" maxlength="3" ng-model="item.ground_no" name="ground_no"  ng-class="{'waiting':loadingGroundNo}"
+                               uib-typeahead="o.ground_no as o.ground_no for o in getGroundNo($viewValue,item.FLOOR.floorId,item.unit_no)" typeahead-min-length=0 typeahead-editable=true typeahead-loading="loadingGroundNo" typeahead-wait-ms='300' required/>
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">虚拟：</label>
+					<div class="col-xs-2">
+						<select class="form-control"  name="isFictitious" required ng-model="item.isFictitious" ng-change=changeType(item.isFictitious) ng-options="o.value as o.text for o in [{text:'是',value:1},{text:'否',value:2}]">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+					<label class="col-xs-2 control-label required">房号：</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control"  required placeholder="例：001" ng-pattern="reg" ng-model="item.HOUSE_CODE" ng-readonly="{{item.ID?true:false}}" name="HOUSE_CODE" ng-change="getHouseList(item)"/>
+					</div>
+
+					<label class="col-xs-2 control-label required">空间类型：</label>
+					<div class="col-xs-2">
+						<select class="form-control"  required name="rm_cat" ng-model="item.rm_cat"  ng-options="o.value as o.text for o in  houseType">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">装修类型：</label>
+					<div class="col-xs-2">
+						<select class="form-control"  required name="isDecoration" ng-model="item.isDecoration"  ng-options="o.value*1 as o.text for o in isDecoration">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+					<label class="col-xs-2 control-label required">房屋朝向：</label>
+					<div class="col-xs-2">
+						<select class="form-control"  required name="aspect" ng-model="item.aspect"  ng-options="o.value*1 as o.text for o in direction">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+					<label class="col-xs-2 control-label">户型：</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" ng-model="item.rm_std"  />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">建筑面积：</label>
+					<div class="col-xs-2">
+						<input type="number" class="form-control"  required ng-model="item.area" name="area" ng-pattern="/^([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9])$/"/>
+					</div>
+					<label class="col-xs-2 control-label">套内面积：</label>
+					<div class="col-xs-2">
+						<input type="number" class="form-control"  ng-model="item.area_su" name="area_su" />
+					</div>
+					<label class="col-xs-2 control-label">公摊面积：</label>
+					<div class="col-xs-2">
+						<input type="number" class="form-control"  ng-model="item.area_chargable" name="area_chargable" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">使用面积：</label>
+					<div class="col-xs-2">
+						<input type="number" class="form-control"  ng-model="item.area_property" name="area_property" />
+					</div>
+					<label class="col-xs-2 control-label">实测建筑面积：</label>
+					<div class="col-xs-2">
+						<input type="number" class="form-control"  ng-model="item.area_actual" name="area_actual" />
+					</div>
+					<label class="col-xs-2 control-label">实测套内面积：</label>
+					<div class="col-xs-2">
+						<input type="number" class="form-control"  ng-model="item.area_actual_su" name="area_actual_su" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">实测公摊面积：</label>
+					<div class="col-xs-2">
+						<input type="number" class="form-control"  ng-model="item.area_actual_chargable" name=" area_actual_chargable" />
+					</div>
+					<label class="col-xs-2 control-label">交楼日期：</label>
+					<div  class="col-xs-2">
+						<input type="datetime" class="form-control Wdate" ng-model="item.date_deliver"  onchange=""
+							   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+					</div>
+					<label class="col-xs-2 control-label">入伙计费日期：</label>
+					<div  class="col-xs-2">
+						<input type="datetime" class="form-control Wdate" ng-model="item.date_cost"  onchange=""
+							   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label required" ng-if="item.isFictitious == 2">设备房：</label>
+					<div class="col-xs-2" ng-if="item.isFictitious == 2">
+						<select class="form-control" required name="IS_EMT_HOUSE" ng-model="item.IS_EMT_HOUSE"  ng-options="o.value*1 as o.text for o in isEmtHouse">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+					<label class="col-xs-2 control-label">空间主题：</label>
+					<div class="col-xs-2">
+						<select class="form-control" name="houseTheme" ng-model="item.houseTheme"  ng-options="o.value*1 as o.text for o in houseTheme">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+					<label class="col-xs-2 control-label">产权方：</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control"  required ng-model="item.owner || '中电光谷'" name="owner" />
+					</div>
+				</div>
+				<!-- <div class="form-group">
+					<label class="col-xs-2 control-label">建筑面积单价：</label>
+					<div class="col-xs-4">
+						<input type="number" class="form-control"  ng-model="item." name="" />
+					</div>
+					<label class="col-xs-2 control-label">建筑面积总价：</label>
+					<div class="col-xs-4">
+						<input type="number" class="form-control"  ng-model="item." name="" />
+					</div>
+				</div> -->
+				<div ng-if="item.IS_EMT_HOUSE == 1">
+					<div class="form-group">
+						<label class="col-xs-2 control-label">视频地址：</label>
+						<div class="col-xs-10">
+							<input type="text" class="form-control" placeholder="可为设备房配置视频地址"  ng-model="item.EMT_ADDR" name="EMT_ADDR" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">烟雾传感器：</label>
+						<div class="col-xs-4">
+							<input type="text" class="form-control" placeholder="监测参数" ng-model="item.SENSOR_MAC_YW" name="SENSOR_MAC_YW" />
+						</div>
+						<label class="col-xs-2 control-label">温湿度传感器：</label>
+						<div class="col-xs-4">
+							<input type="text" class="form-control" placeholder="监测参数" ng-model="item.SENSOR_MAC_WSD" name="SENSOR_MAC_WSD" />
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">备注：</label>
+					<div class="col-xs-10">
+						<textarea type="text" style="height:150px;resize:vertical" class="form-control" ng-model="item.CONTENT"/>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<!-- <button class="btn btn-primary" ng-click="save(form,item)" ng-show="config.edit">确定</button> -->
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>

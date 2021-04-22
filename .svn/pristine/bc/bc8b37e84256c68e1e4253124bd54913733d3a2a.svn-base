@@ -1,0 +1,69 @@
+<!-- 活动查询 -->
+<div ng-controller="activeCtrl">
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <input type="text" ng-model="search.title" class="form-control" placeholder="活动标题" />
+            </div>
+            <div class="form-group">
+                <input style="width: 180px;"  type="datetime" class="form-control Wdate acitveSt" ng-model="search.startTime" placeholder="开始日期" onchange=""
+                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:&quot;#F{$('.acitveEn').last().val()}&quot;})">
+               <label>-</label>
+               <input style="width: 180px;" type="datetime" class="form-control Wdate acitveEn" ng-model="search.endTime" placeholder="结束日期" onchange=""
+                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('.acitveSt').first().val()}&quot;,})">
+        </div>
+            <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default" style="display: grid;">
+        <div class="panel-heading">活动列表
+        </div>
+        <div class="panel-body" style="overflow: scroll;">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th style="width: 145px;">活动标题</th>
+                        <th style="width: 150px;">活动内容</th>
+                        <th >活动开始日期</th>
+                        <th>活动结束日期</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!active_pageModel.data  || active_pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in active_pageModel.data">
+                        <td class="text-center">{{$index + 1+active_pageModel.pageSize*active_pageModel.pageIndex}}</td>
+                        <td style="width: 145px;" ng-if="item.title.length<19">{{item.title}}</td>
+                        <td  ng-if="item.title.length>=19"  ng-class="{'border-t-0':$index==0}">
+                            
+                            <on-detail titles="活动标题" value="{{item.title}}" style="width: 145px">
+
+                                </on-detail>
+                            
+                        </td>
+                        <td ng-if="item.content.length<30">{{item.content}}</td>
+                        <td ng-if="item.content.length>=30" ng-class="{'border-t-0':$index==0}">
+                            
+                            <on-detail titles="活动内容" value="{{item.content}}" >
+
+                                </on-detail>
+                           
+                        </td>
+                        <td >{{item.timeEnd}}</td>
+                        <td >{{item.timeBegin}}</td>
+                      
+                       
+                       
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <page-pro page-model="active_pageModel"></page-pro>
+            </div>
+        </div>
+    </div>
+   
+</div>

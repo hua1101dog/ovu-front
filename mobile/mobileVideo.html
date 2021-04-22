@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>视频监控</title>
+    <meta charset="utf-8">
+    <meta name="description" content="视频监控">
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link href="/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link rel="stylesheet" type="text/css" href="./index.css">-->
+    <style>
+        .btn-custerm{
+            background-color: transparent;
+            color: #5a5a5a !important;
+            border-color: #5a5a5a;
+            outline: none !important;
+            margin-right: .5em;
+            margin-bottom: 5px;
+        }
+        .btn-default:active:focus, .btn-default:active:hover{
+            background-color: transparent;
+            border-color: #0b70ed;
+        }
+        button.list-group-item:focus,button.list-group-item:hover{
+            background-color: transparent;
+        }
+        button.myactive{
+            border-color:#26a2ff;
+            color: #26a2ff !important;
+
+        }
+        p.title{
+            font-size: 12px;
+            font-weight: 300;
+            color: #959595;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0px;
+        }
+        .error{
+            color: red;
+        }
+        .btn-word{
+            text-align: left;
+            white-space: normal
+        }
+    </style>
+</head>
+<body>
+<div id="app"  class="container-fluid">
+    <header>
+        <p class="title">视频:</p>
+        <p id="tabs_box">
+            <button @click="clickVideo(video,index)"
+                    v-for="(video, index) in videoList"
+                    :class="{ myactive : videoIndex ==  index}"
+                    type="button"  class="btn btn-sm btn-custerm btn-word">{{video.name}}</button>
+        </p>
+        <p class="title">线路:</p>
+        <p>
+            <button type="button"
+                    v-for="(line, index) in lineList"
+                    @click="changeLine(line.sourceId,index)"
+                    :class="{ myactive : lineIndex ==  index}"
+                    class="btn btn-sm btn-custerm btn-word">{{line.sourceName}}</button>
+        </p>
+    </header>
+    <section id="wrapper" class="chimee-container">
+        <video tabindex="-1"  autoplay muted></video>
+    </section>
+    <footer v-show="showError" class="error">访问已达上限，请稍后重试！</footer>
+</div>
+</body>
+<!-- 先引入 Vue -->
+<script src="lib/vue.min.js"></script>
+<!-- 引入 Vueresource.http -->
+<script src="lib/vue-resource.min.js"></script>
+<script src="lib/chimee-mobile-player.browser.js"></script>
+<script>
+    /*
+    * @Author: Wang Heng
+    * @Date: 2018-05-08 10:01:36
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2018-12-10 14:18:50
+    */
+    var player,timer,timer2;
+    var CAMERA_SERVICE_URL ="http://pub.ovuems.com/ovu-camera";
+    var vm = new Vue({
+        el: '#app',
+        data : {
+            videoList:[],  //摄像头列表,
+            lineList:[],   //线路列表
+            videoIndex:0,  //当前选中的摄像头索引
+            lineIndex:0,    //当前选中的线路索引,
+            showError:false
+        },
+        methods: {
+            clickVideo: function (video, index) {
+                var that = this;
+                that.videoIndex = index;            //视频选中索引
+                that.lineList = video.sources;  //线路列表
+                that.$http.jsonp(CAMERA_SERVICE_URL+'/api/getIsOpen?code=' + video.regi_code).then(function (resp) {
+                    var data = resp.data;
+                    if(data.code!=0){
+                        that.showError = true;
+                    }else{
+                        that.showError = false;
+                        that.changeLine(this.lineList[0].sourceId, 0); //默认选中第一个线路
+                    }
+                });
+            },
+            changeLine : function (id, index) {
+                var that = this;
+                that.lineIndex = index;
+                clearInterval(timer);
+                clearInterval(timer2);
+                this.$http.jsonp(CAMERA_SERVICE_URL+"/api/keepLive?sourceId=" + id);
+                timer = setInterval(function () {
+                    that.$http.jsonp(CAMERA_SERVICE_URL+"/api/keepLive?sourceId=" + id).then(function (res) {
+                        var data = res.data;
+                        if (data.code ==0) {
+                            clearInterval(timer);
+                        }
+                    })
+                },40000);
+                this.$http.jsonp(CAMERA_SERVICE_URL+'/api/playVideo?sourceId=' + id).then(function (res) {
+                    var data = res.data;
+                    if (data.data && data.data.flvUrl) {
+                        rebuildPlayer(data.data.flvUrl);
+                    } else {
+                        getUrlById(id);
+                        timer2 = setInterval(function () {
+                            getUrlById(id);
+                        },2000)
+                    }
+                });
+            }
+        },
+        mounted: function () {
+            var that = this;
+            //参数变化需要规避
+            var search = location.search.replace("equipmentIds","equipmentId");
+            this.$http.get('/ovu-pcos/api/video/getCameraAndSources.do'+ search).then(function (response) {
+                    if(response.ok){
+                        that.videoList = response.data.data;
+                        that.videoList[0] && that.clickVideo(that.videoList[0], 0);
+                    }
+            })
+        },
+        destroyed : function(){  //不生效
+            clearInterval(timer);
+            clearInterval(timer2);
+            player && !player.destroyed && player.destroy();
+        }
+       /*  ,computed: {
+            getUrlByLine: function () {
+                return this.lineIndex === 1 ? this.data.lanM3u8 : this.data.interM3u8;
+            }
+        } */
+    })
+    //页面离开时 销毁实力以及定时器
+    window.onbeforeunload=function(e){
+        clearInterval(timer);
+        clearInterval(timer2);
+        player && !player.destroyed && player.destroy();
+    }
+
+    //根据视频源id来获取播放url
+    function getUrlById(id) {
+        vm.$http.jsonp(CAMERA_SERVICE_URL+'/api/sourceDetail?sourceId=' + id).then(function (res) {
+            if (res.data && res.data.flvUrl) {
+                clearInterval(timer2);
+                rebuildPlayer(res.data.flvUrl);
+            }
+        });
+    }
+
+    //播放视频方法
+    function rebuildPlayer (src) {
+        player && !player.destroyed && player.destroy();
+        player = new ChimeeMobilePlayer({
+            box: "native",
+            // 播放地址
+            src: (src && src.replace("flv","m3u8")) || 'http://yunxianchang.live.ujne7.com/vod-system-bj/44_176_20170224113626af3a75cd-3508-4bc3-b51f-366fca3c7e39.m3u8',
+            // 直播:live 点播：vod
+            isLive: true,
+            // dom容器
+            wrapper: '#wrapper',
+            // video
+            autoplay: true,
+            controls: true,
+            playsInline: true,
+            preload: true,
+            x5VideoPlayerFullscreen: true,
+            x5VideoOrientation: true,
+            xWebkitAirplay: true,
+            muted: true
+        });
+
+        try{
+            WeixinJSBridge && WeixinJsBridge.invoke('getNetworkType', {}, function () {
+                player.load();
+            })
+        }catch(e) {
+            console.warn('不支持WeixinJSBridge')
+        }
+
+    }
+</script>
+</html>

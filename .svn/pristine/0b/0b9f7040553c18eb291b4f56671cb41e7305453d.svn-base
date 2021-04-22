@@ -1,0 +1,373 @@
+<!-- 视频点播 -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <title>OVU-智慧运营平台</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="bookmark" href="/favicon.ico" />
+
+    <link href="/res/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/res/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/view/main.css" rel="stylesheet" type="text/css" />
+    <!--<link href="/res/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet" />-->
+    <!--<link href="/js/angular.css" rel="stylesheet">-->
+    <!--<link href="/res/js/jquery-address/css/jquery-address.css" rel="stylesheet">-->
+    <!--<link href="/res/js/jquery-confirm.min.css" rel="stylesheet">-->
+    <!--<link href="/res/js/angular-ui-select/select.min.css" rel="stylesheet">-->
+    <!--<link rel="stylesheet" href="/res/js/easyui/themes/default/easyui.css">-->
+    <!--<link rel="stylesheet" href="/res/js/easyui/themes/icon.css">-->
+    <!-- 滑动块插件 -->
+    <link rel="stylesheet" href="/res/js/bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet">
+
+    <style>
+        /*.layui-layer-dialog {*/
+            /*width: 30px*/
+        /*}*/
+
+        /*.title {*/
+            /*font-size: 20px;*/
+            /*line-height: 30px;*/
+            /*padding: 0 10px;*/
+        /*}*/
+
+        .slider-selection {
+            background: #337ab7;
+        }
+
+        .slider.slider-horizontal{
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body ng-app="angularApp" ng-controller="indexCtrl as vm" ng-cloak>
+    <div class="photoDiv" ng-if="curPic.on">
+        <img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute" ng-click="curPic.on = false"></img>
+        <img class="photo" ng-src="{{curPic.url}}" image-load="wheel()"></img>
+    </div>
+    <!-- <div class="page-title">
+        <div class="title_left">
+            <h3 style="padding-left:20px">抓拍记录</h3>
+        </div>
+    </div> -->
+    <div class="x_panel">
+        <div class="form-inline" class="col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+                <label>创建时间</label>
+                <input style="width: 180px;" type="datetime" class="form-control Wdate" ng-model="search.startTime" placeholder="视频开始时间"
+                    onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+                <label>-</label>
+                <input style="width: 180px;" type="datetime" class="form-control Wdate" ng-model="search.endTime" placeholder="视频结束时间" onchange=""
+                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('.Wdate').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+
+            </div>
+            <button class="btn btn-default" ng-click="find()">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="row" style="padding: 10px;">
+            <div class="col-md-12 col-sm-12">
+                <p class="title">摄像机名称：{{name}}</p>
+                <p class="title">摄像机地址：{{cameraPosition}}</p>
+                <!-- <p>{{cameraId}}</p> -->
+            </div>
+        </div>
+
+        <!--视频-->
+        <div ng-if="isShow" class="row" style="padding: 10px;">
+            <on-Demand id="video2" list="vm.list" height="530" cameraId={{cameraId}} recond-id="recondId" startTime={{search.startTime}}
+                endTime="{{search.endTime}}"></on-Demand>
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="/res/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+<script src="/res/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/res/gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+<!--兼容以前项目需要的东西 -->
+<script src="/res/js/utils.js"></script>
+<script src="/res/js/jquery-confirm.min.js"></script>
+
+<script src="/res/gentelella/vendors/starrr/dist/starrr.js"></script>
+<script type="text/javascript" src="/res/js/jquery-address/js/jquery-address.js"></script>
+
+<script type="text/javascript" src="/res/js/layer/layer.js"></script>
+<script src="/government/lib/laydate/laydate.js"></script>
+<script src="/res/gentelella/vendors/moment/min/moment.min.js"></script>
+<script type="text/javascript" src="/res/js/datepicker97/WdatePicker.js"></script>
+<script src="/res/js/redips-table.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/angular.min.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/angular-locale_zh-cn.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/ocLazyLoad.min.js"></script>
+<script type="text/javascript" src="/res/js/angular1.5.11/clickoutside.directive.js"></script>
+<script type="text/javascript" src="/res/js/common.js"></script>
+<script type="text/javascript" src="/res/video/flv.min.js"></script>
+
+<!--<script type="text/javascript" src="/js/filter.js"></script>-->
+
+<!-- 滑动块插件 -->
+<script type="text/javascript" src="/res/js/bootstrap-slider/bootstrap-slider.js"></script>
+
+<script>
+    var app = angular.module("angularApp", ['ui.router', 'ui.bootstrap']);
+
+    app.controller('indexCtrl', function ($scope, $rootScope, $location, $http) {
+        document.title = "视频点播";
+        $scope.search = {};
+        // $scope.search.startTime=moment().format('YYYY-MM-DD 00:00:00');
+        // $scope.search.endTime=moment().format('YYYY-MM-DD 23:59:59');
+        $scope.photoinfoList = [];
+        var objPath = $location.$$absUrl.split("?")[1].split("&");
+        $scope.cameraId = objPath[0].split("=")[1];
+        $scope.name = decodeURI(objPath[1].split("=")[1]);
+        $scope.cameraPosition = decodeURI(objPath[2].split("=")[1]);
+        $scope.recondId = "";
+        $scope.isShow = false;
+
+        $scope.find = function () {
+            if (($scope.search.startTime) && ($scope.search.endTime)) {
+                var layerIndex = layer.load(1, {
+                    shade: [0.2, '#000'] //0.1透明度的白色背景
+                });
+
+                var params = { cameraId: $scope.cameraId, startTime: $scope.search.startTime, endTime: $scope.search.endTime }
+                $http.get('/ovu-camera/pcos/videomanagement/recordInfo/getRecord', { params: params }).success(function (data) {
+                    layer.close(layerIndex);
+                    if (data.id) {
+                        $scope.isShow = true;
+                        $scope.recondId = data.id;
+                    } else {
+                        console.log("recordInfo/getRecord no id")
+                        layer.alert(data.success, { btn: ['确定'], title: false });
+                    }
+                });
+
+            } else {
+                layer.alert("请选择时间", { btn: ['确定'], title: false });
+            }
+        };
+
+        $scope.find();
+
+    
+    });
+
+    /**
+     * 点播
+     */
+    app.directive('onDemand', ['$window', '$timeout', '$http', '$location', function ($window, $timeout, $http, $location) {
+        return {
+            restrict: 'AE',
+            scope: {
+                deviceId: '<?',
+                width: '<?',
+                height: '<?',
+                url: '<?',
+                list: '<?',
+                recondId: '<?'
+            },
+            templateUrl: '/view/videomanagement/VideoOndemand.html',
+            link: function (scope, el, attr) {
+                scope.player; //播放器实体对象
+                scope.isOpen = true; //是否展开右侧水平的面板,默认不展开
+                scope.width = scope.width || el.parent().width() || 100;
+                scope.startTime=attr.starttime;
+                scope.endTime=attr.endtime;
+
+                scope.cameraId = attr.cameraid;
+                // scope.recondId=attr.recondid;
+
+                var slider;
+                var pointTime;
+                var alreadyTime;
+
+                ///计算两个整数的百分比值
+                function GetPercent(num, total) {
+                    num = parseFloat(num);
+                    total = parseFloat(total);
+                    if (isNaN(num) || isNaN(total)) {
+                        return "-";
+                    }
+                    return total <= 0 ? "0%" : (Math.round(num / total * 10000) / 100.00 + "%");
+                }
+
+
+                function vedioProgress() {
+                    //视频进度控制 slider
+                    var timeLong = (Date.parse(new Date(scope.endTime)) - Date.parse(new Date(scope.startTime)))/1000;
+                    if(!slider){
+                        slider = new Slider('#slider', {
+                            //tooltip: 'always',
+                            step: 1,
+                            min: 0,
+                            max: timeLong,
+                            formatter: function(value) {
+                                return GetPercent(value,timeLong);
+                            }
+                        });
+                        slider.on("slideStop", function(value) {
+                            console.log("slideStop");
+                            //点播 触发
+                            var time = Date.parse(new Date(scope.startTime))/1000 + value;
+                            pointTime = moment.unix(time).format('YYYY-MM-DD HH:mm:ss');
+                            //请求视频
+                            var layerIndex = layer.load(1, {
+                                shade: [0.2, '#000'] //0.1透明度的白色背景
+                            });
+                            var params = { cameraId: scope.cameraId, skipTime: pointTime,id:scope.recondId};
+                            $http.get('/ovu-camera/pcos/videomanagement/recordInfo/getRecordSkip', { params: params }).success(function (data) {
+                                layer.close(layerIndex);
+                                if (data.id) {
+                                    scope.recondId = data.id;
+                                } else {
+                                    console.log("recordInfo/getRecord no id")
+                                    layer.alert(data.success, { btn: ['确定'], title: false });
+                                }
+                            });
+                        });
+
+                    }else{
+                        slider.setAttribute('max',timeLong);
+                    }
+                }
+
+                //显示视频进度控制
+                vedioProgress();
+
+
+                
+                window.onbeforeunload = function(){
+                    flv_destroy();
+                    $http.get('/ovu-camera/pcos/videomanagement/recordInfo/getCloseRecord?id=' + scope.recondId)
+                }
+
+
+
+                //监听recondId变化
+                scope.$watch('recondId', function (current, prev) {
+                    if (angular.isDefined(current) && !angular.equals(current, prev)) {
+                        if (current !== prev) {
+                            scope.recondId = current;
+                            init(current);
+                        } else {
+                            scope.recondId = prev;
+                            init(prev);
+
+                        }
+                    }
+                }, true);
+
+                //点击视频源，用于切换摄像头
+                scope.timer;
+                var timerGet = 0;
+                function getUrlById(id) {
+                    timerGet += 1;
+                    var layerIndex = layer.load(1, {
+                        shade: [0.2, '#000'] //0.1透明度的白色背景
+                    });
+                    $http.get('/ovu-camera/pcos/videomanagement/recordInfo/get?id=' + id).success(function (data) {
+                        if (data.data && data.data.flvUrl) {
+                            clearTimeout(scope.timer);
+                            layer.close(layerIndex);
+
+                            //修改开始时间
+                            var time = Date.parse(new Date(scope.startTime))/1000 + timerGet;
+                            scope.startTime =  moment.unix(time).format('YYYY-MM-DD HH:mm:ss');
+                            var timeLong = (Date.parse(new Date(scope.endTime)) - Date.parse(new Date(scope.startTime)))/1000;
+                            slider.setAttribute('max',timeLong);
+
+                            scope.url = data.data.flvUrl;
+                            play(data.data.flvUrl);
+                        } else {
+                            //play("http://36.7.184.120:8082/live/16_63200331172161204X0_492.flv");
+                            scope.timer = setTimeout(function () {
+                                getUrlById(id);
+                            }, 1000)
+                        }
+                    });
+                }
+
+                function init(id) {
+                    clearTimeout(scope.timer);
+                    timerGet = 0;
+                    getUrlById(id);
+                }
+
+                getUrlById(scope.recondId);
+
+                scope.playTimer;
+                var timeIndex = 0;
+                function play(url) {
+                    if (flvjs.isSupported()) {
+                        timeIndex = 0
+                        clearTimeout(scope.playTimer);
+
+                        if (typeof scope.player !== "undefined") {
+                            if (scope.player != null) {
+                                scope.player.unload();
+                                scope.player.detachMediaElement();
+                                scope.player.destroy();
+                                scope.player = null;
+                            }
+                        }
+                        var videoElement = document.getElementById('video');
+                        document.addEventListener("visibilitychange", function () {
+                            if (document.hidden && videoElement.paused) {
+                                videoElement.play();
+                            }
+                        });
+                        scope.player = flvjs.createPlayer({
+                            type: 'flv',
+                            isLive: false,
+                            hasAudio: false,
+                            url: url
+                        });
+                        scope.player.attachMediaElement(videoElement);
+                        scope.player.load();
+                        scope.player.play();
+                        scope.playTimer = setInterval(function () {
+                            //console.log("playTimer");
+                            timeIndex +=1;
+                            if(!pointTime){
+                                pointTime = scope.startTime;
+                            }
+                            var time = Date.parse(new Date(pointTime))/1000 + timeIndex;
+                            alreadyTime = moment.unix(time).format('YYYY-MM-DD HH:mm:ss');
+                            var value = time - Date.parse(new Date(scope.startTime))/1000;
+                            slider.setValue(value);
+                        } ,1000);
+                    }
+                }
+
+                function flv_destroy() {
+                    if (scope.player) {
+                        scope.player.pause();
+                        scope.player.unload();
+                        scope.player.detachMediaElement();
+                        scope.player.destroy();
+                        scope.player = null;
+                    }
+                }
+
+            }
+        };
+    }]);
+
+</script>
+<style>
+    html {
+overflow-x:hidden;
+
+}
+</style>
+</html>

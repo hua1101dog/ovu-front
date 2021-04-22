@@ -1,0 +1,108 @@
+<div ng-controller="controlCtrl">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>设备房列表</h3>
+      </div>
+    </div>
+    <div class="form-inline x_panel">
+        <div class="form-group">
+            <label>设备房</label>
+            <!--<select class="form-control" style="width:150px" ng-model="search.equipHouseId" ng-options="o.equipHouseId as o.equipHouseName for o in equipNameArr">
+                <option value="">--请选择--</option>
+            </select>-->
+            <select class="form-control ui-select2" ng-model="search.equipHouseId" style="width:300px;" required >
+            </select>
+        </div>
+        <div class="form-group">
+            <label>设备房名称</label>
+            <input type="text" class="form-control" ng-model="search.equipHouseName"/>
+        </div>
+        <div class="form-group">
+            <label>空间名称</label>
+            <input type="text" class="form-control" ng-model="search.spaceName"/>
+        </div>
+        <div class="form-group text-nowrap">
+            <label>房屋</label>
+            <select class="form-control"  name="STAGE"  ng-model="STAGE" style="max-width:200px" ng-options="o as o.text for o in treeData">
+            <option value="">--期--</option>
+            </select>
+            <select class="form-control mr15"  name="BUILD"  ng-model="BUILD" style="max-width:170px" ng-options="o as o.text for o in STAGE.nodes track by o.id" >
+                <option value="">--栋--</option>
+            </select>
+            <select class="form-control mr15"  name="UNIT"  ng-model="UNIT" style="max-width:170px" 
+            	ng-options="o as o.text for o in BUILD.nodes track by o.id">
+                <option value="">--单元--</option>
+            </select>
+            <select class="form-control mr15"  name="FLOOR" ng-model="FLOOR" style="max-width:170px" 
+            	ng-options="o as o.text for o in UNIT.nodes track by o.id" ng-change="selectFloor()">
+                <option value="">--楼层--</option>
+            </select>
+            <select class="form-control mr15"  name="HOUSE" ng-model="HOUSE" style="max-width:170px" 
+            	ng-options="o as o.houseName for o in HOUSES track by o.id" >
+                <option value="">--房屋--</option>
+            </select>
+        </div>
+        <button class="btn btn-default pull-right" ng-click="find()">查询</button>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">设备房列表</div>
+      <div class="panel-body">
+        <div class="row" style="overflow: hidden">
+          <div ng-if="!pageModel.data || pageModel.data.length==0" style="margin-left: 20px">暂无数据</div>
+          <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="item in pageModel.data">
+            <div style="position: relative;overflow: hidden;margin-bottom: 20px">
+              <div style="position: absolute;left: 10px;top:10px;z-index: 666">
+                <div ng-if="item.houseImgs.length!=0" ng-class="{active_1234:item.selected==$index}" ng-repeat="itemPic in item.houseImgs" ng-click="togglePic(itemPic,$index,item)" style="width: 20px;height: 20px;border: 1px solid #ccc;border-radius: 5px;margin-right: 5px;text-align: center;display: inline-block;cursor: pointer;">{{$index+1}}</div>
+              </div>
+              <div class="clearfix">
+                <img ng-src={{item.url}} alt="" class="col-md-8 col-sm-8 col-xs-8" style="height: 150px;padding: 0;border: 1px solid #ccc;border-bottom: none">
+                <ul class="col-md-4 col-sm-4 col-xs-4" style="height: 150px;padding: 0;margin: 0">
+                  <li class="btn-link param-box" ng-class="{abnormal:item.sensorData[0].isRegular==2}" ng-click="selectedParam(item,1)">{{item.sensorData[0].name+(item.sensorData[0].name?':':'')+item.sensorData[0].val+item.sensorData[0].unit}}</li>
+                  <li class="btn-link param-box" ng-class="{abnormal:item.sensorData[1].isRegular==2}" ng-click="selectedParam(item,2)">{{item.sensorData[1].name+(item.sensorData[1].name?':':'')+item.sensorData[1].val+item.sensorData[1].unit}}</li>
+                  <li class="btn-link param-box" ng-class="{abnormal:item.sensorData[2].isRegular==2}" ng-click="selectedParam(item,3)">{{item.sensorData[2].name+(item.sensorData[2].name?':':'')+item.sensorData[2].val+item.sensorData[2].unit}}</li>
+                  <li class="btn-link param-box" ng-class="{abnormal:item.sensorData[3].isRegular==2}" ng-click="selectedParam(item,4)">{{item.sensorData[3].name+(item.sensorData[3].name?':':'')+item.sensorData[3].val+item.sensorData[3].unit}}</li>
+                </ul>
+              </div>
+              <div class="clearfix">
+                <p class="col-md-12 col-sm-12 col-xs-12" style="border:1px solid #ccc;line-height: 20px;height: 60px;margin: 0;text-align: center">{{item.equipHouseName}}</p>
+              </div>
+              <div class="clearfix">
+                <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 10px 0">
+                  <button class="pull-left btn btn-default" ng-click="goEquipInform(item)">进入设备房</button>
+                  <button class="pull-right btn btn-default" style="margin: 0" ng-click='playVideo(item.equipHouseId,"","playback")'>查看历史视频</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="page-footer clearfix">
+          <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+      </div>
+    </div>
+</div>
+<style>
+    .active_1234 {
+        background-color: #89daff;
+    }
+  .abnormal {
+    color: red;
+  }
+  li.param-box {
+    width: 100%;
+    height: 25%;
+    border-top: 1px solid #ccc!important;
+    border-right:1px solid #ccc!important;
+    text-align: center;
+    padding-top: 8px;
+    cursor: pointer;
+    text-decoration: none!important;
+  }
+  .select2-container .select2-selection--single{  
+	height:34px;  
+	line-height: 34px;  
+  } 
+  .form-group{
+	margin: 5px 0;
+  }
+</style>

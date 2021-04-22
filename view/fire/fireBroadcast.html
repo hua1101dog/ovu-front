@@ -1,0 +1,57 @@
+<div ng-controller="fireBroadcastCtrl as vm" class="clearfix">
+	<div class="page-title">
+		<div class="title_left">
+			<h3>火警实时播报</h3>
+		</div>
+	</div>
+	<!--<div class="x_panel">
+		<div class="form-inline">
+			<div class="form-group">
+				<label>消防点名称</label> 
+				<input type="text" ng-model="search.name"
+					class="form-control" />
+			</div>
+
+			<button class="btn btn-default" ng-click="find(1)">查询</button>
+		</div>
+	</div>-->
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			实时播报列表
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped table-hover"
+				style="margin-top: 10px;">
+				<thead class="title">
+					<tr>
+						<th class="text-center">NO</th>
+						<th>播报时间</th>
+						<th>播报内容</th>
+						<th>所属项目</th>
+						<th>消防点编号</th>
+						<th>消防点名称</th>
+						<th>设备</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in vm.list track by $index">
+						<td class="text-center">{{$index+ 1}}</td>
+						<td>{{item.time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+						<td>{{item.detail}}</td>
+						<td>{{item.parkName}}</td>
+						<td>{{item.number}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.equipmentName}}</td>
+						<td>
+							<a href='javascript:void(0)' ng-click='vm.toFireMonitoring(item.firePointId)' class='btn btn-xs'><span class='fa fa-edit'></span>进入项目地图</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="page-footer clearfix">
+				<ng-include src="'/common/pager.html'"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>

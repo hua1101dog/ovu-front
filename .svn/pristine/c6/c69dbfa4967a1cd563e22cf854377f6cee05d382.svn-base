@@ -1,0 +1,81 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title" ng-show="!item.isView">{{item.id?'编辑':'新增'}}园区活动</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+				<div class="form-group">
+					<label class="col-xs-2 control-label">发布者：</label>
+					<div class="col-xs-4">
+					    <input type="hidden" name="activityType" value="1"/>
+						<input type="text" class="form-control" ng-model="item.creatorName" name="creatorName"  style="cursor: default;" readonly/>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-xs-2 control-label required">标题：</label>
+					<div class="col-xs-9">
+						<input type="text" class="form-control" required  ng-model="item.title" name="title"  style="cursor: default;"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">简介：</label>
+					<div class="col-xs-9">
+					    <textarea type="text" required style="height:50px;resize:vertical;cursor: default;" 
+					    class="form-control"  ng-model="item.theme" name="theme" />
+					</div>
+				</div>
+                <div class="form-group">
+                    <div class="form-inline">
+                        <label class="col-xs-2 control-label required">活动日期：</label>
+                            <div class="col-xs-9">
+                                <input type="datetime" required class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.beginTime" id="search_date1" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',maxDate:'#F{$dp.$D(\'search_date2\');}'})">
+                                                                                    至
+                                <input type="datetime" required class="form-control Wdate ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.endTime" id="search_date2" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'search_date1\');}'})">
+                            </div>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">限额人数：</label>
+					<div class="col-xs-9">
+						<input type="number" class="form-control" required ng-pattern="/^\+?[1-9]\d*$/" ng-model="item.maxPeople" name="maxPeople"  style="cursor: default;" placeholder="仅可填数字"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">报名费：</label>
+					<div class="col-xs-9">
+						<input type="number" class="form-control" required ng-pattern="/^\d+(\.{0,1}\d+){0,1}$/" ng-model="item.price" name="price"  style="cursor: default;" placeholder="仅可填数字"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">活动地点：</label>
+					<div class="col-xs-9">
+						<input type="text" class="form-control" required ng-model="item.place" name="place"  style="cursor: default;"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">内容：</label>
+					<div class="col-xs-9">
+					<div  id="editor" ></div>
+					<!-- <script type="text/plain" id="myContent" style="width:100%;height:240px;"></script> -->
+					</div>
+				</div> 
+				
+				<div class="form-group">
+					<label class="col-xs-2 control-label">照片：</label>
+					<div class="col-xs-9" >
+						<div class="photoWraper" ng-repeat="p in item.pics track by $index">
+                            <img onerror="javascript:this.src='/res/img/detail.png';"
+                                 ng-click="showPhoto()"
+                                 ng-src="{{processImgUrl(p)}}" />
+                            <a role="button" ng-click="delPhoto(item.pics, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                        </div>
+                        <img ng-show="item.pics.length < 1" height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(item.pics)" title="上传图片">
+					</div>
+				</div>				
+			</form>
+		</div>
+		<div class="modal-footer" ng-show="!item.isView">
+			<button class="btn btn-primary" ng-click="saveNews(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+

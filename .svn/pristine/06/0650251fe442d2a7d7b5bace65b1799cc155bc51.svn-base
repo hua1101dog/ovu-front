@@ -1,0 +1,154 @@
+<!-- 变配电管理 -->
+<div ng-controller="distributionManageCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <!-- <button class="btn btn-primary" ng-click="backPage()" style="margin: 0 10px 10px 15px;">返回</button> -->
+            <h3>变配电管理</h3>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+           
+            <div class="x_panel">
+                <div class="x_title">变压器列表
+                </div>
+                <div class="x_content" style="z-index: 1;overflow: auto;height:700px">
+                   
+                    <div class="alert" role="alert" ng-show="trmTreeData.length==0">无分类信息</div>
+                   
+                       
+                        <tranformertree-view node-list="trmTreeData" callback="selectNode"
+                        config="config"></tranformertree-view>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12">
+            <div class="x_panel" style="margin-top:20px">
+                <div class="form-group clearfix">
+                    <h4 style="display: inline-block;margin-left:10px" ng-if='isbyq'>编辑变压器</h4>
+                    <h4 style="display: inline-block;margin-left:10px" ng-if='isNode'>{{title}}配电柜</h4>
+
+
+                    <button class="btn btn-primary pull-right" ng-click="addPdg(item.trId)" ng-if="!isNode && checkId">新增配电柜</button>
+
+
+
+                </div>
+                <form name="form" novalidate class="form-horizontal" id="form">
+                    <div ng-if="!isNode">
+                        <div class="form-group clearfix">
+                            <label class="col-xs-2 control-label required">变压器名称：</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" required ng-model="item.trName" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-xs-2 control-label required">惯用名：</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" required ng-model="item.trSimpleName" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group clearfix" style="display: block">
+                            <label class="col-xs-2 control-label required">变压器监测表：</label>
+                            <div class="col-xs-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" required ng-model="item.monitorMeterName" readonly>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" ng-click="chooseByq(item.monitorMeterId,item.monitorMeterName)"><i
+                                                class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix" style="display: block">
+                            <label class="col-xs-2 control-label required">进线表名称：</label>
+                            <div class="col-xs-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" ng-model="item.inMeterName" required readonly>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" ng-click="chooseJinxian(item.inMeterId,item.inMeterName)"><i
+                                                class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix" style=" display: block">
+                            <label class="col-xs-2 control-label required">是否关联变压器：</label>
+                            <div class="col-xs-8" ng-init="item.type = 1">
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="item.refTr" value="1" required ng-change="showIn()">是
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" ng-model="item.refTr" value="0" required ng-change="showOut()">否
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix" style="display: block" ng-if="item.refTr==1">
+                            <label class="col-xs-2 control-label required">关联变压器：</label>
+                            <div class="col-xs-8">
+                                <ui-select ng-model="selected.value"  ng-change="change(selected.value)" required>
+                                    <ui-select-match>
+                                        <span ng-bind="$select.selected.trSimpleName" required>
+                                        </span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="v in (transformList | filter:$select.search) track by v.trId">
+                                        <span ng-bind="v.trSimpleName" required>
+                                        </span>
+                                    </ui-select-choices>
+                                    </ui-select>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix" style="display: block" ng-if='item.refTr==1'>
+                            <label class="col-xs-2 control-label required">是否具备母联表：</label>
+                            <div class="col-xs-8">
+                                <select class="form-control" required ng-model="item.refParentMeter" ng-options="o[0] as o[1] for o in [[0,'否'],
+                                [1,'是']]">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix" style="display: block" ng-if='item.refTr==1 && item.refParentMeter==1'>
+                            <label class="col-xs-2 control-label required">母联表名称：</label>
+                            <div class="col-xs-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" ng-model="item.parentMeterName"  required readonly>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" ng-click="chooseM(item.parentMeterId,item.parentMeterName)"><i
+                                                class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="isNode">
+                        <div class="form-group clearfix">
+                            <label class="col-xs-2 control-label required">配电柜名称：</label>
+                            <div class="col-xs-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" readonly ng-model="item.dtName" name="dtName" required readonly>
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-default" ng-click="chooseEquipment(item)"><i class="fa fa-search"></i></a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-xs-2 control-label">惯用名：</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" ng-model="item.dtSimpleName" readonly />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div style="text-align: center" ng-if="checkId">
+                    <button class="btn btn-danger" ng-click="del(item.insPointId)">删除</button>
+                    <button class="btn btn-primary" ng-click="save(form,item)" style="margin: 0 10px">保存</button>
+                    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

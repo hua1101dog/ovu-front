@@ -1,0 +1,794 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">流程：创建-【入驻办理】房屋{{processForm.settleType===1?'购房入驻': '租赁入驻'}}申请</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <uib-tabset>
+        <uib-tab heading="流程表单" ng-click="switchForm()">
+            <div class="processForm">
+                <div class="applicationInfo">
+                    <h4>【入驻办理】{{processForm.userType | usertype}}{{processForm.settleType===1?'购房入驻': '租赁入驻'}}申请</h4>
+                    <!-- 入驻申请/装修申请 -->
+                    <div class="msgList" ng-if="false">
+                        <div class="msg-group clearfix">
+                            <p>申请信息</p>
+                        </div>
+                        <!-- 入驻申请 begin -->
+                        <!-- 企业/个人购房 -->
+                        <div class="msg-group clearfix" ng-if="processForm.settleType===1">
+                            <label class="col-xs-2">业主姓名</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.proprietorName}}">{{processForm.proprietorName}}</span>
+                            </div>
+                            <label class="col-xs-2">入驻方式</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss">{{processForm.settleType===1?'购房入驻': '租赁入驻'}}</span>
+                            </div>
+                            <label class="col-xs-2">申请时间</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.createTime}}">{{processForm.createTime}}</span>
+                            </div>
+                        </div>
+                        <!-- 企业/个人购房 -->
+                        <div class="msg-group clearfix" ng-if="processForm.settleType===1">
+                            <label class="col-xs-2">联系人</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.linkman}}">{{processForm.linkman}}</span>
+                            </div>
+                            <label class="col-xs-2">联系电话</label>
+                            <div class="col-xs-6">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.telephone}}">{{processForm.telephone}}</span>
+                            </div>
+                        </div>
+                        <!-- 企业/个人租赁 -->
+                        <div class="msg-group clearfix" ng-if="processForm.settleType===2">
+                            <label class="col-xs-1">租户名称</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.tenantName}}">{{processForm.tenantName}}</span>
+                            </div>
+                            <label class="col-xs-1">入驻方式</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss">{{processForm.settleType===1?'购房入驻': '租赁入驻'}}</span>
+                            </div>
+                            <label class="col-xs-1">联系人</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.linkman}}">{{processForm.linkman}}</span>
+                            </div>
+                            <label class="col-xs-1">联系电话</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.telephone}}">{{processForm.telephone}}</span>
+                            </div>
+                        </div>
+                        <!-- 企业/个人租赁 -->
+                        <div class="msg-group clearfix" ng-if="processForm.settleType===2">
+                            <label class="col-xs-2">申请时间</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.createTime}}">{{processForm.createTime}}</span>
+                            </div>
+                            <label class="col-xs-2">产权方</label>
+                            <!--  -->
+                            <div class="col-xs-2">
+                                <span class="ellipsiss">{{processForm.ownType===1?"开发商":"企业/个人"}}</span>
+                            </div>
+                            <label class="col-xs-2">产权方名称</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.ownName}}">{{processForm.ownName}}</span>
+                            </div>
+                        </div>
+                        <!-- 入驻申请 end -->
+                        <!-- 装修申请 begin-->
+                        <div class="msg-group clearfix" ng-if="false">
+                            <label class="col-xs-2">业主名称</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.proprietorName}}">{{processForm.proprietorName}}</span>
+                            </div>
+                            <label class="col-xs-2">房间号</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss">{{processForm.settleType===1?'购房入驻': '租赁入驻'}}</span>
+                            </div>
+                            <label class="col-xs-2">装修方式</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.createTime}}">{{processForm.createTime}}</span>
+                            </div>
+                        </div>
+                        <div class="msg-group clearfix" ng-if="false">
+                            <label class="col-xs-2">申请时间</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.proprietorName}}">{{processForm.proprietorName}}</span>
+                            </div>
+                            <label class="col-xs-2">联系人</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.proprietorName}}">{{processForm.settleType===1?'购房入驻': '租赁入驻'}}</span>
+                            </div>
+                            <label class="col-xs-2">联系电话</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.createTime}}">{{processForm.createTime}}</span>
+                            </div>
+                        </div>
+                        <!-- 装修申请 end -->
+                        <div class="msg-group msg-group-data clearfix">
+                            <label class="col-xs-2">入驻资料</label>
+                            <div class="col-xs-10 clearfix">
+                                <div ng-repeat="item in processForm.list track by $index">
+                                    <span>{{item.attachmentName}}</span><a class="download" href="javascript:;"
+                                        ng-click="enclosureDownload(item.url,item.attachmentName)"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="msg-group msg-group-upload clearfix"
+                            ng-repeat="item in alreadyFiles track by $index"
+                            ng-if="$index !== 0 && $index !== (alreadyFiles.length-1)">
+                            <label class="col-xs-2">{{item.activityName}}-审批文件</label>
+                            <div class="col-xs-10">
+                                <ul class="workList">
+                                    <li ng-repeat="file in item.file track by $index">
+                                        <span>{{file.attachmentName}}</span><a class="download" href="javascript:;"
+                                            ng-click="enclosureDownload(file.url,file.attachmentName)"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="msg-group msg-group-upload clearfix">
+                            <label class="col-xs-2">上传文件</label>
+                            <div class="col-xs-10">
+                                <div style="display: inline-block;padding:5px;">
+                                    <a class="blue_btn" ng-click="uploadFile(1)">上传</a>
+                                    <div style="display: inline-block;">（只能上传.doc、.docx、.pdf、.xls或.xlsx格式的文件）</div>
+                                </div>
+                                <ul class="workList">
+                                    <li ng-repeat="file in contactFileList track by $index">
+                                        <a href="{{file.url}}" style="color: #417CDD;">{{file.attachmentName}}</a>
+                                        <b class="fa fa-close" ng-click="delContactFile(1,$index)"></b>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- <div class="msg-group msg-group-upload clearfix">
+                            <label class="col-xs-2">房屋验收移交清单</label>
+                            <div class="col-xs-10">
+                                <div style="display: inline-block; ">
+                                    <a class="blue_btn" ng-click="uploadFile(2)">上传</a>
+                                    <div style="display: inline-block;">（最多只上传100份.doc、.docx、.pdf、.xls或.xlsx格式的文件）</div>
+                                </div>
+                                <ul class="workList">
+                                    <li ng-repeat="file in houseAcceptList track by $index">
+                                        <a href="{{file.url}}" style="color: #417CDD;">{{file.attachmentName}}</a>
+                                        <b class="fa fa-close" ng-click="delContactFile(2,$index)"></b>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> -->
+                        <div class="msg-group clearfix">
+                            <p>审批信息</p>
+                        </div>
+                        <div class="msg-group clearfix" ng-repeat="item in processComment track by $index">
+                            <label class="col-xs-2">{{item.activityName}}</label>
+                            <div class="col-xs-10">
+                                <p style="width: 100%; text-align:center;">
+                                    <span>{{item.assigneeName}}</span>
+                                    <span>{{item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}} </span>
+                                </p>
+                                <p style="width:100%;">
+                                    <span class="ellipsiss" ng-attr-title="{{item.comment}}"
+                                        ng-if="item.comment">{{item.comment}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 退租申请 -->
+                    <div class="msgList" ng-if="true">
+                        <div class="msg-group clearfix">
+                            <p>申请信息</p>
+                        </div>
+                        <div class="msg-group clearfix">
+                            <label class="col-xs-2">客户名称</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.proprietorName}}">{{processForm.proprietorName}}</span>
+                            </div>
+                            <label class="col-xs-2">联系人</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.proprietorName}}">{{processForm.settleType===1?'购房入驻': '租赁入驻'}}</span>
+                            </div>
+                            <label class="col-xs-2">联系电话</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.createTime}}">{{processForm.createTime}}</span>
+                            </div>
+                        </div>
+                        <div class="msg-group clearfix">
+                            <label class="col-xs-2">申请时间</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.createTime}}">{{processForm.createTime}}</span>
+                            </div>
+                            <label class="col-xs-2">租赁房号</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.createTime}}">{{processForm.ownType===1?"开发商":"企业/个人"}}</span>
+                            </div>
+                            <label class="col-xs-2">租赁面积</label>
+                            <div class="col-xs-2">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.ownName}}">{{processForm.ownName}}</span>
+                            </div>
+                        </div>
+                        <div class="msg-group clearfix">
+                            <label class="col-xs-2">租赁期限</label>
+                            <div class="col-xs-10">
+                                <span class="ellipsiss"
+                                    ng-attr-title="{{processForm.linkman}}">{{processForm.linkman}}</span>
+                            </div>
+                        </div>
+                        <div class="msg-group clearfix">
+                            <label class="col-xs-2 required">租金情况</label>
+                            <div class="col-xs-2">
+                                <select ng-model="search.type">
+                                    <option value="" disabled="disabled">请选择</option>
+                                    <option value="1">自然退租</option>
+                                    <option value="2">提前解约</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-8">
+                                <textarea maxlength="100" class="col-xs-10" rows="3" placeholder="请填写租金情况"
+                                    ng-model="search.rentMsg"></textarea>
+                            </div>
+                        </div>
+                        <div class="msg-group msg-group-deposit clearfix">
+                            <label class="col-xs-2 required">押金情况</label>
+                            <div class="col-xs-2">
+                                <div style="border-bottom: 1px solid rgba(0, 0, 0, 0.7);">
+                                    <select ng-model="search.type">
+                                        <option value="" disabled="disabled">请选择</option>
+                                        <option value="1">有</option>
+                                        <option value="2">无</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    押金抵扣情况
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div style="border-bottom: 1px solid rgba(0, 0, 0, 0.7);">
+                                    <textarea maxlength="100" class="col-xs-10" rows="1" placeholder="有押金请输入金额"
+                                    ng-model="search.rentMsg"></textarea>元
+                                </div>
+                                <div>
+                                    <div class="col-xs-3" style="height:50px;line-height:50px;border-right: 1px solid rgba(0, 0, 0, 0.7);">
+                                        <select ng-model="search.type">
+                                            <option value="" disabled="disabled">请选择</option>
+                                            <option value="1">有</option>
+                                            <option value="2">无</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <textarea maxlength="100" class="col-xs-10" rows="1" placeholder="如有押金抵扣请说明情况" ng-model="search.rentMsg"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="msg-group clearfix">
+                            <label class="col-xs-2 required">房屋验收情况</label>
+                            <div class="col-xs-10">
+                                <textarea maxlength="100" class="col-xs-10" rows="2" placeholder="请输入房屋验收情况" ng-model="search.rentMsg"></textarea>
+                            </div>
+                        </div>
+                        <div class="msg-group msg-group-upload clearfix">
+                            <label class="col-xs-2 required">客户签确认单</label>
+                            <div class="col-xs-10">
+                                <div style="display: inline-block;padding:5px;">
+                                    <a class="blue_btn" ng-click="uploadFile(1)">+上传确认单</a>
+                                    <div style="display: inline-block;">（只能上传.doc、.docx、.pdf、.xls或.xlsx格式的文件）</div>
+                                </div>
+                                <ul class="workList">
+                                    <li ng-repeat="file in contactFileList track by $index">
+                                        <a href="{{file.url}}" style="color: #417CDD;">{{file.attachmentName}}</a>
+                                        <b class="fa fa-close" ng-click="delContactFile(1,$index)"></b>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="msg-group clearfix">
+                            <p>审批信息</p>
+                        </div>
+                        <div class="msg-group clearfix" ng-repeat="item in processComment track by $index">
+                            <label class="col-xs-2">{{item.activityName}}</label>
+                            <div class="col-xs-10">
+                                <p style="width: 100%; text-align:center;">
+                                    <span>{{item.assigneeName}}</span>
+                                    <span>{{item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}} </span>
+                                </p>
+                                <p style="width:100%;">
+                                    <span class="ellipsiss" ng-attr-title="{{item.comment}}"
+                                        ng-if="item.comment">{{item.comment}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="auditOpinion clearfix">
+                    <label class="col-xs-2 required">审批意见</label>
+                    <textarea maxlength="100" class="col-xs-10" rows="5" placeholder="请填写审批意见(必填)"
+                        ng-model="search.comment"></textarea>
+                </div>
+                <div class="transferOp">
+                    <h4>流转意见</h4>
+                    <div class="transferList">
+                        <div class="transfer-group" ng-repeat="item in processComment track by $index">
+                            <p style="padding-left: 10px;">{{item.activityName}}</p>
+                            <p>{{item.assigneeName}}</p>
+                            <p><span style="color: #008000;margin-right:10px;">接收人</span> {{item.receiver}}</p>
+                            <div>
+                                <p>{{item.endTime || item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}}</p>
+                                <p style="color: #008000;">
+                                    【{{item.activityName}}】
+                                </p>
+                                <p style="color: #008000;">
+                                    <span ng-if="$index===0">已提交</span>
+                                    <span style="display: inline-block;text-align: left;"
+                                        ng-attr-title="{{item.comment}}" ng-if="$index!==0">{{item.comment}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+        <uib-tab heading="流程图">
+            <div class="process-img">
+                <img ng-src="/ovu-workflow/act/image/highLighting/{{curProcess.processInstanceId}}?time={{time}}">
+            </div>
+        </uib-tab>
+        <uib-tab heading="流程状态">
+            <div class="process-status">
+                <!-- <div class="status-head">
+                    <div>序号</div>
+                    <div>流程节点</div>
+                    <div>操作情况统计</div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="status-body" ng-repeat="item in statusList track by $index">
+                    <div class="body-msg">
+                        <div>{{$index+1}}</div>
+                        <div>{{item.processNode}}</div>
+                        <div>操作者总计{{item.operatePerson}}</div>
+                        <div>已提交{{item.already}}</div>
+                        <div ng-if="item.notSubmit">未提交{{item.notSubmit}}</div>
+                    </div>
+                    <div class="body-detail">
+                        <div class="body-head">
+                            <div></div>
+                            <div>操作人</div>
+                            <div>操作状态</div>
+                            <div>操作时间</div>
+                            <div>接收时间</div>
+                        </div>
+                        <div class="body-body" ng-repeat="child in item.detailList track by $index">
+                            <div></div>
+                            <div>{{child.operator}}</div>
+                            <div>{{child.operateState}}</div>
+                            <div>{{child.operateTime}}</div>
+                            <div>{{child.receiveTime}}</div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="enclosure-head">
+                    <div>流程节点</div>
+                    <div>操作人</div>
+                    <div>接收时间</div>
+                    <div>操作时间</div>
+                    <div style="width: 50%;">审批意见</div>
+                </div>
+                <div class="enclosure-body" ng-repeat="item in processComment track by $index">
+                    <div>{{item.activityName}}</div>
+                    <div>{{item.assigneeName}}</div>
+                    <div>{{item.startTime | date : 'yyyy-MM-dd HH:mm:ss'}}</div>
+                    <div>{{item.endTime | date : 'yyyy-MM-dd HH:mm:ss'}}</div>
+                    <div style="width: 50%;">{{item.comment}}</div>
+                </div>
+            </div>
+        </uib-tab>
+        <uib-tab heading="附件">
+            <div class="enclosure">
+                <div class="enclosure-head">
+                    <div>资源名称</div>
+                    <div>创建人</div>
+                    <div>创建时间</div>
+                    <div>备注</div>
+                </div>
+                <div class="enclosure-body" ng-repeat="item in attachmentlist track by $index">
+                    <div>{{item.attachmentName}}</div>
+                    <div>{{item.userName}}</div>
+                    <div>{{item.createTime}}</div>
+                    <div>
+                        <a class="download" href="javascript:;"
+                            ng-click="enclosureDownload(item.url,item.attachmentName)"></a>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+    <div class="btnList">
+        <button class="btn btn-primary" ng-click="save()">批准</button>
+        <!-- <button class="btn btn-primary" ng-click="cancel()">保存</button> -->
+        <button class="btn btn-primary" ng-click="back()">退回</button>
+        <!-- <button class="btn btn-primary" ng-click="cancel()">打印</button> -->
+    </div>
+</div>
+<!-- <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save()">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div> -->
+<style>
+    .modal-dialog.modal-lg {
+        width: 1200px;
+        min-width: 700px;
+    }
+
+    .btnList {
+        position: absolute;
+        top: 10px;
+        right: 0;
+        padding: 10px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .btnList>button {
+        padding: 5px 15px;
+        margin-right: 10px;
+    }
+
+    .processForm {
+        width: 100%;
+        min-height: 500px;
+    }
+
+    .processForm .applicationInfo {
+        width: 100%;
+        max-height: 800px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px 30px;
+        border-bottom: 1px solid #e5e5e5;
+        overflow-y: scroll;
+    }
+
+    .applicationInfo>h4 {
+        text-align: center;
+        font-size: 18px;
+        font-weight: 400;
+        margin-bottom: 20px;
+        padding: 10px 0;
+    }
+
+    .applicationInfo .msgList {
+        width: 80%;
+        min-width: 560px;
+        border: 1px solid rgba(0, 0, 0, 0.7);
+    }
+
+    .msgList>div {
+        width: 100%;
+        height: auto;
+    }
+
+    .msg-group>p {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        background-color: #199ED8;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .msg-group>label {
+        height: 100px;
+        text-align: center;
+        line-height: 100px;
+        box-sizing: border-box;
+        margin-bottom: 0;
+        padding: 0px;
+        border-right: 1px solid rgba(0, 0, 0, 0.7);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+    }
+
+    .msg-group>div {
+        height: 100px;
+        border-right: 1px solid rgba(0, 0, 0, 0.7);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .msg-group>div span {
+        max-height: 80px;
+        padding: 5px;
+    }
+
+    .msg-group>div:last-of-type {
+        border-right: none;
+    }
+
+    .msg-group:last-of-type>label,
+    .msg-group:last-of-type>div {
+        border-bottom: none;
+    }
+    .msg-group select {
+        width:100px !important;
+    }
+    div.msg-group-data>label {
+        height: 170px;
+        line-height: 170px;
+        padding: 0;
+    }
+
+    div.msg-group-data>div {
+        height: 170px;
+        overflow-y: scroll;
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+
+    div.msg-group-data>div>div {
+        margin-right: 10px;
+        padding: 5px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    div.msg-group-data>div span {
+        color: #00f;
+        padding: 0 10px;
+    }
+
+    a.download {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        background: url("/res/img/download.png") no-repeat;
+        background-size: 100% 100%;
+    }
+
+    .btn-oper {
+        background-color: #fff;
+        border: 1px solid #78c4ec;
+        color: #78c4ec;
+        padding: 3px 10px;
+    }
+
+    div.msg-group-upload>label {
+        height: 100px;
+        line-height: 100px;
+        padding: 0;
+    }
+
+    div.msg-group-upload>div {
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    div.msg-group-upload>div span {
+        color: #00f;
+        padding: 0 10px;
+    }
+
+    div.msg-group-upload a.blue_btn {
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        background-color: rgba(97, 142, 214, 1);
+        border-radius: 4px;
+        width: 82px;
+        text-align: center;
+        color: #fff;
+        font-size: 12px;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    div.msg-group-upload>div>.workList {
+        width: 100%;
+        padding: 5px;
+        max-height: 50px;
+        overflow-y: scroll;
+    }
+
+    div.msg-group-upload>div>.workList>li {
+        float: left;
+        padding: 5px;
+        margin-right: 15px;
+        text-align: center;
+        font-size: 12px;
+        position: relative;
+    }
+
+    div.msg-group-upload>div>.workList>li>b {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+    }
+    div.msg-group-deposit>div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    div.msg-group-deposit>div>div {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .processForm .auditOpinion {
+        width: 100%;
+        padding: 20px 30px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .auditOpinion>textarea {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .processForm .transferOp {
+        width: 100%;
+        max-height: 400px;
+        border: 1px solid rgba(0, 0, 0, 0.7);
+        margin-top: 20px;
+        overflow-y: scroll;
+    }
+
+    .transferOp>h4 {
+        padding: 15px 20px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+    }
+
+    .transferList>div {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 15px 20px;
+    }
+
+    div.transfer-group {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+    }
+
+    div.transfer-group:last-of-type {
+        border-bottom: none;
+    }
+
+    div.transfer-group>p {
+        width: 20%;
+    }
+
+    div.transfer-group>div {
+        width: 40%;
+        text-align: center;
+    }
+
+    /* 流程图 */
+    .process-img {
+        width: 100%;
+        min-height: 500px;
+        padding: 20px;
+    }
+
+    /* 流程状态 -begin */
+    .process-status {
+        width: 100%;
+        font-size: 16px;
+        font-weight: 400;
+        min-height: 500px;
+        max-height: 740px;
+        overflow-y: scroll;
+    }
+
+    .status-head {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .status-head>div {
+        width: 20%;
+        padding: 20px 0px;
+        text-align: center;
+    }
+
+    .status-body,
+    .body-msg,
+    .body-detail,
+    .body-head,
+    .body-body {
+        width: 100%;
+    }
+
+    .body-msg,
+    .body-head,
+    .body-body {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .body-msg {
+        background-color: #999;
+        color: #fff;
+    }
+
+    .body-msg>div,
+    .body-head>div,
+    .body-body>div {
+        width: 20%;
+        padding: 20px 0px;
+        text-align: center;
+    }
+
+    .enclosure {
+        min-height: 500px;
+        max-height: 740px;
+        overflow-y: scroll;
+        margin-bottom: 50px;
+    }
+
+    .enclosure,
+    .enclosure-head,
+    .enclosure-body {
+        width: 100%;
+    }
+
+    .enclosure-head,
+    .enclosure-body {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .enclosure-head>div,
+    .enclosure-body>div {
+        width: 30%;
+        padding: 20px 0px;
+        text-align: center;
+    }
+
+    .ellipsiss {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        overflow: hidden;
+    }
+
+</style>

@@ -1,0 +1,64 @@
+<!--运营指标体系》能耗指标-->
+<div class="container-fluid">
+    <h3>能耗趋势图</h3>
+    <div class="btn-group btn-mygroup" role="group" ng-init="type = 1">
+        <button type="button" ng-click="type=1;vm.clickType(1)"
+                class="btn btn-default" ng-class="{'btn-primary':type==1}">电</button>
+        <button type="button" ng-click="type=2;vm.clickType(2)"
+                class="btn btn-default" ng-class="{'btn-primary':type==2}">水</button>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-sm-6">
+            <div style="height:350px;" ui-echarts="vm.option1">
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6">
+            <div style="height:320px;" ui-echarts="vm.option2">
+            </div>
+        </div>
+    </div>
+    <h3>各项对比</h3>
+    <div class="row">
+        <div class="col-lg-5 col-sm-6">
+                <div style="height:310px;" ui-echarts="vm.option3">
+                </div>
+        </div>
+        <div class="col-lg-7 col-sm-6 text-center">
+            <div class="col-md-6 col-sm-6">
+                <div style="height:250px;" ui-echarts="vm.option4">
+                </div>
+                <p ng-bind="vm.title1"></p>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div style="height:250px;" ui-echarts="vm.option5">
+                </div>
+                <p ng-bind="vm.title2"></p>
+            </div>
+           <!-- <div class="col-md-3 col-sm-3">
+                <div style="height:250px;" ui-echarts="vm.option6">
+                </div>
+                <p>公共用电</p>
+            </div>
+            <div class="col-md-3 col-sm-3">
+                <div style="height:250px;" ui-echarts="vm.option7">
+                </div>
+                <p>特殊用电</p>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .padding-5 {
+        padding: 0 5px;
+    }
+    button+button {
+        margin-right: 0px;
+    }
+    .btn-mygroup{
+        position: absolute;
+        top: 66px;
+        right: 20px;
+    }
+</style>

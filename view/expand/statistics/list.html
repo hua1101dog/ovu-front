@@ -1,0 +1,147 @@
+<style>
+    .panel-heading span{
+        font-size: 16px;
+    }
+    .panel-heading span a{
+        cursor: pointer;
+    }
+</style>
+
+<div ng-controller="statisticsCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>统计分析</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <span>转化率统计</span>
+                    <span style="float: right">
+                        <a ng-click="getFunnel(0)">本月</a>&nbsp;
+                        <a ng-click="getFunnel(1)">本年</a>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div id="funnel" style="height:300px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <span>项目拓展状况统计</span>
+                    <span style="float: right">
+                        <a ng-click="getAnnulus(0)">本月</a>&nbsp;
+                        <a ng-click="getAnnulus(1)">本年</a>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div id="annulus" style="height:300px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <span>项目拓展趋势图</span>
+                    <span style="float: right">
+                        <a ng-click="getTrend(0)">本月</a>&nbsp;
+                        <a ng-click="getTrend(1)">本年</a>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div id="trend" style="height:300px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:10px;">
+        <div class="col-md-12 col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">统计列表</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <select class="form-control" ng-model="search.followupState"
+                                    ng-options="o[0] as o[1] for o in followUpState_options">
+                                <option value="" selected>选择项目状态</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched"
+                                   placeholder="起始时间"
+                                   ng-model="search.startTime" onchange=""
+                                   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"
+                                   aria-invalid="false">
+                        </div>
+                        <div class="form-group">
+                            <span> - </span>
+                        </div>
+                        <div class="form-group">
+                            <input type="datetime" class="form-control Wdate ng-pristine ng-valid ng-empty ng-touched"
+                                   placeholder="结束时间"
+                                   ng-model="search.endTime" onchange=""
+                                   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"
+                                   aria-invalid="false">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" ng-click="find()">查询</button>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-hover text-left" id="checkedTable">
+                    <thead>
+                    <tr align="left">
+                        <th class="text-center">NO</th>
+                        <th>项目名称</th>
+                        <th>项目类型</th>
+                        <th>建筑面积(平方米)</th>
+                        <th>项目地址</th>
+                        <th>开发单位</th>
+                        <th>物业类型</th>
+                        <th>联系人</th>
+                        <th>联系方式</th>
+                        <th>合作意向</th>
+                        <th>项目跟进情况</th>
+                        <th>立项日期</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}
+                        </td>
+                        <td>{{item.projectName}}</td>
+                        <td>{{item.type|keyToValue:yetaiDict}}</td>
+                        <td>{{item.buildingArea}}</td>
+                        <td>{{item.projectAddress}}</td>
+                        <td>{{item.developCompany}}</td>
+                        <td>{{item.projectType|keyToValue:exp_projectTypeDict}}</td>
+                        <td>{{item.contact}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.propertyManagement|keyToValue:propertyManagement_options}}</td>
+                        <td>{{item.followupState|keyToValue:followUpState_options}}</td>
+                        <td>{{item.projectTime}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

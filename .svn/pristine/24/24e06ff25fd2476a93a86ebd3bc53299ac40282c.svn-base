@@ -1,0 +1,86 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title title-sm">新增</h4>
+  </div>
+  <div class="modal-body container-fluid form-horizontal">
+	<form name="form" novalidate>
+		<div class="form-group">
+			<div class="col-md-3" align="right"><label class="control-label required">账号类型:</label class="control-label required"></div>
+			<div class="col-md-8" style="line-height: 30px;">
+				<span>个人</span>
+				<!-- <span ng-if="item.userType == 2">企业</span>
+				<span ng-if="item.userType == 3">员工</span> -->
+			</div>			
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-3" align="right"><label class="control-label required">账号名称:</label></div>
+			<div class="col-md-8">
+				<input type="text" ng-model="item.nickname"
+                class="form-control ng-valid ng-empty" required />
+			</div>	
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-3" align="right"><label class="control-label required">登录账号:</label></div>
+			<div class="col-md-8">
+				<!-- <input type="text" ng-model="item.loginName"
+                class="form-control ng-valid ng-empty"> -->
+                <input type="text" class="form-control" name="MOBILE" ng-model="item.loginName"
+                        ng-pattern="/^(1[34578]\d{9})$/" placeholder="请输入手机号码" required />
+                    <span style="color:red" ng-show="form.MOBILE.$dirty && form.MOBILE.$invalid">
+                        <span class="col-xs-12 control-label" style="color:red;text-align:left"
+                            ng-show="form.MOBILE.$dirty && form.MOBILE.$invalid && form.MOBILE.$error.pattern"
+                            style>登录账号为手机号码，请正确输入！</span>
+                    </span>
+			</div>	
+        </div>
+
+        <!-- <div class="form-group">
+            <label class="m-r-xs">登录账号</label> <input type="text" ng-model="item.loginName"
+                class="form-control ng-valid ng-empty">
+        </div> -->
+        
+		<!-- <div class="form-group">
+			<div class="col-md-2" align="left"><label>账号名称：</label></div>
+			<div class="col-md-9" ng-if="item.userType == 1" ><span>{{item.nickname}}</span></div>	
+			<div ng-if="item.userType == 2" class="col-md-9"><span>{{item.companyName}}</span></div>	
+		</div>	
+		<div class="form-group">
+			<div class="col-md-2" align="left"><label>登录账号：</label></div>
+			<div class="col-md-6">
+			<span class="m-r-sm">{{item.loginName}}</span>
+			<a href='javascript:void(0)' style="font-size:12px;color: #5692ea;" ng-click="vm.newNameInput = true; item.newLoginName=''">重置</a>
+			<a ng-if="vm.newNameInput" href='javascript:void(0)' style="font-size:12px;color: #5692ea;" ng-click="vm.newNameInput = false;item.newLoginName = ''">取消</a>
+			<form name="resetName" novalidate>
+				<input type="text" ng-if="vm.newNameInput" ng-model="item.newLoginName" class="col-md-8 height34  p-l-xs pull-left input-r-b" 
+				ng-pattern="/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" placeholder='请输入常用邮箱' required/>
+			</form>
+			<i ng-if="vm.newNameInput&&(!resetName.$invalid)&&item.newLoginName"
+			class="pull-left height34 p-l-xs"  style="font-style: normal;" ng-click="vm.resetLoginName(item);">确认</i>
+			</div>
+		</div>	 -->
+		<div class="form-group">
+			<div class="col-md-3" align="right"><label class="control-label required">登录密码:</label class="control-label required"></div>
+			<div class="col-md-8" style="line-height: 30px;">
+            <span class="m-r-sm">默认密码ovu888888</span>
+            <!-- <a href='javascript:void(0)' style="font-size:12px;color: #5692ea;">重置</a> -->
+			<!-- <a href='javascript:void(0)' style="font-size:12px;color: #5692ea;" ng-click='vm.resetPWD();'>重置</a> -->
+			</div>
+		</div>	
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form, item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+
+<style>
+    .spantip {
+        display: inline;
+        color: red;
+        margin-top: 8px;
+        padding-left: 0px
+    }
+
+</style>

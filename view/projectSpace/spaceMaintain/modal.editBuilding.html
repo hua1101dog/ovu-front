@@ -1,0 +1,300 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+				<h4 class="modal-title" data-toggle="tab">{{item.ID?'编辑':'添加'}}楼栋</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label class="col-xs-2 control-label" >所属分期：</label>
+						<div class="col-xs-10">
+							<div style="margin-top: 8px">{{item.STAGE_NAME}}（编码:{{item.STAGE_NO}}）</div>
+						</div>						
+					<div class="form-group">
+						<label class="col-xs-2 control-label required" >楼栋名称：</label>
+						<div  class="col-xs-4">
+							<!-- <input type="text" class="form-control" ng-model="item.FLOOR_NAME" placeholder="例：A01或001" ng-pattern ="/^[a-zA-Z0-9]{3}$/" ng-change="nameChange(item.FLOOR_NAME)" name="FLOOR_NAME" required/> -->
+							<input type="text" class="form-control" ng-model="item.FLOOR_NAME" placeholder="例：A01或001" ng-change="nameChange(item.FLOOR_NAME)" name="FLOOR_NAME" required/>
+						</div>
+						<label class="col-xs-2 control-label required">楼栋编码：</label>
+						<div  class="col-xs-4" ng-if="item.ID">
+							<input type="text" class="form-control" readonly ng-model="item.FLOOR_NO" name="FLOOR_NO" required/>
+						</div>
+						<div  class="col-xs-4" ng-if="!item.ID">
+							<input type="text" class="form-control" ng-model="item.FLOOR_NO" name="FLOOR_NO" required/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label required">建筑类型：</label>
+						<div class="col-xs-4">
+							<select class="form-control" required ng-model="item.BULID_TYPE" name="BULID_TYPE" ng-options="o[0] as o[1] for o in buildTypeDict" >
+								<option value="">--请选择--</option>
+							</select>
+						</div>
+						<label class="col-xs-2 control-label required">现状：</label>
+						<div class="col-xs-4">
+							<select class="form-control" required ng-model="item.BUILD_SALE_STATE" name="BUILD_SALE_STATE" ng-options="s[0] as s[1] for s in buildSaleState" >
+								<option value="">--请选择--</option>
+							</select>
+						</div>
+						
+					</div>
+					<div class="form-group">
+					    <label class="col-xs-2 control-label">竣工日期：</label>
+							<div class="col-xs-4">
+								<input type="datetime" class="form-control Wdate" ng-model="item.FINISH_DATE"  onchange=""
+								   onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+					</div>
+						</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label required">单元数：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.UNIT_NUM" name="UNIT_NUM" required/>
+						</div>
+						<label class="col-xs-2 control-label required">夹层：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.CGROUND_NUM" name="CGROUND_NUM" required/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label required">地上楼层：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.UGROUND_NUM" name="UGROUND_NUM" required/>
+						</div>
+						<label class="col-xs-2 control-label required">地下楼层：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.OGROUND_NUM" name="OGROUND_NUM" required/>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-xs-2 control-label">总房间数（户）：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.TOTAL_ROOMS" name="TOTAL_ROOMS" />
+						</div>
+						
+						<label class="col-xs-2 control-label">空置数量（间）：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.VACANCY_NUM" name="VACANCY_NUM" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">门面数量（间）：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.SHOP_NUM" name="SHOP_NUM" />
+						</div>
+						<!-- <label class="col-xs-2 control-label">入住数量（户）：</label>
+						<div class="col-xs-2">
+							<input type="number" class="form-control" ng-model="item.OCCUPANCY_NUM" name="OCCUPANCY_NUM" />
+						</div>
+						 -->
+						<label class="col-xs-2 control-label">建筑面积（平米）：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.AREA" name="AREA" />
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-xs-2 control-label">商业（平米）：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.BUSINESS_AREA" name="BUSINESS_AREA" />
+						</div>
+						<label class="col-xs-2 control-label">办公面积（平米）：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.OFFICE_AREA" name="OFFICE_AREA" />
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-xs-2 control-label">开闭所（平米）：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.SWITCH_HOUSER_AREA" name="SWITCH_HOUSER_AREA" />
+						</div>
+						<label class="col-xs-2 control-label">物业用房（平米）：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.PROPERTY_USE_AREA" name="PROPERTY_USE_AREA" />
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-xs-2 control-label">车道面积（平米）：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.LANE_AREA" name="LANE_AREA" />
+						</div>
+						<label class="col-xs-2 control-label">占地面积（平米）：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.COVERED_AREA" name="COVERED_AREA" />
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-xs-2 control-label">公厕数量：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.PUBLIC_TOILETS" name="PUBLIC_TOILETS" />
+						</div>
+						<label class="col-xs-2 control-label">设备调控室：</label>
+						<div class="col-xs-4">
+							<input type="number" class="form-control" ng-model="item.EQUIPMENT_CONTROL_HOUSES" name="EQUIPMENT_CONTROL_HOUSES" />
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-xs-2 control-label">层高描述：</label>
+						<div class="col-xs-4">
+							<input type="text" class="form-control" ng-model="item.HEIGHT_DESCRIPTION" name="HEIGHT_DESCRIPTION" />
+						</div>
+						<label class="col-xs-2 control-label required">结构：</label>
+						<div class="col-xs-4">
+							<select class="form-control" required ng-model="item.STRUCTURE" name="STRUCTURE" ng-options="s[0] as s[1] for s in structure" >
+								<option value="">--请选择--</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">柱网：</label>
+						<div class="col-xs-4">
+							<input type="text" class="form-control" ng-model="item.COLUMN_NET" name="COLUMN_NET" />
+						</div>
+						<label class="col-xs-2 control-label">楼栋均价（㎡）：</label>
+						<div class="col-xs-4">
+							<input type="text" class="form-control" ng-model="item.AVERAGE_PRICE" name="AVERAGE_PRICE" />
+						</div>						
+					</div>					
+					<div class="form-group">
+						<label class="col-xs-2 control-label">定位图：</label>
+						<div class="col-xs-10">
+							<div class="thumbnail" style="height: auto;min-height: 260px;">
+								<img id="avatar" alt="" class="userIcon"
+									 ng-src="{{('/ovu-base/'+item.POSITION_IMG)||'/res/img/upload.jpg'}}"  onerror="javascript:this.src='/res/img/upload.jpg';"/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">效果图：</label>
+						<div class="col-xs-10">
+							<div class="photoWraper" ng-repeat="p in item.floorImage | filter:{IMAGE_TYPE:0}">
+									<img onerror="javascript:this.src='/res/img/detail.png';"
+										 ng-click="showPhoto()"
+										 ng-src="{{'/ovu-base/'+p.FLOOR_IMAGE}}">
+									<a role="button" ng-click="del(item.floorImage,p)"><i class="glyphicon glyphicon-remove"></i></a>
+							</div>
+							<img height="25px" width="25px" style="margin-top: 6px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhoto(item,0)" title="上传图片">
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-xs-2 control-label">实景图：</label>
+						<div class="col-xs-10">
+							<div class="photoWraper" ng-repeat="p in item.floorImage | filter:{IMAGE_TYPE:1}">
+									<img onerror="javascript:this.src='/res/img/detail.png';"
+										 ng-click="showPhoto()"
+										 ng-src="{{'/ovu-base/'+p.FLOOR_IMAGE}}">
+									<a role="button" ng-click="del(item.floorImage,p)"><i class="glyphicon glyphicon-remove"></i></a>
+							</div>
+							<img height="25px" width="25px" style="margin-top: 6px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhoto(item,1)" title="上传图片">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">平面图：</label>
+						<div class="col-xs-10">
+							<div class="photoWraper" ng-repeat="p in item.floorImage | filter:{IMAGE_TYPE:2}">
+									<img onerror="javascript:this.src='/res/img/detail.png';"
+										 ng-click="showPhoto()"
+										 ng-src="{{'/ovu-base/'+p.FLOOR_IMAGE}}">
+									<a role="button" ng-click="del(item.floorImage,p)"><i class="glyphicon glyphicon-remove"></i></a>
+							</div>
+							<img height="25px" width="25px" style="margin-top: 6px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhoto(item,2)" title="上传图片">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">立面图：</label>
+						<div class="col-xs-10">
+							<div class="photoWraper" ng-repeat="p in item.floorImage | filter:{IMAGE_TYPE:3}">
+									<img onerror="javascript:this.src='/res/img/detail.png';"
+										 ng-click="showPhoto()"
+										 ng-src="{{'/ovu-base/'+p.FLOOR_IMAGE}}">
+									<a role="button" ng-click="del(item.floorImage,p)"><i class="glyphicon glyphicon-remove"></i></a>
+							</div>
+							<img height="25px" width="25px" style="margin-top: 6px"  src="/res/img/mbs/add.jpg" role="button" ng-click="addPhoto(item,3)" title="上传图片">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">剖面图：</label>
+						<div class="col-xs-10">
+							<div class="photoWraper" ng-repeat="p in item.floorImage | filter:{IMAGE_TYPE:4}">
+								<img onerror="javascript:this.src='/res/img/detail.png';"
+									 ng-click="showPhoto()"
+									 ng-src="{{'/ovu-base/'+p.FLOOR_IMAGE}}">
+								<a role="button" ng-click="del(item.floorImage,p)"><i class="glyphicon glyphicon-remove"></i></a>
+							</div>
+							<img height="25px" width="25px" style="margin-top: 6px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhoto(item,4)" title="上传图片">
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="col-xs-10">
+							<div class="input-group">
+							<span class="input-group-btn">
+									<button class="btn btn-danger" style="border-radius: 5px;margin-left:55px" ng-class="{active:item.map_active}" ng-click="item.map_active = !item.map_active"><i class='fa fa-map-marker'></i></button>
+								  </span>
+							<label class="col-xs-2 control-label required">经度：</label>
+								<input type="text"  class="col-xs-3" readonly="readonly" name="MAP_LG" required ng-model="item.MAP_LG">
+								<label class="col-xs-2 control-label required">纬度：</label>
+								<input type="text"  class="col-xs-3" readonly="readonly" name="MAP_LA" required ng-model="item.MAP_LA">
+								<!-- <input type="text" class="form-control" readonly="readonly" placeholder="点击地图定位"
+									   name="MAP_POSITION"  ng-model="item.MAP_POSITION" /> -->
+								  
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-xs-2 control-label required">水平偏移量(px)：</label>
+						<div class="col-xs-4">
+							<input type="text"  class="form-control" required name="HORIZONTAL_OFFSET"  ng-model="item.HORIZONTAL_OFFSET" />
+						</div>
+						<label class="col-xs-2 control-label required">垂直偏移量(px)：</label>
+						<div class="col-xs-4">
+							<input type="text" class="form-control" required name="VERTICAL_OFFSET"  ng-model="item.VERTICAL_OFFSET" />
+						</div>
+					</div>
+				</div>
+			</form>
+			
+			<div id="container" style="height: 450px;"></div>
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								&times;
+							</button>
+							<h4 class="modal-title" id="myModalLabel">
+								模态框（Modal）标题
+							</h4>
+						</div>
+						<div id="container" style="height: 450px;"></div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+							</button>
+							<button type="button" class="btn btn-primary">
+								提交更改
+							</button>
+						</div>
+					</div>
+				
+				</div> 
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="saveFloor(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.8.2.js"></script>
+<style type="text/css">
+		
+		.form-group .col-xs-10{margin-bottom:10px;}
+		.form-group .col-xs-10 .input-group input{line-height:1.5}
+		.photoWraper img{width: 100%;height: 100%;}
+		
+</style>

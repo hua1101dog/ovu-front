@@ -1,0 +1,48 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">项目信息</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" style="padding-right: 70px">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">空间图片：</label>
+            <div class="col-xs-4">
+                <div class="photoWraper" style="width: 100%" ng-repeat="p in pics0 track by $index">
+                    <img style="width: 100%;margin-top: 5px;"
+                         onerror="this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(p)}}"/>
+                    <a role="button" class="close-0"  ng-click="delPhoto(pics0, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                </div>
+                <img height="80px"  width="80px" src="/res/img/mbs/add.jpg" style="margin-top: 10px" role="button"
+                     ng-click="addPhotos(pics0,6,['.png','.jpg'])" title="上传图片">
+            </div>
+            <div class="mt7 fileName" ng-show="!show">
+                最多上传6张图片
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .x-select input {
+        position: absolute;
+    }
+
+    .x-select span.close {
+        transform: translateY(3px);
+    }
+
+    .close-0{
+        color: #fff;
+        transform: translateX(-3px);
+    }
+
+</style>
+
+
+

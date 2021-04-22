@@ -1,0 +1,84 @@
+<div class="modal-header">
+	<h4 class="modal-title">选择管理人
+        <button type="button" class="close" ng-click="cancel()">×</button>
+    </h4>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal form-label-left" id="searchName">
+        <div class="input-group col-md-12" style="margin-top:0px positon:relative">
+            <input type="text" class="form-control" placeholder="请输入姓名" ng-model="tabs[0].search.name">
+            <span class="input-group-btn">
+                <a href="javascript:void(0)" class="btn btn-info btn-sm" style="padding:7px 10px;" ng-click="find0(1)">
+                    <span class="glyphicon glyphicon-search"></span> 查询
+                </a>
+            </span>
+        </div>
+    </form>
+    <table class="table table-striped table-hover">
+        <thead >
+        <tr>
+            <th>姓名</th>
+            <th>工号</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-if="pageModel.list.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+        <tr ng-repeat="item in pageModel.list" role="button">
+            <td>{{item.name}}</td>
+            <td>{{item.jobCode}}</td>
+            <td>
+              
+                <button ng-click="setManagePerson(item)" ng-if="item.isAuthed"  class="btn btn-default btn-xs " ng-class="{'btn-success':managePerson.id==item.id}">管理人</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="page-footer clearfix">
+        <page find="find0" page-model="pageModel"></page>
+    </div>
+    <form class="form-horizontal form-label-left" id="selectForm">
+        <div class="form-group">
+            <label class="control-label col-md-2 col-sm-2 col-xs-12">管理人:</label>
+            <div class="col-md-10 col-sm-10 col-xs-12">
+                <div class="input-group">
+                    <ul class="ul-persons">
+                        <li class="item" ng-if="managePerson.id">{{managePerson.name}}<a ng-click="delMngPerson()"><i class="fa fa-remove"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+</form>
+			
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary edit" ng-click="save()">确定</button>
+    <button type="button" class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+.ul-persons {
+	list-style: none;
+	float: left;
+	padding: 0px;
+	margin-bottom: 0;
+}
+
+.ul-persons li {
+	margin: 5px;
+	padding: 5px;
+	float: left;
+}
+
+.ul-persons li.item {
+	background-color: #F9F9F9;
+	border: 1px solid #CCCCCC;
+	border-radius: 4px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.ul-persons li a {
+	margin-left: 5px;
+	cursor: pointer;
+}
+</style>

@@ -1,0 +1,14 @@
+	<!--处理详情弹出框  -->
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancel()">×</button>
+		<h4 class="modal-title">处理详情</h4>
+    </div>
+    <div class="modal-body container-fluid">
+		<div class="col-xs-12 col-sm-12">
+    		<div class="text-center" ng-repeat="des in item">{{des}}</div>
+    	</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>
+

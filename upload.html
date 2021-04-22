@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>upload.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+  	<form action="/ovu-pcos/api/workunit/img.do" method="POST" enctype="multipart/form-data" />
+  		<label>token:</label><input type="text" name="token" value="3a4eba012acb4172a6c59167cd454a6f"></input>
+  		<label>file:</label><input type="file" multiple="multiple" name ="file" ></input>
+  		<button type="submit">submit</button>
+  	</form>
+  	
+  	<form action="../interface/checkVersion" method="POST"/>
+  		<label>account:</label><input type="text" name="account"></input>
+  		<button  type="submit">submit</button>
+  	</form>
+  </body>
+</html>

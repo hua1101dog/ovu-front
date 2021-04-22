@@ -1,0 +1,58 @@
+<div ng-controller="advertisementPubCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>信息预告管理</h3>
+    
+            </div>
+        </div>
+        <div class="x_panel">
+            <div class="form-inline">
+                <button class="btn btn-default pull-right" ng-click="showEditModal()">新增</button>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <span style="display:inline-block;margin-top:8px;">预约列表</span>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead class="title">
+                        <tr>
+                            <th class="text-center" style="width:30px">NO</th>
+                            <th>缩略图</th>
+                            <th>名称</th>
+                            <!--<th>排序</th>-->
+                            <th>内容概要</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data">
+                            <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td><img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+			                     ng-click="showPhoto()"
+			                     ng-src="{{processImgUrl(item.imagePath,'50')}}" class="max-height:50px" style="width: 50px;
+									height: 50px;"/>
+                            </td>
+                            <td>{{item.name}}</td>
+                            <!--<td>{{item.sort}}</td>-->
+                            <td>{{item.content}}</td>
+                            <td>
+                                <a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'>
+                                    <span class='fa fa-edit'></span>编辑</a>
+                                <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'>
+                                    <span class='fa fa-trash'></span>删除</a>
+    
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>

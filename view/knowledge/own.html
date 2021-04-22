@@ -1,0 +1,65 @@
+<!-- 试卷成绩 -->
+<div ng-controller="personScoreCtrl" >
+    <div class="page-title" style="height:45px;">
+        <div class="title_left">
+            <h3>考试记录</h3>
+        </div>
+    </div>
+    <div class="x_panel" >
+        <div class="form-inline">
+            <div class="form-group">
+                <!-- <input type="text" ng-model="search.personName" class="form-control" /> -->
+                <input class="form-control" type="text" ng-model="search.text" placeholder="考试名称"/>
+            </div>
+            <button class="btn btn-default" ng-click="find(1)" >查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                <tr>
+                    <th class="text-center">NO</th>
+                    <!-- <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+                                    <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th> -->
+                    <th>考试名称</th>
+                    <th>通过率</th>
+                    <th>平均分</th>
+                    <th>考试人群</th>
+                    <th>考试时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                <tr ng-repeat="item in pageModel.data">
+                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                    <!-- <td><i role="button" ng-click="checkOne(item)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td> -->
+                    <td>{{item.text}}</td>
+                    <td>{{item.passRate || '-'}}</td>
+                    <td>{{item.avgScore || '-'}}</td>
+                    <td>
+                            <a href='javascript:void(0)' ng-click="showPerson(item,true)" class='btn btn-xs' style="color: blue;">查看</a>
+                    </td>
+                    <td>{{item.startTime}}--{{item.endTime}}</td>
+                    <td>
+                            <a href='javascript:void(0)' ng-click="testResultModal(item)" class='btn btn-xs'><span class='fa fa-eye'></span>考试结果</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+  table tr th,
+        table tr td {
+            text-align: center;
+        }
+</style>

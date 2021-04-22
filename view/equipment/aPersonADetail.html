@@ -1,0 +1,222 @@
+<div ng-controller="aPersonADetailCtrl">
+    <div class="aPersonA-detail">
+        <div class="aPersonA-detailLeft">
+            <div class="aPersonA-leftTitle" ng-click="goList()">
+                <img src="/image/return.png" alt="">
+                <span>档案详情</span>
+            </div>
+            <div class="aPersonA-leftContent">
+                <img class="aPersonA-leftContentImg" ng-src="{{people.avatarPhoto?people.avatarPhoto:people.url}}" alt="">
+                <div style="margin-top:15px;" ng-if="people.avatarPhoto">
+                    <p><img src="/image/title_renyuan.png" alt=""> <span>{{people.gender == 1?'男':'女'}}
+                            {{childList[0].age?childList[0].age+'岁':''}}</span></p>
+                    <p>
+                        <img src="/image/personage.png" alt=""> <span>{{people.name}}</span>
+                    </p>
+                    <p>
+                        <img src="/image/dep.png" alt=""> <span>{{people.title}}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="aPersonA-leftFooter">
+                <!-- <hr> -->
+                <!-- <div class="aPersonA-leftFooter-flex">
+                    <p>检索条件</p>
+                    <div class="">
+                        <button type="button" class="btn btn-link">重置</button>
+                        <button type="button" class="btn btn-primary" ng-click="">检索</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="aPersonA-leftFooterDate">
+                    <div style="margin-top:15px;margin-bottom:15px">起止日期：</div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="datetime" class="form-control Wdate" ng-model="startTime" placeholder="开始日期"
+                                ng-change="showDate('start')" onchange=""
+                                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="datetime" class="form-control Wdate" ng-model="endTime" placeholder="结束日期"
+                                ng-change="showDate('end')" onchange=""
+                                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('.Wdate').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+
+                        </div>
+                    </div>
+
+                    <div>
+                        <div style="margin-top:15px;margin-bottom:15px">选择相机:</div>
+                        <div class="form-group">
+                            <select class="form-control" ng-model="personA.brand">
+                                <option value="">--请选择设备品牌--</option>
+                                <option ng-repeat="item in typeList" value="{{item.name}}">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="aPersonA-detailRight">
+            <div>
+                <div class="aPersonA-rightTitle">
+                    <p>检索结果：共{{pageModel.totalRecord}}条</p>
+                    <p><button type="button" class="btn btn-primary" ng-click="checkTrack()">查看轨迹</button></p>
+                </div>
+                <div>
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead class="title">
+                            <tr>
+                                <th class="text-center" style="width: 60px">
+                                    <i role="button" ng-click="allCharge()"
+                                        ng-class="{'glyphicon-check':all_Charge,'glyphicon-unchecked':!all_Charge}"
+                                        class="glyphicon"></i>
+                                </th>
+                                <th class="text-center">NO.</th>
+                                <th>姓名</th>
+                                <th>识别照片</th>
+                                <th>抓拍位置</th>
+                                <th>职务</th>
+                                <th>联系电话</th>
+                                <th>进入时间</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table_tbody_box">
+                            <tr ng-if="childList.length == 0">
+                                <td colspan="100" class="text-center">暂无数据</td>
+                            </tr>
+                            <tr ng-repeat="item in childList" class="ng-scope">
+                                <td>
+                                    <i role="button" ng-click="charge(item)"
+                                        ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                        class="glyphicon"></i>
+                                </td>
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td class="">{{item.subject.name?item.subject.name:'无'}}</td>
+                                <td class=""> <img class="tableImg" ng-click="showBigImg(item.avatarPhoto)"
+                                        ng-src="{{item.avatarPhoto}}" alt=""> </td>
+                                <td class="">{{item.screen.camera_position?item.screen.camera_position:item.devName}}</td>
+                                <td class="">{{item.subject.title?item.subject.title:'无'}}</td>
+                                <td class="">{{item.subject.phone?item.subject.phone:'无'}}</td>
+                                <td class="">{{item.entryDate?item.entryDate:item.createTimes}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ng-include ng-if="!url" src="'/common/pager3.html'" class="ng-scope">
+                        <style type="text/css" class="ng-scope">
+                            .pagination>li>span:hover {
+                                background-color: #fff;
+                                cursor: text
+                            }
+                        </style>
+                    </ng-include>
+                    <ng-include ng-if="url" src="'/common/pager.html'" class="ng-scope">
+                        <style type="text/css" class="ng-scope">
+                            .pagination>li>span:hover {
+                                background-color: #fff;
+                                cursor: text
+                            }
+                        </style>
+                    </ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 地图 -->
+    <div>
+        <track-map-component is-addway=true map_data="mapData"></track-map-component>
+    </div>
+</div>
+<style>
+    .aPersonA-detail {
+        display: flex;
+        margin-top: 15px;
+        justify-content: stretch;
+    }
+
+    .aPersonA-detailRight {
+        flex: 1 1 auto;
+        overflow: auto;
+        margin-left: 5px;
+        position: relative;
+        background: #ffffff;
+        border-right: 2px solid #d1caca;
+        border-left: 2px solid #d1caca;
+        border-bottom: 2px solid #d1caca;
+    }
+
+    .aPersonA-detailLeft {
+        background: #ffffff;
+        flex: 0 0 25%;
+        overflow: auto;
+        position: relative;
+        border-right: 2px solid #d1caca;
+        border-left: 2px solid #d1caca;
+        border-bottom: 2px solid #d1caca;
+    }
+
+    .aPersonA-rightTitle {
+        padding: 0px 10px;
+        height: 43px;
+        display: flex;
+        justify-content: space-between;
+        line-height: 43px;
+        background: #d1caca;
+    }
+
+    .aPersonA-leftTitle {
+        height: 43px;
+        background: #d1caca;
+        line-height: 43px;
+    }
+
+    .aPersonA-leftContent {
+        padding: 10px 25%;
+        background: #ffffff;
+    }
+
+    .aPersonA-leftContent .aPersonA-leftContentImg {
+        height: 100px;
+        width: 150px;
+    }
+
+    .aPersonA-leftContent p img {
+        height: 15px;
+        width: 15px;
+    }
+
+    .aPersonA-leftContent p {
+        padding: 5px 0px;
+    }
+
+    .aPersonA-leftFooter {
+        background: #ffffff;
+    }
+
+    .aPersonA hr {
+        margin: 0px;
+    }
+
+    .aPersonA-leftFooter-flex {
+        display: flex;
+        justify-content: space-between;
+        height: 43px;
+        line-height: 43px;
+        padding: 0 15px;
+    }
+
+
+    .aPersonA-leftFooterDate {
+        padding: 10px 20px;
+        height: 300px;
+    }
+
+    .aPersonA-detail .pagination {
+        margin-left: 10px;
+    }
+
+    .tableImg {
+        height: 50px;
+        width: 50px;
+    }
+</style>

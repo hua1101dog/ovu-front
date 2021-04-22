@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>信息发布统计</title>
+    <link rel="stylesheet" href="reportManage/style/report.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="infoReleaseIndexCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>信息发布统计</h3>
+            </div>
+        </div>
+        <div class="">
+            <div class="x_panel">
+                <div class="form-inline find_input marT_15">
+
+                    <div class="form-group">
+                        <label>类型</label>
+                        <select class="form-control" ng-model="search.infoCategory"
+                            ng-options="o.value as o.text for o in infoType">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>标题</label>
+                        <input type="text" ng-model="search.infoTitle" placeholder="请输入信息标题"
+                            class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                    </div>
+
+                    <div class="form-group">
+                        <label>发布单位</label>
+                        <input type="text" ng-model="search.companyName" placeholder="请输入客户名称"
+                            class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                    </div>
+
+                    <div class="form-group">
+                        <label>机会</label>
+                        <input type="text" ng-model="search.infoChance" placeholder="请输入信息机会"
+                            class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                    </div>
+
+                    <div class="form-group">
+                        <label>相关机构</label>
+                        <input type="text" ng-model="search.infoOrganization" placeholder="请输入相关机构"
+                            class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                    </div>
+
+                    <div class="form-group">
+                        <label>联系电话</label>
+                        <input type="text" ng-model="search.phone" placeholder="请输入联系电话"
+                            class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                    </div>
+
+                    <!--<div class="form-group">-->
+                    <!--<label>发布状态</label>-->
+                    <!--<select class="form-control" ng-model="search.infoStatus"-->
+                    <!--ng-options="o.value as o.text for o in status">-->
+                    <!--<option value="">&#45;&#45;请选择&#45;&#45;</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
+
+                    <div class="form-group">
+                        <label>发布日期</label>
+                        <input ng-lay-range type="text" readonly class="form-control laydateimg"
+                            date-format="yyyy-MM-dd" style="width: 220px" date-type="date" ng-model="usetime" />
+                    </div>
+                    <button class="btn btn-default" ng-click="resetParams()">重置</button>
+
+                    <button class="btn btn-default" ng-click="query()">查询</button>
+                </div>
+
+
+
+            </div>
+            <!-- </div> -->
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body" style="overflow-x: scroll;overflow-y: hidden;">
+                <table class="table text-left">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>发布状态</th>
+                            <th>可见范围</th>
+                            <th>类型</th>
+                            <th>标题</th>
+                            <th>相关机构</th>
+                            <th>联系电话</th>
+                            <th>发布时间</th>
+                            <th>发布单位</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr ng-repeat="x in pageModel.data" ng-if="!pageModel.data.length == 0">
+                            <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                            <td>{{x.infoStatus == 1?'待发布':'已发布'}}</td>
+                            <td>{{x.infoScope == 1?'所有人':'内部可见'}}</td>
+                            <td>{{x.infoCategory}}</td>
+                            <td>{{x.infoTitle}}</td>
+                            <td>{{x.infoOrganization}}</td>
+                            <td>{{x.phone}}</td>
+                            <td>{{x.createTime?x.createTime.split(' ')[0]:''}}</td>
+                            <td>{{x.companyName}}</td>
+                            <td>
+                                <a href="javascript:void(0)" ng-click="showDetail(x)">查看详情</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

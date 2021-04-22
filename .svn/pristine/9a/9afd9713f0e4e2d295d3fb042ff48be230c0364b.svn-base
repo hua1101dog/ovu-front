@@ -1,0 +1,51 @@
+<div class="x_panel" style="margin-top:20px;font-size: 16px">
+        <form name="form"  class="form-horizontal" id="pwd">
+                <div class="text-center" style="padding:20px">
+                        <a class="info" href="javascript:void(0)">
+                                <i class="fa fa-info-circle" aria-hidden="true" style="margin-right: 5px;color: #337ab7;"></i>该密码设置将应用于充值缴费及拉合闸功能</i>
+                            </a>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="col-xs-4 control-label">当前密码：</label>
+                    <div class="col-xs-4">
+                            <input  type="{{item.passType?'text':'password'}}"  ng-model="item.password" name = "password" class="form-control" readonly>
+                            <span class="btn btn-default" style="position: absolute;right:17px;top:1px;height:32px;border:none" ng-click="item.passType = !item.passType">
+                                <i class="glyphicon" ng-class="{'glyphicon-eye-open':!item.passType,'glyphicon-eye-close':item.passType}"></i></span>
+                        </div>
+                    <!-- <div class="col-xs-4">
+                        <input type="{{inputType}}" class="form-control" required ng-model="item.trName" />
+                    </div>
+                    <div class="col-xs-4">  
+                        <span class="btn btn-primary" ng-click="changeType()" style="margin: 0 10px">{{isShow?'显示':'隐藏'}}密码</span>
+
+                    </div> -->  
+                  
+                </div>
+                <div class="form-group clearfix">
+                    <label class="col-xs-4 control-label required">设置密码：</label>
+                    <div class="col-xs-4">
+                            <input type="text" class="form-control"  ng-model="item.repeatPwd" uib-popover="6~16个数字或字母" popover-placement="top" popover-trigger="mouseenter"  ng-pattern="/^[a-z0-9]{6,16}$/" ng-minlength="6" ng-maxlength="16" />
+                        </div>
+                        <span class="tip">密码为6-16个数字或字母</span>
+                      
+                </div>
+        </form>
+        <div style="text-align: center">
+            <button class="btn btn-primary" ng-click="save(form,item)" style="margin: 0 10px">保存</button>
+           
+        </div>
+    </div>
+    <style>
+    .text-center{
+        text-align: center
+    }
+    .info{
+        font-size: 14px;
+        color: #bbb
+    }
+    .tip{
+        line-height: 34px;
+    font-size: 14px;
+    color: #bbb
+    }
+    </style>

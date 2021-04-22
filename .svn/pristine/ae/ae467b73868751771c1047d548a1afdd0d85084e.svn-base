@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()">×</button>
+    <h4 class="modal-title">批理设置账号角色</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group" ng-repeat="module in modules" >
+            <label class="col-xs-4 control-label">{{module.name}}：</label>
+            <div class="col-xs-8 mt7">
+					<span ng-repeat="role in module.roles" class="mr15" ng-class="{'text-success':role.checked,'text-muted':!role.checked}" role="button"
+                          ng-click="role.checked = !role.checked" >
+					<i class="glyphicon" ng-class="{'glyphicon-check':role.checked,'glyphicon-unchecked':!role.checked}" ></i>{{role.name}}</span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save()">确定</button>
+    <button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+</div>
+

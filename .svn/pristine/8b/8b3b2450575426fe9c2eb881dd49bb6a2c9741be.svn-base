@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="productDatabase/style/css/custom.css">
+</head>
+<link rel="stylesheet" href="/res/js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" href="/res/js/easyui/themes/icon.css">
+
+<body>
+    <div id="angularId">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>角色配置</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <ul class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#role" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">官网</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#operating" id="tab2" role="tab" data-toggle="tab" aria-expanded="false">后台</a>
+                        </li>
+                        <!-- <li role="presentation" class="">
+                            <div style="margin-top: 10px;margin-left: 10px;color: #337ab7;" ng-click="alert()">物业</div>
+                        </li> -->
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="role" ng-controller="roleCtrl">
+                            <div class="form-inline find_input m-t-sm m-b-sm" style="margin: 10px 0;">
+                                <div class="form-group">
+                                    <label>角色名称:</label>
+                                    <input ng-model="search.roleName" style="width: 180px"
+                                        class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label">类型:</label>
+                                    <select class="form-control" ng-model="search.roleType" ng-change="find(1)">
+                                        <option value="">请选择</option>
+                                        <option value="1">默认角色</option>
+                                        <option value="2">自定义角色</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-default" ng-click="find()">查询</button>
+                                                                
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="color: #999999;">官网角色列表
+                                    <button class="btn btn-success pull-right" ng-click="showEditModal()">新增</button>
+                                </div>
+                                <div class="panel-body p-b-none p-t-none">
+                                    <table class="table table-striped table-hover m-b-none"
+                                    style="margin-top: 10px; color: #999999;">
+                                        <thead class="title">
+                                            <tr>
+                                                <th class="text-center">NO.</th>
+                                                <th>角色名称</th>
+                                                <th>类型</th>
+                                                <th style="text-align: left;padding-left: 200px;">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="!pageModel.data || pageModel.data.length == 0">
+                                                <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr>
+                                            <tr ng-repeat="item in pageModel.data"  style="color: #333333;">
+                                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                                <td class="text-center">{{item.roleName||'--'}}</td>
+                                                <td class="text-center">{{item.roleType==1?'默认角色':'自定义角色'||'--'}}</td>
+                                                <td class="" style="text-align: left;">
+                                                    <button ng-disabled="item.roleType==1"
+                                                        ng-click='showEditModal(item)' class='btn btn-xs'><span
+                                                            class='fa fa-edit'></span>编辑</button>
+                                                    <button ng-disabled="item.roleType==1"
+                                                        ng-click='showServicesModal(item)' class='btn btn-xs'><span
+                                                            class='fa fa-edit'></span>关联服务</button>
+                                                    <button ng-disabled="item.roleType==1"
+                                                        ng-click='showAccountModal(item)' class='btn btn-xs'><span
+                                                            class='fa fa-edit'></span>关联账号</button>
+                                                    <button ng-disabled="item.roleType==1" ng-click='del(item)'
+                                                        class='btn btn-xs'><span class='fa fa-trash'></span>删除</button>
+                                                        <button
+                                                        ng-click='remove(item)' ng-show="item.roleType==1" class='btn btn-xs'><span
+                                                            class='fa fa-edit'></span>解除关联</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="page-footer clearfix">
+                                        <ng-include src="'/common/pager.html'" class="ng-scope">
+                                            <style type="text/css" class="ng-scope">
+                                                .pagination>li>span:hover {
+                                                    background-color: #fff;
+                                                    cursor: text
+                                                }
+
+                                            </style>
+                                        </ng-include>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 官网 end -->
+                        <div role="tabpanel" class="tab-pane fade" id="operating" ng-controller="operatingCtrl">
+                            <div class="form-inline find_input m-t-sm m-b-sm" style="margin: 10px 0;">
+                                <div class="form-group">
+                                    <label>官网用户账号:</label>
+                                    <input ng-model="search.webLogin" style="width: 180px"
+                                        class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label>官网用户昵称:</label>
+                                    <input ng-model="search.webName" style="width: 180px"
+                                        class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text">
+                                </div>
+                                <button class="btn btn-default" ng-click="find()">查询</button>                          
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="color: #999999;">运营角色列表
+                                    <button class="btn btn-success pull-right" ng-click="showEditModal()">新增</button>      
+                                </div>
+                                <div class="panel-body p-b-none p-t-none">
+                                    <table class="table table-striped table-hover m-b-none"
+                                    style="margin-top: 10px; color: #999999;">
+                                        <thead class="title">
+                                            <tr>
+                                                <th class="text-center">NO.</th>
+                                                <th>角色名称</th>
+                                                <th>官网用户账号</th>
+                                                <th>官网用户昵称</th>
+                                                <th>运营用户账号</th>
+                                                <th>运营用户名称</th>
+                                                <th>物业用户账号</th>
+                                                <th>物业用户名称</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="!pageModel.data || pageModel.data.length == 0">
+                                                <td colspan="100" class="text-center">暂无记录</td>
+                                            </tr>
+                                            <tr ng-repeat="item in pageModel.data"  style="color: #333333;">
+                                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                                <td class="text-center">运营角色</td>
+                                                <td class="text-center">{{item.webLogin||'--'}}</td>
+                                                <td class="text-center">{{item.webName||'--'}}</td>
+                                                <td class="text-center">{{item.backLogin||'--'}}</td>
+                                                <td class="text-center">{{item.backName||'--'}}</td>
+                                                <td>{{item.emsLogin||'--'}}</td>
+                                                <td>{{item.emsUserName||'--'}}</td>
+                                                <td class="text-center">
+                                                    <button
+                                                        ng-click='showEditModal(item)' class='btn btn-xs'><span
+                                                            class='fa fa-edit'></span>编辑</button>
+                                                    <button ng-click='del(item)'
+                                                        class='btn btn-xs'><span class='fa fa-trash'></span>删除</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="page-footer clearfix">
+                                        <ng-include src="'/common/pager.html'" class="ng-scope">
+                                            <style type="text/css" class="ng-scope">
+                                                .pagination>li>span:hover {
+                                                    background-color: #fff;
+                                                    cursor: text
+                                                }
+
+                                            </style>
+                                        </ng-include>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 运营 end -->
+                        <!-- <div role="tabpanel" class="tab-pane fade" id="property1111">
+                            <div style="margin-top: 15%;margin-left: 50%;transform: translate(-50%);margin-bottom: 15%;text-align: center;font-size: 24px;">
+                                正在开发中...
+                            </div>
+                        </div> -->
+                        <!-- 物业 end -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/res/js/ajaxfileupload.js"></script>
+</body>
+
+</html>
+<style>
+    /* .panel-heading {
+        border-color: #d0d6d6;
+        font-size: 16px;
+    } */
+
+</style>

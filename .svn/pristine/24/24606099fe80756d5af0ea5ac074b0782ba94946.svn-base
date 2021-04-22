@@ -1,0 +1,21 @@
+<div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">{{item.id?'编辑':'新增'}}二级分类</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <form name="form" novalidate>
+                <div class="form-group">
+                        <label class="col-xs-2 control-label required">名称</label>
+                        <div class="col-xs-6">
+                                <input type="text" class="form-control" required  ng-model="item.assetName" maxlength="12" placeholder="最长可输入12位字符" />
+                        </div>
+                    </div>
+    
+    
+    
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>

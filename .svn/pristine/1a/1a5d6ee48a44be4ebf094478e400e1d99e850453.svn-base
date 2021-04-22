@@ -1,0 +1,52 @@
+
+<div class="panel panel-default " style="margin-bottom: 0px">
+	<div class="panel-heading">车位：<strong>{{space.frameName}}</strong>
+        <button type="button" class="close" ng-click="$dismiss()">×</button>
+	</div>
+	<div class="panel-body">
+		<table class="table table-striped table-hover" >
+			<thead class="title">
+			<tr>
+				<th class="text-center">NO</th>
+				<th>报文</th>
+				<th>占位车牌</th>
+                <th style="width: 100px;border-bottom: 1px solid #ddd";>时间</th>
+                <th>车牌截图</th>
+                <th>截图</th>
+                <th >推送状态</th>
+			</tr>
+			</thead>
+			<tbody>
+                <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无数据</td></tr>
+                <tr ng-repeat="item in pageModel.data">
+                    <td class="text-center">{{$index + 1}}</td>
+                    <td><a href='javascript:void(0)' class="btn-link" title="{{item.uploadData}}" ng-click='copy(item.uploadData)'>{{item.uploadData|limitTo:55}}{{item.uploadData.length>55?"...":""}}</a></td>
+                    <td>{{item.license.trim('"')}}</td>
+                    <td class="text-nowrap">{{item.createDate}}</td>
+                    <td style="width:40px;" class="text-center">
+                        <div class="thumbnail" style="height: auto;width: 40px;" ng-model="item.SmallImageData">
+                            <img onerror="javascript:this.src='/res/img/detail.png';"
+                                 ng-click="showPhoto()"
+                                 ng-src="{{item.SmallImageData}}"></div>
+                    </td>
+                    <td style="width:60px;" class="text-center">
+                        <div class="thumbnail" style="height: auto;width: 60px;" ng-model="item.ImageData">
+                            <img onerror="javascript:this.src='/res/img/detail.png';"
+                                 ng-click="showPhoto()"
+                                 ng-src="{{item.ImageData}}"></div>
+                    </td>
+                    <td style="width:60px;padding:0px;" class="text-center">
+                        <div class="text-nowrap text-right" ng-repeat="m in item.sendJsonArray">
+                            {{m.pushName}}
+                            <i href='javascript:void(0)' style="font-size:18px;vertical-align: bottom;" ng-click='reSend(item,m)' class='glyphicon' ng-class="{'glyphicon-ok-circle text-success':m.status ==1,'glyphicon-exclamation-sign text-danger':m.status ==2}"/>
+                        </div>
+                    </td>
+                    <!--|date : 'yyyy/MM/dd HH:mm:ss'-->
+                </tr>
+			</tbody>
+		</table>
+		<div class="page-footer clearfix">
+			<ng-include src="'/common/pager.html'"></ng-include>
+		</div>
+	</div>
+</div>

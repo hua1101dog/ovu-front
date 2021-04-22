@@ -1,0 +1,65 @@
+<link rel="stylesheet" href="/res/js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" href="/res/js/easyui/themes/icon.css">
+<style>
+	.operateTree span {
+		display: inline-block;
+		margin: 0 8px;
+	}
+
+	.operateTree b {
+		cursor: pointer;
+		margin-left: 6px;
+	}
+
+	.operateTree b:first-child {
+		transition: all 0.5s;
+	}
+
+	.operateTree b.down {
+		transform: rotate(180deg)
+	}
+
+	.ul_lf {
+		overflow: hidden
+	}
+
+	.ul_lf li {
+		float: left;
+	}
+
+	.jobType_Box {
+		width: 95%;
+		margin: 30px auto;
+	}
+
+	.jobType_tree_nav {
+		height: 45px;
+		line-height: 45px;
+		background-color: aquamarine;
+		color: #666666;
+		margin-bottom: 0;
+	}
+
+	.jobType_M {
+		/* border: 1px solid #999; */
+		width: 100%;
+	}
+
+	.jobType_M>div {
+		margin: 8px 0
+	}
+</style>
+<div ng-controller="jobTypeCtrl" id="aa123">
+	<div class="page-title">
+		<div class="title_left">
+			<h3>职位类型管理</h3>
+		</div>
+	</div>
+
+	<!-- treegrid-dnd -->
+	<table id="tt" style="width: 100%;margin: 0 auto;"></table>
+
+	<div class="page-footer clearfix">
+		<ng-include src="'/common/pager.html'"></ng-include>
+	</div>
+</div>

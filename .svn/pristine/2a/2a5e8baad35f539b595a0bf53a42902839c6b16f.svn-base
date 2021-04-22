@@ -1,0 +1,45 @@
+<!--查看图片弹出框  -->
+<div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">图片详情</h4>
+    </div>
+    <div class="modal-body container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div>
+                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <label class="col-xs-3 control-label">图片详情：</label>
+                        <div class="photoWraper" ng-repeat="p in item track by $index">
+                            <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}" />
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+        </div>
+    </div>
+    <!-- <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="save()">确定</button>
+    
+    </div> -->
+    
+    <style>
+        .panel-default {
+            margin-bottom: 0;
+        }
+    
+        .photoWraper {
+            width: 80px;
+            height: 44px;
+            position: relative;
+            float: left;
+            margin-right: 5px;
+            text-align: center;
+        }
+    
+        .photoWraper img {
+            padding: 0 3px;
+        }
+    </style>

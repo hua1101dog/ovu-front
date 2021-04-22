@@ -1,0 +1,232 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{isEdit?'审核':'查看'}}报价单</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <table class="table" style="background-color: yellow">
+        <tr>
+            <td align="center" style="font-size: 15px">
+                <span>成本总额：{{log.pay?log.pay:0}}元</span>
+                <span style="margin-left: 20px">预估总收入：{{log.earning?log.earning:0}}元</span>
+            </td>
+        </tr>
+    </table>
+    <div class="form-group pull-right" style="margin-right: 0px" ng-show="canExport">
+        <button class="btn btn-success" ng-click="export()">导出对内报价表</button>
+        <button class="btn btn-success" ng-click="exportExternal()">导出对外报价表</button>
+
+    </div>
+    <uib-tabset>
+        <uib-tab heading="预估支出">
+            <div class="row" style="padding:0">
+                <div class="col-xs-4">
+                    <div class="x_panel">
+                        <div class="x_title">支出类型
+                        </div>
+                        <div class="x_content">
+                            <div class="alert" role="alert" ng-show="treeData.length==0">无类型信息</div>
+                            <tree-view node-list="treeData" style="position:relative;left: -20px" config="config"></tree-view>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-8">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <table ng-if="!curNode" class="table table-striped table-hover" style="margin-top: 10px;">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>项目</th>
+                                    <th>费用</th>
+                                    <th>备注</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in pays">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.money}}元</td>
+                                    <td>{{item.remark}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table ng-if="curNode" class="table table-striped table-hover" style="margin-top: 10px;">
+                                <thead class="title">
+                                <tr>
+                                    <th>序号</th>
+                                    <th>类别</th>
+                                    <th>项目</th>
+                                    <th>子项</th>
+                                    <th>测算依据</th>
+                                    <th>费用</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in costs">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{item.fname}}</td>
+                                    <td>{{item.sname}}</td>
+                                    <td>{{item.tname}}</td>
+                                    <td>{{item.formula_text}}</td>
+                                    <td>{{item.total}}元</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+        <uib-tab heading="预估收入">
+            <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <a style="font-size:18px;">|&nbsp;物业服务收入</a>
+                        <table class="table table-striped table-hover" style="margin-top: 10px;">
+                            <thead class="title">
+                            <tr>
+                                <th>序号</th>
+                                <th>项目</th>
+                                <th>含税单价（元/平米.月）</th>
+                                <th>不含税单价</th>
+                                <th>收费面积（平米）</th>
+                                <th>收费率</th>
+                                <th>收入</th>
+                                <th>增值税金</th>
+                                <th>含税价（元/月）</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>高层</td>
+                                <td>{{earning.price_h}}</td>
+                                <td>{{earning.price_h_x}}</td>
+                                <td>{{earning.count_h}}</td>
+                                <td>{{earning.scale_h?earning.scale_h+'%':''}}</td>
+                                <td>{{earning.price_h_x2}}</td>
+                                <td>{{earning.price_h_x3}}</td>
+                                <td>{{earning.price_h_money?earning.price_h_money:0}}元</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>超高层</td>
+                                <td>{{earning.price_s}}</td>
+                                <td>{{earning.price_s_x}}</td>
+                                <td>{{earning.count_s}}</td>
+                                <td>{{earning.scale_s?earning.scale_s+'%':''}}</td>
+                                <td>{{earning.price_s_x2}}</td>
+                                <td>{{earning.price_s_x3}}</td>
+                                <td>{{earning.price_s_money?earning.price_s_money:0}}元</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>幼儿园</td>
+                                <td>{{earning.price_k}}</td>
+                                <td>{{earning.price_k_x}}</td>
+                                <td>{{earning.count_k}}</td>
+                                <td>{{earning.scale_k?earning.scale_k+'%':''}}</td>
+                                <td>{{earning.price_k_x2}}</td>
+                                <td>{{earning.price_k_x3}}</td>
+                                <td>{{earning.price_k_money?earning.price_k_money:0}}元</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>商业</td>
+                                <td>{{earning.price_b}}</td>
+                                <td>{{earning.price_b_x}}</td>
+                                <td>{{earning.count_b}}</td>
+                                <td>{{earning.scale_b?earning.scale_b+'%':''}}</td>
+                                <td>{{earning.price_b_x2}}</td>
+                                <td>{{earning.price_b_x3}}</td>
+                                <td>{{earning.price_b_money?earning.price_b_money:0}}元</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>其他</td>
+                                <td>{{earning.price_o}}</td>
+                                <td>{{earning.price_o_x}}</td>
+                                <td>{{earning.count_o}}</td>
+                                <td>{{earning.scale_o?earning.scale_o+'%':''}}</td>
+                                <td>{{earning.price_o_x2}}</td>
+                                <td>{{earning.price_o_x3}}</td>
+                                <td>{{earning.price_o_money?earning.price_o_money:0}}元</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <a style="font-size:18px;">|&nbsp;车辆泊车服务费</a>
+                        <table class="table table-striped table-hover" style="margin-top: 10px;">
+                            <thead class="title">
+                            <tr>
+                                <th>序号</th>
+                                <th>项目</th>
+                                <th>含税单价（元/平米.月）</th>
+                                <th>不含税单价</th>
+                                <th>收费面积（平米）</th>
+                                <th>收费率</th>
+                                <th>收入</th>
+                                <th>增值税金</th>
+                                <th>含税价（元/月）</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>6</td>
+                                <td>地上</td>
+                                <td>{{earning.price_u}}</td>
+                                <td>{{earning.price_u_x}}</td>
+                                <td>{{earning.count_u}}</td>
+                                <td>{{earning.scale_u?earning.scale_u+'%':''}}</td>
+                                <td>{{earning.price_u_x2}}</td>
+                                <td>{{earning.price_u_x3}}</td>
+                                <td>{{earning.price_u_money?earning.price_u_money:0}}元</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>地下</td>
+                                <td>{{earning.price_d}}</td>
+                                <td>{{earning.price_d_x}}</td>
+                                <td>{{earning.count_d}}</td>
+                                <td>{{earning.scale_d?earning.scale_d+'%':''}}</td>
+                                <td>{{earning.price_d_x2}}</td>
+                                <td>{{earning.price_d_x3}}</td>
+                                <td>{{earning.price_d_money?earning.price_d_money:0}}元</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+
+    <div class="form-horizontal" ng-if="isEdit">
+        <div class="" style="margin-bottom:8px;">
+            <a style="font-size:18px;">|&nbsp;审核结果</a>
+        </div>
+        <form name="form" novalidate>
+            <div class="item form-group">
+                <label class="control-label col-md-2 col-sm-2 col-xs-12 required">是否通过:
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select class="form-control" name="is_pass" ng-model="item.is_pass" required
+                            ng-options="o[0] as o[1] for o in passes">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="item form-group">
+                <label class="control-label col-md-2 col-sm-2 col-xs-12">备注/原因:
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+				<textarea type="text" name="remark" ng-model="item.remark" rows="3"
+                          class="form-control col-md-7 col-xs-12"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+                <button class="btn btn-warning" ng-click="cancel()">取消</button>
+            </div>
+        </form>
+    </div>
+</div>

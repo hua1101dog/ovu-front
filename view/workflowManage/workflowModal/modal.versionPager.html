@@ -1,0 +1,17 @@
+<style type="text/css">
+	.pagination>li>span:hover{background-color: #fff;cursor:text}
+</style>
+<div class="page"  style="font-size:12px;">
+	<ul class="pagination pull-left" ng-show ="pageModel.totalPage">
+		<li ><span style="height:31px;">每页
+		  <select  style="width:80px;padding:0;border:none" type="number" ng-model="pageModel.pageSize" ng-change="versionFind(1)" ng-options="o[0] as o[1] for o in [[10,'&nbsp;&nbsp;&nbsp;10'],[20,'&nbsp;&nbsp;&nbsp;20'],[50,'&nbsp;&nbsp;&nbsp;50'],[100,'&nbsp;&nbsp;&nbsp;100'],[200,'&nbsp;&nbsp;&nbsp;200']]">
+		  </select>条</span></li>
+		<li ng-if="$first" role="button" ng-repeat-start="page in pageModel.pages track by $index"  ng-class="{disabled:pageModel.currentPage ==1}" ng-click="pageModel.currentPage >1 && versionFind(pageModel.currentPage-1)"><a>«</a></li>
+		<li ng-class="{active:page==pageModel.currentPage}" role="button">
+			<a ng-if="page>0" ng-click="versionFind(page)">{{page}}</a>
+			<span ng-if="!(page>0)" style="border-top:none;border-bottom:none">{{page}}</span>
+		</li>
+		<li ng-if="$last" role="button" ng-repeat-end ng-class="{disabled:pageModel.currentPage == pageModel.totalPage}" ng-click="pageModel.currentPage < pageModel.totalPage && versionFind(pageModel.currentPage+1)"><a>»</a></li>
+		<li><span>共{{pageModel.totalRecord}}条记录</span></li>
+	</ul>
+</div>

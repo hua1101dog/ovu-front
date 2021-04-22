@@ -1,0 +1,35 @@
+<div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×</button>
+        <h4 class="modal-title">{{item?"编辑":"新增"}}递增率</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <div class="x_content">
+            <form name="form" novalidate>
+                <div class="form-group row">
+                    <label class="col-xs-3 control-label required"> 年限：</label>
+                    <div class="col-xs-7 ">
+                        <select ng-if="!editInc" ng-model="eidt.code" class="form-control" style="width: 160px;" required>
+                            <option value="">--请选择--</option>
+                            <option ng-repeat="x in years" value="{{x.value}}">{{x.text}}</option>
+                        </select>
+                        <span ng-if="editInc" style="line-height: 30px">{{eidt.name}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label required">递增率：</label>
+                    <div class="col-xs-7">
+                        <input class="form-control"
+                        ng-model="eidt.increaseRate" 
+                        ng-model="item.sex" max = "999999999.99"
+                        type="number" required
+                        ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                        style="width: 50%;display:inline-block"> %
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary saveParkSteward" ng-click="save(form)">保存</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>

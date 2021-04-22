@@ -1,0 +1,74 @@
+<div ng-controller="blockResponsibilityCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>区块责任人分配</h3>
+        </div>
+    </div>
+
+    <div class="x_panel">
+        <div class="form-inline">
+         
+            <div class="form-group">
+                <label>分组名称</label>
+                <select class="form-control" ng-model="search.groupId" ng-options="o.groupId as o.groupName for o in coupleData">
+                        <option value="">--请选择分组--</option>
+                    </select>
+                   
+            </div>
+           
+            <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            区块列表
+          
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover table-bordered" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">区块名称</th>
+                        <th class="text-center" style="width:125px">工作分类</th>
+                        <th>责任人</th>
+                        <th>创建日期</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody ng-if="pageList.length" ng-repeat="item in pageList">
+                    <tr ng-repeat="block in item.blockPersonList track by $index">
+                        <td  ng-if="$index==0" rowspan="{{item.blockPersonList.length}}">{{item.blockName}}</td>
+                        <td>{{block.worktypeName}}</td>
+                        <td>{{block.personNames}}</td>
+                        <td>{{block.createTime}}</td>
+                        <td  ng-if="$index==0" rowspan="{{item.blockPersonList.length}}">
+                            <a href='javascript:void(0)' ng-click="setPerson(item)" class='btn btn-xs btn-link'>
+                                设置责任人
+                            </a>
+                            
+                        </a>
+
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-if="pageList.length == 0">
+                    <tr >
+                        <td colspan="100">暂无记录</td>
+                    </tr>
+                   
+                </tbody>
+            </table>
+           
+        </div>
+    </div>
+</div>
+
+</div>
+
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+  
+</style>

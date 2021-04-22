@@ -1,0 +1,247 @@
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel" >
+            <div class="form-inline" >
+               
+                <div class="form-group">
+                    <label class="pl13">发起人</label>
+                    <!--<input type="text"  ng-model="search.SOURCE_NAME" class="form-control" />-->
+                    <input class="form-control" type="text" ng-model="search.SOURCE_NAME" ng-class="{'waiting':loadingSourcePerson}"
+                           ng-change="changeSourcePerson(search)" typeahead-min-length=0
+                           uib-typeahead="o.name as o.name+'('+o.deptName+')' for o in searchPersonAndOwner($viewValue,null,dept.id)"
+                           typeahead-on-select="selectedSourcePerson($item,search)"
+                           typeahead-loading="loadingSourcePerson" typeahead-wait-ms='300' typeahead-editable="false"/>
+                </div>
+                <div class="form-group">
+                    <label class="pl13">执行人</label>
+                    <!--<input type="text"  ng-model="search.EXEC_NAME" class="form-control" />-->
+                    <input class="form-control" type="text" ng-model="search.EXEC_NAME" ng-class="{'waiting':loadingExecPerson}"
+                           ng-change="changeExecPerson(search)" typeahead-min-length=0
+                           uib-typeahead="o.name as o.name+' ('+o.deptName+')' for o in searchPerson($viewValue,null,dept.id)"
+                           typeahead-on-select="selectedExecPerson($item,search)"
+                           typeahead-loading="loadingExecPerson" typeahead-wait-ms='300' typeahead-editable="false"/>
+                </div>
+                <div class="form-group">
+                    <label >工单编号</label>
+                    <input type="text"  ng-model="search.ID" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>工单名称</label>
+                    <input type="text"  ng-model="search.NAME" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>工单类型</label>
+                    <select class="form-control" ng-change="changeWorktype($parent.$parent.search.WORKUNIT_TYPE,search)" ng-model="$parent.$parent.search.WORKUNIT_TYPE" ng-options="o[0] as o[1] for o in workunitTypeDict">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+              <div class="form-group">
+                <label>工作分类</label>
+                <div class="input-group">
+                    <layer-selector host="search" host-key="'WORKTYPE_ID'" host-text="'workTypeName'"
+                                    node-list="workTypeTree"></layer-selector>
+                </div>
+                  <div class="form-group" ng-if="search.curTab=='YGB'">
+                      <label>发起人评分</label>
+                      <select class="form-control" ng-model="search.sourceScore" ng-options="o[0] as o[1] for o in evaluateScoreDict">
+                          <option value="">--请选择--</option>
+                      </select>
+                  </div>
+              </div>
+            </div>
+            
+            <div class="form-inline" >
+                <div class="form-group">
+                    <label>是否业主工单</label>
+                    <select class="form-control" ng-model="search.is_owner"  ng-options="o[0] as o[1] for o in yesNoDict">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>报事类型</label>
+                    <select class="form-control" ng-model="search.EVENT_TYPE"  ng-options="o[0] as o[1] for o in eventTypeDict">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>工单来源</label>
+                    <select class="form-control" ng-model="search.source"  ng-options="o[0] as o[1] for o in sourceDict">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>是否设备任务</label>
+                    <select class="form-control" ng-model="search.is_equip"  ng-options="o[0] as o[1] for o in yesNoDict">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>是否延期</label>
+                    <select class="form-control" ng-model="search.is_frozen"  ng-options="o[0] as o[1] for o in yesNoDict">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+        
+                <div class="form-group">
+                    <label>紧急程度</label>
+                    <select class="form-control" ng-model="search.importentLevel"  ng-options="o[0] as o[1] for o in importantLevelDict">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>是否外包工单</label>
+                    <select class="form-control" ng-model="search.isOutSource"  ng-options="o[0] as o[1] for o in yesNoDict">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="form-group" ng-if="search.curTab=='YGB'">
+                    <label>管理人评分</label>
+                    <select class="form-control" ng-model="search.score" ng-options="o[0] as o[1] for o in evaluateScoreDict">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <!--<div class="form-group">-->
+                    <!--<label>执行时间</label>-->
+                    <!--<input type="datetime" class="form-control Wdate"  ng-model="search.STAR"  placeholder="开始日期" onchange=""-->
+                           <!--onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;})">-->
+                    <!--<label>-</label>-->
+                    <!--<input type="datetime" class="form-control Wdate"  ng-model="search.END"  placeholder="结束日期" onchange=""-->
+                           <!--onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;})">-->
+                <!--</div>-->
+        
+            </div>
+            <div class="form-inline" >
+                <div class="form-group">
+                    <label>创建时间</label>
+                    <input type="datetime" class="form-control Wdate"  ng-model="search.FROM_DATE"  placeholder="开始日期" onchange=""
+                           onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()||'%y-%M-%d'}&quot;})">
+                    <label>-</label>
+                    <input type="datetime" class="form-control Wdate"  ng-model="search.TO_DATE"  placeholder="结束日期" onchange=""
+                           onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;,maxDate:'%y-%M-%d'})">
+                </div>
+                <div class="form-group">
+                    <label>派发时间</label>
+                    <input type="datetime" class="form-control Wdate"  ng-model="search.STAR"  placeholder="开始日期" onchange=""
+                           onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;})">
+                    <label>-</label>
+                    <input type="datetime" class="form-control Wdate"  ng-model="search.END"  placeholder="结束日期" onchange=""
+                           onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;})">
+                </div>
+                <div class="form-group">
+                    <label>实际执行时间</label>
+                    <input type="datetime" class="form-control Wdate"  ng-model="search.FinishTimeStart"  placeholder="开始日期" onchange=""
+                           onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;})">
+                    <label>-</label>
+                    <input type="datetime" class="form-control Wdate"  ng-model="search.FinishTimeEnd"  placeholder="结束日期" onchange=""
+                           onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.Wdate').val()}&quot;})">
+                </div>
+                <div class="form-group" ng-if="search.curTab=='YGB'">
+                    
+                    <label>管理人评价时间</label>
+                    <input type="datetime" class="form-control Wdate manageScoreTimeStart"  ng-model="search.manageScoreTimeStart"  placeholder="开始日期" onchange=""
+                           onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$.curPicker.siblings('.manageScoreTimeEnd').val()}&quot;})">
+                    <label>-</label>
+                    <input type="datetime" class="form-control Wdate manageScoreTimeEnd"  ng-model="search.manageScoreTimeEnd"  placeholder="结束日期" onchange=""
+                           onclick="javascript:$.curPicker = $(event.target);WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$.curPicker.siblings('.manageScoreTimeStart').val()}&quot;})">
+                </div>
+                <div class="form-group" ng-if="isDelayed">
+                    <label>是否异常工单</label>
+                    <select class="form-control" ng-model="search.IS_DELAYED" ng-options="o[0] as o[1] for o in yesNoDict">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <button class="btn btn-default" ng-click="find(1)" >查询</button>
+                <button class="btn btn-danger" ng-disabled="!hasChecked(pageModel)" ng-click="toDelAll(pageModel.list)" ng-if="hasPower('批量删除')">批量删除</button>
+                <button class="btn btn-primary" ng-disabled="!hasChecked(pageModel)" ng-click="exportAll(pageModel.list)" >批量导出</button>
+            </div>
+        </div>
+        <div class="panel panel-default" style="margin-bottom: 0px;display: grid;">
+            <div class="panel-heading">工单列表
+                <button class="btn btn-success pull-right" ng-if="search.operateType==11" ng-disabled="!hasChecked(pageModel)" ng-click="distributeAll(pageModel.list)" >批量派发</button>
+            </div>
+            <div class="panel-body" style="overflow: scroll;">
+                <table  class="table table-striped table-hover" style="margin-top: 10px">
+                    <thead class="title">
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th class="text-center" style="width:20px">
+                            <span
+                                role="button"
+                                ng-click="checkAll(pageModel)"
+                            >
+                                <i
+                                    class="glyphicon"
+                                    ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"
+                                ></i
+                            ></span>
+                        </th>
+                        <th nowrap="nowrap">工单编号</th>
+                        <th nowrap="nowrap">工单名称</th>
+                        <th nowrap="nowrap">工单类型</th>
+                        <th nowrap="nowrap">工作分类</th>
+                        <th nowrap="nowrap">位置</th>
+                        <th nowrap="nowrap">发起人</th>
+                        <th nowrap="nowrap">执行人</th>
+                        <th nowrap="nowrap">管理人</th>
+                        <th nowrap="nowrap">创建时间</th>
+                        <th nowrap="nowrap">派发时间</th>
+                        <th nowrap="nowrap">接单时间</th>
+                        <th nowrap="nowrap">实际执行时间</th>
+                        <th nowrap="nowrap">工单状态</th>
+                        <th nowrap="nowrap">管理人评分</th>
+                        <th nowrap="nowrap">发起人评分</th>
+                        <th nowrap="nowrap">督办人</th>
+                        <th nowrap="nowrap">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="pageModel.list.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                    <tr ng-repeat="item in pageModel.list track by $index" >
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>
+                            <i
+                                role="button"
+                                ng-click="checkOne(item,pageModel)"
+                                ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                class="glyphicon"
+                            ></i>
+                        </td>
+                        <td style="word-wrap: break-word">{{item.ID}}</td>
+                        <td><a  href='javascript:void(0)' class="btn-link" ng-style="{'text-decoration':item.DATA_STATUS=='0'?'line-through':''}" ng-click='showWorkUnitDetail(item.ID)'>{{item.WORKUNIT_NAME}}</a></td>
+                        <td>{{item.WORKUNIT_TYPE|keyToValue:workunitTypeDict}}</td>
+                        <td>{{item.WORKTYPE_NAME}}</td>
+                        <td style="min-width: 120px;">{{item.reportLoc}}</td>
+                        <td style="min-width: 120px;">{{item.SOURCE_PERSON_NAME}}</td>
+                        <td>{{item.EXEC_PERSON_NAME}}</td>
+                        <td>{{item.MANAGE_PERSON_NAME}}</td>
+                        <td>{{item.CREATE_DATE}}</td>
+                        <td>{{item.ALLOCATION_TIME}}</td>
+                        <td>{{item.ACCEPT_TIME | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.FINISH_TIME}}</td>
+                        <td>{{item.UNIT_STATUS|keyToValue:unitStatusDict}}</td>
+                        <td>{{item.EVALUATE_SCORE}}</td>
+                        <td>{{item.SOURCE_SCORE}}</td>
+                        <td>{{item.SUPERVISE_PERSON_NAMES}}</td>
+                        <td>
+                            <a href='javascript:void(0)' ng-click='returnVisit(item.ID)' class='btn btn-xs' ng-if="hasPower('回访')"><span class='fa fa-edit'></span>回访</a>
+                            <a href='javascript:void(0)' ng-if="item.IS_BACK==1" ng-click='showReturnVisit(item.ID)' class='btn btn btn-xs btn-link'><span class='fa fa-search'></span>查看回访({{item.callBackCnt}})</a>
+                            <a href='javascript:void(0)' ng-click='deleteWorkUnit(item.ID)' class='btn btn-xs' ng-if="hasPower('删除')"><span class='fa fa-trash'></span>删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+          
+                <div class="page-footer clearfix">
+                    <page-pro page-model="pageModel"></page-pro>
+                    <!-- <ng-include src="'/common/pager.html'"></ng-include> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+     table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

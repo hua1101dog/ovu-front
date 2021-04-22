@@ -1,0 +1,100 @@
+<div ng-controller="staffScoreCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>人员评分</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">部门列表</div>
+                <div class="x_content">
+                    <div class="alert" role="alert" ng-if="deptTree_staffScore && deptTree_staffScore.length==0">无部门信息</div>
+                            <!-- <tree-view node-list="deptTree_staffScore" select-node="setDept" config="{'edit':false}"></tree-view> -->
+                            <tree-view-pro node-list="deptTree_staffScore" host="search" host-text="'deptName'" host-key="'deptId'" callback="setDept" config="{'edit':false}"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel" >
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>姓名</label>
+                        <input class="form-control" type="text" ng-model="search.user"
+                        ng-class="{'waiting':loadingPerson}"
+                        ng-change="changeExecPerson(search)"
+                        uib-typeahead="o as o.name+' ('+o.deptName+')' for o in searchPerson($viewValue,null,search.deptId)"
+                        typeahead-on-select="selectPerson($item,search)"
+                        typeahead-loading="loadingPerson" typeahead-min-length=0 typeahead-wait-ms='300'
+                        typeahead-editable="false"/>
+                    </div>
+                    <div class="form-group">
+                        <label>登录帐号</label>
+                        <input type="text" ng-model="search.account"  class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>人员状态</label>
+                        <select class="form-control" ng-model="search.jobStatus" ng-options="o[0] as o[1] for o in job_statusDict">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary pull-right" ng-click="find(1)" >查询</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">人员列表
+                    <button class="btn btn-success pull-right" ng-click="dealMultiple()">批量填分</button>
+                    <input type="text" class="form-control pull-right" style="width: 100px;margin-top: -7px;margin-right: 10px;" ng-model="selectScore" placeholder="请填写分值">
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>部门-岗位</th>
+                            <th>状态</th>
+                            <th>评分</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data || pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                            <tr ng-repeat="item in pageModel.data" >
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td>
+                                    <i role="button" ng-click="checkOne(item)"
+                                       ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                       class="glyphicon"></i>
+                                </td>
+                                <td><a href='javascript:void(0)'>{{item.name}}</a></td>
+
+                                <td>{{item.sex}}</td>
+                                <td><ul><li ng-repeat="post in item.postList">
+                                    {{post[0]|keyToValue:flatDetpTree:'id':'text'}}-{{post[1]|keyToValue:postDict:'id':'postName'}}
+                                </li></ul></td>
+                                <td>{{item.jobStatus|keyToValue:statusList}}</td>
+                                <td><input type="text" class="form-control" placeholder="请填写评分" ng-model="item.score" ng-blur="makeScore(item)" style="width: 100px;margin: 0 auto"></td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click="historyScore(item)" class='btn btn-xs'>历史得分</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

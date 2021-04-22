@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h3 class="modal-title">确认删除</h3>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="myForm" novalidate>
+        <div class="form-group form-inline">
+            <label for="" class="col-xs-2 control-label required">删除原因</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" name="cancelReason" ng-model="cancelReason" required>
+            </div>
+            <span class="col-xs-6" style="color: red" ng-show="myForm.cancelReason.$dirty && myForm.cancelReason.$invalid">
+                <span ng-show="myForm.cancelReason.$error.required">删除理由是必填的</span>
+            </span>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save()" ng-disabled="!myForm.$valid">确定</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+</div>
+    

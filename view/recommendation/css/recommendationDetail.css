@@ -1,0 +1,31 @@
+
+.model_exit{
+    height: 40px;
+    background-color: rgb(24, 129, 214);
+    color: #fff;
+    font-size: 18px;
+    line-height: 40px;
+    padding-left: 15px;
+}
+.model_exit a:hover{
+    color:red;
+}
+.page_main{
+    width: 100%;
+    padding: 20px;
+}
+.page_main h3{
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.model_detail_intro{
+    width: 800px;
+}
+.model_detail_intro td{
+    border:1px solid #000;
+}
+.model_detail_intro_table{
+
+    width: 100%;
+}

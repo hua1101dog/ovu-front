@@ -1,0 +1,167 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{ruleTitle}}</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" class="form-horizontal">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="name" class="col-sm-3 control-label">
+                        <span style="color: crimson">*</span>规则名称
+                    </label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="name" placeholder="请输入规则名称" ng-model='submit.name'
+                            ng-disabled="{{submit.showDetail}}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name" class="col-sm-3 control-label">
+                        <span style="color: crimson">*</span>不同楼栋出现次数
+                    </label>
+                    <div class="col-sm-5">
+                        <input type="number" name="a1build" ng-model="submit.notSameFrequency" class="form-control"
+                            value="{{submit.notSameFrequency}}" min='1' ng-disabled="{{submit.showDetail}}"
+                            placeholder="请输入不同楼栋出现次数"
+                            onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                            onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                            required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="col-sm-3 control-label">
+                        <span style="color: crimson">*</span>同一楼栋抓拍次数
+                    </label>
+                    <div class="col-sm-5">
+                        <input type="number" name="a2camera" ng-model="submit.isSameFrequency" class="form-control"
+                            ng-disabled="{{submit.showDetail}}" value="{{submit.isSameFrequency}}" min='1'
+                            placeholder="请输入同一楼栋抓拍次数"
+                            onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                            onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                            required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="col-sm-3 control-label">
+                        <span style="color: crimson"></span>是否推送
+                    </label>
+                    <div class="col-sm-5">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="submit.isPush" ng-disabled="{{submit.showDetail}}" />
+                            {{submit.isPush?'是':'否'}}
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        <!-- <h5> -->
+                        <label class="control-label col-sm-3 ">
+                            <span style="color: crimson">*</span>时间规则
+                        </label>
+                        <div class="col-sm-5">
+                            <span>
+                                <button class="btn btn-primary" ng-click="addTimeRule(0)"
+                                    ng-hide="{{submit.showDetail}}">添加时间规则</button>
+                            </span>
+                        </div>
+                        <!-- </h5> -->
+                    </div>
+                    <table class="table table-condensed table-hover">
+                        <thead class="title">
+                            <tr>
+                                <th style="width:15%">开始时间</th>
+                                <th style="width:15%">结束时间</th>
+                                <th style="width:60%">工作日选择</th>
+                                <th ng-hide="{{submit.showDetail}}" style="width:10%">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in timeRules">
+                                <td>
+                                    <div>
+                                        <input type="text" readonly ng-model="item.startTime" required
+                                    class="form-control time" format="HH:mm:ss" ng-lay-date="">
+                                        <!-- <input type="datetime" class="form-control Wdate" ng-model="item.startTime"
+                                            placeholder="开始时间" onchange="" id="choseStartTime" ng-disabled="{{submit.showDetail}}"
+                                            onclick="javascript:WdatePicker({dateFmt:'HH:mm:ss',isShowClear:false})"
+                                            required> -->
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <input type="text" readonly ng-model="item.endTime" required
+                                        class="form-control time" format="HH:mm:ss" ng-lay-date="">
+                                        <!-- <input type="text" class="form-control Wdate" ng-model="item.endTime"
+                                            placeholder="结束时间" onchange="" id="choseEndTime" ng-disabled="{{submit.showDetail}}"
+                                            onclick="javascript:WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'choseStartTime\')}',isShowClear:false})"
+                                            required> -->
+                                    </div>
+                                </td>
+                                <!-- <td>   
+                                    <label class="checkbox-inline" ng-repeat="x in week" style="padding: 0 0;">
+                                        <i role="button" ng-click="checkWeek(item,x)"
+                                            ng-class="{'glyphicon-check':x.checked,'glyphicon-unchecked':!x.checked}"
+                                            class="glyphicon"></i>
+                                        {{x.name}}
+                                    </label>
+
+                                </td> -->
+                                <td>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox" ng-model="item.monday" ng-disabled="{{submit.showDetail}}">
+                                        周一
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox" ng-model="item.tuesday" ng-disabled="{{submit.showDetail}}">
+                                        周二
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox" ng-model="item.wednesday" ng-disabled="{{submit.showDetail}}">
+                                        周三
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox" ng-model="item.thursday" ng-disabled="{{submit.showDetail}}">
+                                        周四
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox" ng-model="item.friday" ng-disabled="{{submit.showDetail}}">
+                                        周五
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox" ng-model="item.saturday" ng-disabled="{{submit.showDetail}}">
+                                        周六
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox" ng-model="item.sunday" ng-disabled="{{submit.showDetail}}">
+                                        周日
+                                    </label>
+                                </td>
+                                <!-- 
+                                <td>
+                                    <label class="checkbox-inline" ng-repeat="x in week">
+                                        <input type="checkbox" id="inlineCheckbox" ng-click="addcheckArr($event,item)" ng-model="{{x.model}}" value="{{x.value}}">
+                                        {{x.name}}
+                                    </label>
+                                </td>
+                                -->
+                                <td ng-hide="{{submit.showDetail}}">
+                                    <a href='javascript:void(0)' ng-click='delTimeRule(item)' class='btn btn-xs'>
+                                        <span class='fa fa-trash'></span>删除
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="submitRule(form)" ng-hide="{{submit.showDetail}}">提交规则</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

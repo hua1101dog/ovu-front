@@ -1,0 +1,146 @@
+<div class="modal-header">
+        <h4 class="modal-title">{{$ctrl.item.id?'编辑':'新增'}}</h4>
+    </div>
+    <div class="modal-body container-fluid form-horizontal">
+        <form name="form" novalidate>
+            <div class="form-group">
+                <label class="col-xs-4 control-label required">标题名称</label>
+                <div class="col-xs-8">
+                    <input type="text" class="col-xs-10 my-form-control" required ng-model="$ctrl.item.title" name="title" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label required">展现渠道</label>
+                <div class="col-xs-8">
+                    <select class="col-xs-10 my-form-control" ng-model="$ctrl.item.channel"
+                        ng-options="o.key as o.value for o in $ctrl.RESERVATIONCHANNEL">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" ng-if="$ctrl.item.channel == 3 || $ctrl.item.channel == 0">
+                <label class="col-xs-4 control-label">二维码logo</label>
+                <div class="col-xs-8">
+	                <img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+	                     ng-click="$ctrl.showPhoto()"
+	                     ng-src="{{$ctrl.processImgUrl($ctrl.item.logoUrl,'50')}}" class="max-height:50px" style="width: 200px;
+    						height: 160px;"/>
+	                <div class="caption">
+	                    <p>
+	                        <span class="btn btn-warning height34" ng-click="$ctrl.clearPhoto($ctrl.item,'logoUrl')"><i
+	                            class="glyphicon glyphicon-remove"></i></span>
+	                        <span class="btn btn-default height34" ng-click="$ctrl.addPhoto($ctrl.item,'logoUrl')"><i
+	                            class="glyphicon glyphicon-picture "></i></span>
+	                        <button class="btn btn-info" ng-click="$ctrl.selectFromDb(1,true)" >从资料库选择</button>
+	                    </p>
+	                </div>
+            	</div>
+            </div>
+    
+            <div class="form-group">
+                <label class="col-xs-4 control-label required">作品名称</label>
+                <div class="col-xs-8">
+                    <input type="text" class="col-xs-10 my-form-control" required ng-model="$ctrl.item.productName" name="productName" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-4 control-label required">生效时间</label>
+                <div class="col-xs-4">
+                    <input type="datetime" class="form-control Wdate" required readonly ng-model="$ctrl.item.beginTime"  onchange=""
+                       onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-4 control-label required">失效时间</label>
+                <div class="col-xs-4">
+                     <input type="datetime" class="form-control Wdate" required readonly name="deadingTime" ng-model="$ctrl.item.deadingTime" onchange="" 
+                     	onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('.Wdate').first().val()}&quot;})">
+                </div>
+            </div>
+          
+            <div class="form-group">
+                <label class="col-xs-4 control-label">作品图片</label>
+                <!--多图片上传-->
+                <!--<div class="col-xs-8" style="text-align: left !important">
+                    <div class="photoWraper" style="margin-left:14px" ng-repeat="p in item.fileUrls track by $index">
+						<img onerror="javascript:this.src='/res/img/detail.png';" ng-click="$ctrl.showPhoto()" ng-src="{{$ctrl.processImgUrl(p)}}" />
+						<a role="button" ng-click="$ctrl.delPhoto(item.fileUrls,p)" >
+							<i class="glyphicon glyphicon-remove"></i>
+						</a>
+					</div>
+					<img style="float:left" height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="$ctrl.addPhotos(item.fileUrls,6)" title="上传图片" >
+                </div>-->
+                <div class="col-xs-8">
+	                <img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+	                     ng-click="$ctrl.showPhoto()"
+	                     ng-src="{{$ctrl.processImgUrl($ctrl.item.imagePath,'50')}}" class="max-height:50px" style="width: 200px;
+    						height: 160px;"/>
+	                <div class="caption">
+	                    <p>
+	                        <span class="btn btn-warning height34" ng-click="$ctrl.clearPhoto($ctrl.item,'imagePath')"><i
+	                            class="glyphicon glyphicon-remove"></i></span>
+	                        <span class="btn btn-default height34" ng-click="$ctrl.addPhoto($ctrl.item,'imagePath')"><i
+	                            class="glyphicon glyphicon-picture "></i></span>
+	                        <button class="btn btn-info" ng-click="$ctrl.selectFromDb(1)" >从资料库选择</button>
+	                    </p>
+	                </div>
+            	</div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 control-label">音频文件</label>
+                <div class="col-xs-8">
+	                <input type="text" class="col-xs-6 my-form-control" disabled="true" ng-model="$ctrl.item.musicName" name="musicName" />
+	                <button class="btn btn-info" ng-click="$ctrl.uploadMp3()" style="margin-left: 5px;">选择文件</button>
+	                <button class="btn btn-info" ng-click="$ctrl.selectFromDb(2)" >从资料库选择</button>
+            	</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-4 control-label">视频文件</label>
+                <div class="col-xs-8">
+	                <input type="text" class="col-xs-6 my-form-control" disabled="true" ng-model="$ctrl.item.videoName" name="videoName" />
+	                <button class="btn btn-info" ng-click="$ctrl.uploadVideo()" style="margin-left: 5px;">选择文件</button>
+	                <button class="btn btn-info" ng-click="$ctrl.selectFromDb(3)" >从资料库选择</button>
+            	</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-4 control-label">作品介绍</label>
+                <!--<div class="col-xs-8">
+	                <textarea class="col-xs-10 my-form-control" style="height: 150px;" ng-model="$ctrl.item.introduce" name="introduce" /></textarea>
+            	</div>-->
+            	<div class="col-xs-7">
+	                <!-- 富文本编辑器 -->
+	                <div class="UM-Editor">
+	                    <textarea type="text/plain" required  id="myEditor" style="height:200px;">
+	                    </textarea>
+	                </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="$ctrl.save(form,$ctrl.item)">确定</button>
+        <button class="btn btn-warning" ng-click="$ctrl.cancel()">取消</button>
+    </div>
+    <style>
+    	.my-form-control {
+		    display: block;
+		    /*width: 100%;*/
+		    height: 34px;
+		    padding: 6px 12px;
+		    font-size: 14px;
+		    line-height: 1.42857143;
+		    color: #555;
+		    background-color: #fff;
+		    background-image: none;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+		    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+		    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+		    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		}
+    </style>

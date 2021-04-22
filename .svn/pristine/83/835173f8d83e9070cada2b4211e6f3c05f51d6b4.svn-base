@@ -1,0 +1,149 @@
+<div ng-controller="realTimeCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>实时巡查调度</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">巡查项类型
+                </div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="ins_real_TreeData.length==0">无巡查项信息</div>
+                   
+                     
+                        <tree-view-pro node-list="ins_real_TreeData" host="search" host-text="'text'" host-key="'insItemTypeId'" callback="selectNode" config="{'edit':false}"></tree-view-pro>
+
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+               
+            <div class="x_panel">
+                    
+                <div class="x_title">
+                    巡查点位展示
+                </div>
+                <div class="panel-body" style="padding:5px;position: relative;">
+                    <div id="mainMap" ui-map="mainMap" style="height:550px; " ui-options="mainMapOptions" ui-map-cache="mainMap">
+
+                    </div>
+                    <div ng-repeat="marker in mainMarkers track by $index" ui-map-marker="mainMarkers[$index]" ui-event="{'map-click':'clickMainMap($event,$params,marker)','map-mouseover':'mouseoverMaker($event,$params,marker)',
+                    'map-mouseout':'mouseoutMaker()'}">
+                    </div>
+                    <div ng-if="floorIshow" style="position: absolute;bottom: 30px;max-height: 200px;overflow: auto">
+                        <div class="list-group">
+                            <a href="javascript:void(0)" class="list-group-item  b-none ellipsis" ng-class="{active: (selectedFloor == {{$index}})}"
+                                ng-repeat="floor in floorList  track by $index" ng-click="getPointList(floor,$index)">
+                                {{floor.floorName}}
+                            </a>
+                        </div>
+                    </div>
+                    <div ui-map-info-window="myInfoWindow">
+                        <div class="list-group">
+                            <a href="javascript:void(0)" class="list-group-item  b-none ellipsis" ng-class="{active: (selectPoint == {{$index}})}"
+                            ng-repeat="item in pointList  track by $index" ng-click="getPoint(item.insPointId,$index)">
+                                {{item.name}}
+                            </a>
+    
+                        </div>
+    
+    
+                    </div>
+                    <div ui-map-info-window="personInfoWindow" style="width:300px">
+                        <table class="table table-striped table-hover" style="margin-top: 10px;">
+                            <thead>
+                                <tr>
+                                    <th>巡查项名称</th>
+                                    <th>巡查时间</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in insList">
+                                    <td class="text-center">{{item.itemName}}</td>
+                                    <td class="text-center">{{item.insTime}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="panel panel-default" ng-if="isShow">
+                    <div class="panel-body row">
+                        <div class="col-md-6 col-sm-6 col-xs-12"  ng-if="isPlay">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="padding: 15px 15px">
+                                 <button type="button" class="close" ng-click="cancel()" style="margin-top: -11px">×</button>
+                                </div>
+                                <div class="panel-body" id="video">
+                                
+                                <!-- <iframe ng-src="{{'/view/video.html?equipmentId='+equipmentId}}" style="width: 100%;height: 320px"></iframe> -->
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="panel panel-default ">
+                                <div class="panel-heading">
+                                    附近人员
+                                </div>
+                                <div class="panel-body">
+                                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                                        <thead>
+                                            <tr>
+                                                <th nowrap="nowrap">人员名称</th>
+                                                <th nowrap="nowrap">距离</th>
+                                                <th nowrap="nowrap"> 电话</th>
+                                                <th nowrap="nowrap">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr ng-repeat="item in personList">
+                                                <td>{{item.personName}}({{item.deptName}})</td>
+                                                <td>{{item.distance}}km</td>
+                                                <td>{{item.telephone}}</td>
+                                                <td>
+
+                                                    <a href='javascript:void(0)' ng-click='toTel(item)' class='btn btn-xs'>电话通知</a>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+            </div>
+            <div class="panel panel-default" style="height:  100px;">
+                <div class="panel-body">
+                    <p>图示：</p>
+                    <p>
+                            <span style="margin:0 20px;width: 30px"><img src="/res/img/inspection/u4926.png" /> 人员点位</span>
+                        <span style="margin:0 20px"><img src="/res/img/inspection/out.png" />  室外点位</span>
+                        <span style="margin:0 20px"><img src="/res/img/inspection/out-camera.png" />  室外&摄像头点位</span>
+                        <span><img src="/res/img/inspection/in.png" />  室内点位</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #house_tree {
+        margin-left: -17px;
+    }
+
+    table tr th,
+        table tr td {
+            text-align: center;
+        }
+</style>

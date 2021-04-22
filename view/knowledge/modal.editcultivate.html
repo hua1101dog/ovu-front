@@ -1,0 +1,172 @@
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">编辑</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">培训主题：</label>
+            <div class="col-xs-4">
+                <input
+                    type="text"
+                    class="form-control"
+                    required
+                    ng-model="item.title"
+                    maxlength="32"
+                />
+            </div>
+            
+        </div>
+        <div class="form-group">
+            
+            <label class="col-xs-2 control-label required">培训内容：</label>
+            <div class="col-xs-4">
+                <input
+                    type="text"
+                    class="form-control"
+                    required
+                    ng-model="item.content"
+                    maxlength="200"
+                />
+            </div>
+        </div>
+        <div class="form-group">
+            
+            <label class="col-xs-2 control-label required">培训课件：</label>
+             <div class="col-xs-10">
+                <div class=" inline_block" >
+                    <div ng-repeat="course in item.coursewareList" class="courseStyle">{{course.text}}<i ng-click="item.coursewareList.splice(item.coursewareList.indexOf(course),1)">×</i></div>
+                   
+                </div>
+                <button class="btn btn-primary inline_block" style="vertical-align: sub;margin-top: 11px;" ng-click="addCourse(item)">添加课件</button>
+             </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">培训时间：</label>
+            <div class="col-xs-10">
+                <input
+                    type="text"
+                    class="form-control "
+                    readonly
+                    required
+                    ng-model="item.startTime"
+                    style="display: inline-block;width: 180px;"
+                    ng-lay-date-time-range  min-date="today_time_global" call-back="setTimeRange" date-obj="start_cult_Obj" date-copy="end_cult_Obj"  min-max="min"
+                />
+                <label>-</label>
+                <input
+                    type="text"
+                    class="form-control "
+                    readonly
+                   
+                    ng-model="item.endTime"
+                   
+                    required
+                    style="display: inline-block;width: 180px;"
+                    ng-lay-date-time-range call-back="setTimeRange" min-date="today_time_global" date-obj="end_cult_Obj"  date-copy="start_cult_Obj"  min-max="max"
+                />
+            </div>
+        </div>
+        <!--考试人群 -->
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">培训人群：</label>
+            <div class="col-xs-4" style="margin-top:8px;">
+                <a
+                    href="javascript:;"
+                    style="color:blue;"
+                    ng-click="selectGroud()"
+                    >选择分组</a
+                >
+                <a
+                    href="javascript:;"
+                    ng-click="uploadText()"
+                    style="color:blue;"
+                    >导入人群</a
+                >
+                <a
+                    href="javascript:;"
+                    style="margin:10px 10px;color:blue"
+                    ng-click="downloadFile()"
+                    >(下载模板)</a
+                >
+            </div>
+        </div>
+        <div class="col-xs-12" style="width: 850px;margin: 7px auto;">
+            <form name="form" novalidate >
+                <div style="margin: 7px 38px;">
+                    <div ng-if="groupList.length == 0">
+                        <span class="text-center">暂无记录</span>
+                    </div>
+                    <div
+                        ng-repeat="item in groupList"
+                        style="display: inline-block;    margin: 5px 15px;"
+                    >
+                        <i
+                            role="button"
+                            ng-click="checkOne(item)"
+                            ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                            class="glyphicon"
+                        ></i>
+                        <span >{{item.text}}
+                            
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+       
+        <div style="margin:0 auto;margin-top:20px;width:760px;">
+            <div>导入人群:</div>
+            <ul class="col-xs-12" style="border: 1px solid #cccccc;margin: 10px;">
+                <li
+                    class="col-xs-3"
+                    ng-repeat="item in takeInPersonList"
+                    style="padding: 5px 0;"
+                >
+                    <div style="width: 100%;">
+                        <span
+                            style="width: calc(100% - 20px);"
+                            data-toggle="tooltip"
+                            data-placement="left"
+                            title="{{item.name}}({{item.jobCode || '-'}})"
+                            >{{item.name}}({{item.jobCode || '-'}})</span
+                        >
+                        <a ng-click="takeInPersonList.splice(takeInPersonList.indexOf(item),1)">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+       
+    </form>
+</div>
+<div
+class="modal-footer" style="    clear: both;">
+<button class="btn btn-primary" ng-click="save(form,item)">
+    保存
+</button>
+<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .courseStyle{
+        vertical-align: -webkit-baseline-middle;
+    margin-right: 5px;
+    position: relative;
+    padding: 6px 20px 6px 12px;
+    line-height: 1.42857143;
+    border: 1px solid #ccc;
+    display: inline-block;
+    margin-bottom: 5px;
+    }
+    .courseStyle>i{
+        font-style: normal;
+    position: absolute;
+    top: -4px;
+    margin-left: 3px;
+    /* left: 5px; */
+    font-weight: 700;
+    }
+</style>

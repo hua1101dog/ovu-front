@@ -1,0 +1,37 @@
+
+<div class="panel panel-default " style="margin-bottom: 0px">
+	<div class="panel-heading">设备：<strong>{{item.sensorTypeCode|keyToValue:sensorTypeEnum:'code':'text'}}{{item.mac}}</strong>
+        <button type="button" class="close" ng-click="$dismiss()">×</button>
+	</div>
+	<div class="panel-body">
+		<table class="table table-striped table-hover" >
+			<thead class="title">
+			<tr>
+				<th class="text-center">NO</th>
+				<th >卡号</th>
+				<th >开门人名称</th>
+                <th >门名称</th>
+                <th >卡类型</th>
+                <th >门状态</th>
+                <th >开门时间</th>
+			</tr>
+			</thead>
+			<tbody>
+                <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                <tr ng-repeat="item in pageModel.data">
+                    <td class="text-center">{{$index + 1}}</td>
+                    <td>{{item.serial}}</td>
+                    <td class="text-nowrap">{{item.emplyName}}</td>
+                    <td class="text-nowrap">{{item.doorName}}</td>
+                    <td>{{item.cardType}}</td>
+                    <td>{{item.doorStatus}}</td>
+                    <td>{{item.eventDate}}</td>
+                   
+                </tr>
+			</tbody>
+		</table>
+		<div class="page-footer clearfix">
+			<ng-include src="'/common/pager.html'"></ng-include>
+		</div>
+	</div>
+</div>

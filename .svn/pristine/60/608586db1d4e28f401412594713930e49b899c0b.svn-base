@@ -1,0 +1,66 @@
+<div class="container-fluid top-banner" ng-style="vm.bg">
+    <div class="row">
+        <!-- <img ui-sref="portal" src="" alt="" ng-src="{{'/show-ems/res/img/home/'+logo}}" class="logo"> -->
+        <i class="icon iconfont icon-logo logo-2046" ui-sref="portal"></i>
+        <!-- <i class="icon iconfont icon-logo logo-2046"></i> -->
+    </div>
+    <div class="row middle">
+        <button type="button" class="btn btn-custom btn-lg btn-margin" ui-sref="app.dispatch">
+            <i class="icon iconfont icon-yunyingzhibiaotixi"></i>
+            调度指挥中心
+        </button>
+        <!--  <button type="button" class="btn btn-custom btn-lg btn-margin" ui-sref="app.operation.energy">
+              <i class="icon iconfont icon-sheshiyunweizhongxin"></i>
+              运营指标体系
+          </button>-->
+        <button type="button" class="btn btn-custom btn-lg btn-margin" ui-sref="app.facility.lift">
+            <i class="icon iconfont icon-qiyefuwuzhongxin"></i>
+            设施运维中心
+        </button>
+        <!-- <button type="button" class="btn btn-custom btn-lg btn-margin" ui-sref="app.safe.alarm">
+                 <i class="icon iconfont icon-yuanquanquanzhongxin"></i>
+                项目安全中心
+             </button>-->
+    </div>
+</div>
+
+<style type="text/css">
+    .top-banner {
+        height: 100%;
+        background-repeat: no-repeat;
+        /* background-size: contain; */
+        /* background-size: cover; */
+        background-size: 100% 100%;
+        -moz-background-size: 100% 100%;
+        position: relative;
+    }
+
+    .btn-custom {
+        color: #fff;
+        background-color: #3C6FFF;
+        border-color: #2e6da4;
+    }
+
+    .middle {
+        position: absolute;
+        top: 40%;
+        transform: translateY(-50%);
+    }
+
+    .btn-margin {
+        display: block;
+        margin-top: 70px;
+        margin-left: 80px;
+    }
+
+    .logo-2046 {
+        font-size: 50px;
+        position: relative;
+        top: 32px;
+        left: 15px;
+        margin-right: -85px;
+        margin-left: 66px;
+        color: #FFF;
+        font-size: 78px;
+    }
+</style>

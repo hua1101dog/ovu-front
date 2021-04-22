@@ -1,0 +1,77 @@
+<div ng-cloak>
+    <paly-modal device-id="video.id" ng-if="video.on" width="700" height="400"></paly-modal>
+    <!--头部begin-->
+    <div class="header box-shadow clearfix">
+        <div class="navbar-header">
+            <!-- brand -->
+            <a ui-sref="home" class="navbar-brand" style="padding:0">
+                <!-- <img style="padding: 10px 10px;height: 60px" ng-src="{{'/show/res/img/home/hf-logo.png'}}"> -->
+                <i class="icon iconfont icon-logo logo-2046"></i>
+            </a>
+
+        </div>
+        <div class="">
+            <ul class="nav navbar-nav nav-font ">
+                <li>
+                    <a ui-sref="app.dispatch" ng-class="{active:$state.includes('app.dispatch')}">
+                        <!-- <i class="icon iconfont icon-qiyefuwuzhongxin"></i> -->
+                        <i class="icon iconfont icon-top_command"></i>
+                        <span class="span-30-icon">调度指挥中心</span>
+                    </a>
+                </li>
+              <!--  <li>
+                    <a ui-sref="app.operation.energy" ng-class="{active:$state.includes('app.operation')}">
+                        <i class="icon iconfont icon-top_operational"></i>
+                        <span class="span-30-icon">运营指标体系</span>
+                    </a>
+                </li>-->
+                <li>
+                    <a ui-sref="app.facility.equipment" ng-class="{active:$state.includes('app.facility')}">
+                        <!-- <i class="icon iconfont icon-sheshiyunweizhongxin"></i> -->
+                        <i class="icon iconfont icon-top_facilities"></i>
+                        <span class="span-30-icon">设施运维中心</span>
+                    </a>
+                </li>
+               <!-- <li>
+                    <a ui-sref="app.safe.rail" ng-class="{active:$state.includes('app.safe')}">
+                        &lt;!&ndash; <i class="icon iconfont icon-yuanquanquanzhongxin"></i> &ndash;&gt;
+                        <i class="icon iconfont icon-top_safe"></i>
+                        <span class="span-30-icon">项目安全中心</span>
+                    </a>
+                </li>-->
+            </ul>
+        </div>
+    </div>
+</div>
+<!--头部end-->
+<div class="leftDiv bg-black" id="menuDiv">
+    <ul class="topMenu " style="">
+        <li ng-repeat="menu in menuList">
+            <a ui-sref="{{menu.url}}" ng-class="{active:$state.includes('{{menu.remark || menu.url}}')}">
+                <i class="{{menu.icon}}"></i>
+                <div>{{menu.name}}</div>
+            </a>
+        </li>
+    </ul>
+</div>
+<div ui-view class="view_body" id="routeBody" ng-class="{'hide-menu':$state.includes('app.dispatch')}"></div>
+<style>
+    .hide-menu {
+        z-index: 200;
+        padding-left: 0;
+    }
+
+    .logo-2046 {
+        font-size: 50px;
+        position: relative;
+        top: 32px;
+        left: 15px;
+        margin-right: -85px;
+        color: #FFF;
+    }
+
+    .span-30-icon {
+        position: relative;
+        top: -5px;
+    }
+</style>

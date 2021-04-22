@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h3 class="modal-title">退回</h3>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="panel panel-default">
+        <form name="myForm" novalidate>
+            <ul class="list-group" style="font-size: 16px;">
+                <li class="list-group-item">
+                    <label for="" class="control-label required">节点名称:</label>
+                </li>
+                <li class="list-group-item">
+                    <select class="form-control" required name="categeory" ng-model="search.chooseNode" ng-options="o.nodeName for o in nodeList" ng-change="nodeChange()">
+                        <option value=""> --任务节点--</option>
+                    </select>
+                </li>
+                <li class="list-group-item">
+                    <label for="" class="control-label required">退回说明:</label>
+                    
+                </li>
+                <li class="list-group-item">
+                    <textarea type="text" required class="form-control" name="common" ng-model="search.common" style="height:150px;resize:vertical" placeholder="请输入退回说明"></textarea>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save(myForm)">确定</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+</div> 

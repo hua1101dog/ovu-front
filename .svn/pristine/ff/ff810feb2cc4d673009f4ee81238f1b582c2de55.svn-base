@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>发布管理</title>
+    <link rel="stylesheet" href="projectSpace/publishManage/publishIndex.css">
+</head>
+
+<body>
+<div id="angularId" ng-controller="publishPriceCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>发布管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="div-group">
+                <div class="div-panel div-active" ng-click="publishByTab($event,'publishNo')">待发布</div>
+                <div class="div-panel" ng-click="publishByTab($event,'publishAl')">已发布</div>
+                <div class="div-panel" ng-click="publishByTab($event,'publishAbb')">已驳回</div>
+                <div class="div-panel" ng-click="publishByTab($event,'back')">已回收</div>
+                <div class="div-panel" ng-click="publishByTab($event,'all')">全部</div>
+            </div>
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>分&nbsp;期/分&nbsp;区</label>
+                        <select class="form-control" ng-model="STAGE" ng-change="changeStage(STAGE)"
+                                ng-options="o.text for o in stageList" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>楼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;栋</label>
+                        <select class="form-control" ng-model="BUILD" ng-change="changeBuild(BUILD)"
+                                ng-options="o.buildName for o in BuildList" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;元</label>
+                        <select class="form-control" ng-model="UNITNO" ng-change="changeUnit(BUILD,UNITNO)"
+                                ng-options=" o for o in unitList" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>楼层</label>
+                        <select class="form-control" ng-model="GROUNDNO" ng-change="changeGround(GROUNDNO)"
+                                ng-options="o as o+'楼' for o in groundList" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>空间编码</label>
+                        <input type="text" class="form-control" ng-model="search.houseNo" placeholder="空间编码"/>
+                    </div>
+                </div>
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>户规划用途</label>
+                        <select class="form-control" ng-model="search.housePlanPurposes"
+                                ng-change="planPurposeChange(search.housePlanPurposes)"
+                                ng-options="o.code as o.name for o in planPurposeList" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>物业分类</label>
+                        <select class="form-control" ng-model="search.spacePropertyType"
+                                ng-options="o.dicCode as o.dicItem for o in propertyClassifyList" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="padding-right: 2px">空间状态</label>
+                        <select class="form-control" ng-model="search.spaceStatus" style="width: 180px;">
+                            <option value="">-请选择-</option>
+                            <option value="1">自持</option>
+                            <option value="2">已租</option>
+                            <option value="3">已售</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="padding-right: 2px">招商策略</label>
+                        <select class="form-control" ng-disabled="isDisabled" ng-model="search.sellStatus"
+                                ng-change="changeSellStatus()" ng-options="o.value as o.name for o in sellOptions"
+                                style="width: 180px;">
+                            <option value="">-请选择-</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-default" ng-click="find()">查询</button>
+                    <button ng-show="isPublishAll" class="btn btn-primary pull-right"
+                            ng-disabled="!hasChecked(pageModel)"
+                            ng-click="batchPublishPrice()">批量发布
+                    </button>
+                </div>
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead class="title">
+                    <tr>
+
+                        <th class="text-center">NO</th>
+                        <th style="text-align:center">
+
+                            <!-- <input type="checkbox"
+                                ng-model="selectAll" ng-checked="select" ng-click="changeAll(selectAll)"> -->
+                            <span role="button" ng-click="checkAll()">
+                                            <i class="glyphicon"
+                                               ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                                        </span>
+                        </th>
+                        <th style="text-align:center">期/楼栋/单元/楼层</th>
+                        <th style="text-align:center">空间名称</th>
+                        <th style="text-align:center">空间编码</th>
+                        <th style="text-align:center">户规划用途</th>
+                        <th style="text-align:center">物业分类</th>
+                        <th style="text-align:center">空间状态</th>
+                        <th style="text-align: center;">招商策略</th>
+                        <th style="text-align: center;">发布状态</th>
+                        <th style="text-align: center;" ng-show="isShow">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data" ng-if="!item.edit">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td class="text-center">
+                            <!-- <input type="checkbox"
+                                ng-model="item.isSelected" ng-checked="selectAll"
+                                ng-click="funcChange(item.isSelected)"> -->
+                            <i role="button" ng-click="checkOne(item)"
+                               ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                               class="glyphicon"></i>
+
+                        </td>
+                        <td class="text-center">
+                            {{item.stageName}}/{{item.buildName}}/{{item.unitNo+'单元'+item.groundNo+'层'}}
+                        </td>
+                        <td class="text-center">{{item.houseName}}</td>
+                        <td class="text-center">{{item.houseNo}}</td>
+                        <td class="text-center">{{item.housePlanPurposes|housePlanPurposesType2}}</td>
+                        <td class="text-center">{{getSpacePropertyName(item.spacePropertyType)}}</td>
+                        <td class="text-center">{{item.spaceStatus|spaceType2}}</td>
+                        <td class="text-center"
+                            ng-class="{true: 'status_rent', false: 'status_sell'}[item.sellStatus==1]">
+                            <span ng-if="item.sellStatus==1">租赁</span>
+                            <span ng-if="item.sellStatus==2">招商</span>
+                            <span ng-if="item.sellStatus==3">租售</span>
+                        </td>
+                        <td class="text-center">{{item.approveStatus|approveType}}</td>
+                        <td class="text-center" ng-show="isShow">
+                            <button class="btn btn-oper" ng-click='publishPrice(1,item)'
+                                    ng-if="item.approveStatus!=1 && !isBackStatus">发布
+                            </button>
+                            <button class="btn btn-oper" ng-click='publishPrice(0,item)'
+                                    ng-if="item.approveStatus!=1 && !isBackStatus">驳回
+                            </button>
+                            <button class="btn btn-oper" ng-click='getBackeHouse(item)'
+                                    ng-if="isBackStatus">收回空间
+                            </button>
+                        </td>
+                        <!-- <td class="text-center" ng-if="item.approveStatus==1">
+                    <div class="btn btn-nooper" disabled="true">发布</div>
+                    <div class="btn btn-nooper" disabled="true">驳回</div>
+                </td> -->
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'" class="ng-scope"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

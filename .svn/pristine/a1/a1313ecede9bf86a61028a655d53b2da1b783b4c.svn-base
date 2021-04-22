@@ -1,0 +1,96 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">查看员工详情</h4>
+</div>
+<div class="modal-body">
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <input
+                    type="text"
+                    ng-model="search.name"
+                    class="form-control"
+                    placeholder="请输入员工姓名"
+                />
+            </div>
+            <div class="form-group">
+                <input
+                    type="text"
+                    ng-model="search.loginName"
+                    class="form-control"
+                    placeholder="请输入员工登陆账号"
+                />
+            </div>
+
+            <button class="btn btn-default" ng-click="find(1)">
+                查询
+            </button>
+            <button class="btn btn-primary" ng-click="clear(1)">
+                重置
+            </button>
+        </div>
+    </div>
+
+    <div>
+        <ul id="person" class="ul-posts">
+            <li
+                class="item"
+                ng-repeat="person in item.data track by $index"
+                ng-if="person.isShow"
+            >
+                <span>
+                    <!-- <span>
+                                <i
+                                    role="button"
+                                    ng-click="checkOne(person,pageModel)"
+                                    ng-class="{'glyphicon-check':person.checked,'glyphicon-unchecked':!person.checked}"
+                                    class="glyphicon"
+                                ></i>
+                            </span> -->
+                    {{person.name}}({{person.loginName}})<a
+                        ng-click="delPerson(person,item.data)"
+                        ><i class="fa fa-remove"></i
+                    ></a>
+                </span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary edit" ng-click="save()">
+            确定
+        </button>
+        <button type="button" class="btn btn-warning" ng-click="cancel()">
+            取消
+        </button>
+    </div>
+</div>
+
+<style>
+    .ul-posts {
+        list-style: none;
+
+        padding: 0px;
+    }
+    .ul-posts li {
+        margin: 5px;
+        padding: 5px;
+        display: inline-block;
+    }
+    .ul-posts li.item {
+        background-color: #f9f9f9;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .ul-posts li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    .link_show {
+        color: #337ab7;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+</style>

@@ -1,0 +1,58 @@
+<div id="angularId" ng-controller="passengerStaticsCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>客流统计分析</h3>
+		</div>
+	</div>
+	<div class="x_panel" >
+        <div class="form-inline">
+            <div class="form-group">
+                <label>楼栋位置：</label>
+                <div style="display:inline-block;">
+                    <layer-selector host="search" host-key="'floorId'" host-text="'buildName'" node-list="houseTree" leaf-only="true"></layer-selector>
+                </div>
+            </div>
+            <button class="btn btn-default" ng-click="find()" >查询</button>
+        </div>
+	</div>
+	<div class="panel panel-default" style="margin-bottom: 0px;">
+		<div class="panel-heading">统计分析列表
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped table-hover" style="margin-top: 10px;">
+				<thead class="title">
+				<tr>
+					<th class="text-center">NO</th>
+					<th >位置</th>
+					<th width="500px">已绑设备</th>
+					<th width="100px">今日进入</th>
+					<th width="100px">今日离开</th>
+                    <th >滞留人数</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+				<tr ng-repeat="item in pageModel.data">
+					<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+					<td>{{item.buildName}}</td>
+					<td colspan="3">
+                        <table class="table">
+                            <tbody>
+                                <tr ng-repeat="v in item.videos">
+                                    <td width="550px">{{v.name}}</td>
+                                    <td width="100px">{{v.enterNum}}人</td>
+                                    <td width="100px">{{v.exitNum}}人</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>{{item.retenNum}}人</td>
+				</tr>
+				</tbody>
+			</table>
+			<div class="page-footer clearfix">
+				<ng-include src="'/common/pager.html'"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>

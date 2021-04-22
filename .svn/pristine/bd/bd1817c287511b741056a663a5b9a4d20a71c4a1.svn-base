@@ -1,0 +1,59 @@
+<!-- 选择分组 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+</div>
+    <div class="modal-body container-fluid form-horizontal"  class="col-xs-12">
+        <form name="form" novalidate>
+        <div>  
+            <div ng-if="groudList.length == 0">
+                <span class="text-center">暂无记录</span>
+            </div>
+            <div ng-repeat="item in groudList">
+                <div class="col-xs-2">
+                    <i role="button" ng-click="checkOne(item)"
+                    ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                    class="glyphicon"></i>
+                    <span>{{item.text}}</span>
+                </div>
+            </div> 
+            <br>
+            <br>
+          
+                    <ul class="col-xs-12" >
+                            <li class="col-xs-3" ng-repeat="item in personList" style="padding: 5px 0;">
+                                <div style="width: 100%;">
+                                    <span style="width: calc(100% - 50px);" class="touch" data-toggle="tooltip"
+                                        data-placement="left"
+                                        title="{{item.name}}({{item.jobCode || '-'}})">{{item.name}}({{item.jobCode || '-'}})</span>
+                                        <a ng-click="delP(personList,item)">
+                                                <i class='fa fa-remove'></i>
+                                            </a>
+                                </div>
+                            </li>
+                        </ul>  
+                        <div class="modal-footer" ng-show="!show" style="text-align: center;margin: 0 10px;">
+                                <button class="btn btn-primary" ng-click="save(item)">保存</button>
+                                <button class="btn btn-warning" ng-click="cancel()">取消</button>
+                            </div>  
+                                                                       
+        
+        </div>       
+    </form>
+    </div>
+    <style>
+        .fileName {
+            font-family: '微软雅黑';
+            font-weight: 400;
+            font-style: normal;
+            color: #999999;
+            text-align: left;
+            float: right;
+        }
+    
+        .zqda{
+            font-size: 22px;
+            font-family: monospace;
+            color:red;
+            margin-left: -40px;
+        }
+    </style>

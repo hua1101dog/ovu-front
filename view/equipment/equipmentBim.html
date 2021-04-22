@@ -1,0 +1,991 @@
+<style>
+	#floorTree a:focus{
+		color:#777;
+	}
+	#eqTree a:focus{
+		color:#777;
+	}
+	#tygChartLayer{
+		overflow: hidden;
+	}
+	#tygEventLayer .panel-body{
+		border-color: navajowhite;
+	}
+	#tygView {
+		position: relative;
+	}
+</style>
+<div id="angularId" ng-controller="equipmentBimCtl">
+	<div id="tygView"></div>
+	
+	<!-- 引入bimviz-->
+   	<link href="/res/js/bimViz/sdk/third/css/essentials.css" rel="stylesheet"/>
+	<link href="/res/js/bimViz/sdk/third/jstree/themes/proton/style.min.css" rel="stylesheet"/>
+	<link href="/res/js/bimViz/sdk/viz/ui/default.css" rel="stylesheet" type="text/css" />
+	<link href="/res/js/bimViz/sdk/third/css/jquery-ui-1.10.4.custom.css" rel="stylesheet"/>
+	<link href="/res/js/bimViz/sdk/third/toolbar/jquery.toolbar.css" rel="stylesheet"/>
+	<script src="/res/js/bimViz/sdk/third/jquery-1.10.2.min.js"></script>
+	<script src="/res/js/bimViz/sdk/third/jquery-ui.min.js"></script>
+	<script src="/res/js/bimViz/sdk/third/jquery-dialog.js"></script>
+	<script src="/res/js/bimViz/sdk/third/bootstrap.min.js"></script>
+	<script src="/res/js/bimViz/sdk/third/jstree/jstree.js"></script>
+	<script src="/res/js/bimViz/sdk/third/jquery-slider/jquery-ui-slider-pips.min.js"></script>
+	<script src="/res/js/bimViz/sdk/third/toolbar/jquery.toolbar.js"></script>
+	<script src="/res/js/bimViz/sdk/viz/bimviz.js"></script>
+	   
+	   <!-- 引入layui -->
+	   <link href="/res/js/layui/css/layui.css" rel="stylesheet"/>
+	   <script src="/res/js/layui/layui.js"></script>
+	   
+	   <!-- 引入echart -->
+	   <script src="/res/js/echarts/build/dist/echarts-all.js"></script>
+	   
+	   <!-- 引入easyui -->
+	   <link rel="stylesheet" type="text/css" href="/res/js/easyui/themes/default/easyui.css" />
+	   <link rel="stylesheet" type="text/css" href="/res/js/easyui/themes/icon.css" />
+	   <script type="text/javascript" src="/res/js/easyui/jquery.easyui.min.js"></script>
+</div>
+ 	
+<script>
+	(function() {
+		document.title = "OVU-设备BIM模型";
+		var app = angular.module("angularApp");
+		var parkId = "af98a32c9b4d490297cadc2d85faf797";
+		//项目架构ctl
+		app.controller('equipmentBimCtl', function($scope, $rootScope, $http,fac) {
+			//全局变量
+			//const bim_projectId = "f9939a62-35cd-4448-97aa-b2b48154278f";
+			//const bim_ip = "cloud.bimviz.io";
+			//const bim_port = 10001;
+			//const bim_key = "e65d3b1a-2d39-4e8c-b10d-25c88b829e28";
+			//const bim_projectName = "创意天地-体验馆";
+
+			const bim_projectId = "77aeffde-8df7-4f74-9c3f-ddd78e0d9533";
+			const bim_ip = "116.211.5.54";
+			const bim_port = 7005;
+			const bim_key = "bc29bc21-4544-41d2-b22e-4992e3725180";
+			const bim_projectName = "1号楼";
+
+	    	var _eqDetailInfoLayerIndex;
+	    	var _eventDetailInfoLayerIndex;
+	    	var _tabHash="0";//图表tab切换hash值
+	    	var _eqNumChart;//设备数量图表
+	    	var _eqFaultChart;//设备故障图表
+	    	var _eventInterval;//报警动画的值
+	    	var _eventEqBimId;//事件设备构件ID
+	    	var _elementRGBA = [0.8,0.6,0.0,1.0];//设备定位选中的颜色
+	    	var _eventRGBA = [1.0,0.0,0.0,1.0];//事件设备定位选中的颜色
+	    	var _coveringHideFlag = false;//二楼天花版隐藏标志
+	    	var _storeys;//空间列表
+	    	var _initPosition;//相机初始位置
+	    	var _initTarget;//相机初始目标
+	    	var _selectedArea;//已选择的区域
+	    	var _selectedEq;//已选择的设备
+	    	var _selectedEqType;//已选择的某个设备类型
+	    	var _areaPosition = {"x":9598.50627013739,"y":-9171.581856450859,"z":59806.71142485092};//查看区域初始相机位置
+	    	var _areaTarget = {"x":3296.6468032172493,"y":-3923.50266231428,"z":-1500.6909583266652};//查看区域初始相机目标
+	    	var _areaShowFlag = false;//区域显示标志
+	    	var _floorTwoTexts = ["72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d4615","72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d4630",
+	    	                      "72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d4652","72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d4664",
+	    	                      ,"72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d468e","72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d460a"
+	    	                      ,"72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d458a","72bc31e8-5a44-408d-9e8a-ce7cc4e93748-000d45ba"];
+	    	
+	    	//设备类型
+	    	var _eqTypes = [];
+	    	
+	    	//设备数据
+	    	var _eqDatas = [];
+	    	
+	    	//事件列表数据
+	    	var _eventDatas = [];
+	    
+	    	//定义BIM引擎
+		    var bimEngine = new BIMVIZ.RenderEngine({
+		        projectId: bim_projectId,
+		        renderDomId: 'tygView',
+		        ip: bim_ip,
+		        port: bim_port,
+		        key: bim_key,
+		        resizeMode: 'fullpage',
+				resourcePath:'/res/js/bimViz/sdk/viz/data/',
+				selectSettings:{
+		            grayScene:false,
+		            cameraMove:true
+		        }
+		    });  
+		    
+		 	//开始加载数据
+	        bimEngine.start();
+		 	
+		 	//模型数据加载监听
+	        bimEngine.addListener(BIMVIZ.EVENT.OnLoadProgressStep,function(evt){
+	        	var data = evt.args;
+	            if (data.current == data.total) {
+	            	_initPosition = bimEngine.getCameraPosition();
+	            	_initTarget = bimEngine.getCameraTarget();
+	            	
+	            }
+	        });	
+		 	
+		 	//项目概要加载监听
+	        bimEngine.addListener(BIMVIZ.EVENT.ProjectOverviewLoaded,function(evt){
+	      		var project = evt.args;
+	      		_storeys = project.spaces;
+	      		
+	      		initFloorTree(getFloorNodes());
+	      		
+	      		$http.post("/ovu-pcos/pcos/equipment/listbimtype.do",{parkId:parkId},fac.postConfig).success(function(data){
+					_eqTypes = data;
+					
+					$http.post("/ovu-pcos/pcos/equipment/listbimequipment.do",{parkId:parkId},fac.postConfig).success(function(data){
+						
+						_eqDatas = data;
+						
+						initEqTree(getEqNodes());
+						
+						initChartWindow();
+						
+					});
+					
+				});
+	      		
+	      		$http.post("/ovu-pcos/pcos/equipment/listbimexceptions.do",{parkId:parkId},fac.postConfig).success(function(data){
+	      			
+	      			_eventDatas = data;
+	      			
+	      			initEventTable();
+	      		});
+	      		
+	        });
+		 	
+		 	//根据设备code查找设备数据
+		 	function getEqDataByEqCode(eqCode){
+		 		var eqData;
+		 		_eqDatas.forEach(function(item){
+		 			if(item.eqCode == eqCode){
+		 				eqData = item;
+		 				return;
+		 			}
+		 		});
+		 		return eqData;
+		 	}
+		 	
+		 	//初始化图表窗口
+		 	function initChartWindow(){
+		 		layui.use('layer', function(){
+					var layer = layui.layer;
+
+					var content = '<div class="layui-tab layui-tab-brief"  lay-filter="test" style="margin-top: 0px;">' +
+						  '<ul class="layui-tab-title">' +
+						    '<li class="layui-this">设备数量统计</li>' +
+						    '<li>设备故障统计</li>' +
+			  			  '</ul>' +
+						  '<div class="layui-tab-content">' +
+						    '<div class="layui-tab-item layui-show" id="pieChartDiv" style="width:450px;height:200px;"></div>' +
+						    '<div class="layui-tab-item" id="barChartDiv" style="width:450px;height:200px;"></div>' +
+						  '</div>' +
+						'</div>';
+		    		
+					layer.open({
+				        type: 1
+				        ,title:['统计图表', 'font-weight: bold;']
+				        ,offset:['56%','19%']
+				        ,area: ['500px', '300px']
+				        ,id: 'tygChartLayer'
+				        ,content: content
+				        //,btn: '关闭'
+				        //,move: false
+				        ,closeBtn: 0
+				        ,btnAlign: 'c' //按钮居中
+				        ,shade: 0 //不显示遮罩
+				        ,resize:false
+				        ,yes: function(){
+				          layer.closeAll();
+				        },
+				        skin: 'demo-class-1',
+				        fixed: false,
+				        success: function(){
+				        	$('.demo-class-1').appendTo('#tygView');
+				        	$('.demo-class-1').css({
+				        		left:0,
+				        		bottom:0,
+				        		right:'auto',
+				        		top:'auto'
+				        	})
+				        }
+			      	});
+					
+					layui.use('element', function(){
+						  var $ = layui.jquery
+						  ,element = layui.element();
+						  
+						  //Hash地址的定位
+						  var layid = _tabHash.replace(/^#test=/, '');
+						  element.tabChange('test', layid);
+						  
+						  element.on('tab(test)', function(elem){
+							  _tabHash = 'test='+ $(this).attr('lay-id');
+							  
+							  //切换选项卡，重绘图表
+							  if(elem.index == 0){
+								  drawEqNumChart();
+							  }else if(elem.index == 1){
+								  drawEqFaultChart();
+							  }
+						  });
+					});
+					
+					drawEqNumChart();
+					
+					drawEqFaultChart();
+	      		});
+		 		
+		 		 
+		 	}
+		 	
+		 	//绘制设备故障次数统计图
+		 	function drawEqFaultChart(){
+		 		_eqFaultChart = echarts.init(document.getElementById('barChartDiv')); 
+		 		
+		 		var legendData = [];
+		 		var xAxisData = [];
+		 		var seriesData = [];
+		 		
+		 		_eqTypes.forEach(function(eqType){
+					var name = eqType.name;
+					xAxisData.push(name);
+					seriesData.push(eqType.faultNum);
+				});
+		 		
+		 		var option = {
+		 				 title : {
+		 			        text: '设备故障分类统计',
+		 			        x:'center'
+		 			    },
+		 			    tooltip : {
+		 			        trigger: 'axis'
+		 			    },
+		 			    legend: {
+		 			        data:legendData
+		 			    },
+		 			    xAxis : [
+		 			        {
+		 			            type : 'category',
+		 			            data : xAxisData
+		 			        }
+		 			    ],
+		 			    yAxis : [
+		 			        {
+		 			            type : 'value'
+		 			        }
+		 			    ],
+		 			    series : [
+		 			        {
+		 			            name:'故障次数',
+		 			            type:'bar',
+		 			            data:seriesData,
+		 			            markPoint : {
+		 			                data : [
+		 			                    {type : 'max', name: '最大值'},
+		 			                    {type : 'min', name: '最小值'}
+		 			                ]
+		 			            }
+		 			        }
+		 			    ]	
+		 		};
+		 		
+		 		// 为echarts对象加载数据 
+		         _eqFaultChart.setOption(option);
+		 	}
+		 	
+		 	//绘制设备数量统计图
+		 	function drawEqNumChart(){
+		 		_eqNumChart = echarts.init(document.getElementById('pieChartDiv')); 
+				
+				var legendData = [];
+				var seriesData = [];
+				
+				_eqTypes.forEach(function(eqType){
+					var name = eqType.name + ":" + eqType.num;
+					
+					legendData.push(name);
+					
+					var seriesDataItem = {
+						value:eqType.num,
+						name:name
+					};
+					
+					seriesData.push(seriesDataItem);
+				});
+		         
+				var option = {
+					    title : {
+					        text: '设备数量分类统计',
+					        x:'center'
+					    },
+					    tooltip : {
+					        trigger: 'item',
+					        formatter: "{a} <br/>{b} ({d}%)"
+					    },
+// 					    legend: {
+// 					        orient : 'vertical',
+// 					        x : 'right',
+// 					        data:legendData
+// 					    },
+					    calculable : false,
+					    series : [
+					        {
+					            name:'设备数量',
+					            type:'pie',
+					            radius : '55%',
+					            center: ['50%', '60%'],
+					            data:seriesData
+					        }
+					    ]
+					};
+
+		         // 为echarts对象加载数据 
+		         _eqNumChart.setOption(option);
+		 	}
+		 	
+		 	//初始化事件列表
+		 	function initEventTable(){
+		 		layui.use('layer', function(){
+					var layer = layui.layer;
+					var content = '<div id="eventTable" style="margin-top: -28px;"></div>';
+		    		
+					layer.open({
+				        type: 1
+				        ,title:['事件列表', 'font-weight: bold;']
+				        ,offset:['56%','83%']
+				        ,area: ['300px', '300px']
+				        ,id: 'tygEventLayer'
+				        ,content: content
+				        //,btn: '关闭'
+				        //,move: false
+				        ,closeBtn: 0
+				        ,btnAlign: 'c' //按钮居中
+				        ,shade: 0 //不显示遮罩
+				        ,resize:false
+				        ,yes: function(){
+				          layer.closeAll();
+				        },
+				        skin: 'demo-class-2',
+				        fixed: false,
+				        success:function(){
+				        	$('.demo-class-2').appendTo('#tygView');
+				        	$('.demo-class-2').css({
+				        		right:0,
+				        		left:'auto',
+				        		top:'auto',
+				        		bottom:0
+				        	});
+				        	
+				        	$('#eventTable').datagrid({
+					 		    height: 258,
+					 		    //url: 'url',
+					 		    //method: 'POST',
+					 		    //queryParams: { 'id': id },
+					 		    data:_eventDatas,
+					 		    striped: true,
+					 		    fitColumns: true,
+					 		    singleSelect: true,
+					 		    rownumbers: true,
+					 		    pagination: false,
+					 		    nowrap: false,
+					 		    pageSize: 10,
+					 		    pageList: [10, 20, 50, 100, 150, 200],
+					 		    showFooter: false,
+					 		    columns: [[
+					 		        { field: 'eventId', title: '事件ID', width: 120, align: 'center' },
+					 		        { field: 'eventName', title: '事件名称', width: 150, align: 'center' }
+					 		    ]],
+					 		   onClickRow:function(rowIndex,rowData){
+					 			  flyToEventEq(rowData.eventId);
+					 		   }
+					 		});
+				        }
+			      	});
+					
+	      		});
+		 		
+		 	}
+		 	
+
+		 	//跳转到事件设备
+		 	function flyToEventEq(eventId){
+		 		
+		 		showFloor('all');
+		 		
+		 		clearSelectedEq();
+		 		
+		 		clearSelectedEqType();
+
+				var rows = $("#eventTable").datagrid('getRows');
+				rows.forEach(function(row){
+					if(row.eventId == eventId){
+						showAlarm(row.eventEqCode);
+			 			
+			 			flyToEq(row.eventEqCode);
+			 			
+			 			showEventDetailInfo(eventId);
+					}
+				});
+		 	}
+		 	
+		 	
+		 	//显示设备详细信息弹出框
+		 	function showEqDetailInfo(eqCode){
+		 		
+		 		layui.use('layer', function(){
+					var layer = layui.layer;
+					var content = '<div><br><span style="margin-left:25px;">设备编号 : </span><span id="eqCode"></span><br><br>' +
+										'<span style="margin-left:25px;">设备名称 : </span><span id="eqName"></span><br><br>' +
+										'<span style="margin-left:25px;">设备类型 : </span><span id="eqType"></span><br>' +
+								'</div>';
+								
+					_eqDetailInfoLayerIndex = layer.open({
+				        type: 1
+				        ,title:['设备详情', 'font-weight: bold;']
+				        ,offset:['590px','550px']
+				        ,area: ['500px', '300px']
+				        ,id: 'tygEqDetailInfoLayer'
+				        ,content: content
+				        //,btn: '关闭'
+				        //,move: false
+				        ,closeBtn: 1
+				        ,btnAlign: 'c' //按钮居中
+				        ,shade: 0 //不显示遮罩
+				        ,resize:false
+				        ,yes: function(){
+				          layer.closeAll();
+				        },
+				        skin: 'demo-class-3',
+				        fixed: false,
+				        success: function(){
+				        	$('.demo-class-3').appendTo('#tygView');
+				        	$('.demo-class-3').css({
+				        		left:'510px',
+				        		right:'auto',
+				        		top:'auto',
+				        		bottom: 0
+				        	})
+				        }
+			      	});
+					
+					var eqData = getEqDataByEqCode(eqCode);
+					if(eqData){
+						$("#eqCode").html(eqData.eqCode);
+						$("#eqName").html(eqData.eqName);
+						$("#eqType").html(eqData.eqType);
+					}else{
+						$("#eqCode").html('无');
+						$("#eqName").html('无');
+						$("#eqType").html('无');
+					}
+					
+					
+						
+	      		});
+		 	}
+		 	
+		 	//显示事件详细信息弹出框
+		 	function showEventDetailInfo(eventId){
+		 		
+		 		layui.use('layer', function(){
+					var layer = layui.layer;
+					var content = '<div><br><span style="margin-left:25px;">事件ID : </span><span id="eventId"></span><br><br>' +
+										'<span style="margin-left:25px;">事件名称 : </span><span id="eventName"></span><br><br>' +
+										'<span style="margin-left:25px;">事件描述 : </span><span id="eventDesc"></span><br>' +
+								'</div>';
+					
+					_eventDetailInfoLayerIndex = layer.open({
+				        type: 1
+				        ,title:['事件详情', 'font-weight: bold;']
+				        ,offset:['590px','1070px']
+				        ,area: ['500px', '300px']
+				        ,id: 'tygEventDetailInfoLayer'
+				        ,content: content
+				        //,btn: '关闭'
+				        //,move: false
+				        ,closeBtn: 1
+				        ,btnAlign: 'c' //按钮居中
+				        ,shade: 0 //不显示遮罩
+				        ,resize:false
+				        ,yes: function(){
+				          layer.closeAll();
+				        },
+				        skin: 'demo-class-4',
+				        fixed: false,
+				        success: function(){
+				        	$('.demo-class-4').appendTo('#tygView');
+				        	$('.demo-class-4').css({
+				        		left:'510px',
+				        		right:'auto',
+				        		top:'auto',
+				        		bottom: 0
+				        	})
+				        }
+			      	});
+					
+					var eventData = getEventDataById(eventId);
+					if(eventData){
+						$("#eventId").html(eventData.eventId);
+						$("#eventName").html(eventData.eventName);
+						$("#eventDesc").html(eventData.eventDesc);
+					}else{
+						$("#eventId").html('无');
+						$("#eventName").html('无');
+						$("#eventDesc").html('无');
+					}
+						
+	      		});
+		 	}
+		 	
+		 	//根据事件ID查找事件数据
+		 	function getEventDataById(eventId){
+		 		var eventData;
+		 		
+		 		_eventDatas.forEach(function(item){
+		 			if(item.eventId == eventId){
+		 				eventData = item;
+		 				return;
+		 			}
+		 		});
+		 		
+		 		return eventData;
+		 	}
+		 	
+		 	//关闭报警信号
+		 	function closeAlarm(){
+		 		if(_eventInterval){
+					window.clearInterval(_eventInterval);
+				}
+		 		if(_eventEqBimId){
+		 			bimEngine.resetElementRGBA(_eventEqBimId);
+		 		}
+		 		
+		 	}
+		 	
+		 	//显示报警信号
+		 	function showAlarm(eqCode){
+		 		var eqData = getEqDataByEqCode(eqCode);
+		 		var flag = true;
+				if(_eventInterval){
+					window.clearInterval(_eventInterval);
+				}
+				if(_eventEqBimId){
+		 			bimEngine.resetElementRGBA(_eventEqBimId);
+		 		}
+				_eventEqBimId = eqData.eqBimId;
+				_eventInterval = window.setInterval(function(){
+					if(flag){
+						bimEngine.changeElementRGBA(_eventEqBimId,_eventRGBA);
+					}else{
+						bimEngine.resetElementRGBA(_eventEqBimId);
+					}
+					
+					flag = !flag;
+					
+				},500);
+		 	}
+		 	
+		 	//跳转到设备的相机书签
+		 	function flyToEq(eqCode){
+		 		var cameraBookmarkManager = bimEngine.getCameraBookmarkManager();
+	    		cameraBookmarkManager.getList(function(success, list){
+	    			if(success && list.length > 0){
+	    				list.forEach(function(cameraBookmark){
+	    					if(cameraBookmark.description == eqCode){
+	    						bimEngine.flyFromTo(cameraBookmark.position,cameraBookmark.target);
+	    					}
+	    				});
+	    			}
+	    			
+	    		});
+		 	}
+	        
+	        //获取设备节点
+	        function getEqNodes(){
+	        	
+	        	var eqNodes = [];
+	        	
+	        	//根节点
+	      		var rootNode = {
+	      			id:0,
+	      			name:'所有设备',
+	      			spread:true,
+	      			children:[],
+	      			type:"root"
+	      		};
+	        	
+	      		_eqTypes.forEach(function(eqType){
+	      			var eqTypeNode = {
+	      				type:'eqType',
+	      				eqType:eqType.type,
+	      				name:eqType.name,
+	      				children:[]
+	      			};
+	      			
+	      			_eqDatas.forEach(function(eqData){
+	      				if(eqData.eqType == eqType.type){
+	      					var eqNode = {
+	      						id:eqData.eqBimId,
+	      						name:eqData.eqName,
+	      						type:'eq',
+	      						eqCode:eqData.eqCode
+	      					};
+	      					
+	      					eqTypeNode.children.push(eqNode);
+	      				}
+	      			});
+	      			
+	      			rootNode.children.push(eqTypeNode);
+	      		});
+	        	
+	      		eqNodes.push(rootNode);
+	        	
+	        	return eqNodes;
+	        }
+	        
+	        //获取楼层区域节点
+	        function getFloorNodes(){
+				var floorNodes = [];
+	      		
+	      		//根节点
+	      		var rootNode = {
+	      			id:0,
+	      			name:bim_projectName,
+	      			spread:true,
+	      			children:[],
+	      			type:"root"
+	      		};
+	      		
+	      		//遍历楼层
+				_storeys.forEach(function(floor){
+					//去掉夹层
+					if(floor.Id == "2"){
+						return;
+					}
+					
+					var floorNode = {
+						id:floor.Id,
+						name:floor.Name,
+						children:[],
+						type:"floor"
+					};
+					
+					console.log(floor.Name);
+					
+					//遍历楼层内的区域
+					var groupList = floor.GroupList;
+					groupList.forEach(function(group){
+						if(group.Name == "IfcSlab"){
+							var areas = group.ElementNodes;
+							areas.forEach(function(area){
+								
+								var areaNode = {
+									id:area.GlobalId,
+									name:area.Name.split(":")[1],
+									floorId:floor.Id,
+									type:"area"
+								};
+								
+								floorNode.children.push(areaNode);
+							});
+						}
+					});	
+					
+					rootNode.children.push(floorNode);
+								
+				});
+				
+				floorNodes.push(rootNode);
+	      		
+	      		return floorNodes;
+	        }
+	        
+	        //初始化设备列表
+	        function initEqTree(nodes){
+	        	layui.use('layer', function(){
+					var layer = layui.layer;
+					var content = '<div style="height: 350px;overflow: inherit;"><ul id="eqTree"></ul></div>';
+		    		
+					layer.open({
+				        type: 1
+				        ,title:['设备列表', 'font-weight: bold;']
+				        ,offset:['9%','83%']
+				        ,area: ['300px', '400px']
+				        ,id: 'tygEqLayer'
+				        ,content: content
+				        //,btn: '关闭'
+				        //,move: false
+				        ,closeBtn: 0
+				        ,btnAlign: 'c' //按钮居中
+				        ,shade: 0 //不显示遮罩
+				        ,resize:false
+				        ,yes: function(){
+				          layer.closeAll();
+				        },
+				        skin: 'demo-class-5',
+				        fixed: false,
+				        success: function(){
+				        	$('.demo-class-5').appendTo('#tygView');
+				        	$('.demo-class-5').css({
+				        		right:0,
+				        		left:'auto',
+				        		top:0,
+				        		bottom:'auto'
+				        	})
+				        }
+			      	});
+						
+	      		});
+
+	        	
+	        	
+	        	layui.use(['tree', 'layer'], function(){
+					  
+					  layui.tree({
+					    elem: '#eqTree' 
+					    ,target: '_blank' 
+					    ,skin:''
+					    ,click: function(item){
+					    	debugger;
+					    	closeAlarm();
+					    	
+					    	if(_selectedArea){
+					    		  bimEngine.resetElementRGBA(_selectedArea);
+				    	  	}
+					    	
+					    	showFloor('all');
+					    	
+					    	//点击设备类型节点，显示该类型下所有设备
+					    	if(item.type == 'eqType'){
+					    		clearSelectedEq();
+					    		
+					    		clearSelectedEqType();
+					    		
+					    		_eqDatas.forEach(function(eqData){
+					    			if(eqData.eqType == item.eqType){
+					    				bimEngine.changeElementRGBA(eqData.eqBimId,_elementRGBA);
+					    			}
+					    		});
+					    		
+					    		_selectedEqType = item.eqType;
+					    	}
+					    	
+					    	//点击单个设备节点，显示该设备
+					    	if(item.type == 'eq'){
+					    		
+					    		clearSelectedEq();
+					    		
+					    		clearSelectedEqType();
+					    		
+					    		bimEngine.changeElementRGBA(item.id,_elementRGBA);
+					    		
+					    		_selectedEq = item.id;
+					    		
+					    		//跳转到设备相机书签
+					    		flyToEq(item.eqCode);
+					    		
+					    		showEqDetailInfo(item.eqCode);
+					    	}
+					    }
+					    ,nodes: nodes
+					  });
+				});
+	        	
+	        }
+		 	
+	      	//初始化楼层和区域树形菜单
+		 	function initFloorTree(nodes){
+				layui.use('layer', function(){
+					var layer = layui.layer;
+					var content = '<div style="height: 350px;overflow: inherit;"><ul id="floorTree"></ul></div>';
+		    		
+					layer.open({
+				        type: 1
+				        ,title:['楼层区域', 'font-weight: bold;']
+				        ,offset:['9%', '19%'] 
+				        ,area: ['300px', '400px']
+				        ,id: 'tygFloorLayer'
+				        ,content: content
+				        //,btn: '关闭'
+				        //,move: false
+				        ,closeBtn: 0
+				        ,btnAlign: 'c' //按钮居中
+				        ,shade: 0 //不显示遮罩
+				        ,resize:false
+				        ,yes: function(){
+				          layer.closeAll();
+				        },
+				        skin: 'demo-class-6',
+				        fixed: false,
+				        success: function(){
+				        	$('.demo-class-6').appendTo('#tygView');
+				        	$('.demo-class-6').css({
+				        		left:0,
+				        		top:0,
+				        		right:'auto',
+				        		bottom:'auto'
+				        	})
+				        }
+			      });
+						
+	      		});
+					
+				layui.use(['tree', 'layer'], function(){
+					  var layer = layui.layer;
+					  
+					  layui.tree({
+					    elem: '#floorTree' 
+					    ,target: '_blank' 
+					    ,skin:''
+					    ,click: function(item){
+					    	
+					    	clearSelectedEq();
+					    	
+				    		closeAlarm();
+					      
+					      //点击根节点，显示整个楼栋
+					      if(item.type == "root"){
+					    	  
+					    	  if(_selectedArea){
+					    		  bimEngine.resetElementRGBA(_selectedArea);
+					    	  }
+					    	  
+					    	  showFloor('all');
+					    	  
+					    	  
+					    	  bimEngine.flyFromTo(_initPosition,_initTarget);
+					    	  
+					    	  _areaShowFlag = false;
+					      }
+					      
+					      //点击楼层节点，显示单个楼层
+					      if(item.type == "floor"){
+					    	  if(_selectedArea){
+					    		  bimEngine.resetElementRGBA(_selectedArea);
+					    	  }
+					    	  
+					    	  _coveringHideFlag = false;
+					    	  showFloor('single',item.id);
+					    	  
+					    	  //显示二楼的区域说明文字
+					    	  if(item.id == 3){
+					    		  _floorTwoTexts.forEach(function(item){
+					    			  bimEngine.setElementVisible(item,true);
+					    		  });
+					    	  }
+					    	  
+					    	  bimEngine.flyFromTo(_initPosition,_initTarget);
+					    	  
+					    	  _areaShowFlag = false;
+					    	  
+					      }
+					      
+					      //点击区域节点，显示单个区域
+					      if(item.type == "area"){
+					    	  
+					    	  if(_selectedArea){
+					    		  bimEngine.resetElementRGBA(_selectedArea);
+					    	  }
+					    	  
+					    	  _selectedArea = item.id;
+					    	  
+					    	  showFloor('single',item.floorId);
+					    	  
+					    	  //显示二楼的区域说明文字
+					    	  if(item.floorId == 3){
+					    		  hideCovering();
+					    		  
+					    		  _floorTwoTexts.forEach(function(item){
+					    			  bimEngine.setElementVisible(item,true);
+					    		  });
+					    	  }
+					    	  
+					    	  bimEngine.changeElementRGBA(item.id,_elementRGBA);
+					    	  
+					    	  if(_areaShowFlag){
+					    		  bimEngine.flyToElement(item.id);
+					    	  }else{
+					    		  bimEngine.flyFromTo(_areaPosition,_areaTarget);
+					    		  _areaShowFlag = true;
+					    	  }
+					    	  
+					      }
+					    }
+					    ,nodes: nodes
+					  });
+				});
+	      	}
+	      	
+	      	//清除已选择的设备
+	      	function clearSelectedEq(){
+	      		if(_selectedEq){
+	      			bimEngine.resetElementRGBA(_selectedEq);
+	      		}
+	      	}
+	      	
+	      	//清除已选择的设备类型下的所有设备
+	      	function clearSelectedEqType(){
+	      		if(_selectedEqType){
+	    			_eqDatas.forEach(function(eqData){
+		    			if(eqData.eqType == _selectedEqType){
+		    				bimEngine.resetElementRGBA(eqData.eqBimId);
+		    			}
+		    		});
+	    		}
+	      	}
+	      	
+	      	//显示楼层
+	      	//type:all-显示所有楼层,single-显示单个楼层
+	      	//floorId:楼层ID
+	      	function showFloor(type,floorId){
+	      		
+	      		if(type == 'all'){
+	      			_storeys.forEach(function(floor){
+		    		  	bimEngine.showBuildingStorey(floor.Id, true); 
+		    	  	});
+	      		}else if(type == 'single'){
+	      			if(floorId == 3 && _coveringHideFlag){
+	      				return;
+	      			}
+	      			_storeys.forEach(function(floor){
+			    		  if(floorId == floor.Id){
+			    			  bimEngine.showBuildingStorey(floor.Id, true);
+			    		  }else{
+			    			  bimEngine.showBuildingStorey(floor.Id, false); 
+			    		  }
+			    		  
+			    	  });
+	      			
+	      		}else{
+	      			console.log("Error:showFloor type not defined!");
+	      		}
+	      	}
+	      	
+	      	//隐藏天花板
+	      	function hideCovering(){
+	      		  if(_coveringHideFlag){
+	      			 return;
+	      		  }
+	      		
+		    	  bimEngine.searchElementsByText("IfcCovering",function(result, text){
+		    		  if(result.success && result.total > 0){
+		    			  result.list.forEach(function(item){
+		    				  bimEngine.setElementVisible(item.Element.GlobalId,false);
+		    			  });
+		    		  }
+		    	  });
+	      		 
+		    	  _coveringHideFlag = true;
+	      	}
+			
+		});
+			
+		angular.bootstrap(document.getElementById("angularId"),
+				[ 'angularApp' ]);
+	})()
+</script>

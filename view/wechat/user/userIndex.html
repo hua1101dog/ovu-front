@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+	    <title>公众号管理-关注管理</title>
+	    <link rel="stylesheet" href="wechat/user/userIndex.css">
+	</head>
+	<body>
+	    <div id="questionsId" ng-controller="userCtl" >
+		    <div class="page-title">
+		        <div class="title_left">
+		            <h3>关注管理</h3>
+		        </div>
+		    </div>
+		    <div class="x_panel">
+		        <div class="form-inline">
+		            <div class="form-group">
+		                <label style="margin-left: 6px;">关注时间：</label>
+		                <input type="datetime" id = "beginCreateTime" class="form-control Wdate bg-readOnly" ng-model="search.beginCreateTime" onchange=""
+							onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+						至 <input type="datetime" class="form-control Wdate bg-readOnly" ng-model="search.endCreateTime" onchange=""
+							onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',minDate:'#F{$dp.$D(\'beginCreateTime\');}'})">
+		            </div>
+		            <div class="form-group">
+		                <label>微信昵称: </label>
+		                <input ng-model="search.nickname" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text">
+		            </div>
+		            <button class="btn btn-default pull-right" ng-click="find(1)">查询</button>
+		        </div>
+		    </div>
+		    <div class="panel panel-default" style="margin-bottom: 0px;">
+		        <div class="panel-heading">关注列表&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		        	总关注人数：<span style = "color:red;">{{pageModel.totalCount}} </span>  
+		         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		         	近三天关注人数： <span style = "color:red;">{{countUsers}}</span>
+		         <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+		         <!-- <span style = "color:red;">*</span>(最近三天关注的才算最近关注) -->
+		        </div>
+		        <div class="panel-body">
+		            <table class="table table-striped table-hover" style="margin-top: 10px;">
+		                <thead class="title">
+		                    <tr>
+		                        <th class="text-center">No.</th>
+		                        <th>微信昵称</th>
+		                        <th>微信头像</th>
+		                        <th>性别</th>
+		                        <th>微信地址</th>
+		                        <th>关注时间</th>
+		                        <!-- <th>操作</th> -->
+		                    </tr>
+		                </thead>
+		                <tbody>
+		                    <tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+		                    <tr ng-repeat="item in pageModel.data" class="ng-scope">
+		                        <td class="text-center ng-binding">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+		                        <td class="ng-binding">{{item.nickname}}</a></td>
+		                        <td class="ng-binding"><img style="width:90px;height:90px;" alt="微信头像" src="{{item.headimgurl}}"></td>
+		                        <td class="ng-binding">{{item.sex |sexType}}</td>
+		                        <td class="ng-binding">{{item.country}}-{{item.province}}-{{item.city}}</td>
+		                        <td class="ng-binding">{{item.createTime}}</td>
+		                        <!-- <td>
+		                            <div>
+		                                <a href="javascript:void(0)" ng-click="showPreviewModal(item)" class="btn btn-xs"><span class="fa fa-edit"></span>预览</a>
+		                            </div>
+		                        </td> -->
+		                    </tr>
+		                </tbody>
+		            </table>
+		            <div class="page-footer clearfix">
+		            <ng-include src="'/common/pager.html'" class="ng-scope"><style type="text/css" class="ng-scope">
+		                .pagination>li>span:hover{background-color: #fff;cursor:text}
+		            </style>
+		            </ng-include>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</body>
+</html>

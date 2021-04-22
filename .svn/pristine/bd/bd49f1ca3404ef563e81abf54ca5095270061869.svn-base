@@ -1,0 +1,116 @@
+<div ng-controller="videoManageCtrl">
+	<!--文件夹显示-->
+    <div class="page-title" ng-if="!isShowFiles">
+        <div class="title_left">
+            <h3>视频管理</h3>
+
+        </div>
+    </div>
+    <div class="x_panel" ng-if="!isShowFiles">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>文件夹名称</label>
+                <input class="form-control" ng-model="search.folderName" />
+            </div>
+            <button class="btn btn-default pull-right" ng-click="find(1)">查询</button>
+            <button class="btn btn-default pull-right" ng-click="createFolder()">新建文件夹</button>
+        </div>
+    </div>
+    <div class="panel panel-default" style="min-height: 300px;" ng-if="!isShowFiles">
+        <div class="panel-heading clearfix">
+            <span style="display:inline-block;margin-top:8px;">文件夹列表</span>
+        </div>
+        <div class="panel-body">
+        	<div ng-if="!pageModel.data || pageModel.data.length == 0">
+        		<span>无文件夹</span>
+        	</div>
+            <div ng-repeat="o in pageModel.data track by $index" style="width:100px;float: left;margin:10px 50px;"
+            	ng-mouseenter="folderOn(o)" ng-mouseleave="folderOff(o)">
+            	<a class="glyphicon glyphicon-folder-open" style="font-size: 100px;display: block;" 
+            		ng-dblclick="showFolderFiles(o)" ></a>
+            	<span class="text-center nameSpan" title="{{o.folderName}}">{{o.folderName}}</span>
+            	<!--<span class="text-center" style="display: inherit;">{{o.folderName}}</span>-->
+            	<div class="caption" style="height: 25px;width: 80px;"> 
+                    <i class="glyphicon glyphicon-remove" style="font-size: 14px;" ng-if="o.isOn" ng-click="del(o)"></i>
+                    <i class="glyphicon glyphicon-edit " style="font-size: 14px;" ng-if="o.isOn" ng-click="createFolder(o)"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--文件显示-->
+    <div class="page-title" ng-if="isShowFiles">
+        <div class="title_left">
+            <h3>{{curFolder.folderName}}</h3>
+
+        </div>
+    </div>
+    <div class="x_panel" ng-if="isShowFiles">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>文件名称</label>
+                <input class="form-control" ng-model="fileSearch.fileName" />
+            </div>
+            <button class="btn btn-default pull-right" ng-click="fileFind(1)">查询</button>
+            <button class="btn btn-default pull-right" ng-click="exportFiles()">导出</button>
+            <button class="btn btn-default pull-right" ng-click="createFile()">文件上传</button>
+            <button class="btn btn-default pull-right" ng-click="return()">返回</button>
+        </div>
+    </div>
+    <div class="panel panel-default" style="min-height: 300px;" ng-if="isShowFiles">
+        <div class="panel-heading clearfix">
+            <span style="display:inline-block;margin-top:8px;">文件列表</span>
+        </div>
+        <div class="panel-body">
+        	<div ng-if="!pageModel.data || pageModel.data.length == 0">
+        		<span class="text-center">无文件</span>
+        	</div>
+            <div ng-repeat="o in pageModel.data track by $index" style="width:100px;float: left;margin: 20px;"
+            	ng-mouseenter="fileOn(o)" ng-mouseleave="fileOff(o)">
+            	<input type="checkbox" ng-click="fileCheck($event,o)" style="margin-left: 50%;"/>
+            	<a class="glyphicon glyphicon-film" style="font-size: 100px;display: block;" 
+            		ng-dblclick="showFile(o)"></a>
+            	<span class="text-center nameSpan" title="{{o.fileName}}">{{o.fileName}}</span>
+				<!--<span class="text-center" style="display: inherit;">{{o.fileName}}</span>-->
+				<div class="caption" style="height: 25px;width: 80px;"> 
+                    <i class="glyphicon glyphicon-remove" style="font-size: 14px;" ng-if="o.isOn" ng-click="delFile(o)"></i>
+                    <i class="glyphicon glyphicon-edit " style="font-size: 14px;" ng-if="o.isOn" ng-click="editFile(o)"></i>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer clearfix" ng-if="pageModel.data && pageModel.data.length != 0">
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+</div>
+<style>
+	.my-form-control {
+	    display: block;
+	    /*width: 100%;*/
+	    height: 34px;
+	    padding: 6px 12px;
+	    font-size: 14px;
+	    line-height: 1.42857143;
+	    color: #555;
+	    background-color: #fff;
+	    background-image: none;
+	    border: 1px solid #ccc;
+	    border-radius: 4px;
+	    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+	    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	}
+	.img-show {
+	    /*width: 200px;*/
+	    /*float: left;*/
+	    margin: 16px 0px;
+	}
+	.nameSpan{
+		display: inherit;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    overflow: hidden;
+	}
+</style>

@@ -1,0 +1,64 @@
+<div ng-controller="performance_scoreCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>定义分值</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12" style="margin-bottom: 10px">
+            <button class="btn btn-primary pull-left" ng-click="dotab(0)">计划工单</button>
+            <button class="btn btn-danger pull-left" style="margin-left: 10px" ng-click="dotab(1)">应急工单</button>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel wider">
+                <div class="x_title">
+                    <a ng-click='expandAll(worktypeTree)' role="button" class='btn-link' title="展开与收缩"><i class="glyphicon" ng-class="{'glyphicon-resize-small':worktypeTree.expanded,'glyphicon-resize-full':!worktypeTree.expanded}"></i></a>
+                    工作分类 <a ng-click='addTopNode()' ng-if="config.edit" role="button" class='btn-link pull-right'><i class='fa fa-plus'></i>一级分类</a>
+                </div>
+                <div class="x_content" style="z-index: 1;margin-top: 5px;">
+                    <div class="alert" role="alert" ng-show="!worktypeTree">无工作分类</div>
+                    <!--<tree-worktype node-list="worktypeTree" config="config"></tree-worktype>-->
+                    <tree-view-pro node-list="worktypeTree" host="search" host-text="'WORKTYPE_NAME'" host-key="'WORKTYPE_ID'" callback="selectNode" config="{'edit':false}"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                        <tr>
+                            <th>工作分类</th>
+                            <th ng-if="search.tab == 0">工作事项</th>
+                            <th>分值</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in pageModel.list">
+                            <td class="text-center">{{item.WORKTYPE_NAME}}</td>
+                            <td class="text-center" ng-if="search.tab == 0">{{item.WORKITEM_NAME}}</td>
+                            <td  ng-if="search.tab == 0">
+                                <input class="text-center" ng-model="item.score" ng-pattern="/\d+/" ng-blur="saveScore(item)"/>
+                            </td>
+                            <td class="text-center" ng-if="search.tab == 1">
+                                <input ng-model="item.score" ng-pattern="/\d+/" ng-blur="saveScore(item)"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+ table tr th,
+        table tr td {
+            text-align: center;
+        }
+
+
+</style>

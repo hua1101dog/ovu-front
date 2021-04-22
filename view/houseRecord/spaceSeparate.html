@@ -1,0 +1,239 @@
+<div  ng-controller="spaceSeparate_houseCtrl" id="spaceSeparate">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>
+                空间拆分
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-12">
+            <div class="x_panel form-horizontal">
+                <div class="x_title">
+                    <h4 style="    line-height: 40px;">原房间信息 <span class="btn btn-info pull-right" ng-click="resolution()" >拆</span></h4>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-2 control-label required">房屋名称</label>
+                    <div class="col-xs-4">
+                        <label class=" control-label f-w-4 label_ellipsis" ng-attr-title="{{originalData.houseName}}">{{originalData.houseName}}</label>
+                       
+                   
+                    </div>
+                    <label class="col-xs-2 control-label">房屋简称</label>
+                    <div class="col-xs-4">
+                        <label class=" control-label f-w-4 label_ellipsis" ng-attr-title="{{originalData.rmShortName}}">{{originalData.rmShortName}}</label>
+                    </div>
+                   
+                </div>
+                
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-2 control-label">房屋编码</label>
+                    <div class="col-xs-10">
+                        <label class=" control-label f-w-4 label_ellipsis" ng-attr-title="{{originalData.houseNo}}">{{originalData.houseNo}}</label>
+                        
+                    </div>
+                   
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-2 control-label">空间信息</label>
+                    <div class="col-xs-10">
+                        <label class=" control-label f-w-4 label_ellipsis" ng-attr-title="{{originalData.stageName}}/{{originalData.buildName}}/{{originalData.unitNo+'单元'+originalData.floorName+originalData.houseName}}">{{originalData.stageName}}/{{originalData.buildName}}/{{originalData.unitNo+'单元'+originalData.floorName+originalData.houseName}}</label>
+                      
+                        
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-2 control-label required">建筑面积</label>
+                    <div class="col-xs-4">
+                        <label class=" control-label f-w-4 " >{{originalData.area}}(㎡)</label>
+                      
+                     
+                    </div>
+                    <label class="col-xs-2 control-label required">使用面积</label>
+                    <div class="col-xs-4">
+                        <label class=" control-label f-w-4">{{originalData.areaProperty}}(㎡)</label>
+                        
+                    </div>
+                </div>
+               
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-2 control-label required">房屋类别</label>
+                    <div class="col-xs-4">
+                        <label class=" control-label f-w-4">{{originalData.rmCat | keyToValue:houseType:'dicCode':'dicItem'}}</label>
+                       
+                    </div>
+                    <label class="col-xs-2 control-label required">房屋类型</label>
+                    <div class="col-xs-4">
+                        <label class=" control-label f-w-4">{{originalData.rmType | keyToValue:treeTypeList:'id':'dicItem'}}</label>
+                        
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-2 control-label">使用状态</label>
+                    <div class="col-xs-4">
+                        <label class=" control-label f-w-4">{{originalData.rmStatus | keyToValue:houseStatus:'dicCode':'dicItem'}}</label>
+
+                    </div>
+                    <label class="col-xs-2 control-label">装修类型</label>
+						<div class="col-xs-4">
+                            <label class=" control-label f-w-4">{{originalData.isDecoration | keyToValue:isDecoration:'dicVal':'dicItem'}}</label>
+                          
+						</div>
+                    
+                </div>
+                
+                
+                <div  class="form-group" style="margin-left:0;margin-right:0">
+                    
+                    <label class="col-xs-2 control-label required">空间来源</label>
+					
+                        <div class="col-xs-4">
+                            <label class=" control-label f-w-4 label_ellipsis">基础空间</label>
+                           
+                            
+                        </div>
+                        <label class="col-xs-2 control-label required">设备房</label>
+                    <div class="col-xs-4">
+                        <label class=" control-label f-w-4">{{originalData.isEmtHouse | keyToValue:yesNoDict:[0]:[1]}}</label>
+                           
+                    </div>
+                </div>
+               
+               
+                
+            </div>
+        </div>
+        <div class="col-md-7 col-sm-7 col-xs-12" style="padding:0">
+            <form name="chai" novalidate>
+                <div class="x_panel form-horizontal" ng-repeat="item in resolutionData track by $index">
+                    <div class="x_title" >
+                        <h4 style=" line-height: 40px;">{{item.houseCode }} <span ng-show="resolutionData.length>2 && (!item.ownerTenantList || item.ownerTenantList.length==0) && (!item.ownerList || item.ownerList.length==0)"
+                                class="btn btn-danger glyphicon glyphicon-minus pull-right"
+                                ng-click="del($event,$index,item)" ></span></h4>
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label required">房屋名称</label>
+                        <div class="col-xs-5">
+                            <input type="text" class="form-control " required ng-model="item.houseName"
+                               >
+                        </div>
+                        <label class="col-xs-1 control-label required">房屋简称</label>
+                        <div class="col-xs-5">
+                            <input type="text" class="form-control " required ng-model="item.rmShortName"
+                                 name="">
+                        </div>
+                        
+ 
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label">房屋编码</label>
+                        <div class="col-xs-5">
+                            <label class=" control-label f-w-4 label_ellipsis" ng-if="item.id"  ng-attr-title="{{item.houseNo}}">{{item.houseNo}} </label>
+                            <label class=" control-label f-w-4 label_ellipsis" ng-if="!item.id" ng-attr-title="{{houseNoCopy}}{{item.houseCode}}">{{houseNoCopy}}{{item.houseCode}} </label>
+                        </div>
+                        <label class="col-xs-1 control-label ">空间信息</label>
+                        <div class="col-xs-5">
+                            <label class=" control-label f-w-4 label_ellipsis"  ng-if="!item.id"
+                            ng-attr-title="{{originalData.stageName}}/{{originalData.buildName}}/{{originalData.unitNo+'单元'+originalData.floorName}}{{item.houseCode+'房'}}">
+                            {{originalData.stageName}}/{{originalData.buildName}}/{{originalData.unitNo+'单元'+originalData.floorName}}{{item.houseCode+'房'}}</label>
+                            <label class=" control-label f-w-4 label_ellipsis"  ng-if="item.id"
+                            ng-attr-title="{{originalData.stageName}}/{{originalData.buildName}}/{{originalData.unitNo+'单元'+originalData.floorName}}{{item.houseName}}">
+                            {{originalData.stageName}}/{{originalData.buildName}}/{{originalData.unitNo+'单元'+originalData.floorName}}{{item.houseName}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label required">建筑面积(㎡)</label>
+                        <div class="col-xs-5">
+                            <input type="number" class="form-control " required ng-model="item.area" ng-readonly="$last"
+                                ng-pattern="/^([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9])$/" ng-blur="getPPValue(item,originalData.area,'area')" ng-focus="clearVal('area')">
+                        </div>
+                      
+                        <label class="col-xs-1 control-label required">使用面积(㎡)</label>
+                        <div class="col-xs-5">
+                            <input type="number" class="form-control" ng-model="item.areaProperty" required ng-focus="clearVal('areaProperty')"  ng-pattern="/^([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9])$/" ng-readonly="$last" ng-blur="getPPValue(item,originalData.areaProperty,'areaProperty',true)">
+                        </div>
+                        
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                       
+						<label class="col-xs-1 control-label required">房屋类别</label>
+						<div class="col-xs-5">
+                            <select class="form-control" required name="rm_cat" ng-model="item.rmCat"
+                            ng-options="o.dicCode as o.dicItem for o in houseType"
+                            ng-change="selectHouseType(item)">
+                            <option value="">--请选择--</option>
+                        </select>
+                        </div>
+                        <label class="col-xs-1 control-label required">房屋类型</label>
+                        <div class="col-xs-5">
+                            <select class="form-control" required name="rm_type" ng-model="item.rmType"
+                                ng-options="o.id as o.dicItem for o in item.treeTypeList">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label ">使用状态</label>
+                        <div class="col-xs-5">
+                            <select class="form-control" name="rmStatus" ng-model="item.rmStatus" ng-disabled="(item.ownerTenantList && item.ownerTenantList.length) || (item.ownerList && item.ownerList.length)"
+                                ng-options="o.dicCode as o.dicItem  for o in houseStatus">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                        <label class="col-xs-1 control-label ">装修类型</label>
+						<div class="col-xs-5">
+							<select class="form-control "   ng-model="item.isDecoration" ng-options="o.dicVal as o.dicItem for o in isDecoration">
+                             <option value="" >--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                       
+						
+                        <label class="col-xs-1 control-label required">空间来源</label>
+                        <div class="col-xs-5">
+                            <label class=" control-label ">拆合空间</label>
+                         
+                           
+                        </div>
+                        <label class="col-xs-1 control-label required">设备房</label>
+                        <div class="col-xs-5">
+                            <select class="form-control" required name="IS_EMT_HOUSE" ng-model="item.isEmtHouse"
+                            ng-options="o[0] as o[1] for o in yesNoDict">
+                            <option value="">--请选择--</option>
+                        </select>
+                        </div>
+                    </div>
+                    
+                </div>
+            </form>
+            <div class="form-group text-center x_panel" style="margin-top:-10px;">
+                <button class="btn btn-primary" ng-click="saveInfo(chai)">保存</button>
+              
+            </div>
+
+        </div>
+    </div>
+</div>
+<style>
+    #spaceSeparate label.control-label{
+	padding-left:0;
+	padding-right:0;
+}
+.show{
+	display: block;
+}
+.hide{
+	display: none;
+}
+.label_ellipsis{
+    display: inline-block;
+   
+    overflow: hidden;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left !important;
+}
+</style>

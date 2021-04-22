@@ -1,0 +1,49 @@
+<div ng-controller="workbenchCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>审批工作台</h3>
+        </div>
+    </div>
+    <div class="aList clearfix" style="margin-bottom: 15px;">
+        <span  ng-click="setCurTabDept('')" ng-class="{'btn-link':domainCode==''}">丽岛物业</span>
+        <span  ng-click="setCurTabDept('0002')" ng-class="{'btn-link':domainCode=='0002'}">蓝域智能</span>
+        <span  ng-click="setCurTabDept('0010')" ng-class="{'btn-link':domainCode=='0010'}">楚卫防线</span>
+        <span  ng-click="setCurTabDept('0011')" ng-class="{'btn-link':domainCode =='0011'}">丽岛创馨</span>
+       
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel" style="max-height: 650px;overflow: auto;">
+                <div class="x_title">部门列表</div>
+                <div class="x_content">
+                 
+                    <div class="alert" role="alert" ng-if="deptTree_workbench && deptTree_workbench.length==0">无部门信息</div>
+                    <tree-view-pro node-list="deptTree_workbench" host="search" host-text="'deptName'" host-key="'deptId'" callback="setDept" config="{'edit':false}"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+          
+            <uib-tabset active="active">
+				<uib-tab index="0" heading="待审批" select="setCurTab('dsp')">
+                    <ng-include src="'./approval/workbench_table.html'" ></ng-include>
+					
+				</uib-tab>
+				<uib-tab index="1" heading="已完成" select="setCurTab('ywc')">
+
+                    <ng-include src="'./approval/workbench_table.html'" ></ng-include>
+
+				</uib-tab>
+
+			</uib-tabset>
+        </div>
+    </div>
+</div>
+  
+</div>
+<style type="text/css">
+	.aList {padding:5px 0}
+	.aList span{padding: 3px 25px;float:left}
+	.aList span + span{border-left:1px solid slategray!important;}
+</style>

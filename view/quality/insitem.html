@@ -1,0 +1,79 @@
+<div  ng-controller="insItemCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>巡查项管理</h3>
+		</div>
+	</div>
+	<div class="row" ng-if="search.isGroup">
+		<div class="col-xs-12">
+			<label class="control-label">
+				<i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+				<a role="button" ng-click="findPark(search,findAll)">{{search.parkName?search.parkName:'请选择项目'}} </a>
+			</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">巡查项类型 <span  ng-click='addTopNode()' class='btn btn-xs pull-right' ng-show="config.edit"><span class='fa fa-plus' ></span>根类型</span>
+				</div>
+				<div class="x_content" style="z-index: 1">
+					<div class="alert" role="alert" ng-show="oriList.length==0">无巡查项信息</div>
+					<div id="house_tree">
+						<tree-view node-list="insTreeData" config="config"></tree-view>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+			<div class="x_panel" >
+				<div class="x_title">
+					巡查项
+					<button ng-disabled="!curNode.id" style=" margin-top: -9px;" class="btn btn-primary pull-right" ng-click="showModal()" ng-show="config.edit">添加巡查项</button>
+				</div>
+				<table class="table table-striped table-hover" style="margin-top: 10px;">
+					<thead class="title">
+					<tr>
+						<th class="text-center">NO</th>
+						<th>标准图片</th>
+						<th>巡查项</th>
+						<th class="col-lg-5">考评标准描述</th>
+						<th>考评类型</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-if="!pageModel.data || pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+					<tr ng-repeat="item in pageModel.data" ng-if="!item.edit">
+						<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+						<td>
+							<div class="photoWraper" ng-click="showPhoto()">
+								<img onerror="javascript:this.src='/res/img/detail.png';"
+									 ng-src="{{processImgUrl(item.imgPath)}}">
+							</div>
+						</td>
+						<td>{{item.name}}</td>
+						<td style="word-break: break-all;">{{item.description}}</td>
+						<td>{{item.checkType | keyToValue:checkTypeDict}}</td>
+						<td>
+							<a href='javascript:void(0)' ng-click='showModal(item.insItemId)' class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+							<a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'  ng-show="config.edit"><span class='fa fa-trash'></span>删除</a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+					<ng-include src="'/common/pager.html'"></ng-include>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	#house_tree{
+		margin-left: -17px;
+	}
+	table tr td{
+        text-align: center
+    }
+</style>

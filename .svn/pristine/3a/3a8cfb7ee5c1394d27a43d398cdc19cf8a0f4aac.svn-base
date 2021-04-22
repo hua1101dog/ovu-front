@@ -1,0 +1,264 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h5 class="modal-title">
+				设备名称：<label style="margin-right: 15px;">{{item.name}}</label><br/>
+				编码：<label style="margin-right: 15px;">{{item.equip_code}}</label></h5>
+	    </div>
+	    <div class="modal-body container-fluid ">
+			<uib-tabset>
+				<uib-tab  heading="设备详情" >
+						<div class="form-horizontal">
+							<div class="row">
+								<label class="col-xs-2 control-label">项目：</label>
+								<div class="col-xs-4">
+									<div style="margin-top: 8px">{{item.park_name}}</div>
+								</div>
+								<label class="col-xs-2 control-label">地址：</label>
+								<div class="col-xs-4">
+									<div style="margin-top: 8px">{{item.stage_name}} {{item.floor_name}} {{item.house_name}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">设备分类：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.type_name}}</div>
+								</div>
+								<label class="col-xs-2 control-label">品牌：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.brand_name}}</div>
+								</div>
+								<label class="col-xs-2 control-label">设备型号：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.mode_name}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">设备状态：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.equip_status|keyToValue:equipStatusDict}}</div>
+								</div>
+								<label class="col-xs-2 control-label">采购成本(元)：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.cost_purchase}}</div>
+								</div>
+								<label class="col-xs-2 control-label">位置惯用名：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.loc_simple_name}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">设备惯用名：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.equip_simple_name}}</div>
+								</div>
+								<label class="col-xs-2 control-label">图纸位置编号：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.dwg_loc}}</div>
+								</div>
+								<label class="col-xs-2 control-label">出厂编号：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.produce_serial}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">供应商编号：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.supplier_id}}</div>
+								</div>
+								<label class="col-xs-2 control-label">制造日期：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.made_date}}</div>
+								</div>
+								<label class="col-xs-2 control-label">购买日期：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.buy_date}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">验收日期：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.accept_date}}</div>
+								</div>
+								<label class="col-xs-2 control-label">接管日期：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.takeover_date}}</div>
+								</div>
+								<label class="col-xs-2 control-label">进场日期：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.entrance_date}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">启用日期：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.service_date}}</div>
+								</div>
+								<label class="col-xs-2 control-label">移交状态：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.transfer_status|keyToValue:yesNoDict}}</div>
+								</div>
+								<label class="col-xs-2 control-label">产地：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.origin}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">生产厂家：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.made_company}}</div>
+								</div>
+								<label class="col-xs-2 control-label">折旧类型：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.depre_type}}</div>
+								</div>
+								<label class="col-xs-2 control-label">折旧年数：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.depre_year}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">预计寿命：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.expct_life}}</div>
+								</div>
+								<label class="col-xs-2 control-label">折旧值：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.depre_money}}</div>
+								</div>
+								<label class="col-xs-2 control-label">操作人：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.op_people}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">使用单位：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.useDeptName}}</div>
+								</div>
+								<label class="col-xs-2 control-label">出厂日期：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.produce_date}}</div>
+								</div>
+								<label class="col-xs-2 control-label">改造单位：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.reform_company}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">注册代码：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.regi_code}}</div>
+								</div>
+								<label class="col-xs-2 control-label">安装单位：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.install_company}}</div>
+								</div>
+								<label class="col-xs-2 control-label">安装日期：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.install_date}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">维保单位：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.maintainOrgName}}</div>
+								</div>
+								<label class="col-xs-2 control-label">维保负责人：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.maintain_person}}</div>
+								</div>
+								<label class="col-xs-2 control-label">首保日期：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.frist_maintain_date}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">下次维保日期：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.next_maintain_date}}</div>
+								</div>
+								<label class="col-xs-2 control-label">年度维保日期：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.year_maintain_date}}</div>
+								</div>
+								<label class="col-xs-2 control-label">建模设备No：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.revit_no}}</div>
+								</div>
+							</div>
+                            <!--<div class="row">
+                                <label class="col-xs-2 control-label">设备监控类型：</label>
+                                <div class="col-xs-2">
+                                    <div style="margin-top: 8px">{{item.equipment_name}}</div>
+                                </div>
+
+							</div>-->
+							<div class="row">
+								<label class="col-xs-2 control-label">经度(x)：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.map_lng}}</div>
+								</div>
+								<label class="col-xs-2 control-label">纬度(y)：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.map_lat}}</div>
+								</div>
+                                <label class="col-xs-2 control-label">建模设备bim号：</label>
+                                <div class="col-xs-2">
+                                    <div style="margin-top: 8px">{{item.bim_id}}</div>
+                                </div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">高德经度：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.longitude_}}</div>
+								</div>
+								<label class="col-xs-2 control-label">高德纬度：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.latitude_}}</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">参数1：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.param1}}</div>
+								</div>
+								<label class="col-xs-2 control-label">参数2：</label>
+								<div class="col-xs-2">
+									<div style="margin-top: 8px">{{item.param2}}</div>
+								</div>
+                                <label class="col-xs-2 control-label">设备所在位置：</label>
+                                <div class="col-xs-2">
+                                    <div style="margin-top: 8px">{{item.in_out_door|keyToValue:pointTypeDict}}</div>
+                                </div>
+							</div>
+							<div class="row">
+								<div ng-repeat="attr in item.attrs">
+									<label class="col-xs-2 control-label">{{attr.name}}：</label>
+									<div class="col-xs-2">
+										<div style="margin-top: 8px">{{attr.val}}{{attr.unit}}</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<label class="col-xs-2 control-label">备注：</label>
+								<div class="col-xs-10">
+									<div style="margin-top: 8px">{{item.comment}}</div>
+								</div>
+							</div>
+						</div>
+				</uib-tab>
+				<uib-tab  heading="工作任务" >
+					<div ng-controller="equipWorktaskCtrl">
+                        <ng-include src="'/view/equipment/divTmpl/equipment.worktaskList.htm'"></ng-include>
+					</div>
+				</uib-tab>
+				<uib-tab  heading="工单" >
+					<div ng-controller="equipWorkunitCtrl">
+                        <ng-include src="'/view/equipment/divTmpl/equipment.workunitList.htm'"></ng-include>
+					</div>
+				</uib-tab>
+			</uib-tabset>
+		</div>
+		 <ng-include src="'/common/modal.worktype.tree.html'"></ng-include>
+
+

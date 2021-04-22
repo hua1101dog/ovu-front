@@ -1,0 +1,116 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()">×</button>
+    <h4 class="modal-title text-left">{{pointName}}</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="x_panel">
+                  <h4>选择时间</h4>
+                  <div class="form-inline" style="margin-top: 28px">
+                       <label>选择时间段</label>
+                       &nbsp;&nbsp;&nbsp;<input style="width: 140px;" type="datetime" class="form-control Wdate" ng-model="search.date1" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                        
+                        <button class="btn btn-default" style="margin-bottom: 4px" ng-click="find()">查询</button>
+                    </div>
+                    <div style="margin-top: 15px">
+                            <label>选择时间段:</label>
+                            <ul class="time">
+                                <li ng-repeat="o in partTimes"><a href='javascript:void(0)' ng-class="{'bg-success':o==curTime}" ng-click='find(1,o)'>{{o}}</a></li>
+                            </ul>
+                    </div>
+            </div>
+           
+        </div>
+        <div class="col-sm-6" style="position: relative;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 style="margin:0;">历史记录</h5>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th>监测参数</th>
+                                <th>检测值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel  || pageModel.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-if="pageModel.length == 1">
+                                <td class="text-center">1</td>
+                                <td class="text-center">能耗</td>
+                                <td class="text-center">{{pageModel[0].e}}KWH</td>
+                            </tr>
+                            <tr ng-if="pageModel.length == 1">
+                                <td class="text-center">2</td>
+                                <td class="text-center">电流A</td>
+                                <td class="text-center">{{pageModel[0].ia}}mA</td>
+                            </tr>
+                            <tr ng-if="pageModel.length == 1">
+                                <td class="text-center">3</td>
+                                <td class="text-center">电压A</td>
+                                <td class="text-center">{{pageModel[0].ua}}V</td>
+                            </tr>
+                            <tr ng-if="pageModel.length == 1">
+                                <td class="text-center">4</td>
+                                <td class="text-center">电流B</td>
+                                <td class="text-center">{{pageModel[0].ib}}mA</td>
+                            </tr>
+                            <tr ng-if="pageModel.length == 1">
+                                <td class="text-center">5</td>
+                                <td class="text-center">电压B</td>
+                                <td class="text-center">{{pageModel[0].ub}}V</td>
+                            </tr>
+                            <tr ng-if="pageModel.length == 1">
+                                <td class="text-center">6</td>
+                                <td class="text-center">电流C</td>
+                                <td class="text-center">{{pageModel[0].ic}}mA</td>
+                            </tr>
+                            <tr ng-if="pageModel.length == 1">
+                                <td class="text-center">7</td>
+                                <td class="text-center">电压C</td>
+                                <td class="text-center">{{pageModel[0].uc}}V</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+
+   .time li>a{
+  
+    border: 1px solid #ccc;
+    width: 47%;
+    float: left;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    margin: 5px;
+    
+   }
+   /* .time li>a:link {
+    background-color: #fff;
+    color: #5c5c5c;
+   }
+   .time li>a,a:visited,a:hover,a:active{
+    background-color: #337ab7;
+    color: #fff
+   } */
+    
+    h4{
+    text-align: center;
+    font-weight: 700;
+    }
+   .bg-success{
+    background-color: #33CCCC;
+   }
+</style>

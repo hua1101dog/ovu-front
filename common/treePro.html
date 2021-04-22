@@ -1,0 +1,7 @@
+<div class="input-group" style="white-space: nowrap;width: 100%; padding: 0 15px;" ng-if="nodeList.length">
+    <input type="text" placeholder="{{tipText ? tipText: '请筛选'}}" class="form-control" style="float:none" ng-model="host[hostText]"/>
+    <span class="input-group-btn">
+         <button class="btn btn-default" ng-click="clear(host)"  style="height: 34px"><i class='fa fa-close'></i></button>
+    </span>
+</div>
+<tree-view node-list="nodeList" host="host"  config="config"></tree-view>

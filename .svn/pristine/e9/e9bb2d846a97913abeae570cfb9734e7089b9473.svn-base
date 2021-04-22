@@ -1,0 +1,42 @@
+<div ng-controller="partnershipguideCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>入伙指引</h3>
+        </div>
+    </div>
+    <div class="row">
+        <form name="form" novalidate>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="form-group">
+                        <label class="required">标题：</label>
+                        <input type="text" class="form-control" style="width:200px;margin-left:15px;" required ng-model="title" placeholder="请输入标题" />
+                    </div>
+                    <div class="form-group">
+                        <label class="required">内容：</label>
+                        <div id="partnershipguide" class="col-md-12" style="height:100%;z-index:999"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row" style="text-align:center;">
+        <button class="btn btn-primary" ng-click="save(form)" style="">确定</button>
+        <!-- <button class="btn btn-default" ng-click="cancel(form)">取消</button> -->
+    </div>
+</div>
+<style>
+    /*wangEditor 超链接样式  */
+    
+    #partnershipguide a {
+        color: blue;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    /*隐藏emoji  */
+    
+    #partnershipguide .w-e-panel-tab-title>li:last-child {
+        display: none;
+    }
+</style>
+<script src="/view/join/partnershipguideService.js"></script>

@@ -1,0 +1,107 @@
+<!-- 人员派单-->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">人员选择器</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">部门列表</div>
+                <div class="x_content">
+                    <tree-view node-list="treeData" config="config"></tree-view>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 col-sm-7 col-xs-12">
+            <form class="form-horizontal form-label-left" id="searchName">
+                <div class="input-group col-md-12" style="margin-top:0px;positon:relative">
+                    <input type="text" class="form-control" placeholder="请输入姓名" ng-model="search.name">
+                    <span class="input-group-btn">
+                        <a href="#" class="btn btn-info btn-sm" style="padding:7px 10px;" ng-click="find(1)"><span
+                                class="glyphicon glyphicon-search"></span>查询</a>
+                    </span>
+                </div>
+            </form>
+            <table class="table table-hover">
+                <thead class="title">
+                    <tr>
+                        <th>姓名</th>
+                        <th>部门-岗位</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="pageModel.list.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.list" role="button">
+                        <td>{{item.name}}</td>
+                        <td>
+                            <ul>
+                                <li ng-repeat="post in item.postList">
+                                    {{post[0]|keyToValue:oriList:'id':'text'}}-{{post[1]|keyToValue:postDict:'id':'postName'}}
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <a ng-show="idsString.indexOf(item.id)==-1&&persons[0].id!=item.id" class="btn btn-success btn-sm" style="padding:0px 4px;" ng-click="addPersonItem(item)">
+                                <span class="glyphicon glyphicon-plus"></span> 添加
+                            </a>
+                            <a ng-show="idsString.indexOf(item.id)!=-1||persons[0].id==item.id" class="btn btn-success btn-sm" style="cursor: default;padding:0px 4px; opacity: 0.6;">
+                                已是管家
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+
+            <form class="form-horizontal form-label-left" id="selectForm">
+                <div class="form-group" style="margin-top:10px" ng-if="persons.length > 0">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">您已选择:</label>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                        <div class="input-group">
+                            <ul id="person" class="ul-persons">
+                                <li class="item" ng-repeat="p in persons">{{p.name}}<a ng-click="del(persons,p)"><i
+                                            class="fa fa-remove"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary edit" ng-click="save()">确定</button>
+                    <button type="button" class="btn btn-warning" ng-click="cancel()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    .ul-persons {
+        list-style: none;
+        float: left;
+        padding: 0px;
+    }
+
+    .ul-persons li {
+        margin: 5px;
+        padding: 5px;
+        float: left;
+    }
+
+    .ul-persons li.item {
+        background-color: #F9F9F9;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+</style>

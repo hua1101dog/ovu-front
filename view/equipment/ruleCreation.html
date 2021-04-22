@@ -1,0 +1,440 @@
+<div ng-controller="ruleCreationCtrl" style="position: relative;" id="ruleCreat">
+    <div class="{{switcherMap == 1 ?'mapButton':'listButton'}}">
+        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" id="modalHeader">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="text-align: center;">
+                        <div style="margin-bottom: 10px;text-align: center;">
+                            <button type="button" class="btn btn-light" ng-click="prevDraw()">上一步</button>
+                            <button type="button" class="btn btn-primary" ng-click="saveMap()"
+                                data-dismiss="modal">保存</button>
+                        </div>
+                        <canvas id="canvasImges" ng-mousedown="canvasTouch($event)"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-inline rulesWord" ng-if="switcherMap == 0">
+            <div class="form-group">
+                <select style="min-width: 179px;max-width: 180px;" class="form-control" ng-model="rule.brand">
+                    <option value="">--请选择设备品牌--</option>
+                    <option ng-repeat="item in typeList" value="{{item.name}}">{{item.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control ng-valid ng-empty ng-pristine ng-touched" placeholder="请输入巡查点位"
+                    ng-model="rule.equipSimpleName">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control ng-valid ng-empty ng-pristine ng-touched" placeholder="请输入摄像机名称"
+                    ng-model="rule.ruleName">
+            </div>
+
+            <button type="button" class="btn btn-primary form-group" ng-click="goSearch()">查询</button>
+        </div>
+        <div class="form-inline rulesWord" ng-if="switcherMap == 2">
+            <div class="form-group">
+                <input type="text" class="form-control ng-valid ng-empty ng-pristine ng-touched" placeholder="请输入巡查点位"
+                    ng-model="search.name">
+            </div>
+            <button type="button" class="btn btn-primary form-group" ng-click="goSearchImgList()">查询</button>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary" ng-click="goMap()" ng-disabled="switcherMap == 1">地图</button>
+            <button type="button" class="btn btn-primary" ng-click="goList()"
+                ng-disabled="switcherMap == 0">设备列表</button>
+            <button type="button" class="btn btn-primary" ng-click="goMapList()"
+                ng-disabled="switcherMap == 2">规则检测列表</button>
+        </div>
+    </div>
+    <div ng-show="switcherMap == 2">
+        <table class="table table-striped table-hover" style="margin-top: 10px;" ng-init="getImgList()">
+            <thead class="title">
+                <tr>
+                    <th class="text-center">NO.</th>
+                    <th>巡查点位</th>
+                    <th>监控区域</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody class="table_tbody_box">
+                <tr ng-if="imgList.length == 0">
+                    <td colspan="100" class="text-center">暂无数据</td>
+                </tr>
+                <tr ng-repeat="item in imgList" class="ng-scope">
+                    <td class="text-center">{{$index + 1}}</td>
+                    <td class="">{{item.name}}</td>
+                    <td class=""> <img ng-src="{{item.imgUrl}}" class="ruleImg" alt=""></td>
+                    <td class="">{{item.update_time}}</td>
+                    <td class="">
+                        <div class="switchImg">
+                            <div>
+                                <p type="button" class="btn btn-link ruleOperate" ng-click="editRuleImg($index,item)">编辑
+                                </p>
+                            </div>
+                            <div>
+                                <p type="button" class="btn btn-link ruleOperateDele"
+                                    ng-click="deleteImg($index,item.id)">删除</p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ng-include src="'/common/pager.html'" class="ng-scope">
+            <style type="text/css" class="ng-scope">
+                .pagination>li>span:hover {
+                    background-color: #fff;
+                    cursor: text
+                }
+            </style>
+        </ng-include>
+    </div>
+    <div ng-show="switcherMap == 0">
+    <table class="table table-striped table-hover" style="margin-top: 10px;" ng-init="find2(1)">
+        <thead class="title">
+            <tr>
+                <th class="text-center">NO.</th>
+                <th>设备品牌</th>
+                <th>巡查点位</th>
+                <th>摄像机名称</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody class="table_tbody_box">
+            <tr ng-if="rulesList.length == 0">
+                <td colspan="100" class="text-center">暂无数据</td>
+            </tr>
+            <tr ng-repeat="item in rulesList" class="ng-scope">
+                <td class="text-center">{{$index + 1}}</td>
+                <td class="">{{item.brand_name}}</td>
+                <td class="">{{item.equip_simple_name}}</td>
+                <td class="">{{item.name}}</td>
+                <td class="">
+                    <div class="switchImg">
+                        <div>
+                            <button type="button" class="btn btn-link ruleOperate"
+                                ng-class="item.operation?'disabledBut':''" ng-click="drawMonitoring(item)"
+                                ng-disabled="item.operation">{{item.operation?item.operation:"违停检测设置"}}</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-include src="'/common/pager2.html'" class="ng-scope">
+        <style type="text/css" class="ng-scope">
+            .pagination>li>span:hover {
+                background-color: #fff;
+                cursor: text
+            }
+        </style>
+    </ng-include>
+    </div>
+    <div ng-show="switcherMap == 1" class="form-inline left-content">
+        <div class="stop-information">
+            <div class="left-content x_panel">
+                <div class="remarkPeoCard">
+                    <span>巡查摄像头:</span>
+                    <img src="/res/img/selSingleCamer.png" alt="">
+                    <span>违停标识:</span>
+                    <span><img src="/common/mapComponent/img/car.png" alt=""></span>
+                </div>
+                <rule-map-component class="canvas-img" is-stop=true map_data="mapData"></rule-map-component>
+            </div>
+            <div class="right-content x_panel">
+                <div class="right-content_header">
+                    列表
+                </div>
+                <div class="list">
+                    <div ng-repeat="list in lists" class="list-item" ng-click="goMessage(list)">
+                        <div class="list-item_left">
+                            <div>
+                                <strong>名称</strong>
+                                <div>{{ list.name }}</div>
+                            </div>
+                            <div>
+                                <strong>摄像头ID</strong>
+                                <div>{{ list.id }}</div>
+                            </div>
+                        </div>
+                        <div class="list-item_right_rule">
+                            <img ng-click="showPhoto()" ng-repeat="src in [list.picA, list.picB]" ng-src="{{ src }}"
+                                alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #ruleCreat .ruleImg {
+        height: 70px;
+        width: 100px;
+    }
+
+    #ruleCreat .remarkPeoCard {
+        position: absolute;
+        height: 30px;
+        width: 230px;
+        z-index: 500;
+        right: 20px;
+        top: 20px;
+        padding: 5px 10px;
+        border: 1px solid #cccccc;
+        background: #fff;
+    }
+
+    #ruleCreat .right-content_header {
+        background: #f5f5f5;
+        height: 40px;
+        line-height: 40px;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 0 15px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    #ruleCreat .remarkPeoCard img {
+        height: 20px;
+        width: 20px;
+        vertical-align: top;
+    }
+
+    #ruleCreat .right-content {
+        padding: 0px;
+        position: relative;
+        padding-top: 50px;
+        flex: 0 0 372px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ccc;
+        height: 750px;
+    }
+
+    #ruleCreat .stop-information {
+        display: flex;
+        justify-content: stretch;
+        margin-top: 15px;
+    }
+
+    #ruleCreat .stopDep-information {
+        display: flex;
+        justify-content: stretch;
+        margin-top: 15px;
+    }
+
+    #ruleCreat .list-item {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        padding: 5px;
+        border-bottom: 1px solid #cccccc;
+    }
+
+    #ruleCreat .list-item_left {
+        flex: 0 0 50%;
+        padding-right: 10px;
+    }
+
+    #ruleCreat .list-item_left strong {
+        display: block;
+        margin-bottom: 3px;
+    }
+
+    #ruleCreat .list-item_left>div:first-child {
+        margin-bottom: 10px;
+    }
+
+    #ruleCreat .list-item_right_rule {
+        flex: 0 0 50%;
+    }
+
+    #ruleCreat .list-item_right_rule {
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #ruleCreat .list-item_right_rule img {
+        width: 80px;
+        height: 80px;
+    }
+
+    #ruleCreat .left-content {
+        flex: 1 1 auto;
+        overflow: auto;
+        padding: 0px;
+        position: relative;
+        margin-right: 10px;
+    }
+
+    #ruleCreat .right-content_stop {
+        position: relative;
+        padding-top: 50px;
+        flex: 0 0 372px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ccc;
+        height: 750px;
+    }
+
+    #ruleCreat .remark {
+        position: absolute;
+        z-index: 500;
+        right: 10px;
+        top: 10px;
+        padding: 5px 10px;
+        border: 1px solid #cccccc;
+        background: #fff;
+    }
+
+    #ruleCreat .remark img {
+        height: 20px;
+        width: 20px;
+        vertical-align: top;
+    }
+
+    #ruleCreat #canvasImg {
+        z-index: 1000 !important;
+    }
+
+    #ruleCreat .ruleOperate {
+        text-decoration: underline;
+        color: orange;
+    }
+
+    #ruleCreat .rulesWord {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #ruleCreat .listButton {
+        margin: 10px 0px;
+        display: flex;
+        height: 54px;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #ruleCreat .mapButton {
+        margin: 10px 0px;
+        display: flex;
+        height: 54px;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    #ruleCreat #canvas-img canvas {
+        height: 1000px;
+        width: 60%;
+    }
+
+    #ruleCreat .patrolRoute {
+        height: 1000px;
+        width: 30%;
+    }
+
+    #ruleCreat .left-content {
+        flex: 1 1 auto;
+        overflow: auto;
+        position: relative;
+        margin-right: 10px;
+        padding: 0px;
+    }
+
+    #ruleCreat .cleaningPatrol {
+        margin-left: 15px;
+        padding: 0px 10px;
+        background: #cccccc;
+    }
+
+    #ruleCreat .saveEditLine {
+        margin: 10px 0px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #ruleCreat .card {
+        padding: 10px;
+        position: absolute;
+        top: -10px;
+        right: 0px;
+        background: #ffffff;
+        box-shadow: 0 0 0.5px #000;
+        height: 1050px;
+        width: 650px;
+    }
+
+    #ruleCreat .popoutFooter {
+        position: absolute;
+        bottom: 15px;
+        left: 10px;
+    }
+
+    #ruleCreat .modal-body {
+        overflow: auto;
+        height: 700px;
+    }
+
+    #ruleCreat .popoutContent {
+        position: absolute;
+        bottom: 100px;
+        width: 95%;
+        left: 10px;
+    }
+
+    #ruleCreat .margin-10 {
+        margin: 20px 10px;
+    }
+
+    #ruleCreat .modal-dialog {
+        width: 100%;
+        margin: 0px;
+    }
+
+    #ruleCreat .modal-header {
+        height: 37px;
+        line-height: 37px;
+        padding: 0px;
+    }
+
+    #ruleCreat .table_tbody_box {
+        height: 300px;
+        overflow: scroll;
+    }
+
+    #ruleCreat .modal-dialog {
+        width: 100%;
+    }
+
+    #ruleCreat .switchImg {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #ruleCreat .ruleOperateDele {
+        text-decoration: underline;
+        color: red;
+    }
+
+    #ruleCreat .disabledBut {
+        color: #cccccc;
+    }
+</style>

@@ -1,0 +1,200 @@
+<!-- 分组管理 -->
+<div ng-controller="groupCtrl">
+    <div class="page-title" style="height: 45px;">
+        <div class="title_left">
+            <h3>分组管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel" style="height:600px;overflow: auto;">
+                <div class="x_title">
+                    分类
+                    <span
+                        ng-click="addTopNode()"
+                        class="btn-success btn-xs pull-right"
+                        ><span class="fa fa-plus"></span> 新增</span
+                    >
+                </div>
+                <div
+                    class="x_content"
+                    style="z-index: 1;max-height: 700px; overflow: auto"
+                >
+                    <div
+                        class="alert"
+                        role="alert"
+                        ng-if="tree_group && tree_group.length==0"
+                    >
+                        无分类信息
+                    </div>
+                    <tree-view-pro
+                        node-list="tree_group"
+                        host="searchs"
+                        host-text="'name'"
+                        host-key="'groupTypeId'"
+                        callback="selectNode"
+                        config="groupConfig"
+                        max-height="20"
+                    ></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>分组名称</label>
+                        <input
+                            type="text"
+                            ng-model="search.text"
+                            class="form-control"
+                        />
+                    </div>
+
+                    <button class="btn btn-default" ng-click="find(1)">
+                        查询
+                    </button>
+                </div>
+            </div>
+            <div class="x_panel">
+                <div class="x_title" style="height: 45px">
+                    分组列表
+
+                    <button
+                        class="btn btn-danger pull-right"
+                        ng-disabled="!hasChecked(pageModel)"
+                        ng-click="delAll()"
+                    >
+                        批量删除
+                    </button>
+                    <button
+                        class="btn btn-primary pull-right"
+                        ng-click="exportGroup()"
+                        ng-disabled="!pageModel.data || pageModel.data.length == 0"
+                    >
+                        导出
+                    </button>
+                    <button
+                        class="btn btn-primary pull-right"
+                        ng-click="showModal()"
+                    >
+                        添加分组
+                    </button>
+                </div>
+                <table
+                    class="table table-striped table-hover"
+                    style="margin-top: 10px;"
+                >
+                    <thead>
+                        <tr>
+                            <th class="text-center">NO</th>
+                            <th class="text-center" style="width:20px">
+                                <span
+                                    role="button"
+                                    ng-click="checkAll(pageModel)"
+                                >
+                                    <i
+                                        class="glyphicon"
+                                        ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"
+                                    ></i
+                                ></span>
+                            </th>
+                            <th nowrap="nowrap">分组名称</th>
+                            <th nowrap="nowrap">分组描述</th>
+                            <th nowrap="nowrap">分组方式</th>
+                            <th nowrap="nowrap">操作时间</th>
+
+                            <th nowrap="nowrap">
+                                操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            ng-if="!pageModel.data || pageModel.data.length == 0"
+                        >
+                            <td colspan="100" class="text-center">暂无记录</td>
+                        </tr>
+                        <tr
+                            ng-repeat="item in pageModel.data"
+                            ng-if="!item.edit"
+                        >
+                            <td class="text-center">
+                                {{$index +
+                                1+pageModel.pageSize*pageModel.pageIndex}}
+                            </td>
+                            <td>
+                                <i
+                                    role="button"
+                                    ng-click="checkOne(item,pageModel)"
+                                    ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                    class="glyphicon"
+                                ></i>
+                            </td>
+
+                            <td>{{item.text}}</td>
+                            <td style="word-break: break-all;">
+                                {{item.desp}}
+                            </td>
+                            <td>
+                                {{item.mode==1 ? '导入建组':item.mode==2 ?
+                                '岗位建组' :'组织架构建组' }}
+                            </td>
+                            <td>
+                                {{item.modifyTime}}
+                            </td>
+                            <td>
+                                <a
+                                    href="javascript:void(0)"
+                                    ng-click="showModal(item)"
+                                    class="btn btn-xs"
+                                    ><span class="fa fa-edit"></span>编辑</a
+                                >
+                                <a
+                                    href="javascript:void(0)"
+                                    ng-click="del(item)"
+                                    class="btn btn-xs"
+                                    ><span class="fa fa-trash"></span>删除</a
+                                >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <!-- <ng-include src="'/common/pager.html'"></ng-include> -->
+                    <page-pro page-model="pageModel"></page-pro>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .item {
+        background-color: #f9f9f9;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        display: inline-block;
+        padding: 5px;
+        /* margin-right: 5px; */
+        margin: 5px;
+    }
+
+    .ul-persons li a {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    table tr th,
+    table tr td {
+        text-align: left !important;
+    }
+
+    .touch {
+        cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        vertical-align: bottom;
+    }
+</style>

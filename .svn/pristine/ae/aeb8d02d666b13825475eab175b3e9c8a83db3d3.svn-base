@@ -1,0 +1,41 @@
+<!--运营指标体系》设施设备指标-->
+<div>
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="">
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">设施设备指标</h4>
+                <div style="height:200px;" ui-echarts="vm.equipmentData">
+                </div>
+            </div>
+            <div ng-if="vm.fmapId != 'csrjy'" class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">工单数</h4>
+                <div style="height:200px;" ui-echarts="vm.orderData">
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 b-b b-2x">
+                <h4 class="font-bold">停车位</h4>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3>{{opeEquipment.oper_parking.totle}}<span class="text-xs">辆</span>
+                    </h3>
+                    <span class="spantext">停车位总数</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center">
+                    <h3>{{opeEquipment.oper_parking.up_parking}}<span class="text-xs">辆</span>
+                    </h3>
+                    <span class="spantext">地上停车位</span>
+                </div>
+                <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                    <h3>{{opeEquipment.oper_parking.bottom_parking}}<span class="text-xs">辆</span>
+                    </h3>
+                    <span class="spantext">地下停车位</span>
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12">
+                <h4 class="font-bold">停车位经营情况</h4>
+                <div style="height:200px;" ui-echarts="vm.parkData">
+                </div>
+            </div>
+        </div>
+
+    </big-screen>
+</div>

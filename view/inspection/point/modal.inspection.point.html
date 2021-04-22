@@ -1,0 +1,180 @@
+<!--巡查点管理的新增修改弹出框  -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{item.insPointId?'编辑':'添加'}}巡查点</h4>
+</div>
+<div class="modal-body container-fluid">
+    <form name="form" novalidate class="form-horizontal" id="form">
+        <div class="form-group">
+            <label class="col-xs-2 control-label required" style="text-align:right">项目:</label>
+            <div class="col-xs-8">
+            <div class="input-group">
+                <input type="text" class="form-control" required readonly="readonly" style="min-width: 250px" ng-model="item.parkName" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default" ng-click="findPark(item)"><i class='fa fa-map-marker'></i></button>
+                </span>
+            </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required" style="text-align:right">点位名称：</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" required ng-model="item.name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required lab" style="text-align:right">点位类型：</label>
+            <div class="col-xs-10" ng-init="item.type = 1">
+                <label class="radio-inline">
+                    <input type="radio" ng-model="item.type" value="1" ng-change="showIn()">室内点位
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="item.type" value="2" ng-change="showOut()">室外点位
+                </label>
+            </div>
+        </div>
+        <div class="form-group" ng-if="item.type == 1">
+            <label class="col-xs-2 control-label" style="text-align:right">点位位置：</label>
+            <!-- <house-selector class="col-xs-10" form-bean="item" is-required=true></house-selector> -->
+            <div class="col-xs-9 form-inline">
+                <select class="form-control" ng-model="item.stage" required ng-change="geneBuild(item.stage)"
+                    ng-options="o as o.text for o in stageList">
+                    <option value="">--期--</option>
+                </select>
+                <select class="form-control" ng-model="item.build" required ng-change="geneUnit(item.build)" ng-options="o as o.buildName for o in buildList">
+                    <option value="">--栋--</option>
+                </select>
+                <select class="form-control" ng-model="item.unitNo" required ng-change="geneGround(item)" ng-options="o as o+'单元' for o in unitList">
+                    <option value="">--单元--</option>
+                </select>
+                <select class="form-control" ng-model="item.groundNo" required ng-change="getHouseList(item)" ng-options="o as o+'楼' for o in groundList">
+                    <option value="">--楼--</option>
+                </select>
+                <select class="form-control" ng-model="item.houseId" ng-options="o.id as o.houseName for o in houseList"
+                    ng-change='getHouseName(item.houseId)'>
+                    <option value="">--房号--</option>
+                </select>
+
+
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label" style="text-align:right">详细位置：</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control"ng-model="item.addr" name="address">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-11 col-xs-offset-1">
+                <div id="map-container" ui-map="myMap" style="height: 300px; " ui-options="mapOptions1" ui-map-cache="mapCache"
+                    ui-event="{'map-click':'clickMap($event, $params)'}">
+                    <!-- <div id="tip">
+						<input type="text" id="complete"  value="请输入关键字：(选定后搜索)" onfocus='this.value=""' />
+                    </div> -->
+                    <div id="pickerBox" ng-show="item.type==2">
+                        <input id="pickerInput" placeholder="输入关键字选取地点" />
+                        <div id="poiInfo"></div>
+                    </div>
+                </div>
+                <div ng-repeat="marker1 in markers1" ui-map-marker="markers1[$index]">
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-if="item.type==1">
+                <label class="col-xs-2 control-label required" style="text-align:right">经度：</label>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" readonly="readonly" ng-model="item.longitude" readonly name="longitude"
+                        required />
+                </div>
+                <label class="col-xs-2 control-label required">纬度：</label>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" readonly="readonly" ng-model="item.latitude"  readonly name="latitude"
+                        required />
+                </div>
+                
+        </div>
+            <div class="form-group" ng-if="item.type==2">
+                    <label class="col-xs-2 control-label required " style="text-align:right">经度：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" readonly="readonly" ng-model="item.longitude" name="longitude"
+                            required />
+                    </div>
+                    <label class="col-xs-2 control-label required">纬度：</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" readonly="readonly" ng-model="item.latitude"  name="latitude"
+                            required />
+                    </div>
+                    
+                </div>
+        <!-- <div class="form-group">
+            <label class="col-xs-2 control-label" style="text-align:right">视频设备：</label>
+            <div class="col-xs-7">
+                <div class="input-group">
+                    <input type="text" class="form-control" readonly ng-model="item.equipmentName" name="videoName">
+                    <span class="input-group-btn">
+                        <a class="btn btn-default" ng-click="chooseEquipment(item)"><i class="fa fa-search"></i></a>
+                    </span>
+
+                </div>
+
+            </div>
+            <div class="col-xs-2" style="margin-left: -15px;">
+                <div class="input-group">
+                    <span>
+                        <a class="btn btn-primary" href="javascript:void(0)" ng-click="delEqm(item)" aria-label="Delete">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </a>
+                    </span>
+
+                </div>
+
+            </div>
+        </div> -->
+        <div class="form-group">
+                <label class="col-xs-2 control-label required" style="text-align:right">巡查项：</label>
+                <div class="col-xs-7">
+                    <div class="input-group">
+                        <input type="text" class="form-control" required readonly ng-model="item.itemName"
+                            name="videoName">
+                        <span class="input-group-btn">
+                            <a class="btn btn-default" ng-click="chooseInsitem(item)"><i class="fa fa-search"></i></a>
+                        </span>
+                    </div>
+                </div>
+               
+            </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+     #pickerBox {
+        position: absolute;
+    z-index: 999;
+    top: 10px;
+    right: 10px;
+    width: 300px;
+    }
+    
+    #pickerInput {
+        width: 200px;
+        padding: 5px 5px;
+    }
+    
+    #poiInfo {
+        background: #fff;
+    }
+    
+    .amap_lib_placeSearch .poibox.highlight {
+        background-color: #CAE1FF;
+    }
+    
+    .amap_lib_placeSearch .poi-more {
+        display: none!important;
+    }
+</style>

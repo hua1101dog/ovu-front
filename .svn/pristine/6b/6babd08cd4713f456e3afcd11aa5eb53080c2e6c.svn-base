@@ -1,0 +1,111 @@
+<div id="angularId" ng-controller="worktypeCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>工作标准</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <a ng-click='expandAll(planWorkTypeTree)' role="button" class='btn-link' title="展开与收缩">
+                        <i class="glyphicon"
+                            ng-class="{'glyphicon-resize-small':planWorkTypeTree.expanded,'glyphicon-resize-full':!planWorkTypeTree.expanded}"></i></a>
+                    工作分类
+                </div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="!planWorkTypeTree">无工作分类</div>
+                    <tree-view-pro node-list="planWorkTypeTree" host="search" host-text="'WORKTYPE_NAME'"
+                        host-key="'WORKTYPE_ID'" callback="selectNode" config="{edit: false}"></tree-view-pro>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+
+                  
+                    <div class="form-group">
+                        <label>工作事项名称</label>
+                        <input type="text" ng-model="search.NAME" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>频次类型</label>
+                        <select class="form-control" ng-model="search.exec_cycle"  ng-options=" o[0] as o[1]+'任务' for o  in frequencyDict" >
+							<option value="">--请选择--</option>
+                        </select>
+                        <button class="btn btn-default" ng-click="find(1)">查询</button>
+                    </div>
+                   
+                </div>
+              
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">工作事项列表
+                    <button class="btn btn-primary pull-right" ng-click="showEditModal()">添加事项</button>
+                    <button class="btn btn-danger pull-right" ng-disabled="!hasChecked(pageModel)"
+                        ng-click="delAll()">批量删除</button>
+                </div>
+                <div class="panel-body" style="overflow: scroll;">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th class="text-center" style="width:20px"><span role="button"
+                                        ng-click="checkAll(pageModel)">
+                                        <i class="glyphicon"
+                                            ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                                </th>
+                                <th>工作分类</th>
+                                <th>工作事项</th>
+                                <th>事项描述</th>
+                                <th>标准工时</th>
+                                <th>执行项目</th>
+                                <th>指定管理人</th>
+                                <th>设置频次</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data" ng-if="!item.edit">
+                                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td><i role="button" ng-click="checkOne(item)"
+                                        ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                        class="glyphicon"></i></td>
+                                 <td>{{item.WORKTYPE_NAME}}</td>
+                                <td >{{item.WORKITEM_NAME}}</td>
+                                <td>{{item.DESCRIPTION}}</td>
+                                <td>{{item.WORK_HOURS}}</td>
+                                <td><a href='javascript:void(0)' ng-click='choosePark(item)' class='btn btn-xs btn-link'>{{item.parks || '选择项目'}}</a></td>
+                                <td><a href='javascript:void(0)' ng-click='choosePerson(item)' class='btn btn-xs btn-link'>{{item.manage_person_name || '选择人员'}}</a></td>
+                                <td><a href='javascript:void(0)' ng-click='setFrequency(item)' class='btn btn-xs btn-link'>{{item.exec_cycle ? (item.exec_cycle | keyToValue:frequencyDict) :'设置频次'}}{{item.exec_num?item.exec_num+'次':''}}</a></td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs btn-link'><span
+                                            class='fa fa-edit'></span>编辑</a>
+                                    <a href='javascript:void(0)' ng-if="hasPower('删除')" ng-click='del(item)'
+                                        class='btn btn-xs btn-link'><span class='fa fa-trash'></span>删除</a>
+                                        <a href='javascript:void(0)' ng-click='clearFrequency(item)' ng-if="item.exec_cycle && item.frequencyId"
+                                        class='btn btn-xs btn-link'><span class='fa fa-close '></span>清除频次</a> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <page-pro page-model="pageModel"></page-pro>
+                     
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

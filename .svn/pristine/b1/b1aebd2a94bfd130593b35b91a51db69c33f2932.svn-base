@@ -1,0 +1,142 @@
+<div ng-controller="classificationCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>资产类别管理</h3>
+        </div>
+    </div>
+
+    <div class="x_panel" style="padding:20px 10px;">
+        
+        <div class="text-center">
+            
+            <div class="box">
+                    <h3>一级分类</h3><button  class="butn btn-primary" ng-click="editTop('','top')" ng-if="user.nickname!=='合美术馆'">添加</button>    
+                <ul ng-if="fatherList && fatherList.length!==0">
+                    <li  ng-repeat="item in fatherList" ng-class="{'ac':parentId==item.id}" ng-click="getSecond(item)">{{item.assetName}}
+                        <a role="button" ng-click="editTop(item,'top')"><i class="glyphicon glyphicon-pencil"></i></a> 
+                        <!-- <a role="button" ng-click="del(item.id)"  ng-if="item.type=='other'"><i class="glyphicon glyphicon-remove"></i></a></a> </li> -->
+                        <a role="button" ng-click="del(item.id)" ng-if="user.nickname!=='合美术馆'"><i class="glyphicon glyphicon-remove"></i></a></a>
+                       
+                     </li>
+                </ul>
+                
+            </div>
+            
+            <div class="arrow">
+                <span class="fa fa-angle-double-right fa-5x icon">
+
+                </span>
+            </div>
+            <div class="box">
+                    <h3>二级分类</h3><button  class="butn btn-primary" ng-click="edit('',parentId)" ng-disabled="!parentId">添加</button>  
+                <ul  ng-if="sonList && sonList.length!==0">
+                        <li ng-repeat="item in sonList"><a href="javascript:void(0)" >{{item.assetName}}
+                            <a role="button"  ng-click="edit(item,parentId)"><i class="glyphicon glyphicon-pencil"></i></a>
+                            <a role="button" ng-click="del(item.id)"><i class="glyphicon glyphicon-remove"></i></a></a> </li>
+                       
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+
+  h3{
+      display: inline-block
+  }
+
+    .box {
+    display: inline-block;
+    width: 300px;
+    padding: 10px;
+    vertical-align: top;
+    overflow: auto;
+    }
+
+    .box ul {
+        list-style: none;
+        margin-bottom: 0;
+        display: inline-block;
+        margin-top: 20px;
+        border-width: 2px;
+        border-color: black #E6E9ED #E6E9ED black;
+        border-style: solid;
+    }
+
+    .box ul li {
+        height: 45px;
+    float: left;
+    margin: 0 5px;
+    width: 260px;
+    font-size: 16px;
+    line-height: 45px;
+    outline:none
+    }
+
+   
+
+    .text-center {
+        text-align: center
+    }
+
+    .arrow {
+        display: inline-block;
+    width: 200px;
+    position: relative;
+    height: 300px
+    }
+
+    .icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%)
+    }
+    .ac{
+        color: red
+    }
+    .select{
+        color: #337ab7;
+    }
+    .glyphicon {
+    position: relative;
+    top: -6px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    left: 0px;
+    -moz-osx-font-smoothing: grayscale;
+    color: #ccc;
+    font-size: 10px
+}
+.butn {
+    margin-top: -12px;
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    margin-left: 15px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.3;
+    text-align: center;
+    white-space: nowrap;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+</style>

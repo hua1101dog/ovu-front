@@ -1,0 +1,14 @@
+<!--modal模板 删除确认 BEGIN-->
+<div class="decoration-confirm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">删除信息</h4>
+    </div>
+    <div class="modal-body text-center" id="modal-body">
+        {{$ctrl.msg}}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">确定</button>
+        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">取消</button>
+    </div>
+</div>
+<!--modal模板 删除确认 END-->

@@ -1,0 +1,120 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">新增资产</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">归属单位</label>
+            <div class="col-xs-4">
+                <select class="form-control" required ng-model="item.ascription" ng-options="o as o for o in unit">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label required">作品名称</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" required ng-model="item.name" name="name" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">资产类别</label>
+            <div class="col-xs-4">
+                <!-- <input type="text" class="form-control" required ng-model="item.opusType" name="opusType" /> -->
+                <select class="form-control" required ng-model="item.assetCategoryId" ng-options="o.id as o.assetName for o in secondList" ng-click="getClass(item.assetCategoryId)">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label required">作者名称</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" required ng-model="item.author" name="author" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label">作品尺寸</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.size" name="size" />
+            </div>
+            <label class="col-xs-2 control-label required">创作时间</label>
+            <div class="col-xs-4">
+                <input type="datetime" required class="form-control Wdate" ng-model="item.produceTime" placeholder="创作时间"
+                    onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d %H:%m:%s'})">
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">作品件数</label>
+            <div class="col-xs-4">
+                <input type="text" min="0" required ng-pattern="/^\+?[1-9][0-9]*$/" class="form-control" ng-model="item.number" name="number" />
+            </div>
+            <label class="col-xs-2 control-label">作品材质</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.material" name="material" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">登记日期</label>
+            <div class="col-xs-4">
+                <input type="datetime" required class="form-control Wdate" ng-model="item.registerTime" placeholder="登记日期"
+                    onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d %H:%m:%s'})">
+            </div>
+            <label class="col-xs-2 control-label">作品来源</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.source" name="source" />
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">存放地点</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" required ng-model="item.storageLocation" name="storageLocation" />
+            </div>
+            <label class="col-xs-2 control-label required">完残程度</label>
+            <div class="col-xs-4">
+                <select class="form-control" required ng-model="item.collectionStatus" ng-options="o as o for o in collectionStatus">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+                <label class="col-xs-2 control-label required">作品类型</label>
+                <div class="col-xs-4">
+                        <input type="text" class="form-control" required ng-model="item.type" name="type" />
+                    </div>
+                    <label class="col-xs-2 control-label required">是否正常</label>
+                <div class="col-xs-4">
+                        <select class="form-control" ng-model="item.normal" required ng-options="o[0] as o[1] for o in [['0', '异常'],['1', '正常']]">
+                                <option value="">--请选择--</option>
+                            </select>
+                    </div>
+            
+            </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">藏品图片</label>
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="{{'url'+$index}}" readonly required ng-model="item.url">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" style="height: 34px;" ng-disabled="!!item.url" ng-click="addPhoto(item,'url')">上传图片</button>
+                    </span>
+                </div>
+                <div class="thumbnail text-center file-photo-wraper" style="margin-bottom: 0px;margin-bottom: 0px;width: 300px;height: 300px;margin-top: 4px">
+                    <img alt="" onerror="javascript:this.src='/res/img/detail.png';" style="height: 100%;width: 100%;"
+                        ng-click="showPhoto()" ng-src="{{processImgUrl(item.url)}}" />
+                    <div class="caption">
+                        <p>
+                            <button class="btn btn-warning" style="height: 32px;" ng-if="!!item.url" ng-click="clearPhoto(item,'url')"><i
+                                    class="glyphicon glyphicon-remove"></i></button>
+                        </p>
+                    </div>
+                </div>
+                <span style="color: #908e8e;margin-top: -20px">（仅限添加一张）</span>
+            </div>
+
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

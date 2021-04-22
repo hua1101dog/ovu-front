@@ -1,0 +1,31 @@
+<!--满意度调查详情 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">详情</h4>
+</div>
+<div class="modal-body container-fluid">
+        <div class="panel panel-default">
+              
+                <div class="panel-body" style="max-height: 500px;overflow: auto;">
+                	
+                    <table class="table  table-hover table-bordered" style="margin-top: 10px;">
+                      
+                        <tbody>
+                            <tr ng-if="!dataList  || dataList.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in dataList">
+                             
+                                
+                                <td style=" text-align: left;">标题：{{$index+1}}{{item.spvote}}</td>
+                                <td style=" text-align: right;">{{item.anwser || '无'}}</td>
+                              
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+
+</div>

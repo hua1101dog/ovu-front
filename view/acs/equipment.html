@@ -1,0 +1,267 @@
+<!-- 门禁项目管理 -->
+<div class="clearfix" ng-controller="accessCtr">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>门禁设备管理</h3>
+        </div>
+    </div>
+
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label for="projName">设备名称</label>
+                <input type="text" class="form-control" id="projName" placeholder="请输入设备名称" ng-model="search.equipName">
+            </div>
+            <div class="form-group">
+                <label for="projName">设备类型</label>
+                <select id="isRequired" class="form-control" ng-change="changeSelect()" ng-model="search.equipType"
+                    ng-options="o[0] as o[1] for o in [[0,'蓝牙设备'],[1,'二维码设备'],[2,'动态密码设备']]">
+                    <option value="">请选择设备类型</option>
+
+                </select>
+            </div>
+            <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            门禁设备管理列表
+            <button class="btn btn-primary pull-right" ng-click="toAdd()" ng-disabled="!search.parkId">新增门禁设备</button>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th nowrap="nowrap">设备名称</th>
+                        <th nowrap="nowrap">安装位置</th>
+                        <th nowrap="nowrap">设备类型</th>
+                        <th nowrap="nowrap">备注</th>
+                        <th nowrap="nowrap">操作时间</th>
+                        <th style="min-width: 100px" nowrap="nowrap">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">
+                            {{$index + 1+pageModel.pageSize*pageModel.pageIndex}}
+                        </td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.installPlace}}</td>
+                        <td>{{item.equipType}}</td>
+                        <td>{{item.remark}}</td>
+                        <td>{{item.operateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+
+                        <td class="clearfix">
+                            <a href="javascript:void(0)" ng-click="toAdd(item.id)">
+                                <span class='fa fa-edit'></span>编辑
+                            </a>
+                            <span class="pipe"></span>
+
+                            <a href="javascript:void(0)" ng-click="toDel(item.id)">
+
+                                <span class='fa fa-trash'></span>刪除
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="page-footer clearfix">
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+</div>
+
+<style>
+    .report-fee-content .panel-heading button {
+        margin: 0;
+    }
+
+    .report-fee-content .panel-body {
+        height: 530px;
+        overflow: auto;
+    }
+
+    .report-fee-content .panel-body table {
+        min-width: 1020px;
+    }
+
+    .report-fee-content table tr th,
+    .report-fee-content table tr td {
+
+        vertical-align: middle;
+    }
+
+    .report-fee-content table td a {
+        padding: 0 10px 0 12px;
+    }
+
+    .report-fee-content .pipe {
+        border-right: 2px solid #5A738E;
+    }
+
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>
+<!--modal模板  编辑 BEGIN-->
+<script type="text/ng-template" id="reportFeeEditModal.html">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click=" $ctrl.cancel()">×</button>
+        <h3 class="modal-title" id="modal-title">{{$ctrl.title}}</h3>
+    </div>
+    <div class="modal-body edit-contact text-center" id="modal-body">
+        <form name="form" novalidate class="form-horizontal">
+            <div class="form-group clearfix">
+                <label for="projectName" class="col-sm-3 control-label required text-right ">设备名称：</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" readonly="readonly" required style="min-width: 150px" ng-model="$ctrl.item.equipment_name"
+                        />
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="$ctrl.pro()">
+                                <i class='fa fa-search'></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label for="priceUnit" class="col-sm-3 control-label  text-right">备注：</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" ng-model="$ctrl.item.remark"></textarea>
+
+                </div>
+            </div>
+
+            <uib-tabset active="activeJustified" justified="true" >
+                <uib-tab index="0" heading="蓝牙设备信息" select='$ctrl.changeIndex(0)'>
+                    <div class="form-group clearfix" style="margin-top:15px" ng-if="$ctrl.index==0">
+                        <label class="col-xs-4 control-label required">是否密码设备：</label>
+                        <div class="col-xs-4">
+                            <label role="button" style="line-height:32px;margin-right: 15px">
+                                <input type="radio" style="margin:0 5px" ng-model="$ctrl.item.is_equip" value="1" name="is_equip">是</label>
+                            <label role="button" style="line-height:32px;">
+                                <input type="radio" style="margin:0 5px" ng-model="$ctrl.item.is_equip" value="0" name="is_equip"
+                                    ng-checked="true">否</label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="$ctrl.item.is_equip!=0 && $ctrl.index==0">
+
+                        <label class="col-xs-4 control-label required">蓝牙mac(18位）：</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" required style="min-width: 150px" id="{{$ctrl.item.id}}" ng-model="$ctrl.item.deviceBlueMac"
+                                name="deviceBlueMac" pattern="[A-Za-z0-9]{18}" placeholder="请输入18位字符" maxlength="18" ensure_unique="deviceBlueMac"
+                                api='/ovu-pcos/pcos/acs/acs_equipment/isOnlyAllMac' uib-popover="{{form.deviceBlueMac.$error.unique?'蓝牙地址已被使用':''}}"
+                                popover-placement="top" popover-trigger="mouseenter" />
+                        
+                        </div>
+                    </div>
+                    <div class="form-group clearfix" style="margin-top:15px" ng-if="$ctrl.item.is_equip==0 && $ctrl.index==0">
+                        <div class="form-group clearfix">
+                            <label class="col-xs-4 required">扫描wifi_mac(12位）：</label>
+                            <div class="col-sm-7">
+
+                                <input type="text" class="form-control" required style="min-width: 150px" id="{{$ctrl.item.id}}" name="deviceWifiMac" ng-model="$ctrl.item.deviceWifiMac"
+                                    pattern="[A-Za-z0-9]{12}" placeholder="请输入12位字符" maxlength="12" ensure_unique="deviceWifiMac"
+                                    api='/ovu-pcos/pcos/acs/acs_equipment/isOnlyAllMac' uib-popover="{{form.deviceWifiMac.$error.unique?'wifi地址已被使用':''}}"
+                                    popover-placement="top" popover-trigger="mouseenter" />
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class=" col-xs-4 required"> 开门wifi_mac(12位）：</label>
+                            <div class="col-sm-7">
+
+                                <input type="text" class="form-control" required style="min-width: 150px" id="{{$ctrl.item.id}}" ng-model="$ctrl.item.deviceRealWifiMac"
+                                    name="deviceRealWifiMac" pattern="[A-Za-z0-9]{12}" placeholder="请输入12位字符" maxlength="12"
+                                    ensure_unique="deviceRealWifiMac" api='/ovu-pcos/pcos/acs/acs_equipment/isOnlyAllMac' uib-popover="{{form.deviceRealWifiMac.$error.unique?'开门地址已被使用':''}}"
+                                    popover-placement="top" popover-trigger="mouseenter" />
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-xs-4 control-label required">蓝牙mac(18位）：</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" required style="min-width: 150px" id="{{$ctrl.item.id}}" ng-model="$ctrl.item.deviceBlueMac"
+                                    name="deviceBlueMac" pattern="[A-Za-z0-9]{18}" placeholder="请输入18位字符" maxlength="18" ensure_unique="deviceBlueMac"
+                                    api='/ovu-pcos/pcos/acs/acs_equipment/isOnlyAllMac' uib-popover="{{form.deviceBlueMac.$error.unique?'蓝牙地址已被使用':''}}"
+                                    popover-placement="top" popover-trigger="mouseenter" />
+                            </div>
+                        </div>
+                    </div>
+
+                </uib-tab>
+                <uib-tab index="1" heading="二维码设备信息" select='$ctrl.changeIndex(1)'>
+                    <div class="form-group clearfix" style="margin-top:15px" ng-if="$ctrl.index==1">
+                        <label class=" col-xs-4 control-label required">扫描形式：</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <label role="button" style="line-height:32px;margin-right: 15px">
+                                    <input type="radio" style="margin:0 5px" ng-model="$ctrl.item.is_equipt" value="1" name="is_equipt">正扫</label>
+                                <label role="button" style="line-height:32px;">
+                                    <input type="radio" style="margin:0 5px" ng-model="$ctrl.item.is_equipt" value="0" name="is_equipt">反扫</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group clearfix" style="margin-top:15px" ng-if="$ctrl.item.is_equipt!=0 && $ctrl.index==1">
+                        <label for="btName" class="col-xs-4 required">二维码Mac：</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" required style="min-width: 150px"  ng-model-options="{ updateOn: 'blur' }" id="{{$ctrl.item.id}}" ng-model="$ctrl.item.deviceQrMac"
+                                name="deviceQrMac" ensure_unique="deviceQrMac" api='/ovu-pcos/pcos/acs/acs_equipment/isOnlyAllMac'
+                                uib-popover="{{form.deviceQrMac.$error.unique?'二维码Mac已被使用':''}}" popover-placement="top" popover-trigger="mouseenter"
+                            />
+                        </div>
+
+
+                    </div>
+                    <div class="form-group clearfix" style="margin-top:15px" ng-if="$ctrl.item.is_equipt==0 && $ctrl.index==1">
+                            <div class="form-group clearfix">
+                                    <label for="btName" class="col-xs-4 required">二维码Mac：</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" required style="min-width: 150px"  ng-model-options="{ updateOn: 'blur' }"  id="{{$ctrl.item.id}}" ng-model="$ctrl.item.deviceQrMac"
+                                            name="deviceQrMac" ensure_unique="deviceQrMac" api='/ovu-pcos/pcos/acs/acs_equipment/isOnlyAllMac'
+                                            uib-popover="{{form.deviceQrMac.$error.unique?'二维码Mac已被使用':''}}" popover-placement="top" popover-trigger="mouseenter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">        
+                        <label for="ptName" class="col-xs-4 required">二维码更新时间：</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <input type="number" required style="width: 155px;margin-right:15px"ng-model="$ctrl.item.qrChangeNum" ng-change="$ctrl.numChange()" class="form-control" />&nbsp;&nbsp;
+                                <select  style="width: 157px;" required class="form-control" ng-model="$ctrl.item.qrChangeType" ng-options="x[0] as x[1] for x in [[0,'时'],[1,'分'],[2,'秒'],[3,'日']]">
+                                    <option value="">--周期--</option>
+                                </select>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </uib-tab>
+                <uib-tab index="2" heading="动态密码设备信息" select='$ctrl.changeIndex(2)'>
+                    <div class="form-group clearfix" style="margin-top:15px" ng-if="$ctrl.index==2">
+                        <label for="ptName" class="col-xs-4 required">动态密码更新时间：</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <input type="number" required style="width: 155px;margin-right:15px" ng-model="$ctrl.item.blueChangeNum" ng-change="$ctrl.numChange()" class="form-control" />&nbsp;&nbsp;
+                                <select  style="width: 134px;" required ng-model="$ctrl.item.blueChangeType" class="form-control" ng-options="x[0] as x[1] for x in [[0,'时'],[1,'分'],[2,'秒'],[3,'日']]">
+                                    <option value="">--周期--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="$ctrl.ok(form,$ctrl.item)">确定</button>
+        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">取消</button>
+    </div>>
+</script>

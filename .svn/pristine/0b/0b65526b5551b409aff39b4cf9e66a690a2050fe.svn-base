@@ -1,0 +1,100 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="cancel()">×</button>
+  <h4 class="modal-title">签到详情</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      员工姓名：{{list[0].userName}}
+    </div>
+    <div class="panel-body">
+      所在部门：{{list[0].deptName}}
+    </div>
+    <div class="panel-body">
+      岗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位：{{list[0].postName}}
+    </div>
+  </div>
+  <table class="table table-bordered checkIn">
+    <tr>
+      <td>签到时间</td>
+      <td>签到地点</td>
+      <!-- <td>设备编码</td>
+            <td>设备型号</td>
+            <td>备注</td>
+            <td>图片</td> -->
+    </tr>
+    <tr ng-repeat="item in list">
+      <td>{{item.signTime}}</td>
+      <td>{{item.address}}</td>
+      <!-- <td style="word-break: break-all">{{item.deviceCode}}</td>
+            <td style="word-break: break-all">{{item.deviceModel}}</td> -->
+      <!-- <td>{{item.description}}</td> -->
+      <!-- <td>
+                <div class="photoWraper" ng-click="showPhoto()" ng-repeat="p in item.picture">
+                    <img onerror="javascript:this.src='/res/img/detail.png';" ng-src="{{processImgUrl(p)}}">
+                </div>
+            </td> -->
+    </tr>
+  </table>
+  <div ng-repeat="item in list">
+    <div class="panel panel-default" ng-if="item.signType==2">
+      <div class="row" style="margin:0;height:200px;">
+        <div class="col-md-1 col-sm-1 col-xs-12" style="heigth:100%;background:#FF99FF">
+          <div style="line-height: 200px;text-align: center;font-size: 20px">外</div>
+        </div>
+        <div class="col-md-8 col-sm-8 col-xs-12">
+          <div class="panel-body">
+            签到时间：{{item.signTime}}
+          </div>
+          <div class="panel-body">
+           签到地点：{{item.address}}
+          </div>
+          <div class="panel-body">
+            备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：{{item.description}}
+          </div>
+          <div class="panel-body">
+            签到设备型号：{{item.deviceModel}}
+          </div>
+
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-12">
+          <div class="photoWraper" ng-click="showPhoto()" ng-repeat="p in item.picture">
+            <img onerror="javascript:this.src='/res/img/detail.png';" ng-src="{{processImgUrl(p)}}">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default" ng-if="item.signType==1">
+      <div class="row" style="margin:0;height:150px">
+        <div class="col-md-1 col-sm-1 col-xs-12" style="heigth:100%;border-right: 1px solid #ddd">
+          <div style="line-height: 150px;text-align: center;font-size: 20px">内</div>
+        </div>
+        <div class="col-md-8 col-sm-8 col-xs-12">
+          <div class="panel-body">
+            签到时间：{{item.signTime}}
+          </div>
+          <div class="panel-body">
+            签到地点：{{item.address}}
+          </div>
+          <div class="panel-body">
+            签到设备型号：{{item.deviceModel}}
+          </div>
+
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-12">
+          <div class="photoWraper" ng-click="showPhoto()" ng-repeat="p in item.picture">
+            <img onerror="javascript:this.src='/res/img/detail.png';" ng-src="{{processImgUrl(p)}}">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  /* .checkIn tr td:first-child {
+        width: 30%;
+    }
+    .checkIn tr td:last-child {
+        width: 70%;
+    } */
+</style>

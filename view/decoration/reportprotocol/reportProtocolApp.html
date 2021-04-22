@@ -1,0 +1,113 @@
+<!-- title BEGIN -->
+<div class="report-protocol-title page-title">
+    <div class="title_left">
+        <h3>报装协议管理</h3>
+    </div>
+</div>
+<!-- title END -->
+<!-- content BEGIN -->
+<div class="report-protocol-content">
+    <div class="x_panel">
+        <div class="form-inline pull-left">
+            <input type="text" class="form-control" placeholder="协议名称" ng-model="vm.searchProtocolName">
+            <div class="btn btn-primary" ng-click="vm.find(vm.searchProtocolName)">查询</div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            协议列表
+            <div class="pull-right">
+                <button class="btn btn-primary" ng-click="vm.saveSort()">保存排序</button>
+                <button class="btn btn-primary" ng-click="vm.toAdd()">+新增协议</button>
+                <button class="btn btn-danger" ng-disabled="!vm.hasChecked(vm.pageModel)" ng-click="vm.toDelAll()">批量删除</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th class="text-center" style="width:20px">
+                            <span role="button" ng-click="vm.checkAll(vm.pageModel)">
+                                <i class="glyphicon" ng-class="{'glyphicon-check':vm.pageModel.checked,'glyphicon-unchecked':!vm.pageModel.checked}"></i>
+                            </span>
+                        </th>
+                        <th>协议名称</th>
+                        <th style="width:160px">排序号</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="vm.pageModel.data.length === 0">
+                        <td></td>
+                        <td></td>
+                        <td colspan="100" class="text-center">暂无项目</td>
+                        <td></td>
+                    </tr>
+                    <tr ng-repeat="item in vm.pageModel.data">
+                        <td class="text-center">
+                            {{$index + 1 + vm.pageModel.numPerPage * (vm.pageModel.currentPage - 1)}}
+                        </td>
+                        <td>
+                            <i role="button" ng-click="vm.checkOne(item, vm.pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i>
+                        </td>
+                        <td>{{item.protocolName}}</td>
+                        <td><input type="number" class="form-control" ng-class="{'red-border': (vm.redOrder === item.orderIndex)}" ng-change="vm.checkSortUnique();" ng-model="item.orderIndex" /></td>
+                        <td class="clearfix">
+                            <a href="javascript:void(0)" ng-click="vm.toEdit(item)">
+                                <i class="icon glyphicon glyphicon-edit"></i>
+                                <span>编辑</span>
+                            </a>
+                            <span class="pipe"></span>
+                            <a href="javascript:void(0)" ng-click="vm.toDelete(item)">
+                                <i class="icon glyphicon glyphicon-trash"></i>
+                                <span>删除</span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer clearfix">
+            <decoration-pagination total-count="vm.pageModel.totalCount" current-page="vm.pageModel.currentPage" num-per-page="vm.pageModel.numPerPage" on-select-change="vm.numSelect($event)" on-page-changed="vm.pageChanged($event)"></decoration-pagination>
+        </div>
+    </div>
+</div>
+<!-- content END -->
+
+<style>
+    .report-protocol-content .panel-heading button {
+        margin-top: -8px;
+    }
+    
+    .report-protocol-content .panel-body {
+        /* height: 530px; */
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    
+    .report-protocol-content .panel-body table {
+        min-width: 650px;
+    }
+    
+    .report-protocol-content table tr th,
+    .report-protocol-content table tr td {
+        text-align: left;
+        vertical-align: middle;
+    }
+    
+    .report-protocol-content table td a {
+        padding: 0 10px 0 12px;
+    }
+    
+    .report-protocol-content .pipe {
+        border-right: 2px solid #5A738E;
+    }
+    
+    .red-border {
+        border: 1px solid rgba(255, 0, 0, 0.59);
+        -moz-box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+        -webkit-box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+        box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+    }
+</style>

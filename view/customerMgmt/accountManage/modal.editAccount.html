@@ -1,0 +1,115 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title title-sm">信息重置</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" ng-init="loadIndustry();">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <div class="col-md-2" align="left"><label>账号类型：</label></div>
+            <div class="col-md-9">
+                <span ng-if="item.userType == 1">个人</span>
+                <span ng-if="item.userType == 2">企业</span>
+                <span ng-if="item.userType == 3">员工</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2" align="left"><label>账号名称：</label></div>
+            <div class="col-md-9" ng-if="item.userType == 1"><span>{{item.name}}</span></div>
+            <div ng-if="item.userType == 2" class="col-md-9"><span>{{item.companyName}}</span></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2" align="left"><label>登录账号：</label></div>
+            <div class="col-md-6">
+                <span class="m-r-sm">{{item.loginName}}</span>
+                <a href='javascript:void(0)' style="font-size:12px;color: #5692ea;"
+                    ng-click="vm.newNameInput = true; item.newLoginName=''">重置</a>
+                <a ng-if="vm.newNameInput" href='javascript:void(0)' style="font-size:12px;color: #5692ea;"
+                    ng-click="vm.newNameInput = false;item.newLoginName = ''">取消</a>
+                <form name="resetName" novalidate>
+                    <!-- <input type="text" ng-if="vm.newNameInput" ng-model="item.newLoginName" class="col-md-8 height34 m-t-sm p-l-xs pull-left input-r-b" 
+				ng-pattern="/^0?(13[0-9]|14[5-9]|15[012356789]|166|17[0135678]|18[0-9]|19[89])[0-9]{8}$/" placeholder='请输入新账号'/> -->
+                    <input type="text" ng-if="vm.newNameInput && item.userType == 2" ng-model="item.newLoginName"
+                        class="col-md-8 height34  p-l-xs pull-left input-r-b"
+                        ng-pattern="/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/"
+                        placeholder='请输入常用邮箱' required />
+                    <input type="text" ng-if="vm.newNameInput && item.userType == 1" ng-model="item.newLoginName"
+                        class="col-md-8 height34  p-l-xs pull-left input-r-b" ng-pattern="/^(1[34578]\d{9})$/"
+                        placeholder='请输入常用手机号码' required />
+                </form>
+                <i ng-if="vm.newNameInput&&(!resetName.$invalid)&&item.newLoginName" class="pull-left height34 p-l-xs"
+                    style="font-style: normal;" ng-click="vm.resetLoginName(item);">确认</i>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2" align="left"><label>登录密码：</label></div>
+            <div class="col-md-9">
+                <span class="m-r-sm">已有密码(重置密码为ovu888888)</span>
+                <a href='javascript:void(0)' style="font-size:12px;color: #5692ea;" ng-click='vm.resetPWD(item);'>重置</a>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2" align="left"><label>联系电话：</label></div>
+            <div class="col-md-6">
+                <span class="m-r-sm">{{item.phone}}</span>
+                <a href='javascript:void(0)' style="font-size:12px;color: #5692ea;"
+                    ng-click="vm.newPhoneInput = true; item.newPhone=''">重置</a>
+                <a ng-if="vm.newPhoneInput" href='javascript:void(0)' style="font-size:12px;color: #5692ea;"
+                    ng-click="vm.newPhoneInput = false;item.newPhone = ''">取消</a>
+                <form name="resetPhone" novalidate>
+                    <input type="text" ng-if="vm.newPhoneInput" ng-model="item.newPhone"
+                        class="col-md-8 height34  p-l-xs pull-left input-r-b" ng-pattern="/^(1[34578]\d{9})$/"
+                        placeholder='请输入常用手机号码' required />
+                </form>
+                <i ng-if="vm.newPhoneInput&&(!resetPhone.$invalid)&&item.newPhone" class="pull-left height34 p-l-xs"
+                    style="font-style: normal;" ng-click="vm.resetPhone(item);">确认</i>
+            </div>
+        </div>
+        <div class="form-group" ng-if="item.userType == 2">
+            <div class="col-md-3" align="left" style="padding-right: 0;width: 130px;"><label>账号是否虚拟：</label></div>
+            <div class="col-md-5" style="padding-left: 0;">
+                <input type="radio" name="isVirtual " ng-model="item.isVirtual " value="1"
+                    class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required " aria-checked="true"
+                    aria-required="false" aria-invalid="false">是
+                <input type="radio" style="margin-left: 10px;" name="isVirtual " ng-model="item.isVirtual " value="0"
+                    class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-required " aria-checked="false"
+                    aria-required="false" aria-invalid="false">否
+            </div>
+        </div>
+        <div class="form-group" ng-if="item.userType == 2">
+            <label class="col-md-2" style="padding-right: 0;">父行业领域：</label>
+            <div class="col-md-7">
+                <select class="form-control" ng-model="item.parentIndustryCode" ng-change="getIndustryList('select')"
+                    required>
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="industry in parentIndustryList" value="{{industry.industryCode}}">
+                        {{industry.industryName}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="item.userType == 2">
+            <label class="col-md-2">行业领域：</label>
+            <div class="col-md-7">
+                <select class="form-control" ng-model="item.industryCode" required>
+                    <option value="">--请选择--</option>
+                    <option ng-repeat="item in industryList" value="{{item.industryCode}}">{{item.industryName}}
+                    </option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form, item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+
+<style>
+    .spantip {
+        display: inline;
+        color: red;
+        margin-top: 8px;
+        padding-left: 0px
+    }
+
+</style>

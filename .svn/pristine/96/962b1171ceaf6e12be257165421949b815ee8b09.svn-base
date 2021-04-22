@@ -1,0 +1,44 @@
+<!-- 添加人员 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+
+    <h4 class="modal-title">出租/退租记录</h4>
+    <!-- 1 出租 2退租 -->
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <ul class="layui-timeline" ng-if="dataList && dataList.length">
+        <li class="layui-timeline-item" ng-repeat="item in dataList">
+          <i class="layui-icon layui-timeline-axis"></i>
+          <div class="layui-timeline-content layui-text">
+            <h3 class="layui-timeline-title"><span class="staFont">{{item.rentStatus==1?'租':'退'}}</span>实际租期：{{item.begainTime.substring(0, 10)}} - {{item.endTime.substring(0, 10)}}</h3>
+            <p>
+              <span style="width: 50%;" class="inline_block" ng-if="item.rentStatus!==1">退租时间：{{item.endTime.substring(0, 10)}}</span> <br ng-if="item.rentStatus!==1">
+                交易代理公司：{{item.agency}}
+              <br>单价：{{item.rentPrice}}千元/㎡
+              <br><span style="width: 50%;" class="inline_block" ng-if="item.tenantName">租户：{{item.tenantName}}</span>  <span ng-if="item.tenantTel">手机号：{{item.tenantTel}} </span>
+              <br><span style="width: 50%;" class="inline_block"  ng-if="item.ownerName">业主：{{item.ownerName}}</span> <span ng-if="item.ownerPhone">手机号：{{item.ownerPhone}} </span>
+             
+            </p>
+          </div>
+        </li>
+      </ul>  
+      <p ng-if="!dataList || !dataList.length">暂无记录</p>
+</div>
+<div class="modal-footer">
+   
+    <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+</div>
+<style>
+
+  .staFont{
+    font-size: 14px;
+    border: 1px solid #5FB878;
+    border-radius: 50%;
+    width: 25px;
+    display: inline-block;
+    height: 25px;
+    margin-right: 5px;
+    text-align: center;
+    line-height: 23px;
+  }
+</style>

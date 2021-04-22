@@ -1,0 +1,68 @@
+<div ng-controller="remindCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>合同提醒</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <button class="btn btn-default" ng-click="back()">返回</button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">合同提醒列表
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover" style="margin-top:10px">
+                        <thead class="title">
+                            <tr>
+                                <th>NO</th>
+                                <th>合同名称</th>
+                                <th>提醒类型</th>
+                                <th>间隔周期</th>
+                                <th>提醒内容</th>
+                                <th>提醒部门</th>
+                                <th>提醒人</th>
+                                <th>开始日期</th>
+                                <th>结束日期</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data || pageModel.data.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="item in pageModel.data">
+                                <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                <td>{{item.compactName}}</td>
+                                <td>{{item.warnTypeData}}</td>
+                                <td>{{item.spaceDay}}</td>
+                                <td>{{item.warnContent}}</td>
+                                <td>{{item.deptName}}</td>
+                                <td>{{item.userName}}</td>
+                                <td>{{item.warnStartDay}}</td>
+                                <td>{{item.warnEndDay}}</td>
+                                <td>
+                                    <a href="javascript:void(0)" ng-click="del(item)" class="btn btn-xs"><span class="fa fa-trash"></span>删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: center;
+    }
+</style>

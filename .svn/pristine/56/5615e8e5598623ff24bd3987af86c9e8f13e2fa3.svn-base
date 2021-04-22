@@ -1,0 +1,373 @@
+<!-- 新增试卷 -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">新增试卷</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="panel panel-default">
+            <div class="panel-body" style="padding: 0px;">
+                <div style="text-align: center;">
+                    <div class="inline_block pro_Line"></div>
+                    <div class="inline_block pro_border">
+                        <span class="font_num inline_block " ng-class="{'current':item.step==1}">1</span><br>
+                        <span class="font_detail inline_block">填写试卷信息</span>
+                    </div>
+                    <div class="inline_block pro_Line"></div>
+                    <div class="inline_block pro_border">
+                        <span class="font_num inline_block" ng-class="{'current':item.step==2}">2</span><br>
+                        <span class="font_detail inline_block">从题库中选题</span>
+                    </div>
+                    <div class="inline_block pro_Line"></div>
+                    <div class="inline_block pro_border">
+                        <span class="font_num inline_block" ng-class="{'current':item.step==3}">3</span><br>
+                        <span class="font_detail inline_block">设置分值规则</span>
+                    </div>
+                    <div class="inline_block pro_Line"></div>
+                    <div class="inline_block pro_border">
+                        <span class="font_num inline_block" ng-class="{'current':item.step==4}">4</span><br>
+                        <span class="font_detail inline_block">生成试卷</span>
+                    </div>
+                    <div class="inline_block pro_Line"></div>
+                </div>
+                <!-- 步骤一 -->
+                <div class="panel-body" style="margin-top: 50px;" ng-if="item.step==1">
+                    <!-- 考试名称 -->
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label required">试卷名称：</label>
+                        <div class="col-xs-4">
+                            <input type="text" style="margin:5px 5px" ng-model="item.text" maxlength="50">
+                        </div>
+                    </div>
+                    <!--试卷分类 -->
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label required">试卷分类：</label>
+                        <div class="col-xs-8" style="margin-top:8px;">
+                            <a href="javascript:void(0)" style="color:blue;" ng-click="selectClass()" ng-if="!text">选择分类</a>
+                            <a href="javascript:void(0)" style="color:blue;" ng-click="selectClass()">{{text}}</a>
+                        </div>
+                    </div>
+                    <!-- 试卷描述 -->
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label required">试卷描述：</label>
+                        <div class="col-xs-4">
+                            <textarea cols="50" rows="3" ng-model="item.description" maxlength="200"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- 步骤二 -->
+                <div class="panel-body" style="margin-top: 50px;" ng-if="item.step==2">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" style="float: left;">题目知识点分类：</label>
+                        <button class="col-xs-1" style="width: 70px;" ng-click="classListAll()">全部</button>
+                        <div class="col-xs-3">                                                           
+                                <a href="javascript:void(0)" style="color:blue;" ng-click="selectAllClass()" ng-if="!textClass">选择分类</a>
+                                <a href="javascript:void(0)" style="color:blue;" ng-click="selectAllClass()">{{textClass}}</a>                           
+                        </div>
+                        <div class="col-xs-3" style="padding: 0;width: 160px">
+                            <input type="text" ng-model="search.question" placeholder="输入题目" style="height: 30px;" />
+                        </div>
+                        <button class="btn btn-default" ng-click="find(1)">查询</button>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label required" style="float: left;">题型：<button style="width: 50px;" ng-click="typeListAll()">不限</button></label>
+                        <div class="panel-heading" style="margin-bottom: 2px;">
+                            <label style="line-height:32px;margin-right: 15px; margin-bottom: -2px;"></label>
+                            <i role="button" ng-click="checkType(1)"  ng-class="{'glyphicon-check':typeList.indexOf(1)!==-1,'glyphicon-unchecked':typeList.indexOf(1)==-1}" class="glyphicon"></i>单选题
+                            <i role="button" ng-click="checkType(2)"  ng-class="{'glyphicon-check':typeList.indexOf(2)!==-1,'glyphicon-unchecked':typeList.indexOf(2)==-1}" class="glyphicon"></i>多选题
+                            <i role="button" ng-click="checkType(3)"  ng-class="{'glyphicon-check':typeList.indexOf(3)!==-1,'glyphicon-unchecked':typeList.indexOf(3)==-1}" class="glyphicon"></i>判断题
+                            <i role="button" ng-click="checkType(4)"  ng-class="{'glyphicon-check':typeList.indexOf(4)!==-1,'glyphicon-unchecked':typeList.indexOf(4)==-1}" class="glyphicon"></i>填空题
+                            <i role="button" ng-click="checkType(5)" ng-class="{'glyphicon-check':typeList.indexOf(5)!==-1,'glyphicon-unchecked':typeList.indexOf(5)==-1}" class="glyphicon"></i>问答题
+                    </label>   
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <!-- <th class="text-center">NO</th> -->
+                                <th class="text-center" style="width:20px"><span role="button"
+                                        ng-click="checkAll(pageModel)">
+                                        <i class="glyphicon"
+                                            ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span>
+                                </th>
+                                <th nowrap="nowrap">分类</th>
+                                <th nowrap="nowrap">题型</th>
+                                <th nowrap="nowrap">题目</th>
+                                <th nowrap="nowrap">创建日期</th>
+                                <th nowrap="nowrap">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                            <tr  ng-repeat="item in pageModel.data">
+                                <!-- <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td> -->
+                                <td><i role="button" ng-click="checkOne(item)"
+                                        ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                        class="glyphicon"></i></td>
+                                <td>{{item.text}}</td>
+                                <td>{{item.typeName}}</td>
+                                <td  style="word-break: break-all;">
+                                    {{item.question}}
+                                </td>
+                                <td>{{item.createTime}}</td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click="look(item,true)" class='btn btn-xs'
+                                        style="color: blue;">查看</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                    </div>
+                    <div class="panel-body" style="background-color: #cccccc;">
+                        <div style="float: left;color: red;">当前已选中:<span>{{num1+num2+num3+num4+num5}}</span>道题</div>
+                        <div style="float: left;margin-left: 10px;" >单选<span>{{num1}}</span>道</div>
+                        <div style="float: left;margin-left: 10px;" >多选<span>{{num2}}</span>道</div>
+                        <div style="float: left;margin-left: 10px;" >判断<span>{{num3}}</span>道</div>
+                        <div style="float: left;margin-left: 10px;" >填空<span>{{num4}}</span>道</div>
+                        <div style="float: left;margin-left: 10px;" >问答<span>{{num5}}</span>道</div>
+                    </div>
+                </div>
+                <!-- 步骤三 -->
+                <div class="panel-body" style="margin-top: 50px;" ng-if="item.step==3">
+                    <label>设置分值规则</label>
+                        <table class="table table-bordered" style="margin-top: 10px;">
+                                <thead>
+                                    <tr>
+                                        <th>题目类型</th>
+                                        <th>单选题</th>
+                                        <th>多选题</th>
+                                        <th>判断题</th>
+                                        <th>填空题</th>
+                                        <th>问答题</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">数量</td>
+                                        <td class="text-center">{{num1}}个</td>
+                                        <td class="text-center">{{num2}}个</td>
+                                        <td class="text-center">{{num3}}个</td>
+                                        <td class="text-center">{{num4}}个</td>
+                                        <td class="text-center">{{num5}}个</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">数量分值</td>
+                                        <td><input type="number" ng-model="numscore.score.score1" min="0" style="width:35px;"
+                                                ng-change="calcluScore()"  ng-disabled="num1==0"/>分/题</td>
+                                        <td><input type="number" ng-model="numscore.score.score2" min="0" style="width:35px;"
+                                                ng-change="calcluScore()"  ng-disabled="num2==0"/>分/题</td>
+                                        <td><input type="number" ng-model="numscore.score.score3" min="0" style="width:35px;"
+                                                ng-change="calcluScore()"   ng-disabled="num3==0"/>分/题</td>
+                                        <td><input type="number" ng-model="numscore.score.score4" min="0" style="width:35px;"
+                                                ng-change="calcluScore()"  ng-disabled="num4==0"/>分/题</td>
+                                        <td>
+                                             <!-- {{numscore.score.score5}} -->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>统计</td>
+                                        <td colspan="5" class="text-center">
+                                            <div style="text-align: right;">卷面总计 {{numscore.totalScore}}分</div>
+                                            <div style="float: right;margin-left: 10px;">及格分：<input type="text" style="width: 25px;height: 20px;" ng-model="item.passGrade">分</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                </div>
+                <!-- 步骤四 -->
+                <div class="panel-body" style="margin-top: 50px;" ng-if="item.step==4">
+                        <div class="panel panel-default">
+                                <div class="panel-heading" style="white-space:normal; word-break:break-all;">{{item.text}}
+                                    <!-- <button class="btn btn-primary pull-right" ng-click="selectSubject()">增加题目</button> -->
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group" style="width:92%;margin-left:33px">
+                                        <div class="row detail" ng-repeat="o in arr">
+                                            <div>
+                                                <div class="form-group" style="padding-top: 1px">
+                                                    <div class="col-xs-10">
+                                                        <span class="tihao control-label">Q{{$index+1}}.[{{o.typeName}}]</span>
+                                                        <!-- <label class="col-xs-2 control-label">题目：</label> -->                                                   
+                                                       <span style="white-space:normal; word-break:break-all;"> {{o.question}} </span>
+                                                        <span ng-if="o.type==1">({{numscore.score.score1}}分)</span>
+                                                    <span ng-if="o.type==2">({{numscore.score.score2}}分)</span>
+                                                    <span ng-if="o.type==3">({{numscore.score.score3}}分)</span>
+                                                    <span ng-if="o.type==4">({{numscore.score.score4}}分)</span>
+                                                    
+                                                    <input type="text" style="width: 70px;height: 20px;" ng-model="o.score" ng-blur="getScore5(o.score)" placeholder="输入分数"  ng-if="o.type==5">
+                                                    </div>
+                                                   
+                                                    <div class="col-xs-2" style="text-align: right">
+                                                        <i role="button" ng-hide="$index==0" ng-click="sort($index-1,$index)"
+                                                            class="glyphicon glyphicon-upload" style="font-size: 25px"></i>
+                                                        <i role="button" ng-hide="$index==(arr.length-1)"
+                                                            ng-click="sort($index,$index+1)" class="glyphicon glyphicon-download"
+                                                            style="font-size: 25px"></i>
+                                                    </div>
+                                                </div>
+                                               
+                                                <!-- 单选题 -->
+                                                <div class="form-group" ng-if="o.type==1">
+                                                    <label class="col-xs-2 control-label">选项：</label>
+                                                    <div class="col-xs-8 pt7">
+                                                        <div ng-repeat="o in o.optionDetail" style="margin-right: 10px">
+                                                            <input type="radio" disabled="disabled" style="word-break: break-all;"/>{{o.option}}.&nbsp;<span style="white-space:normal; word-break:break-all;">{{o.optionContent}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- 多选题 -->
+                                                <div class="form-group" ng-if="o.type==2">
+                                                    <label class="col-xs-2 control-label">选项：</label>
+                                                    <div class="col-xs-8 pt7">
+                                                        <div ng-repeat="o in o.optionDetail|orderBy:'option'" style="margin-right: 10px">
+                                                            <input type="checkbox" disabled="disabled" style="word-break: break-all;"/>{{o.option}}.&nbsp;<span style="white-space:normal; word-break:break-all;">{{o.optionContent}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- 判断题 -->
+                                                <div class="form-group" ng-if="o.type==3">
+                                                    <label class="col-xs-2 control-label">选项：</label>
+                                                    <div class="col-xs-8 pt7">
+                                                        <input type="radio" disabled="disabled" />正确
+                                                        <span style="margin-right: 10px"></span>
+                                                        <input type="radio" disabled="disabled" />错误
+                                                    </div>
+                                                </div>
+                                                <!-- 问答题 -->
+                                                <div class="form-group" ng-if="o.type==5">
+                                                    <label class="col-xs-2 control-label">作答：</label>
+                                                    <div class="col-xs-8">
+                                                        <textarea class="form-control" rows="3" readonly>答：</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-xs-2 control-label">答案：</label>
+                                                    <div class="col-xs-8 pt7" style="font-family: monospace;color:red">
+                                                            <div ng-if="o.type==3">
+                                                                    {{o.answer=='A'?'正确':'错误'}}
+                                                            </div>
+                                                            <div ng-if="o.type!=3" style="word-break: break-all;">
+                                                                    {{o.answer.split('$').join(',')}}
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <span class="pull-right" style="margin-right: 5px">
+                                                        <a class="btn-link" href='javascript:void(0)' ng-click='del(o)'>删除</a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel-body">
+                                    <table class="table table-bordered" style="margin-top: 10px;">
+                                        <thead>
+                                            <tr>
+                                                <th>题目类型</th>
+                                                <th>单选题</th>
+                                                <th>多选题</th>
+                                                <th>判断题</th>
+                                                <th>填空题</th>
+                                                <th>问答题</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">题数</td>
+                                                <td class="text-center">{{num1}}</td>
+                                                <td class="text-center">{{num2}}</td>
+                                                <td class="text-center">{{num3}}</td>
+                                                <td class="text-center">{{num4}}</td>
+                                                <td class="text-center">{{num5}}</td>
+                                               
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">分值</td>
+                                                <td class="text-center">{{numscore.score.score1}}</td>
+                                                <td class="text-center">{{numscore.score.score2}}</td>
+                                                <td class="text-center">{{numscore.score.score3}}</td>
+                                                <td class="text-center">{{numscore.score.score4}}</td>
+                                                <td class="text-center">
+                                                    <div id="question" ng-show="isCompileFn"></div>
+                                                    <div ng-show="!isCompileFn">
+                                                       {{numscore.score.score5}}
+                                                    </div>
+                                                </td>
+                                               
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="panel-body" style="background-color: yellow;">
+                                        <div style="float: left;">当前已选中:<span>{{totalNum}}</span>道题 共<span>{{numscore.totalScore}}</span>分</div>
+                                        <div style="float: left;margin-left: 10px;">总分:<span>{{numscore.totalScore}}</span>分</div>
+                                        <div style="float: left;margin-left: 10px;">及格分：<input type="text" style="width: 50px;height: 20px;" ng-model="item.passGrade"></div>
+                                        <button style="float: right;margin: 0 20px;" ng-click="cancel()">取消</button>
+                                        <button style="float: right;" ng-click="savePaper(item)">生成试卷</button>
+                                        
+                                    </div>
+                                </div>
+                </div>
+                
+                <div class="modal-footer" ng-show="!show" style="text-align: center;margin: 0 10px;">
+                    <button class="btn btn-primary" ng-click="next(form,item,1)" ng-if="item.step==1&&item.step!=4">下一步</button>
+                    <button class="btn btn-primary" ng-click="before(form,item)" ng-if="item.step!=1">上一步</button>
+                    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+                    <button class="btn btn-primary" ng-click="next(form,item)"  ng-if="item.step!=1&&item.step!=4">下一步</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<style>
+    .inline_block {
+        display: inline-block
+    }
+
+    .pro_Line {
+        height: 1px;
+        width: 10%;
+        border: 1px dashed #ccc;
+        vertical-align: middle
+    }
+
+    .pro_border {
+        margin: 20px;
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        vertical-align: middle
+    }
+
+    .font_num {
+        text-align: center;
+        width: 30px;
+        line-height: 30px;
+        font-size: 12px;
+    }
+
+    .font_detail {
+        margin-left: 25%;
+        margin-top: 5px;
+        margin-left: -12px;
+        text-align: center;
+        width: 70px
+    }
+    .current{
+        background-color: green;
+        color: #ffffff;
+        border-radius: 50%;
+    }
+    .row{
+        margin-top: 15px;
+    }
+</style>

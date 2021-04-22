@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <h3 class="modal-title pull-left">流程图片</h3>
+    <button class="btn btn-warning pull-right" type="button" ng-click="cancel()">关闭</button>
+</div>
+<div class="modal-body">
+    <img ng-src="/ovu-workflow/act/process/readResource?procDefId={{processPic.id}}&resType=image" alt="图片暂缺">
+</div>
+<style>
+    .modal-dialog {
+        width: 1000px;
+    }
+    .modal-content {
+        width: 100%;
+    }
+    .modal-body {
+        width: 100%;
+        overflow-x: scroll;
+    }
+</style>

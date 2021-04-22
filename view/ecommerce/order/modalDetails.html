@@ -1,0 +1,62 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">查看订单</h4>
+</div>
+<!--<div class="modal-body container-fluid form-horizontal ng-scope">
+	<img src="/view/crowdSource/img/guide.png">
+	<div class="content-div">
+		<p><span class="title-color">店铺名称：</span><span class="demandTitle-color">{{item.shopName}}</span></p>
+		<p><span class="title-color">商品名称：</span><span class="demandTitle-color">{{item.prodName}}</span></p>
+		<p><span class="title-color">数量：</span><span class="content-color">{{item.goodsnum+'件'}}</span></p>
+		<p><span class="title-color">单价：</span><span class="content-color">{{item.price+'元'}}</span></p>
+		<p><span class="title-color">合计：</span><span class="content-color">{{item.totalPrice+'元'}}</span></p>
+		<p><span class="title-color">联系人：</span><span class="content-color">{{item.receiverName}}</span></p>
+		<p><span class="title-color">联系电话 ：</span><span class="content-color">{{item.buyerPhone}}</span></p>
+		<p><span class="title-color">收货地址：</span><span class="content-color">{{item.buyerAddress}}</span></p>
+		<p><span class="title-color">订单状态：</span><span class="content-color">{{item.orderState=='1'?'已完成':'未完成'}}</span></p>
+		<p><span class="title-color">支付方式：</span><span class="content-color">线下支付</span></p>
+	</div>
+</div>-->
+<div class="modal-body container-fluid form-horizontal">
+	<div class="row">
+		<div class="col-md-9 col-sm-8 col-xs-12" style="width: 98%;">
+			<div class="x_panel" >
+				<table class="table table-striped table-hover" style="margin-top: 10px;">
+					<thead class="title">
+					<tr>
+						<th class="text-center">订单编号</th>
+						<th class="text-center">商品名称</th>
+						<th class="text-center">订单数量</th>
+						<th class="text-center">商品单价</th>
+						<th class="text-center">订单金额</th>
+						<th class="text-center">下单时间</th>
+						<th class="text-center">完成日期</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+					<tr ng-repeat="item in pageModel.data">
+						<td class="text-center">{{item.orderNo||'--'}}</td>
+						<td class="text-center">{{item.prodName||'--'}}</td>
+						<td class="text-center">{{item.goodsnum||'--'}}</td>
+						<td class="text-center">{{item.price||'--'}}</td>
+						<td class="text-center">{{item.totalPrice||'--'}}</td>
+						<td class="text-center">{{item.payTime?(item.payTime | date : 'yyyy-MM-dd HH:mm:ss'):'--'}}</td>
+						<td class="text-center">{{item.updateTime?(item.updateTime | date : 'yyyy-MM-dd HH:mm:ss'):'--'}}</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+                	<ng-include src="'/common/pager.html'" class="ng-scope"><style type="text/css" class="ng-scope">
+                    	.pagination>li>span:hover{background-color: #fff;cursor:text}
+                	</style>
+                	</ng-include>
+            	</div> 
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+<!--	<button class="btn btn-primary" ng-click="submitGoods()" >确定</button>-->
+	<button class="btn btn-warning" ng-click="cancel()">关 闭</button>
+</div>

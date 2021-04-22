@@ -1,0 +1,264 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>租赁系统-首页</title>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div class="rent_m" ng-controller="rentCtrl">
+        <div class="page-title">
+            <div class="title_left" style="margin-left: -15px;">
+                <button class="btn btn-default pull-right btn_search"
+                    style="width: 120px;height: 40px;background-color: #618ED6;color: #fff;margin-left: 15px;"
+                    ng-click="selectMenu('rentAgreement')">合同台账</button>
+                <button class="btn btn-default pull-right btn_search"
+                    style="width: 120px;height: 40px;background-color: #618ED6;color: #fff;"
+                    ng-click="selectMenu('rentResource')">租赁资源</button>
+            </div>
+        </div>
+        <div class="row">
+            <!-- 审批待办 tab切换 start -->
+            <div class="col-sm-8 rentBox approve_m" style="margin-top: 15px; background-color: none;">
+                <ul class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#contractExam" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">合同审核</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#derateApproval" id="tab2" role="tab" data-toggle="tab" aria-expanded="false">减免审核</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#renfundFinacial" id="tab3" role="tab" data-toggle="tab" aria-expanded="false">退款审核</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#receviFinacial" id="tab4" role="tab" data-toggle="tab" aria-expanded="false">冲抵审核</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="background-color: #fff">
+                    <!--  合同审核 -->
+                    <div ng-controller="contractExamCtrl" role="tabpanel" class="tab-pane fade active in"
+                        id="contractExam">
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th class="text-center">No.</th>
+                                    <th>租户名称</th>
+                                    <th>合同编号</th>
+                                    <th>提审时间</th>
+                                    <th>审核状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length ==0||!pageModel.data">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr style="color:#333333;" ng-repeat="x in pageModel.data">
+                                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <td>{{x.secondPartyName}}</td>
+                                    <td><a href="javascript:;" style="color: #337ab7"
+                                            ng-click="showDetail(x)">{{x.code}}</a></td>
+                                    <td>{{x.updateTime|date :'yyyy-MM-dd'}}</td>
+                                    <td>{{x.status|contractStatus}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="page-footer clearfix" ng-if="pageModel.data.length != 0">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover {
+                                        background-color: #fff;
+                                        cursor: text
+                                    }
+
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                    <!--  减免审核 -->
+                    <div ng-controller="derateCtrl" role="tabpanel" class="tab-pane fade" id="derateApproval">
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th class="text-center">No.</th>
+                                    <th>租户名称</th>
+                                    <th>合同编号</th>
+                                    <th>减免编号</th>
+                                    <th>提审时间</th>
+                                    <th>审核状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length ==0||!pageModel.data">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr style="color:#333333;" ng-repeat="x in pageModel.data">
+                                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <td>{{x.secondPartyName}}</td>
+                                    <td>{{x.contractCode}}</td>
+                                    <td><a href="javascript:;" style="color: #337ab7"
+                                            ng-click="showDetail(x)">{{x.reliefCode}}</a></td>
+                                    <td>{{x.updateTime|date :'yyyy-MM-dd'}}</td>
+                                    <td>{{x.status|financeStatus}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="page-footer clearfix" ng-if="pageModel.data.length != 0">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover {
+                                        background-color: #fff;
+                                        cursor: text
+                                    }
+
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                    <!--  退款审核 -->
+                    <div ng-controller="renfundFinacialCtrl" role="tabpanel" class="tab-pane fade" id="renfundFinacial">
+                        <!-- <ul ng-if="pageModel.data.length == 0" class="examList">
+                            <li>暂无记录</li>
+                        </ul>
+                        <ul ng-repeat="x in pageModel.data" class="examList">
+                            <li ng-click="examContract(x)">
+                                <p>退款单-{{x.returnCode}}</p>
+                                <span>{{x.updateTime}}</span>
+                            </li>
+                        </ul> -->
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th class="text-center">No.</th>
+                                    <th>租户名称</th>
+                                    <th>合同编号</th>
+                                    <th>退款编号</th>
+                                    <th>提审时间</th>
+                                    <th>审核状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length ==0||!pageModel.data">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr style="color:#333333;" ng-repeat="x in pageModel.data">
+                                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <td>{{x.secondPartyName}}</td>
+                                    <td>{{x.contractCode}}</td>
+                                    <td><a href="javascript:;" style="color: #337ab7"
+                                            ng-click="showDetail(x)">{{x.returnCode}}</a></td>
+                                    <td>{{x.updateTime|date :'yyyy-MM-dd'}}</td>
+                                    <td>{{x.status|financeStatus}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="page-footer clearfix" ng-if="pageModel.data.length != 0">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover {
+                                        background-color: #fff;
+                                        cursor: text
+                                    }
+
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                    <!--  冲抵审核 -->
+                    <div ng-controller="receviFinacialCtrl" role="tabpanel" class="tab-pane fade" id="receviFinacial">
+                        <!-- <ul ng-if="pageModel.data.length == 0" class="examList">
+                            <li>暂无记录</li>
+                        </ul>
+                        <ul ng-repeat="x in pageModel.data" class="examList">
+                            <li ng-click="examContract(x)">
+                                <p>冲抵单-{{x.chargeCode}}</p>
+                                <span>{{x.updateTime}}</span>
+                            </li>
+                        </ul> -->
+                        <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                            <thead class="title">
+                                <tr>
+                                    <th class="text-center">No.</th>
+                                    <th>租户名称</th>
+                                    <!-- <th>合同编号</th> -->
+                                    <th>冲抵编号</th>
+                                    <th>提审时间</th>
+                                    <th>审核状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="pageModel.data.length ==0||!pageModel.data">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr style="color:#333333;" ng-repeat="x in pageModel.data">
+                                    <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                    <td>{{x.secondPartyName}}</td>
+                                    <!-- <td>{{x.chargeCode}}</td> -->
+                                    <td><a href="javascript:;" style="color: #337ab7"
+                                            ng-click="showDetail(x)">{{x.receivableCode}}</a></td>
+                                    <td>{{x.updateTime|date :'yyyy-MM-dd'}}</td>
+                                    <td>{{x.status|financeStatus}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="page-footer clearfix" ng-if="pageModel.data.length != 0">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover {
+                                        background-color: #fff;
+                                        cursor: text
+                                    }
+
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                </div>
+                <!-- <h3 class="rentTitle">审批待办</h3> -->
+
+            </div>
+            <!-- 审批待办 tab切换  end -->
+            <div class="col-sm-4">
+                <div class="rentBox rentResources_m">
+                    <h3>租赁房源情况</h3>
+                    <ul>
+                        <li>
+                            <span class="col_blue">{{rentalResources.totalCount||0}}</span>
+                            <h6>总租赁房源</h6>
+                        </li>
+                        <li>
+                            <span class="col_red">{{rentalResources.forRentCount||0}}</span>
+                            <h6>空置房源</h6>
+                        </li>
+                        <li>
+                            <span class="col_grey">{{rentalResources.hasRentedCount||0}}</span>
+                            <h6>已租房源 </h6>
+                        </li>
+                    </ul>
+                </div>
+                <div class="rentBox renterea_m">
+                    <h3>租赁面积情况</h3>
+                    <ul>
+                        <li>
+                            <span class="col_blue">{{rentalResources.totalArea||0}}</span>
+                            <h6>总租赁面积 (m
+                                <sup>2</sup>)</h6>
+                        </li>
+                        <li>
+                            <span class="col_red">{{rentalResources.forRentArea||0}}</span>
+                            <h6>空置房源 (m
+                                <sup>2</sup>)</h6>
+                        </li>
+                        <li>
+                            <span class="col_grey">{{rentalResources.hasRentedArea||0}}</span>
+                            <h6>已租房源 (m
+                                <sup>2</sup>)</h6>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

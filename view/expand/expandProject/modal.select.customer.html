@@ -1,0 +1,51 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">客户联系人选择器</h4>
+</div>
+<div class="modal-body container-fluid">
+	<div>
+		<div class="x_panel" >
+			<div class="form-inline">
+				<div class="form-group">
+					<label>客户联系人名称</label>
+					<input type="text" ng-model="search.name"  class="form-control" />
+				</div>
+				<button class="btn btn-default" ng-click="find(1)" >查询</button>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">客户联系人列表</div>
+			<div class="panel-body">
+				<table class="table table-hover">
+					<thead class="title">
+					<tr >
+						<th class="text-center">NO</th>
+						<th></th>
+						<th>客户名称</th>
+						<th>联系人姓名</th>
+						<th>联系人岗位</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+					<tr ng-repeat="item in pageModel.data" ng-class="{'bg-success':item.checked}" role="button">
+						<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+						<td><i role="button" ng-click="checkOnlyOne(item,pageModel.data)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+						<td>{{item.customerName}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.position}}</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+					<ng-include src="'/common/pager.html'"></ng-include>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="choose()">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

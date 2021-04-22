@@ -1,0 +1,57 @@
+	<!--新增修改弹出框  -->
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="vm.cancel()">×</button>
+		<h4 class="modal-title">{{item.id?'新增':'修改'}}视频配置</h4>
+    </div>
+    <div class="modal-body container-fluid">
+		<form name="form" novalidate class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-3 col-xs-3 control-label required">项目：</label>
+				<div class="col-sm-7  col-xs-7">
+					<div class="input-group" >
+						<input type="text" class="form-control" readonly="readonly" ng-model="vm.item.parkName" required/>
+						 <span class="input-group-btn">
+							<button  class="btn btn-default" ng-click="vm.findParkOrFloor(1)"><i class='fa fa-search'></i></button>
+						 </span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 col-xs-3 control-label required">分期楼栋：</label>
+				<div class="col-sm-7 col-xs-7">
+					<div class="input-group">
+						<input type="text" class="form-control" readonly="readonly" ng-model="vm.item.floorName" required/>
+						 <span class="input-group-btn">
+							<button  class="btn btn-default" ng-click="vm.findParkOrFloor(2)"><i class='fa fa-search'></i></button>
+						 </span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 col-xs-3 control-label required">设备编号：</label>
+				<div class="col-sm-7 col-xs-7">
+					<div class="input-group">
+						<input type="text" class="form-control" readonly required ng-model="vm.item.equipmentId" name="equipmentId">
+						<span class="input-group-btn">
+							<a   class="btn btn-default" ng-click="vm.chooseSensor()"><i class="fa fa-search"></i></a>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 col-xs-3 control-label required">设备id：</label>
+				<div class="col-sm-7 col-xs-7">
+					<select type="text" ng-model="vm.item.videoId"
+						class="form-control" required
+						ng-options="video.deviceId as video.deviceName for video in vm.videoList">
+						<option value="">-请选择摄像头-</option>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="vm.save(form,vm.item,vm)">确定</button>
+		<button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+	</div>
+

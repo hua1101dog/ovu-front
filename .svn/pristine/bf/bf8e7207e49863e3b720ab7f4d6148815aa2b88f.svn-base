@@ -1,0 +1,167 @@
+<div ng-controller="paymentManageCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>缴费管理</h3>
+
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+           
+            <div class="form-group">
+                <label>输入计量点名称</label>
+                <input type="text" class="form-control" placeholder="输入计量点名称" ng-model="search.pointName" />
+            </div>
+            
+            <div class="form-group">
+                <label>选择计量分类</label>
+                <select class="form-control" ng-model="search.classifyId" ng-change="changeCategory(search.classifyId)"
+                    ng-options="o.classifyId as o.name for o in measureCategory">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>选择计量分项</label>
+                <select class="form-control" ng-model="search.itemId"
+                    ng-options="o.itemId as o.name for o in fenXiangList">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>仪表通信地址</label>
+                <input type="text" class="form-control" placeholder="输入仪表通信地址" ng-model="search.meterAddr" />
+            </div>
+            <div class="form-group">
+                <label>倍率</label>
+                <select class="form-control" ng-model="search.ratio" ng-options="o as o for o in  radioList">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>是否欠费</label>
+                <select class="form-control" ng-model="search.arrears" ng-options="o[0] as o[1] for o in isArrearage">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                    <label>仪表类型：</label>
+                    <select class="form-control" ng-model="search.type" ng-options="o[0] as o[1] for o in ybType">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            <div class="form-group">
+                <label>拉合闸状态：</label>
+                <select class="form-control" ng-model="search.closeStatus"
+                ng-options="o[0] as o[1] for o in [[1,'拉闸'],[2,'合闸']]">
+                <option value="">--请选择--</option>
+            </select>
+                <!-- <label role="button" style="line-height:32px;margin-right: 15px">
+                    <input type="radio" style="margin:0 5px" ng-model="search.closeStatus" value=1
+                        name="closeStatus">拉闸</label>
+                <label role="button" style="line-height:32px;">
+                    <input type="radio" style="margin:0 5px" ng-model="search.closeStatus" value=2 name="closeStatus"
+                        ng-checked="true">合闸</label> -->
+            </div>
+            <div class="form-group">
+                <label>远程控制：</label>
+                <!-- <label role="button" style="line-height:32px;margin-right: 15px">
+                    <input type="radio" style="margin:0 5px" ng-model="search.control" value=1 name="control"
+                           ng-checked="true">可以</label>
+                <label role="button" style="line-height:32px;">
+                    <input type="radio" style="margin:0 5px" ng-model="search.control" value=0 name="control">
+                            不可以</label> -->
+                            <select class="form-control" ng-model="search.control"
+                            ng-options="o[0] as o[1] for o in [[1,'可以'],[0,'不可以']]">
+                            <option value="">--请选择--</option>
+                        </select>
+            </div>
+            <div class="form-group text-nowrap">
+                <label>关联空间：</label>
+                <span class="text-nowrap">
+                    <house-selector class="searchBox" form-bean="search" has-park=true></house-selector>
+                </span>
+            </div>
+            <button class="btn btn-default pull-right" ng-click="find(1)" ng-disabled="!search.parkId">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <!--<div class="panel-heading clearfix">
+            <span style="display:inline-block;margin-top:8px;">计量点管理列表</span>
+        </div>-->
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <!-- <th class="text-center" style="width:20px">
+                            <span role="button" ng-click="checkAll(pageModel)">
+                                <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                            </span>
+                        </th> -->
+                        <!-- <th class="text-left">计量点编码</th> -->
+                        <th>计量点名称</th>
+                        <th>计量单位</th>
+                        <th>计量分类</th>
+                        <th>计量分项</th>
+                        <th style="width:200px">关联空间</th>
+                        <th>抄表方式</th>
+                        <th style="width:160px">关联仪表设备</th>
+                        <th>单价</th>
+                        <th>总用电量</th>
+                        <th>总充值金额</th>
+                        <th>当前余额</th>
+                        <th>剩余电量</th>
+                        <th>是否欠费</th>
+                        <th>拉合闸状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <!-- <td>
+                            <i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                class="glyphicon"></i>
+                        </td> -->
+                        <!-- <td  width=160  style="word-break:break-all;">{{item.pointCode}}</td> -->
+                        <td>{{item.pointName}}</td>
+                        <td>{{item.pointUnitName}}</td>
+                        <td>{{item.classifyName}}</td>
+                        <td>{{item.itemName}}</td>
+                        <td ng-bind-html="item.spaceName" style="text-align: left"></td>
+                        <!-- <td>{{item.spaceName}}</td> -->
+                        <td>{{item.readWayName}}</td>
+                        <td>{{item.equipmentName}}</td>
+                        <td>{{item.unitPrice}}</td>
+                        <td>{{item.totalUseEnergy}}</td>
+                        <td>{{item.totalRechargeMoneyStr}}</td>
+                        <td>{{item.balanceStr}}</td>
+                        <td>{{item.dumpEnergy}}</td>
+                        <td>{{item.arrears =="1" ? "是" : "否"}}</td>
+                        <td>{{item.closeStatus =="1" ? "拉闸" : "合闸"}}</td>
+                        <td>
+                            <a href='javascript:void(0)' ng-click='showPayModal(item)' class='btn btn-xs' ng-if="hasPower('充值缴费')">
+                                <span class='fa fa-edit'></span>充值缴费</a>
+                            <a href='javascript:void(0)' ng-click='showBrakeModal(item)' ng-if="(item.type==1) && (item.closeStatus!==1) && hasPower('拉闸')" class='btn btn-xs'>
+                                <span class='fa fa-edit'></span>拉闸</a>
+                            <a href='javascript:void(0)' ng-click='showBrakeModal(item)' ng-if="(item.type==1) && (item.closeStatus!==2) && hasPower('合闸')" class='btn btn-xs'>
+                                <span class='fa fa-edit'></span>合闸</a>
+                            <a href='javascript:void(0)' ng-click='showRecordsModal(item)' ng-if="hasPower('充值记录')" class='btn btn-xs'>
+                                <span class='fa fa-edit'></span>充值记录</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

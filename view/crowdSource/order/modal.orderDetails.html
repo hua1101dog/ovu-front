@@ -1,0 +1,19 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">查看订单</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+	<img ng-if="item.crowdSourceDemand.filePath" src="/view/crowdSource/img/guide.png" ng-click="downLoad(item.crowdSourceDemand.filePath)">
+	<div class="content-div">
+		<p><span class="title-color">需求名称：</span><span class="demandTitle-color">{{item.crowdSourceDemand.title}}</span></p>
+		<p><span class="title-color">订单编号：</span><span class="content-color">{{item.code}}</span></p>
+		<p><span class="title-color">需求方：</span><span class="content-color">{{item.demanderName}}</span></p>
+		<p><span class="title-color">解决方：</span><span class="content-color">{{item.solverName}}</span></p>
+		<p><span class="title-color">需求行业：</span><span class="content-color">{{item.industryName}}</span></p>
+		<p><span class="title-color">需求解决方式 ：</span><span class="content-color">{{solution(item.crowdSourceDemand.solution)}}</span></p>
+		<p><span class="title-color">合同金额(元)：</span><span class="content-color">{{item.orderAmount}}</span></p>
+		<p><span class="title-color">合同签订时间：</span><span class="content-color">{{item.createTime}}</span></p>
+		<p><span class="title-color">计划完成时间：</span><span class="content-color">{{item.planCompletionTime}}</span></p>
+		<p><span class="title-color">实际完成时间：</span><span class="content-color">{{item.actualCompletionTime}}</span></p>
+	</div>
+</div>

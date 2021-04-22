@@ -1,0 +1,21 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">招商定义</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="form-group">
+					<label class="col-xs-3 control-label" required>租售方式：</label>
+					<div class="col-xs-4">
+						<select  class="form-control" required ng-model="item.sellStatus" ng-options="o.value as o.name for o in sellOptions" name="sellStatus">
+						    <option value="">--请选择--</option>
+						</select>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button  class="btn btn-primary" ng-click="savePrice(form,item)">确定</button>
+			<button  class="btn btn-warning" ng-click="cancel()">取消</button>
+        </div>
+

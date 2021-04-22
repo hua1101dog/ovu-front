@@ -1,0 +1,206 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">园区异常统计</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal ng-scope">
+    <!-- <div class="bookingDetail">
+        <h3>楼栋维度统计：</h2>
+        <div class="form-group" ng-repeat = "x in item.buildAbnormalList">
+            <label class="col-xs-4 control-label ">{{x.buildName}}：</label>
+            <div class="col-xs-8 s_content">
+                <p>体温异常{{x.tempNum||"0"}}人</p>
+                <p>身体状况异常{{x.sickNum||"0"}}人</p>
+                <p>密切接触者异常{{x.relativeSickNum||"0"}}人</p>
+                <p>异常(体温异常或身体状态异常){{x.num||"0"}}人</p>
+            </div>
+        </div>
+        <b></b>
+        <h3>公司维度统计：</h2>
+            <div class="form-group" ng-repeat = "x in item.companyAbnormalList">
+                <label class="col-xs-4 control-label ">{{x.companyName||"0"}}：</label>
+                <div class="col-xs-8 s_content">
+                    <p>体温异常{{x.tempNum||"0"}}人</p>
+                    <p>身体状况异常{{x.sickNum||"0"}}人</p>
+                    <p>密切接触者异常{{x.relativeSickNum||"0"}}人</p>
+                    <p>异常(体温异常或身体状态异常){{x.num||"0"}}人</p>
+                </div>
+            </div>
+        <b ></b>
+        <h3 >个人维度统计：</h2>
+            <div class="form-group">
+                <label class="col-xs-4 control-label "></label>
+                <div class="col-xs-8 s_content">
+                    <p>体温异常{{item.personalAbnormal.tempNum||"0"}}人</p>
+                    <p>身体状况异常{{item.personalAbnormal.sickNum||"0"}}人</p>
+                    <p>密切接触者异常{{item.personalAbnormal.relativeSickNum||"0"}}人</p>
+                    <p>异常(体温异常或身体状态异常){{item.personalAbnormal.num||"0"}}人</p>
+                </div>
+            </div>
+    </div> -->
+    <h3 class="h3">截止当前，园区今日上报总人数{{item.reportNum}}人，异常总人数{{item.debuffNum}}人，异常总企业{{item.debuffCompanyNum}}家</h3>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <ul class="nav nav-tabs bar_tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#epidemicManageBuild" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">楼栋</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="#epidemicManageCompany" id="tab2" role="tab" data-toggle="tab" aria-expanded="false">企业</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="#epidemicManagePerson" id="tab3" role="tab" data-toggle="tab" aria-expanded="false">个人</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="epidemicManage">
+                <!-- 楼栋 star -->
+                <div role="tabpanel" class="tab-pane fade active in" id="epidemicManageBuild"
+                  >
+                    <table class="table text-center">
+                        <thead>
+                            <tr>
+                                <th>NO.</th>
+                                <th>楼栋名称</th>
+                                <th>体温异常人数</th>
+                                <th>身体状况异常人数</th>
+                                <th>密切接触者异常人数</th>
+                                <th>异常(体温或身体状况异常)人数</th>
+                            </tr>
+                            <tr class="hide">
+                                <th colspan="7">
+                                    <div class="alert" role="alert">加载中...</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!item.buildAbnormalList||item.buildAbnormalList.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="x in item.buildAbnormalList">
+                                <td>{{$index + 1}}</td>
+                                <td>{{x.buildName||"--"}}</td>
+                                <td>{{x.tempNum||'0'}}</td>
+                                <td >{{x.sickNum||'0'}}</td>
+                                <td>{{x.contactNum||'0'}}</td>
+                                <td>{{x.num||"0"}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+                <!-- 楼栋 end -->
+
+                <!-- 企业 star -->
+                <div role="tabpanel" class="tab-pane fade" id="epidemicManageCompany">
+                    <table class="table text-center">
+                        <thead>
+                            <tr>
+                                <th>NO.</th>
+                                <th>企业名称</th>
+                                <th>体温异常人数</th>
+                                <th>身体状况异常人数</th>
+                                <th>密切接触者异常人数</th>
+                                <th>异常(体温或身体状况异常)人数</th>
+                            </tr>
+                            <tr class="hide">
+                                <th colspan="7">
+                                    <div class="alert" role="alert">加载中...</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!item.companyAbnormalList||item.companyAbnormalList.length == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="x in item.companyAbnormalList">
+                                <td>{{$index + 1}}</td>
+                                <td>{{x.companyName||"--"}}</td>
+                                <td>{{x.tempNum||'0'}}</td>
+                                <td >{{x.sickNum||'0'}}</td>
+                                <td>{{x.contactNum||'0'}}</td>
+                                <td>{{x.num||"0"}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+                <!-- 企业  end -->
+
+                <!-- 个人  start -->
+                <div role="tabpanel" class="tab-pane fade" id="epidemicManagePerson">
+                    <table class="table text-center">
+                        <thead>
+                            <tr>
+                                <th>NO.</th>
+                                <th>个人类别</th>
+                                <th>体温异常人数</th>
+                                <th>身体状况异常人数</th>
+                                <th>密切接触者异常人数</th>
+                                <th>异常(体温或身体状况异常)人数</th>
+                            </tr>
+                            <tr class="hide">
+                                <th colspan="7">
+                                    <div class="alert" role="alert">加载中...</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="!item.personalAbnormalList||item.personalAbnormalList == 0">
+                                <td colspan="100" class="text-center">暂无记录</td>
+                            </tr>
+                            <tr ng-repeat="x in item.personalAbnormalList">
+                                <td>{{$index + 1}}</td>
+                                <td>{{x.companyName||"--"}}</td>
+                                <td>{{x.tempNum||'0'}}</td>
+                                <td >{{x.sickNum||'0'}}</td>
+                                <td>{{x.contactNum||'0'}}</td>
+                                <td>{{x.num||"0"}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+                <!-- 个人  end -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-warning" style="float: right;" ng-click="cancel()">关闭</button>
+    <!-- <button class="btn btn-primary"  style="float: right;" ng-click="">复制</button>   -->
+</div>
+<style>
+    .bookingDetail {
+        margin: 0 20px;
+        margin-right: 0px;
+    }
+    .h3{
+        height: 40px;
+        line-height: 40px;
+        margin-top: 0;
+        padding-left: 20px;
+    }
+    /* .bookingDetail p span:first-child{
+            display: inline-block;
+            width: 110px;
+            color: #999;
+            float:left;
+        }
+        .bookingDetail p span:last-child{
+            display: inline-block;
+            color: #070707;
+            width: 320px;
+        } */
+    .bookingDetail b {
+        display: block;
+        widows: 100%;
+        border-bottom: 1px dashed #ccc;
+        margin-bottom: 4px;
+    }
+
+    .bookingDetail .form-group span.s_content {
+        font-size: 14px;
+        padding-left: 0px;
+        padding-top: 7px;
+    }
+
+</style>

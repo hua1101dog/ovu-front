@@ -1,0 +1,126 @@
+<div class="modal-header">
+	<h4 class="modal-title">工单执行</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+		<div  class="form-group">
+			<label class="col-xs-2 control-label">工单名称：</label>
+			<label class="col-xs-10 mt7">{{item.WORKUNIT_NAME}}</label>
+		</div>
+		<form name="form" novalidate >
+		<div  ng-if="item.WORKUNIT_TYPE==2">
+            <div class="form-group">
+                <label class="col-xs-2 control-label" required>设备：</label>
+                <div class="col-xs-10">
+                    <div class="input-group">
+                        <input type="text" class="form-control" readonly="readonly" placeholder="请选择设备"
+                               ng-model="item.equipment_name" name="equipment_name"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="chooseEquipment(item)" ng-disabled="!item.PARK_ID"><i
+                                class='fa fa-search'></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-if="item.equipment_id && faultTypeTree">
+                <label class="col-xs-2 control-label required">故障类型</label>
+                <div class="col-xs-10" >
+					<!-- <tree-selector node-list="faultTypeTree" required host="item" host-key="'faultType'" host-text="'faultTypeName'"  need="true"></tree-selector> -->
+					<layer-selector host="item" need=true host-key="'faultType'" host-text="'faultTypeName'" node-list="faultTypeTree"></layer-selector>
+                </div>
+            </div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label">现场图片：</label>
+				<div class="col-xs-10">
+					<div class="photoWraper" ng-repeat="p in item.photos">
+						<img onerror="javascript:this.src='/res/img/detail.png';"
+							 ng-click="showPhoto()"
+							 ng-src="{{processImgUrl(p)}}" >
+						<a role="button" ng-click="delPhoto(item.photos,p)" ><i class="glyphicon glyphicon-remove"></i></a>
+					</div>
+					<img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(item.photos,3)" title="上传图片">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label">备注：</label>
+				<div class="col-xs-10">
+					<textarea  style="height:150px;resize:vertical" class="form-control"  name="SUCCESS_TEXT"  ng-model="item.SUCCESS_TEXT"   />
+				</div>
+			</div>
+		</div>
+		<!--计划工单  -->
+		<div  novalidate ng-if="item.WORKUNIT_TYPE==1">
+			<div class="col-md-12">
+				<div class="x_panel">
+					<div class="x_title">任务:<label>{{item.task.WORKTASK_NAME}}</label></div>
+					<div class="x_content">
+						<p>{{item.task.TASK_DESCRIPTION}}</p>
+						<h5>请按照以下操作步骤完成任务：</h5>
+						<div class="alert" role="alert" ng-show="!item.task.stepChild||item.task.stepChild.length==0">无步骤信息</div>
+						<ul style="margin-left: 15px">
+							<li ng-repeat="step in item.task.stepChild" style="margin-bottom: 5px">{{step.WORKSTEP_NAME}}-{{step.DESCRIPTION}}
+								<div ng-if="step.OPERATION_TYPE ==1" class="clearfix">
+									<!--照片-->
+									<div class="photoWraper" ng-repeat="p in step.oper.photos">
+										<img onerror="javascript:this.src='/res/img/detail.png';"  ng-click="showPhoto()"
+											 ng-src="{{processImgUrl(p)}}">
+										<a role="button" ng-click="delPhoto(step.oper.photos,p)" ><i class="glyphicon glyphicon-remove"></i></a>
+									</div>
+									<img height="60px" width="60px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(step.oper.photos,3)" title="上传图片">
+								</div>
+								<div ng-if="step.OPERATION_TYPE == 2">
+									<input type="text" class="form-control" name="value{{$index}}" required ng-model="step.oper.value" />
+								</div>
+								<div ng-if="step.OPERATION_TYPE == 3" class="form-inline">
+									<select class="form-control" ng-options="o as o for o in step.options" name="value{{$index}}" required ng-model="step.oper.value"  >
+										<option value="">--请选择--</option>
+									</select>
+								</div>
+
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="x_panel" ng-show="false">
+					<div class="x_title">
+						<label>配件库</label>
+						<button class="btn btn-sm btn-primary pull-right" ng-click="chooseParts()" >选择配件</button>
+					</div>
+					<div class="x_content">
+						<table class="table table-striped table-hover" style="margin-bottom: 0px; ">
+							<thead class="title">
+							<tr>
+								<th class="text-center">配件名称</th>
+								<th class="text-center">部位</th>
+								<th>数量</th>
+								<th>操作</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-if="!item.partsList||item.partsList.length == 0"><td colspan="100" class="text-center">暂无配件</td></tr>
+							<tr ng-repeat="part in item.partsList" >
+								<td class="text-center" style="padding:1px">{{part.partsName}}</td>
+								<td class="text-center" style="padding:1px">{{part.position}}</td>
+								<td style="padding:1px"><input type="number" class="form-control" required name="amount{{$index}}" ng-model="part.amount" /></td>
+								<td>
+									<a href='javascript:void(0)' ng-click='delParts(item.partsList,part)' class='btn btn-xs' ><span class='fa fa-trash'></span>删除</a>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="form-group" ng-show="false">
+					<label class="col-xs-2 control-label">备注：</label>
+					<div class="col-xs-10">
+						<textarea  style="height:60px;resize:vertical" class="form-control"  name="SUCCESS_TEXT"  ng-model="item.SUCCESS_TEXT"   />
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-info" ng-click="updateWorkUnit(form,item)">保存草稿</button>
+	<button class="btn btn-primary" ng-click="finishWork(form,item)">完成</button>
+	<button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+</div>

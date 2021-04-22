@@ -1,0 +1,192 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title" ng-show="!item.isView">{{item.id?'编辑':'新增'}}</h4>
+    <!-- <h4 class="modal-title" ng-show="item.isView">查看定价</h4> -->
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">标题：</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" required ng-model="item.title" name="title"
+                    style="cursor: default;" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label text-left">副标题：</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" ng-model="item.subtitle" name="subtitle"
+                    style="cursor: default;" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label text-left">外链地址：</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" ng-model="item.outAddress" name="outAddress"
+                    style="cursor: default;" />
+            </div>
+        </div>
+        <!-- <div class="form-group">
+            <label class="col-xs-2 control-label required">简介：</label>
+            <div class="col-xs-10">
+                <textarea type="text" style="height:50px;resize:vertical;cursor: default;"
+                class="form-control" required ng-model="item.theme"   name="theme" ></textarea>
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label class="col-xs-3 control-label">内容：</label>
+            <div class="col-xs-9">
+                <div id="zskx" class="ueditor" config="config" style="width: 700px; height: 300px;"
+                    ng-model="item.content" ready="ready"></div>
+            </div>
+            <!-- <div class="col-xs-9">
+             <textarea type="text" style="height:150px;resize:vertical;cursor: default;"
+                class="form-control" required ng-model="item.content"   name="content"></textarea>
+            </div> -->
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label text-left">分享简介：</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" required ng-model="item.shareProfile" name="shareProfile"
+                    style="cursor: default;" maxlength="20"/>
+                    <label class="col-xs-9 control-label"
+                        style="color:red;text-align: left;padding-left: 0;">用于微信分享时的简介，简介中文字数在20以内</label>
+            </div>
+            
+        </div>
+        <!-- <div class="form-group">
+            <label class="col-xs-3 control-label ">首图：</label>
+            <div class="col-xs-9">
+                <div class="photoWraper" ng-repeat="p in item.pics track by $index" style="height: 260px;width:350px">
+                    <img onerror="javascript:this.src='/res/img/detail.png';"
+                         ng-click="showPhoto()"
+                         ng-src="{{processImgUrl(p)}}" style="height:100%;width:100%;border:1px solid #ddd"/>
+                    <a role="button" ng-click="delPhoto(item.pics, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                </div>
+                <img ng-show="item.pics.length < 1" height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button" ng-click="addPhotos(item.pics)" title="上传图片">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-6 control-label" style="color:red;">勾选特色专题后，必须上传图片</label>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">特色专题：</label>
+            <div class="col-xs-9">
+                <input type="checkbox" ng-model="item.isSubject" name="isSubject" ng-true-value=1 ng-false-value=0 style="margin-top: 11px;">
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label class="col-xs-3 control-label ">首图：</label>
+            <div class="col-xs-9">
+                <div class="photoWraper" ng-repeat="p in item.pics track by $index" style="height: 160px;width:350px">
+                    <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()"
+                        ng-src="{{processImgUrl(p)}}" style="height:100%;width:100%;border:1px solid #ddd" />
+                    <a role="button" ng-click="delPhoto(item.pics, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                </div>
+                <img ng-show="item.pics.length < 1" height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button"
+                    ng-click="addPhotos(item.pics)" title="上传图片">
+                <div><label class="col-xs-9 control-label"
+                        style="color:red;text-align: left;padding-left: 0;">首页尺寸要求700*320</label></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label ">置顶：</label>
+            <div class="col-xs-9">
+                <div style="float: left;"><input type="checkbox" ng-model="item.isTop" name="isTop"
+                        ng-true-value=1 ng-false-value=0 style="margin-top: 11px;" ng-click="isTop(item)"></div>
+                <label class="col-xs-11 control-label"
+                    style="color:red;text-align: left;">置顶的首图，将显示在APP首页顶部轮播图中，置顶最多5条，尺寸要求700*320</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label ">首页显示：</label>
+            <div class="col-xs-9">
+                <div style="float: left;"><input type="checkbox" ng-model="item.isDisplay" name="isDisplay"
+                        ng-true-value=1 ng-false-value=0 style="margin-top: 11px;"></div>
+                <label class="col-xs-9 control-label"
+                    style="color:red;text-align: left;">APP首页招商快讯显示的图片，最多两条，尺寸要求600*400</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-xs-9">
+                <div class="photoWraper" ng-repeat="p in item.image track by $index" style="height: 100px;width:150px">
+                    <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()"
+                        ng-src="{{processImgUrl(p)}}" />
+                    <a role="button" ng-click="delPhoto(item.image, p)"><i class="glyphicon glyphicon-remove"></i></a>
+                </div>
+                <img ng-show="item.image.length < 1" height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button"
+                    ng-click="addPhotos(item.image,1)" title="上传图片">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">特色专题：</label>
+            <div class="col-xs-9">
+                <div class="col-xs-3">
+                    <div>
+                        <input type="checkbox" ng-model="item.topic1" name="topic" ng-true-value=1 ng-false-value=0
+                            style="margin-top: 11px;float: left;">
+                        <label style="text-align: left;" class="col-xs-9 control-label">专题一</label>
+                    </div>
+                    <div class="photoWraper" ng-repeat="p in item.pic1 track by $index"
+                        style="height: 150px;width:150px;">
+                        <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()"
+                            ng-src="{{processImgUrl(p)}}" style="height:100%;width:100%;border:1px solid #ddd" />
+                        <a role="button" ng-click="delPhoto(item.pic1, p)"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                    <img ng-show="item.pic1.length < 1" height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button"
+                        ng-click="addPhotos(item.pic1,1)" title="上传图片" style="margin-top: 10px;">
+                    <label class="col-xs-12 control-label"
+                        style="color:red;text-align: left;padding-left: 0;">尺寸要求600*600</label>
+                </div>
+                <div class="col-xs-3">
+                    <div>
+                        <input type="checkbox" ng-model="item.topic2" name="topic2" ng-true-value=1 ng-false-value=0
+                            style="margin-top: 11px;float: left;">
+                        <label style="text-align: left;" class="col-xs-9 control-label">专题二</label>
+                    </div>
+                    <div class="photoWraper" ng-repeat="p in item.pic2 track by $index"
+                        style="height: 70px;width:150px;">
+                        <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()"
+                            ng-src="{{processImgUrl(p)}}" style="height:100%;width:100%;border:1px solid #ddd" />
+                        <a role="button" ng-click="delPhoto(item.pic2, p)"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                    <img ng-show="item.pic2.length < 1" height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button"
+                        ng-click="addPhotos(item.pic2,1)" title="上传图片" style="margin-top: 10px;">
+                    <label class="col-xs-12 control-label"
+                        style="color:red;text-align: left;padding-left: 0;">尺寸要求600*280</label>
+                </div>
+                <div class="col-xs-3">
+                    <div>
+                        <input type="checkbox" ng-model="item.topic3" name="topic3" ng-true-value=1 ng-false-value=0
+                            style="margin-top: 11px;float: left;">
+                        <label style="text-align: left;" class="col-xs-9 control-label">专题三</label>
+                    </div>
+                    <div class="photoWraper" ng-repeat="p in item.pic3 track by $index"
+                        style="height: 70px;width:150px;">
+                        <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()"
+                            ng-src="{{processImgUrl(p)}}" style="height:100%;width:100%;border:1px solid #ddd" />
+                        <a role="button" ng-click="delPhoto(item.pic3, p)"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                    <img ng-show="item.pic3.length < 1" height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button"
+                        ng-click="addPhotos(item.pic3,1)" title="上传图片" style="margin-top: 10px;">
+                    <label class="col-xs-12 control-label"
+                        style="color:red;text-align: left;padding-left: 0;">尺寸要求600*280</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" ng-show="!item.isView">
+    <button class="btn btn-primary" ng-click="saveNews(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .modal-dialog {
+        width: 1000px;
+    }
+
+</style>

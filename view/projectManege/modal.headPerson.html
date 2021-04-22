@@ -1,0 +1,22 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">设置责任人</h4>
+</div>
+<div class="modal-body container-fluid">
+    <label class="control-label">选中区块:</label> {{item.blockName}}
+        <div class="x_title" style="margin-top: 10px;">
+                <a ng-click='expandAll(blockWorkTree)' role="button" class='btn-link' title="展开与收缩">
+                    <i class="glyphicon"
+                       ng-class="{'glyphicon-resize-small':blockWorkTree.expanded,'glyphicon-resize-full':!emerWorkTypeTree.expanded}"></i></a>
+                应急工作分类
+            </div>
+            <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="!blockWorkTree">无工作分类</div>
+                    <block-tree-pro node-list="blockWorkTree" host="search" host-text="'WORKTYPE_NAME'" host-key="'WORKTYPE_ID'" callback="selectNode" config="{edit: false}"></block-tree-pro>
+                </div>
+    
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save()">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

@@ -1,0 +1,33 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">{{video.fileName}}</h4>
+</div>
+    <div class="modal-body container-fluid form-horizontal">
+        <video style="width:100%;height: 100%;" controls="controls">
+			  <source ng-src="{{video.filePath}}" type="video/mp4" />
+			  <source ng-src="{{video.filePath}}" type="video/ogg" />
+			  <source ng-src="{{video.filePath}}" type="video/webm" />
+			  <source ng-src="{{video.filePath}}" type="video/x-ms-wmv" />
+			  <source ng-src="{{video.filePath}}" type="video/3gpp" />
+			  <source ng-src="{{video.filePath}}" type="video/m4v" />
+			  <source ng-src="{{video.filePath}}" type="video/mpeg" />
+			  <object ng-data="{{video.filePath}}" style="width:100%;height: 100%;">
+			    <embed ng-src="{{video.filePath}}" style="width:100%;height: 100%;" />
+			  </object>
+		</video>
+		<!--<video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" style="width:100%;height: 100%;"
+		      data-setup="{}">
+		    <source ng-src="{{video.filePath}}" type='video/mp4' />
+		    <source ng-src="{{video.filePath}}" type='video/webm' />
+		    <source ng-src="{{video.filePath}}" type='video/ogg' />
+		     <source ng-src="{{video.filePath}}" type="video/x-ms-wmv" />
+			  <source ng-src="{{video.filePath}}" type="video/3gpp" />
+			  <source ng-src="{{video.filePath}}" type="video/m4v" />
+			  <source ng-src="{{video.filePath}}" type="video/mpeg" />
+		    <track kind="captions" ng-src="{{video.filePath}}" srclang="en" label="English"></track>
+		    <track kind="subtitles" ng-src="{{video.filePath}}" srclang="en" label="English"></track>
+		</video>-->
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>

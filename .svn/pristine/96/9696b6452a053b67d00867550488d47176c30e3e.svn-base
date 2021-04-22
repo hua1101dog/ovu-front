@@ -1,0 +1,108 @@
+		<div class="modal-header">
+		    <button type="button" class="close" ng-click="cancel()">×</button>
+		    <h4 class="modal-title">添加异动</h4>
+		</div>
+		<div class="modal-body container-fluid form-horizontal">
+		    <form name="form" novalidate>
+		        <div class="form-group">
+		            <label class="col-sm-3 control-label">异动类型：</label>
+		            <div class="col-sm-8">
+		                <label class="radio-inline">
+		                    <input type="radio" ng-model="change.changeType" value="1"  ng-change="changeType()"> 调岗
+		                </label>
+		                <label class="radio-inline">
+		                    <input type="radio" ng-model="change.changeType" value="2" ng-change="changeType()"> 停薪留职
+		                </label>
+		                <label class="radio-inline">
+		                    <input type="radio" ng-model="change.changeType" value="3" ng-change="changeType()"> 离职
+		                </label>
+		            </div>
+		        </div>
+		        <div class="form-group form-inline">
+		            <label class="col-sm-3 control-label required">异动时间：</label>
+		            <div class="col-sm-8">
+		                <input type="datetime" class="form-control Wdate" required ng-model="change.changeTime"
+		                    placeholder="异动时间" onchange=""
+		                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+		            </div>
+		        </div>
+		        <div class="form-group" ng-if="change.changeType == 1">
+		            <label class="col-sm-3 control-label required">当前岗位：</label>
+		            <div class="col-sm-9">
+		                <div ng-repeat="post in posts" class="form-inline" style="position: relative;margin-bottom: 5px">
+		                    <tree-selector style="width: 450px;float:left" node-list="deptTreeChange" callback="getPostList"
+		                        name="deptId{{$index}}" need=true host="post" host-key="'deptId'" host-text="'deptFullName'"
+		                        tip-text="'请选择部门'"></tree-selector>
+		                    <select class="form-control" required ng-model="post.postId"
+		                        ng-options="o.id as o.postName for o in post.postList" ng-change="selectPermission()">
+		                        <option value="">--请选择岗位--</option>
+		                    </select>
+		                    <button class="btn btn-sm btn-default" ng-click="delPost(posts,post)" ng-if="posts.length>1"><i
+		                            class="glyphicon glyphicon-minus"></i></button>
+		                </div>
+		                <button class="btn btn-sm btn-default" ng-click="posts.push({personId:person.id})"><i
+		                        class="glyphicon glyphicon-plus"></i>添加岗位</button>
+		            </div>
+		        </div>
+
+
+		        <div class="form-group" ng-if="change.changeType != 1">
+		            <label class="col-xs-3 control-label">异动原因：</label>
+		            <div class="col-xs-8">
+		                <textarea type="text" style="height:150px;resize:vertical" class="form-control"
+		                    ng-model="change.changeContent" />
+		                </div>
+				</div>
+				<h4 style="text-align: center;margin-bottom: 15px;" ng-if="!personHandoverList.length">暂无待处理任务</h4>
+					<div class="x_panel" ng-if="personHandoverList.length">
+						<div class="form-group">
+							<label class="col-xs-2 control-label required">待处理任务：</label>
+						</div>
+							
+						<div class="form-group" >
+					 <div ng-repeat="per in personHandoverList" style="height: 50px;">
+					 	<label class="col-xs-3 control-label">{{per.name}} 交接给</label>  
+
+					<div class="col-xs-4" >
+							<select-person host="per.personHandover" dept-ids="selectDeptIds" need="true" style=" width: 100%;" ng-if="change.changeType == 1"></select-person>
+							<select-person host="per.personHandover" dept-ids="selectDeptIds" need="true" style=" width: 100%;" not-in-ids="person.id" ng-if="change.changeType != 1"></select-person>
+
+					</div>
+				
+				
+				<a href='javascript:void(0)' class="btn btn-success" ng-click="copyPerson(per)" ng-if="$index==0 && per.personHandover && personHandoverList.length>1">复制</a>
+					 </div>
+				</div>
+					</div>
+					<div ng-if="change.changeType == 1">
+						<div class="panel panel-default">
+								<div class="panel-heading">数据权限
+									</div>
+								  <div class="panel-body">
+										<div class="row mt7">
+												<div class="col-sm-6">
+													<label>待选区</label>
+													<div class="well" style="padding-left: 0px">
+														<tree-filter node-list="vm.filteredDeptTree"></tree-filter>
+														<tree-view node-list="vm.filteredDeptTree" check-callback="afterCheck"
+																   config="{'edit':false,'showCheckbox':true}"></tree-view>
+													</div>
+												</div>
+												<div class="col-sm-6">
+													<label>已选区</label>
+													<div class="well">
+														<tree-view node-list="vm.personDeptTree" config="{'edit':false}"></tree-view>
+													</div>
+												</div>
+											</div>
+								  </div>
+						</div>
+
+					</div>
+				
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,change)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>

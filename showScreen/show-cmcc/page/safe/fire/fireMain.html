@@ -1,0 +1,65 @@
+<div class="" ng-controller="fireMainCtrl as vm" style="height: 100%;">
+   <!-- <div ng-if="vm.fmapId == 'hfjrg'" style="height: 100%;position:relative;">
+        <h1 class="text-center" style="position:absolute;top:50%;left:50%;transform: translate(-50%, -50%)">开发中...</h1>
+    </div>-->
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="">
+            <!--展示楼栋消防情况-->
+            <div class="col-lg-12 col-sm-12  b-b b-2x">
+                <h4 class="font-bold">消防报警列表</h4>
+                <table class="table">
+                    <thead class="title">
+                    <tr>
+                        <th>设备名称</th>
+                        <th>时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.list">
+                            <td>{{::item.name}}</td>
+                            <td>{{::item.optime}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--<div>
+                <div class="col-lg-12 col-sm-12  b-b b-2x">
+                    <h4 class="font-bold">{{vm.title}}消防概况</h4>
+                    <div class="col-lg-3 col-sm-3 text-center">
+                        <h3>{{vm.fire.total || 0}}</h3>
+                        <span class="spantext">消防总数</span>
+                    </div>
+                    <div class="col-lg-3 col-sm-3 text-center">
+                        <h3>{{vm.fire.smoke_regular_num || 0}}</h3>
+                        <span class="spantext">烟感正常</span>
+                    </div>
+                    <div class="col-lg-3 col-sm-3 text-center">
+                        <h3 class="red">{{vm.fire.smoke_broken_num_smoke || 0}}</h3>
+                        <span class="spantext">烟感故障</span>
+                    </div>
+                    <div class="col-lg-3 col-sm-3 text-center">
+                        <h3 class="red">{{vm.fire.smoke_fail_num_smoke || 0}}</h3>
+                        <span class="spantext">烟感报警</span>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.fire.temperature_regular_num || 0}}</h3>
+                        <span class="spantext">温感正常</span>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3 class="red">{{vm.fire.temperature_broken_num || 0}}</h3>
+                        <span class="spantext">温感故障</span>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                        <h3 class="red">{{vm.fire.temperature_fail_num || 0}}</h3>
+                        <span class="spantext">温感报警</span>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <div style="height:200px;" ui-echarts="vm.option">
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </big-screen>
+</div>
+</div>

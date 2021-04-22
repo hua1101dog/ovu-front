@@ -1,0 +1,66 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title" ng-show="!item.isView">处理重复</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" style="padding-bottom:100px;">
+    <div class="row" id="customerManageBox">
+        <div class="col-md-12 col-sm-12 col-xs-12" style="display: flex; flex-direction: row;">
+            <p style="margin-right:20px;">选择要丢弃的客户</p>
+            <p>(已签约,已认购的客户不能丢弃)</p>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="display: flex; flex-direction: row;margin-bottom: 5px;"
+        ng-repeat='item in repeatList'>
+            <div class="col-xs-3" style="border:1px solid #bbb;margin-top:20px;display: flex;flex-direction: column;justify-content: center;line-height: 25px;">
+                <p>{{item.name}}</p>
+                <p>{{item.phone}}</p>
+            </div>
+            <div class="col-xs-6" style="border:1px solid #bbb;margin-top:20px;padding: 10px 10px;box-sizing: border-box;">
+                <div class="centerTop" style="display: flex; flex-direction: row;justify-content: space-between;">
+                    <div class="left" style="line-height:25px;">
+                        <span>意向级别</span>
+                        <span>{{item.intentionLevelName}}</span>
+                    </div>
+                    <div class="right" style="line-height:25px;">
+                        <span>客户状态</span>
+                        <span>{{item.customerStatusName || '--'}}</span>
+                    </div>
+                </div>
+                <div class="newAddDate" style="line-height:25px;">
+                    <span>新增日期</span>
+                    <span>{{item.createTime}}</span>
+                </div>
+                <div class="newFollowTime" style="line-height:25px;">
+                    <span>最新跟进时间</span>
+                    <span>{{item.latelyFollowTime}}</span>
+                </div>
+            </div>
+            <div class="col-xs-3" style="border:1px solid #bbb;margin-top:20px;display: flex;flex-direction: row;justify-content: space-between;
+            align-items: center;">
+                <div class="left" >
+                    <p>{{item.operator || '--'}}</p>
+                    <p>业务员</p>
+                </div>
+                <div class="right">
+                    <i role="button"  ng-click='chooseClick(item)'
+                    ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                    class="glyphicon"></i>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer" style="clear: both;position: absolute; left: 0;bottom: 0;width: 100%;">
+            <button class="btn btn-primary" ng-click="chooseSure()">确定</button>
+            <button class="btn btn-warning" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</div>
+<style>
+.modal-dialog {
+    width: 1000px;
+}
+.form-horizontal .form-group {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+</style>

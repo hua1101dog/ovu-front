@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h3 class="modal-title">处理反馈</h3>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form">
+        <div class="form-group">
+            <input type="hidden" name="id" class="form-control" ng-model="message.id"/>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">反馈内容: </label>
+            <div class="col-xs-10">
+                <textarea type="text" name="feedback" class="form-control" style="height:150px;resize:vertical" ng-model="message.feedback" required ng-focus></textarea>
+            </div>
+        </div>
+        <div class="form-group" ng-show="alertMessage">
+            <label class="col-xs-2 control-label required">提示: </label>
+            <h5 class="col-xs-10" style="color: red">输入内容不能为空</h5>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save()">保存</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+</div>

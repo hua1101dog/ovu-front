@@ -1,0 +1,90 @@
+<div id="modalWork" class="modal fade bs-example-modal-sm">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">分类选择</h4>
+      </div>
+      <div class="modal-body">
+        <div id="modalWorkTree"></div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+var modalWork = {};
+modalWork.open = function(optional){
+    loadData();
+	if(optional.callback){
+		modalWork.callback = optional.callback;
+	}
+	$("#modalWork").modal({});
+
+     var node =  modalWork.treeView.getSelected();
+    node &&  modalWork.treeView.unselectNode(node);
+
+    if(optional.selectedId){
+        var node = modalWork.oriList.find(function(n){return n.tid == optional.selectedId });
+        if(!node ){
+            return;
+        }
+        $.extend(node.state,{selected:true});
+        modalWork.treeView.expandNode(node);
+        var pid = node.parentId;
+        while(pid){
+            var pnode = modalWork.oriList.find(function(n){return n.tid == pid });
+            if(pnode){
+                modalWork.treeView.expandNode(pnode)
+                pid = pnode.parentId;
+            }else{
+                break;
+            }
+        }
+
+    }
+    if(optional.forbitList){
+        modalWork.oriList.forEach(function(n){
+            if(optional.forbitList.indexOf(n.tid)>0 && n.tid != optional.selectedId){
+                n.text = n.text+"(已关联)";
+                n.selectable = false;
+            }
+        })
+    }
+
+    function loadData(){
+        $.post("/ovu-pcos/pcos/workunit/worktype/tree.do", {
+        }, function(data) {
+            modalWork.setData(data,optional);
+            modalWork.treeView = $("#modalWorkTree").data('treeview');
+            modalWork.oriList = modalWork.treeView.getUnchecked();
+        }, 'json');
+    }
+
+}
+modalWork.close = function(optional){
+	$("#modalWork").modal("hide");
+}
+modalWork.callback = function(node){
+	console.log(node);
+}
+modalWork.setData = function(data,optional){
+//	$('#modalWorkTree').treeview('remove');
+    if(data && optional.showTopLevel){
+        data.forEach(function(item){
+            delete item.nodes;
+        })
+    }
+
+
+	if(data && data.length>0){
+		data.unshift({tid:'0',deptNo:'',ptid:'',text:'无'});
+	}
+	$('#modalWorkTree').treeview({
+		data : data
+	});
+	$('#modalWorkTree').on('nodeSelected', function(event, node) {
+		modalWork.callback(node);
+	});
+}
+
+</script>

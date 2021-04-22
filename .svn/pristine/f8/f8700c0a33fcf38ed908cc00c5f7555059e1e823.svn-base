@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="Expires" content="0" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Cache-control" content="no-cache" />
+        <meta http-equiv="Cache" content="no-cache" />
+        <title>OVU-智慧运营平台</title>
+    </head>
+
+    <body ng-app="angularApp" ng-controller="indexCtrl" ng-cloak></body>
+    <!-- wjlong BEGIN 添加样式 -->
+
+    <!-- wjlong END -->
+    <!-- layer 依赖jQuery -->
+    <script
+        type="text/javascript"
+        src="/res/gentelella/vendors/jquery/dist/jquery.min.js"
+    ></script>
+    <!-- alert confirm msg与系统保持一致 系统使用layer 覆盖了原生alert confirm msg  -->
+    <script type="text/javascript" src="/res/js/layer/layer.js"></script>
+
+    <script
+        type="text/javascript"
+        src="/res/js/angular1.5.11/angular.min.js"
+    ></script>
+    <script
+        type="text/javascript"
+        src="/res/js/angular1.5.11/angular-cookies.min.js"
+    ></script>
+    <!-- 添加ui.bootstrap -->
+    <script
+        type="text/javascript"
+        src="/res/js/angular1.5.11/ui-bootstrap-tpls.js"
+    ></script>
+    <script type="text/javascript" src="/res/js/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="/res/js/wheelzoom-feng.js"></script>
+    <script
+        type="text/javascript"
+        src="/res/js/angular1.5.11/ocLazyLoad.min.js"
+    ></script>
+    <script>
+        var app = angular.module("angularApp", [
+            "ui.bootstrap",
+            "ngCookies",
+            "oc.lazyLoad",
+        ]);
+        app.controller("indexCtrl", function (
+            $scope,
+            $rootScope,
+            $location,
+            $http,
+            $uibModal,
+            $q,
+            $cookies,
+            $ocLazyLoad
+        ) {
+            if (window.location.search.indexOf("token=") !== -1) {
+                var token = window.location.search
+                    .split("&")[1]
+                    .split("token=")[1];
+                document.cookie = `token=${token}`;
+            }
+
+            window.open(
+                window.location.origin +
+                    "/view/main.html" +
+                    window.location.search
+            );
+        });
+    </script>
+    <!-- <script type="text/javascript" src="/js/filter.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/js/filter.js?t=" + Date.now() + "'><\/script>");</script>
+    <!-- customComponent 依赖angularApp 所以要放在后面 -->
+    <!-- <script type="text/javascript" src="/js/customComponent.js"></script> -->
+    <script>document.write("<script type='text/javascript' src='/js/customComponent.js?t=" + Date.now() + "'><\/script>");</script>
+</html>

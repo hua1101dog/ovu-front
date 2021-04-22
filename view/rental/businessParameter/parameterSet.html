@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>业务参数设置</title>
+    <style>
+        table th,
+        table td {
+            text-align: center !important;
+        }
+
+    </style>
+    <link rel="stylesheet" href="rental/rent.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="parameterSetCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>租约参数设置</h3>
+            </div>
+        </div>
+        <div class="x_panel">
+            <form name="parameterForm" novalidate>
+                <div class="form-inline" style="padding: 10px 0px;" ng-repeat="item in search track by $index" ng-if="item.code == 'RENT_TAX_RATE' || item.code == 'BILL_AHEAD_DAY' || item.code == 'TURNOVERS_REMIND' || item.code == 'PAY_OVERDUE_REMIND' || item.code == 'BILL_AHEAD_REMIND_DAYS'">
+                    <div class="form-group">
+                        <label class="control-label required" ng-if="item.code == 'RENT_TAX_RATE'">租金税率设置:</label>
+                        <label class="control-label required" ng-if="item.code == 'BILL_AHEAD_DAY'">财务账单生成时间设置：提前</label>
+                        <label class="control-label required" ng-if="item.code == 'TURNOVERS_REMIND'">营业额提交提醒设置：记账时段后</label>
+                        <label class="control-label required" ng-if="item.code == 'PAY_OVERDUE_REMIND'">逾期收款预警设置：逾期收款超过</label>
+                        <label class="control-label required" ng-if="item.code == 'BILL_AHEAD_REMIND_DAYS'">账单缴费提前短信提醒天数</label>
+                        <input type="number" class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+                            oninput="this.value=this.value.replace(/^[0]+[0-9]*$/gi,'');this.value=this.value.replace(/\D/g,'')"
+                            required ng-model="item.value" ng-blur="save(item, $index)">
+                        <div style="display: inline-block; height: 34px; line-height: 34px; padding-left: 0; font-weight: 700;">
+                            <span ng-if="item.code == 'RENT_TAX_RATE'">%</span>
+                            <span ng-if="item.code == 'BILL_AHEAD_DAY'">日生成应收款账单</span>
+                            <span ng-if="item.code == 'TURNOVERS_REMIND'">日提醒提交营业额</span>
+                            <span ng-if="item.code == 'PAY_OVERDUE_REMIND'">日提醒</span>
+                            <span ng-if="item.code == 'BILL_AHEAD_REMIND_DAYS'">日</span>
+                        </div>
+                    </div>
+                </div> 
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

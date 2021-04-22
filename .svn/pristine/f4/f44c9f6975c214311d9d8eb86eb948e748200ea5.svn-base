@@ -1,0 +1,210 @@
+<style type="text/css">
+	.aList {padding:5px 0}
+	.aList span{padding: 3px 25px;float:left}
+	.aList span + span{border-left:1px solid slategray!important;}
+</style>
+
+<div  ng-controller="myworkunitCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>我的工单</h3>
+		</div>
+	</div>
+	<uib-tabset active="active" >
+		<uib-tab index="0" heading="待处理" select="setCurTab('DCL')">
+			<div ng-controller="dclCtl">
+				<div class="aList clearfix" >
+					<span  ng-click="(search.operateType ='1')&&find(1)" ng-class="{'btn-link':search.operateType =='1'}">全部</span>
+					<span  ng-click="(search.operateType ='11')&&find(1)" ng-class="{'btn-link':search.operateType =='11'}">待派单</span>
+					<span  ng-click="(search.operateType ='21')&&find(1)" ng-class="{'btn-link':search.operateType =='21'}">待接单</span>
+					<span  ng-click="(search.operateType ='22')&&find(1)" ng-class="{'btn-link':search.operateType =='22'}">待执行</span>
+					<span  ng-click="(search.operateType ='31')&&find(1)" ng-class="{'btn-link':search.operateType =='31'}">待评价</span>
+                    <span  ng-click="(search.operateType ='33')&&find(1)" ng-class="{'btn-link':search.operateType =='33'}">待审核</span>
+					<span  ng-click="(search.operateType ='41')&&find(1)" ng-class="{'btn-link':search.operateType =='41'}">待督办</span>
+				</div>
+				<ng-include src="'./workunit/myworkunit_table.html'" ></ng-include>
+			</div>
+		</uib-tab>
+		<uib-tab index="1" heading="已处理" select="setCurTab('YCL')" >
+			<div ng-controller="yclCtl">
+				<div class="aList clearfix" >
+					<span  ng-click="(search.operateType ='2')&&find(1)" ng-class="{'btn-link':search.operateType =='2'}">全部</span>
+					<span  ng-click="(search.operateType ='12')&&find(1)" ng-class="{'btn-link':search.operateType =='12'}">我派发的</span>
+					<span  ng-click="(search.operateType ='23')&&find(1)" ng-class="{'btn-link':search.operateType =='23'}">我执行的</span>
+					<span  ng-click="(search.operateType ='32')&&find(1)" ng-class="{'btn-link':search.operateType =='32'}">我评价的</span>
+                    <span  ng-click="(search.operateType ='34')&&find(1)" ng-class="{'btn-link':search.operateType =='34'}">我审核的</span>
+					<span  ng-click="(search.operateType ='42')&&find(1)" ng-class="{'btn-link':search.operateType =='42'}">我督办的</span>
+				</div>
+				<ng-include src="'./workunit/myworkunit_table.html'" ></ng-include>
+			</div>
+		</uib-tab>
+	</uib-tabset>
+
+
+	<script type="text/ng-template" id="refuseModal.html">
+		<div class="modal-header">
+			<h4 class="modal-title">工单退回</h4>
+		</div>
+		<div class="modal-body  container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="form-group" >
+					<label class="col-xs-2 control-label">工单名称：</label>
+					<div class="col-xs-4">
+						<div class="mt7">{{item.WORKUNIT_NAME}}</div>
+					</div>
+					<label class="col-xs-2 control-label">执行人：</label>
+					<div class="col-xs-4">
+						<div class="mt7">{{item.EXEC_PERSON_NAME}}</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label required">回退原因：</label>
+					<div class="col-xs-10">
+						<textarea type="text" style="height:150px;resize:vertical" class="form-control" name="refuseReason" required ng-model="item.refuseReason"   />
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+		</div>
+	</script>
+
+    <script type="text/ng-template" id="modifyModal.html">
+        <div class="modal-header">
+            <h4 class="modal-title">工单修正</h4>
+        </div>
+        <div class="modal-body  container-fluid form-horizontal">
+            <form name="form" novalidate>
+                <div class="form-group" >
+                    <label class="col-xs-3 control-label">工单名称：</label>
+                    <div class="col-xs-9">
+                        <div class="mt7">{{item.WORKUNIT_NAME}}</div>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-3 control-label">工单描述：</label>
+                    <div class="col-xs-9">
+                        <div class="mt7">{{item.DESCRIPTION}}</div>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-3 control-label">应急工作分类：</label>
+                    <div class="col-xs-9">
+                        <layer-selector host="item" need=true host-key="'WORKTYPE_ID'" host-text="'WORKTYPE_NAME'" node-list="emerWorkTypeTree"></layer-selector>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label required">修正原因：</label>
+                    <div class="col-xs-9">
+                        <textarea type="text" style="height:50px;resize:vertical" class="form-control" name="modifyReason" required ng-model="item.modifyReason"   />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+            <button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="delayModal.html">
+        <div class="modal-header">
+            <h4 class="modal-title">工单延期</h4>
+        </div>
+        <div class="modal-body  container-fluid form-horizontal">
+            <form name="form" novalidate>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label">工单名称：</label>
+                    <div class="col-xs-4">
+                        <div class="mt7">{{item.WORKUNIT_NAME}}</div>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label">执行时间：</label>
+                    <div class="col-xs-4">
+                        <div class="mt7">{{item.exec_date}}</div>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label required">延期原因：</label>
+                    <div class="col-xs-4">
+                        <select class="form-control"  name="reasonId" required ng-model="item.reasonId"  ng-options="o.id as o.name for o in reasons" ng-change="changeReson(item)">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">延期到：</label>
+                    <div class="col-xs-4">
+                        <input type="datetime" class="form-control Wdate" required name="date" ng-model="item.date"  onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})">
+                    </div>
+                    <div ng-show="item.reasonId" class="col-xs-4 mt7">最迟时间：<span class="text-danger">{{maxDelayDate}}</span></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">备注：</label>
+                    <div class="col-xs-10">
+                        <textarea type="text" style="resize:vertical" rows="5" class="form-control" ng-model="item.remark"   />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+            <button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="delayVerifyModal.html">
+        <div class="modal-header">
+            <h4 class="modal-title">延期审核</h4>
+        </div>
+        <div class="modal-body  container-fluid form-horizontal">
+            <form name="form" novalidate>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label">原执行时间：</label>
+                    <div class="col-xs-4">
+                        <div class="mt7">{{item.exec_date}}</div>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label">延期到：</label>
+                    <div class="col-xs-4">
+                        <div class="mt7">{{item.date}}</div>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label">延期原因：</label>
+                    <div class="col-xs-4">
+                        <div class="mt7">{{item.reasonName}}</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">备注：</label>
+                    <div class="col-xs-10">
+                        <div class="mt7">{{item.remark}}</div>
+                    </div>
+                </div>
+                <h3 class="page-header"></h3>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label required">是否通过：</label>
+                    <div class="col-xs-10 mt7">
+                        <label class="mr15" style="cursor: hand"><input type="radio" name="passable" ng-model="item.passable" value="1" required/>通过</label>
+                        <label style="cursor: hand"><input type="radio" name="passable" ng-model="item.passable" value="2" required/>不通过</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label" ng-class="{'required':item.passable==2}">审批意见：</label>
+                    <div class="col-xs-10 mt7">
+                        <textarea type="text" style="resize:vertical" rows="5" class="form-control" name="verifyRemark" ng-model="item.verifyRemark" ng-required="item.passable==2"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+            <button class="btn btn-warning" ng-click="$dismiss()">取消</button>
+        </div>
+    </script>
+</div>

@@ -1,0 +1,22 @@
+<div id="angularId" ng-controller="deptCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>组织架构</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6">
+			<div class="x_panel">
+				<div class="x_title">组织架构
+                    <a ng-click='expandAll(deptTree)' role="button" class='btn-link' title="展开与收缩">
+                        <i class="glyphicon" ng-class="{'glyphicon-resize-small':deptTree.expanded,'glyphicon-resize-full':!deptTree.expanded}" ></i></a>
+                    <a ng-click='addTopNode()' role="button" class='btn-link pull-right'><i class='fa fa-plus'></i>顶级组织</a>
+				</div>
+				<div class="x_content">
+					<div class="alert" role="alert" ng-show="deptTree.length==0">无组织架构</div>
+                    <tree-view-pro node-list="deptTree" config="config"></tree-view-pro>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

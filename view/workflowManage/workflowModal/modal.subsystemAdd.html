@@ -1,0 +1,17 @@
+<div class="modal-header">
+    <h3 class="modal-title">新建模型</h3>
+</div>
+<div class="modal-body container-fluid  form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group  form-inline">
+            <label class="col-xs-2 control-label required">子系统名称:</label>
+            <select class="col-xs-6 form-control" ng-model="chooseSystem" ng-options="o.name for o in systemList" required>
+                <option value="">--请选择子系统--</option>
+            </select>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save()" ng-disabled="!chooseSystem.name">确认</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+</div>

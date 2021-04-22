@@ -1,0 +1,10 @@
+<div class="map-container" map-full-page id="map-gaode">
+    高德地图
+</div>
+<style>
+    #map-gaode {
+        /* 全屏调整 */
+        min-height: 796px;
+        height: 100%;
+    }
+</style>

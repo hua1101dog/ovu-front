@@ -1,0 +1,91 @@
+﻿<style type="text/css">
+    .pagination > li > span:hover {
+        background-color: #fff;
+        cursor: text;
+    }
+</style>
+<div class="page" style="font-size:12px;">
+    <ul class="pagination pull-left" ng-show="pageModel.totalPage">
+        <li>
+            <span
+                style="  height: 41px;
+            line-height: 27px;"
+                >每页
+                <select
+                    style="width:80px;padding:0;border:none"
+                    type="number"
+                    ng-model="pageModel.pageSize"
+                    ng-change="find(1)"
+                    ng-options="o[0] as o[1] for o in [[10,'&nbsp;&nbsp;&nbsp;10'],[20,'&nbsp;&nbsp;&nbsp;20'],[50,'&nbsp;&nbsp;&nbsp;50'],[100,'&nbsp;&nbsp;&nbsp;100'],[200,'&nbsp;&nbsp;&nbsp;200']]"
+                >
+                </select
+                >条</span
+            >
+        </li>
+        <li
+            ng-if="$first"
+            role="button"
+            ng-repeat-start="page in pageModel.pages track by $index"
+            ng-class="{disabled:pageModel.currentPage ==1}"
+            ng-click="pageModel.currentPage >1 && find(pageModel.currentPage-1)"
+        >
+            <a
+                style="  height: 41px;
+            line-height: 27px;"
+                >«</a
+            >
+        </li>
+        <li ng-class="{active:page==pageModel.currentPage}" role="button">
+            <a
+                ng-if="page>0"
+                ng-click="find(page)"
+                style="  height: 41px;
+                    line-height: 27px;"
+                >{{page}}</a
+            >
+            <span
+                ng-if="!(page>0)"
+                style="border-top:none;border-bottom:none;height: 41px;
+                    line-height: 27px;"
+                >{{page}}</span
+            >
+        </li>
+        <li
+            ng-if="$last"
+            role="button"
+            ng-repeat-end
+            ng-class="{disabled:pageModel.currentPage == pageModel.totalPage}"
+            ng-click="pageModel.currentPage < pageModel.totalPage && find(pageModel.currentPage+1)"
+        >
+            <a
+                style="  height: 41px;
+            line-height: 27px;"
+                >»</a
+            >
+        </li>
+        <li>
+            <span
+                style="  height: 41px;
+            line-height: 27px;"
+                >共{{pageModel.totalRecord}}条记录</span
+            >
+        </li>
+        <li>
+            <span
+                style="height: 41px;
+                display: inline-block;
+                line-height: 27px;"
+                >前往第 &nbsp;
+                <input
+                    type="text"
+                    class="form-control"
+                    style="width:49px; display: inline-block; height: 25px;"
+                    ng-model="inputPage"
+                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                    ng-keyup="getValue(inputPage,pageModel.totalPage)"
+                />
+                &nbsp;页</span
+            >
+        </li>
+    </ul>
+</div>

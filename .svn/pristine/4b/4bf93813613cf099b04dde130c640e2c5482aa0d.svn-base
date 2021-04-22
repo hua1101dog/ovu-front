@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产权变更管理</title>
+</head>
+<body>
+<div id="angularId"  ng-controller="changePropertyCtr">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>产权变更管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0">
+            <div class="x_panel" >
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>申请日期：</label>
+                        <input type="datetime" class="form-control Wdate" ng-model="search.BEGIN_TIME"  onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                        至
+                        <input type="datetime" class="form-control Wdate" ng-model="search.END_TIME"  onchange=""
+                               onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+                    </div>
+                    <!-- 审核状态 -->
+                    <div class="form-group">
+                        <select class="form-control" ng-model="search.approveStatus">
+                            <option value="">--审核状态--</option>
+                            <option value="1">待审核</option>
+                            <option value="2">审核通过</option>
+                            <option value="3">驳回</option>
+                        </select>
+                    </div>
+                    <!-- 空间类型 -->
+                    <div class="form-group">
+                        <select class="form-control" ng-model="search.changeSpaceType">
+                            <option value="house" selected="selected">房屋</option>
+                            <option value="parking">车位</option>
+                            <option value="workPosition">工位</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-default pull-right btn_search" ng-click="find()">查询</button>
+                </div>
+                <table class="table table-striped table-hover" style="margin-top: 10px;">
+                    <thead class="title">
+                    <tr>
+                        <th class="text-center">空间名称</th>
+                        <th class="text-center">空间类型</th>
+                        <th class="text-center">申请类型</th>
+                        <th class="text-center">产权方</th>
+                        <th class="text-center">入驻方</th>
+                        <th class="text-center">申请时间</th>
+                        <th class="text-center">审核状态</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                    <tr ng-repeat="item in pageModel.data" ng-if="!item.edit">
+                        <td class="text-center">{{item.spaceName}}</td>
+                        <td class="text-center">{{getSpaceTypeName(item.changeSpaceType)}}</td>
+                        <td class="text-center">{{getRequestTypeName(item.requestType)}}</td>
+                        <td class="text-center">{{item.owerId == null?(item.OWNER == null?item.personalOwerName:item.OWNER):(item.owerName== null?item.personalOwerName:item.owerName)}}</td>
+                        <td class="text-center">{{item.enterName == null?item.personalEnterName:item.enterName}}</td>
+                        <td class="text-center">{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td class="text-center">{{getApproveStatus(item.approveStatus)}}</td>
+                        <td class="text-center">
+                            <button class="btn btn-oper" ng-if="item.approveStatus==1" ng-click='sured(item.id,2,item.changeSpaceType)'>通过</button>
+                            <button class="btn btn-oper" ng-if="item.approveStatus==1" ng-click='sured(item.id,3,item.changeSpaceType)'>驳回</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

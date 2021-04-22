@@ -1,0 +1,94 @@
+<div ng-controller="uploadCtl" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>数据导入</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">注意事项</div>
+                <div class="x_content">
+                    <ol>
+                        <li>请先下载模板文件</li>
+                        <li>根据模板认真填好数据</li>
+                        <li>导入表格</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">导入空间数据 <strong>
+                    <a href="" ng-click="downSpaceTmpl()" style="margin-left: 15px"  class="btn-link">空白模板</a>
+                    <a ng-if="hasPower('导出')" href="" ng-click="getParkSpaceTmpl()"  style="margin-left: 15px"  class="btn-link">导出空间数据</a>
+                </strong>
+                </div>
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label">
+                                <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+                                {{topPark.parkName?topPark.parkName:''}}</label>
+                        </div>
+                        <button ng-if="hasPower('导入')"  class="btn btn-info" ng-click="uploadSpace()" >文件导入</button>
+                        <strong class="text-success">{{parkMsg}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">导入工作事项 <strong>
+                    <a href="" ng-click="downWorkstandardTmpl()" style="margin-left: 15px"  class="btn-link">空白模板</a>
+                    <a ng-if="hasPower('导出')"  href="" ng-click="downloadWorktype()"  style="margin-left: 15px"  class="btn-link">导出工作事项</a>
+                </strong>
+                </div>
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <button ng-if="hasPower('导入')" class="btn btn-info" ng-click="uploadStandard()" >文件导入</button>
+                        <strong class="text-success">{{workstandardMsg}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">导入工作任务 <strong>
+                    <a href="" ng-click="downWorktaskTmpl()" style="margin-left: 15px"  class="btn-link">空白模板</a>
+                    <a ng-if="hasPower('导出')" href="" ng-click="getTaskTmpl()"  style="margin-left: 15px"  class="btn-link">导出工作任务</a>
+                </strong>
+                </div>
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <button ng-if="hasPower('导入')" class="btn btn-info" ng-click="uploadTask()" >文件导入</button>
+                        <strong class="text-success">{{worktaskMsg}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">导入设备信息 <strong>
+                    <a href="" ng-click="downEquipInfoTmpl()" style="margin-left: 15px"  class="btn-link">空白模板</a>
+                    <a ng-if="hasPower('导出')" href="" ng-click="getEquipInfoTmpl()" style="margin-left: 15px"  class="btn-link">导出设备信息</a></strong>
+                </div>
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label">
+                                <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+                                {{topPark.parkName?topPark.parkName:''}}</label>
+                        </div>
+                        <button ng-if="hasPower('导入')" class="btn btn-info" ng-click="uploadEquipInfo()" >文件导入</button>
+                        <strong class="text-success">{{equipInfoMsg}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

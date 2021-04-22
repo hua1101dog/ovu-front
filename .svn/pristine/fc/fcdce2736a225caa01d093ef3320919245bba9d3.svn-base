@@ -1,0 +1,60 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">查看记录</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="panel panel-default" style="margin-bottom: 0px;">
+		<div class="panel-heading">记录列表
+			
+			<button class="btn btn-primary pull-right" ng-click="export()"  >导出</button>
+		</div>
+		<div class="panel-body">
+			
+			<table class="table table-striped table-hover" style="margin-top: 10px;border-top:0">
+				<thead class="title">
+				<tr>
+					<th class="text-center">NO</th>
+					<th class="text-center" style="width:20px"><span role="button" ng-click="checkAll(pageModel)">
+								<i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i></span></th>
+					<th  class="text-center">项目</th>
+					<th  class="text-center">姓名</th>
+					<th  class="text-center">工号</th>
+					<th  class="text-center">查看时间</th>
+					
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-if="pageModel.data.length == 0 || !pageModel.data"><td colspan="100" class="text-center">暂无记录</td></tr>
+				<tr ng-repeat="item in pageModel.data">
+					<td style="border-top:0" class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+					<td style="border-top:0"><i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i></td>
+					
+					<td  class="text-center elipsis" title='{{item.parkName}}' style="width: 400px;border-top:0" ng-style="{'margin-top':$index ==0?'-1px':''}">{{item.parkName}}</td>
+					<td  style="border-top:0" class="text-center">{{item.personName}}</td>
+					<td  style="border-top:0" class="text-center">{{item.personJobCode}}</td>
+				    <td  class="text-center" style="width: 200px;border-top:0">{{item.viewed==0?'未查看':item.viewedTime}}</td>
+					
+				</tr>
+				</tbody>
+			</table>
+			<div class="page-footer clearfix">
+				<!-- <ng-include src="'/common/pager.html'"></ng-include> -->
+				<page-pro page-model="pageModel"></page-pro>
+			</div>
+		</div>
+	</div>
+  
+   
+  
+
+       
+</div>
+<style>
+.elipsis{
+	overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align: center;    display: inline-block;
+}
+
+
+</style>
+    
+

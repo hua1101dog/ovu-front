@@ -1,0 +1,35 @@
+{
+    "success":"true",
+    "datas":{
+        "sc_space":{
+            "totle_space":4109,
+            "open_space":605,
+            "independent_space":2049,
+            "totle_station":307,
+            "open_station":58,
+            "independent_station":32
+        },
+        "sc_enterprise":{
+            "current":23,
+            "totle":34
+        },
+        "sc_value":{
+            "totle":"非公开",
+            "annual_value":"非公开",
+            "annual_tax":"非公开"
+        },
+        "sc_installation":{
+            "meeting_room":3,
+            "meeting_content":50,
+            "activities_filed":1,
+            "activities_content":100
+        },
+        "sc_classify_pie":[
+            {"name":"金融保险","value":6},
+            {"name":"制造供应","value":5},
+            {"name":"文化娱乐","value":5},
+            {"name":"其他","value":5},
+            {"name":"信息科技","value":2}
+        ]
+    }
+}

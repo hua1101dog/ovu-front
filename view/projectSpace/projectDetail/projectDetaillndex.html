@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="projectDetailndexCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>项目详情</h3>
+            </div>
+        </div>
+        <div class="x_panel container-fluid form-horizontal pro-Detail">
+            <form name="detaiForm" novalidate>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label label-W">项目名称：</label>
+                    <div class="col-xs-8 pt7">{{search.parkName}}</div>
+                    <div class="col-xs-2"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label label-W">产业主题：</label>
+                    <div class="col-xs-3">
+                    <select class="form-control" ng-model="proDetail.theme"  ng-options="o.dicVal as o.dicItem for o in themeList">
+                        <option value="">--请选择--</option>
+                    </select>
+                    </div>
+                   <label class="col-xs-2 control-label " style="padding-right: 0px;">物业类别：</label>
+                    <div class="col-xs-3">
+                        <select class="form-control" ng-model="proDetail.propertyType"  ng-options="o.dicVal as o.dicItem for o in workTypeList">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label label-W">项目简介：</label>
+                    <div class="col-xs-10">
+                        <!-- <div  id="introEditor" ></div> -->
+                        <div class="ueditor" config="config" style="width: 700px; height: 300px;"
+                        ng-model="proDetail.introduction" ready="ready"></div>
+                        <!-- <textarea ng-model="proDetail.introduction" name="introduction" class="form-control" rows="4" maxlength="1000"></textarea> -->
+                    </div>
+                    <div class="col-xs-2"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label label-W">区位优势：</label>
+                    <div class="col-xs-10" >
+                        <!-- <div  id="locationEditor"></div>
+                        <div  id="editor"  style="display: none;"></div> -->
+                        <div class="ueditor" config="config" style="width: 700px; height: 300px;"
+                        ng-model="proDetail.locationAdvantage" ready="ready"></div>
+                        <!-- <textarea ng-model="proDetail.locationAdvantage" name="locationAdvantage" class="form-control" rows="4" maxlength="1000"></textarea> -->
+                    </div>
+                    <div class="col-xs-2"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label label-W">交通优势：</label>
+                    <div class="col-xs-10">
+                        <!-- <div  id="trafficEditor"  ></div> -->
+                        <div class="ueditor" config="config" style="width: 700px; height: 300px;"
+                        ng-model="proDetail.trafficAdvantage" ready="ready"></div>
+                        <!-- <textarea ng-model="proDetail.trafficAdvantage" name="trafficAdvantage" class="form-control" rows="4" maxlength="1000"></textarea> -->
+                    </div>
+                    <div class="col-xs-2"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label label-W">招商政策：</label>
+                    <div class="col-xs-10">
+                        <!-- <div  id="investmentEditor"  ></div> -->
+                        <div class="ueditor" config="config" style="width: 700px; height: 300px;"
+                        ng-model="proDetail.investmentPolicy" ready="ready"></div>
+                        <!-- <textarea ng-model="proDetail.investmentPolicy" name="investmentPolicy" class="form-control" rows="4" maxlength="1000"></textarea> -->
+                    </div>
+                    <div class="col-xs-2"></div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label label-W" >项目VR：</label>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control" ng-model="proDetail.vrhttp" name="outAddress"  style="cursor: default;"/>
+                    </div>
+                    <div class="col-xs-2"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label label-W" ></label>
+                    <label class="col-xs-10 control-label" style="color:red;text-align: left;">项目全景VR的连接地址，必须是http或https开头的网页地址，如果没有可以为空</label>
+                    <div class="col-xs-2"></div>
+                </div>
+                <div class="form-group">
+                    
+                    <div class="col-xs-8" style="text-align: center;">
+                       <button class="btn btn-primary" ng-click="save(detaiForm,proDetail)" style="width: 120px;">保存</button>
+                    </div>
+                    
+                </div>
+               
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
+<style>
+    .pt7{
+        padding-top: 7px;
+    }
+    .label-W{
+        padding-right: 0px;
+        width: 120px;
+    }
+    .pro-Detail .w-e-text-container{
+        height:100px !important;
+
+    }
+</style>

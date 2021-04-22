@@ -1,0 +1,84 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">藏品出库</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">归属单位</label>
+            <div class="col-xs-8">
+                    <input type="text" class="form-control" required readonly ng-model="item.ascription"  />
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">藏品作者</label>
+            <div class="col-xs-8">
+                    <input type="text" class="form-control" required readonly ng-model="item.author" name="author" />
+                </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">作品名称</label>
+            <div class="col-xs-8">
+                    <input type="text" class="form-control" required readonly ng-model="item.name" name="name" />
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">出库日期</label>
+            <div class="col-xs-8">
+                <input type="datetime" required class="form-control Wdate" ng-model="item.operationTime" placeholder="出库日期"
+                    onchange=""  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d %H:%m:%s'})">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">出库事由</label>
+            <div class="col-xs-8">
+
+                <textarea class="form-control" required ng-model="item.reason"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">批准人</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.checker" name="checker" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">接收人</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" required ng-model="item.receiver" name="receiver" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">凭证图片</label>
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="{{'voucherUrl'+$index}}" readonly  ng-model="item.voucherUrl">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" style="height: 32px;" ng-disabled="!!item.voucherUrl" ng-click="addPhoto(item,'voucherUrl')">上传图片</button>
+                    </span>
+                </div>
+                <div class="thumbnail text-center file-photo-wraper" style="margin-bottom: 0px">
+                    <img alt="" onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(item.voucherUrl)}}" />
+                    <div class="caption">
+                        <p>
+                            <button class="btn btn-warning" style="height: 32px;" ng-if="!!item.voucherUrl" ng-click="clearPhoto(item,'voucherUrl')"><i
+                                    class="glyphicon glyphicon-remove"></i></button>
+                        </p>
+                    </div>
+                </div>
+                <span style="color: #908e8e;margin-top: -20px">（仅限添加一张）</span>
+            </div>
+
+        </div>
+
+
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

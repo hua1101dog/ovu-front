@@ -1,0 +1,169 @@
+<!-- 报装巡检任务 -->
+<div class="inspection-task" id="angularId" ng-controller="inspectionTaskCtrl">
+    <div class="photoDiv" ng-if="curPic.on">
+        <img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute" ng-click="curPic.on = false"></img>
+        <img class="photo" ng-src="{{curPic.url}}" image-load="wheel()"></img>
+    </div>
+    <!-- title BEGIN -->
+    <div class="inspection-task-title page-title">
+        <div class="title_left">
+            <h3 style="margin-top: 3px;">报装巡检任务</h3>
+        </div>
+        <!-- <div class="col-xs-4 title_right pull-right text-right" ng-if="search.isGroup">
+            <label class="control-label">
+                <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+                <a role="button" ng-click="findPark(search,refresh)">{{search.PARK_NAME||'请选择项目'}} </a>
+            </label>
+        </div> -->
+    </div>
+    <!-- title END -->
+    <!-- content BEGIN -->
+    <div class="inspection-task-content">
+        <div class="x_panel">
+            <div class="form-inline pull-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="装修巡检任务" ng-model="search.inspTask">
+                </div>
+                <div class="form-group">
+                    <input type="datetime" class="form-control Wdate inspectSt" ng-model="search.startTime" placeholder="开始日期" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.inspectEn').last().val()}&quot;})">
+                    <label style="line-height: 32px;">-</label>
+                    <input type="datetime" class="form-control Wdate inspectEn" ng-model="search.endTime" placeholder="结束日期" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.inspectSt').first().val()}&quot;})">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" ng-model="search.taskStatus" ng-options="x[0] as x[1] for x in [[0,'停用'], [1,'启用']]">
+                            <option value="">--任务状态--</option>
+                        </select>
+                </div>
+
+                <div class="btn btn-primary" ng-click="find(search)">查询</div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                巡检任务列表
+                <div class="pull-right">
+                    <button class="btn btn-primary" ng-disabled="!hasChecked(pageModel)" ng-click="toScheduleAll()">批量排期</button>
+                    <button class="btn btn-primary" ng-disabled="!hasChecked(pageModel)" ng-click="toStopAll()">批量停用</button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center">序号</th>
+                            <th class="text-center" style="width:20px">
+                                <span role="button" ng-click="checkAll(pageModel)">
+                                    <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                                </span>
+                            </th>
+                            <th nowrap="nowrap">巡检任务</th>
+                            <th nowrap="nowrap">报事业主房号</th>
+                            <th nowrap="nowrap">报事业主姓名</th>
+                            <th nowrap="nowrap">报事业主电话</th>
+                            <th nowrap="nowrap">创建日期</th>
+                            <th nowrap="nowrap">任务状态</th>
+                            <th style="min-width: 138px;" nowrap="nowrap">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!pageModel.data.length">
+                            <td colspan="100" style="text-align: center;">暂无巡检任务</td>
+                        </tr>
+                        <tr ng-repeat="item in pageModel.data">
+                            <td class="text-center">
+                                {{$index + 1 + pageModel.pageSize * pageModel.pageIndex}}
+                            </td>
+                            <td>
+                                <i role="button" ng-click="checkOne(item, pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}" class="glyphicon"></i>
+                            </td>
+                            <td>{{item.patrolName}}</td>
+                            <td>{{item.roomName}}</td>
+                            <td>{{item.ownerName}}</td>
+                            <td>{{item.ownerTel}}</td>
+                            <td>{{item.createTime}}</td>
+                            <td>{{item.status == '1'?'启用':'停用'}}</td>
+                            <td class="clearfix">
+                                <!-- 启用状态 -->
+                                <div ng-if="item.status != 0">
+                                    <a href="javascript:void(0)" ng-click="toSchedule(item)">
+                                        <span>排期</span>
+                                    </a>
+                                    <a href="javascript:void(0)" ng-click="toWorkUnit(item)">
+                                        <span>查看工单</span>
+                                    </a>
+                                    <a href="javascript:void(0)" ng-click="toWorkUnit(item, true)">
+                                        <span>生成工单</span>
+                                    </a>
+                                    <a href="javascript:void(0)" ng-click="toStartStop(item)">
+                                        <span>停用</span>
+                                    </a>
+                                </div>
+                                <!-- 停用状态 -->
+                                <div ng-if="item.status == 0">
+                                    <a href="javascript:void(0)" ng-if="item.isWorkUnit" ng-click="toWorkUnit(item)">
+                                        <span>查看工单</span>
+                                    </a>
+                                    <a href="javascript:void(0)" ng-click="toStartStop(item)">
+                                        <span>启用</span>
+                                    </a>
+                                    <a href="javascript:void(0)" ng-if="item.isWorkUnit" ng-click="toInspCheck(item)">
+                                        <span>验收</span>
+                                    </a>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer clearfix">
+                <decoration-pagination total-count="pageModel.totalCount" current-page="pageModel.currentPage" num-per-page="pageModel.numPerPage" on-select-change="numSelect($event)" on-page-changed="pageChanged($event)">
+                </decoration-pagination>
+            </div>
+        </div>
+    </div>
+    <!-- content END -->
+
+    <!-- 工作分类 -->
+    <ng-include src="'/common/modal.worktype.tree.html'"></ng-include>
+
+</div>
+
+<style>
+    .inspection-task-content .panel-heading button {
+        margin-top: -8px;
+    }
+    
+    .inspection-task-content .panel-body {
+        /* height: 530px; */
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    
+    .inspection-task-content .panel-body table {
+        min-width: 950px;
+    }
+    
+    .inspection-task-content table tr th,
+    .inspection-task-content table tr td {
+        text-align: left;
+        vertical-align: middle;
+    }
+    
+    .inspection-task-content table td a {
+        padding: 0 10px 0 12px;
+    }
+    
+    .inspection-task-content .pipe {
+        border-right: 2px solid #5A738E;
+    }
+</style>
+
+<!-- 分页组件 -->
+<!-- <script src="../view/decoration/common/pagination/pagination.js"></script> -->
+<!-- confirm组件 -->
+<script src="../view/decoration/common/confirmModal/confirm.js"></script>
+<!-- autoFocus指令 -->
+<script src="../view/decoration/common/directives.js"></script>
+<!-- 公共服务 -->
+<!-- <script src="../view/decoration/common/service.js"></script> -->

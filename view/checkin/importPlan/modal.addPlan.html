@@ -1,0 +1,112 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" >×</button>
+    <h4 class="modal-title">新增排班规则</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+
+    <form name="form" style="padding: 0 20px" novalidate>
+        <div class="form-group">
+            <label class="col-xs-3 control-label required">排班规则：</label>
+            <div class="col-xs-8">
+                <label role="button" style="line-height:32px;margin-right: 15px">
+                    <input type="radio" style="margin:0 5px" ng-model="item.readWay" value=1
+                        name="readWay">法定节假日</label>
+                <label role="button" style="line-height:32px;">
+                    <input type="radio" style="margin:0 5px" ng-model="item.readWay" value=2
+                        name="readWay">导入排班计划表</label>
+            </div>
+        </div>
+        <div ng-if="item.readWay==1">
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">选择部门：</label>
+                <div class="col-xs-8" style="padding-left: 0px">
+                    <tree-selector required node-list="searchDeptTree" need=true host="auth" host-key="'deptId'"
+                        host-text="'deptName'" leaf-only=false tip-text="'请选择部门'" callback="selectClass">
+                    </tree-selector>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">选择班次：</label>
+                <div class="col-xs-8" style="padding-left: 0px">
+                    <select class="form-control" ng-model="item.scheduleName" ng-options="o as o for o in classList">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label required">选择日期：</label>
+                <div class="col-xs-8" style="padding-left: 0px">
+                    <input type="datetime" required id="planT_date1" class="form-control Wdate"
+                        style="display: inline-block;" ng-model="item.year" onchange=""
+                        onclick="javascript:WdatePicker({dateFmt:'yyyy',minDate:'%y'})">
+
+                </div>
+            </div>
+        </div>
+        <div ng-if="item.readWay==2">
+            <div>
+                <div class="inline_block pro_Line"></div>
+                <div class="inline_block pro_border">
+                    <span class="font_num inline_block">1</span><br>
+                    <span class="font_detail inline_block">选择排班文件</span>
+                </div>
+                <div class="inline_block pro_Line"></div>
+                <div class="inline_block pro_border">
+                    <span class="font_num inline_block">2</span><br>
+                    <span class="font_detail inline_block" style="margin-left: -27px;">导入成功</span>
+                </div>
+                <div class="inline_block pro_Line"></div>
+            </div>
+            <div>
+
+
+            </div>
+            <div class="form-group" style="margin-top: 20px">
+                <label class="col-xs-3 control-label  required">排班文件：</label>
+                <div class="col-xs-6" style="padding-left: 0px">
+                    <input type="text" class="form-control" ng-model="item.name" readonly>
+                </div>
+                <button style="margin-left: 30px" class="btn btn-info" ng-click="upLoadExcel()">文件导入</button>
+            </div>
+    </form>
+</div>
+<div class="modal-footer" ng-if="item.readWay==1">
+    <button class="btn btn-primary" style="margin: 0 10px" ng-click="confirm(form)">确定</button>
+    <button class="btn btn-warning" style="margin: 0 10px" ng-click="cancel()">取消</button>
+</div>
+<style>
+    .inline_block {
+        display: inline-block
+    }
+
+    .pro_Line {
+        height: 1px;
+        width: 22%;
+        border: 1px dashed #ccc;
+        vertical-align: middle
+    }
+
+    .pro_border {
+        margin: 20px;
+        width: 40px;
+        height: 40px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        vertical-align: middle
+    }
+
+    .font_num {
+        text-align: center;
+        width: 40px;
+        line-height: 40px;
+        font-size: 14px;
+    }
+
+    .font_detail {
+        margin-top: 5px;
+    margin-left: -24px;
+    text-align: center;
+    width: 96px;
+    }
+
+</style>

@@ -1,0 +1,46 @@
+		<div class="modal-header">
+			<h4 class="modal-title">{{item.ID?'编辑':'添加'}}工作事项</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="form-group" ng-if="item.pid!='0'">
+					<label class="col-xs-4 control-label">工作分类：</label>
+					<div class="col-xs-6">
+						<div style="margin-top: 8px">{{item.ptexts}}</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-4 control-label required">工作事项名称：</label>
+					<div  class="col-xs-6">
+						<input type="text" class="form-control" ng-model="item.WORKITEM_NAME" name="WORKITEM_NAME" required/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-4 control-label required">工作事项编码：</label>
+					<div  class="col-xs-6">
+						<input type="text" class="form-control" ng-model="item.WORKITEM_NO" name="WORKITEM_NO" required/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-4 control-label required">工序：</label>
+					<div  class="col-xs-6">
+						<input type="text" ng-model="item.program" required name="program" class="form-control" ng-class="{'waiting':loadingProgram}"
+							   placeholder="请选择工序！"
+							   uib-typeahead="o as o.WORKPROGRAM_NAME+(o.WORKITEM_ID?'(已关联)':'') for o in getProgram($viewValue,item.ID)" typeahead-min-length=0 typeahead-editable=false typeahead-loading="loadingProgram" typeahead-wait-ms='300' />
+
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="col-xs-4 control-label">工作事项描述：</label>
+					<div class="col-xs-6">
+						<textarea type="text" style="height:150px;resize:vertical" class="form-control" ng-model="item.DESCRIPTION"   />
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+
+

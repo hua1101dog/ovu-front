@@ -1,0 +1,195 @@
+<div class="row m-b home">
+    <div class="col-lg-4 col-sm-4 ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                通知公告
+                <button class="btn btn-primary pull-right" ui-sref="app.notifyDetail">更多</button>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li ng-repeat="notice in vm.noticeList track by $index" >
+                        <a href='javascript:void(0)' ng-click="vm.see(notice)"
+                           class='col-lg-8 col-sm-7 col-xs-9 btn btn-xs btn-link text-ellipsis text-left'
+                           uib-tooltip="{{notice.title}}" tooltip-placement="top-left">{{notice.title}}</a>
+                        <span class="pull-right">{{notice.createTime | time}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">登录</div>
+            <div class="panel-body">
+                <form name="form1" class="form-horizontal">
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label required">账号</label>
+                        <div class="col-sm-10">
+                            <input type="text" ng-model="vm.item.loginName" class="form-control" placeholder="账号" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label required">密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" ng-model="vm.item.password" class="form-control" placeholder="密码" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary" ng-click="vm.login(form1,vm.item)">登录</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">设备查询</div>
+            <div class="panel-body">
+                <form name="form2" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label required">注册代码</label>
+                        <div class="col-sm-10">
+                            <input type="text" ng-model="vm.sensor.regiCode" class="form-control" placeholder="注册代码" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label required">维保单位名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" ng-model="vm.sensor.maintainName" class="form-control" placeholder="维保单位名称" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary" ng-click="vm.searchSensor(form2,vm.sensor)">查询</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">人员查询</div>
+            <div class="panel-body">
+                <form  name="form3" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label required">姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" ng-model="vm.user.name" class="form-control" placeholder="姓名" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label required">工号</label>
+                        <div class="col-sm-10">
+                            <input type="text" ng-model="vm.user.jobCode" class="form-control" placeholder="工号" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary" ng-click="vm.searchUser(form3,vm.user)">查询</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                行业新闻
+                <button class="btn btn-primary pull-right" ui-sref="app.newsDetail">更多</button>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6">
+                        <div style="min-height: 300px;cursor: pointer;">
+                            <div uib-carousel active="vm.active" interval="vm.myInterval">
+                                <div uib-slide ng-click="vm.see(slide)"
+                                     ng-repeat="slide in vm.news1List track by $index" index="$index">
+                                    <!-- <img onerror="javascript:this.src='/res/img/detail.png';"
+                                         ng-src="{{processImgUrl(slide.imgPaths)}}" style="margin:auto;height: 300px;"> -->
+                                         <img onerror="javascript:this.src='/res/img/detail.png';"
+                                         ng-src="{{processImgUrl(slide.imgPaths[0])}}" style="margin:auto;height: 300px;">
+                                    <div class=" text-center"  style="color: #3B6FFF;">
+                                        <span>{{slide.title}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6">
+                        <ul>
+                            <li ng-repeat="news in vm.news2List track by $index">
+                                <a href='javascript:void(0)'  ng-click="vm.see(news)"
+                                   class='col-lg-8 col-sm-7 col-xs-9 btn btn-xs btn-link text-ellipsis text-left'
+                                   uib-tooltip="{{news.title}}" tooltip-placement="top-left">{{news.title}}</a>
+                                <span class="pull-right">{{news.createTime | time}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                业务指南
+                <button class="btn btn-primary pull-right" ui-sref="app.guideDetail">更多</button>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6">
+                        <ul>
+                            <li ng-repeat="guide in vm.guide1List track by $index" >
+                                <a href='javascript:void(0)' ng-click="vm.see(guide)"
+                                   class='col-lg-8 col-sm-7 col-xs-9 btn btn-xs btn-link text-ellipsis text-left'
+                                   uib-tooltip="{{guide.title}}" tooltip-placement="top-left">{{guide.title}}</a>
+                                <span class="pull-right">{{guide.createTime | time}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-sm-6">
+                        <ul>
+                            <li ng-repeat="guide in vm.guide2List track by $index" >
+                                <a href='javascript:void(0)' ng-click="vm.see(guide)"
+                                   class='col-lg-8 col-sm-7 col-xs-9 btn btn-xs btn-link text-ellipsis text-left'
+                                   uib-tooltip="{{guide.title}}" tooltip-placement="top-left">{{guide.title}}</a>
+                                <span class="pull-right">{{guide.createTime | time}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                公示数据
+                <button class="btn btn-primary pull-right"  ui-sref="app.dataDetail">更多</button>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <ul class="nav nav-tabs nav-justified text-center" style="background: transparent">
+                        <li role="presentation" style="color: #0C0C0C">培训考试结果</li>
+                        <li role="presentation" style="color: #0C0C0C">设备注册登记结果公示</li>
+                    </ul>
+                    <div class="col-lg-6 col-sm-6">
+                        <ul>
+                            <li ng-repeat="data in vm.data1List track by $index">
+                                <a href='javascript:void(0)' ng-click="vm.see(data)"
+                                   class='col-lg-8 col-sm-7 col-xs-9 btn btn-xs btn-link text-ellipsis text-left'
+                                   uib-tooltip="{{data.title}}" tooltip-placement="top-left">{{data.title}}</a>
+                                <span class="pull-right">{{data.createTime | time}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-sm-6">
+                        <ul>
+                            <li ng-repeat="data in vm.data2List track by $index">
+                                <a href='javascript:void(0)' ng-click="vm.see(data)"
+                                   class='col-lg-8 col-sm-7 col-xs-9 btn btn-xs btn-link text-ellipsis text-left'
+                                   uib-tooltip="{{data.title}}" tooltip-placement="top-left">{{data.title}}</a>
+                                <span class="pull-right">{{data.createTime | time}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

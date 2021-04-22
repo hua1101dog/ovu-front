@@ -1,0 +1,22 @@
+<!-- 视频服务配置管理 -->
+<div ng-controller="imosTransformCtrl">
+        <div class="page-title">
+                <div class="title_left">
+                    <h3>视频服务配置管理</h3>
+                </div>
+            </div>
+           
+                <uib-tabset active="active">
+                            <uib-tab index="0" heading="转流服务与监控服务配置"  select="changeIndex(0)">
+                                <ng-include src="'./videomanagement/imostr.html'"></ng-include>
+                            </uib-tab>
+                            <uib-tab index="1" heading="转流服务与流媒体服务器配置" select="changeIndex(1)">
+                                <ng-include src="'./videomanagement/mediaTransform.html'"></ng-include>
+                            </uib-tab>
+                           
+                        </uib-tabset>
+                    
+                    </div>
+                
+            </div>
+</div>

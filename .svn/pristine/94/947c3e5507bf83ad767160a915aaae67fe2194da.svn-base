@@ -1,0 +1,36 @@
+<div class="" ng-controller="energyMainCtl as vm" style="height:100%;">
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="right-panel">
+            <!--项目能耗表情况-->
+            <div>
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">项目能耗表概况</h4>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightData.total}}</h3>
+                        <div>能耗表总数</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center">
+                        <h3>{{vm.rightData.regular_num}}</h3>
+                        <div>正常</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 text-center m-b-md">
+                        <h3>{{vm.rightData.total - vm.rightData.regular_num}}</h3>
+                        <div class="red">异常</div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <h4 class="font-bold">项目耗能趋势图</h4>
+                    <div style="height:200px;width:370px;" ui-echarts="vm.polyData">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>
+<style>
+    .right-panel {
+        height: 100%;
+        overflow: auto;
+    }
+</style>

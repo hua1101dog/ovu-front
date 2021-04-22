@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>空间信息报表</title>
+    <link rel="stylesheet" href="reportManage/style/report.css">
+</head>
+<body>
+<div id="angularId" ng-controller="spaceReportIndexContr" >
+    <div class="page-title">
+        <div class="title_left">
+            <h3>空间信息报表</h3>
+        </div>
+    </div>
+    <div class="">
+        <div class="x_panel" >
+            <div class="form-inline" >
+
+
+
+                
+                <div class="form-group">
+                    <label class="control-label">分期</label> 
+                    <select class="form-control"  ng-model="search.stageId" ng-change="selectStage()">
+                        <option value="">--请选择--</option>
+                        <option ng-repeat="stage in stageList track by $index"  value="{{stage.id}}">{{stage.text}}</option>
+                    </select> 
+                   </div>
+
+
+
+
+
+
+                    <div class="form-group">
+	                    <label class="control-label">楼栋</label>
+	                    <select class="form-control" ng-model="search.buildId" ng-change="selectBuild()"  >
+							<option value="">--请选择--</option>
+							<option ng-repeat="build in buildList track by $index" value="{{build.id}}">{{build.buildName}}</option>
+						</select>
+					</div>
+                    <div class="form-group">
+	                    <label class="control-label">单元</label> 
+	                    <select class="form-control" ng-model="search.unitNum" ng-change="selectUnit()"  >
+							<option value="">--请选择--</option>
+							<option ng-repeat="unit in unitList track by $index" value="{{unit}}">{{unit}}单元</option>
+						</select>
+					</div>
+                    <div class="form-group">	                    
+                    	<label class="control-label">楼层</label> 
+	                    <select class="form-control" ng-model="search.groundNo" ng-change="selectGround()"  >
+							<option value="">--请选择--</option>
+							<option ng-repeat="floor in floorList track by $index" value="{{floor}}">{{floor}}层</option>
+						</select>
+					</div>
+                    <div class="form-group">
+						<label class="control-label">房屋</label> 
+	                    <select class="form-control" ng-model="search.id">
+								<option value="">--请选择--</option>
+							<option ng-repeat="house in houseList track by $index" value="{{house.id}}">{{house.houseName}}</option>
+						</select>
+	            	</div>
+	            	<div class="form-group">
+	                    <label class="control-label">空间状态：</label>
+	                    <select class="form-control" ng-model="search.spaceStatus">
+	                        <option value="">请选择</option>
+	                        <option value="1">自持</option>
+	                        <option value="2">已租</option>
+	                        <option value="3">已售</option>
+	                    </select>
+	                </div>
+	                <button class="btn btn-primary pull-right" ng-click="exportToTable()" >导出</button>
+                	<button class="btn btn-default" ng-click="query()" >查询</button>
+	            </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#999999;">
+                总房源(套)：{{parkDetail.totalHouses}}&nbsp;&nbsp;&nbsp;总面积(m2)：{{parkDetail.totalArea}}
+                &nbsp;&nbsp;&nbsp;已售房源(套)：{{parkDetail.saleHouses}}&nbsp;&nbsp;&nbsp;已售面积(m2)：{{parkDetail.saleArea}}
+                &nbsp;&nbsp;&nbsp;已租房源(套)：{{parkDetail.rentHouses}}&nbsp;&nbsp;&nbsp;已租面积(m2)：{{parkDetail.rentArea}}
+                &nbsp;&nbsp;&nbsp;自持房源(套)：{{parkDetail.selfHouses}}&nbsp;&nbsp;&nbsp;自持面积(m2)：{{parkDetail.selfArea}}
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover" style="margin-top: 10px;color:#999999;">
+                    <thead class="title">
+                        <tr class="text-center">
+                            <th class="text-center">NO</th> 
+                            <th>分期/楼栋</th>
+                            <th>单元</th>
+                            <th>楼层/房屋</th>
+                            <th>建筑面积（㎡）</th>
+                            <th>产权所属</th>
+                            <th>空间状态</th>
+                            <th>入驻详情</th>
+                            <th>租售详情</th>
+                            <th>注册企业详情</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                    <tr ng-repeat="item in pageModel.data" style="color:#333333;">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <!-- <td>{{item.CUS_TYPE | convertCusType}}</td> -->
+                        <td class="">{{item.stageName||"--"}}/{{item.buildName||"--"}}</td>
+                        <td class="">{{item.unitNo?item.unitNo+'单元':"--"}}</td>
+                        <td class="">{{item.groundNo?item.groundNo+'层':"--"}}/{{item.houseName||"--"}}</td>
+                        <td class="">{{item.area||"--"}}</td>
+                        <td class="">{{item.ownerPersonName||"--"}}</td>
+                        <td class="">{{item.spaceStatus ? (item.spaceStatus | spaceStatus) : "--"}}</td>
+                        <td class="">
+                            <a href='javascript:void(0)' ng-click='showEnterInfo(item)' style="color:green;"><span></span>详情</a>
+                        </td>
+                        <td>
+                            <a href='javascript:void(0)' ng-click='showRentsaleInfo(item)' style="color:green;"><span></span>详情</a>
+                        </td>
+                        <td class="">
+                            <a href='javascript:void(0)' ng-click='showDetailInfo(item)' style="color:green;"><span></span>详情</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+          	<div class="page-footer clearfix">	                      
+               <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

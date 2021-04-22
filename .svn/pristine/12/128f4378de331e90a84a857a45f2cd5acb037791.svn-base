@@ -1,0 +1,242 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()">×</button>
+    <h4 class="modal-title">{{item.id?'编辑':'添加'}}硬件服务器</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label class="col-xs-2 control-label required">硬件服务器名称：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.name" required name="name" id={{item.id}}
+                       ensure_unique="name" ng-model-options="{ updateOn: 'blur' }" api='/ovu-camera/pcos/videomanagement/hardware/isOnly'
+                       required uib-popover="{{form.name.$error.unique?'硬件服务器名称已被使用':''}}" popover-placement="top" popover-trigger="mouseenter">
+            </div>
+            <label class="col-xs-2 control-label">设备编号：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.hardwareNo" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label ">局域网：</label>
+            <div class="col-xs-4">
+                <layer-selector host="item" host-key="'lanId'" host-text="'lanName'" node-list="lanTree" callback="setParkId" leaf-only="true"></layer-selector>
+            </div>
+            <label class="col-xs-2 control-label ">设备位置：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.position">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label" ng-if="item.lanId!=0">局域网ip：</label>
+            <div class="col-xs-4" ng-if="item.lanId!=0">
+                <input type="text" class="form-control" ng-model="item.localIp">
+            </div>
+            <label class="col-xs-2 control-label">外网ip：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.ip">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">teamViewer账号：</label>
+            <div class="col-xs-4" >
+                <input type="text" class="form-control" ng-model="item.teamViewerId">
+            </div>
+            <label class="col-xs-2 control-label">teamViewer密码：</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="item.teamViewerPassword">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-2 control-label">备注：</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" ng-model="item.remarks" />
+            </div>
+        </div>
+        <uib-tabset >
+            <uib-tab  ng-if="item.lanId!=0">
+                <uib-tab-heading>视频监控服务 <span class="badge" ng-if="item.imosList">{{item.imosList.length}}</span></uib-tab-heading>
+                <div class="panel panel-default mt7" >
+                    <div class="panel-heading">&nbsp;
+                        <button class="btn btn-primary pull-right" style="margin-top: -8px" ng-click="item.imosList.push({})" >添加</button>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover" style="margin-bottom: 0">
+                            <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th style="width: 120px">编号</th>
+                                <th>类型</th>
+                                <th>用户</th>
+                                <th>密码</th>
+                                <th style="width: 90px">端口</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tr ng-if="item.imosList.length == 0">
+                                <td colspan="100" class="text-center">未配置视频监控服务</td>
+                            </tr>
+                            <tr ng-repeat="obj in item.imosList">
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td ><input type="text" class="form-control"  name="imosCode{{$index}}" ng-model="obj.imosCode" /></td>
+                                <td >
+                                    <select class="form-control" ng-model="obj.imosType" required ng-options="o[0] as o[1] for o in imosTypeDict">
+                                        <option value="">--请选择--</option>
+                                    </select>
+                                </td>
+                                <td ><input type="text" class="form-control"  name="user{{$index}}" ng-model="obj.user" /></td>
+                                <td><input type="text" class="form-control"  name="passwd{{$index}}" ng-model="obj.passwd" /></td>
+                                <td><input type="text" class="form-control"  name="imosPort{{$index}}" ng-model="obj.imosPort" /></td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='item.imosList.splice(item.imosList.indexOf(obj), 1);' class='btn btn-xs'><span class='fa fa-close'></span>删除</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab  ng-if="item.lanId!=0" >
+                <uib-tab-heading>转流服务 <span class="badge" ng-if="item.transformList">{{item.transformList.length}}</span></uib-tab-heading>
+                <div class="panel panel-default mt7" >
+                    <div class="panel-heading">&nbsp;
+                        <button class="btn btn-primary pull-right" style="margin-top: -8px" ng-click="item.transformList.push({})" >添加</button>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover" style="margin-bottom: 0">
+                            <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th style="width: 180px">编号</th>
+                                <th>名称</th>
+                                <th>备注</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tr ng-if="item.transformList.length == 0">
+                                <td colspan="100" class="text-center">未配置转流服务</td>
+                            </tr>
+                            <tr ng-repeat="obj in item.transformList">
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td ><input type="text" class="form-control"  name="transformNo{{$index}}" ng-model="obj.transformNo" /></td>
+                                <td >
+                                    <input type="text" class="form-control"  name="transformName{{$index}}" ng-model="obj.transformName" />
+                                </td>
+                                <td ><input type="text" class="form-control"  name="remarks{{$index}}" ng-model="obj.remarks" /></td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='item.transformList.splice(item.transformList.indexOf(obj), 1);' class='btn btn-xs'><span class='fa fa-close'></span>删除</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab  >
+                <uib-tab-heading>流媒体服务 <span class="badge" ng-if="item.mediaList">{{item.mediaList.length}}</span></uib-tab-heading>
+                <div class="panel panel-default mt7">
+                    <div class="panel-heading">&nbsp;
+                        <button class="btn btn-primary pull-right" style="margin-top: -8px" ng-click="item.mediaList.push({})" >添加</button>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover" style="margin-bottom: 0">
+                            <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th style="width: 90px">推流端口</th>
+                                <th style="width: 90px">视频端口</th>
+                                <td >备注</td>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tr ng-if="item.mediaList.length == 0">
+                                <td colspan="100" class="text-center">未配置流媒体服务</td>
+                            </tr>
+                            <tr ng-repeat="obj in item.mediaList">
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td><input type="text" class="form-control"  name="rtmpPort{{$index}}" ng-model="obj.rtmpPort" /></td>
+                                <td><input type="text" class="form-control"  name="httpPort{{$index}}" ng-model="obj.httpPort" /></td>
+                                <td><input type="text" class="form-control"  name="remarks{{$index}}" ng-model="obj.remarks" /></td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='item.mediaList.splice(item.mediaList.indexOf(obj), 1);' class='btn btn-xs'><span class='fa fa-close'></span>删除</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab ng-if="item.lanId!=0">
+                <uib-tab-heading>内网代理 <span class="badge" ng-if="item.proxyList">{{item.proxyList.length}}</span></uib-tab-heading>
+                <div class="panel panel-default mt7" >
+                    <div class="panel-heading">&nbsp;
+                        <button class="btn btn-primary pull-right" style="margin-top: -8px" ng-click="item.proxyList.push({})" >添加</button>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover" style="margin-bottom: 0">
+                            <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th>代理编码</th>
+                                <th>代理名称</th>
+                                <th>备注</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tr ng-if="item.proxyList.length == 0">
+                                <td colspan="100" class="text-center">未配置内网代理</td>
+                            </tr>
+                            <tr ng-repeat="obj in item.proxyList">
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td >
+                                    <input type="text" class="form-control" name="proxyCode{{$index}}" ng-model="obj.proxyCode" required id={{obj.id}}
+                                           ensure_unique="proxyCode" ng-model-options="{ updateOn: 'blur' }" api='/middleware/pcos/videomanagement/hardware/isUniqueProxy'
+                                           required uib-popover="{{form['proxyCode'+$index].$error.unique?'代理编码已被使用':''}}" popover-placement="top" popover-trigger="mouseenter">
+
+                                </td>
+                                <td >
+                                    <input type="text" class="form-control"  name="name{{$index}}" ng-model="obj.name" />
+                                </td>
+                                <td ><input type="text" class="form-control"  name="comment{{$index}}" ng-model="obj.comment" /></td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='item.proxyList.splice(item.proxyList.indexOf(obj), 1);' class='btn btn-xs'><span class='fa fa-close'></span>删除</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab ng-if="item.lanId!=0">
+                <uib-tab-heading>小米sdk <span class="badge" ng-if="item.miSdkList">{{item.miSdkList.length}}</span></uib-tab-heading>
+                <div class="panel panel-default mt7">
+                    <div class="panel-heading">&nbsp;
+                        <button class="btn btn-primary pull-right" style="margin-top: -8px" ng-click="item.miSdkList.push({})" >添加</button>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover" style="margin-bottom: 0">
+                            <thead class="title">
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th style="width: 90px">服务端口</th>
+                                <td >备注</td>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tr ng-if="item.miSdkList.length == 0">
+                                <td colspan="100" class="text-center">未配置小米sdk</td>
+                            </tr>
+                            <tr ng-repeat="obj in item.miSdkList">
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td><input type="number" class="form-control"  name="port{{$index}}" ng-model="obj.port" /></td>
+                                <td><input type="text" class="form-control"  name="remark{{$index}}" ng-model="obj.remark" /></td>
+                                <td>
+                                    <a href='javascript:void(0)' ng-click='item.miSdkList.splice(item.miSdkList.indexOf(obj), 1);' class='btn btn-xs'><span class='fa fa-close'></span>删除</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="vm.save(form,item)">确定</button>
+    <button class="btn btn-warning" ng-click="vm.cancel()">取消</button>
+</div>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>园区活动管理</title>
+</head>
+<body>
+    <div id="angularId">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>场地管理</h3>
+            </div>
+        </div>
+        <div class="row" id="sportsPlaceBox">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <ul class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#publishSportsPlace" id="tab1" role="tab" data-toggle="tab" aria-expanded="true">发布体育场地</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#position" id="tab2" role="tab" data-toggle="tab" aria-expanded="false">预约记录</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#adsense" id="tab3" role="tab" data-toggle="tab" aria-expanded="false">卡项用户管理</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#adsense" id="tab3" role="tab" data-toggle="tab" aria-expanded="false">卡项配置</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="sportsPlaceManage">
+                        <!-- 会议室 star -->
+                        <div role="tabpanel" class="tab-pane fade active in" id="publishSportsPlace"
+                            ng-controller="publishSportsPlaceCtrl">
+                            <div class="form-inline find_input marT_15">
+
+                                <div class="form-group">
+                                    <label style="width: 50px;">发布方</label>
+                                    <select class="form-control" ng-model="search.userType"
+                                        ng-change="changeSearchStatus();"
+                                        ng-options="o.value as o.text for o in changeUserType" style="width: 100px;">
+                                        <!-- <option value="">--请选择--</option> -->
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>发布时间</label>
+                                    <select class="form-control" ng-model="search.timeFlag" ng-change="find()"
+                                       style="width: 100px;">
+                                        <option value="0">全部</option>
+                                        <option value="1">一个月内</option>
+                                        <option value="2">三个月内</option>
+                                        <option value="3">六个月内</option>
+                                        <option value="4">一年内</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label>场地名称</label>
+                                    <input type="text" ng-model="search.name" placeholder="请输入"
+                                        class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                                </div>
+                                <button class="btn btn-default"  ng-click="find()">查询</button>
+                                <button class="btn btn-primary pull-right" ng-click="addOrEditModal()">新增</button>
+                            </div>
+
+                            <table class="table text-center">
+                                <thead>
+                                    <tr>
+                                        <th>NO.</th>
+                                        <th>空间状态</th>
+                                        <th>场地名称</th>
+                                        <th>场地项目</th>
+                                        <th>发布人</th>
+                                        <th>位置</th>
+                                        <th>场地面积</th>
+                                        <th>场地价格</th>
+                                        <th>容纳人数</th>
+                                        <th>发布时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    <tr class="hide">
+                                        <th colspan="7">
+                                            <div class="alert" role="alert">加载中...</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="x in pageModel.data">
+                                        <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                        <td>{{getStatus(x.status) || '--'}}</td>
+                                        <td >{{x.name}}</td>
+                                        <td>{{x.applicableItems||'--'}}</td>
+                                        <td>{{x.creatorName||'--'}}</td>
+                                        <td>{{x.position||'--'}}</td>
+                                        <td >{{x.area||'--'}}</td>
+                                        <td >{{x.price||'免费'}}</td>
+                                        <td>{{x.contain||'--'}}</td>
+                                        <td>{{x.createTime||'--'}}</td>
+                                        <td>
+                                            <a href="javascript:void(0)" ng-click="addOrEditModal(x)"
+                                                class="btn btn-xs">编辑</a>
+                                            <a href="javascript:void(0)" ng-click="getDetail(x)"
+                                            class="btn btn-xs">停用</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ng-include src="'/common/pager.html'"></ng-include>
+                        </div>
+                        <!-- 会议室 end -->
+
+                        <!-- 场地 star -->
+                        <div role="tabpanel" class="tab-pane fade" id="position" ng-controller="spaceBookingCtrl">
+                            <div class="form-inline find_input marT_15">
+                                <div class="form-group">
+                                    <label style="width: 50px;">发布方</label>
+                                    <select class="form-control" ng-model="search.userType"
+                                        ng-change="changeSearchStatus();"
+                                        ng-options="o.value as o.text for o in changeUserType" style="width: 100px;">
+                                        <!-- <option value="">--请选择--</option> -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>订单状态</label>
+                                    <select class="form-control" style="width: 100px;" ng-model="selOrderState" ng-change="changeOrderState()"
+                                        ng-options="o.value as o.text for o in status.slice(0,5)">
+                                        <option value="">全部</option>
+                                        <!-- <option ng-repeat="x in status" value="{{x.value}}">{{x.text}}</option> -->
+                                    </select>
+                                </div>
+   
+                                <div class="form-group" ng-if="search.userType">
+                                    <label style="width: 100px;">发布方名称</label>
+                                    <input type="text" ng-model="search.creatorName" placeholder="请输入"
+                                        class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                                </div>
+                                <button class="btn btn-default" ng-click="find()">查询</button>
+                                <!-- <button class="btn btn-default" style="margin-top: 10px;" ng-click="findRef()">重置</button> -->
+                            </div>
+
+                            <table class="table text-center">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>订单编号</th>
+                                        <th>订单状态</th>
+                                        <th ng-if="search.userType == 1" style="width: 60px;">发布方</th>
+                                        <th>场地名称</th>
+                                        <th>创建日期</th>
+                                        <!-- <th>预定周期</th> -->
+                                        <th style="width: 150px;">预定时段</th>
+                                        <th style="width: 80px; text-align: center;">预定时长（小时）</th>
+                                        <th>价格（元）</th>
+                                        <th>联系人</th>
+                                        <th>联系电话</th>
+                                        <th ng-if="hasPower('操作')">操作</th>
+                                    </tr>
+                                    <tr class="hide">
+                                        <th colspan="7">
+                                            <div class="alert" role="alert">加载中...</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="x in pageModel.data">
+                                        <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                        <td>{{x.orderCode||'--'}}</td>
+
+                                        <!-- <td>{{getStatus(x.morderStatus)}}</td> -->
+                                        <td ng-if="x.morderStatus != 3">{{getStatus(x.morderStatus)}}</td>
+                                        <td ng-if="x.morderStatus == 3">{{x.refundStatus == 0 ? "已取消" : "交易关闭"}}</td>
+
+                                        <td ng-if="search.userType == 1">{{x.yard.creatorName}}</td>
+                                        <td>{{x.yard.name||'--'}}</td>
+                                        <td>{{x.createTime||'--'}}</td>
+                                        <!-- <td>{{x.beginDate + "&ensp;" + x.beginDuration.slice(0,5)}}~{{x.endDate + "&ensp;" + x.endDuration.slice(0,5)}}
+                                        </td> -->
+                                        <td>{{x.realStartTime}}~{{x.realEndTime}}</td>
+                                        <td>{{x.timeLenght||x.totalPrice/x.oldPrice/2}}</td>
+                                        <td style="text-align: center;width: 40px; ">{{x.totalPrice||'免费'}}</td>
+                                        <td>{{x.contactMan||'--'}}</td>
+                                        <td>{{x.contactPhone||'--'}}</td>
+                                        <td ng-if="hasPower('操作')">
+                                            <a href="javascript:void(0)" ng-click="getDetail(x)"
+                                                class="btn btn-xs">详情</a>
+                                            <!-- <a href="javascript:void(0)" ng-if="x.orderStatus == '1'"
+                                                    ng-click="cancelBooking(x)" class="btn btn-xs">撤销</a> -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ng-include src="'/common/pager.html'"></ng-include>
+                        </div>
+                        <!-- 场地  end -->
+
+                        <!-- 广告位  start -->
+                        <div role="tabpanel" class="tab-pane fade" id="adsense" ng-controller="advBookingCtrl">
+                            <div class="form-inline find_input marT_15">
+                                <div class="form-group">
+                                    <label style="width: 50px;">发布方</label>
+                                    <select class="form-control" ng-model="search.userType"
+                                        ng-change="changeSearchStatus();"
+                                        ng-options="o.value as o.text for o in changeUserType" style="width: 100px;">
+                                        <!-- <option value="">--请选择--</option> -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>订单状态</label>
+                                    <select class="form-control" ng-model="selOrderState" ng-change="changeOrderState()"
+                                        ng-options="o.value as o.text for o in status.slice(0,5)" style="width: 100px;">
+                                        <option value="">全部</option>
+                                        <!-- <option ng-repeat="x in status" value="{{x.value}}">{{x.text}}</option> -->
+                                    </select>
+                                </div>
+
+                                <div class="form-group" ng-if="search.userType">
+                                    <label style="width: 100px;">发布方名称</label>
+                                    <input type="text" ng-model="search.creatorName" placeholder="请输入"
+                                        class="form-control ng-pristine ng-untouched ng-valid ng-empty">
+                                </div>
+                                <button class="btn btn-default" ng-click="find()">查询</button>
+                                <button class="btn btn-primary pull-right"  ng-click="exp()">导出</button>
+                                <!-- <button class="btn btn-default" style="margin-top: 10px;" ng-click="findRef()">重置</button> -->
+                            </div>
+
+                            <table class="table text-center">
+                                <thead>
+                                    <tr>
+                                        <th>NO.</th>
+                                        <th>空间状态</th>
+                                        <th>场地名称</th>
+                                        <th>场地项目</th>
+                                        <th>发布人</th>
+                                        <th>位置</th>
+                                        <th>场地面积</th>
+                                        <th>场地价格</th>
+                                        <th>容纳人数</th>
+                                        <th>发布时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    <tr class="hide">
+                                        <th colspan="7">
+                                            <div class="alert" role="alert">加载中...</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                        <td colspan="100" class="text-center">暂无记录</td>
+                                    </tr>
+                                    <tr ng-repeat="x in pageModel.data">
+                                        <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                                        <td>{{x.orderCode||'--'}}</td>
+                                        <td >{{getStatus(x.morderStatus)}}</td>
+
+                                        <td>{{x.advertisement.adName||'--'}}</td>
+                                        <td>{{x.createTime||'--'}}</td>
+                                        <td>{{x.realStartTime}} ~ {{x.realEndTime | date : 'yyyy-MM-dd'}}</td>
+                                        <td >{{x.realCycle||'--'}}</td>
+                                        <td >{{x.totalPrice||'免费'}}</td>
+                                        <td>{{x.contactMan||'--'}}</td>
+                                        <td>{{x.contactPhone||'--'}}</td>
+                                        <td>
+                                            <a href="javascript:void(0)" ng-click="getDetail(x)"
+                                                class="btn btn-xs">修改</a>
+                                            <a href="javascript:void(0)" ng-click="getDetail(x)"
+                                            class="btn btn-xs">停用</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ng-include src="'/common/pager.html'"></ng-include>
+                        </div>
+                        <!-- 广告位  end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 模态框组件 start -->
+    <div id="modalLoading" class="modal fade bs-example-modal-sm" style="margin-top: 200px;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <label>
+                        <i class="fa fa-spinner"></i>数据加载中，请稍候。。。</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

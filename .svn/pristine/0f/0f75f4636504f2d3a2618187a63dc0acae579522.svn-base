@@ -1,0 +1,73 @@
+<div class="" ng-controller="patrollingMainCtrl as vm" style="height: 100%;">
+  <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+    <div class="">
+      <!--人员轨迹 -->
+      <div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4 class="title">时间选择</h4>
+            <!--<input type="text" ng-model="myVal" ng-change="showDate('111')">-->
+            <!-- 日期组件开始 -->
+            <div class="row">
+              <div class="col-md-6">
+                <input type="datetime" class="form-control Wdate" ng-model="startTime" placeholder="开始日期" ng-change="showDate('start')" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:&quot;#F{$('.Wdate').last().val()||'%y-%M-%d'}&quot;})">
+              </div>
+
+              <div class="col-md-6">
+                <input type="datetime" class="form-control Wdate" ng-model="endTime"  placeholder="结束日期"  ng-change="showDate('end')" onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('.Wdate').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+
+              </div>
+            </div>
+            <h4 class="title">人员选择</h4>
+
+            <!-- 手风琴start -->
+            <div>
+              <uib-accordion close-others="oneAtATime" ng-repeat="item in deptList track by $index">
+                <div uib-accordion-group class="panel-default" is-open="status.open">
+                  <uib-accordion-heading>
+                    {{item.DEPT_NAME}}
+                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"
+                      ng-click="getPerson(item.ID,$index)"></i>
+                  </uib-accordion-heading>
+                  <span class="itemcy" ng-repeat="person in item.personList" >
+                    <input type="checkbox" class="ic" ng-click="onchecked(person)" ng-class="{'ic-check':person.checked,'ic-unchecked':!person.checked}"><li>{{person.name}}</li>
+                  </span>
+                </div>
+              </uib-accordion>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </big-screen>
+</div>
+
+<style>
+  .title {
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .itemcy {
+    line-height: 16px;
+    text-align: left;
+    height: 40px;
+    display: block;
+    float: left;
+    width: 33.33%;
+
+
+
+
+  }
+
+  .itemcy .ic {
+    width: 24px;
+    height: 16px;
+    vertical-align: bottom;
+
+  }
+
+  /* 日期选择器 */
+</style>

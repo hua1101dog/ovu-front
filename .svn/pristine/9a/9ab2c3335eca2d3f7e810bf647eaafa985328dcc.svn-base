@@ -1,0 +1,302 @@
+
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()">×</button>
+	<h4 class="modal-title">{{item.ID?'编辑':'添加'}}企业信息</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="x_content" style="max-height:650px;overflow: auto;">
+		<form name="form" novalidate>
+			<div class="form-group">
+				<label class="col-md-3 control-label required">企业名称：</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" required
+						ng-model="item.NAME" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label required">法人代表：</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" required
+						ng-model="item.CORPORATE_REPRESENTATIVE" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label">注册资本：</label>
+				<div class="col-md-3">
+					<select class="form-control"  ng-model="item.MONEY_TYPE">
+						<option value="1">人民币</option>
+						<option value="2">美元</option>
+					</select>
+				</div>
+				<div class="col-md-3">
+					<input type="number" class="form-control" 
+						ng-model="item.REG_CAPITAL" />
+				</div>
+				<span class="col-md-1 control-label" ng-if="item.MONEY_TYPE == '1'">万元</span>
+				<span class="col-md-1 control-label" ng-if="item.MONEY_TYPE == '2'">美元</span>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label">是否上市：</label>
+				<div class="col-md-3">
+					<select class="form-control" ng-model="item.city">
+						<option value="">--请选择--</option>
+						<option value="1">是</option>
+						<option value="2">否</option>
+					</select>
+				</div>
+				<label class="col-md-2 control-label">经营状态：</label>
+	            <div class="col-md-3">
+	                <select class="form-control" ng-model="item.STATUS">
+	                    <option value="">--请选择--</option>
+	                    <option value="1">拟注册</option>
+	                    <option value="2">存续</option>
+	                    <option value="3">在业</option>
+	                    <option value="4">吊销</option>
+	                    <option value="5">注销</option>
+	                    <option value="6">迁出</option>
+	                    <option value="7">迁入</option>
+	                    <option value="8">停业</option>
+	                    <option value="9">结算</option>
+	                </select>
+	            </div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label">注册时间：</label>
+				<div class="col-md-3">
+					<input type="datetime" class="form-control Wdate" 
+						ng-model="item.CORPORATE_REG_TIME" onchange=""
+						onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+				</div>
+				<!-- <label class="col-md-2 control-label">入驻时间：</label>
+	            <div class="col-md-3">
+	                <input type="datetime" class="form-control Wdate" 
+	                    ng-model="item.ENTER_TIME" onchange=""
+	                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+	            </div> -->
+			</div>
+			
+			<div class="form-group">
+				<label class="col-md-3 control-label">入驻状态：</label>
+				<div class="col-md-3">
+	                <select class="form-control" ng-model="item.ENTER_STATUS">
+	                    <option value="">--请选择--</option>
+	                    <option value="1">已入驻</option>
+	                    <option value="2">未入驻</option>
+	                    <option value="3">迁出</option>
+	                </select>
+	            </div>
+				<label class="col-md-2 control-label" ng-if="item.ENTER_STATUS ==1">入驻时间：</label>
+				<label class="col-md-2 control-label" ng-if="item.ENTER_STATUS ==3">迁出时间：</label>
+	            <div class="col-md-3"  ng-if="item.ENTER_STATUS == 1||item.ENTER_STATUS == 3">
+	                <input type="datetime" class="form-control Wdate" 
+	                    ng-model="item.ENTER_TIME" onchange=""
+	                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+	            </div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-md-3 control-label">行业领域：</label>
+	            <div class="col-md-3">
+	                <select class="form-control" ng-model="item.INDUSTRY">
+	                    <option value="">--请选择--</option>
+	                    <option ng-repeat="indu in item.indus" value="{{indu.ID}}">{{indu.NAME}}</option>
+	                </select>
+	            </div>
+	            <label class="col-md-2 control-label">企业类型：</label>
+	            <div class="col-md-3">
+	                <select class="form-control" 
+	                    ng-model="item.ENTERPRISE_NATURE_ID">
+	                    <option value="">---请选择---</option>
+	                    <option value="1">国有企业</option>
+	                    <option value="2">集体企业</option>
+	                    <option value="3">股份合作企业</option>
+	                    <option value="4">联营企业</option>
+	                    <option value="5">有限责任公司</option>
+	                    <option value="6">股份有限公司</option>
+	                    <option value="7">私营企业</option>
+	                    <option value="8">其他企业</option>
+	                    <option value="9">港、澳、台商投资企业</option>
+	                    <option value="10">外商投资企业</option>
+	                    <option value="11">行政机关</option>
+	                    <option value="12">事业单位</option>
+	                    <option value="13">社会团体</option>
+	                </select>
+	            </div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label">企业人数：</label>
+				<div class="col-md-3">
+					<select class="form-control" ng-model="item.SIZE">
+						<option value="">--请选择--</option>
+						<option value="1">50人以内</option>
+						<option value="2">50~100人</option>
+						<option value="3">100-300人</option>
+						<option value="4">300-500人</option>
+						<option value="5">500-1000人</option>
+						<option value="6">1000~5000人</option>
+						<option value="7">5000~10000人</option>
+	                    <option value="8">10000人及以上</option>
+					</select>
+				</div>
+				<label class="col-md-2 control-label">具体人数：</label>
+	            <div class="col-md-3">
+	                <input type="number" class="form-control" ng-model="item.staff_count" />
+	            </div>
+			</div>
+			<div class="form-group">
+	            <label class="col-md-3 control-label">办公面积(㎡)：</label>
+	            <div class="col-md-3">
+	                <input type="number" class="form-control" ng-model="item.OFFICE_AREA" />
+	            </div>
+	            <label class="col-md-2 control-label">场地权属：</label>
+	            <div class="col-md-3">
+	                <input type="text" class="form-control" ng-model="item.SITE_OWNERSHIP" />
+	            </div>
+	        </div>
+	        <div class="form-group">
+	            <label class="col-md-3 control-label">企业资产(万元)：</label>
+	            <div class="col-md-3">
+	                <input type="number" class="form-control" ng-model="item.ASSET" />
+	            </div>
+	            <label class="col-md-2 control-label">产值(万元)：</label>
+	            <div class="col-md-3">
+	                <input type="number" class="form-control" ng-model="item.OUTPUT_VALUE" />
+	            </div>
+	        </div>
+	        <div class="form-group">
+	            <label class="col-md-3 control-label">企业收入(万元)：</label>
+	            <div class="col-md-3">
+	                <input type="number" class="form-control" ng-model="item.INCOME" />
+	            </div>
+	            <label class="col-md-2 control-label">企业税收(万元)：</label>
+	            <div class="col-md-3">
+	                <input type="number" class="form-control" ng-model="item.TAX_REVENUE" />
+	            </div>
+	        </div>
+	     	<!--    暂时切换回来，使用园区内外 -->
+			<!-- <div class="form-group">
+	            <label class="col-md-3 control-label">注册地址：</label>
+	            <div class="col-md-3">
+	               <select class="form-control" ng-model="item.REG_ADDR_TYPE">
+	                    <option ng-repeat="cCity in item.allCustomerCity" value="{{cCity.ID}}">{{cCity.DISTRICT}}</option>
+	                </select>
+	            </div>
+	            <label class="col-md-2 control-label">详细地址：</label>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" ng-model = "item.CORPORATE_REG_ADDR" />
+                </div>
+	        </div> -->
+			
+			<div class="form-group">
+				<label class="col-md-3 control-label">注册地址：</label>
+				<div class="col-md-7">
+					<select class="form-control" ng-model="item.REG_ADDR_TYPE" ng-change="findAllStage()">
+						<option value="">--请选择--</option>
+						<option value="1">--园区内--</option>
+						<option value="2">--园区外--</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group" ng-if="!show">
+				<label class="col-md-3 control-label">地址：</label>
+					<div class="col-md-2">
+						<select class="form-control" ng-model="item.REG_ADDR_DOMAIN">
+			                    <option ng-repeat="cCity in item.allCustomerCity" value="{{cCity.ID}}">{{cCity.DISTRICT}}</option>
+		                </select>
+                	</div>
+			</div>
+			<div class="form-group" ng-if="!show">
+				<label class="col-md-3 control-label">具体地址：</label>
+					<div class="col-md-8">
+						<input type="text" class="form-control" ng-model = "item.CORPORATE_REG_ADDR" placeholder="请输入注册地址" />
+					</div>
+			</div>
+			
+			<div ng-if="show">
+				<div class="form-group">
+					<label class="col-md-3 control-label">分期：</label>
+					<div class="col-md-7">
+						<select class="form-control col-md-3" ng-model="item.curStageId"  ng-change="selectStage()" style="width: 140px;">
+							<option ng-repeat="stage in stageList"  value="{{stage.ID}}">{{stage.STAGE_NAME}}</option>
+						</select>
+						
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label">楼栋：</label>
+					<div class="col-md-7">				
+						<select class="form-control col-md-3" ng-model="item.curBuildId" ng-change="selectBuild()"  style="width: 140px;">
+							<option ng-repeat="build in builds" value="{{build.iD}}">{{build.fLOOR_NAME}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label">房屋：</label>
+					<div class="col-md-7">					
+						<select class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="item.curHouseId" ng-change = "selectHouse()" ng-model="curHouse" style="width: 140px;">
+							<option ng-repeat="house in houseList" value="{{house.ID}}">{{house.HOUSE_NAME}}室</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="form-group">
+				<label class="col-md-3 control-label">经营地址：</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control"
+						ng-model="item.RUN_ADDR" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label ">联系人：</label>
+				<div class="col-md-3">
+					<input type="text" class="form-control" 
+						ng-model="item.LINKMAN" />
+				</div>
+	            <label class="col-md-2 control-label required">手机号：</label>
+	            <div class="col-md-3">
+	                 <input type="text" class="form-control" name="MOBILE" ng-model="item.MOBILE" ng-pattern="/^[1][3|5|7|8][0-9]{9}$/" required/>
+	                  <span style="color:red" ng-show="form.PHONE.$dirty && form.PHONE.$invalid">
+	                      <span class="col-xs-12 control-label" style = "color:red;text-align:left"  ng-show="form.PHONE.$dirty && form.PHONE.$invalid && form.PHONE.$error.pattern" style >请输入正确的手机号</span>
+	                  </span>
+	            </div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label ">职务：</label>
+				<div class="col-md-8">
+					<select class="form-control"  ng-model="item.job">
+						<option value="">--请选择--</option>
+						<option value="1">总经理</option>
+						<option value="2">董事长</option>
+						<option value="3">经理</option>
+						<option value="4">职员</option>
+						<option value="5">其他</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label ">经营范围：</label>
+				<div class="col-md-8">
+					<textarea type="text" style="height: 50px; resize: vertical"
+						class="form-control"  ng-model="item.BUSINESS_SCOPE"
+						maxlength="500" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 control-label">分配管家：</label>
+				<div class="col-md-4">
+					<select class="form-control" ng-model="item.myParkSteward">
+						<option value="">--请选择--</option>
+						<option ng-repeat="ps in item.allParkSteward" value="{{ps.id}}">{{ps.personName}}</option>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>
+

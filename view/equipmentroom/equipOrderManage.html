@@ -1,0 +1,101 @@
+<div ng-controller="orderManageCtrl">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>工单记录</h3>
+      </div>
+    </div>
+    <div class="form-inline x_panel">
+      <div class="form-group m-t">
+        <label>执行时间</label>
+        <input type="datetime" placeholder="开始时间" readonly class="form-control Wdate execStartDate" ng-model="search.execStartDate"
+               onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.execEndDate').last().val()||'%y-%M-%d'}&quot;})">
+        -<input type="datetime" placeholder="结束时间" readonly class="form-control Wdate execEndDate" ng-model="search.execEndDate"
+                 onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.execStartDate').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+      </div>
+      <div class="form-group m-t">
+        <label>创建时间</label>
+          <input type="datetime" placeholder="开始时间" readonly class="form-control Wdate creaStartDate" ng-model="search.creaStartDate"
+                 onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.creaEndDate').last().val()||'%y-%M-%d'}&quot;})">
+        -<input type="datetime" placeholder="结束时间" readonly class="form-control Wdate creaEndDate" ng-model="search.creaEndDate"
+               onchange="" onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.creaStartDate').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+      </div>
+        <div class="form-group m-t">
+            <label>工单编号</label>
+            <input type="text" class="form-control" ng-model="search.workId"/>
+        </div>
+        <div class="form-group m-t">
+            <label>工单状态</label>
+            <select class="form-control" ng-model="search.unitStatus" ng-options="o[0] as o[1] for o in unitStatusDict">
+            </select>
+        </div>
+        <div class="form-group m-t">
+          <label>工单类型</label>
+          <select class="form-control" ng-model="search.workunitType" ng-options="o[0] as o[1] for o in workunitTypeDict">
+              <option value="">--请选择--</option>
+          </select>
+      </div>
+        <div class="form-group m-t">
+          <label>执行人</label>
+          <!-- <input type="text" class="form-control" ng-model="search.execPersonName"/> -->
+          <!-- <input class="form-control" type="text" ng-model="search.user"
+          ng-class="{'waiting':loadingPerson}"
+          ng-change="changeExecPerson(search)"
+          uib-typeahead="o as o.name+' ('+o.deptName+')' for o in searchPerson($viewValue,null,search.parkId)"
+          typeahead-on-select="selectPerson($item,search)"
+          typeahead-loading="loadingPerson" typeahead-min-length=0 typeahead-wait-ms='300'
+          typeahead-editable="false"/> -->
+          <input type="text" class="form-control" ng-model="search.execPersonName" />
+          
+        </div>
+        <button class="btn btn-default pull-right m-t" ng-click="find()">查询</button>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">工单列表</div>
+        <div class="panel-body" style="overflow: scroll;">
+          <table  class="table table-striped table-hover" style="margin-top: 10px; display: inline-block;">
+          <thead>
+          <tr>
+            <th class="text-center">工单编号</th>
+            <th nowrap="nowrap">执行人</th>
+            <th nowrap="nowrap">协助人</th>
+            <th nowrap="nowrap">故障详情</th>
+            <th nowrap="nowrap">执行时间</th>
+            <th nowrap="nowrap">创建时间</th>
+            <th nowrap="nowrap">评分</th>
+            <th nowrap="nowrap">工单状态</th>
+            <th nowrap="nowrap">操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-if="!pageModel.data ||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+          <tr ng-repeat="item in pageModel.data">
+            <td style="word-break: break-all">{{item.workId}}</td>
+            <td>{{item.execPersonName}}</td>
+            <td>{{item.assistPersonName}}</td>
+            <td><a href="javascript:void(0)" class="btn-link" ng-click='showWorkUnitDetail(item.workId,true)'>{{item.description}}</a></td>
+            <td>{{item.execTime}}</td>
+            <td>{{item.creaTime}}</td>
+            <td>{{item.gradeLevel}}</td>
+            <td>{{item.statusName}}</td>
+            <td>
+              <a href='javascript:void(0)' class='btn btn-xs btn-link' ng-click="showReturnVisit(item.workId)">查看回访</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="page-footer clearfix">
+          <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+      </div>
+    </div>
+</div>
+<style>
+  .m-t{
+    margin-top: 5px
+  }
+  table tr th,
+            table tr td {
+                text-align: left;
+            }
+</style>

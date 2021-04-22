@@ -1,0 +1,186 @@
+		<div class="modal-header">
+		    <button type="button" class="close" ng-click="cancel()">×</button>
+		    <h4 class="modal-title">{{item.id?'编辑':'添加'}}广告位</h4>
+		</div>
+		<div class="modal-body container-fluid form-horizontal">
+		    <form name="form" novalidate>
+		        <div class="form-group">
+		            <label class="col-xs-3 control-label required">广告位名称：</label>
+		            <div class="col-xs-8">
+		                <input type="text" class="form-control" required ng-maxlength="20" ng-model="item.adName"
+		                    ng-blur="hkNameChange(item.NAME)" name="NAME" />
+		            </div>
+		        </div>
+		        <div class="form-group" style="color:red"
+		            ng-show="form.adName.$invalid && form.adName.$dirty && form.adName.$error.maxlength">
+		            <span class="col-xs-3"></span><span class="col-xs-5"
+		                ng-show="form.adName.$error.maxlength">名称长度限20个字符</span>
+		        </div>
+
+		        <div class="form-group">
+		            <label class="col-xs-3 control-label required">广告位编号：</label>
+		            <div class="col-xs-5">
+		                <input type="text" class="form-control" required ng-model="item.adCode"
+		                    ng-pattern="/^[a-zA-Z0-9]{1,12}$/" name="adCode" placeholder="仅可填数字或英文字母" />
+		                <span style="color:red" ng-show="form.adCode.$dirty &amp;&amp; form.adCode.$invalid"
+		                    class="redTip ng-hide">
+		                    <span ng-show="form.adCode.$error.pattern" class="ng-hide">必须为字母或数字，长度为1-12位</span>
+		            </div>
+		        </div>
+		        <div class="form-group">
+		            <label class="col-xs-3 control-label required">广告位类型：</label>
+		            <div class="col-xs-8">
+
+		                <select class="form-control" name="adType" ng-model="item.adType">
+		                    <option value="" ng-selected="item.adType==1">请选择</option>
+		                    <option value="1" ng-selected="item.adType==1">电梯广告</option>
+		                    <option value="2" ng-selected="item.adType==2">宣传栏广告</option>
+		                    <option value="3" ng-selected="item.adType==3">道闸广告</option>
+		                    <option value="4" ng-selected="item.adType==4">路灯广告</option>
+		                    <option value="5" ng-selected="item.adType==5">墙面广告</option>
+		                </select>
+		            </div>
+		        </div>
+		        <div class="form-group">
+		            <label class="col-xs-3 control-label">所在位置：</label>
+		            <!-- <div class="col-xs-6">
+						<input type="text" class="form-control"  ng-model="item.position" readonly  title="{{item.position}}"  ng-blur="hkNameChange(item.adName)" name="position" />
+					</div> -->
+		            <div class="col-xs-2">
+		                <a href="javascript:;" class="fa fa-map-marker setLocation" ng-click="setMap(item)"></a>
+		            </div>
+		        </div>
+		        <!-- <div class="form-group">
+					<label class="col-xs-3 control-label required">最小投放月数：</label>
+					<div class="col-xs-5">
+						<input type="text" class="form-control" required ng-model="item.DEPT_NAME"  name="DEPT_NAME" placeholder="仅可填数字" />
+					</div><label class="col-xs-3 control-label" style="font-weight: normal;text-align: left;">天</label>
+				</div> -->
+		        <div class="form-group">
+		            <!-- <label class="col-xs-3 control-label required">人流量：</label>
+					<div class="col-xs-5">
+						<input type="text" class="form-control" required ng-pattern="/^[1-9]\d*$/" ng-model="item.peoplesStream"  name="peoplesStream" placeholder="仅可填数字" />
+					</div><label class="col-xs-3 control-label" style="color: red;font-weight: normal;text-align: left;">人/月</label> -->
+		            <label class="col-xs-3 control-label">人流量：</label>
+		            <div class="col-xs-5">
+		                <input type="text" class="form-control" ng-pattern="/^[1-9]\d*$/" ng-model="item.peoplesStream"
+		                    name="peoplesStream" placeholder="仅可填数字" />
+		            </div><label class="col-xs-3 control-label"
+		                style="color: red;font-weight: normal;text-align: left;">人/周</label>
+		        </div>
+		        <div class="form-group" style="color:red"
+		            ng-show="form.peoplesStream.$invalid && form.peoplesStream.$dirty && form.peoplesStream.$error.pattern">
+		            <span ng-show="form.peoplesStream.$error.pattern" class="col-xs-3"></span><span class="col-xs-5"
+		                ng-show="form.PEOPLES.$error.pattern">必须是大于零的整数</span>
+		        </div>
+
+		        <div class="form-group">
+		            <label class="col-xs-3 control-label required">单价：</label>
+		            <div class="col-xs-5">
+		                <input type="number" class="form-control" required ng-model="item.price"
+		                    name="PRICE" placeholder="仅可填数字" ng-change="limitPrice(item.price, 1)" />
+		            </div><label class="col-xs-3 control-label"
+		                style="color: red;font-weight: normal;text-align: left;">元/周</label>
+		        </div>
+
+		        <!-- 实收 -->
+		        <div class="form-group">
+		            <label class="col-xs-3 control-label">订单金额：</label>
+		            <div class="col-xs-5">
+		                <input type="number" class="form-control" ng-model="item.reducedPrice" name="REPRICE" placeholder="仅可填数字" ng-change="limitPrice(item.reducedPrice, 2)" />
+		            </div><label class="col-xs-3 control-label"
+		                style="color: red;font-weight: normal;text-align: left;">元</label>
+		        </div>
+		        <!-- 实收说明 -->
+		        <div class="form-group">
+		            <label class="col-xs-3 control-label">订单说明：</label>
+		            <div class="col-xs-5">
+		                <textarea type="text" style="height: 150px; resize: vertical; cursor: default;" class="form-control"
+		                 ng-model="item.reduceInfo" name="content" aria-multiline="true" aria-invalid="false"
+		                    maxlength="2000" placeholder="最多可输入2000字"
+		                    ng-change="contentLength(item.reduceInfo)"></textarea><span style="color: #888;">剩余可输入字数:
+		                    {{reduceInfoLength}}/2000</span>
+		            </div>
+		        </div>
+
+
+		        <div class="form-group">
+		            <label class="col-xs-3 control-label required">联系人：</label>
+		            <div class="col-xs-5">
+		                <input type="text" class="form-control" required ng-model="item.creatorName" />
+		            </div>
+		        </div>
+		        <div class="form-group">
+		            <label class="col-xs-3 control-label required">联系电话：</label>
+		            <div class="col-xs-5">
+		                <input type="text" class="form-control" required ng-model="item.creatorPhone" />
+		            </div>
+		        </div>
+		        <div class="form-group">
+		            <label class="col-xs-3 control-label required">可见范围：</label>
+		            <div class="col-xs-7" style="padding-top: 7px;">
+		                <span style="margin-right:5px;">
+		                    <input type="radio" name="viewScope" value="1" ng-model="item.userType" ng-checked="true" />
+		                    <label class="label-text">所有人可见</label>
+		                </span>
+		                <span style="margin-right:5px;">
+		                    <input type="radio" name="viewScope" value="2" ng-model="item.userType" />
+		                    <label class="label-text">租户可见</label>
+		                </span>
+		                <span>
+		                    <input type="radio" name="viewScope" value="3" ng-model="item.userType" />
+		                    <label class="label-text">企业内部可见</label>
+		                </span>
+		            </div>
+		        </div>
+
+
+
+
+		        <div class="form-group">
+		            <label class="col-xs-3 control-label required">上传照片：</label>
+		            <label class="col-xs-9 control-label" style="color: red;font-weight: normal;text-align: left;">
+		                注：最多只能上传五张图片！
+		            </label>
+		        </div>
+		        <div class="form-group">
+		            <label class="col-xs-3 control-label">
+		                <!-- 上传照片： --></label>
+		            <div class="col-xs-9">
+		                <div class="photoWraper" ng-repeat="p in item.pics track by $index">
+		                    <img onerror="javascript:this.src='/res/img/detail.png';" ng-click="showPhoto()"
+		                        ng-src="{{processImgUrl(p)}}" />
+		                    <a role="button" ng-click="delPhoto(item.pics, p)"><i class="glyphicon glyphicon-remove"></i></a>
+		                </div>
+		                <img height="80px" width="80px" src="/res/img/mbs/add.jpg" role="button"
+		                    ng-click="addPhotos(item.pics)" title="上传图片">
+		            </div>
+		        </div>
+
+		    </form>
+		</div>
+		<div class="modal-footer">
+		    <button class="btn btn-primary" ng-click="saveAdvertisment(form,item)">发布</button>
+		    <button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+		<div class="map">
+		    <h4><span id="address"></span>
+		        <a href="javascript:;" class="btn btn-primary pull-right" ng-click="closeMap()">确定</a>
+		    </h4>
+		    <div id="myPageTop" style="position:absolute;z-index:2;margin-top:55px;margin-right:-10px;">
+		        <table>
+		            <tr>
+		                <td>
+		                    <label>请输入关键字：</label>
+		                </td>
+		            </tr>
+		            <tr>
+		                <td>
+		                    <input id="tipinput" />
+		                </td>
+		            </tr>
+		        </table>
+		    </div>
+		    <div id="container" style="margin-top:60px;">
+		    </div>
+		</div>

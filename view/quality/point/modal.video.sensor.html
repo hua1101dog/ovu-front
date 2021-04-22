@@ -1,0 +1,72 @@
+	<!--供应商管理的新增修改弹出框  -->
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="cancel()">×</button>
+		<h4 class="modal-title">选择设备</h4>
+    </div>
+    <div class="modal-body container-fluid">
+    	   <div class="x_panel" >
+				<div class="form-inline">
+				<!--	<div class="form-group">
+						<label>设备分类</label>
+						<input type="text" class="form-control" ng-focus="search.modelFocus=true" 
+							ng-blur="search.modelFocus=false"  ng-model="search.emtTypeName" name="emtTypeName" 
+							readonly  required/>
+						<layer-select node-list="typeData" ng-show="search.modelFocus||search.modelHover" 
+							ng-mouseover="search.modelHover=true" ng-mouseleave="search.modelHover=false" 
+							class="layerSelect" style="left: 70px;top:inherit;" >
+						</layer-select>
+					</div>-->
+					<div class="form-group">
+						<label>设备编号</label>
+						<input type="text" ng-model="search.emtId"   class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>设备名称</label>
+						<input type="text" ng-model="search.emtName"   class="form-control" />
+					</div>
+
+					<button class="btn btn-default" ng-click="find(1)" >查询</button>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<table class="table table-striped table-hover table-condensed" style="margin-top: 10px;">
+						<thead class="title">
+							<tr>
+								<th class="text-center">NO</th>
+								<th class="text-center" >单选框</th>
+								<th >设备编号</th>
+								<th >设备名称</th>
+								<th >设备分类</th>
+								<th >摄像头名称</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+							<tr ng-repeat="item in pageModel.data">
+								<td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+								<td>
+								  <label>
+								    <input type="radio" ng-model="item.checked" name="ra" value="true" >
+								  </label>
+								</td>
+								<td>{{item.emtId}}</td>
+								<td>{{item.emtName}}</td>
+								<td>{{item.emtTypeName}}</td>
+								<td>{{item.videoName}}</td>
+							</tr>
+						</tbody>
+			 		</table>
+				 	 <div class="page-footer clearfix">
+						  <ng-include src="'/common/pager.html'"></ng-include>
+					 </div>
+				</div>
+			</div>
+    
+    
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="save()">确定</button>
+		<button class="btn btn-warning" ng-click="cancel()">取消</button>
+	</div>
+

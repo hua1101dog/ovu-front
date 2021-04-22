@@ -1,0 +1,50 @@
+<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+            ×
+        </button>
+        <h4 class="modal-title">{{item.id ?'编辑':'新增'}}工位</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal" >
+        <form name="form" novalidate id="form">
+                    <div class="form-group" style="margin-top:10px">
+                        <label class="col-xs-2 control-label required">工位名称：</label>
+                        <div class="col-xs-4">
+                                <input type="text" class="form-control" ng-model="item.name" name="name" placeholder="系统自动生成" ng-readonly="true" />
+                            </div>
+                        <label class="col-xs-2 control-label required">工位编码：</label>
+                        <div class="col-xs-4">
+                                <input type="text" class="form-control" ng-model="item.equip_code" name="equip_code" placeholder="系统自动生成" ng-readonly="true" />
+                            </div>
+                    </div>
+                    <div class="form-group" >
+                        <label class="col-xs-2 control-label required">工位惯用名：</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" ng-model="item.equip_simple_name" name="equip_simple_name" required/>
+                        </div>
+                       
+                       
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label required">使用位置：</label>
+                        <house-selector class="col-xs-10" form-bean="item" park-id-key="'park_id'" is-required=true></house-selector>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label required">位置惯用名：</label>
+                        <div class="col-xs-4" ng-if="item.hasSimpleName">
+                                <input type="text" class="form-control" readonly ng-model="item.loc_simple_name" name="loc_simple_name" required/>
+                            </div>
+                            <div class="col-xs-4" ng-if="!item.hasSimpleName">
+                                <input type="text" class="form-control"  ng-model="item.loc_simple_name" name="loc_simple_name" required/>
+                            </div>
+
+                    </div>
+                   
+                   
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+    
+   

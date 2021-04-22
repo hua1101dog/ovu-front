@@ -1,0 +1,131 @@
+   
+    <div class="x_panel">
+            <div class="fixed text-center">
+                <ul class="clearfix">
+                    <li>
+                        <div class="h50 text-center lg-40">
+                            <span>光谷联合集团</span>
+                        </div>
+                        <div class="h50 text-center lg-40">
+                            <b style="color:red;">{{collectionCount.countGGLH || 0}}</b>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="h50 text-center lg-40">
+                            <span>紫缘艺术品公司</span>
+                        </div>
+                        <div class="h50 text-center lg-40">
+                            <b style="color:red;">{{collectionCount.countZYYS || 0}}</b>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="h50 text-center lg-40">
+                            <span>合美术馆</span>
+                        </div>
+                        <div class="h50 text-center lg-40">
+                            <b style="color:red;">{{collectionCount.countHMSG || 0}}</b>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="h50 text-center lg-40">
+                            <span>丽岛科技</span>
+                        </div>
+                        <div class="h50 text-center lg-40">
+                            <b style="color:red;">{{collectionCount.countLDKJ || 0}}</b>
+                        </div>
+                    </li>
+                    <li>
+                            <div class="h50 text-center lg-40">
+                                <span>其他</span>
+                            </div>
+                            <div class="h50 text-center lg-40">
+                                <b style="color:red;">{{collectionCount.countOther || 0}}</b>
+                            </div>
+                        </li>
+
+                </ul>
+            </div>
+        </div>
+   
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>藏品编号</label>
+                <input type="text" class="form-control" ng-model="search.assetNo" />
+            </div>
+            <div class="form-group">
+                <label>藏品作者</label>
+                <input type="text" class="form-control" ng-model="search.author" />
+            </div>
+            <div class="form-group">
+                <label>归属单位</label>
+                <select class="form-control" ng-model="search.ascription" ng-options="o as o for o in unit">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>出入库状态</label>
+                <select class="form-control" ng-model="search.status" ng-options="o[0] as o[1] for o in boundStatusDic">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <button class="btn btn-default pull-right" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <span style="display:inline-block;margin-top:8px;">信息列表</span>
+            <button class="btn btn-primary pull-right" style="margin-top: 0" ng-click="importExcel()" ng-if="hasNode && level=='1'">导入</button>
+            <button class="btn btn-primary pull-right" style="margin-top: 0" ng-click="exportExcel(1)" ng-if="level=='1'">导出模板</button>
+            <button class="btn btn-primary pull-right" ng-if="hasNode" style="margin-top: 0" ng-click="showAddModal()" ng-disabled="!search.deptId">新增藏品</button>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:30px">NO</th>
+                        <th>归属单位</th>
+                        <th>资产类别</th>
+                        <th>资产编号</th>
+                        <th>作者</th>
+                        <th>作品名称</th>
+                        <th>作品类型</th>
+                        <th>存放地点</th>
+                        <th>出入库状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data ||pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.ascription}}</td>
+                        <td>{{item.assetCategoryName}}</td>
+                        <td><span uib-tooltip={{item.assetNo}} tooltip-placement="auto top" class="content">{{item.assetNo}}</span></td>
+                        <td>{{item.author}}</td>
+                        <td><span  uib-tooltip={{item.name}}  tooltip-placement="auto top" class="content">{{item.name}}</span></td>
+                        <td>{{item.type}}</td>
+                        <td>{{item.storageLocation}}</td>
+                        <td>{{item.status | keyToValue:boundStatusDic}}</td>
+                        <td style="width: 30px">
+                            <a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'>
+                                <span class='fa fa-edit'></span>编辑</a>
+                            <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'>
+                                <span class='fa fa-trash'></span>删除</a>
+                            <a href='javascript:void(0)' ng-click='outbound(item)' class='btn btn-xs' ng-if="item.status==1">
+                                <span class='fa fa-sign-out'></span>出库</a>
+                            <a href='javascript:void(0)' ng-click='inStorage(item)' class='btn btn-xs' ng-if="item.status==0">
+                                <span class='fa fa-sign-in'></span>入库</a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+

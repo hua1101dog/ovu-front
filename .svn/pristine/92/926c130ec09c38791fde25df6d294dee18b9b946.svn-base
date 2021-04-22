@@ -1,0 +1,62 @@
+<div class="x_panel" >
+    <div class="form-inline" >
+        <div class="form-group">
+            <label>工单编号</label>
+            <input type="text"  ng-model="search.id" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>工单名称</label>
+            <input type="text"  ng-model="search.name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>工单类型</label>
+            <select class="form-control" ng-model="search.workunitType" ng-change="changeType(search.workunitType)" ng-options="o[0] as o[1] for o in workunitTypeDict">
+                <option value="">--请选择--</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>工作分类</label>
+            <layer-selector host="search" host-key="'worktypeId'" host-text="'nodeText'" node-list="worktypeTree"></layer-selector>
+        </div>
+
+        <button class="btn btn-default" ng-click="find(1)" >查询</button>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">工单列表</div>
+    <div class="panel-body">
+        <table class="table table-striped table-hover" >
+            <thead class="title">
+            <tr>
+                <th class="text-center">NO</th>
+                <th>工单编号</th>
+                <th>工单名称</th>
+                <th>工单类型</th>
+                <th>工作分类</th>
+                <th>执行人</th>
+                <th>管理人</th>
+                <th>执行时间</th>
+                <th>工单状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-if="pageModel.list.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+            <tr ng-repeat="item in pageModel.list" >
+                <td class="text-center">{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                <td>{{item.id}}</td>
+                <td><a  href='javascript:void(0)' class="btn-link"  ng-click='showWorkUnitDetail(item.id)'>{{item.workunitName}}</a></td>
+                <td>{{item.workunitType|keyToValue:workunitTypeDict}}</td>
+                <td>{{item.worktypeName}}</td>
+                <td>{{item.execPersonName}}</td>
+                <td>{{item.managePersonName}}</td>
+                <td>{{item.execTime}}</td>
+                <td>{{item.unitStatus|keyToValue:unitStatusDict}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="page-footer clearfix">
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+</div>

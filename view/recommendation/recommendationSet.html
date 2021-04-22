@@ -1,0 +1,133 @@
+<!-- <link rel="stylesheet" href="recommendation/css/recommendationSet.css" type="text/css"> -->
+
+<div ng-controller="recommendationSetCtrl" ng-cloak style="background-color: #fff;">
+    <div class="page_title" style="border:0">
+        <!-- <div class="page_title_top">
+            <span>查询条件</span>
+        </div> -->
+        <div class="panel-heading" style="font-size: 14px;background-color: #eee;">查询条件
+            <!-- <button class="btn btn-primary pull-right" ng-click="showRecommedAdd()">新增</button> -->
+            <!-- <button class="btn btn-primary pull-right" ng-click="showRecommedEdit()">新增</button> -->
+        </div>
+        <div class="x_panel">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label class="m-r-xs">产品名称: </label>
+                        <input type="text" ng-model="search.proRecommandName" class="form-control ng-valid ng-empty ng-pristine ng-touched" aria-invalid="false" style="">
+                    </div>
+                    <button class="btn btn-default" ng-click="findPage()">查询</button>
+                </div>
+            </div>
+        <!-- <div class="page_title_bottom">
+            <span>产品名称</span>
+            <input type="text" ng-model="search.proRecommandName" >
+            <button class="btn btn-default" ng-click="findPage()">查询</button>
+        </div> -->
+    </div>
+    <div class="page_main">
+        <div class="panel-heading" style="font-size: 14px;background-color: #eee;">产品推荐列表
+            <!-- <button class="btn btn-primary pull-right" ng-click="showRecommedAdd()">新增</button> -->
+            <button class="btn btn-primary pull-right" ng-click="showRecommedEdit()">新增</button>
+        </div>
+        <!-- <div class="page_main_top">
+            <span>产品推荐列表</span>
+            <button class="btn btn-primary pull-right" ng-click="showRecommedAdd()">新增</button>
+        </div> -->
+        <div class="page_main_bottom">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead class="title">
+                    <tr class="text-center">
+                        <th style="width: 100px;">序号</th>
+                        <th style="width: 200px;">产品名称</th>
+                        <th style="width: 500px;">简介</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr class="text-center" ng-repeat="item in pageModel.data track by $index">
+                        <td style="width: 100px;">{{$index+1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td style="width: 200px;">{{item.proRecommandName}}</td>
+                        <td style="width: 500px;">
+                            <p style="width: 450px;white-space: nowrap;overflow: hidden; text-overflow:ellipsis;text-align: center;margin-left: 25px;" ng-attr-title="{{item.introduction}}">
+                                {{item.introduction}}</p>
+                                
+                        </td>
+                        <td >
+                            <button class="btn btn-oper" href="javascript:;"
+                                ng-click="showRecommedDetail(item.id)">详情</button>&nbsp;
+                            <button class="btn btn-oper" ng-disabled="item.isEditable==1" ng-click="showRecommedEdit(item)">编辑</button>&nbsp;
+                            <span class="btn btn-oper">
+                                    <button  style="border:0;background-color: #fff;" ng-disabled="item.enable ==1" ng-style="{color: item.enable =='1' ? '#cdcdcd' : 'blue',cursor:item.enable =='1'? 'not-allowed':'pointer'} "  ng-click="enableStatus(item.id,'1')">启用</button>&nbsp;/
+                                    <button  style="border:0;background-color: #fff;" ng-disabled="item.enable === 0 " ng-style="{color: item.enable === 0 ? '#cdcdcd' : 'blue',cursor:item.enable === 0 ? 'not-allowed':'pointer'} "  ng-click="enableStatus(item.id,'0')">停用</button>
+                                <!-- <a class="bookStatus" ng-style="{color: item.enable =='1' ? '#cdcdcd' : 'blue'} " ng-class="{true:'selected',false:'notSelected'}[item.enable == 1]" ng-click="enableStatus(item.id,'1')">启用</a>&nbsp;/ -->
+                                <!-- <a class="bookStatus" ng-style="{color: item.enable === 0 ? '#cdcdcd' : 'blue'} " ng-class="{true:'selected',false:'notSelected'}[item.enable === '0']" ng-click="enableStatus(item.id,'0')">停用</a> -->
+                            </span>&nbsp;
+                            <button class="btn btn-oper" ng-disabled="item.isEditable==1" ng-click="del(item.id)">删除</button>
+                            <!-- <a class="btn-oper" href="">删除</a> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .page_title {
+        width: 100%;
+    }
+
+    .btn-oper {
+        background-color: #fff;
+        border: 1px solid #78c4ec;
+        color: #78c4ec;
+        padding: 3px 10px;
+    }
+
+    .page_title_top {
+        height: 30px;
+        background-color: rgb(24, 129, 214);
+        color: #fff;
+        padding-top: 10px;
+        padding-left: 15px;
+    }
+
+    .page_title_top span {}
+
+    .page_title_bottom {
+        padding: 30px 0 30px 50px;
+        /* border: 1px solid #aaa; */
+        border-top: 0;
+        margin-bottom: 20px;
+    }
+
+    .page_title_bottom input {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .page_title_bottom button {
+        /* border: 0;
+        background-color: rgb(24, 129, 214);
+        color: #fff;
+        width: 80px;
+        height: 25px;
+        border-radius: 5px; */
+    }
+
+    .page_main_top {
+        height: 50px;
+        background-color: rgb(24, 129, 214);
+        color: #fff;
+        padding-top: 10px;
+        padding-left: 15px;
+        padding-right: 30px;
+    }
+
+</style>

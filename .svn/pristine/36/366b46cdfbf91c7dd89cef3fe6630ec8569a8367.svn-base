@@ -1,0 +1,64 @@
+<!-- 满意度查询 -->
+<div ng-controller="satisfactionCtrl">
+    <div class="x_panel">
+        <div class="form-inline">
+                <div class="form-group">
+                
+                        <select  class="form-control" ng-change="changeSelect()" required ng-model="search.type" ng-options="o[0] as o[1] for o in [['1','满意'],['2','不满意']]">
+                            <option value="">--是否满意--</option>
+                        </select>
+                    </div>
+           
+            <div class="form-group">
+                <input style="width: 180px;"  type="datetime" class="form-control Wdate acitveSt" ng-model="search.startTime" placeholder="开始日期" onchange=""
+                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:&quot;#F{$('.acitveEn').last().val()||'%y-%M-%d'}&quot;})">
+               <label>-</label>
+               <input style="width: 180px;" type="datetime" class="form-control Wdate acitveEn" ng-model="search.endTime" placeholder="结束日期" onchange=""
+                onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:&quot;#F{$('.acitveSt').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+        </div>
+            <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default" style="display: grid;">
+        <div class="panel-heading">满意度调查列表
+        </div>
+        <div class="panel-body" style="overflow: scroll;">
+             
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">NO</th>
+                       
+                        <th>满意度调查标题</th>
+                        <th style="width: 120px;">业主评分</th>
+                        <th style="width: 80px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!satisfac_pageModel.data  || satisfac_pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in satisfac_pageModel.data">
+                        <td class="text-center">{{$index + 1+satisfac_pageModel.pageSize*satisfac_pageModel.pageIndex}}</td>
+                       
+                        <td ng-if="item.title.length<80">{{item.title}}</td>
+                        <td ng-if="item.title.length>=80" ng-class="{'border-t-0':$index==0}">
+                               
+                                <on-detail titles="满意度调查标题" value="{{item.title}}">
+
+                                    </on-detail>
+                        </td>
+                        <td style="width: 120px;">{{item.cort}}</td>
+                        
+                        <td style="width: 80px;">
+                            <a href='javascript:void(0)' ng-click='showDetail(item)' class='btn btn-xs'><span class='fa fa-search'></span>查看详情</a> 
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <page-pro page-model="satisfac_pageModel"></page-pro>
+            </div>
+        </div>
+    </div>
+</div>

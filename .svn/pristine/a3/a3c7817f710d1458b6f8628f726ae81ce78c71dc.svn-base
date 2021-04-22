@@ -1,0 +1,91 @@
+<!-- 访客管理 -->
+<div ng-controller="visitorCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>访客管理</h3>
+        </div>
+    </div>
+    <div class="row" ng-if="search.isGroup">
+        <div class="col-xs-12">
+            <label class="control-label">
+                <i class="fa fa-map-marker" style="font-size: 15px;margin-right:5px"></i>
+                <a role="button" ng-click="findPark(search,find)">{{search.PARK_NAME?search.PARK_NAME:'请选择项目'}} </a>
+            </label>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            <div class="form-group">
+                <input type="text" ng-model="search.visitorName" class="form-control" placeholder="访客姓名" />
+                <input type="text" ng-model="search.houseNo" class="form-control" placeholder="房屋编号" />
+                <input type="text" ng-model="search.ownerName" class="form-control" placeholder="业主姓名" />
+            </div>
+
+            <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            访客列表
+            <button class="btn btn-primary pull-right" ng-click="showAddModal()" ng-disabled="!search.parkId">添加访客</button>
+
+            <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="outputAll()">批量导出</button>
+            <button class="btn btn-primary pull-right" ng-disabled="!hasChecked(pageModel)" ng-click="delAll()">批量删除</button>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead class="title">
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th class="text-center" style="width:20px">
+                            <span role="button" ng-click="checkAll(pageModel)">
+                                <i class="glyphicon" ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"></i>
+                            </span>
+                        </th>
+                        <th>访客姓名</th>
+                        <th>访客电话</th>
+                        <th>所属业主</th>
+                        <th>业主联系方式</th>
+                        <th>房屋编号</th>
+                        <th>车牌号</th>
+                        <th>来访时间</th>
+                        <th>离开时间</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data">
+                        <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>
+                            <i role="button" ng-click="checkOne(item,pageModel)" ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                class="glyphicon"></i>
+                        </td>
+                        <td>{{item.visitorName}}</td>
+                        <td>{{item.visitorTel}}</td>
+                        <td>{{item.ownerName}}</td>
+                        <td>{{item.ownerPhone}}</td>
+                        <td>{{item.houseNo}}</td>
+                        <td>{{item.plateNumber}}</td>
+                        <td>{{item.visitTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.leaveTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>
+                            <a href='javascript:void(0)' ng-click='showAddModal(item)' class='btn btn-xs'>
+                                <span class='fa fa-edit'></span>编辑</a>
+                            <a href='javascript:void(0)' ng-click='del(item)' class='btn btn-xs'>
+                                <span class='fa fa-trash'></span>删除</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>

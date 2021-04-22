@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h3 class="modal-title">选择房屋</h3>
+</div>
+<div class="modal-body form-horizontal">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            房屋列表
+        </div>
+        <div class="panel-body p-b-none p-t-none" style="max-height: 700px; overflow-y: scroll;">
+            <table class="table table-striped table-hover m-b-none" style="margin-top: 10px; color: #999999;">
+                <thead class="title">
+                    <tr>
+                        <th style="width: 50px;"></th>
+                        <th>
+                            <input type="checkbox" ng-if="type === 2" ng-model="search.allState" ng-change="chooseAll(search.allState)">
+                        </th>
+                        <th>房屋编号</th>
+                        <th>房屋名称</th>
+                        <th>业主姓名</th>
+                        <th>业主电话</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in houseList.data track by $index" style="color: #333333;" ng-click="item.status = !item.status;chooseOne(item.status, $index)">
+                        <td style="width: 50px;">{{$index + 1}}</td>
+                        <td>
+                            <input type="checkbox" ng-model="item.status" ng-click="item.status = !item.status;chooseOne(item.status, $index)">
+                        </td>
+                        <td>{{item.houseNo}}</td>
+                        <td>{{item.houseName}}</td>
+                        <td>{{item.ownerName}}</td>
+                        <td>{{item.phone}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-success btn-lg" ng-click="save()">确认</button>
+    <button class="btn btn-danger btn-lg" ng-click="cancel()">取消</button>
+</div>

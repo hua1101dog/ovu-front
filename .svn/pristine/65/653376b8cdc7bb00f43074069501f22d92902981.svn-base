@@ -1,0 +1,202 @@
+<link rel="stylesheet" href="projectSpace/spaceSeparate/spaceSeparate.css">
+<div id="angularId" ng-controller="parkMergeCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>
+                <a href="javascript:;"
+                    onclick="loadMainPage(this,'/ovu-pcos/system/parkStage/indexPark.do')">空间维护</a>><a
+                    href="javascript:;" class="lastTittle">空间拆分</a>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel form-horizontal">
+                <div class="x_title">
+                    <h4>原房间信息 <button class="btn btn-info pull-right" ng-click="resolution()" style="margin-top:-10px;"
+                            ng-if="canAdd==1">拆</button></h4>
+                </div>
+
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label required">空间名称：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly" ng-model="originalData.houseName" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label">房号：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly" ng-model="originalData.houseCode" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label">房屋编号：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly"
+                            ng-attr-title="{{originalData.houseNo}}" ng-model="originalData.houseNo" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label">房屋类别：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly" ng-model="originalData.rmCat" />
+                    </div>
+                </div>
+                <!--<div class="form-group" style="margin-left:0;margin-right:0">
+						<label class="col-xs-4 control-label">装修类型：</label>
+						<div class="col-xs-8">
+							<input type="text" class="form-control" readonly="readonly" ng-model="decoration" />
+						</div>
+					</div>-->
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label">户型：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly" ng-model="originalData.rmStd" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label">建筑面积（平米）：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly" ng-model="originalData.area" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label">套内面积（平米）：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly" ng-model="originalData.areaSu" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label">公摊面积（平米）：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly"
+                            ng-model="originalData.areaChargable" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">使用面积（平米）：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly"
+                            ng-model="originalData.areaProperty" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label">实际建筑面积（平米）：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly"
+                            ng-model="originalData.areaActual" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label">实际套内面积（平米）：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly"
+                            ng-model="originalData.areaActualSu" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label">实际公摊面积（平米）：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly"
+                            ng-model="originalData.areaActualChargable" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label">设备房：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly"
+                            ng-model="originalData.isEmtHouse" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0;margin-right:0">
+                    <label class="col-xs-4 control-label">产权方：</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" readonly="readonly"
+                            value="{{originalData.owner || '中电光谷'}}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-8 col-xs-12" style="padding:0">
+            <form name="chai" novalidate>
+                <div class="x_panel form-horizontal" ng-repeat="item in resolutionData track by $index">
+                    <div class="x_title">
+                        <h4>{{item.houseCode}} <button ng-show="$last&&$index>1"
+                                class="btn btn-danger glyphicon glyphicon-minus pull-right"
+                                ng-click="del($event,$index)" style="margin-top:-10px;"></button></h4>
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label required">空间名称：</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control " required ng-model="item.houseName"
+                                ng-change="houseNameChange(item.houseName)" name="HOUSE_NAME">
+                        </div>
+                        <label class="col-xs-1 control-label">房号：</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control " readonly="readonly" ng-model="item.houseCode">
+                        </div>
+                        <label class="col-xs-1 control-label">房屋编号:</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" readonly="readonly" ng-attr-title="{{item.houseNo}}"
+                                ng-model="item.houseNo">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <!-- <label class="col-xs-1 control-label ">装修类型：</label>
+						<div class="col-xs-3">
+							<select class="form-control "   ng-model="item.isDecoration" ng-options="o.id as o.dicItem for o in isDecoration">
+                             <option value="" >--请选择--</option>
+                            </select>
+						</div> -->
+                        <label class="col-xs-1 control-label required">空间简称：</label>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control " required ng-model="item.rmShortName"
+                                 name="">
+                        </div>
+                        <!-- <label class="col-xs-1 control-label ">户型：</label> -->
+                        <!-- <div class="col-xs-3">
+							<select class="form-control "  ng-model="item.rm_type" ng-options="o.value as o.text for o in houseLayoutList"><option value class selected="selected">--请选择--</option></select>
+						</div> -->
+                        <!-- <div class="col-xs-3">
+                            <input type="text" class="form-control" ng-model="item.rmStd">
+						</div> -->
+						<label class="col-xs-1 control-label ">装修类型：</label>
+						<div class="col-xs-3">
+							<select class="form-control "   ng-model="item.isDecoration" ng-options="o.id as o.dicItem for o in isDecoration">
+                             <option value="" >--请选择--</option>
+                            </select>
+						</div>
+                        <label class="col-xs-1 control-label required">设备房：</label>
+                        <div class="col-xs-3">
+                            <select class="form-control " required ng-model="item.isEmtHouse"
+                                ng-options="o.value as o.text for o in emtHouseList">
+                                <option value="" selected="selected">--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:0;margin-right:0">
+                        <label class="col-xs-1 control-label required">建筑面积（平米）：</label>
+                        <div class="col-xs-3">
+                            <input type="number" class="form-control " required ng-model="item.area" name="area"
+                                ng-pattern="/^([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9])$/">
+                        </div>
+                        <label class="col-xs-1 control-label ">套内面积（平米）：</label>
+                        <div class="col-xs-3">
+                            <input type="number" class="form-control " ng-model="item.areaSu">
+                        </div>
+                        <label class="col-xs-1 control-label ">使用面积（平米）：</label>
+                        <div class="col-xs-3">
+                            <input type="number" class="form-control" ng-model="item.areaProperty">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="form-group text-center x_panel" style="margin-top:-10px;">
+                <button class="btn btn-primary" ng-click="saveInfo(chai)">保存</button>
+                <button class="btn btn-warning" ng-click="cancle()">关闭</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- <%@ include file="/common/modal.park.jsp" %> -->

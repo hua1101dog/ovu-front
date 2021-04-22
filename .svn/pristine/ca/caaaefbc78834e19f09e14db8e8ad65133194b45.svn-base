@@ -1,0 +1,74 @@
+<div class="x_panel">
+    <span>选择起始时间</span>
+    <input type="datetime" class="form-control Wdate engeryTimeSt" style="display: inline-block;width: auto" ng-model="search.startTime" onchange=""
+        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:&quot;#F{$('.engeryTimeEn').last().val()||'%y-%M-%d'}&quot;})">
+    <span>选择截止时间</span>
+    <input type="datetime" class="form-control Wdate engeryTimeEn" style="display: inline-block;width: auto" ng-model="search.endTime" onchange=""
+        onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',minDate:&quot;#F{$('.engeryTimeSt').first().val()}&quot;,maxDate:'%y-%M-%d'})">
+
+
+    <button class="btn btn-default" style="margin-bottom: 4px" ng-click="find()">查询</button>
+    <div style="margin-bottom: 20px;display:inline" class="content">
+        <ul>
+            <li ng-class='{actives:selected==1}' ng-click="selected=1;selectTime('day')" style="line-height: 25px;padding: 0px 6px">本日</li>
+            <li ng-class='{actives:selected==2}' ng-click="selected=2;selectTime('week')" style="line-height: 25px;padding: 0px 6px">本周</li>
+            <li ng-class='{actives:selected==3}' ng-click="selected=3;selectTime('month')" style="line-height: 25px;padding: 0px 6px">本月</li>
+            <li ng-class='{actives:selected==4}' ng-click="selected=4;selectTime('year')" style="line-height: 25px;padding: 0px 6px">本年</li>
+        </ul>
+    </div>
+    <div class="x_panel" id="engeryTime_panel">
+        <div class="form-group content">
+            <ul class="picType" ng-init="isSelected=1">
+                <li ng-click="toggleLine(true);isSelected=1" ng-class="{actives:isSelected==1}" style="line-height: 25px;padding: 0px 6px">折线</li>
+                <li ng-click="toggleLine(false);isSelected=2" ng-class="{actives:isSelected==2}" style="line-height: 25px;padding: 0px 6px">柱状</li>
+            </ul>
+        </div>
+        <div>
+            <div   ng-style="{'width':width}" ng-show="isLine" ui-echarts="policyLineTrendData" style="height: 300px;"></div>
+            <div   ng-style="{'width':width}" ng-show="isColumn" ui-echarts="policyColumnTrendData" style="height: 400px;"></div>
+
+        </div>
+
+        <div class="col-md-12 col-sm-12 col-xs-12" ng-if="policyListArr && policyListArr.length !== 0" style="height: 500px;overflow: auto">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th ng-repeat="i in policyListArr[0].policyList">{{i.name}}</th>
+                        <th>总计</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr ng-repeat="item in policyListArr">
+
+                        <td>{{item.time}}</td>
+                        <td ng-repeat="i in item.policyList">{{i.value}}</td>
+                        <td>{{item.total}}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <style>
+        .actives {
+            background-color: #62c3ff;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .picType {
+            float: right;
+            margin-top: 8px;
+        }
+
+        .content ul li {
+            display: inline-block;
+            cursor: pointer;
+            border: 1px solid #ccc
+        }
+
+    </style>

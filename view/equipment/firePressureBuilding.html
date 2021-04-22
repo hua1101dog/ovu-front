@@ -1,0 +1,27 @@
+<!-- 消防管理 > 消防水压 > 建筑物 -->
+<div class="video-monitor" id="angularId" ng-controller="eqMonitVideo">
+    <ng-include src="'/view/equipment/monitoring/detail/index.html'"></ng-include>
+</div>
+
+<!-- bim组件 -->
+<script src="/view/equipment/monitoring/detail/BIM/bim.js"></script>
+
+<!-- BIM 依赖 -->
+<script src="/res/js/bimViz/sdk/third/toolbar/jquery.toolbar.js"></script>
+<script src="/res/js/bimViz/sdk/viz/bimviz.js"></script>
+
+<!--星网地图  -->
+<script src="/view/equipment/monitoring/detail/xwMap/xwMap.js"></script>
+<!-- 星网地图依赖 -->
+<script src="/lib/xwMap/Three.js" seq="1"></script>
+<script src="/lib/xwMap/OrbitControls.js" seq="2"></script>
+<script src="/lib/xwMap/dataHandle.js" seq="3"></script>
+<script src="/lib/xwMap/3Dfunction.js" seq="4"></script>
+<script src="/lib/xwMap/3dToScreen.js" seq="6"></script>
+<script src="/lib/xwMap/DataInteraction.js" seq="5"></script>
+
+<!--高德地图-->
+<script src="/view/equipment/monitoring/detail/GDMap/gdMap.js"></script>
+
+<!-- 详情页 -->
+<script src="/view/equipment/monitoring/detail/index.js"></script>

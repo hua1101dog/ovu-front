@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>园区概况</title>
+    <link rel="stylesheet" href="bigScreen/operational/parkProfile.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="parkProfileCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>园区概况</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="x_panel">
+                <div class="tab-content">
+                    <!-- 园区概况指标 -->
+                    <div class="tab-pane fade active in">
+                        <div class="panel panel-default" style="margin-bottom: 0px;margin-top: 10px;">
+                            <div class="panel-body">
+                                <form name="parkForm" novalidate>
+									<div class="form-inline" style="margin:15px">
+                                        <button class="btn btn-default pull-right btn-search" ng-click="savePark(parkForm)">保存</button>
+                                        <input class="switch switch-anim check_input" ng-model="parkParams.isEnabled" ng-click="savePark(parkForm)" type="checkbox" unchecked />
+                                        <div class="check_tips pl15">(控制大屏展示数据来源，关闭显示运营数据，打开显示演示数据)</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-12 control-label"><h4 class="title-h4">园区总面积</h4></label>
+                                    </div> 
+									<div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">建筑总面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.parkArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">楼栋数：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.buildCount" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^[+]{0,1}(\d+)$/" max="999">栋
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">总入驻率：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.residenceRate" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="99.99">%
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-12 control-label"><h4 class="title-h4">办公空间</h4></label>
+                                    </div>                          
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">办公面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.officeArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">自持办公面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.privateOfficeArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">可销售办公面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.forSaleOfficeArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                    </div>                              
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">已销售办公面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.soldOfficeArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">可租赁办公面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.forRentOfficeArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">已租赁办公面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.rentedOfficeArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                    </div>                                                                
+                                    <div class="form-group">
+                                        <label class="col-xs-12 control-label"><h4 class="title-h4">配套空间</h4></label>
+                                    </div> 
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">商业面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.bizArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">自持商业面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.privateBizArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">可销售商业面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.forSaleBizArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                    </div>                              
+                                    <div class="form-group row pl15">
+                                        <label class="col-xs-1 control-label title-lable">已销售商业面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.soldBizArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">可租赁商业面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.forRentBizArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                        <label class="col-xs-1 control-label title-lable">已租赁商业面积：</label>
+                                        <div class="col-xs-2">
+                                            <input ng-model="parkParams.rentedBizArea" type="number"
+                                                class="form-control input-text"
+                                                ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" 
+                                                max="999999999999999.99">万m<sup>2</sup>
+                                        </div>
+                                    </div>   
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

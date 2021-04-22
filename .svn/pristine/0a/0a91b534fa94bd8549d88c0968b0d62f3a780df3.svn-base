@@ -1,0 +1,70 @@
+<div ng-controller="suntransCtrl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>三川电量</h3>
+        </div>
+    </div>
+    <div class="x_panel">
+        <div class="form-inline">
+            
+            <div class="form-group">
+                <label>项目名称</label>
+                <input type="text" ng-model="search.name" class="form-control" />
+            </div>
+            
+            <button class="btn btn-default" ng-click="find(1)">查询</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+           设备布设情况列表
+            <button class="btn btn-primary pull-right" ng-click="showEditModal()" >添加设备</button>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover" >
+                <thead class="title">
+                    <tr>
+                        <th class="text-center">NO</th>
+                        <th>项目名称</th>
+                        <th>设备类别</th>
+                        <th>设备型号</th>
+                        <th>设备类型</th>
+                        <th>布设楼层</th>
+                        <th>楼层布设区域</th>
+                        <th>类型布设区域</th>
+                        <th>隶属的采集点</th>
+                        <th>录入时间</th>
+                       
+                        <th style="width: 120px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="!pageModel.data  || pageModel.data.length == 0">
+                        <td colspan="100" class="text-center">暂无记录</td>
+                    </tr>
+                    <tr ng-repeat="item in pageModel.data" >
+                        <td class="text-center">{{$index +1+pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td ng-class="{'bg-danger':item.type==2}">{{item.areaName}}</td>
+                        <td>{{item.areaType}}</td>
+                        <td>{{item.device}}</td>
+                        <td>{{item.type}}</td>
+                        <td>{{item.floor}}</td>
+                        <td>{{item.floorArea}}</td>
+                        <td>{{item.floorAreaType}}</td>
+                        <td>{{item.dpId}}</td>
+                        <td>{{item.createTime}}</td>
+                   
+                        <td>
+                            <a href='javascript:void(0)' ng-click='showEditModal(item)' class='btn btn-xs'><span class='fa fa-edit'></span>编辑</a>
+                            <a href='javascript:void(0)' ng-click='del(item.id)' class='btn btn-xs'><span class='fa fa-trash'></span>删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-footer clearfix">
+                <ng-include src="'/common/pager.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+</div>

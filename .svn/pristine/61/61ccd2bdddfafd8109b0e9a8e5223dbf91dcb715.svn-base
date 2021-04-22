@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管家服务分类</title>
+    <!--<style>-->
+        <!--.sort{-->
+            <!--width:60px;height:20px;-->
+        <!--}-->
+    <!--</style>-->
+</head>
+<body>
+<div id="serviceSortingId" ng-controller="serviceSortingCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>管家服务分类</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">分类</div>
+                <div class="x_content" style="max-height:1000px;overflow: auto;">
+                    <input type="hidden" id="parentId" value="">
+                    <label id="parentName" class="hide"></label>
+                    <label id="nodeLength" class="hide"></label>
+                    <div id="treeloading" class="alert hide">加载中...</div>
+                    <div id="dept_tree"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-6 col-xs-12">
+            <div class="x_panel">
+
+                <div class="form-inline">
+                <div class="form-group">
+                    <input type="text"  name="searchTxt" id="searchTxt" class="form-control" placeholder="分类名称筛选">
+                </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-default" ng-click="query()">查询</button>
+                    </div>
+                </div>
+
+
+                <div class=" col-md-4 col-sm-4 col-xs-12 " style="margin-top:16px;margin-bottom:10px;">
+                    <a style="font-size:18px; ">|&nbsp;分类列表</a>
+                </div>
+                <div class="col-md-8 col-sm-8 col-xs-12" style="text-align: right;">
+                    <button type="button" class="btn btn-primary" ng-click="showEditModal();" >添加分类</button>
+                    <button type="button" class="btn btn-default" ng-click="findRoot();" >查看顶层</button>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="text-center">NO.</th>
+                        <th>分类名称</th>
+                        <th>上级分类</th>
+                        <th>描述说明</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr id="tableloading" class="hide">
+                        <th colspan="5">
+                            <div class="alert" role="alert">加载中...</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="rows">
+                    <tr ng-if="!pageModel.data || pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+                    <tr ng-repeat="item in pageModel.data" class="ng-scope">
+                        <td class="text-center">{{$index + 1 + pageModel.pageSize*pageModel.pageIndex}}</td>
+                        <td>{{item.serviceName||'--'}}</td>
+                        <td>{{item.parentName ? item.parentName : "无"||'--'}}</td>
+                        <td>{{item.description | convertDescription}}</td>
+                        <td>
+                            <div>
+                                <a href="javascript:void(0)"  ng-click="showEditModal(item)" class="btn btn-xs"><span class="fa fa-edit"></span>修改</a>
+                                <a href="javascript:void(0)"  ng-click="optItem(item, 'del')" class="btn btn-xs"><span class="fa fa-trash"></span>删除</a>
+                                <a href="javascript:void(0)" data-sid="{{$index}}" ng-click="optItem(item, 'up', $event)" class="btn btn-xs"><span class="fa fa-send-o"></span>上移</a>
+                                <a href="javascript:void(0)" data-sid="{{$index}}" ng-click="optItem(item, 'down', $event)" class="btn btn-xs"><span class="fa fa-send-o"></span>下移</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="toolbarTr">
+                        <td colspan="5"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-footer clearfix">
+                    <ng-include src="'/common/pager.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

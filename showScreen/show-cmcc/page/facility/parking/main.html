@@ -1,0 +1,88 @@
+<div class="" ng-controller="parkingMainCtl as vm" style="height:100%;">
+    <big-screen gaode-data="vm.gaodeData" indoor-data="vm.indoorData" park-no="vm.parkNo" type="vm.type">
+        <div class="">
+            <!--项目停车情况-->
+            <div>
+                <div class="col-lg-12 col-sm-12 b-b b-2x">
+                    <h4 class="font-bold">项目停车位概况</h4>
+                    <!-- 临时代替后台接口背锅000 -->
+                    <!-- <div class="col-lg-6 col-sm-6 text-center">
+                        <h3>{{vm.rightData.total}}</h3>
+                        <div>停车位总数</div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-center m-b-md">
+                        <h3 class="red">{{vm.rightData.left_num}}</h3>
+                        <div>剩余车位数</div>
+                    </div> -->
+                    <div class="col-lg-6 col-sm-6 text-center">
+                        <h3>{{vm.rightData.total}}</h3>
+                        <div>停车位总数</div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-center m-b-md">
+                        <h3 class="red">{{vm.rightData.left_num}}</h3>
+                        <div>剩余车位数</div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 b-b b-2x fixed-height">
+                    <h4 class="font-bold">项目停车位列表</h4>
+                    <div class="content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>位置</th>
+                                    <th>车位数</th>
+                                    <th>剩余车位数</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in vm.parkingLotList">
+                                    <td>{{item.position}}</td>
+                                    <!-- 临时代替后台接口背锅000 -->
+                                    <!-- <td>{{item.total}}</td>
+                                    <td>{{item.left_num}}</td> -->
+                                    <td>{{item.total}}</td>
+                                    <td ng-class="{'green':item.left_num>100,'red':item.left_num<=100}">{{item.left_num}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 fixed-height">
+                    <h4 class="font-bold">项目道闸情况</h4>
+                    <div class="col-lg-12 col-sm-12 text-center">
+                        <h3>{{::vm.total}}</h3>
+                        <div>道闸总数</div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-center ">
+                        <h3 class="red">{{vm.total-vm.enter}}</h3>
+                        <div>出口</div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-center ">
+                        <h3 class="red">{{vm.enter}}</h3>
+                        <div>入口</div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-center ">
+                        <h3 class="red">{{vm.total-vm.normal}}</h3>
+                        <div>停用</div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-center ">
+                        <h3 class="red">{{vm.normal}}</h3>
+                        <div>启用</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </big-screen>
+</div>
+</div>
+<style>
+    .right-panel {
+        height: 100%;
+        overflow: auto;
+    }
+    
+    .right-panel .fixed-height {
+        height: 350px;
+        overflow: auto;
+    }
+</style>

@@ -1,0 +1,131 @@
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()">×</button>
+			<h4 class="modal-title">{{item.id?'编辑':'添加'}}传感器型号</h4>
+	    </div>
+	    <div class="modal-body container-fluid form-horizontal">
+			<form name="form" novalidate>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="col-xs-4 control-label required">型号名称：</label>
+							<div  class="col-xs-8">
+								<input type="text" class="form-control" ng-model="item.text" name="text" required/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-4 control-label required">编码：</label>
+							<div  class="col-xs-8">
+								<input type="text" disabled class="form-control" ng-model="item.code" name="code" required/>
+							</div>
+						</div>
+						<!--<div class="form-group">
+							<label class="col-xs-4 control-label">品牌：</label>
+							<div  class="col-xs-8">
+								<input type="text" class="form-control" ng-model="item.brand" name="brand"  ng-class="{'waiting':loadingBrand}"
+									   uib-typeahead="o.brand as o.brand for o in getBrand($viewValue)" typeahead-min-length=0 typeahead-editable=true typeahead-loading="loadingBrand" typeahead-wait-ms='300'/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-4 control-label ">产品型号：</label>
+							<div  class="col-xs-8">
+								<input type="text" class="form-control" ng-model="item.product_model" name="product_model" />
+							</div>
+						</div>
+						-->
+					</div>
+					<div class="col-xs-6">
+						<div class="thumbnail text-center" style="height: 180px;">
+							<img alt="" onerror="javascript:this.src='/res/img/detail.png';"
+								 ng-click="showPhoto()" style="max-height:100%"
+								 ng-src="{{processImgUrl(item.logo_url,'240')}}"/>
+							<div class="caption">
+								<p>
+									<button class="btn btn-warning height34" ng-click="clearPhoto(item,'logo_url')"><i
+											class="glyphicon glyphicon-remove"></i></button>
+									<button class="btn btn-default height34" ng-click="addPhoto(item,'logo_url')"><i
+											class="glyphicon glyphicon-picture "></i></button>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">规格说明：</label>
+					<div class="col-xs-10">
+						<textarea  style="height:100px;resize:vertical" class="form-control"  name="comment"  ng-model="item.comment"   />
+					</div>
+				</div>
+				<!--<div class="panel panel-default">
+					<div class="panel-heading">参数列表
+						<button class="btn btn-primary pull-right" ng-click="addAttr()" >新增参数</button>
+					</div>
+					<div class="panel-body">
+							<table class="table table-striped table-hover" style="margin-bottom: 0px; ">
+								<thead class="title">
+								<tr>
+									<th class="text-center">NO</th>
+									<th >参数名称</th>
+									<th >参数值</th>
+									<th>操作</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-if="!item.attrs||item.attrs.length == 0"><td colspan="100" class="text-center">暂无参数</td></tr>
+								<tr ng-repeat="attr in item.attrs" >
+									<td class="text-center">{{$index + 1}}</td>
+									<td style="padding:1px"><input type="text" class="form-control" required name="name{{$index}}" ng-model="attr.name" /></td>
+									<td style="padding:1px"><input type="text" class="form-control" required name="val{{$index}}" ng-model="attr.val" /></td>
+									<td>
+										<a href='javascript:void(0)' ng-click='item.attrs.splice(item.attrs.indexOf(attr),1)' class='btn btn-xs' ><span class='fa fa-trash'></span>删除</a>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+				</div>-->
+
+				<div class="panel panel-default">
+					<div class="panel-heading">检测参数列表
+						<button class="btn btn-primary pull-right hide" ng-click="addParam()" >新增检测参数</button>
+					</div>
+					<div class="panel-body">
+						<table class="table table-striped table-hover" style="margin-bottom: 0px; ">
+							<thead class="title">
+							<tr>
+								<th class="text-center">NO</th>
+								<th >参数名称</th>
+								<th >参数代码(英文)</th>
+								<th >值类型</th>
+								<th style="width: 300px">单位/选项</th>
+								<th  class="hide">操作</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-if="item.params.length == 0"><td colspan="100" class="text-center">暂无参数</td></tr>
+							<tr ng-repeat="param in item.params" >
+								<td class="text-center">{{$index + 1}}</td>
+								<td style="padding:1px"><input type="text" class="form-control" required name="name{{$index}}" ng-model="param.name" /></td>
+								<td style="padding:1px"><input type="text" disabled class="form-control" required name="code{{$index}}" ng-model="param.code" /></td>
+								<td style="padding:1px">
+									<select  class="form-control" required disabled name="val_type{{$index}}" ng-model="param.val_type" ng-options="o[0] as o[1] for o in sensorDataDict" >
+										<option value="">--请选择--</option>
+									</select></td>
+								<td style="padding:1px">
+									<input type="text" disabled ng-if="param.val_type == 1" placeholder="数值单位，如 '℃' " class="form-control" required name="unit{{$index}}" ng-model="param.unit" />
+									<input type="text" disabled ng-if="param.val_type == 2" placeholder="以 , 分隔,如 '上行,下行,等客' " class="form-control" required name="option_list{{$index}}" ng-model="param.option_list" />
+								</td>
+								<td class="hide">
+									<a href='javascript:void(0)' ng-click='item.params.splice(item.params.indexOf(param),1)' class='btn btn-xs' ><span class='fa fa-trash'></span>删除</a>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="save(form,item)">确定</button>
+			<button class="btn btn-warning" ng-click="cancel()">取消</button>
+		</div>
+

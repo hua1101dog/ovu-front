@@ -1,0 +1,405 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">退款</h4>
+</div>
+<div class="btngroup">
+    <button class="btn btn-primary" ng-show="isEdit" ng-click="save(form,returnInfo)"><span class="btnImage save"></span>保存</button>
+    <!--<button class="btn btn-primary" ng-show="isEdit" ng-click="save(form,returnInfo)"><span class="btnImage saveAndClose"></span>保存&关闭</button>-->
+    <button class="btn btn-primary" ng-show="returnInfo.status =='1'"ng-click="examine(returnInfo.id, returnInfo.balanceId)"><span class="btnImage approve"></span>审核</button>
+    <button class="btn btn-primary" ng-click="cancel()"><span class="btnImage close"></span>关闭</button>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="title_t">收款单详情</div>
+    <div class="d_content">
+        <div class="form-group">
+            <label class="col-xs-1 control-label">所属项目:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="returnInfo.projectName" name="projectName" readonly>
+            </div>
+            <label class="col-xs-1 control-label ">购买房间:</label>
+            <div class="col-xs-7">
+                <input type="text" class="form-control" ng-model="returnInfo.houseName" name="houseName" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-1 control-label">交款人:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="returnInfo.payerId" name="payerId" readonly>
+            </div>
+            <label class="col-xs-1 control-label">收款人:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="returnInfo.payeeId" name="payeeId" readonly>
+            </div>
+            <label class="col-xs-1 control-label ">收款日期:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="returnInfo.rceiveDate" name="rceiveDate" readonly>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-1 control-label ">票据类型:</label>
+            <div class="col-xs-11">
+                <label class="radio-inline">
+                    <input type="radio" ng-model="returnInfo.invoiceType" value="0" name="invoiceType" readonly>增值税(普)
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="returnInfo.invoiceType" value="1" name="invoiceType" readonly>增值税(专)
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="returnInfo.invoiceType" value="2" name="invoiceType" readonly>发票
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="returnInfo.invoiceType" value="3" name="invoiceType" readonly>收据
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="returnInfo.invoiceType" value="4" name="invoiceType" readonly>无票据
+                </label>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-xs-1 control-label ">开票日期:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="returnInfo.invoiceDate" name="invoiceDate" readonly>
+            </div>
+            <label class="col-xs-1 control-label ">票据批次号:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="returnInfo.invoiceBatchNo" name="invoiceBatchNo" readonly>
+            </div>
+            <label class="col-xs-1 control-label ">票据编号:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="returnInfo.invoiceNo" name="invoiceNo" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-1 control-label ">审核日期:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="returnInfo.approveDate" name="approveDate" readonly>
+
+            </div>
+            <label class="col-xs-1 control-label ">审核人:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="returnInfo.approverId" name="approverId" ng-show="visible">
+                <input type="text" class="form-control" ng-model="returnInfo.approverName" name="approverName" readonly>
+            </div>
+            <label class="col-xs-1 control-label ">入账日期:</label>
+            <div class="col-xs-3">
+                <input type="text" class="form-control" ng-model="returnInfo.entryDate" name="entryDate" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-1 control-label ">备注:</label>
+            <div class="col-xs-11">
+                <textarea ng-model="returnInfo.remark" name="remark" class="form-control" rows="1" maxlength="200"
+                    readonly></textarea>
+            </div>
+        </div>
+        <div class="tablelist">
+            款项明细
+        </div>
+        <div class="tableContent">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead class="title">
+                    <tr>
+                        <th style="width:30px;text-align:center">序号</th>
+                        <th style="text-align:center">款项类型</th>
+                        <th style="text-align:center">款项名称</th>
+                        <th style="text-align:center">应收金额</th>
+                        <th style="text-align:center">实收金额</th>
+                        <th style="text-align:center">实收金额(不含税)</th>
+                        <th style="text-align:center">实收税额</th>
+                        <th style="text-align:center">税率</th>
+                        <th style="text-align:center">支付方式</th>
+                        <th style="text-align:center">摘要</th>
+                        <th style="text-align:center">入账银行</th>
+                        <th style="text-align:center">银付方式</th>
+                        <th style="text-align:center">刷卡终端</th>
+                        <th style="text-align:center">POS单号</th>
+                        <th style="text-align:center">银行卡</th>
+                        <th style="text-align:center">POS机手续费</th>
+                        <th style="text-align:center">结算方式</th>
+                        <th style="text-align:center">结算单号</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                    <td colspan="100" class="text-center">暂无记录</td>
+                </tr> -->
+                     <tr ng-repeat="invoicesDetail in returnInfo.detailList" >
+                        <td class="text-center">{{$index+1}}</td>
+                         <td class="text-center">{{invoicesDetail.amountType|toDictionaryText:saleFinanceAmountTypeList}}</td>
+                         <td class="text-center">{{invoicesDetail.amountName|toDictionaryText:saleFinanceAmountNameList}}</td>
+                         <td class="text-center">{{invoicesDetail.amountRmb}}</td>
+                         <td class="text-center">{{invoicesDetail.amount}}</td>
+                         <td class="text-center">{{(invoicesDetail.amount*(1-invoicesDetail.rate/100)).toFixed(2)}}</td>
+                         <td class="text-center">{{(invoicesDetail.amount*invoicesDetail.rate/100).toFixed(2)}}</td>
+                         <td class="text-center">{{invoicesDetail.rate}}</td>
+                         <td class="text-center">
+                             <select class="form-control text-center" required name="payType" ng-model="invoicesDetail.payType" readonly
+                                     ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinancePayTypeList">
+                                 <option value="">--请选择--</option>
+                             </select>
+                         </td>
+                         <td class="text-center">{{invoicesDetail.abstractDesc}}</td>
+                         <td class="text-center">
+                             <select class="form-control text-center"  name="entryBank" ng-model="invoicesDetail.entryBank"
+                                     ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceEntryBankList" readonly>
+                                 <option value="">--请选择--</option>
+                             </select>
+                         </td>
+                         <td class="text-center">
+                             <select class="form-control text-center"  name="bankPayTypeId" ng-model="invoicesDetail.bankPayTypeId"
+                                     ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceBankPayTypeList" readonly>
+                                 <option value="">--请选择--</option>
+                             </select>
+                         </td>
+                         <td class="text-center">
+                             <select class="form-control text-center"  name="swipedTerminalId" ng-model="invoicesDetail.swipedTerminalId"
+                                     ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceSwipedTerminaList" readonly>
+                                 <option value="">--请选择--</option>
+                             </select>
+                         </td>
+                         <td class="text-center">{{invoicesDetail.posNo}}</td>
+                         <td class="text-center">
+                             <select class="form-control text-center"  name="bankcard" ng-model="invoicesDetail.bankcard"
+                                     ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceBankCardList" readonly>
+                                 <option value="">--请选择--</option>
+                             </select>
+                         </td>
+                         <td class="text-center">{{invoicesDetail.posCharge||"-"}}</td>
+                         <td class="text-center">
+                             <select class="form-control text-center" name="clearingFormId" ng-model="invoicesDetail.clearingFormId"
+                                     ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceClearingFormList" readonly>
+                                 <option value="">--请选择--</option>
+                             </select>
+                         </td>
+                         <td class="text-center">{{invoicesDetail.clearingNo}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="numCal">
+            <label class="col-xs-4 control-label ">实收金额合计&nbsp;&nbsp;&nbsp;{{receivedAmountRate}}</label>
+            <label class="col-xs-4  control-label">实收金额(不含税)合计&nbsp;&nbsp;&nbsp;{{receivedAmount}}</label>
+            <label class="col-xs-4 control-label ">实收税额合计&nbsp;&nbsp;&nbsp;{{(receivedAmountRate-receivedAmount).toFixed(2)}}</label>
+        </div>
+        <div class="page-footer clearfix">
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+    <div class="title_t">退款单详情</div>
+    <div class="d_content">
+        <div class="tablelist">
+            款项明细
+        </div>
+        <div class="tableContent">
+            <table class="table table-striped table-hover" style="margin-top: 10px;">
+                <thead class="title">
+                    <tr>
+                        <th style="width:30px;text-align:center">序号</th>
+                        <th style="text-align:center" class="required-title">款项类型</th>
+                        <th style="text-align:center" class="required-title">款项名称</th>
+                        <th style="text-align:center" class="required-title">实收金额</th>
+                        <th style="text-align:center" class="required-title">实退金额</th>
+                        <th style="text-align:center">实退金额(不含税)</th>
+                        <th style="text-align:center">实退税额</th>
+                        <th style="text-align:center">税率</th>
+                        <th style="text-align:center" class="required-title">支付方式</th>
+                        <th style="text-align:center">摘要</th>
+                        <th style="text-align:center">入账银行</th>
+                        <th style="text-align:center">银付方式</th>
+                        <th style="text-align:center">刷卡终端</th>
+                        <th style="text-align:center">POS单号</th>
+                        <th style="text-align:center">银行卡</th>
+                        <th style="text-align:center">POS机手续费</th>
+                        <th style="text-align:center">结算方式</th>
+                        <th style="text-align:center">结算单号</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  ng-repeat="detail in returnInfo.refundDetailList">
+                        <td class="text-center">{{$index+1}}</td>
+                        <td class="text-center">{{detail.amountType|toDictionaryText:saleFinanceAmountTypeList}}</td>
+                        <td class="text-center">{{detail.amountName|toDictionaryText:saleFinanceAmountNameList}}</td>
+
+                        <td class="text-center">{{detail.amount}}</td>
+                        <td class="text-center">
+                            <input type="number" class="form-control"
+                                   ng-pattern="/^(([0-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/" max="999999999.99"
+                                   name="refundAmount" ng-model="detail.refundAmount" ng-blur="returnMoneyTotal(detail)" ng-readonly="!isEdit">
+                        </td>
+                        <td class="text-center">{{detail.amount*(1-detail.rate/100)}}</td>
+                        <td class="text-center">{{detail.amount*detail.rate/100}}</td>
+                        <td class="text-center"> <input type="text" class="form-control text-center" name="rate" ng-model="detail.rate" readonly/></td>
+                        <td class="text-center">
+                            <select class="form-control text-center" required name="payType" ng-model="detail.payType" ng-readonly="!isEdit"
+                                    ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinancePayTypeList">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <input type="text" class="form-control text-center" name="abstractDesc" ng-model="detail.abstractDesc" ng-readonly="!isEdit"/>
+                        </td>
+                        <td class="text-center">
+                            <select class="form-control text-center"  name="entryBank" ng-model="detail.entryBank"
+                                    ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceEntryBankList" ng-readonly="!isEdit">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <select class="form-control text-center"  name="bankPayTypeId" ng-model="detail.bankPayTypeId"
+                                    ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceBankPayTypeList" ng-readonly="!isEdit">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <select class="form-control text-center"  name="swipedTerminalId" ng-model="detail.swipedTerminalId"
+                                    ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceSwipedTerminaList"  ng-readonly="!isEdit">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <input type="text" class="form-control text-center" name="posNo" ng-model="detail.posNo" ng-readonly="!isEdit"/>
+                        </td>
+                        <td class="text-center">
+                            <select class="form-control text-center"  name="bankcard" ng-model="detail.bankcard"
+                                    ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceBankCardList" ng-readonly="!isEdit">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </td>
+                        <td class="text-center">{{detail.posCharge||"-"}}</td>
+                        <td class="text-center">
+                            <select class="form-control text-center" name="clearingFormId" ng-model="detail.clearingFormId"
+                                    ng-options="o['dicVal'] as o['dicItem'] for o  in saleFinanceClearingFormList" ng-readonly="!isEdit">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <input type="text" class="form-control text-center" name="clearingNo" ng-model="detail.clearingNo" ng-readonly="!isEdit"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="numCal">
+            <label class="col-xs-4 control-label ">实退金额合计&nbsp;&nbsp;&nbsp;{{refundAmountRate}}</label>
+            <label class="col-xs-4  control-label">实退金额(不含税)合计&nbsp;&nbsp;&nbsp;{{refundAmount}}</label>
+            <label class="col-xs-4 control-label ">实退税额合计&nbsp;&nbsp;&nbsp;{{(refundAmountRate-refundAmount).toFixed(2)}}</label>
+        </div>
+        <div class="page-footer clearfix">
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+</div>
+<style>
+    .modal-header {
+        background-color: #337ab7;
+        padding: 10px 15px;
+        color: #ffffff
+    }
+
+    .btngroup {
+        margin-top: 1px;
+        padding: 2px;
+        background-color: #337ab7
+    }
+
+    .btngroup>.btn {
+        background-color: #e2f1084f;
+        height: 34px;
+        line-height: 22px;
+        padding: 6px 12px;
+    }
+
+    .required-title {
+        color: rgb(199, 45, 45)
+    }
+
+    .title_t {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        color: blue;
+        font-size: 16px;
+        border-bottom: 1px solid #ddd;
+        font-weight: 700;
+    }
+
+    .d_content {
+        padding-left: 15px
+    }
+
+    span.btnImage {
+        display: block;
+        float: left;
+        margin-top: 3px;
+        height: 16px;
+        width: 20px;
+        margin-right: 2px;
+        padding-left: 0px;
+        background-repeat: no-repeat;
+        font-size: 14px;
+
+    }
+
+    span.save {
+        background-image: url("../../../image/icon_save.png");
+    }
+
+    span.saveAndClose {
+        background-image: url("../../../image/icon_closeSave.png");
+    }
+
+    span.approve {
+        background-image: url("../../../image/icon_start.png");
+    }
+
+    span.close {
+        background-image: url("../../../image/icon_close.png");
+    }
+
+    .col-xs-1 {
+        padding-right: 0px
+    }
+
+    .modal-lg {
+        width: 1200px;
+    }
+
+    .tablelist {
+        height: 35px;
+        line-height: 35px;
+        font-size: 14px;
+        margin-top: 0px 15px;
+        background-color: #337ab7;
+        padding-left: 10px;
+        color: white
+    }
+
+    .tablelist>.btn {
+        background-color: #e2f1084f;
+    }
+
+    .tableContent {
+        overflow-x: scroll;
+        width: 100%
+    }
+
+    .table {
+        table-layout: fixed;
+    }
+
+    .tableContent>.table>thead>tr>th {
+        width: 120px
+    }
+
+    div.numCal {
+        padding-left: 30px;
+        padding-right: 30px;
+        height: 35px;
+        margin-bottom: 20px
+    }
+
+    div.numCal>label.control-label {
+        text-align: left
+    }
+</style>

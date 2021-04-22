@@ -1,0 +1,257 @@
+<div id="angularId" ng-controller="parkStageCtl">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>项目空间管理</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    楼栋列表<a
+                        href="javaScript:void(0)"
+                        ng-click="addTopNode()"
+                        class="btn btn-xs pull-right"
+                        ng-if="hasPower('新增') && isPropOrg"
+                        ><span class="fa fa-plus"></span>分期</a
+                    >
+                </div>
+                <div
+                    class="x_content"
+                    style="z-index: 1;max-height: 910px;overflow: auto;"
+                >
+                    <div
+                        class="alert"
+                        role="alert"
+                        ng-show="parkStagetreeData.length==0"
+                    >
+                        无楼栋信息
+                    </div>
+                    <div>
+                        <tree-view-pro
+                            node-list="parkStagetreeData"
+                            host="search"
+                            host-text="'text'"
+                            host-key="'key'"
+                            callback="selectNode"
+                            config="{edit: hasPower('编辑')&&isPropOrg}"
+                        ></tree-view-pro>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12" style="padding:0">
+            <div class="x_panel">
+                <div class="form-inline">
+                    <!--<div class="form-group">
+                        <input type="number" style="width: 100px" class="form-control" ng-model="search.unitNum" placeholder="单元号" ng-if="!unitList"/>
+                        <select class="form-control" ng-model="search.unitNum"  ng-options="o as o+'单元' for o in unitList track by o" ng-if="unitList">
+                            <option value="">--单元--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" style="width: 100px" class="form-control" ng-model="search.groundNum" placeholder="楼层" ng-if="!groundList" />
+                        <select class="form-control" ng-model="search.groundNum"  ng-options="o as o+'楼' for o in groundList track by o" ng-if="groundList">
+                            <option value="">--楼层--</option>
+                        </select>
+                    </div>-->
+                    <div class="form-group">
+                        <label>房屋名称</label>
+                        <input
+                            type="text"
+                            ng-model="search.houseName"
+                            class="form-control"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label>房屋编号</label>
+                        <input
+                            type="text"
+                            ng-model="search.houseNo"
+                            class="form-control"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label>单元号</label>
+                        <input
+                            type="text"
+                            ng-model="search.unitNo"
+                            class="form-control"
+                        />
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label>楼层号</label>
+                        <input
+                            type="text"
+                            ng-model="search.groundNo"
+                            class="form-control"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label>房号</label>
+                        <input
+                            type="text"
+                            ng-model="search.houseCode"
+                            class="form-control"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label>房屋简称</label>
+                        <input
+                            type="text"
+                            ng-model="search.rmShortName"
+                            class="form-control"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label>是否备案数据</label>
+                        <select
+                            ng-model="search.isBase"
+                            class="form-control"
+                            style="width: 100px;margin-top:5px ;"
+                        >
+                            <option value="">全部</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-default" ng-click="find(1)">
+                        查询
+                    </button>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    房屋列表
+                    <button
+                        class="btn btn-danger pull-right"
+                        ng-disabled="!hasChecked(pageModel)"
+                        ng-click="delAll()"
+                        ng-if="hasPower('删除')&&isPropOrg"
+                    >
+                        批量删除
+                    </button>
+                    <button
+                        class="btn btn-success pull-right"
+                        ng-disabled="!hasChecked(pageModel)"
+                        ng-click="setStatusAll()"
+                        ng-if="hasPower('编辑')&&isPropOrg"
+                    >
+                        批量设置房屋状态
+                    </button>
+                    <button
+                        class="btn btn-success pull-right"
+                        ng-click="showAddModal()"
+                        ng-if="hasPower('新增')&&isPropOrg"
+                    >
+                        新增
+                    </button>
+                </div>
+                <div class="panel-body" style="overflow: scroll;">
+                    <table
+                        class="table table-striped table-hover"
+                        style="margin-top: 10px;"
+                    >
+                        <thead>
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th class="text-center" style="width:20px">
+                                    <span
+                                        role="button"
+                                        ng-click="checkAll(pageModel)"
+                                    >
+                                        <i
+                                            class="glyphicon"
+                                            ng-class="{'glyphicon-check':pageModel.checked,'glyphicon-unchecked':!pageModel.checked}"
+                                        ></i
+                                    ></span>
+                                </th>
+                                <th nowrap="nowrap">房屋名称</th>
+                                <th nowrap="nowrap">房屋简称</th>
+                                <th nowrap="nowrap" style="min-width: 80px;">
+                                    房屋编号
+                                </th>
+                                <th nowrap="nowrap">房号</th>
+                                <th nowrap="nowrap">房屋类型</th>
+                                <th nowrap="nowrap">期/楼栋/单元/楼层</th>
+                                <th nowrap="nowrap">建筑面积</th>
+                                <th nowrap="nowrap">交楼日期</th>
+                                <th nowrap="nowrap">房屋备案号</th>
+                                <th nowrap="nowrap">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                ng-if="!pageModel.data||pageModel.data.length == 0"
+                            >
+                                <td colspan="100" class="text-center">
+                                    暂无记录
+                                </td>
+                            </tr>
+                            <tr
+                                ng-repeat="item in pageModel.data"
+                                ng-if="!item.edit"
+                            >
+                                <td class="text-center">
+                                    {{$index +
+                                    1+pageModel.pageSize*pageModel.pageIndex}}
+                                </td>
+                                <td>
+                                    <i
+                                        role="button"
+                                        ng-click="checkOne(item)"
+                                        ng-class="{'glyphicon-check':item.checked,'glyphicon-unchecked':!item.checked}"
+                                        class="glyphicon"
+                                    ></i>
+                                </td>
+                                <td>{{item.houseName}}</td>
+                                <td>{{item.rmShortName}}</td>
+                                <td style="word-break: break-all;">
+                                    {{item.houseNo}}
+                                </td>
+                                <td>{{item.houseCode}}</td>
+
+                                <td>{{item.houseType}}</td>
+                                <td>
+                                    {{item.stageId|keyToValue:parkStagetreeData:'id':'text'}}/{{item.buildName}}/{{item.unitNo+'单元/'+item.groundNo+'层'}}
+                                </td>
+                                <td>{{item.area}}</td>
+                                <td>{{item.dateDeliver}}</td>
+                                <td>{{item.recordNumber}}</td>
+                                <td>
+                                    <a
+                                        href="javascript:void(0)"
+                                        ng-click="showEditModal(item)"
+                                        class="btn btn-xs"
+                                        ng-if="hasPower('编辑')&&isPropOrg"
+                                        ><span class="fa fa-edit"></span>编辑</a
+                                    >
+                                    <a
+                                        href="javascript:void(0)"
+                                        ng-click="del(item)"
+                                        class="btn btn-xs"
+                                        ng-if="hasPower('删除')&&isPropOrg"
+                                        ><span class="fa fa-trash"></span
+                                        >删除</a
+                                    >
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="page-footer clearfix">
+                        <ng-include src="'/common/pager.html'"></ng-include>
+                        <!-- <page page-model="pageModel"></page> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    table tr th,
+    table tr td {
+        text-align: left;
+    }
+</style>

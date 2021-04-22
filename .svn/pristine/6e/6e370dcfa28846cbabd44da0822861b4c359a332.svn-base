@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>人员管理</title>
+    <link rel="stylesheet" href="reportManage/style/report.css">
+</head>
+
+<body>
+    <div id="angularId" ng-controller="personManageCtrl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>人员管理</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-sm-3 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        分类
+                    </div>
+                    <div class="x_content" style="overflow:hidden;">
+                        <ul style="overflow-y:auto;height: 700px">
+                            <li ng-repeat="item in classifyLsit"
+                                style="height:41px;line-height: 40px;font-size:18px;padding: 0 20px;overflow: hidden;"
+                                ng-class="isLast($last)">
+                                <p ng-click='getRealList(item.tag,item.name)'
+                                    style="border-bottom: 1px solid rgb(141, 139, 139);padding: 0 5px">
+                                    {{item.name}}
+                                </p>
+                            </li>
+                            <li style="height:40px;line-height: 40px;font-size:18px; padding: 0 20px"
+                                ng-class="isLast($last)">
+                                <p ng-click="getUnrealList(0,'未分类')"
+                                    style="border-bottom: 1px solid rgb(141, 139, 139);padding: 0 5px">未分类</p>
+                            </li>
+                            <li>
+                                <ul>
+                                    <li  ng-class="isLast($last)" ng-repeat="type in types" style="height:40px;line-height: 40px;font-size:18px; padding: 0 20px">
+                                        <p ng-click="getUnrealList(type.id, type.name)" style="border-bottom: 1px solid rgb(141, 139, 139);padding: 0 5px;overflow: hidden;">{{ type.name }}</p>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="border-top: 1px solid #ddd;">
+                        <div>
+                            <h3>
+                                {{tableTitle}}
+                            </h3>
+
+                            <!-- <div class="form-inline find_input marT_15">
+                                <div class="form-group">
+                                    <label>姓名&nbsp&nbsp</label>
+                                    <input type="text" class="form-control" ng-model='search.searchName'
+                                        placeholder="请输入姓名">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-default" ng-click="searchInfo()">查询</button>
+                                </div> -->
+
+                            <!-- <div class="form-group" style="float: right"> -->
+                            <!-- <a class='btn btn-success btn-sm' ng-click='addPerson()'>
+                                                <span class='glyphicon glyphicon-plus'></span>增加用户</a> -->
+                            <!-- <div class="btn-group">
+                                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    增加用户<span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="" ng-click="addPerson(item.type)"
+                                                            ng-repeat="item in classifyLsit">{{item.name}}</a></li>
+                                                </ul>
+                                            </div> -->
+                            <!-- </div> -->
+                            <!-- </div> -->
+                        </div>
+
+                    </div>
+                    <div class="panel-body">
+                        <table class="table text-left">
+                            <thead>
+                                <tr>
+                                    <th style="width: 60px">
+                                        序号
+                                    </th>
+                                    <th ng-hide="search.tag === 1">
+                                        抓拍记录
+                                    </th>
+                                    <th ng-hide='moveFlag'>
+                                        姓名
+                                    </th>
+                                    <th>
+                                        识别照片
+                                    </th>
+                                    <th ng-show='moveFlag'>
+                                        时间
+                                    </th>
+                                    <th ng-show='moveFlag'>
+                                        最新抓拍位置
+                                    </th>
+                                    <th ng-show='moveFlag'>
+                                        是否人工归档
+                                    </th>
+                                    <th ng-show='moveFlag'>
+                                        操作
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-if="!pageModel.data||pageModel.data.length == 0">
+                                    <td colspan="100" class="text-center">暂无记录</td>
+                                </tr>
+                                <tr style="color:#333333;" ng-repeat="item in pageModel.data" class="text-center"
+                                    ng-if='!pageModel.data.length == 0'>
+                                    <td>
+                                        {{$index+1}}
+                                    </td>
+                                    <td  ng-hide="search.tag === 1">
+                                        <a href='javascript:void(0)' ng-click="getDetail(item)" class="xqclass">查看详情</a>
+                                    </td>
+                                    <td ng-hide='moveFlag'>
+                                        {{item.name||'暂无记录'}}
+                                    </td>
+                                    <td>
+                                        <img onerror="javascript:this.src='/res/img/detail.png';"
+                                            ng-src="{{ConversionUrl(item.url||item.imageUrl)}}"
+                                            ng-click='showBigImg(ConversionUrl(item.url||item.imageUrl))'
+                                            style="height:50px;width:50px;border:1px solid #ddd" />
+                                    </td>
+                                    <td ng-show='moveFlag'>
+                                        {{item.time}}
+                                    </td>
+
+                                    <td ng-show='moveFlag'>
+                                        {{item.location}}
+                                    </td>
+
+                                    <!-- <td>
+                                        <a class="xqclass" href='javascript:void(0)'
+                                            ng-click="getStrangerDetail('1111111111')">查看详情
+                                        </a>
+                                    </td> -->
+                                    <td ng-show='moveFlag'>{{item.isArtificial?'是':'否'}}</td>
+                                    <td ng-show='moveFlag'>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                移动 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="" ng-repeat="x in rulesList.data"
+                                                        ng-click="move(x,item)">{{x.name}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="" ng-click="move({id:0,name:'未分类'},item)">未分类</a>
+                                                </li>
+                                                <li ng-repeat="type in types">
+                                                    <a href="" ng-click="move({id: type.id, name: type.name },item)">{{ type.name }}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <div class="page-footer clearfix" style="margin-left:8%;margin-top:-20px;">
+                            <ng-include src="'/common/pager.html'" class="ng-scope">
+                                <style type="text/css" class="ng-scope">
+                                    .pagination>li>span:hover {
+                                        background-color: #fff;
+                                        cursor: text
+                                    }
+
+                                </style>
+                            </ng-include>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+
+</html>
+
+<style>
+    .classify {
+        width: 15%;
+        background-color: #F7F7F7;
+        padding: 20px;
+        float: left;
+    }
+
+    .contentDiv {
+        width: 80%;
+        float: left;
+        margin-left: 50px;
+        padding: 20px;
+    }
+</style>

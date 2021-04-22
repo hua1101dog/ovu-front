@@ -1,0 +1,78 @@
+<style>
+    .userDiv {
+        text-align: center;
+        padding: 6px;
+    }
+
+    .userDiv label {
+        margin-top: 5px;
+        padding: 0 6px;
+        border-radius: 6px 6px;
+    }
+
+    .map-full {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 9999999999;
+    }
+
+    #mapDiv{
+        border: 1px solid #ccc;
+    }
+
+    .map-init {
+        min-height: 600px;
+        height: 600px;
+        margin-top: 10px;
+        position: relative
+    }
+
+    .amap-info-content{
+        background-color: #ffe000ed;
+        border-radius: 8px;
+        border: none;
+    }
+</style>
+<div id="angularId">
+    <div ng-controller="personPositionCtl">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>实时定位</h3>
+            </div>
+        </div>
+        <div>
+            <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0">
+                <div class="x_panel" id="personList">
+                    <div class="x_title">已选人员列表
+                        <!--<button class="btn btn-sm btn-danger pull-right" ng-click="full()" style="margin-top:-7px;">全屏
+                        </button>-->
+                        <button class="btn btn-sm btn-primary pull-right" ng-click="choosePerson()"
+                                style="margin-top:-7px;">选择人员
+                        </button>
+                    </div>
+
+                    <div class="x_content" style="height: auto">
+                        <div ng-repeat="item in personsSelected" class="pull-left userDiv">
+                            <!--<div class="userIcon">
+                                <img ng-src="/res/img/userIcon.png" class="img-responsive img-circle"
+                                     ng-style="{cursor:item.position?'pointer':'not-allowed'}"
+                                     ng-click="setZoomAndCenter(item)"/>
+                            </div>-->
+                            <span ng-class="{'label-primary':item.position,'label-default':!item.position}"
+                                  class="label" ng-click="setZoomAndCenter(item)" style="display: inline-block;">{{item.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 地图 -->
+                <div id="mapDiv" class="map-init">
+                    <div style="height:100%; width: 100%;" id="containerPosition"></div>
+                </div>
+                <div id="navBar0"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>

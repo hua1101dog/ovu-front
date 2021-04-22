@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>订单管理</title>
+<link rel="stylesheet" href="crowdSource/order/orderListIndex.css">
+</head>
+<body>
+	<style>
+		.selectInvalid {
+			border: 1px solid rgba(255, 0, 0, 0.59);
+			-moz-box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+			-webkit-box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+			box-shadow: 0 0 8px rgba(255, 0, 0, 0.59);
+		}
+	</style>
+<div id="angularId" ng-controller="demandOrderCtl" >
+	<div class="page-title">
+		<div class="title_left">
+			<h3>订单管理</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-9 col-sm-8 col-xs-12" style="width: 98%;">
+			<div class="x_panel" >
+				<div class="form-inline">
+					<div class="form-group">
+						<label class="label_search">订单编号</label>
+						<input class="form-control" ng-model="search.code">
+					</div>
+					<div class="form-group">
+						<div class="form-group">
+						    <label class="label_search">订单日期</label>
+							<input type="datetime" style="background-color: #fff;" class="form-control Wdate" ng-model="search.fromCreateTime" onchange=""  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+							<span class="label_search" style="margin: 0 4px;">至</span>
+							<input type="datetime" style="background-color: #fff;" class="form-control Wdate" ng-model="search.toCreateTime" onchange=""  onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="label_search" >需求名称</label>
+						<input class="form-control" ng-model="search.title">
+					</div>
+					<div class="form-group productDatabase" ng-init="parentIndustryList();">
+						<label>行业类型：</label>
+						 <select class="form-control" ng-model="parentIndustryCode"  ng-change = "getIndustryList(parentIndustryCode)" style="width: 180px;">
+							<option value="">--请选择--</option>
+							<option ng-repeat="industry in parentIndustryList" value="{{industry.industryCode}}">{{industry.industryName}}</option>
+						</select>
+						<select class="form-control childSelect" ng-init="search.industry=''"  ng-model="search.industry" ng-options="y.industryCode as y.industryName for (x, y) in industryList"  style="width: 180px;">
+							<option value = "">--请选择--</option> 
+							<option value="{{y.industryCode}}">{{y.industryName}}</option>                                      
+						</select>
+				   </div>
+					<button class="btn btn-default" ng-click="find()">查询</button>
+				</div>
+				<!-- <div class="form-inline">
+					<div class="form-group">
+						<label class="label_search" >需求名称</label>
+						<input class="form-control" ng-model="search.title" style="width: 173px;margin-right: 30px;">
+					</div>
+					<div class="form-group">
+						<label class="label_search" >需求行业</label>
+						<select class="form-control" ng-model="search.industry" ng-options="o.iD as o.nAME for o in industryModel" style="width: 180px;">
+						    <option value="" ></option>
+						</select>
+					</div>
+					<div class="form-group productDatabase" ng-init="parentIndustryList();">
+						<label>行业类型：</label>
+						 <select class="form-control" ng-model="parentIndustryCode"  ng-change = "getIndustryList(parentIndustryCode)" >
+							<option value="">--请选择--</option>
+							<option ng-repeat="industry in parentIndustryList" value="{{industry.industryCode}}">{{industry.industryName}}</option>
+						</select>
+						<select class="form-control childSelect" ng-model="search.industry" ng-change="vm.getProductList(search.industryCode)">
+							<option value="">--请选择--</option>  
+							   <option ng-repeat="item in industryList" value="{{item.industryCode}}">{{item.industryName}}</option>                                            
+						</select>
+				   </div>
+					<button class="btn btn-default pull-right btn_search" ng-click="find()">查询</button>
+				</div> -->
+				<table class="table table-striped table-hover" style="margin-top: 10px;">
+					<thead class="title">
+					<tr>
+						<th class="text-center">订单编号</th>
+						<th class="text-center">需求名称</th>
+						<th class="text-center">需求方</th>
+						<th class="text-center">解决方</th>
+						<th class="text-center">需求行业</th>
+						<th class="text-center">合同金额（元）</th>
+						<th class="text-center">日期</th>
+						<th class="text-center">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr>
+					<tr ng-repeat="item in pageModel.data">
+						<td class="text-center">{{item.code||'--'}}</td>
+						<td class="" title="{{item.crowdSourceDemand.title}}">{{convertTitle(item.crowdSourceDemand.title)}}</td>
+						<td class="" title="{{item.demanderName?item.demanderName:item.loginName}}">{{item.demanderName?convertTitle(item.demanderName):(item.demanderLoginName?item.demanderLoginName:'用户被删除')}}</td>
+						<td class="" title="{{item.solverName?item.solverName:item.loginName}}">{{item.solverName?convertTitle(item.solverName):(item.solverLoginName?item.solverLoginName:'用户被删除')}}</td>
+						<td class="">{{item.industryName||'--'}}</td>
+						<td class="">{{item.orderAmount||'--'}}</td>
+						<td class="">{{item.createTime?(item.createTime | date : 'yyyy-MM-dd'):'--'}}</td>
+						<td class="">
+							<div>
+	                            <a href="javascript:void(0)" ng-click="showApproveModal(item)" class="btn btn-xs"><span class="fa fa-edit pr5"></span>查看</a>
+	                        </div>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="page-footer clearfix">
+                	<ng-include src="'/common/pager.html'" class="ng-scope"><style type="text/css" class="ng-scope">
+                    	.pagination>li>span:hover{background-color: #fff;cursor:text}
+                	</style>
+                	</ng-include>
+            	</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

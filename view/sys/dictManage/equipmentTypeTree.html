@@ -1,0 +1,20 @@
+<div ng-controller="equipmentTypeTreeCtrl" >
+    <div class="row mt7">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <a ng-click='expandAll(equipTypeTree)' role="button" class='btn-link' title="展开与收缩">
+                        <i class="glyphicon"
+                           ng-class="{'glyphicon-resize-small':equipTypeTree.expanded,'glyphicon-resize-full':!equipTypeTree.expanded}" ></i></a> 设备分类
+                    <a ng-click='addTopNode()' role="button" class='btn-link pull-right'><i class='fa fa-plus'></i>一级分类</a>
+                </div>
+                <div class="x_content" style="z-index: 1">
+                    <div class="alert" role="alert" ng-show="!equipTypeTree">无设备分类</div>
+                    <div>
+                        <tree-view-pro node-list="equipTypeTree" config="config"></tree-view-pro>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

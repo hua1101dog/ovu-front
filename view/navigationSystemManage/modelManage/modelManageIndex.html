@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">标签管理</h4>
+</div>
+<div class="modal-body container-fluid form-horizontal">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            标签列表
+            <button class="btn btn-primary pull-right"  ng-click="addModel()" ng-if="itemObj.publishStatus == 0">新增标签</button>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover">
+                <thead class="title">
+                    <tr>
+                        <th style="width: 10%;">标签序号</th>
+                        <th style="width: 30%;">标签标题</th>
+                        <th style="width: 30%;">标签详情</th>
+                        <th style="width: 30%;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr ng-if="!pageModel.data||pageModel.data.length == 0"><td colspan="100" class="text-center">暂无记录</td></tr> -->
+                    <tr ng-repeat="x in pageModel track by $index">
+                        <td>{{x.orderNo}}</td>
+                        <td>{{x.unit}}</td>
+                        <!-- <td>{{$index + 1+pageModel.pageSize*pageModel.pageIndex}}</td> -->
+                        <td>
+                            <a href="javascript:void(0)" ng-click="showModel(x)">查看详情</a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" ng-click="provModel(x,$index)" ng-if="itemObj.publishStatus == 0">上移</a>
+                            <a href="javascript:void(0)" ng-click="nextModel(x,$index)" ng-if="itemObj.publishStatus == 0">下移</a>
+                            <a href="javascript:void(0)" ng-click="editModel(x)" ng-if="itemObj.publishStatus == 0">编辑</a>
+                            <a href="javascript:void(0)" ng-click="delModel(x)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <ng-include src="'/common/pager.html'"></ng-include>
+        </div>
+    </div>
+</div>

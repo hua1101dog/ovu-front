@@ -1,0 +1,354 @@
+<div ng-controller="myworktaskCtrl" class="s-m-m">
+    <div class="photoDiv" ng-if="curPic.on">
+        <img src="/res/img/refuse.png" class="hand" style="top:0;right:0;position:absolute"
+            ng-click="curPic.on = false"></img>
+        <img class="photo" ng-src="{{curPic.url}}" image-load="wheel()"></img>
+        <!-- <img style="top:30px;right:20px;position:absolute;width:160px" ng-src="{{curPic.url}}"></img> 右上角缩略图 -->
+        <img src="/res/img/navigate-right.png" class="hand" id="next"
+            style="top:50%;right:10%;position:absolute;width:45px" ng-if="isNext" ng-click="next()"></img>
+        <img src="/res/img/navigate-left.png" class="hand" id="before11"
+            style="top:50%;left:10%;position:absolute;width:45px" ng-if="isBefore" ng-click="before()"></img>
+
+        <!-- <div class="thumbnail">
+                                <img onerror="javascript:this.src='/res/img/55.png';" ng-click="showPhoto()" ng-src="{{processImgUrl(p)}}">
+                            </div> -->
+        <div ng-click="chooseBigItem();" ng-if="img.handles!=='1'">
+            <span class="big_border_icon"></span>
+            <span class="big_choose_icon fa fa-check" ng-if="img.handles=='2'"></span>
+        </div>
+
+
+    </div>
+    <div class="contain_box" style="margin-top: 30px">
+        <div class="box_left">
+            <div class="x_panel" style="padding: 20px;height: 700px;">
+                <h3>我的任务</h3>
+                <ul class="layui-timeline">
+                    <li class="layui-timeline-item" ng-repeat="item in taskList track by $index"
+                        ng-click="selectTask(item.taskType,true)">
+                        <!--  <i class="layui-icon layui-timeline-axis" ng-class="{'ico_active':search.taskId==item.taskId}"></i> -->
+                        <img ng-src="{{search.taskType==item.taskType?'/res/img/list_icon_02.png':'/res/img/list_icon_03.png'}}"
+                            ng-class="{'checkedImg':search.taskType==item.taskType}" class="linImg">
+
+                        <div class="layui-timeline-content layui-text"
+                            ng-style="{'margin-left':search.taskType==item.taskType?'-7px':''}">
+                            <h3 class="layui-timeline-title" ng-class="{'perAct':search.taskType==item.taskType}">
+                                {{item.taskTime}} </h3>
+                            <p class="contain" ng-class="{'perAct':search.taskType==item.taskType}">{{item.taskName}}
+                            </p>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="box_right">
+            <div class="x_panel" style="height: 700px;padding: 0">
+                <div style="position: relative">
+                    <div class="panel_top">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <input type="datetime" style="width: 120px" class="form-control Wdate"
+                                    ng-model="search.time" onchange=""
+                                    onclick="javascript:WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',isShowClear:false})">
+                                <button class="btn btn-default" ng-click="selectTask(search.taskType)">查询</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel_top_right">
+                        <div ng-if="search.taskType==1 || search.taskType==2">
+                            <img src="/res/img/mark_bs/list_icon_002.png" style="width: 15px;margin: 0 5px">
+                            <span>未执行</span>
+                            <img src="/res/img/mark_bs/icon_green.png" style="margin: 0 5px"> <span>已执行</span>
+                        </div>
+                        <div ng-if="search.taskType==3 || search.taskType==4">
+                            <span class="flag" style="background: #708090"></span><span>未处理</span>
+                            <span class="flag" style="background: #008000"></span> <span>已达标</span>
+                            <span class="flag" style="background: #DC143C"></span> <span>未达标</span>
+                        </div>
+                        <div ng-if="search.taskType==5 || search.taskType==6">
+                            <img src="/res/img/mark_bs/mark_bs1.png" style="height: 19px;width: 13px;margin: 0 5px">
+                            <span>有报事点</span>
+                            <img src="/res/img/mark_bs/mark_bs5.png" style="height: 19px;width: 13px;margin: 0 5px">
+                            <span>无报事点</span>
+                        </div>
+                    </div>
+
+                    <div ng-if="search.taskType!==3 && search.taskType!==4">
+                        <div class="panel_left" ng-if="leftPersonList.length">
+                            <ul class="person_list">
+                                <li ng-repeat="item in leftPersonList track by $index">
+                                    <p class="areaName">{{item.deptName}}</p>
+                                    <p class="person" ng-class="{'perAct':search.personId==p.personId}"
+                                        ng-repeat="p in item.personList" ng-click="checkPerson(p.personId)">
+                                        {{p.personName}}<span class="postName"
+                                            ng-class="{'perAct':search.personId==p.personId}"> ( {{p.postName}}) </span>
+                                    </p>
+                                    <p class="person" ng-if="!item.personList.length">暂无人员</p>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                    </div>
+
+                    <div>
+                        <map-block-component map_data="mapData"></map-block-component>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .contain_box {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+
+    .box_left {
+        width: 250px;
+        margin-right: 12px;
+
+    }
+
+    .box_right {
+        flex: 1;
+
+    }
+
+    .layui-timeline {
+        margin-top: 20px;
+        padding-left: 5px;
+    }
+
+    .contain {
+        color: #333333;
+        font-size: 13px;
+        cursor: pointer;
+    }
+
+    .layui-text h3 {
+
+        color: #333333;
+        font-size: 16px;
+        font-family: Microsoft YaHei;
+        font-weight: bold;
+    }
+
+    .ico_active {
+        background: #009900
+    }
+
+    .layui-icon {
+        font-family: layui-icon !important;
+        font-size: 20px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .layui-timeline-item {
+        position: relative;
+        padding-bottom: 30px;
+        outline: none
+    }
+
+    .panel_left,
+    .panel_top,
+    .panel_top_right {
+        position: absolute;
+        z-index: 1;
+    }
+
+    .panel_top {
+
+        left: 20px;
+        top: 20px;
+    }
+
+    .panel_top_right {
+        right: 20px;
+        top: 20px;
+    }
+
+    .btn-default {
+        color: #fff;
+        background-color: #0078FF;
+        border-color: #ccc;
+    }
+
+    .panel_left {
+        left: 20px;
+        top: 70px;
+        background: #FFFFFF;
+        width: 150px;
+        padding: 15px;
+        max-height: 600px;
+        overflow: auto;
+    }
+
+    .person_list li {
+        margin-top: 10px
+    }
+
+    .areaName {
+        font-size: 14px;
+        font-family: Microsoft YaHei;
+        font-weight: bold;
+        color: rgba(51, 51, 51, 1);
+        line-height: 34px;
+    }
+
+    .person {
+        line-height: 30px;
+        color: #000;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .postName {
+        color: #999999
+    }
+
+    .perAct {
+        color: #0C65FA !important
+    }
+
+    .person.perAct {
+        color: #0C65FA
+    }
+
+    .postName.perAct {
+        color: #0C65FA
+    }
+
+    /* 查看大图模态框 */
+    .photoWraper_2 {
+        width: 340px;
+        height: 160px;
+        position: relative;
+        float: left;
+        margin-right: 5px;
+        text-align: left;
+    }
+
+    .photoWraper_2 img {
+        width: 100%;
+        max-height: 100%;
+    }
+
+    .border_icon {
+        position: absolute;
+        border: 2px solid #f9f9f9;
+        width: 20px;
+        height: 20px;
+        right: 5px;
+        bottom: 5px;
+        border-radius: 50%;
+    }
+
+    .choose_icon {
+        color: #26e226;
+        position: absolute;
+        bottom: 6px;
+        font-size: 20px;
+        right: 5px;
+    }
+
+    .big_border_icon {
+        position: absolute;
+        border: 2px solid #efe6e6;
+        width: 50px;
+        height: 50px;
+        right: 20px;
+        bottom: 5px;
+        border-radius: 50%;
+        top: 75%;
+        right: 5%
+    }
+
+    .big_choose_icon {
+        color: #26e226;
+        position: absolute;
+        bottom: 6px;
+        font-size: 50px;
+        right: 5px;
+        top: 75%;
+        right: 5%;
+    }
+
+    .infoWin {
+        padding: 15px;
+
+    }
+
+    .infoWin>p {
+        border-bottom: 1px solid #ccc;
+        padding: 5px;
+    }
+
+    .infoWin>img {
+        width: 160px;
+        height: 90px;
+        padding: 5px;
+    }
+
+    .airocovInfoWindow>div {
+        padding: 0 !important;
+
+    }
+
+    .airocov_info_close {
+        z-index: 3;
+        top: -6px !important;
+        right: -2px !important
+    }
+
+    .airocovInfoWindow {
+        z-index: 10000
+    }
+
+    .layui-timeline-content {
+        padding-left: 25px;
+        display: inline-block;
+    }
+
+    .linImg {
+        display: inline-block;
+        vertical-align: top;
+
+    }
+
+    img.checkedImg {
+        width: 25px;
+        height: 25px;
+    }
+
+    .layui-timeline-item:before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 30px;
+        z-index: 0;
+        width: 1px;
+        height: 40px;
+    }
+
+    .flag {
+        width: 15px;
+        height: 10px;
+        display: inline-block;
+        vertical-align: baseline;
+        margin: 0 5px;
+    }
+</style>

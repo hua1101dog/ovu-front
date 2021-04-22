@@ -1,0 +1,179 @@
+<div class="rest" id="angularId" ng-controller="restTestCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <form name="restForm" novalidate style="margin:0 100px">
+                    <div class="form-group clearfix">
+                        <!-- <label for="matterName" class="col-sm-4 control-label required text-right">接口URL：</label> -->
+                        <select class="form-control col-sm-2" style="width:16%" required ng-init="method = 'GET'" ng-model="method" ng-options="x for x in ['GET','POST']">
+					    </select>
+                        <div class="col-sm-8">
+                            <!-- <input type="text" id="restUrl" class="form-control" required ng-trim="false" auto-focus="true" ng-model="restUrl"> -->
+                            <textarea cols="30" rows="10" id="restUrl" class="form-control" required ng-trim="false" auto-focus="true" ng-model="restUrl">
+                            </textarea>
+                        </div>
+                        <button class="btn btn-default col-sm-2" ng-click="toSend()" style="margin-top: 0px;">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel-body">
+            <pre id="result" ng-model="result">
+            </pre>
+        </div>
+    </div>
+    <style>
+        .rest .panel-body {
+            min-height: 500px;
+            overflow: auto;
+        }
+        
+        pre {
+            outline: 1px solid #ccc;
+            padding: 5px;
+            margin: 5px;
+            min-height: 400px;
+        }
+        
+        .string {
+            color: green;
+        }
+        
+        .number {
+            color: darkorange;
+        }
+        
+        .boolean {
+            color: blue;
+        }
+        
+        .null {
+            color: magenta;
+        }
+        
+        .key {
+            color: red;
+        }
+    </style>
+</div>
+<script>
+    (function(angular, document) {
+        document.title = "装修模块rest接口测试";
+        var app = angular.module('angularApp');
+
+        app.controller('restTestCtrl', ['$scope', '$http', 'fac', 'deoration.restTestUrlParser', 'deoration.restTestHttpHelper', function($scope, $http, fac, urlParser, httpHelper) {
+
+            app.modulePromiss.then(function() {
+                $scope.search = {
+                    // isGroup: fac.isGroupVersion()
+                };
+                if (app.park) {
+                    $scope.search.parkId = app.park.ID;
+                    $scope.search.PARK_NAME = app.park.PARK_NAME;
+                }
+                // // 默认显示第一页，每页20条，没有过滤条件
+                // find(1, 20, '');
+
+            });
+
+
+            var div = document.querySelector('#result');
+
+            $scope.toSend = function() {
+                var ret = urlParser.parse($scope.restUrl);
+
+                var data = ret.params;
+
+                httpReq(ret.url, ret.params);
+
+                function httpReq(url, params) {
+                    if ($scope.method === 'POST') {
+                        httpHelper.postResult(url, params).then(function(res) {
+                            console.log('POST...........');
+                            console.log(res);
+                            if (res && res.data) {
+                                $scope.result = urlParser.syntaxHighlight(res.data);
+                                div.innerHTML = $scope.result;
+                            } else {
+                                console.log('请检查http请求方式是不是POST方式');
+                                console.log(res);
+                                div.innerHTML = '<span class="key">请检查http请求方式是不是POST方式</span>';
+                            }
+                        });
+                    }
+                    if ($scope.method === 'GET') {
+                        httpHelper.getResult(url, params).then(function(res) {
+                            console.log('GET...........');
+                            console.log(res);
+                            // console.log(res.data);
+                            if (res && res.data) {
+                                $scope.result = urlParser.syntaxHighlight(res.data);
+                                div.innerHTML = $scope.result;
+                            } else {
+                                console.log('请检查http请求方式是不是GET方式');
+                                console.log(res);
+                                div.innerHTML = '<span class="key">请检查http请求方式是不是GET方式</span>';
+                            }
+                        })
+                    }
+                }
+
+            };
+        }]);
+
+        app.service('deoration.restTestUrlParser', [function() {
+            this.parse = function(restUrl) {
+                var arr = restUrl.split('?');
+                var url = arr.shift();
+                var paramArr = arr.join('').split('&');
+                var params = {};
+                paramArr.forEach(function(value) {
+                    var innerArr = value.split('=');
+                    params[innerArr[0]] = innerArr[1];
+                });
+
+                return {
+                    url: url,
+                    params: params
+                };
+            };
+
+            this.syntaxHighlight = function(json) {
+                if (typeof json != 'string') {
+                    json = JSON.stringify(json, undefined, 2);
+                }
+                json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+                return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+                    var cls = 'number';
+                    if (/^"/.test(match)) {
+                        if (/:$/.test(match)) {
+                            cls = 'key';
+                        } else {
+                            cls = 'string';
+                        }
+                    } else if (/true|false/.test(match)) {
+                        cls = 'boolean';
+                    } else if (/null/.test(match)) {
+                        cls = 'null';
+                    }
+                    return '<span class="' + cls + '">' + match + '</span>';
+                });
+            };
+        }]);
+
+        app.service('deoration.restTestHttpHelper', ['$http', '$q', 'fac', function($http, $q, fac) {
+            this.getResult = function(getUrl, params) {
+
+                return $http.get(getUrl, {
+                    params: params
+                });
+            };
+            this.postResult = function(postUrl, data) {
+                return $http.post(postUrl, data, fac.postConfig);
+            };
+        }]);
+
+
+        angular.bootstrap(document.getElementById("angularId"), ['angularApp']);
+    })(angular, document);
+</script>
